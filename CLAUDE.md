@@ -21,41 +21,47 @@ repositories plus the task notes:
 
 | Path | What it is | Our use |
 |---|---|---|
+| `mujoco_playground/` | DeepMind's MJX RL suite — **now our editable training base.** | **Where we develop the leg-lift training pipeline.** Our code lives in `mujoco_playground/workspace/`; the rest is the upstream library we build on. Edit here. |
 | `Stanford/pupperv3-monorepo/` | The code that **runs on the robot** (ROS2). | The **deployment target**. We read it to see what's deployed and write the code that runs/binds the new policy. Edit here. |
-| `Stanford/training/pupperv3-mjx/` | The providers' **RL training pipeline for Pupper** (MJX/Brax env). | **Reference + likely starting point** for defining the leg-lift env, reward, and policy export. |
-| `mujoco_playground/` | DeepMind's general MJX RL environment suite. | **General RL reference** for patterns/infra. No Pupper code in it. |
+| `Stanford/training/pupperv3-mjx/` | The providers' **RL training pipeline for Pupper** (MJX/Brax env). | **Reference** for Pupper-specific details (env structure, joint order, `export.py` JSON format). Not edited. |
 | `.notes/goal.md` | The task definition. | — |
 
-Keep the three repos separate: distinct upstreams, git histories, and licenses. Don't move
-code between them or commit one's changes against another.
+The Pupper MJX model itself lives in `Stanford/training/pupper_v3_description/description/mujoco_xml/`
+(`pupper_v3_complete.mjx.position.xml`); the workspace references it in place. Keep the repos
+separate: distinct upstreams, histories, licenses. Don't move code between them.
 
 ## Project decisions made so far
 
-- **Separate policy.** The leg-lift is its own RL policy, distinct from the locomotion policy
-  (and from the existing `neural_controller_three_legged` policy).
-- **Activated by a controller button.** It runs as another runtime-switchable controller,
-  bound to a (TBD) PS5 button — the same activation pattern as the locomotion policies.
-- **Fixed hold duration.** Train for one hold duration; if a different duration is needed,
-  retrain. Do **not** add command/observation inputs to make duration configurable.
-- **Status: groundwork only.** As of this writing nothing is implemented — we are gathering
-  context and laying out the project. Do not start training or writing integration code
-  until asked.
+- **One command-conditioned policy.** A single RL policy, separate from locomotion, observes
+  a 5-way one-hot command = which leg is up (`stand`, `front_l`, `front_r`, `back_r`, `back_l`)
+  and raises/holds/lowers that leg while balancing on the other three.
+- **O button steps a clockwise sequence.** On the robot, each press of O advances
+  `stand → front_l → front_r → back_r → back_l → …`, lowering the current leg and raising the
+  next. This state machine lives **on the robot** (in/near `joy_util_node`), not in the policy —
+  the policy is order-agnostic and only sees "which leg is up now."
+- **Hold is operator-timed.** "Hold" = the command not changing, so duration is however long
+  the operator waits between presses. No fixed duration baked into the policy; no retrain to
+  change it. (Supersedes the earlier "fixed duration, retrain" decision.)
+- **Status: scaffolded, untrained.** The training pipeline exists in `mujoco_playground/workspace/`
+  but nothing has been trained or validated, and reward weights + `LIFT_DELTAS` are placeholders.
 
-## Training side — `Stanford/training/pupperv3-mjx/`
+## Training side — `mujoco_playground/workspace/` (our code)
 
-The Pupper-specific MJX training package. Key modules in `pupperv3_mjx/`:
+The leg-lift training pipeline. See `workspace/README.md` for setup/run. Key files:
 
-- `environment.py` — the MJX/Brax environment (observations, actions, episode logic).
-- `rewards.py` — reward terms.
-- `domain_randomization.py` — sim-to-real randomization.
-- `export.py` — exports a trained policy to the JSON format the robot's `neural_controller`
-  loads. **This is the bridge between training and deployment.**
-- `config.py`, `obstacles.py`, `utils.py`, `plotting.py`.
-- `Pupper_RL_PUBLIC.ipynb` (in `Stanford/training/`) — the providers' end-to-end training
-  notebook; the reference for how a Pupper policy is actually trained.
+- `leg_lift_env.py` — `PupperLegLiftEnv` (brax `PipelineEnv`, MJX): reset/step/obs/reward and
+  command sampling. Modeled on `pupperv3-mjx`'s `PupperV3Env` and go1 `getup.py`.
+- `configs.py` — **single source of truth**: canonical 12-joint order, limits, home pose,
+  per-leg lifted targets (`LIFT_DELTAS`, placeholders to tune), reward weights, PPO hyperparams,
+  model path.
+- `train.py` — brax PPO training entry; saves brax params to `output/<run>/mjx_params`.
+- `export_policy.py` — converts brax params → `neural_controller` JSON (folds obs normalization
+  into layer 0; same scheme as `pupperv3-mjx/export.py`). Emits `observation_layout` /
+  `command_states` / `button_sequence` metadata for the deployment side.
 
-A leg-lift policy would most likely be a new/derived environment + reward here, exported the
-same way. `mujoco_playground/` is secondary reference for RL infrastructure patterns.
+**Training runs on the CUDA workstation (RTX 5090 / Blackwell sm_120), not the Windows laptop** —
+needs a recent `jax[cuda12]`. `Stanford/training/pupperv3-mjx` and its `Pupper_RL_PUBLIC.ipynb`
+remain the reference for how a Pupper policy is trained and exported.
 
 ## Deployment side — `Stanford/pupperv3-monorepo/`
 
@@ -73,7 +79,12 @@ The on-robot integration template already exists and is proven — **mirror it**
   lists the switchable controllers and `switch_button_indices` maps buttons to them. Adding
   the leg-lift policy = add the controller block in config.yaml, spawn it in
   [launch.py](Stanford/pupperv3-monorepo/ros2_ws/src/neural_controller/launch/launch.py),
-  append its name to `controller_names`, and assign a button index.
+  append its name to `controller_names`, and bind the O button.
+- **New integration work (does not exist yet):** unlike the locomotion policy (driven by
+  `cmd_vel`), the leg-lift policy needs its **command** (the 5-way one-hot "which leg is up")
+  fed into its observation, advanced by an O-button state machine while the controller is active.
+  `neural_controller`'s observation builder currently has no command of this shape. The exported
+  JSON's `observation_layout` / `command_states` / `button_sequence` fields describe what to feed.
 
 `pupperv3_mujoco_sim` (a MuJoCo-backed ros2_control hardware interface) can stand in for the
 physical robot to test a deployed policy without hardware.
@@ -89,10 +100,10 @@ source build.sh                  # colcon build + source install
 ros2 launch neural_controller launch.py
 ```
 
-Training (`pupperv3-mjx`) is a Python/JAX package — set up its own env with `uv` /
-`requirements.txt`; needs a CUDA GPU for real training.
+Leg-lift training (`mujoco_playground/workspace/`) is a Python/JAX package — see
+`workspace/README.md`; runs on the CUDA workstation, not this host.
 
-## Conventions (from the monorepo's [CLAUDE.md](Stanford/pupperv3-monorepo/CLAUDE.md) — follow these)
+## Conventions (follow these)
 
 - **No silent fallbacks.** Don't paper over failure with broad `try/except` or default
   values; surface it (warn/raise) so problems are visible.

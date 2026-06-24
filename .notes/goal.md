@@ -39,7 +39,9 @@ and the shape changes, then lower it.
 
 ## Approach Decisions
 
-- **A standalone learned policy**, separate from the robot's locomotion behavior.
-- **Invoked on demand** by the operator when a leg needs a transition.
-- **Trained for a fixed hold duration**; a different duration means retraining
-  rather than runtime configuration.
+- **A single standalone learned policy**, separate from the robot's locomotion
+  behavior, that lifts whichever one leg it is told to.
+- **Operator-stepped, one button.** A press lowers the currently raised leg and
+  raises the next, cycling through the legs in order.
+- **Hold is operator-timed.** A leg stays raised until the next press, so the hold
+  lasts as long as needed — no fixed duration is built into the policy.
