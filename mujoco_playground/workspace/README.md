@@ -32,7 +32,8 @@ policy — an exported JSON MLP loaded by `neural_controller` (see the monorepo)
 |---|---|
 | `configs.py` | Joint order/limits, home pose, per-leg lifted targets, reward weights, PPO hyperparameters, model path. **Single source of truth.** |
 | `leg_lift_env.py` | `PupperLegLiftEnv` (brax `PipelineEnv`, MJX): reset/step/obs/reward, command sampling. |
-| `train.py` | brax PPO training entry; saves brax params to `output/<run>/mjx_params`. |
+| `train.py` | brax PPO training entry; saves brax params to `output/<run>/mjx_params`. Optional W&B logging + rollout videos. |
+| `visualize.py` | Rolls the policy out through the O-button sequence and renders a `tracking_cam` video — what you watch to judge the policy. |
 | `export_policy.py` | Converts brax params → `neural_controller` JSON (normalization folded into layer 0). |
 
 The Pupper MJX model is referenced in place from the `pupper_v3_description` checkout
@@ -48,16 +49,30 @@ cd mujoco_playground
 uv venv --python 3.12 && source .venv/bin/activate
 uv pip install -U "jax[cuda12]" --index-url https://pypi.org/simple
 uv --no-config sync --all-extras            # installs the playground + brax
+uv pip install wandb                        # optional, for --use_wandb
 python -c "import jax; print(jax.default_backend())"   # -> gpu
 
-# train (run from the mujoco_playground/ dir so `workspace` is importable)
-python -m workspace.train --num_timesteps 150000000
+# smoke test first (JITs the env, a few PPO iters, ~1 min) before a long run
+python -m workspace.train --num_timesteps 200000 --num_envs 1024
+
+# full run (run from the mujoco_playground/ dir so `workspace` is importable)
+wandb login                                 # once, if using W&B
+python -m workspace.train --num_timesteps 150000000 --use_wandb
 # export the trained policy to the robot's JSON format
 python -m workspace.export_policy --params workspace/output/<run>/mjx_params
 ```
 
 `num_envs` defaults to 8192 (fits the 5090's 32 GB); lower it with `--num_envs` if VRAM
 is tight.
+
+### Watching the policy
+
+Every eval, training renders a rollout that steps the command through the O-button
+sequence (`stand → FL → FR → BR → BL`) and logs it to W&B as `eval/video` (plus a
+final `eval/video_final`). Videos are also written to `workspace/output/<run>/*.mp4`
+regardless of W&B. Rendering is headless via EGL (`MUJOCO_GL=egl`, set automatically).
+Flags: `--use_wandb`, `--wandb_project`, `--wandb_entity`, `--no_eval_videos` (skip the
+per-eval video if it slows things down — the final video still renders).
 
 ## Status / what still needs doing
 
