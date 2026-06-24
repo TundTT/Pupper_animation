@@ -16,6 +16,16 @@ the policy smooth raise/hold/lower transitions. On the robot the command is
 advanced by the O button (a clockwise state machine); "hold" is simply the command
 not changing, so hold duration is operator-controlled and not baked into the
 policy. See README.md for the deployment wiring.
+
+Domain randomization
+--------------------
+Step-time DR is applied here:
+- Sensor noise: uniform noise on ang_vel, gravity, joint positions, last_action.
+- Random kicks: low-probability horizontal impulse to the torso base.
+- Action latency: a 2-element circular buffer samples either the current or the
+  previous commanded action to apply to the motors (simulates comm jitter).
+Physics DR (friction, kp/kd, mass, inertia, CoM) is handled by
+workspace/randomize.py via brax PPO's randomization_fn.
 """
 
 from typing import Any, Dict, List, Optional, Sequence
@@ -30,6 +40,25 @@ from jax import numpy as jp
 from ml_collections import config_dict
 
 from workspace import configs
+
+
+# ---------------------------------------------------------------------------
+# Circular-buffer helpers (adapted from pupperv3-mjx/utils.py)
+# ---------------------------------------------------------------------------
+
+def _buf_push_front(buf: jax.Array, new_val: jax.Array) -> jax.Array:
+    """Roll buffer forward and place new_val at index 0 (newest slot)."""
+    return jp.roll(buf, shift=1, axis=1).at[:, 0].set(new_val)
+
+
+def _sample_lagged(rng: jax.Array, buf: jax.Array, new_val: jax.Array, dist: jax.Array):
+    """Push new_val and sample one time-slot from `buf` according to `dist`.
+
+    buf shape: (action_dim, buf_len); dist shape: (buf_len,); newest first.
+    Returns (sampled_action (action_dim,), updated_buf).
+    """
+    buf = _buf_push_front(buf, new_val)
+    return jax.random.choice(rng, buf, axis=1, p=dist), buf
 
 
 class PupperLegLiftEnv(PipelineEnv):
@@ -94,6 +123,11 @@ class PupperLegLiftEnv(PipelineEnv):
         self._single_obs_dim = 3 + 3 + self._num_commands + 12 + 12
         self._obs_history = config.observation_history
 
+        # ---- action latency buffer ----
+        lat_dist = list(config.dr.latency_distribution)
+        self._lat_dist = jp.array(lat_dist)
+        self._lat_buf_len = len(lat_dist)
+
     # ------------------------------------------------------------- commands
     def _sample_command(self, rng: jax.Array) -> jax.Array:
         """Pick a command index: 'stand' with stand_command_prob, else a leg."""
@@ -109,7 +143,7 @@ class PupperLegLiftEnv(PipelineEnv):
 
     # ------------------------------------------------------------------ reset
     def reset(self, rng: jax.Array) -> State:
-        rng, cmd_rng, hold_rng = jax.random.split(rng, 3)
+        rng, cmd_rng, hold_rng, obs_rng = jax.random.split(rng, 4)
         pipeline_state = self.pipeline_init(self._init_q, jp.zeros(self._nv))
 
         info = {
@@ -119,21 +153,37 @@ class PupperLegLiftEnv(PipelineEnv):
             "command_switch_step": self._sample_hold(hold_rng),
             "last_act": jp.zeros(12),
             "last_vel": jp.zeros(12),
+            "action_buffer": jp.zeros((12, self._lat_buf_len)),
         }
         obs_history = jp.zeros(self._obs_history * self._single_obs_dim)
-        obs = self._get_obs(pipeline_state, info, obs_history)
+        obs = self._get_obs(pipeline_state, info, obs_history, obs_rng)
         metrics: Dict[str, Any] = {k: 0.0 for k in self._config.reward_config.scales.keys()}
         metrics["lifted_foot_height"] = 0.0
         return State(pipeline_state, obs, jp.zeros(()), jp.zeros(()), metrics, info)
 
     # ------------------------------------------------------------------- step
     def step(self, state: State, action: jax.Array) -> State:
-        # Position-target action, identical scheme to the deployed neural_controller.
-        motor_targets = jp.clip(self._default_pose + action * self._action_scale, self._lowers, self._uppers)
-        pipeline_state = self.pipeline_step(state.pipeline_state, motor_targets)
+        state.info["rng"], kick_rng, lat_rng, obs_rng = jax.random.split(state.info["rng"], 4)
+
+        # Action latency: sample which time-slot to actually apply.
+        lagged_action, action_buffer = _sample_lagged(
+            lat_rng, state.info["action_buffer"], action, self._lat_dist
+        )
+        state.info["action_buffer"] = action_buffer
+
+        # Random horizontal kick to the torso base (low probability).
+        kick_rng1, kick_rng2 = jax.random.split(kick_rng)
+        kick_vec = jax.random.uniform(kick_rng1, (2,), minval=-1.0, maxval=1.0) * self._config.dr.kick_vel
+        kick_applied = jax.random.bernoulli(kick_rng2, self._config.dr.kick_probability)
+        kicked_qd = state.pipeline_state.qd.at[:2].set(
+            state.pipeline_state.qd[:2] + kick_vec * kick_applied
+        )
+
+        motor_targets = jp.clip(self._default_pose + lagged_action * self._action_scale, self._lowers, self._uppers)
+        pipeline_state = self.pipeline_step(state.pipeline_state.replace(qd=kicked_qd), motor_targets)
 
         command = state.info["command"]
-        obs = self._get_obs(pipeline_state, state.info, state.obs)
+        obs = self._get_obs(pipeline_state, state.info, state.obs, obs_rng)
 
         joint_angles = pipeline_state.q[7:]
         joint_vel = pipeline_state.qd[6:]
@@ -164,6 +214,8 @@ class PupperLegLiftEnv(PipelineEnv):
             switch, state.info["step"] + self._sample_hold(hold_rng), state.info["command_switch_step"]
         )
 
+        # Store raw commanded action (not lagged) in last_act — the obs and
+        # action_rate penalty both reference what the policy last commanded.
         state.info["last_act"] = action
         state.info["last_vel"] = joint_vel
         state.info["step"] = state.info["step"] + 1
@@ -220,18 +272,33 @@ class PupperLegLiftEnv(PipelineEnv):
         }
 
     # -------------------------------------------------------------------- obs
-    def _get_obs(self, pipeline_state: base.State, info: dict[str, Any], obs_history: jax.Array) -> jax.Array:
+    def _get_obs(
+        self, pipeline_state: base.State, info: dict[str, Any], obs_history: jax.Array, rng: jax.Array
+    ) -> jax.Array:
+        dr = self._config.dr
+        ang_rng, grav_rng, jpos_rng, lact_rng = jax.random.split(rng, 4)
+
         inv_torso_rot = math.quat_inv(pipeline_state.x.rot[0])
         ang_vel = math.rotate(pipeline_state.xd.ang[0], inv_torso_rot)
+        ang_vel = ang_vel + jax.random.uniform(ang_rng, (3,), minval=-1.0, maxval=1.0) * dr.angular_velocity_noise
+
         gravity = math.rotate(jp.array([0.0, 0.0, -1.0]), inv_torso_rot)
+        gravity = gravity + jax.random.uniform(grav_rng, (3,), minval=-1.0, maxval=1.0) * dr.gravity_noise
+
         command_one_hot = jax.nn.one_hot(info["command"], self._num_commands)
 
+        jpos = pipeline_state.q[7:] - self._default_pose
+        jpos = jpos + jax.random.uniform(jpos_rng, (12,), minval=-1.0, maxval=1.0) * dr.motor_angle_noise
+
+        last_act = info["last_act"]
+        last_act = last_act + jax.random.uniform(lact_rng, (12,), minval=-1.0, maxval=1.0) * dr.last_action_noise
+
         obs = jp.concatenate([
-            ang_vel,                                    # 3
-            gravity,                                    # 3
-            command_one_hot,                            # 5
-            pipeline_state.q[7:] - self._default_pose,  # 12
-            info["last_act"],                           # 12
+            ang_vel,           # 3
+            gravity,           # 3
+            command_one_hot,   # 5
+            jpos,              # 12
+            last_act,          # 12
         ])
         obs = jp.clip(obs, -100.0, 100.0)
         # newest observation at the front

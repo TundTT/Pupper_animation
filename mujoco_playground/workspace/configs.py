@@ -182,4 +182,24 @@ def get_config() -> config_dict.ConfigDict:
             hidden_layer_sizes=(128, 128, 128),
             activation="swish",
         ),
+
+        # ---- domain randomization (sensor noise, kicks, action latency) ----
+        # Physics DR ranges live in workspace/randomize.py. Only the step-time
+        # terms (noise added to the obs, random torso kicks, motor lag) live here.
+        dr=config_dict.create(
+            # Obs noise (uniform ±scale added per-step; from notebook cell 21)
+            angular_velocity_noise=0.1,   # rad/s
+            gravity_noise=0.05,           # unit vector components
+            motor_angle_noise=0.05,       # rad
+            last_action_noise=0.01,       # normalized action units
+
+            # Random horizontal impulse kicks applied to the torso
+            kick_probability=0.04,
+            kick_vel=0.10,                # m/s, each component drawn from ±1 * kick_vel
+
+            # Action latency: probability weights for the circular buffer, newest
+            # element first. len(latency_distribution) = buffer depth.
+            # [0.8, 0.2] => 80 % current action, 20 % one-step-old action.
+            latency_distribution=(0.8, 0.2),
+        ),
     )

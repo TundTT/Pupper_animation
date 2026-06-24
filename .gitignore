@@ -1,0 +1,17 @@
+# Training run artifacts
+mujoco_playground/wandb/
+mujoco_playground/workspace/output/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editors
+.vscode/
+*.swp
+*~

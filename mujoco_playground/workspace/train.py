@@ -32,6 +32,7 @@ from brax.training.agents.ppo import train as ppo  # noqa: E402
 
 from workspace import configs, visualize  # noqa: E402
 from workspace.leg_lift_env import PupperLegLiftEnv  # noqa: E402
+from workspace.randomize import domain_randomize  # noqa: E402
 
 _ACTIVATIONS = {"swish": jax.nn.swish, "relu": jax.nn.relu, "tanh": jax.nn.tanh}
 
@@ -80,7 +81,9 @@ def main() -> None:
         activation=_ACTIVATIONS[config.policy.activation],
     )
     ppo_kwargs = dict(config.ppo)
-    train_fn = functools.partial(ppo.train, **ppo_kwargs, network_factory=network_factory)
+    train_fn = functools.partial(
+        ppo.train, **ppo_kwargs, network_factory=network_factory, randomization_fn=domain_randomize
+    )
 
     times = [datetime.now()]
 
@@ -107,7 +110,10 @@ def main() -> None:
         if args.no_eval_videos:
             return
         try:
-            inference_fn = make_policy((params[0], params[1].policy), deterministic=True)
+            # params = (normalizer_params, policy_params, value_params); make_policy
+            # uses params[0:2], so passing the full tuple is correct and matches the
+            # final-video call below.
+            inference_fn = make_policy(params, deterministic=True)
             frames, fps = visualize.render(eval_env, inference_fn, jax.random.PRNGKey(0))
             _log_video(step, frames, fps)
         except Exception as e:  # noqa: BLE001
