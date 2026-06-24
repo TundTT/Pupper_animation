@@ -4,95 +4,96 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this workspace is
 
-This directory is a **working area for one task**: building a leg-raise / hold / lower
-animation for the **Pupper V3** quadruped (see [.notes/goal.md](.notes/goal.md) for the
-full goal and research context). It is not itself a git repo — it bundles two independent
-checked-out repositories plus the task notes:
+A **working area for one task**: build a leg-lift behavior for the **Pupper V3** quadruped
+that raises one leg, holds it up stably on the other three legs for a fixed window (so heat
+can be applied to a smart-polymer link while it's off the ground), then lowers it. See
+[.notes/goal.md](.notes/goal.md) for the research context. This task owns **mechanical
+motion only** — not heating or polymer sensing.
 
-- **`Stanford/pupperv3-monorepo/`** — the Pupper V3 robot codebase (ROS2, neural locomotion
-  policies, AI voice UI). This is where the animation feature lives and the primary place
-  you will edit. Has its own [CLAUDE.md](Stanford/pupperv3-monorepo/CLAUDE.md) — read it.
-- **`mujoco_playground/`** — an unmodified clone of DeepMind's MuJoCo Playground (MJX/JAX RL
-  training library). Reference/dependency only; **no Pupper-specific code is here** and you
-  almost certainly should not edit it for this task.
+> **Approach: this is an RL policy, NOT a scripted/keyframe animation.** Despite the
+> "animation" wording in goal.md, the chosen approach is to **train a reinforcement-learning
+> policy** (the same kind of artifact as Pupper's locomotion policy) and deploy it to the
+> robot. The CSV-keyframe `animation_controller_py` package in the monorepo is therefore
+> **not** the relevant subsystem here — ignore it for this work.
 
-The goal: raise one leg at a time, hold it up for a *configurable* duration (so heat can be
-applied to a smart-polymer link off the ground), then lower it; cycle through all four legs
-while staying stable on the other three. This task owns **mechanical motion only** — not
-heating or polymer sensing.
+This directory is **not itself a git repo** — it bundles three independent checked-out
+repositories plus the task notes:
 
-## The animation subsystem (the part that matters for this task)
+| Path | What it is | Our use |
+|---|---|---|
+| `Stanford/pupperv3-monorepo/` | The code that **runs on the robot** (ROS2). | The **deployment target**. We read it to see what's deployed and write the code that runs/binds the new policy. Edit here. |
+| `Stanford/training/pupperv3-mjx/` | The providers' **RL training pipeline for Pupper** (MJX/Brax env). | **Reference + likely starting point** for defining the leg-lift env, reward, and policy export. |
+| `mujoco_playground/` | DeepMind's general MJX RL environment suite. | **General RL reference** for patterns/infra. No Pupper code in it. |
+| `.notes/goal.md` | The task definition. | — |
 
-The feature lives in `Stanford/pupperv3-monorepo/ros2_ws/src/animation_controller_py/`.
+Keep the three repos separate: distinct upstreams, git histories, and licenses. Don't move
+code between them or commit one's changes against another.
 
-- **Animations are CSV keyframe files** in
-  [animation_controller_py/launch/animations/](Stanford/pupperv3-monorepo/ros2_ws/src/animation_controller_py/launch/animations/).
-  Columns: `timestamp_ns, timestamp_sec`, then the 12 joints. **The animation player ignores
-  the timestamp columns** — playback speed comes entirely from the node's `frame_rate`
-  parameter (default 30 Hz), so each row is one evenly-spaced keyframe. To encode a "hold,"
-  repeat the same joint row for the desired number of frames (`duration_s * frame_rate` rows).
-- **12 joints**, 3 per leg, named `leg_{front,back}_{r,l}_{1,2,3}`. The player reorders CSV
-  columns into the canonical order declared in `animation_controller.py` / the launch file,
-  so CSV column order does not have to match — but every joint name must be present.
-- **Playback model** ([animation_controller.py](Stanford/pupperv3-monorepo/ros2_ws/src/animation_controller_py/animation_controller_py/animation_controller.py)):
-  on `~/animation_select` (a `std_msgs/String` with the CSV stem), it (1) switches the
-  controller_manager from the neural controllers to the three `forward_*_controller`s,
-  (2) spends `init_duration` seconds interpolating from the current pose to frame 0, then
-  (3) plays frames at `frame_rate` with linear interpolation. A 120 Hz timer drives output;
-  it publishes position + per-joint `kp`/`kd` to `/forward_{position,kp,kd}_controller/commands`.
-- **Gains** `kps`/`kds` (and `init_kps`/`init_kds`) are launch parameters, 12-long. Low kp
-  (~5) means compliant joints — relevant for not stressing the smart-polymer link.
+## Project decisions made so far
 
-### How animations are normally authored
+- **Separate policy.** The leg-lift is its own RL policy, distinct from the locomotion policy
+  (and from the existing `neural_controller_three_legged` policy).
+- **Activated by a controller button.** It runs as another runtime-switchable controller,
+  bound to a (TBD) PS5 button — the same activation pattern as the locomotion policies.
+- **Fixed hold duration.** Train for one hold duration; if a different duration is needed,
+  retrain. Do **not** add command/observation inputs to make duration configurable.
+- **Status: groundwork only.** As of this writing nothing is implemented — we are gathering
+  context and laying out the project. Do not start training or writing integration code
+  until asked.
 
-Per the monorepo README: teleop the real robot while recording an mcap bag, then
-`scripts/mcap_to_csv.py <bag> -s <start> -e <end>`, drop the CSV into the `animations/`
-folder, and rebuild. **For this task you will likely author the CSV programmatically
-instead** (compute raise/hold/lower joint trajectories directly) rather than recording a
-physical robot. `scripts/animation_editor/main.py <csv>` just plots a CSV's joint curves to
-a PNG for inspection — useful for sanity-checking a generated trajectory.
+## Training side — `Stanford/training/pupperv3-mjx/`
 
-After adding/renaming a CSV you must rebuild the ROS2 workspace and (if exposing it to the
-voice UI) add the nickname in `ai/.../pupster.py`.
+The Pupper-specific MJX training package. Key modules in `pupperv3_mjx/`:
 
-## Build & run (ROS2 side; Linux/ROS2 Humble)
+- `environment.py` — the MJX/Brax environment (observations, actions, episode logic).
+- `rewards.py` — reward terms.
+- `domain_randomization.py` — sim-to-real randomization.
+- `export.py` — exports a trained policy to the JSON format the robot's `neural_controller`
+  loads. **This is the bridge between training and deployment.**
+- `config.py`, `obstacles.py`, `utils.py`, `plotting.py`.
+- `Pupper_RL_PUBLIC.ipynb` (in `Stanford/training/`) — the providers' end-to-end training
+  notebook; the reference for how a Pupper policy is actually trained.
 
-These are the monorepo's commands — they target x86 Ubuntu 24 or the robot's Pi 5, **not the
-Windows host this workspace sits on**. Do not expect to build/run ROS2 locally on Windows;
-edit here, build/run on the target.
+A leg-lift policy would most likely be a new/derived environment + reward here, exported the
+same way. `mujoco_playground/` is secondary reference for RL infrastructure patterns.
+
+## Deployment side — `Stanford/pupperv3-monorepo/`
+
+The on-robot integration template already exists and is proven — **mirror it**:
+
+- **Policy = an exported JSON MLP** loaded by the `neural_controller` ros2_control plugin
+  (C++, [neural_controller.cpp](Stanford/pupperv3-monorepo/ros2_ws/src/neural_controller/src/neural_controller.cpp)).
+- [config.yaml](Stanford/pupperv3-monorepo/ros2_ws/src/neural_controller/launch/config.yaml)
+  already defines **two** policy instances — `neural_controller` (locomotion, `policy_latest.json`)
+  and `neural_controller_three_legged` (`policy_rich-donkey-233...json`). A leg-lift policy is
+  a **third instance of this same block** with its own `model_path`.
+- Each instance pins the canonical 12-joint order and `default_joint_pos` — the training env
+  must match this joint ordering for the exported policy to be valid on-robot.
+- **Runtime switching / button binding** is in `joy_util_node` (same file): `controller_names`
+  lists the switchable controllers and `switch_button_indices` maps buttons to them. Adding
+  the leg-lift policy = add the controller block in config.yaml, spawn it in
+  [launch.py](Stanford/pupperv3-monorepo/ros2_ws/src/neural_controller/launch/launch.py),
+  append its name to `controller_names`, and assign a button index.
+
+`pupperv3_mujoco_sim` (a MuJoCo-backed ros2_control hardware interface) can stand in for the
+physical robot to test a deployed policy without hardware.
+
+## Build & run (ROS2 side; Linux / ROS2 Humble — not the Windows host)
+
+The monorepo's commands target x86 Ubuntu 24 or the robot's Pi 5. **Don't expect to build or
+run ROS2 on this Windows host** — edit here, build/run on the target.
 
 ```sh
 cd Stanford/pupperv3-monorepo/ros2_ws
 source build.sh                  # colcon build + source install
-ros2 launch animation_controller_py animation_controller_py.launch.py
-# trigger an animation by publishing its CSV stem:
-ros2 topic pub --once /animation_controller_py/animation_select std_msgs/String "{data: 'superman_recording_2025-10-22_17-47-41'}"
+ros2 launch neural_controller launch.py
 ```
 
-Run the animation node's tests (standard ament/pytest):
+Training (`pupperv3-mjx`) is a Python/JAX package — set up its own env with `uv` /
+`requirements.txt`; needs a CUDA GPU for real training.
 
-```sh
-cd Stanford/pupperv3-monorepo/ros2_ws
-colcon test --packages-select animation_controller_py
-colcon test-result --verbose
-# or a single test file directly:
-pytest src/animation_controller_py/test/test_animation_controller.py
-```
-
-A MuJoCo build can stand in for hardware (`pupperv3_mujoco_sim` package, used as a
-ros2_control hardware interface) so animations can be tried without the physical robot.
-
-## Conventions (from the monorepo's CLAUDE.md — follow these)
+## Conventions (from the monorepo's [CLAUDE.md](Stanford/pupperv3-monorepo/CLAUDE.md) — follow these)
 
 - **No silent fallbacks.** Don't paper over failure with broad `try/except` or default
-  values; surface the failure (warn/raise) so problems are visible. The existing animation
-  controller leans on this — it raises on bad parameters and validates joint counts up front.
+  values; surface it (warn/raise) so problems are visible.
 - **Use `uv`** for Python package management. Never mutate `PATH` inside files.
-- Python packages here pin Python ≥ 3.10 (mujoco_playground wants 3.12) and manage deps via
-  `pyproject.toml` + `uv.lock`.
-
-## Keep the two repos separate
-
-`Stanford/pupperv3-monorepo` and `mujoco_playground` are distinct upstreams with their own
-git history, licenses, and CLAUDE/README files. Don't move code between them or commit one's
-changes against the other.

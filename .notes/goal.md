@@ -1,16 +1,19 @@
-# Project Goal: Pupper Leg-Raise Transition Animation
+# Project Goal: Pupper Leg-Lift for Material Transition
 
 ## Overview
 
-Build an animation/action for **Pupper** (a quadruped research robot) that, for
-each leg:
+Give **Pupper** (a quadruped research robot) the ability to, for a given leg:
 
-1. **Raises** the leg into the air.
-2. **Holds** it raised for a **set, configurable amount of time**.
-3. **Lowers** it back down.
+1. **Raise** the leg into the air.
+2. **Hold** it raised for long enough to apply heat.
+3. **Lower** it back down.
 
-Legs are lifted **one at a time** so the robot stays stable on its three
-remaining legs. The sequence cycles through all four legs.
+A leg is lifted **one at a time** so the robot stays stable on its three
+remaining legs. Repeating the behavior across legs covers the whole robot.
+
+This is realized as a **learned reinforcement-learning policy**, in the same
+spirit as Pupper's existing locomotion policies — a trained skill the robot can
+run, not a scripted or hand-keyframed animation.
 
 ## Why (Research Context)
 
@@ -19,30 +22,24 @@ Our research explores **smart materials as robotic limbs**. Pupper's legs use a
 function with both **legs and wheels**.
 
 The smart polymer **changes shape when heated**. To apply heat and let the
-material transition safely, the affected leg must be **off the ground**. This
-leg-raise animation provides that window: raise the leg, keep it up long enough
-for heat to be applied and the shape to change, then lower it.
+material transition safely, the affected leg must be **off the ground**. The
+leg-lift provides that window: raise the leg, keep it up while heat is applied
+and the shape changes, then lower it.
 
 > **Scope note:** This project is only responsible for the **mechanical motion**
 > (raise / hold / lower). It does **not** apply heat, monitor the polymer, or
-> detect when a transition has finished. The hold simply lasts for the
-> configured duration.
+> detect when a transition has finished — the hold simply lasts a set duration.
 
 ## Functional Requirements
 
-- Lift legs **one at a time** (sequential, not simultaneous) to keep the robot
-  stable on its three remaining legs.
-- **Hold duration is configurable** and can be changed easily — the leg stays
-  raised for exactly that duration before lowering.
-- Maintain **balance and stability** while any single leg is lifted.
+- Lift legs **one at a time** so the robot stays balanced and stable on its
+  three remaining legs throughout the motion.
+- Keep the leg raised long enough for the material transition to happen.
 - **Smooth raise/lower motion** to avoid stressing the smart-polymer link.
 
-## Decisions
+## Approach Decisions
 
-- **Leg order doesn't matter** — choose whatever order is easiest to implement
-  or keeps the robot most stable.
-
-## Open Questions / To Be Determined
-
-- Target raise height / joint angles per leg.
-- Whether to re-stabilize the body (shift weight) before lifting each leg.
+- **A standalone learned policy**, separate from the robot's locomotion behavior.
+- **Invoked on demand** by the operator when a leg needs a transition.
+- **Trained for a fixed hold duration**; a different duration means retraining
+  rather than runtime configuration.
