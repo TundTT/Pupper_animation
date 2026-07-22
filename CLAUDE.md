@@ -42,8 +42,14 @@ separate: distinct upstreams, histories, licenses. Don't move code between them.
 - **Hold is operator-timed.** "Hold" = the command not changing, so duration is however long
   the operator waits between presses. No fixed duration baked into the policy; no retrain to
   change it. (Supersedes the earlier "fixed duration, retrain" decision.)
-- **Status: scaffolded, untrained.** The training pipeline exists in `mujoco_playground/workspace/`
-  but nothing has been trained or validated, and reward weights + `LIFT_DELTAS` are placeholders.
+- **Status: reward config recovered from wandb, weights lost, still untrained on this checkout.**
+  A prior workstation run (`leg_lift_2026-06-24_20-04-18`) reached `eval/episode_reward ≈ 50.5`,
+  but the machine was wiped before its trained params were pushed anywhere — wandb only logs
+  metrics/config/video, not checkpoints, so the policy itself has to be retrained. Its reward
+  weights (including a `knee_clearance` term not in the original scaffold) were recovered from
+  that run's wandb config into `mujoco_playground/workspace/configs.py`; see that workspace's
+  README "Status" section for what's reconstructed vs. still a placeholder (`LIFT_DELTAS` was
+  never logged to wandb, so it's untouched).
 
 ## Training side — `mujoco_playground/workspace/` (our code)
 

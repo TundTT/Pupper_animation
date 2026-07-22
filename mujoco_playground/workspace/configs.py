@@ -78,6 +78,19 @@ FOOT_SITE_NAMES = [
 FOOT_ROW_BY_LEG = {"front_r": 0, "front_l": 1, "back_r": 2, "back_l": 3}
 TORSO_NAME = "base_link"
 
+# Body owning each leg's knee joint (joint "_3", defined at that body's own
+# origin — so this body's world position IS the knee pivot location). Same
+# row order as FOOT_SITE_NAMES/FOOT_ROW_BY_LEG. Used for the knee_clearance
+# reward term (recovered from a wandb run's logged config; the run's actual
+# leg_lift_env.py implementation was lost with the machine it trained on —
+# this body-position choice is a reconstruction, not the original code).
+KNEE_BODY_NAMES = [
+    "leg_front_r_3",
+    "leg_front_l_3",
+    "leg_back_r_3",
+    "leg_back_l_3",
+]
+
 # Command states the policy is conditioned on. Index 0 = stand (no leg up). The
 # clockwise lift order (FL -> FR -> BR -> BL) is enforced by the ON-ROBOT state
 # machine, not here — the policy only needs to know which leg is up right now.
@@ -145,20 +158,26 @@ def get_config() -> config_dict.ConfigDict:
         terminal_body_z=0.08,      # torso too low => fell
 
         # ---- reward weights ----
+        # Recovered from the wandb config of leg_lift_2026-06-24_20-04-18 (the
+        # last run in a warm-started training chain before the workstation was
+        # wiped). foot_clearance, dof_acc, target_foot_height, and knee_clearance
+        # / target_knee_height differ from the original scaffold placeholders.
         reward_config=config_dict.create(
             scales=config_dict.create(
                 tracking_pose=2.0,          # track the commanded target joint pose
-                foot_clearance=1.0,         # commanded foot reaches target height
+                foot_clearance=2.0,         # commanded foot reaches target height
+                knee_clearance=2.0,         # commanded knee reaches target height
                 stance_feet_contact=0.5,    # the other feet stay planted
                 orientation=1.0,            # torso upright
                 torso_height=0.5,           # torso near standing height
                 action_rate=-0.01,          # smoothness (protect the polymer link)
                 torques=-2e-4,
-                dof_acc=-2.5e-7,
+                dof_acc=-2.5e-6,
                 dof_pos_limits=-1.0,
             ),
             tracking_sigma=0.25,
-            target_foot_height=0.06,  # meters off the ground when a leg is up
+            target_foot_height=0.08,  # meters off the ground when a leg is up
+            target_knee_height=0.18,  # meters off the ground when a leg is up
         ),
 
         # ---- PPO (brax) ----

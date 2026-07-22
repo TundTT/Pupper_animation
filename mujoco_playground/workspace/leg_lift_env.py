@@ -106,6 +106,11 @@ class PupperLegLiftEnv(PipelineEnv):
         assert -1 not in feet_ids, "a foot site was not found"
         self._feet_site_id = np.array(feet_ids)
         self._foot_radius = 0.02
+        knee_ids = [
+            mujoco.mj_name2id(sys.mj_model, mujoco.mjtObj.mjOBJ_BODY.value, b) for b in configs.KNEE_BODY_NAMES
+        ]
+        assert -1 not in knee_ids, "a knee body was not found"
+        self._knee_body_id = np.array(knee_ids)
         self._nv = sys.nv
 
         # ---- command -> target pose table (rows: stand, FL, FR, BR, BL) ----
@@ -159,6 +164,7 @@ class PupperLegLiftEnv(PipelineEnv):
         obs = self._get_obs(pipeline_state, info, obs_history, obs_rng)
         metrics: Dict[str, Any] = {k: 0.0 for k in self._config.reward_config.scales.keys()}
         metrics["lifted_foot_height"] = 0.0
+        metrics["lifted_knee_height"] = 0.0
         return State(pipeline_state, obs, jp.zeros(()), jp.zeros(()), metrics, info)
 
     # ------------------------------------------------------------------- step
@@ -191,8 +197,11 @@ class PupperLegLiftEnv(PipelineEnv):
 
         foot_z = pipeline_state.site_xpos[self._feet_site_id][:, 2] - self._foot_radius
         contact = foot_z < 1e-3
+        # x.pos excludes the world body, hence the -1 (matches self._torso_idx usage below).
+        knee_z = pipeline_state.x.pos[self._knee_body_id - 1][:, 2]
         lifted_row = self._lifted_foot_row[command]
         lifted_foot_height = jp.where(lifted_row >= 0, foot_z[jp.maximum(lifted_row, 0)], 0.0)
+        lifted_knee_height = jp.where(lifted_row >= 0, knee_z[jp.maximum(lifted_row, 0)], 0.0)
 
         up = jp.array([0.0, 0.0, 1.0])
         cos_tilt = jp.dot(math.rotate(up, x.rot[self._torso_idx - 1]), up)
@@ -201,7 +210,7 @@ class PupperLegLiftEnv(PipelineEnv):
         done |= x.pos[self._torso_idx - 1, 2] < self._config.terminal_body_z
 
         rewards = self._get_reward(
-            command, joint_angles, joint_vel, pipeline_state, contact, foot_z, cos_tilt, action, state.info
+            command, joint_angles, joint_vel, pipeline_state, contact, foot_z, knee_z, cos_tilt, action, state.info
         )
         rewards = {k: v * self._config.reward_config.scales[k] for k, v in rewards.items()}
         reward = jp.clip(sum(rewards.values()) * self.dt, 0.0, 10000.0)
@@ -222,12 +231,13 @@ class PupperLegLiftEnv(PipelineEnv):
 
         state.metrics.update(rewards)
         state.metrics["lifted_foot_height"] = lifted_foot_height
+        state.metrics["lifted_knee_height"] = lifted_knee_height
 
         return state.replace(pipeline_state=pipeline_state, obs=obs, reward=reward, done=jp.float32(done))
 
     # ----------------------------------------------------------------- reward
     def _get_reward(
-        self, command, joint_angles, joint_vel, pipeline_state, contact, foot_z, cos_tilt, action, info
+        self, command, joint_angles, joint_vel, pipeline_state, contact, foot_z, knee_z, cos_tilt, action, info
     ) -> Dict[str, jax.Array]:
         cfg = self._config.reward_config
         target_pose = self._target_table[command]
@@ -241,6 +251,12 @@ class PupperLegLiftEnv(PipelineEnv):
         lifted_height = jp.where(a_leg_is_up, foot_z[jp.maximum(lifted_row, 0)], 0.0)
         clearance_err = jp.square(lifted_height - cfg.target_foot_height)
         foot_clearance = a_leg_is_up.astype(float) * jp.exp(-clearance_err / 0.0025)
+
+        # Same idea, one joint up the leg: keeps the knee rising with the foot
+        # instead of the foot reaching height by dragging the knee sideways.
+        lifted_knee = jp.where(a_leg_is_up, knee_z[jp.maximum(lifted_row, 0)], 0.0)
+        knee_clearance_err = jp.square(lifted_knee - cfg.target_knee_height)
+        knee_clearance = a_leg_is_up.astype(float) * jp.exp(-knee_clearance_err / 0.0025)
 
         # Feet that should be planted: all except the commanded one.
         rows = jp.arange(4)
@@ -262,6 +278,7 @@ class PupperLegLiftEnv(PipelineEnv):
         return {
             "tracking_pose": tracking_pose,
             "foot_clearance": foot_clearance,
+            "knee_clearance": knee_clearance,
             "stance_feet_contact": stance_feet_contact,
             "orientation": orientation,
             "torso_height": torso_height_rew,

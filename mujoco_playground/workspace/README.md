@@ -76,13 +76,27 @@ per-eval video if it slows things down — the final video still renders).
 
 ## Status / what still needs doing
 
-- **`LIFT_DELTAS` in `configs.py` are placeholders.** Tune them in sim so each foot
-  clears the ground by ~`target_foot_height` without tipping the body. Joint signs
-  mirror L/R — verify against the model.
-- **Reward weights are a starting point**, not tuned. Expect to iterate on
-  `tracking_pose` vs balance terms.
-- **Untrained / unvalidated.** None of this has been run yet; treat as the scaffold
-  to iterate on, not a finished policy.
+- **A prior training run reached `eval/episode_reward ≈ 50.5` (wandb run
+  `leg_lift_2026-06-24_20-04-18`), but its trained params were lost** when the
+  workstation that produced them was wiped before pushing — wandb only logs
+  metrics/videos/config, not model checkpoints, so the policy itself must be
+  retrained. `reward_config.scales`, `target_foot_height`, and the new
+  `knee_clearance` / `target_knee_height` terms in `configs.py` were recovered
+  from that run's logged wandb config (it differs from the original scaffold
+  placeholders). `leg_lift_env.py`'s `knee_clearance` reward computation is a
+  **reconstruction** — the run's actual implementation wasn't logged anywhere
+  and was lost with it; review `_get_reward`'s knee-height calc before trusting
+  it. `train.py --init_params` (warm-start from a previous run's params, via
+  brax's `restore_params`) was also reconstructed from the lost run's command
+  line, to support resuming a training chain the way the original runs did.
+- **`LIFT_DELTAS` in `configs.py` are still placeholders.** These were never
+  logged to wandb (only `config_dict` scalars/dicts are), so there's no record
+  of whether they'd been tuned before the machine was wiped. Tune them in sim
+  so each foot clears the ground by ~`target_foot_height` without tipping the
+  body. Joint signs mirror L/R — verify against the model.
+- **Untrained / unvalidated on this checkout.** The config above is recovered,
+  not the trained weights — treat this as ready to retrain, not a finished
+  policy.
 
 ## Deployment (monorepo side)
 

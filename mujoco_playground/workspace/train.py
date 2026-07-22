@@ -43,6 +43,10 @@ def main() -> None:
     p.add_argument("--num_envs", type=int, default=None)
     p.add_argument("--seed", type=int, default=None)
     p.add_argument("--model_path", default=None, help="override Pupper MJX xml path")
+    p.add_argument(
+        "--init_params", default=None,
+        help="warm-start from a previous run's saved brax params (path to an output/<run>/mjx_params dir)",
+    )
     p.add_argument("--output_dir", default=os.path.join(os.path.dirname(__file__), "output"))
     p.add_argument("--use_wandb", action="store_true", help="log metrics + rollout videos to W&B")
     p.add_argument("--wandb_project", default="pupper-leg-lift")
@@ -80,9 +84,15 @@ def main() -> None:
         policy_hidden_layer_sizes=tuple(config.policy.hidden_layer_sizes),
         activation=_ACTIVATIONS[config.policy.activation],
     )
+    restore_params = None
+    if args.init_params is not None:
+        print(f"Warm-starting from {args.init_params}")
+        restore_params = model.load_params(args.init_params)
+
     ppo_kwargs = dict(config.ppo)
     train_fn = functools.partial(
-        ppo.train, **ppo_kwargs, network_factory=network_factory, randomization_fn=domain_randomize
+        ppo.train, **ppo_kwargs, network_factory=network_factory, randomization_fn=domain_randomize,
+        restore_params=restore_params,
     )
 
     times = [datetime.now()]
