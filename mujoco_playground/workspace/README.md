@@ -94,9 +94,16 @@ per-eval video if it slows things down — the final video still renders).
   of whether they'd been tuned before the machine was wiped. Tune them in sim
   so each foot clears the ground by ~`target_foot_height` without tipping the
   body. Joint signs mirror L/R — verify against the model.
-- **Untrained / unvalidated on this checkout.** The config above is recovered,
-  not the trained weights — treat this as ready to retrain, not a finished
-  policy.
+- **Retrained on this checkout** (wandb run `leg_lift_2026-07-22_18-07-33`,
+  150M timesteps, `eval/episode_reward` plateaus around 51, on par with the
+  lost `leg_lift_2026-06-24_20-04-18` run). Params (`mjx_params`), the exported
+  `policy_leg_lift.json`, and eval/final rollout videos are committed under
+  `workspace/output/leg_lift_2026-07-22_18-07-33/` (and the exported JSON is
+  also deployed to the monorepo's `neural_controller/launch/`) so a workstation
+  wipe can't lose them again. The `knee_clearance` reconstruction above is
+  still unverified against the original lost implementation, and `LIFT_DELTAS`
+  are still untuned — review the rollout videos for tipping/foot-clearance
+  before trusting this policy on hardware.
 
 ## Deployment (monorepo side)
 

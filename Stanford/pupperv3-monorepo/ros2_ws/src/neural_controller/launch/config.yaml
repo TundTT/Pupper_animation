@@ -10,6 +10,9 @@ controller_manager:
     neural_controller_three_legged:
       type: neural_controller/NeuralController
 
+    neural_controller_leg_lift:
+      type: neural_controller/NeuralController
+
     # Forward command controllers for animation
     forward_position_controller:
       type: forward_command_controller/ForwardCommandController
@@ -138,6 +141,59 @@ neural_controller_three_legged:
 
     model_path: "$(find-pkg-share neural_controller)/launch/policy_rich-donkey-233_max_reward_19.16.json"
 
+neural_controller_leg_lift:
+  ros__parameters:
+    repeat_action: 10
+
+    gain_multiplier: 1.0
+    estop_kd: 0.3
+
+    joint_names:
+      [
+        "leg_front_r_1",
+        "leg_front_r_2",
+        "leg_front_r_3",
+        "leg_front_l_1",
+        "leg_front_l_2",
+        "leg_front_l_3",
+        "leg_back_r_1",
+        "leg_back_r_2",
+        "leg_back_r_3",
+        "leg_back_l_1",
+        "leg_back_l_2",
+        "leg_back_l_3",
+      ]
+
+    default_joint_pos:
+      [0.26, 0.0, -0.52, -0.26, 0.0, 0.52, 0.26, 0.0, -0.52, -0.26, 0.0, 0.52]
+
+    init_kps: [7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5]
+    init_kds:
+      [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25]
+
+    init_duration: 2.0
+    fade_in_duration: 2.0
+
+    action_types:
+      [
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+      ]
+
+    max_body_angle: 1.5
+
+    model_path: "$(find-pkg-share neural_controller)/launch/policy_leg_lift.json"
+
 teleop_twist_joy_node:
   ros__parameters:
     axis_linear:
@@ -180,8 +236,25 @@ joy_util_node:
   ros__parameters:
     estop_index: 12
     estop_release_index: 9
-    controller_names: ["neural_controller", "neural_controller_three_legged", "forward_kp_controller", "forward_kd_controller", "forward_position_controller"]
-    switch_button_indices: [0, 1]
+    controller_names: ["neural_controller", "neural_controller_three_legged", "neural_controller_leg_lift", "forward_kp_controller", "forward_kd_controller", "forward_position_controller"]
+    # X (0) -> neural_controller (locomotion, also exits leg-lift mode). Square (3) ->
+    # neural_controller_three_legged. O (1) is NOT here: it's the leg-lift button below, handled
+    # separately since it enters leg-lift mode on first press and cycles legs on repeated presses,
+    # rather than switching once.
+    switch_button_indices: [0, 3]
+
+    # O-button leg-lift cycle. First press (from any other controller) activates
+    # neural_controller_leg_lift and immediately commands front_l; each subsequent press while
+    # it's active advances to the next state in leg_lift_cycle_states. Press X to leave leg-lift
+    # mode and return to locomotion.
+    leg_lift_button_index: 1
+    leg_lift_controller_name: "neural_controller_leg_lift"
+    # Must match configs.COMMAND_STATES / policy_leg_lift.json's command_states (index 0 = stand)
+    # so button presses map to the command indices the policy was trained on.
+    leg_lift_command_states: ["stand", "front_l", "front_r", "back_r", "back_l"]
+    # The order O steps through: front_l -> front_r -> back_r -> back_l -> repeat. "stand" is
+    # reachable via the X button (switches back to locomotion), not part of this repeating cycle.
+    leg_lift_cycle_states: ["front_l", "front_r", "back_r", "back_l"]
 
 # Forward command controllers for animation system
 forward_position_controller:

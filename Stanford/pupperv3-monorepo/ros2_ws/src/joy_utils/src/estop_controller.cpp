@@ -2,6 +2,8 @@
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/joy.hpp"
 #include "std_msgs/msg/empty.hpp"
+#include "std_msgs/msg/int32.hpp"
+#include <algorithm>
 #include <mutex>
 #include <thread>
 
@@ -24,11 +26,36 @@ public:
         "controller_names",
         {"neural_controller", "neural_controller_three_legged"});
 
+    // Declare parameters for the O-button leg-lift cycle
+    this->declare_parameter<int>("leg_lift_button_index", 1);  // Default: 'o' button
+    this->declare_parameter<std::string>("leg_lift_controller_name",
+                                         "neural_controller_leg_lift");
+    this->declare_parameter<std::vector<std::string>>(
+        "leg_lift_command_states", {"stand", "front_l", "front_r", "back_r", "back_l"});
+    this->declare_parameter<std::vector<std::string>>(
+        "leg_lift_cycle_states", {"front_l", "front_r", "back_r", "back_l", "stand"});
+
     // Get parameter values
     this->get_parameter("estop_index", estop_index_);
     this->get_parameter("estop_release_index", estop_release_index_);
     this->get_parameter("switch_button_indices", switch_button_indices_);
     this->get_parameter("controller_names", controller_names_);
+    this->get_parameter("leg_lift_button_index", leg_lift_button_index_);
+    this->get_parameter("leg_lift_controller_name", leg_lift_controller_name_);
+    this->get_parameter("leg_lift_command_states", leg_lift_command_states_);
+    this->get_parameter("leg_lift_cycle_states", leg_lift_cycle_states_);
+
+    // Every name in leg_lift_cycle_states must resolve in leg_lift_command_states, or we'd
+    // silently command the wrong leg -- fail loudly at startup instead.
+    for (const auto &state : leg_lift_cycle_states_) {
+      if (std::find(leg_lift_command_states_.begin(), leg_lift_command_states_.end(), state) ==
+          leg_lift_command_states_.end()) {
+        RCLCPP_ERROR(this->get_logger(),
+                     "leg_lift_cycle_states entry \"%s\" is not in leg_lift_command_states",
+                     state.c_str());
+        throw std::runtime_error("leg_lift_cycle_states/leg_lift_command_states mismatch");
+      }
+    }
 
     latest_active_controller_ = controller_names_.at(0);
 
@@ -38,6 +65,10 @@ public:
     // Publishers
     pub_estop_ =
         this->create_publisher<std_msgs::msg::Empty>("/emergency_stop", 10);
+    // transient_local so a leg-lift controller that (re)activates after this was published
+    // (e.g. via estop release) immediately sees the last commanded leg instead of "stand".
+    pub_leg_lift_command_ = this->create_publisher<std_msgs::msg::Int32>(
+        "/leg_lift_command_index", rclcpp::QoS(1).transient_local());
 
     // Subscriber to /joy
     joy_sub_ = this->create_subscription<sensor_msgs::msg::Joy>(
@@ -116,6 +147,36 @@ private:
       }
       prev_switch_states_.at(i) = button_pressed;
     }
+
+    // Check if the leg-lift button (O) is pressed
+    bool leg_lift_pressed =
+        msg->buttons.size() > static_cast<size_t>(leg_lift_button_index_) &&
+        msg->buttons.at(leg_lift_button_index_) == 1;
+    if (leg_lift_pressed && !prev_leg_lift_state_) {
+      bool leg_lift_was_active = (latest_active_controller_ == leg_lift_controller_name_);
+      // First press (from any other controller) starts the cycle at its first entry
+      // (front_l); each press while already active advances to the next entry.
+      leg_lift_cycle_position_ =
+          leg_lift_was_active
+              ? (leg_lift_cycle_position_ + 1) % leg_lift_cycle_states_.size()
+              : 0;
+      const std::string &state_name = leg_lift_cycle_states_.at(leg_lift_cycle_position_);
+      auto it = std::find(leg_lift_command_states_.begin(), leg_lift_command_states_.end(),
+                          state_name);
+      // Guaranteed to be found: validated against leg_lift_command_states in the constructor.
+      int command_index = static_cast<int>(it - leg_lift_command_states_.begin());
+
+      auto command_msg = std_msgs::msg::Int32();
+      command_msg.data = command_index;
+      pub_leg_lift_command_->publish(command_msg);
+      RCLCPP_INFO(this->get_logger(), "Button %d pressed: leg-lift command -> %s (index %d)",
+                  leg_lift_button_index_, state_name.c_str(), command_index);
+
+      if (!leg_lift_was_active) {
+        switch_to_controller(leg_lift_controller_name_);
+      }
+    }
+    prev_leg_lift_state_ = leg_lift_pressed;
   }
 
   /**
@@ -177,13 +238,23 @@ private:
   // Parameters for controller names
   std::vector<std::string> controller_names_;
 
+  // Parameters for the O-button leg-lift cycle
+  int leg_lift_button_index_;
+  std::string leg_lift_controller_name_;
+  std::vector<std::string> leg_lift_command_states_;
+  std::vector<std::string> leg_lift_cycle_states_;
+  // Index into leg_lift_cycle_states_ of the currently-commanded leg; -1 until the first press.
+  int leg_lift_cycle_position_ = -1;
+
   // Previous button states
   bool prev_estop_state_;
   bool prev_estop_release_state_;
+  bool prev_leg_lift_state_ = false;
   std::vector<bool> prev_switch_states_;
 
   // ROS 2 publishers
   rclcpp::Publisher<std_msgs::msg::Empty>::SharedPtr pub_estop_;
+  rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr pub_leg_lift_command_;
 
   // ROS 2 subscriber
   rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub_;
