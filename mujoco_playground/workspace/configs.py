@@ -199,7 +199,12 @@ def get_config() -> config_dict.ConfigDict:
         ),
         policy=config_dict.create(
             hidden_layer_sizes=(128, 128, 128),
-            activation="swish",
+            # "elu", not "swish": the vendored RTNeural build in neural_controller's
+            # model_loader.h only implements tanh/relu/sigmoid/softmax/elu -- an
+            # unrecognized activation string silently yields a null layer that
+            # segfaults on load. "elu" is what the already-deployed locomotion
+            # policy uses (see policy_latest.json), so it's proven to work.
+            activation="elu",
         ),
 
         # ---- domain randomization (sensor noise, kicks, action latency) ----

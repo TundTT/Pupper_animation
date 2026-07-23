@@ -34,7 +34,7 @@ from workspace import configs, visualize  # noqa: E402
 from workspace.leg_lift_env import PupperLegLiftEnv  # noqa: E402
 from workspace.randomize import domain_randomize  # noqa: E402
 
-_ACTIVATIONS = {"swish": jax.nn.swish, "relu": jax.nn.relu, "tanh": jax.nn.tanh}
+_ACTIVATIONS = {"swish": jax.nn.swish, "relu": jax.nn.relu, "tanh": jax.nn.tanh, "elu": jax.nn.elu}
 
 
 def main() -> None:

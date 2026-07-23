@@ -94,16 +94,41 @@ per-eval video if it slows things down — the final video still renders).
   of whether they'd been tuned before the machine was wiped. Tune them in sim
   so each foot clears the ground by ~`target_foot_height` without tipping the
   body. Joint signs mirror L/R — verify against the model.
-- **Retrained on this checkout** (wandb run `leg_lift_2026-07-22_18-07-33`,
-  150M timesteps, `eval/episode_reward` plateaus around 51, on par with the
-  lost `leg_lift_2026-06-24_20-04-18` run). Params (`mjx_params`), the exported
-  `policy_leg_lift.json`, and eval/final rollout videos are committed under
-  `workspace/output/leg_lift_2026-07-22_18-07-33/` (and the exported JSON is
-  also deployed to the monorepo's `neural_controller/launch/`) so a workstation
-  wipe can't lose them again. The `knee_clearance` reconstruction above is
-  still unverified against the original lost implementation, and `LIFT_DELTAS`
-  are still untuned — review the rollout videos for tipping/foot-clearance
-  before trusting this policy on hardware.
+- **Retrained on this checkout, and this time actually compile/run-tested**
+  against the real deployment stack (a user-space ROS2 Jazzy install via
+  RoboStack, since this workstation has no sudo — see below). First attempt
+  (wandb run `leg_lift_2026-07-22_18-07-33`, `activation="swish"`) trained
+  fine (`eval/episode_reward` ~51) but **would have crashed on the actual
+  robot**: the vendored RTNeural in `neural_controller` only implements
+  `tanh`/`relu`/`sigmoid`/`softmax`/`elu` activations, and a `"swish"` layer
+  silently produces a null layer that segfaults on load. Fixed by switching
+  `policy.activation` to `"elu"` (matching the already-deployed locomotion
+  policy) and retraining — run `leg_lift_2026-07-22_21-35-05`, same 150M
+  timesteps, `eval/episode_reward` ~51.7. Params, exported JSON, and eval/final
+  videos for **that** run are committed under
+  `workspace/output/leg_lift_2026-07-22_21-35-05/` (and deployed to the
+  monorepo's `neural_controller/launch/`); the earlier swish run's artifacts
+  are left in place under `.../leg_lift_2026-07-22_18-07-33/` as a record but
+  should not be deployed.
+- **Compiled and activated successfully** against `pupper_mujoco_sim` (real
+  `colcon build`, real RTNeural inference loop, no crash) after also fixing
+  two unrelated pre-existing repo bugs: `pupperv3_mujoco_sim`'s vendored
+  `libmujoco.so` symlinks (`lib_x86` and `lib_arm`) were committed as plain
+  text files containing their target's name instead of real symlinks, which
+  broke both the build (missing rpath/install step for the real `.so`) and
+  would have broken this on the Pi 5 too.
+- **Real (if imperfect) closed-loop behavior observed, not just "doesn't
+  crash."** Commanding `front_l` via `/leg_lift_command_index` converges to a
+  stable ~26° body tilt rather than a clean lift, even with the sim's
+  backlash/latency disabled to rule that out. Most likely cause: training uses
+  an idealized direct-position actuator model
+  (`pupper_v3_complete.mjx.position.xml`), while `pupper_mujoco_sim` drives a
+  realistic torque-motor model (`pupper_v3_complete.backlash.xml`, with
+  `bus_voltage`/`kt`/`phase_resistance`/`saturation_torque` limits) — a
+  genuine actuator-fidelity sim-to-real gap, compounding the already-known
+  untuned `LIFT_DELTAS` and reconstructed `knee_clearance` reward. Not a code
+  bug; needs either LIFT_DELTAS/reward tuning or torque-model-aware domain
+  randomization in a future training pass before trusting this on hardware.
 
 ## Deployment (monorepo side)
 
