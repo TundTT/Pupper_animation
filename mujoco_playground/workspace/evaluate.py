@@ -134,11 +134,27 @@ def main() -> None:
               f"{yw.mean():>7.2f}{np.percentile(yw,90):>6.1f}")
 
     fell = float(jp.mean(ever_done.astype(jp.float32)))
-    print(f"\nFELL / terminated at any point in the showcase: {fell * 100:.1f}% of {args.num_envs} robots")
-    print("  (termination = tilt > "
-          f"{np.rad2deg(config.terminal_body_angle):.0f} deg, torso < {config.terminal_body_z} m, "
-          f"knee on floor, drift > {config.terminal_body_drift} m, "
-          f"or yaw > {np.rad2deg(config.terminal_body_yaw):.0f} deg)")
+    print(f"\nTERMINATED at any point in the showcase: {fell * 100:.1f}% of {args.num_envs} robots")
+    # Break this down by CAUSE. "Fell over" and "rotated past an arbitrary yaw limit we
+    # chose" are completely different outcomes -- one is a failure on hardware, the
+    # other is a posture preference -- and a single aggregate number hides that.
+    reasons = {k: np.zeros(args.num_envs, dtype=bool) for k in ("tilt", "sat down", "drift", "yaw")}
+    for cmd, d in per_cmd.items():
+        reasons["tilt"] |= (np.stack(d["tilt"]) > np.rad2deg(config.terminal_body_angle)).any(0)
+        reasons["sat down"] |= (np.stack(d["z"]) < config.terminal_body_z).any(0)
+        reasons["drift"] |= (np.stack(d["drift"]) > config.terminal_body_drift).any(0)
+        reasons["yaw"] |= (np.stack(d["yaw"]) > np.rad2deg(config.terminal_body_yaw)).any(0)
+    print("  by cause (a robot can trip more than one; measured on sampled steps, so"
+          " these can under-count a brief excursion):")
+    for name, hit in reasons.items():
+        limit = {"tilt": f">{np.rad2deg(config.terminal_body_angle):.0f} deg",
+                 "sat down": f"torso <{config.terminal_body_z} m",
+                 "drift": f">{config.terminal_body_drift} m",
+                 "yaw": f">{np.rad2deg(config.terminal_body_yaw):.0f} deg"}[name]
+        print(f"    {name:9} ({limit:15}): {hit.mean() * 100:5.1f}%")
+    hard = reasons["tilt"] | reasons["sat down"]
+    print(f"  --> ACTUALLY FELL OVER (tilt or sat down): {hard.mean() * 100:.1f}%"
+          "   <- the number that matters for hardware")
 
 
 if __name__ == "__main__":

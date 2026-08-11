@@ -91,9 +91,43 @@ Worth knowing before changing weights, because both score *well* on
    bottomed out, leaving no gradient to pull it in. Fixed with `terminal_body_drift`
    plus heavier `stance_pose` / `body_drift` and a tighter `stance_pose_sigma`.
 
+3. **"Lifts three legs and quietly gives up on the fourth."** Adding the `heading`
+   reward from scratch produced a policy that never lifted `front_r` at all (foot
+   clearance -0.002 m, i.e. still on the floor) while lifting the other three fine.
+   `front_r` generates the most yaw, so under heading pressure *not lifting it* was
+   cheaper than lifting it — it kept all the posture reward and forfeited only that one
+   command's lift. Fixed by **warm-starting** (`--init_params`) from a policy that
+   already lifted all four, so heading control is refined onto an existing skill rather
+   than competing with acquiring it. Watch per-leg foot clearance in
+   `workspace/evaluate.py`, never the aggregate — the aggregate barely moves when one
+   leg out of four is dropped.
+
 The general lesson: **reward weights shape behavior inside the feasible set;
 termination is what removes a strategy.** Every posture problem here was ultimately
 solved by making the bad strategy end the episode, not by out-weighting it.
+
+### Known residual limitation: yaw
+
+The shipping policy still rotates roughly **-21 deg net over a 12 s, five-lift
+showcase** (down from -44 deg before the `heading` term, but not zero). Back-leg lifts
+are the main contributors. This is structural, not a tuning miss:
+
+**The policy has no absolute heading in its observation.** It sees
+`[ang_vel, gravity, command_one_hot, joint_pos, last_action]` — angular *velocity* is
+there, so it can damp rotation, but accumulated *heading* is not, so it cannot steer
+back to a reference it cannot perceive. The same is true of position, which is why
+`body_drift` is a deadband. `heading` can only push the policy toward motions whose yaw
+reactions cancel; it cannot close the loop.
+
+Closing it properly means adding a heading signal to the observation, which is a
+deployment-side change too (obs size 35 -> 36, so `neural_controller` would need a real
+edit rather than a JSON swap) and needs an on-robot heading source — IMU yaw integration
+drifts, so this deserves thought before anyone attempts it. **Do not "fix" this by
+raising the `heading` weight**: that is what produced local optimum 3 above.
+
+Note also that `evaluate.py`'s headline termination number counts the yaw limit, and a
+yaw excursion is *not* a fall. Read the by-cause breakdown: the shipping policy is
+**0.0% actual falls** (tilt / sat-down) across 256 randomized robots.
 
 Two measured facts worth knowing before re-tuning:
 
