@@ -240,7 +240,19 @@ def get_config() -> config_dict.ConfigDict:
                 body_drift=2.5,             # torso does not translate away from where it started
                 # -- penalties --
                 ground_contact=-3.0,        # no knee/limb resting on the floor
-                action_rate=-0.01,          # smoothness (protect the polymer link)
+                # Raised from -0.01. Smoothness is a sim-to-real requirement here, not
+                # just a nicety: it is what stops the policy commanding position steps
+                # the real motor cannot follow. Also protects the polymer link.
+                action_rate=-0.05,
+                # Keep the lift OFF the motor's torque ceiling. Measured on the first
+                # policy: steady hold needs only ~0.11 Nm, but the raise transient
+                # pinned the lifting hip at exactly 3.000 Nm -- the model's forcerange
+                # -- i.e. saturated. A saturated ideal position actuator still tracks
+                # in sim; a real motor at saturation hits voltage/current limits and
+                # backlash and does not, so anything relying on it transfers badly.
+                # The old `torques` term could not prevent this: at -2e-4, a fully
+                # saturated joint cost -0.0018/step against ~20/step of reward.
+                torque_limit=-2.0,
                 torques=-2e-4,
                 dof_acc=-2.5e-6,
                 dof_pos_limits=-1.0,
@@ -271,6 +283,12 @@ def get_config() -> config_dict.ConfigDict:
             # A knee closer than this to the floor starts losing reward, well before
             # it actually touches (stance knees sit ~0.065 m up at the home pose).
             knee_ground_margin=0.04,
+            # Motor torque ceiling (Nm), matching the model's actuator forcerange.
+            # The torque_limit penalty is zero below torque_soft_fraction of this and
+            # ramps to 1 per joint at the ceiling, so ordinary effort is free and only
+            # approaching saturation costs anything.
+            torque_limit_nm=3.0,
+            torque_soft_fraction=0.6,
         ),
 
         # ---- PPO (brax) ----
@@ -314,12 +332,15 @@ def get_config() -> config_dict.ConfigDict:
             last_action_noise=0.01,       # normalized action units
 
             # Random horizontal impulse kicks applied to the torso
-            kick_probability=0.04,
-            kick_vel=0.10,                # m/s, each component drawn from ±1 * kick_vel
+            kick_probability=0.05,
+            kick_vel=0.15,                # m/s, each component drawn from ±1 * kick_vel
 
             # Action latency: probability weights for the circular buffer, newest
             # element first. len(latency_distribution) = buffer depth.
-            # [0.8, 0.2] => 80 % current action, 20 % one-step-old action.
-            latency_distribution=(0.8, 0.2),
+            # Deepened to 3 steps (up to 60 ms at 50 Hz) from a 2-step [0.8, 0.2].
+            # The real path is ROS2 -> CAN -> motor controller, which is both slower
+            # and more variable than one control period, and a policy tuned on
+            # near-zero latency is exactly the kind that oscillates on hardware.
+            latency_distribution=(0.5, 0.3, 0.2),
         ),
     )

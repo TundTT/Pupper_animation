@@ -392,6 +392,16 @@ class PupperLegLiftEnv(PipelineEnv):
 
         action_rate = jp.sum(jp.square(action - info["last_act"]))
         torques = jp.sum(jp.square(pipeline_state.qfrc_actuator[6:]))
+
+        # Per-joint hinge on how close each actuator is to its torque ceiling: 0 below
+        # torque_soft_fraction of the limit, ramping to 1 at the limit. Keeps the lift
+        # inside the envelope a REAL motor can actually deliver, which the plain
+        # sum-of-squares `torques` term above is far too weak to do.
+        soft = cfg.torque_soft_fraction * cfg.torque_limit_nm
+        tau = jp.abs(pipeline_state.qfrc_actuator[6:])
+        torque_limit = jp.sum(
+            jp.clip((tau - soft) / (cfg.torque_limit_nm - soft), 0.0, 1.0)
+        )
         dof_acc = jp.sum(jp.square((joint_vel - info["last_vel"]) / self._dt))
         out_lo = -jp.clip(joint_angles - self._soft_lowers, None, 0.0)
         out_hi = jp.clip(joint_angles - self._soft_uppers, 0.0, None)
@@ -408,6 +418,7 @@ class PupperLegLiftEnv(PipelineEnv):
             "body_drift": body_drift,
             "ground_contact": ground_contact,
             "action_rate": action_rate,
+            "torque_limit": torque_limit,
             "torques": torques,
             "dof_acc": dof_acc,
             "dof_pos_limits": dof_pos_limits,
