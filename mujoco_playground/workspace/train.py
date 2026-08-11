@@ -21,8 +21,9 @@ import functools
 import os
 from datetime import datetime
 
-# Headless MuJoCo rendering for the rollout videos (matches train_jax_ppo.py).
-os.environ.setdefault("MUJOCO_GL", "egl")
+# NOTE: headless rendering (MUJOCO_GL=egl) is set in workspace/__init__.py, which
+# runs before this module and before `mujoco` is first imported. Setting it here
+# would be too late -- see the comment there.
 
 import jax  # noqa: E402
 import mediapy as media  # noqa: E402

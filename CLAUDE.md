@@ -55,21 +55,31 @@ they're one codebase; just commit/push through the single top-level repo.
 - **Hold is operator-timed.** "Hold" = the command not changing, so duration is however long
   the operator waits between presses. No fixed duration baked into the policy; no retrain to
   change it. (Supersedes the earlier "fixed duration, retrain" decision.)
-- **Status: retrained, exported, deployed, and sim-validated end-to-end; a real sim-to-real
-  actuator gap remains untuned.** After the original wandb-only run was lost to a workstation
-  wipe (reward weights recovered into `configs.py`), the policy was retrained on this checkout
-  (`leg_lift_2026-07-22_21-35-05`, `eval/episode_reward ≈ 51.7`, `activation="elu"` — an
-  earlier `"swish"` run trained fine but would have segfaulted on-robot since the vendored
-  RTNeural only implements `tanh`/`relu`/`sigmoid`/`softmax`/`elu`), exported, and wired into
-  `neural_controller_leg_lift` in the monorepo (O-button integration below is **done**, not
-  pending). It compiled and ran against `pupperv3_mujoco_sim` without crashing and produces
-  real closed-loop behavior, but not yet a clean lift: commanding a leg converges to a stable
-  ~26° body tilt, most likely because training uses an idealized direct-position actuator model
-  while the sim hardware interface drives a realistic torque-motor model — a genuine
-  sim-to-real gap, not a code bug. `LIFT_DELTAS` in `configs.py` now hold real (non-zero)
-  values but are still untuned against this gap. See `mujoco_playground/workspace/README.md`
-  "Status / what still needs doing" for full detail, including two unrelated repo bugs fixed
-  along the way (bad `libmujoco.so` symlinks in `pupperv3_mujoco_sim`).
+- **Lift with the leg, not the body.** The policy must hold the standard standing pose —
+  torso upright, at full standing height, roughly where it started, other three feet
+  planted — and raise the commanded leg as high as it can from there. It must NOT reach
+  height by leaning back, sitting, or resting another limb on the ground. This is enforced
+  by the reward *and* by episode termination; see `workspace/README.md` "Reward design".
+  (Supersedes the earlier fixed `LIFT_DELTAS` target-pose approach, which was removed.)
+- **Status: deployed end-to-end and sim-validated, but the shipped policy lifts by leaning;
+  the reward/action-scale redesign that fixes it is training now (2026-08-10, branch
+  `leg-lift-upright-pose`).** The policy in the monorepo
+  (`leg_lift_2026-07-22_21-35-05`, `activation="elu"` — an earlier `"swish"` run trained fine
+  but would have segfaulted on-robot since the vendored RTNeural only implements
+  `tanh`/`relu`/`sigmoid`/`softmax`/`elu`) is exported, wired into
+  `neural_controller_leg_lift`, and compiles/runs against `pupperv3_mujoco_sim` (O-button
+  integration below is **done**, not pending). But it reaches the commanded leg's height by
+  shifting back / sitting / grounding another limb, and converges to a ~26° body tilt in the
+  deployment sim. Root cause found: the policy head is tanh-squashed, so the old uniform
+  `action_scale = 0.3` capped **every** joint at 0.3 rad from home, while the reward demanded
+  a 0.08 m foot clearance (needs ~1.2 rad of hip) and a 0.18 m knee height (above the 0.156 m
+  torso) — unreachable by leg motion, so moving the body was the genuine optimum. Fixed by a
+  per-joint `ACTION_SCALE` plus a reward built around "hold the stand pose, ramp on foot
+  height", with posture enforced by termination. **`eval/episode_reward` is not comparable
+  across this change.** See `mujoco_playground/workspace/README.md` "Reward design (and the
+  bug it fixes)" and "Status" for full detail, including two unrelated repo bugs fixed along
+  the way (bad `libmujoco.so` symlinks in `pupperv3_mujoco_sim`) and a headless-rendering
+  fix (`MUJOCO_GL` must be set in `workspace/__init__.py`, not `train.py`).
 
 ## Training side — `mujoco_playground/workspace/` (our code)
 
@@ -78,8 +88,9 @@ The leg-lift training pipeline. See `workspace/README.md` for setup/run. Key fil
 - `leg_lift_env.py` — `PupperLegLiftEnv` (brax `PipelineEnv`, MJX): reset/step/obs/reward and
   command sampling. Modeled on `pupperv3-mjx`'s `PupperV3Env` and go1 `getup.py`.
 - `configs.py` — **single source of truth**: canonical 12-joint order, limits, home pose,
-  per-leg lifted targets (`LIFT_DELTAS`, non-zero but untuned against the known sim-to-real
-  actuator gap — see Status below), reward weights, PPO hyperparams, model path.
+  per-joint `ACTION_SCALE` (abduction 0.5 / hip 2.0 / knee 1.0 — the policy head is
+  tanh-squashed, so this IS the reachable joint range around the home pose), reward
+  weights, PPO hyperparams, model path.
 - `train.py` — brax PPO training entry; saves brax params to `output/<run>/mjx_params`.
 - `export_policy.py` — converts brax params → `neural_controller` JSON (folds obs normalization
   into layer 0; same scheme as `pupperv3-mjx/export.py`). Emits `observation_layout` /

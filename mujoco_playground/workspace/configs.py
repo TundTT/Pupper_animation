@@ -112,24 +112,43 @@ JOINT_UPPER_LIMITS = np.array(
      2.510, 3.140, 0.710, 1.220, 0.420, 2.790]
 )  # fmt: skip
 
-# Per-leg joint delta (abduction, hip, knee) added to that leg's DEFAULT_POSE to
-# put the foot in the air. PLACEHOLDER values — these MUST be tuned in sim (load
-# the model, apply the target, confirm the foot clears the ground by ~target
-# height and the body stays balanced). Signs mirror the L/R joint convention.
-LIFT_DELTAS = {
-    "front_r": np.array([0.0, 0.8, -0.9]),
-    "front_l": np.array([0.0, -0.8, 0.9]),
-    "back_r": np.array([0.0, 0.8, -0.9]),
-    "back_l": np.array([0.0, -0.8, 0.9]),
-}
+# Per-JOINT action scale (rad of commanded offset from DEFAULT_POSE at |action|=1).
+#
+# This is the single most important change vs. the earlier runs. The policy head is
+# tanh-squashed, so actions live in (-1, 1) and the reachable joint range is exactly
+# DEFAULT_POSE +/- ACTION_SCALE. The old uniform 0.3 capped EVERY joint at 0.3 rad
+# from home, which made the commanded lift physically unreachable by leg motion
+# (a 0.08 m foot clearance needs ~1.2 rad of hip rotation) -- so the only way to earn
+# the clearance reward was to move the BODY. That is precisely the "shifts back /
+# sits / drops another limb" behavior we are fixing here.
+#
+# Roles per leg: _1 = abduction (sideways splay), _2 = hip (this is what swings the
+# leg up), _3 = knee. The hip gets a large range so the leg can actually be raised;
+# abduction and knee stay tight so the leg lifts in its own sagittal plane and the
+# three stance legs keep precise control authority near the home pose.
+#
+# Verified against the model: hip delta 2.0 rad reaches ~0.19 m of foot clearance and
+# is inside every hip joint limit, giving headroom above the 0.15 m the reward
+# saturates at. The deployment side already supports a 12-element action_scale array
+# (neural_controller.cpp's set_param_from_json_mixed), so this needs no C++ change.
+ACTION_SCALE_ABDUCTION = 0.5
+ACTION_SCALE_HIP = 2.0
+ACTION_SCALE_KNEE = 1.0
+ACTION_SCALE = np.array(
+    [ACTION_SCALE_ABDUCTION, ACTION_SCALE_HIP, ACTION_SCALE_KNEE] * 4
+)
 
+# Torso height (m) the robot actually settles at while standing in DEFAULT_POSE under
+# position control at position_control_kp. MEASURED from the model, not guessed: the
+# previous config's 0.14 target was below the true standing height, so the height
+# reward was actively paying the policy to sit down.
+STAND_TORSO_HEIGHT = 0.1556
 
-def lifted_pose_for(leg: str) -> np.ndarray:
-    """The 12-joint target pose with `leg` raised and the others at home."""
-    pose = DEFAULT_POSE.astype(float).copy()
-    idx = LEG_JOINT_INDICES[leg]
-    pose[idx] += LIFT_DELTAS[leg]
-    return np.clip(pose, JOINT_LOWER_LIMITS, JOINT_UPPER_LIMITS)
+# Radius of the knee collision sphere on each leg_*_2 body. Its center coincides with
+# the origin of the corresponding leg_*_3 body (KNEE_BODY_NAMES), so a knee's height
+# above the floor is exactly (that body's world z) - KNEE_RADIUS. Used to detect and
+# penalize "resting a knee on the ground to cheat the lift".
+KNEE_RADIUS = 0.025
 
 
 def get_config() -> config_dict.ConfigDict:
@@ -146,44 +165,81 @@ def get_config() -> config_dict.ConfigDict:
         # ---- timestepping ----
         ctrl_dt=0.02,   # 50 Hz policy, matches deployment repeat_action=10 @ 500Hz
         sim_dt=0.004,
-        action_scale=0.3,
+        action_scale=tuple(float(a) for a in ACTION_SCALE),  # per-joint, see ACTION_SCALE
         position_control_kp=5.0,
         dof_damping=0.25,
         observation_history=1,  # set >1 to stack frames like the locomotion policy
         soft_joint_pos_limit_factor=0.95,
 
         # ---- episode / termination ----
+        # Tightened from (0.6 rad, 0.08 m): the failure mode being fixed here was a
+        # stable ~26 deg (0.45 rad) lean with the body dropped, which the old
+        # thresholds happily tolerated for a full episode. Now it ends the episode.
         episode_length=600,        # 12 s; several command switches per episode
-        terminal_body_angle=0.6,   # rad of tilt before we call it a fall
-        terminal_body_z=0.08,      # torso too low => fell
+        terminal_body_angle=0.4,   # rad of tilt (~23 deg) before we call it a fall
+        terminal_body_z=0.10,      # torso too low => sat down
+        terminal_knee_clearance=0.005,  # a knee touching the floor ends the episode
 
         # ---- reward weights ----
-        # Recovered from the wandb config of leg_lift_2026-06-24_20-04-18 (the
-        # last run in a warm-started training chain before the workstation was
-        # wiped). foot_clearance, dof_acc, target_foot_height, and knee_clearance
-        # / target_knee_height differ from the original scaffold placeholders.
+        # REDESIGNED for "hold the standing pose, raise the commanded leg high".
+        # The previous weights (recovered from wandb run leg_lift_2026-06-24_20-04-18)
+        # are deliberately NOT carried over: they tracked a fixed lifted-pose target
+        # that conflicted with an unreachable foot/knee height target, which is what
+        # taught the policy to lean and sit. See ACTION_SCALE above for the actuation
+        # half of that bug.
         reward_config=config_dict.create(
             scales=config_dict.create(
-                tracking_pose=2.0,          # track the commanded target joint pose
-                foot_clearance=2.0,         # commanded foot reaches target height
-                knee_clearance=2.0,         # commanded knee reaches target height
-                stance_feet_contact=0.5,    # the other feet stay planted
-                orientation=1.0,            # torso upright
-                torso_height=0.5,           # torso near standing height
+                # -- raise the commanded leg --
+                # Weighted to clearly beat "just keep standing and never risk it":
+                # the posture terms below sum to 8.5 and are earned whether or not a
+                # leg goes up, so lift_height is the ONLY term that discriminates.
+                # At 4.0 a clean lift is worth ~50% more than refusing to lift. It is
+                # safe to push this high because posture is protected by episode
+                # TERMINATION (tilt / torso height / knee-on-floor), not just weights.
+                lift_height=4.0,            # ramp: higher foot = more reward, "as high as possible"
+                lift_pose_prior=0.5,        # lifted leg's abduction+knee stay home => lifts in-plane
+                # -- everything else holds the standing pose --
+                stance_pose=2.5,            # the three planted legs stay AT the home pose
+                stance_feet_contact=1.0,    # ...and their feet stay on the ground
+                orientation=2.0,            # torso upright (no leaning to fake height)
+                torso_height=1.5,           # torso at true standing height (no sitting)
+                body_drift=1.5,             # torso does not translate away from where it started
+                # -- penalties --
+                ground_contact=-3.0,        # no knee/limb resting on the floor
                 action_rate=-0.01,          # smoothness (protect the polymer link)
                 torques=-2e-4,
                 dof_acc=-2.5e-6,
                 dof_pos_limits=-1.0,
             ),
-            tracking_sigma=0.25,
-            target_foot_height=0.08,  # meters off the ground when a leg is up
-            target_knee_height=0.18,  # meters off the ground when a leg is up
+            # Foot clearance (m) that earns full lift credit. The reward ramps
+            # linearly to this and then flats, so the policy is pushed to lift as
+            # high as it can without being paid to contort past a useful height.
+            # Reachable envelope is ~0.19 m at the hip action limit, so this leaves
+            # headroom rather than pinning the joint against its stop.
+            target_lift_height=0.15,
+            stance_pose_sigma=0.25,     # 9 stance joints, squared-error sum
+            lift_prior_sigma=0.10,      # lifted leg's abduction + knee only
+            orientation_sigma=0.02,     # on (1 - cos tilt): ~0.83 at 5 deg, ~0.006 at 26 deg
+            torso_height_sigma=0.0004,  # ~0.78 at 1 cm off, ~0.37 at 2 cm off
+            # Lifting a FRONT leg leaves the CoM ~12 mm outside the remaining 3-foot
+            # support triangle (measured), so a small body shift is physically
+            # MANDATORY -- demanding zero drift would be asking for the impossible.
+            # This is a deadband: free movement up to allowed_body_drift, penalized
+            # beyond it.
+            allowed_body_drift=0.035,
+            body_drift_sigma=0.0025,
+            # A knee closer than this to the floor starts losing reward, well before
+            # it actually touches (stance knees sit ~0.065 m up at the home pose).
+            knee_ground_margin=0.04,
         ),
 
         # ---- PPO (brax) ----
         ppo=config_dict.create(
-            num_timesteps=150_000_000,
-            num_evals=10,
+            num_timesteps=200_000_000,
+            # More evals than before (was 10) purely for auditability: each eval
+            # renders a rollout video, so this gives a finer-grained view of how the
+            # lift behavior develops over training.
+            num_evals=15,
             episode_length=600,  # kept in sync with episode_length above by train.py
             normalize_observations=True,
             action_repeat=1,

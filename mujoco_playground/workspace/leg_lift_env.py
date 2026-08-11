@@ -82,12 +82,23 @@ class PupperLegLiftEnv(PipelineEnv):
             .set(-config.dof_damping),
         )
         sys.mj_model.keyframe("home").qpos[7:] = configs.DEFAULT_POSE
+        # Mirror the gain override onto the underlying MjModel so the settling pass
+        # below (which uses plain MuJoCo, not MJX) sees the same actuator as training.
+        sys.mj_model.actuator_gainprm[:, 0] = config.position_control_kp
+        sys.mj_model.actuator_biasprm[:, 1] = -config.position_control_kp
+        sys.mj_model.actuator_biasprm[:, 2] = -config.dof_damping
 
         n_frames = int(round(self._dt / sys.opt.timestep))
         super().__init__(sys, backend="mjx", n_frames=n_frames)
 
         self._default_pose = jp.array(configs.DEFAULT_POSE)
-        self._init_q = jp.array(sys.mj_model.keyframe("home").qpos)
+        # Spawn ALREADY STANDING rather than from the model's home keyframe, which
+        # drops the robot from z=0.28 and lets it bounce. That landing slide moved
+        # the torso ~25 mm, which would eat most of the body_drift deadband before
+        # the policy did anything, and wasted ~0.4 s of every episode. Settling once
+        # here (plain MuJoCo, at construction) also captures the steady-state droop
+        # of position control at this kp, so the episode starts in true equilibrium.
+        self._init_q = jp.array(self._settled_qpos(sys.mj_model))
         self._lowers = jp.array(configs.JOINT_LOWER_LIMITS)
         self._uppers = jp.array(configs.JOINT_UPPER_LIMITS)
         c = (self._lowers + self._uppers) / 2
@@ -95,7 +106,10 @@ class PupperLegLiftEnv(PipelineEnv):
         f = config.soft_joint_pos_limit_factor
         self._soft_lowers = c - 0.5 * r * f
         self._soft_uppers = c + 0.5 * r * f
-        self._action_scale = config.action_scale
+        # Per-joint (12,), not a scalar: the hip needs a wide range to actually raise
+        # the leg while abduction/knee stay tight. See configs.ACTION_SCALE.
+        self._action_scale = jp.array(config.action_scale)
+        assert self._action_scale.shape == (12,), "action_scale must be per-joint (12,)"
 
         # Body / site indices.
         self._torso_idx = mujoco.mj_name2id(sys.mj_model, mujoco.mjtObj.mjOBJ_BODY.value, configs.TORSO_NAME)
@@ -113,15 +127,31 @@ class PupperLegLiftEnv(PipelineEnv):
         self._knee_body_id = np.array(knee_ids)
         self._nv = sys.nv
 
-        # ---- command -> target pose table (rows: stand, FL, FR, BR, BL) ----
-        target_rows = [configs.DEFAULT_POSE]  # stand
-        foot_rows = [-1]  # which foot is up (-1 = none)
+        # ---- per-command lookup tables (rows: stand, FL, FR, BR, BL) ----
+        # There is deliberately no "target lifted pose" table any more. The old one
+        # pinned the raised leg to a fixed joint target that fought the (unreachable)
+        # height target; height is now shaped directly by a ramp on foot clearance,
+        # and the only pose the policy is asked to hold is the home pose on the
+        # STANCE legs. See configs.get_config()'s reward_config.
+        foot_rows = [-1]        # which foot is up (-1 = none, i.e. "stand")
+        stance_mask_rows = [np.ones(12)]  # standing => all 12 joints held at home
+        abduction_idx = [0]     # lifted leg's abduction joint (dummy for "stand")
+        knee_idx = [0]          # lifted leg's knee joint      (dummy for "stand")
         for leg in configs.COMMAND_STATES[1:]:
-            target_rows.append(configs.lifted_pose_for(leg))
             foot_rows.append(configs.FOOT_ROW_BY_LEG[leg])
-        self._target_table = jp.array(np.stack(target_rows))      # (5, 12)
-        self._lifted_foot_row = jp.array(foot_rows)               # (5,)
+            ji = configs.LEG_JOINT_INDICES[leg]
+            mask = np.ones(12)
+            mask[ji] = 0.0      # the raised leg is exempt from home-pose tracking
+            stance_mask_rows.append(mask)
+            abduction_idx.append(ji[0])
+            knee_idx.append(ji[2])
+        self._lifted_foot_row = jp.array(foot_rows)                    # (5,)
+        self._stance_joint_mask = jp.array(np.stack(stance_mask_rows))  # (5, 12)
+        self._lift_abduction_idx = jp.array(abduction_idx)             # (5,)
+        self._lift_knee_idx = jp.array(knee_idx)                       # (5,)
         self._num_commands = configs.NUM_COMMANDS
+        self._knee_radius = configs.KNEE_RADIUS
+        self._stand_height = configs.STAND_TORSO_HEIGHT
 
         # ---- observation sizing ----
         # [ang_vel(3), gravity(3), command_one_hot(5), joint_pos - default(12), last_act(12)]
@@ -132,6 +162,25 @@ class PupperLegLiftEnv(PipelineEnv):
         lat_dist = list(config.dr.latency_distribution)
         self._lat_dist = jp.array(lat_dist)
         self._lat_buf_len = len(lat_dist)
+
+    # -------------------------------------------------------------- spawn state
+    @staticmethod
+    def _settled_qpos(mj_model, settle_seconds: float = 2.0) -> np.ndarray:
+        """Simulate the home pose to rest and return the resulting qpos.
+
+        Runs once at construction on the (already gain-overridden) model, holding
+        ctrl at DEFAULT_POSE, so episodes begin from a standing equilibrium.
+        """
+        data = mujoco.MjData(mj_model)
+        mujoco.mj_resetDataKeyframe(mj_model, data, 0)
+        data.ctrl[:] = configs.DEFAULT_POSE
+        for _ in range(int(settle_seconds / mj_model.opt.timestep)):
+            mujoco.mj_step(mj_model, data)
+        if not np.all(np.isfinite(data.qpos)):
+            raise RuntimeError("settling the home pose diverged; check the model/gains")
+        qpos = data.qpos.copy()
+        qpos[:2] = 0.0  # re-center horizontally; only the height/attitude matter
+        return qpos
 
     # ------------------------------------------------------------- commands
     def _sample_command(self, rng: jax.Array) -> jax.Array:
@@ -159,12 +208,20 @@ class PupperLegLiftEnv(PipelineEnv):
             "last_act": jp.zeros(12),
             "last_vel": jp.zeros(12),
             "action_buffer": jp.zeros((12, self._lat_buf_len)),
+            # Where the torso started, so the body_drift reward can measure "has it
+            # walked/shuffled away from where it was standing" per episode. Recorded
+            # per-episode rather than hard-coded because domain randomization changes
+            # mass/CoM and therefore where the robot settles.
+            "init_xy": pipeline_state.x.pos[self._torso_idx - 1, :2],
         }
         obs_history = jp.zeros(self._obs_history * self._single_obs_dim)
         obs = self._get_obs(pipeline_state, info, obs_history, obs_rng)
         metrics: Dict[str, Any] = {k: 0.0 for k in self._config.reward_config.scales.keys()}
         metrics["lifted_foot_height"] = 0.0
         metrics["lifted_knee_height"] = 0.0
+        metrics["body_drift_dist"] = 0.0
+        metrics["torso_z"] = 0.0
+        metrics["tilt_deg"] = 0.0
         return State(pipeline_state, obs, jp.zeros(()), jp.zeros(()), metrics, info)
 
     # ------------------------------------------------------------------- step
@@ -185,6 +242,8 @@ class PupperLegLiftEnv(PipelineEnv):
             state.pipeline_state.qd[:2] + kick_vec * kick_applied
         )
 
+        # Per-joint action scale => reachable joint range is DEFAULT_POSE +/- ACTION_SCALE
+        # (the policy head is tanh-squashed, so |lagged_action| <= 1).
         motor_targets = jp.clip(self._default_pose + lagged_action * self._action_scale, self._lowers, self._uppers)
         pipeline_state = self.pipeline_step(state.pipeline_state.replace(qd=kicked_qd), motor_targets)
 
@@ -202,15 +261,23 @@ class PupperLegLiftEnv(PipelineEnv):
         lifted_row = self._lifted_foot_row[command]
         lifted_foot_height = jp.where(lifted_row >= 0, foot_z[jp.maximum(lifted_row, 0)], 0.0)
         lifted_knee_height = jp.where(lifted_row >= 0, knee_z[jp.maximum(lifted_row, 0)], 0.0)
+        body_drift_dist = jp.linalg.norm(x.pos[self._torso_idx - 1, :2] - state.info["init_xy"])
 
         up = jp.array([0.0, 0.0, 1.0])
         cos_tilt = jp.dot(math.rotate(up, x.rot[self._torso_idx - 1]), up)
 
+        # Height of each knee sphere's lowest point above the floor.
+        knee_clearance = knee_z - self._knee_radius
+
         done = cos_tilt < jp.cos(self._config.terminal_body_angle)
         done |= x.pos[self._torso_idx - 1, 2] < self._config.terminal_body_z
+        # Resting a knee on the floor to prop up the lift ends the episode outright;
+        # the ground_contact reward term is the gradient that steers away before this.
+        done |= jp.any(knee_clearance < self._config.terminal_knee_clearance)
 
         rewards = self._get_reward(
-            command, joint_angles, joint_vel, pipeline_state, contact, foot_z, knee_z, cos_tilt, action, state.info
+            command, joint_angles, joint_vel, pipeline_state, contact, foot_z,
+            knee_clearance, cos_tilt, action, state.info
         )
         rewards = {k: v * self._config.reward_config.scales[k] for k, v in rewards.items()}
         reward = jp.clip(sum(rewards.values()) * self.dt, 0.0, 10000.0)
@@ -232,41 +299,77 @@ class PupperLegLiftEnv(PipelineEnv):
         state.metrics.update(rewards)
         state.metrics["lifted_foot_height"] = lifted_foot_height
         state.metrics["lifted_knee_height"] = lifted_knee_height
+        state.metrics["body_drift_dist"] = body_drift_dist
+        state.metrics["torso_z"] = x.pos[self._torso_idx - 1, 2]
+        state.metrics["tilt_deg"] = jp.rad2deg(jp.arccos(jp.clip(cos_tilt, -1.0, 1.0)))
 
         return state.replace(pipeline_state=pipeline_state, obs=obs, reward=reward, done=jp.float32(done))
 
     # ----------------------------------------------------------------- reward
     def _get_reward(
-        self, command, joint_angles, joint_vel, pipeline_state, contact, foot_z, knee_z, cos_tilt, action, info
+        self, command, joint_angles, joint_vel, pipeline_state, contact, foot_z,
+        knee_clearance, cos_tilt, action, info
     ) -> Dict[str, jax.Array]:
+        """Reward: hold the standing pose, and raise the commanded leg as high as it can.
+
+        The shaping is deliberately split so nothing competes with anything else:
+        the RAISED leg is driven only by a height ramp (plus a weak in-plane prior),
+        while every other term describes "the robot is still standing where it was,
+        upright, at full height, on its other three feet".
+        """
         cfg = self._config.reward_config
-        target_pose = self._target_table[command]
         lifted_row = self._lifted_foot_row[command]
-        a_leg_is_up = lifted_row >= 0
+        a_leg_is_up = (lifted_row >= 0).astype(float)
 
-        pose_err = jp.sum(jp.square(joint_angles - target_pose))
-        tracking_pose = jp.exp(-pose_err / cfg.tracking_sigma)
+        # -- raise the commanded leg -------------------------------------------
+        # Linear ramp in foot clearance, saturating at target_lift_height. Unlike a
+        # Gaussian around a fixed target this has a constant positive gradient all
+        # the way up, so "higher is better" right up to the cap -- and no incentive
+        # to contort past it.
+        lifted_height = jp.where(a_leg_is_up > 0, foot_z[jp.maximum(lifted_row, 0)], 0.0)
+        lift_height = a_leg_is_up * jp.clip(lifted_height / cfg.target_lift_height, 0.0, 1.0)
 
-        # Commanded foot reaches target clearance (only when a leg is commanded up).
-        lifted_height = jp.where(a_leg_is_up, foot_z[jp.maximum(lifted_row, 0)], 0.0)
-        clearance_err = jp.square(lifted_height - cfg.target_foot_height)
-        foot_clearance = a_leg_is_up.astype(float) * jp.exp(-clearance_err / 0.0025)
+        # Weak prior keeping the raised leg's abduction and knee near home, so the
+        # leg swings up in its own sagittal plane (driven by the hip) instead of
+        # splaying sideways or curling. The hip is intentionally left unconstrained.
+        abd_i, knee_i = self._lift_abduction_idx[command], self._lift_knee_idx[command]
+        lift_prior_err = (
+            jp.square(joint_angles[abd_i] - self._default_pose[abd_i])
+            + jp.square(joint_angles[knee_i] - self._default_pose[knee_i])
+        )
+        lift_pose_prior = a_leg_is_up * jp.exp(-lift_prior_err / cfg.lift_prior_sigma)
 
-        # Same idea, one joint up the leg: keeps the knee rising with the foot
-        # instead of the foot reaching height by dragging the knee sideways.
-        lifted_knee = jp.where(a_leg_is_up, knee_z[jp.maximum(lifted_row, 0)], 0.0)
-        knee_clearance_err = jp.square(lifted_knee - cfg.target_knee_height)
-        knee_clearance = a_leg_is_up.astype(float) * jp.exp(-knee_clearance_err / 0.0025)
+        # -- hold the standing pose --------------------------------------------
+        # The three planted legs (all four when standing) track the home pose. This
+        # is the term that stops the robot from re-arranging its whole body to lift.
+        stance_mask_j = self._stance_joint_mask[command]
+        stance_err = jp.sum(stance_mask_j * jp.square(joint_angles - self._default_pose))
+        stance_pose = jp.exp(-stance_err / cfg.stance_pose_sigma)
 
         # Feet that should be planted: all except the commanded one.
         rows = jp.arange(4)
-        stance_mask = jp.where(a_leg_is_up, rows != lifted_row, jp.ones(4, dtype=bool))
+        stance_mask = jp.where(a_leg_is_up > 0, rows != lifted_row, jp.ones(4, dtype=bool))
         n_stance = jp.sum(stance_mask.astype(float))
         stance_feet_contact = jp.sum(contact * stance_mask) / jp.maximum(n_stance, 1.0)
 
-        orientation = jp.clip(cos_tilt, 0.0, 1.0)
+        # Upright, at full standing height, and still where it started.
+        orientation = jp.exp(-(1.0 - jp.clip(cos_tilt, -1.0, 1.0)) / cfg.orientation_sigma)
         torso_height = pipeline_state.x.pos[self._torso_idx - 1, 2]
-        torso_height_rew = jp.exp(-jp.square(torso_height - 0.14) / 0.01)
+        torso_height_rew = jp.exp(-jp.square(torso_height - self._stand_height) / cfg.torso_height_sigma)
+
+        # Deadbanded: free to shift within allowed_body_drift (a front-leg lift
+        # genuinely requires ~12 mm of CoM shift to stay inside the support
+        # triangle), penalized for anything beyond that.
+        drift = jp.linalg.norm(pipeline_state.x.pos[self._torso_idx - 1, :2] - info["init_xy"])
+        drift_excess = jp.clip(drift - cfg.allowed_body_drift, 0.0, None)
+        body_drift = jp.exp(-jp.square(drift_excess) / cfg.body_drift_sigma)
+
+        # -- penalties ----------------------------------------------------------
+        # Any knee approaching the floor, normalized to [0, 1] per knee, summed over
+        # all four. Directly targets "props a limb on the ground to lift the other".
+        ground_contact = jp.sum(
+            jp.clip((cfg.knee_ground_margin - knee_clearance) / cfg.knee_ground_margin, 0.0, 1.0)
+        )
 
         action_rate = jp.sum(jp.square(action - info["last_act"]))
         torques = jp.sum(jp.square(pipeline_state.qfrc_actuator[6:]))
@@ -276,12 +379,14 @@ class PupperLegLiftEnv(PipelineEnv):
         dof_pos_limits = jp.sum(out_lo + out_hi)
 
         return {
-            "tracking_pose": tracking_pose,
-            "foot_clearance": foot_clearance,
-            "knee_clearance": knee_clearance,
+            "lift_height": lift_height,
+            "lift_pose_prior": lift_pose_prior,
+            "stance_pose": stance_pose,
             "stance_feet_contact": stance_feet_contact,
             "orientation": orientation,
             "torso_height": torso_height_rew,
+            "body_drift": body_drift,
+            "ground_contact": ground_contact,
             "action_rate": action_rate,
             "torques": torques,
             "dof_acc": dof_acc,

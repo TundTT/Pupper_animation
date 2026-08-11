@@ -66,20 +66,36 @@ The rollout steps the command through the O-button sequence
 `stand → front_l → front_r → back_r → back_l → stand`. A good policy:
 - raises the **commanded** leg clearly off the ground and holds it,
 - keeps the body upright and the other three feet planted,
-- lowers smoothly and transitions to the next leg when the command changes.
-Expect the FIRST run to look rough — `LIFT_DELTAS` and reward weights are placeholders.
+- lowers smoothly and transitions to the next leg when the command changes,
+- and does all of that **without moving the body**: no shifting backwards, no sitting
+  down, no setting a knee or another foot on the ground to free the commanded leg.
+  That last point is the whole reason the reward was redesigned — see
+  `workspace/README.md` "Reward design (and the bug it fixes)".
 
 ## 7. Likely tuning (only if the first run looks wrong)
 All knobs are in `workspace/configs.py`. Change one thing at a time and short-train
 (`--num_timesteps 10000000`) to check the video before committing to a long run.
-- **Foot barely leaves the ground / wrong motion** → tune `LIFT_DELTAS` per leg (abduction,
-  hip, knee). Signs mirror L/R; verify against the model. Optionally raise
-  `reward_config.target_foot_height`.
-- **Body tips when a leg lifts** → increase `orientation` / `torso_height` reward weights,
-  or reduce the `LIFT_DELTAS` magnitude.
+
+Check the diagnostic metrics before touching weights — they tell you *how* the reward is
+being earned: `lifted_foot_height`, `body_drift_dist`, `torso_z`, `tilt_deg`. brax logs
+these as per-episode SUMS, so divide by `eval/avg_episode_length`.
+
+- **Foot barely leaves the ground** → first check `ACTION_SCALE[hip]`, not the reward. The
+  policy head is tanh-squashed, so the reachable range is exactly `DEFAULT_POSE ±
+  ACTION_SCALE` — if the hip can't rotate far enough, no reward weight can fix it, and the
+  policy will learn to move the body instead. Then consider raising `lift_height` or
+  `target_lift_height`.
+- **Body tips / shifts / sits when a leg lifts** → raise `orientation`, `torso_height`,
+  `body_drift`; or tighten `terminal_body_angle` / `terminal_body_z`. Note that a *front*
+  leg lift genuinely requires ~12 mm of CoM shift (the CoM starts outside the remaining
+  3-foot triangle), so `allowed_body_drift` cannot go to zero.
+- **A knee or spare foot ends up on the ground** → raise `ground_contact` magnitude or
+  `knee_ground_margin`; `terminal_knee_clearance` already ends the episode on contact.
 - **Jittery / unsafe motion** (bad for the polymer link) → make `action_rate` / `torques`
-  more negative, or lower `action_scale`.
-- **Ignores the command** → increase `tracking_pose`; confirm commands actually switch in the
+  more negative, or lower `ACTION_SCALE`.
+- **Refuses to lift at all (just stands)** → the posture terms are earned whether or not a
+  leg goes up, so `lift_height` is the only term that discriminates; raise it.
+- **Ignores the command** → increase `stance_pose`; confirm commands actually switch in the
   video.
 
 ## 8. Export the trained policy
