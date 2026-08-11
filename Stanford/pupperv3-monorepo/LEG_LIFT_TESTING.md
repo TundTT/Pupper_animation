@@ -47,6 +47,18 @@ ros2 launch neural_controller launch.py    # no sim:=True -> real hardware
 `--depth 1` matters: a full clone drags every training artifact ever committed on other
 branches.
 
+**Git LFS is required.** The policy `.json` files are stored in LFS (`*.json filter=lfs`
+in `.gitattributes`). Without `git-lfs` installed, the clone succeeds but leaves a
+~130-byte pointer stub in place of the policy and `neural_controller` fails to parse it.
+Check before building:
+
+```sh
+git lfs version || sudo apt install git-lfs      # then: git lfs install
+wc -c ros2_ws/src/neural_controller/launch/policy_leg_lift.json   # want ~1.3 MB, not ~130 B
+head -c 40 ros2_ws/src/neural_controller/launch/policy_leg_lift.json  # must NOT say "version https://git-lfs..."
+```
+If you got stubs, `git lfs install && git lfs pull` fixes it in place.
+
 ### Confirm the policy loaded correctly
 
 **This is the one new thing to check on this policy.** `action_scale` is now a
