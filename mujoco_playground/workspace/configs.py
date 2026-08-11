@@ -196,6 +196,11 @@ def get_config() -> config_dict.ConfigDict:
         # tilt and sitting; same lever here. 0.09 m is ~7x the ~12 mm of CoM shift a
         # front-leg lift actually requires, so it constrains sloppiness, not physics.
         terminal_body_drift=0.09,
+        # Spinning in place ends the episode too (rad, ~29 deg). Added after finding
+        # that policies which scored well on every other posture measure still yawed
+        # 40-50 deg over a 12 s showcase -- nothing in the reward looked at yaw, so
+        # nothing stopped it.
+        terminal_body_yaw=0.5,
 
         # ---- reward weights ----
         # REDESIGNED for "hold the standing pose, raise the commanded leg high".
@@ -236,6 +241,7 @@ def get_config() -> config_dict.ConfigDict:
                 stance_pose=3.5,            # the three planted legs stay AT the home pose
                 stance_feet_contact=1.0,    # ...and their feet stay on the ground
                 orientation=2.0,            # torso upright (no leaning to fake height)
+                heading=2.0,                # torso keeps FACING the way it started
                 torso_height=1.5,           # torso at true standing height (no sitting)
                 body_drift=2.5,             # torso does not translate away from where it started
                 # -- penalties --
@@ -272,6 +278,7 @@ def get_config() -> config_dict.ConfigDict:
             stance_pose_sigma=0.15,
             lift_prior_sigma=0.10,      # lifted leg's abduction + knee only
             orientation_sigma=0.02,     # on (1 - cos tilt): ~0.83 at 5 deg, ~0.006 at 26 deg
+            heading_sigma=0.02,         # same curve, applied to yaw away from the start heading
             torso_height_sigma=0.0004,  # ~0.78 at 1 cm off, ~0.37 at 2 cm off
             # Lifting a FRONT leg leaves the CoM ~12 mm outside the remaining 3-foot
             # support triangle (measured), so a small body shift is physically

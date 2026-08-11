@@ -109,7 +109,7 @@ def main() -> None:
         d = lambda k: metrics.get(f"eval/episode_{k}", float("nan")) / n
         print(
             f"[{step:>12,}] reward={reward:8.2f} eplen={n:5.0f} "
-            f"foot_h={d('lifted_foot_height'):+.4f}m tilt={d('tilt_deg'):5.2f}deg "
+            f"foot_h={d('lifted_foot_height'):+.4f}m tilt={d('tilt_deg'):5.2f}deg yaw={d('yaw_deg'):5.2f}deg "
             f"drift={d('body_drift_dist'):.4f}m torso_z={d('torso_z'):.4f}m "
             f"| lift_prog={d('lift_progress'):.3f} lift_h={d('lift_height'):.3f} "
             f"stance={d('stance_pose'):.3f} grnd={d('ground_contact'):+.3f}",

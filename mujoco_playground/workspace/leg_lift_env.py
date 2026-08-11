@@ -22,8 +22,8 @@ Domain randomization
 Step-time DR is applied here:
 - Sensor noise: uniform noise on ang_vel, gravity, joint positions, last_action.
 - Random kicks: low-probability horizontal impulse to the torso base.
-- Action latency: a 2-element circular buffer samples either the current or the
-  previous commanded action to apply to the motors (simulates comm jitter).
+- Action latency: a circular buffer samples one of the last few commanded actions to
+  apply to the motors (simulates comm jitter); depth = len(dr.latency_distribution).
 Physics DR (friction, kp/kd, mass, inertia, CoM) is handled by
 workspace/randomize.py via brax PPO's randomization_fn.
 """
@@ -169,6 +169,13 @@ class PupperLegLiftEnv(PipelineEnv):
         self._lat_dist = jp.array(lat_dist)
         self._lat_buf_len = len(lat_dist)
 
+    def _forward_xy(self, pipeline_state: base.State) -> jax.Array:
+        """Unit XY projection of the torso's forward axis (its heading)."""
+        fwd = math.rotate(jp.array([1.0, 0.0, 0.0]), pipeline_state.x.rot[self._torso_idx - 1])[:2]
+        # Well-conditioned while the robot is anywhere near upright: the projection's
+        # norm is cos(tilt) >= 0.92 at the terminal tilt, so this never approaches 0.
+        return fwd / jp.maximum(jp.linalg.norm(fwd), 1e-6)
+
     # -------------------------------------------------------------- spawn state
     @staticmethod
     def _settled_qpos(mj_model, settle_seconds: float = 2.0) -> np.ndarray:
@@ -219,6 +226,14 @@ class PupperLegLiftEnv(PipelineEnv):
             # per-episode rather than hard-coded because domain randomization changes
             # mass/CoM and therefore where the robot settles.
             "init_xy": pipeline_state.x.pos[self._torso_idx - 1, :2],
+            # Which way the robot was facing, for the heading reward. Swinging a leg
+            # up applies a yaw reaction torque to the body, and NOTHING else in this
+            # reward opposes it: `orientation` is built on cos_tilt, which measures
+            # tilt away from vertical and is completely blind to rotation ABOUT the
+            # vertical, and body_drift only sees translation. Without this term the
+            # robot slowly spins in place -- measured at 40-50 deg over a 12 s
+            # showcase on policies that otherwise looked clean.
+            "init_forward": self._forward_xy(pipeline_state),
         }
         obs_history = jp.zeros(self._obs_history * self._single_obs_dim)
         obs = self._get_obs(pipeline_state, info, obs_history, obs_rng)
@@ -228,6 +243,7 @@ class PupperLegLiftEnv(PipelineEnv):
         metrics["body_drift_dist"] = 0.0
         metrics["torso_z"] = 0.0
         metrics["tilt_deg"] = 0.0
+        metrics["yaw_deg"] = 0.0
         return State(pipeline_state, obs, jp.zeros(()), jp.zeros(()), metrics, info)
 
     # ------------------------------------------------------------------- step
@@ -268,6 +284,7 @@ class PupperLegLiftEnv(PipelineEnv):
         lifted_foot_height = jp.where(lifted_row >= 0, foot_z[jp.maximum(lifted_row, 0)], 0.0)
         lifted_knee_height = jp.where(lifted_row >= 0, knee_z[jp.maximum(lifted_row, 0)], 0.0)
         body_drift_dist = jp.linalg.norm(x.pos[self._torso_idx - 1, :2] - state.info["init_xy"])
+        heading_cos = jp.dot(self._forward_xy(pipeline_state), state.info["init_forward"])
 
         up = jp.array([0.0, 0.0, 1.0])
         cos_tilt = jp.dot(math.rotate(up, x.rot[self._torso_idx - 1]), up)
@@ -280,12 +297,14 @@ class PupperLegLiftEnv(PipelineEnv):
         # Resting a knee on the floor to prop up the lift ends the episode outright;
         # the ground_contact reward term is the gradient that steers away before this.
         done |= jp.any(knee_clearance < self._config.terminal_knee_clearance)
-        # Likewise for shuffling the whole robot away from where it started.
+        # Likewise for shuffling the whole robot away from where it started, or for
+        # spinning away from the heading it started on.
         done |= body_drift_dist > self._config.terminal_body_drift
+        done |= heading_cos < jp.cos(self._config.terminal_body_yaw)
 
         rewards = self._get_reward(
             command, joint_angles, joint_vel, pipeline_state, contact, foot_z,
-            knee_clearance, cos_tilt, action, state.info
+            knee_clearance, cos_tilt, heading_cos, action, state.info
         )
         rewards = {k: v * self._config.reward_config.scales[k] for k, v in rewards.items()}
         reward = jp.clip(sum(rewards.values()) * self.dt, 0.0, 10000.0)
@@ -310,13 +329,14 @@ class PupperLegLiftEnv(PipelineEnv):
         state.metrics["body_drift_dist"] = body_drift_dist
         state.metrics["torso_z"] = x.pos[self._torso_idx - 1, 2]
         state.metrics["tilt_deg"] = jp.rad2deg(jp.arccos(jp.clip(cos_tilt, -1.0, 1.0)))
+        state.metrics["yaw_deg"] = jp.rad2deg(jp.arccos(jp.clip(heading_cos, -1.0, 1.0)))
 
         return state.replace(pipeline_state=pipeline_state, obs=obs, reward=reward, done=jp.float32(done))
 
     # ----------------------------------------------------------------- reward
     def _get_reward(
         self, command, joint_angles, joint_vel, pipeline_state, contact, foot_z,
-        knee_clearance, cos_tilt, action, info
+        knee_clearance, cos_tilt, heading_cos, action, info
     ) -> Dict[str, jax.Array]:
         """Reward: hold the standing pose, and raise the commanded leg as high as it can.
 
@@ -373,6 +393,10 @@ class PupperLegLiftEnv(PipelineEnv):
 
         # Upright, at full standing height, and still where it started.
         orientation = jp.exp(-(1.0 - jp.clip(cos_tilt, -1.0, 1.0)) / cfg.orientation_sigma)
+        # Same shape as `orientation`, but about the vertical axis instead of away
+        # from it -- keeps the robot pointing the way it started rather than slowly
+        # spinning as the leg swings react through the body.
+        heading = jp.exp(-(1.0 - jp.clip(heading_cos, -1.0, 1.0)) / cfg.heading_sigma)
         torso_height = pipeline_state.x.pos[self._torso_idx - 1, 2]
         torso_height_rew = jp.exp(-jp.square(torso_height - self._stand_height) / cfg.torso_height_sigma)
 
@@ -414,6 +438,7 @@ class PupperLegLiftEnv(PipelineEnv):
             "stance_pose": stance_pose,
             "stance_feet_contact": stance_feet_contact,
             "orientation": orientation,
+            "heading": heading,
             "torso_height": torso_height_rew,
             "body_drift": body_drift,
             "ground_contact": ground_contact,

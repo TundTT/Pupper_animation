@@ -101,31 +101,44 @@ def main() -> None:
         # Only score the second half of each command window: the first half is the
         # raise/lower transient, not the hold we actually care about.
         if (i % args.steps_per_command) >= args.steps_per_command // 2:
-            d = per_cmd.setdefault(cmd, {"foot": [], "drift": [], "tilt": [], "z": [], "alive": []})
+            d = per_cmd.setdefault(cmd, {"foot": [], "drift": [], "tilt": [], "z": [], "alive": [], "stance": [], "yaw": []})
             d["foot"].append(np.asarray(state.metrics["lifted_foot_height"]))
             d["drift"].append(np.asarray(state.metrics["body_drift_dist"]))
             d["tilt"].append(np.asarray(state.metrics["tilt_deg"]))
             d["z"].append(np.asarray(state.metrics["torso_z"]))
+            d["yaw"].append(np.asarray(state.metrics["yaw_deg"]))
             d["alive"].append(np.asarray(~ever_done))
+            # How far the PLANTED legs sit from the home pose, in degrees -- the
+            # directly readable version of the stance_pose reward, and the "does it
+            # still look like it is standing normally" number.
+            mask = np.asarray(env._stance_joint_mask[cmd])
+            dev = np.asarray(state.pipeline_state.q[:, 7:]) - np.asarray(env._default_pose)
+            d["stance"].append(np.rad2deg(np.sqrt((mask * dev**2).sum(-1) / mask.sum())))
 
     names = configs.COMMAND_STATES
-    print(f"{'command':9} {'foot clearance (m)':>34} {'drift (m)':>16} {'tilt (deg)':>15} {'torso_z':>9}")
-    print(f"{'':9} {'mean':>9}{'p10':>9}{'p50':>8}{'p90':>8} {'mean':>8}{'p90':>8} {'mean':>7}{'p90':>8} {'mean':>9}")
+    print(f"{'command':9} {'foot clearance (m)':>34} {'drift (m)':>16} {'tilt (deg)':>15} "
+          f"{'torso_z':>9} {'stance dev':>13} {'yaw deg':>13}")
+    print(f"{'':9} {'mean':>9}{'p10':>9}{'p50':>8}{'p90':>8} {'mean':>8}{'p90':>8} "
+          f"{'mean':>7}{'p90':>8} {'mean':>9} {'deg rms':>8}{'p90':>5} {'mean':>7}{'p90':>6}")
     for cmd in [c for c in [0, 1, 2, 3, 4] if c in per_cmd]:
         d = per_cmd[cmd]
         alive = np.concatenate(d["alive"])
         sel = lambda k: np.concatenate(d[k])[alive]  # noqa: E731  score only upright robots
-        f, dr, ti, z = sel("foot"), sel("drift"), sel("tilt"), sel("z")
+        f, dr, ti, z, st, yw = (sel("foot"), sel("drift"), sel("tilt"), sel("z"),
+                                sel("stance"), sel("yaw"))
         foot = (f"{f.mean():>9.4f}{np.percentile(f,10):>9.4f}{np.percentile(f,50):>8.4f}{np.percentile(f,90):>8.4f}"
                 if cmd != 0 else f"{'-- (standing) --':>34}")
         print(f"{names[cmd]:9} {foot} {dr.mean():>8.4f}{np.percentile(dr,90):>8.4f} "
-              f"{ti.mean():>7.2f}{np.percentile(ti,90):>8.2f} {z.mean():>9.4f}")
+              f"{ti.mean():>7.2f}{np.percentile(ti,90):>8.2f} {z.mean():>9.4f} "
+              f"{st.mean():>8.2f}{np.percentile(st,90):>5.1f} "
+              f"{yw.mean():>7.2f}{np.percentile(yw,90):>6.1f}")
 
     fell = float(jp.mean(ever_done.astype(jp.float32)))
     print(f"\nFELL / terminated at any point in the showcase: {fell * 100:.1f}% of {args.num_envs} robots")
     print("  (termination = tilt > "
           f"{np.rad2deg(config.terminal_body_angle):.0f} deg, torso < {config.terminal_body_z} m, "
-          f"knee on floor, or drift > {config.terminal_body_drift} m)")
+          f"knee on floor, drift > {config.terminal_body_drift} m, "
+          f"or yaw > {np.rad2deg(config.terminal_body_yaw):.0f} deg)")
 
 
 if __name__ == "__main__":
