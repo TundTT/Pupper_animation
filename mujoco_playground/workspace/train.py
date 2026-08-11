@@ -21,8 +21,9 @@ import functools
 import os
 from datetime import datetime
 
-# Headless MuJoCo rendering for the rollout videos (matches train_jax_ppo.py).
-os.environ.setdefault("MUJOCO_GL", "egl")
+# NOTE: headless rendering (MUJOCO_GL=egl) is set in workspace/__init__.py, which
+# runs before this module and before `mujoco` is first imported. Setting it here
+# would be too late -- see the comment there.
 
 import jax  # noqa: E402
 import mediapy as media  # noqa: E402
@@ -100,7 +101,20 @@ def main() -> None:
     def progress(step: int, metrics: dict) -> None:
         times.append(datetime.now())
         reward = metrics.get("eval/episode_reward", float("nan"))
-        print(f"[{step:>12,}] eval reward={reward:.3f}")
+        # Print the diagnostics alongside the reward, not just the reward: a policy
+        # that stands flawlessly and never lifts scores highly, and that is exactly
+        # the failure mode this task keeps falling into. foot_h is the one to watch.
+        # brax reports episode metrics as SUMS, so divide by the episode length.
+        n = metrics.get("eval/avg_episode_length", 0.0) or 1.0
+        d = lambda k: metrics.get(f"eval/episode_{k}", float("nan")) / n
+        print(
+            f"[{step:>12,}] reward={reward:8.2f} eplen={n:5.0f} "
+            f"foot_h={d('lifted_foot_height'):+.4f}m tilt={d('tilt_deg'):5.2f}deg yaw={d('yaw_deg'):5.2f}deg "
+            f"drift={d('body_drift_dist'):.4f}m torso_z={d('torso_z'):.4f}m "
+            f"| lift_prog={d('lift_progress'):.3f} lift_h={d('lift_height'):.3f} "
+            f"stance={d('stance_pose'):.3f} grnd={d('ground_contact'):+.3f}",
+            flush=True,  # unbuffered: this goes to a redirected log that is tailed live
+        )
         if wandb_run is not None:
             wandb_run.log(metrics, step=step)
 

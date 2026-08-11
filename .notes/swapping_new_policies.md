@@ -14,7 +14,11 @@ the robot is secured (on a stand, legs clear) and the user is present.
 ## 0. Read first
 - `CLAUDE.md` (workspace root) — project layout, the two repos, and the "no silent
   fallbacks" convention.
-- `mujoco_playground/workspace/README.md` — training pipeline / export details.
+- `mujoco_playground/workspace/README.md` — training pipeline / export details, and in
+  particular **"Reward design (and the bug it fixes)"**. The reward and the action scale
+  were redesigned on 2026-08-11; several assumptions baked into older notes (including
+  parts of this one, now marked) no longer hold. Read that section before concluding
+  anything about why a policy behaves the way it does.
 - This doc assumes you're on the `master` branch of this `Pupper_animation` checkout
   (has both `mujoco_playground/` and `Stanford/pupperv3-monorepo/`). There is also a
   lean **`robot-code`** branch (just the monorepo, flattened to repo root, no training
@@ -29,9 +33,31 @@ python -m workspace.export_policy --params workspace/output/<run>/mjx_params
 ```
 This writes `policy_leg_lift.json` next to the params.
 
-**Before deploying it anywhere, check these by hand** (there is no committed validation
-script on `master` as of this writing — don't assume one exists, grep first in case a
-later session added one):
+**There IS now a committed validation script** (this supersedes the older note here that
+said there wasn't). Run it before deploying anything — it rolls the policy out across
+hundreds of independently domain-randomized robots and reports the distribution:
+```sh
+cd mujoco_playground
+python -m workspace.evaluate --params workspace/output/<run>/mjx_params
+python -m workspace.evaluate --params ... --nominal   # same, without physics DR
+```
+Why both: the **rollout videos are rendered on the NOMINAL model.** They bypass brax's
+randomization wrapper, so they show sensor noise / kicks / latency but *not* the
+friction / kp / kd / mass / CoM spread. A policy can look flawless in the video and
+still be brittle — one measured at 1.2% falls under the old narrow DR and 18.8% under
+realistic ranges. Judge deployability on the randomized number, not the video.
+
+What good looks like (the policy deployed 2026-08-11 hit all of these):
+- foot clearance ~0.13 m, tight p10-p90 spread
+- drift <= ~0.03 m, tilt <= ~5 deg, torso_z ~0.156, **yaw <= ~5 deg**
+- fall rate <= ~1% over the 12 s showcase
+
+**Watch yaw specifically.** Two otherwise-clean policies spun 40-50 deg over a 12 s
+showcase before a `heading` reward existed, and it is nearly invisible in the video
+because `tracking_cam` rotates with the body. If a future reward edit drops the
+heading term, this comes straight back.
+
+Also still check these JSON fields by hand:
 ```sh
 python3 - <<'EOF'
 import json
@@ -77,6 +103,21 @@ Copy your validated JSON there, overwriting the old one. Then check
   layout (35 vs 36-dim, joint index offsets, etc.) is derived at runtime from the JSON's
   `in_shape`/`behavior` fields. Only touch the C++ if you changed the *shape* of the
   observation itself (e.g. added a new input), not just retrained with the same shape.
+  The 2026-08-11 policy keeps the same 35-value observation, so **no C++ change and no
+  `config.yaml` change is needed** — it is a drop-in JSON swap.
+- **NEW as of 2026-08-11: `action_scale` in the JSON is now a 12-element ARRAY**, not a
+  scalar (per-joint: abduction 0.5, hip 1.6, knee 1.0 — the hip needs a wide range to
+  actually raise the leg). `neural_controller.cpp` supports this via
+  `set_param_from_json_mixed`, which dispatches to `set_param_from_json_vector` when the
+  field is an array and hard-fails if its length != 12. That path is *correct by
+  inspection but has never run on real hardware* — every policy shipped before this one
+  wrote a scalar. **On the first hardware launch, confirm this line in the log:**
+  ```
+  From JSON, setting action_scale vector element-by-element
+  ```
+  If you instead see `setting action_scale[:]=...`, the JSON has a scalar and the lift
+  will be far too small (a 0.3 rad hip cannot raise the leg — that was the original bug).
+  If it throws `Invalid size for action_scale`, the JSON and `kActionSize` disagree.
 
 ## 3. Sim-test on the workstation
 
@@ -160,10 +201,19 @@ Watch `/leg_lift_command_index` to confirm each button press registers:
 ros2 topic echo /leg_lift_command_index
 ```
 
-**Set expectations before this runs**: a policy converging to a body tilt instead of a
-clean lift is a known, previously-documented actuator-fidelity sim-to-real gap (training
-uses an idealized direct-position model; `pupper_mujoco_sim` uses a torque-motor model)
-— not necessarily a sign the new policy is broken. Judge it, but don't panic over it.
+**Set expectations before this runs — but note this section is now OUT OF DATE in an
+important way.** It used to say that a policy converging to a body tilt instead of a
+clean lift was a known actuator-fidelity sim-to-real gap (training uses an idealized
+direct-position model; `pupper_mujoco_sim` uses a torque-motor model) and shouldn't
+alarm you. **That diagnosis was wrong.** The ~26 deg tilt was mostly *the trained
+behavior*: with the old uniform `action_scale = 0.3`, and a tanh-bounded policy head,
+every joint was capped at 0.3 rad from home, so the leg physically could not reach the
+commanded clearance and leaning was the only way to earn the reward. That is fixed.
+
+So with a post-2026-08-11 policy, **a body tilt instead of a clean lift is NOT expected
+and should not be waved off** — treat it as a real finding. The actuator-fidelity gap is
+still real and still unmodeled (widened kp/kd domain randomization is a proxy, not a
+substitute), but it is no longer the default explanation for a bad lift.
 
 ## 4. Only after the user has watched and approved sim — hardware test
 

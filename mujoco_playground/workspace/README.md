@@ -12,9 +12,13 @@ policy — an exported JSON MLP loaded by `neural_controller` (see the monorepo)
 ## Design
 
 - **One policy, command-conditioned.** The policy observes a 5-way one-hot command
-  = which leg is up (`stand`, `front_l`, `front_r`, `back_r`, `back_l`). The target
-  is the home pose with that leg's foot raised; the policy tracks it while keeping
-  the torso upright and the other three feet planted.
+  = which leg is up (`stand`, `front_l`, `front_r`, `back_r`, `back_l`).
+- **Stay in the standing pose; raise the commanded leg as high as it can.** The
+  three planted legs track the home pose, the torso stays upright, at full standing
+  height, and roughly where it started; only the raised leg is free, and it is
+  rewarded on a ramp in foot clearance (higher = better, up to a cap) rather than
+  against a fixed target pose. See "Reward design" below — this replaced an earlier
+  formulation that taught the robot to lean and sit.
 - **Hold is operator-timed, not baked in.** "Hold" is just the command staying
   constant, so the hold duration is however long the operator waits between button
   presses — no fixed duration in the policy, no retrain to change it. During
@@ -26,11 +30,126 @@ policy — an exported JSON MLP loaded by `neural_controller` (see the monorepo)
   to the policy. The policy itself is order-agnostic — it only ever sees "which leg
   is up now."
 
+## Reward design (and the bug it fixes)
+
+Earlier runs produced a policy that *did* raise the commanded leg, but got there by
+shifting the body backwards, sitting down, or setting another limb on the ground.
+That was not a tuning problem — the reward was asking for something the robot could
+not physically do, so leaning was the genuine optimum:
+
+- The policy head is `tanh`-squashed, so actions are in (-1, 1) and the reachable
+  joint range is exactly `DEFAULT_POSE ± action_scale`. With the old uniform
+  `action_scale = 0.3`, **every joint was capped at 0.3 rad from home.**
+- `target_foot_height = 0.08 m` needs roughly **1.2 rad** of hip rotation. Not
+  reachable by leg motion — only by moving the body.
+- `target_knee_height = 0.18 m` is **above the torso** (which stands at 0.156 m).
+  Not reachable at all, by any means. That term (weight 2.0) paid the policy to
+  pitch the whole robot over.
+- `tracking_pose` simultaneously pulled the leg toward a fixed `LIFT_DELTAS` pose
+  worth only 0.036 m of clearance, directly fighting the clearance term.
+- `torso_height` targeted 0.14 m while the robot actually stands at 0.1556 m, so
+  it was *rewarding sitting down*.
+
+The fix has two halves:
+
+1. **Actuation** — `configs.ACTION_SCALE` is now per-joint: abduction 0.5, hip 2.0,
+   knee 1.0. The hip can now actually swing the leg up (~0.19 m of clearance at the
+   limit, verified against the model), while abduction/knee stay tight so the leg
+   lifts in its own sagittal plane and the stance legs keep fine control near home.
+   The deployment side already accepts a 12-element `action_scale` array
+   (`neural_controller.cpp`'s `set_param_from_json_mixed`), so this needs **no C++
+   change** — `export_policy.py` writes the vector into the JSON.
+2. **Reward** — nothing competes with anything else any more. The raised leg is
+   driven *only* by a linear ramp in foot clearance saturating at
+   `target_lift_height = 0.15 m` (constant positive gradient, so "as high as
+   possible", with no incentive to contort past a useful height) plus a weak prior
+   keeping its abduction/knee near home. Everything else describes *"still standing
+   where it was"*: `stance_pose` (the planted legs hold the home pose),
+   `stance_feet_contact`, `orientation`, `torso_height` (at the measured 0.1556 m),
+   and `body_drift`. `ground_contact` penalizes any knee nearing the floor.
+
+Posture is additionally protected by **termination**, not just weights: tilt > 0.4 rad,
+torso below 0.10 m, any knee touching the floor, or the torso wandering more than
+0.09 m from where it started ends the episode. That caps the payoff of cheating
+regardless of how the weights are tuned.
+
+### Two local optima this task falls into (both hit during tuning)
+
+Worth knowing before changing weights, because both score *well* on
+`eval/episode_reward` and are invisible unless you look at the diagnostics:
+
+1. **"Stands beautifully, never lifts."** The posture terms are earned whether or not
+   a leg goes up, so with `lift_height` alone the policy banked ~102 of a ~144 max at
+   zero risk and never raised a foot (`lifted_foot_height` = -0.001 m, tilt 0.8°,
+   drift 17 mm — a flawless statue). The cause was a **dead zone**: `lift_height`
+   clips to 0 for every configuration where the foot still touches down, so nothing
+   rewarded the first few degrees of hip rotation. Fixed by `lift_progress`, which is
+   measured on the hip *angle* and therefore pays from the first degree.
+2. **"Lifts well, but walks."** With the lift learned, the policy held the stance legs
+   ~9° off home and translated the torso ~0.14 m (~13× the ~12 mm the physics needs).
+   It would not come back from this on shaping alone — `body_drift` had already
+   bottomed out, leaving no gradient to pull it in. Fixed with `terminal_body_drift`
+   plus heavier `stance_pose` / `body_drift` and a tighter `stance_pose_sigma`.
+
+3. **"Lifts three legs and quietly gives up on the fourth."** Adding the `heading`
+   reward from scratch produced a policy that never lifted `front_r` at all (foot
+   clearance -0.002 m, i.e. still on the floor) while lifting the other three fine.
+   `front_r` generates the most yaw, so under heading pressure *not lifting it* was
+   cheaper than lifting it — it kept all the posture reward and forfeited only that one
+   command's lift. Fixed by **warm-starting** (`--init_params`) from a policy that
+   already lifted all four, so heading control is refined onto an existing skill rather
+   than competing with acquiring it. Watch per-leg foot clearance in
+   `workspace/evaluate.py`, never the aggregate — the aggregate barely moves when one
+   leg out of four is dropped.
+
+The general lesson: **reward weights shape behavior inside the feasible set;
+termination is what removes a strategy.** Every posture problem here was ultimately
+solved by making the bad strategy end the episode, not by out-weighting it.
+
+### Known residual limitation: yaw
+
+The shipping policy still rotates roughly **-21 deg net over a 12 s, five-lift
+showcase** (down from -44 deg before the `heading` term, but not zero). Back-leg lifts
+are the main contributors. This is structural, not a tuning miss:
+
+**The policy has no absolute heading in its observation.** It sees
+`[ang_vel, gravity, command_one_hot, joint_pos, last_action]` — angular *velocity* is
+there, so it can damp rotation, but accumulated *heading* is not, so it cannot steer
+back to a reference it cannot perceive. The same is true of position, which is why
+`body_drift` is a deadband. `heading` can only push the policy toward motions whose yaw
+reactions cancel; it cannot close the loop.
+
+Closing it properly means adding a heading signal to the observation, which is a
+deployment-side change too (obs size 35 -> 36, so `neural_controller` would need a real
+edit rather than a JSON swap) and needs an on-robot heading source — IMU yaw integration
+drifts, so this deserves thought before anyone attempts it. **Do not "fix" this by
+raising the `heading` weight**: that is what produced local optimum 3 above.
+
+Note also that `evaluate.py`'s headline termination number counts the yaw limit, and a
+yaw excursion is *not* a fall. Read the by-cause breakdown: the shipping policy is
+**0.0% actual falls** (tilt / sat-down) across 256 randomized robots.
+
+Two measured facts worth knowing before re-tuning:
+
+- Lifting a **front** leg leaves the CoM ~12 mm *outside* the triangle of the
+  remaining three feet, so a small body shift is **physically mandatory** — this is
+  why `body_drift` is a deadband (free within `allowed_body_drift = 0.035 m`) rather
+  than a pure penalty. Back-leg lifts are statically stable (+8 mm margin).
+- The model has **no self-collision** (every robot geom is `contype=0`, so only
+  robot↔floor collides). Sim will happily fold a leg through the body, which is why
+  the lift is capped in joint space instead of letting PPO chase the 0.25 m the
+  kinematics allow.
+
+Episodes also now **start already standing** (the env settles the home pose once at
+construction) instead of dropping the robot from the model keyframe's z = 0.28 and
+letting it bounce — that landing slide alone moved the torso ~25 mm, eating most of
+the drift deadband before the policy did anything.
+
 ## Files
 
 | File | Purpose |
 |---|---|
-| `configs.py` | Joint order/limits, home pose, per-leg lifted targets, reward weights, PPO hyperparameters, model path. **Single source of truth.** |
+| `configs.py` | Joint order/limits, home pose, per-joint action scale, reward weights, PPO hyperparameters, model path. **Single source of truth.** |
 | `leg_lift_env.py` | `PupperLegLiftEnv` (brax `PipelineEnv`, MJX): reset/step/obs/reward, command sampling. |
 | `train.py` | brax PPO training entry; saves brax params to `output/<run>/mjx_params`. Optional W&B logging + rollout videos. |
 | `visualize.py` | Rolls the policy out through the O-button sequence and renders a `tracking_cam` video — what you watch to judge the policy. |
@@ -39,10 +158,12 @@ policy — an exported JSON MLP loaded by `neural_controller` (see the monorepo)
 The Pupper MJX model is referenced in place from the `pupper_v3_description` checkout
 (`pupper_v3_complete.mjx.position.xml`); nothing is copied across repos.
 
-## Setup & run — on the CUDA workstation (RTX 5090), not the laptop
+## Setup & run — on a CUDA workstation
 
-Training needs the GPU; author on the laptop, run here. The 5090 is Blackwell
-(sm_120), so use a **recent** JAX + CUDA 12 build.
+Training needs a GPU. **Check `nvidia-smi` first rather than assuming which machine
+you're on** — this has been run on more than one. The original RTX 5090 workstation
+and the current host (2× RTX PRO 6000 Blackwell, 96 GB each) are both Blackwell
+(sm_120), so either way use a **recent** JAX + CUDA 12 build.
 
 ```sh
 cd mujoco_playground
@@ -57,43 +178,50 @@ python -m workspace.train --num_timesteps 200000 --num_envs 1024
 
 # full run (run from the mujoco_playground/ dir so `workspace` is importable)
 wandb login                                 # once, if using W&B
-python -m workspace.train --num_timesteps 150000000 --use_wandb
+CUDA_VISIBLE_DEVICES=0 python -m workspace.train --use_wandb
 # export the trained policy to the robot's JSON format
 python -m workspace.export_policy --params workspace/output/<run>/mjx_params
 ```
 
-`num_envs` defaults to 8192 (fits the 5090's 32 GB); lower it with `--num_envs` if VRAM
-is tight.
+`num_timesteps` defaults to 200M and `num_envs` to 8192 (fits the 5090's 32 GB with
+room to spare on bigger cards); lower `--num_envs` if VRAM is tight. Pin
+`CUDA_VISIBLE_DEVICES` on a multi-GPU host — brax would otherwise pmap across every
+visible device, which brings its own `num_envs`/`batch_size` divisibility constraints
+for no gain at this scale.
 
 ### Watching the policy
 
 Every eval, training renders a rollout that steps the command through the O-button
 sequence (`stand → FL → FR → BR → BL`) and logs it to W&B as `eval/video` (plus a
 final `eval/video_final`). Videos are also written to `workspace/output/<run>/*.mp4`
-regardless of W&B. Rendering is headless via EGL (`MUJOCO_GL=egl`, set automatically).
+regardless of W&B. Rendering is headless via EGL (`MUJOCO_GL=egl`, set in
+`workspace/__init__.py` — it has to be set before anything imports `mujoco`, which is
+too early for `train.py`; getting this wrong aborts the process rather than raising).
 Flags: `--use_wandb`, `--wandb_project`, `--wandb_entity`, `--no_eval_videos` (skip the
 per-eval video if it slows things down — the final video still renders).
 
+Alongside the reward terms, these diagnostic metrics are logged so you can tell *how*
+a policy is earning its reward rather than just how much:
+`lifted_foot_height` (how high the commanded foot actually gets), `body_drift_dist`,
+`torso_z`, and `tilt_deg`. **brax reports these as per-episode sums**, so divide by
+`eval/avg_episode_length` to read them back as averages.
+
 ## Status / what still needs doing
 
-- **A prior training run reached `eval/episode_reward ≈ 50.5` (wandb run
-  `leg_lift_2026-06-24_20-04-18`), but its trained params were lost** when the
-  workstation that produced them was wiped before pushing — wandb only logs
-  metrics/videos/config, not model checkpoints, so the policy itself must be
-  retrained. `reward_config.scales`, `target_foot_height`, and the new
-  `knee_clearance` / `target_knee_height` terms in `configs.py` were recovered
-  from that run's logged wandb config (it differs from the original scaffold
-  placeholders). `leg_lift_env.py`'s `knee_clearance` reward computation is a
-  **reconstruction** — the run's actual implementation wasn't logged anywhere
-  and was lost with it; review `_get_reward`'s knee-height calc before trusting
-  it. `train.py --init_params` (warm-start from a previous run's params, via
-  brax's `restore_params`) was also reconstructed from the lost run's command
-  line, to support resuming a training chain the way the original runs did.
-- **`LIFT_DELTAS` in `configs.py` are still placeholders.** These were never
-  logged to wandb (only `config_dict` scalars/dicts are), so there's no record
-  of whether they'd been tuned before the machine was wiped. Tune them in sim
-  so each foot clears the ground by ~`target_foot_height` without tipping the
-  body. Joint signs mirror L/R — verify against the model.
+- **The reward and action scale were redesigned (2026-08-10) so the robot lifts
+  with its LEG instead of its whole body.** The previous policies raised the
+  commanded leg by shifting backwards, sitting, or planting another limb — the
+  genuine optimum of a reward that asked for clearances no joint could reach.
+  See "Reward design (and the bug it fixes)" above for the full diagnosis and the
+  measurements behind the new numbers. `LIFT_DELTAS` / `lifted_pose_for()` are
+  **gone**: there is no fixed lifted-pose target any more, so there is nothing left
+  to "tune" there, and the reconstructed-from-wandb `knee_clearance` term that came
+  with them is gone too. Consequently the recovered weights from the lost run
+  `leg_lift_2026-06-24_20-04-18` are no longer in use, and `eval/episode_reward` is
+  **not comparable** across this boundary (the old scale topped out near 96/episode,
+  the new one near 144).
+- **Earlier runs' artifacts are kept as a record, not as a baseline.** Anything
+  under `workspace/output/leg_lift_2026-07-22_*/` predates the redesign.
 - **Retrained on this checkout, and this time actually compile/run-tested**
   against the real deployment stack (a user-space ROS2 Jazzy install via
   RoboStack, since this workstation has no sudo — see below). First attempt
@@ -117,18 +245,20 @@ per-eval video if it slows things down — the final video still renders).
   text files containing their target's name instead of real symlinks, which
   broke both the build (missing rpath/install step for the real `.so`) and
   would have broken this on the Pi 5 too.
-- **Real (if imperfect) closed-loop behavior observed, not just "doesn't
-  crash."** Commanding `front_l` via `/leg_lift_command_index` converges to a
-  stable ~26° body tilt rather than a clean lift, even with the sim's
-  backlash/latency disabled to rule that out. Most likely cause: training uses
-  an idealized direct-position actuator model
-  (`pupper_v3_complete.mjx.position.xml`), while `pupper_mujoco_sim` drives a
-  realistic torque-motor model (`pupper_v3_complete.backlash.xml`, with
-  `bus_voltage`/`kt`/`phase_resistance`/`saturation_torque` limits) — a
-  genuine actuator-fidelity sim-to-real gap, compounding the already-known
-  untuned `LIFT_DELTAS` and reconstructed `knee_clearance` reward. Not a code
-  bug; needs either LIFT_DELTAS/reward tuning or torque-model-aware domain
-  randomization in a future training pass before trusting this on hardware.
+- **The deployed policy's stable ~26° body tilt was mostly the trained behavior,
+  not (only) an actuator gap.** Commanding `front_l` via `/leg_lift_command_index`
+  in `pupper_mujoco_sim` converged to a ~26° lean rather than a clean lift, which
+  was previously attributed to the sim-to-real actuator-fidelity gap (training uses
+  the idealized `pupper_v3_complete.mjx.position.xml`; the sim's hardware interface
+  drives the torque-motor `pupper_v3_complete.backlash.xml`). That gap is real, but
+  it is no longer the leading explanation: **leaning is precisely what that policy
+  was trained to do**, since with `action_scale = 0.3` its leg physically could not
+  reach the commanded clearance. Re-measure the gap against a policy from the new
+  reward before spending effort on torque-model-aware domain randomization.
+- **Still to do:** re-export and re-validate on `pupper_mujoco_sim` against the new
+  policy, and confirm the per-joint `action_scale` vector round-trips through
+  `neural_controller` (the C++ supports it, but no run has exercised the array form
+  yet — every policy shipped so far wrote a scalar).
 
 ## Deployment (monorepo side)
 

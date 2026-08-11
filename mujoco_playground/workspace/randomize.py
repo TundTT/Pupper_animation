@@ -16,9 +16,15 @@ def domain_randomize(
     sys,
     rng,
     torso_body_idx: int = 1,
-    friction_range: Tuple = (0.6, 1.4),
-    kp_multiplier_range: Tuple = (0.6, 1.1),
-    kd_multiplier_range: Tuple = (0.8, 1.5),
+    # Widened for sim-to-real. Training uses an idealized direct-position actuator
+    # (pupper_v3_complete.mjx.position.xml) while the robot and pupperv3_mujoco_sim
+    # drive a real torque motor with backlash and voltage/current limits. We cannot
+    # model that actuator here, so the next best thing is to make the policy
+    # indifferent to a WIDE spread of effective gains, which is what an unmodeled
+    # actuator looks like from the policy's point of view.
+    friction_range: Tuple = (0.4, 1.5),
+    kp_multiplier_range: Tuple = (0.5, 1.6),
+    kd_multiplier_range: Tuple = (0.5, 2.0),
     body_com_x_shift_range: Tuple = (-0.03, 0.03),
     body_com_y_shift_range: Tuple = (-0.01, 0.01),
     body_com_z_shift_range: Tuple = (-0.02, 0.02),
