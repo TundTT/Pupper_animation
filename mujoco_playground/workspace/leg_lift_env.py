@@ -137,6 +137,8 @@ class PupperLegLiftEnv(PipelineEnv):
         stance_mask_rows = [np.ones(12)]  # standing => all 12 joints held at home
         abduction_idx = [0]     # lifted leg's abduction joint (dummy for "stand")
         knee_idx = [0]          # lifted leg's knee joint      (dummy for "stand")
+        hip_idx = [0]           # lifted leg's hip joint       (dummy for "stand")
+        hip_sign = [0.0]        # direction that hip must rotate to raise the leg
         for leg in configs.COMMAND_STATES[1:]:
             foot_rows.append(configs.FOOT_ROW_BY_LEG[leg])
             ji = configs.LEG_JOINT_INDICES[leg]
@@ -145,10 +147,14 @@ class PupperLegLiftEnv(PipelineEnv):
             stance_mask_rows.append(mask)
             abduction_idx.append(ji[0])
             knee_idx.append(ji[2])
+            hip_idx.append(ji[1])
+            hip_sign.append(configs.HIP_LIFT_SIGN[leg])
         self._lifted_foot_row = jp.array(foot_rows)                    # (5,)
         self._stance_joint_mask = jp.array(np.stack(stance_mask_rows))  # (5, 12)
         self._lift_abduction_idx = jp.array(abduction_idx)             # (5,)
         self._lift_knee_idx = jp.array(knee_idx)                       # (5,)
+        self._lift_hip_idx = jp.array(hip_idx)                         # (5,)
+        self._lift_hip_sign = jp.array(hip_sign)                       # (5,)
         self._num_commands = configs.NUM_COMMANDS
         self._knee_radius = configs.KNEE_RADIUS
         self._stand_height = configs.STAND_TORSO_HEIGHT
@@ -274,6 +280,8 @@ class PupperLegLiftEnv(PipelineEnv):
         # Resting a knee on the floor to prop up the lift ends the episode outright;
         # the ground_contact reward term is the gradient that steers away before this.
         done |= jp.any(knee_clearance < self._config.terminal_knee_clearance)
+        # Likewise for shuffling the whole robot away from where it started.
+        done |= body_drift_dist > self._config.terminal_body_drift
 
         rewards = self._get_reward(
             command, joint_angles, joint_vel, pipeline_state, contact, foot_z,
@@ -329,6 +337,17 @@ class PupperLegLiftEnv(PipelineEnv):
         lifted_height = jp.where(a_leg_is_up > 0, foot_z[jp.maximum(lifted_row, 0)], 0.0)
         lift_height = a_leg_is_up * jp.clip(lifted_height / cfg.target_lift_height, 0.0, 1.0)
 
+        # Dense companion to lift_height, measured on the hip ANGLE rather than the
+        # foot's height off the floor. lift_height is identically zero for every
+        # configuration in which the foot is still touching down, so on its own it
+        # gives no signal at all for the first few degrees of rotation -- and a policy
+        # that never leaves the ground never discovers the ramp. Hip angle has no such
+        # dead zone: it pays from the first degree and rises continuously to a full
+        # lift. Saturates at the same pose lift_height does, so the two agree.
+        hip_i = self._lift_hip_idx[command]
+        hip_delta = self._lift_hip_sign[command] * (joint_angles[hip_i] - self._default_pose[hip_i])
+        lift_progress = a_leg_is_up * jp.clip(hip_delta / cfg.hip_lift_reference, 0.0, 1.0)
+
         # Weak prior keeping the raised leg's abduction and knee near home, so the
         # leg swings up in its own sagittal plane (driven by the hip) instead of
         # splaying sideways or curling. The hip is intentionally left unconstrained.
@@ -379,6 +398,7 @@ class PupperLegLiftEnv(PipelineEnv):
         dof_pos_limits = jp.sum(out_lo + out_hi)
 
         return {
+            "lift_progress": lift_progress,
             "lift_height": lift_height,
             "lift_pose_prior": lift_pose_prior,
             "stance_pose": stance_pose,

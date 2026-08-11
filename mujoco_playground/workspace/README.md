@@ -69,8 +69,31 @@ The fix has two halves:
    and `body_drift`. `ground_contact` penalizes any knee nearing the floor.
 
 Posture is additionally protected by **termination**, not just weights: tilt > 0.4 rad,
-torso below 0.10 m, or any knee touching the floor ends the episode. That caps the
-payoff of cheating regardless of how the weights are tuned.
+torso below 0.10 m, any knee touching the floor, or the torso wandering more than
+0.09 m from where it started ends the episode. That caps the payoff of cheating
+regardless of how the weights are tuned.
+
+### Two local optima this task falls into (both hit during tuning)
+
+Worth knowing before changing weights, because both score *well* on
+`eval/episode_reward` and are invisible unless you look at the diagnostics:
+
+1. **"Stands beautifully, never lifts."** The posture terms are earned whether or not
+   a leg goes up, so with `lift_height` alone the policy banked ~102 of a ~144 max at
+   zero risk and never raised a foot (`lifted_foot_height` = -0.001 m, tilt 0.8°,
+   drift 17 mm — a flawless statue). The cause was a **dead zone**: `lift_height`
+   clips to 0 for every configuration where the foot still touches down, so nothing
+   rewarded the first few degrees of hip rotation. Fixed by `lift_progress`, which is
+   measured on the hip *angle* and therefore pays from the first degree.
+2. **"Lifts well, but walks."** With the lift learned, the policy held the stance legs
+   ~9° off home and translated the torso ~0.14 m (~13× the ~12 mm the physics needs).
+   It would not come back from this on shaping alone — `body_drift` had already
+   bottomed out, leaving no gradient to pull it in. Fixed with `terminal_body_drift`
+   plus heavier `stance_pose` / `body_drift` and a tighter `stance_pose_sigma`.
+
+The general lesson: **reward weights shape behavior inside the feasible set;
+termination is what removes a strategy.** Every posture problem here was ultimately
+solved by making the bad strategy end the episode, not by out-weighting it.
 
 Two measured facts worth knowing before re-tuning:
 

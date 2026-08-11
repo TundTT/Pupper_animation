@@ -127,16 +127,25 @@ JOINT_UPPER_LIMITS = np.array(
 # abduction and knee stay tight so the leg lifts in its own sagittal plane and the
 # three stance legs keep precise control authority near the home pose.
 #
-# Verified against the model: hip delta 2.0 rad reaches ~0.19 m of foot clearance and
-# is inside every hip joint limit, giving headroom above the 0.15 m the reward
+# Verified against the model: hip delta 1.6 rad reaches ~0.145 m of foot clearance and
+# is inside every hip joint limit, giving headroom above the ~1.4 rad the lift reward
 # saturates at. The deployment side already supports a 12-element action_scale array
 # (neural_controller.cpp's set_param_from_json_mixed), so this needs no C++ change.
+#
+# The hip was briefly set to 2.0 and pulled back: a wider range multiplies the policy's
+# own exploration noise into violent leg swings that just tip the robot over, which
+# teaches it to hold still rather than to lift. 1.6 still clears far more than the
+# behavior needs.
 ACTION_SCALE_ABDUCTION = 0.5
-ACTION_SCALE_HIP = 2.0
+ACTION_SCALE_HIP = 1.6
 ACTION_SCALE_KNEE = 1.0
 ACTION_SCALE = np.array(
     [ACTION_SCALE_ABDUCTION, ACTION_SCALE_HIP, ACTION_SCALE_KNEE] * 4
 )
+
+# Direction each leg's hip joint (_2) must rotate to raise that leg. Left and right
+# legs mirror. Used by the dense `lift_progress` reward -- see get_config().
+HIP_LIFT_SIGN = {"front_r": 1.0, "front_l": -1.0, "back_r": 1.0, "back_l": -1.0}
 
 # Torso height (m) the robot actually settles at while standing in DEFAULT_POSE under
 # position control at position_control_kp. MEASURED from the model, not guessed: the
@@ -179,6 +188,14 @@ def get_config() -> config_dict.ConfigDict:
         terminal_body_angle=0.4,   # rad of tilt (~23 deg) before we call it a fall
         terminal_body_z=0.10,      # torso too low => sat down
         terminal_knee_clearance=0.005,  # a knee touching the floor ends the episode
+        # Walking away from the spawn point ends the episode too. Added after a run
+        # that lifted well and stood upright (tilt 3.7 deg, torso height spot on) but
+        # translated the torso ~0.14 m doing it, and would NOT come back down from
+        # that on reward shaping alone -- body_drift had already bottomed out, so
+        # there was no gradient left to pull it in. Termination is what worked for
+        # tilt and sitting; same lever here. 0.09 m is ~7x the ~12 mm of CoM shift a
+        # front-leg lift actually requires, so it constrains sloppiness, not physics.
+        terminal_body_drift=0.09,
 
         # ---- reward weights ----
         # REDESIGNED for "hold the standing pose, raise the commanded leg high".
@@ -190,20 +207,37 @@ def get_config() -> config_dict.ConfigDict:
         reward_config=config_dict.create(
             scales=config_dict.create(
                 # -- raise the commanded leg --
-                # Weighted to clearly beat "just keep standing and never risk it":
-                # the posture terms below sum to 8.5 and are earned whether or not a
-                # leg goes up, so lift_height is the ONLY term that discriminates.
-                # At 4.0 a clean lift is worth ~50% more than refusing to lift. It is
-                # safe to push this high because posture is protected by episode
-                # TERMINATION (tilt / torso height / knee-on-floor), not just weights.
-                lift_height=4.0,            # ramp: higher foot = more reward, "as high as possible"
+                # These must clearly beat "just keep standing and never risk it": the
+                # posture terms below sum to 8.5 and are earned whether or not a leg
+                # goes up, so these two are the ONLY terms that discriminate. A first
+                # attempt at lift_height=4.0 with no lift_progress term collapsed into
+                # exactly that failure -- a policy that stood flawlessly (tilt 0.8 deg,
+                # drift 17 mm) and never once raised a foot, because standing still
+                # already banked ~102 of a ~144 maximum at zero risk.
+                #
+                # lift_progress is the fix for the DEAD ZONE that caused it:
+                # lift_height clips to 0 whenever the foot is on the ground, so there
+                # was no gradient at all rewarding the first few degrees of hip
+                # rotation. lift_progress is measured on the hip ANGLE, so it pays out
+                # from the very first degree and rises continuously all the way to a
+                # full lift -- a smooth path out of the standing local optimum.
+                # Both saturate at the same configuration (~1.4 rad of hip), so they
+                # reinforce rather than compete.
+                lift_progress=3.0,          # dense: hip rotating toward "up" (no dead zone)
+                lift_height=8.0,            # the real objective: actual foot clearance
+                # It is safe to weight these heavily because posture is protected by
+                # episode TERMINATION (tilt / torso height / knee-on-floor), not by
+                # out-weighing them.
                 lift_pose_prior=0.5,        # lifted leg's abduction+knee stay home => lifts in-plane
                 # -- everything else holds the standing pose --
-                stance_pose=2.5,            # the three planted legs stay AT the home pose
+                # stance_pose and body_drift raised (from 2.5 / 1.5) after a run that
+                # nailed the lift but held the stance legs ~9 deg off home and let the
+                # torso wander 0.14 m. Both describe "don't rearrange yourself to lift".
+                stance_pose=3.5,            # the three planted legs stay AT the home pose
                 stance_feet_contact=1.0,    # ...and their feet stay on the ground
                 orientation=2.0,            # torso upright (no leaning to fake height)
                 torso_height=1.5,           # torso at true standing height (no sitting)
-                body_drift=1.5,             # torso does not translate away from where it started
+                body_drift=2.5,             # torso does not translate away from where it started
                 # -- penalties --
                 ground_contact=-3.0,        # no knee/limb resting on the floor
                 action_rate=-0.01,          # smoothness (protect the polymer link)
@@ -214,10 +248,16 @@ def get_config() -> config_dict.ConfigDict:
             # Foot clearance (m) that earns full lift credit. The reward ramps
             # linearly to this and then flats, so the policy is pushed to lift as
             # high as it can without being paid to contort past a useful height.
-            # Reachable envelope is ~0.19 m at the hip action limit, so this leaves
+            # Reachable envelope is ~0.145 m at the hip action limit, so this leaves
             # headroom rather than pinning the joint against its stop.
-            target_lift_height=0.15,
-            stance_pose_sigma=0.25,     # 9 stance joints, squared-error sum
+            target_lift_height=0.12,
+            # Hip rotation (rad, in the lifting direction) that earns full
+            # lift_progress credit. Measured to correspond to ~0.12 m of foot
+            # clearance, i.e. the same configuration target_lift_height describes.
+            hip_lift_reference=1.4,
+            # 9 stance joints, squared-error sum. Tightened from 0.25: at that width a
+            # ~9 deg/joint deviation still scored ~0.4, i.e. the reward barely cared.
+            stance_pose_sigma=0.15,
             lift_prior_sigma=0.10,      # lifted leg's abduction + knee only
             orientation_sigma=0.02,     # on (1 - cos tilt): ~0.83 at 5 deg, ~0.006 at 26 deg
             torso_height_sigma=0.0004,  # ~0.78 at 1 cm off, ~0.37 at 2 cm off
