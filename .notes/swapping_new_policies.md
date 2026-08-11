@@ -321,9 +321,14 @@ for item in ai analysis bags infra install_dev_dependencies.sh LICENSE llm_logs.
             pupper-rs README.md robot ros2_ws scripts stop_all_services.sh; do
   git mv "Stanford/pupperv3-monorepo/$item" "$item"
 done
-# re-add the "this is the robot-code branch" note at the top of README.md if git mv
-# dropped it (it won't have — the note lives in the file content, not the path — but
-# double check `head README.md` looks right)
+# RE-ADD the "this is the robot-code branch" note at the top of README.md. You DO have
+# to do this every time -- an earlier version of this doc claimed the note survives the
+# git mv because it lives in the file content, not the path. That is wrong: the note
+# only ever exists on `robot-code`, so `git reset --hard master` above replaces
+# README.md with master's copy and drops it. Recover it with:
+#     git show origin/robot-code:README.md | head -12
+# and paste it back under the "# Pupper V3 Codebase" heading, keeping the pointer to
+# LEG_LIFT_TESTING.md. Then `head -15 README.md` to confirm.
 git add -A
 git commit -m "Sync robot-code from master (<one-line reason>)"
 git push origin robot-code
