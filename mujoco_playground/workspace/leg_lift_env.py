@@ -26,6 +26,15 @@ Step-time DR is applied here:
   apply to the motors (simulates comm jitter); depth = len(dr.latency_distribution).
 Physics DR (friction, kp/kd, mass, inertia, CoM) is handled by
 workspace/randomize.py via brax PPO's randomization_fn.
+
+Lift-hip rate limit
+--------------------
+The actively-lifted leg's hip action is rate-limited per step (see
+configs.LIFT_HIP_MAX_ACTION_DELTA) so the lift ramps in instead of snapping to
+the commanded height. Scoped to that single joint only -- the 9 stance-leg
+joints are left uncapped so balance corrections stay full-bandwidth while a leg
+is in the air. See step() for the clamp and why it's expected to transfer to
+the deployed (unclamped) policy.
 """
 
 from typing import Any, Dict, List, Optional, Sequence
@@ -221,6 +230,10 @@ class PupperLegLiftEnv(PipelineEnv):
             "last_act": jp.zeros(12),
             "last_vel": jp.zeros(12),
             "action_buffer": jp.zeros((12, self._lat_buf_len)),
+            # What was actually applied to the lifted leg's hip last step, post
+            # rate-limit clamp (see step()). Zeros at reset matches the raw
+            # last_act init, so the first lift step ramps from a standstill.
+            "last_clamped_action": jp.zeros(12),
             # Where the torso started, so the body_drift reward can measure "has it
             # walked/shuffled away from where it was standing" per episode. Recorded
             # per-episode rather than hard-coded because domain randomization changes
@@ -249,10 +262,36 @@ class PupperLegLiftEnv(PipelineEnv):
     # ------------------------------------------------------------------- step
     def step(self, state: State, action: jax.Array) -> State:
         state.info["rng"], kick_rng, lat_rng, obs_rng = jax.random.split(state.info["rng"], 4)
+        command = state.info["command"]
+
+        # Rate-limit ONLY the currently-lifted leg's hip, relative to what was
+        # actually applied last step -- models an actuator max-velocity limit so
+        # the lift ramps in instead of snapping. See configs.LIFT_HIP_MAX_ACTION_
+        # DELTA for the full rationale. Scoped via a one-hot mask so the other 11
+        # joints (all 9 stance-leg joints, plus the lifted leg's abduction/knee)
+        # are untouched and keep full-bandwidth balance-correction authority.
+        #
+        # Only the PHYSICS consequence is clamped here (what reaches
+        # pipeline_step below). `last_act`, and therefore the action_rate/dof_acc
+        # rewards and next step's observation, still use the RAW `action` -- so
+        # a raw action beyond this limit costs action_rate for zero extra
+        # physical effect, which should push the policy to converge to a raw
+        # output that already respects the limit (untested on hardware so far).
+        lifted_row = self._lifted_foot_row[command]
+        hip_i = self._lift_hip_idx[command]
+        hip_mask = jax.nn.one_hot(hip_i, 12) * (lifted_row >= 0).astype(jp.float32)
+        max_delta = self._config.lift_hip_max_action_delta
+        prev_applied = state.info["last_clamped_action"]
+        clamped_action = jp.where(
+            hip_mask > 0,
+            jp.clip(action, prev_applied - max_delta, prev_applied + max_delta),
+            action,
+        )
+        state.info["last_clamped_action"] = clamped_action
 
         # Action latency: sample which time-slot to actually apply.
         lagged_action, action_buffer = _sample_lagged(
-            lat_rng, state.info["action_buffer"], action, self._lat_dist
+            lat_rng, state.info["action_buffer"], clamped_action, self._lat_dist
         )
         state.info["action_buffer"] = action_buffer
 
@@ -269,7 +308,6 @@ class PupperLegLiftEnv(PipelineEnv):
         motor_targets = jp.clip(self._default_pose + lagged_action * self._action_scale, self._lowers, self._uppers)
         pipeline_state = self.pipeline_step(state.pipeline_state.replace(qd=kicked_qd), motor_targets)
 
-        command = state.info["command"]
         obs = self._get_obs(pipeline_state, state.info, state.obs, obs_rng)
 
         joint_angles = pipeline_state.q[7:]

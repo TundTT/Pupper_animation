@@ -25,9 +25,16 @@ def domain_randomize(
     friction_range: Tuple = (0.4, 1.5),
     kp_multiplier_range: Tuple = (0.5, 1.6),
     kd_multiplier_range: Tuple = (0.5, 2.0),
-    body_com_x_shift_range: Tuple = (-0.03, 0.03),
-    body_com_y_shift_range: Tuple = (-0.01, 0.01),
-    body_com_z_shift_range: Tuple = (-0.02, 0.02),
+    # Biased backward (torso local +x = forward, see leg_lift_env._forward_xy) and
+    # widened from the old symmetric (-0.03, 0.03). On-hardware testing
+    # (2026-08-17/18, see workspace/README.md Status) showed the back legs --
+    # back_r especially -- visibly struggle in a way the old sim rollouts didn't,
+    # consistent with the real robot's CoM sitting further back than this MJCF
+    # assumes. Still covers some forward slack rather than only ever sampling
+    # backward, so the policy doesn't overfit to one exact offset.
+    body_com_x_shift_range: Tuple = (-0.07, 0.02),
+    body_com_y_shift_range: Tuple = (-0.015, 0.015),
+    body_com_z_shift_range: Tuple = (-0.025, 0.025),
     body_inertia_scale_range: Tuple = (0.9, 1.3),
     body_mass_scale_range: Tuple = (0.9, 1.3),
 ):

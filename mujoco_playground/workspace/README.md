@@ -265,23 +265,46 @@ a policy is earning its reward rather than just how much:
   notes). `front_l`/`front_r`/`back_l` lifted cleanly; `back_r` failed the first session
   from a cracked 3D-printed leg link (hardware fault, not policy), and improved after a
   reprint but still visibly struggles more than the other three legs.
-- **Two sim-to-real gaps to address in the next training pass, from watching that
-  hardware testing:**
+- **Two sim-to-real gaps identified from that hardware testing, and a third
+  (whole-body oscillation while a leg is held up) — all three addressed in the
+  training run started 2026-08-18, run `leg_lift_2026-08-18_15-09-43`:**
   1. **Real robot's center of mass sits further back than the sim model assumes.**
      The back legs — `back_r` especially — visibly struggle to lift and hold balance on
-     hardware in a way the sim rollout doesn't show. This reads as a genuine model
-     mismatch, not just noise: **the next policy should train against a model with the
-     CoM shifted backward** (or otherwise corrected to match the real robot's actual
-     mass distribution) rather than assuming the current MJCF's CoM placement is
-     accurate.
+     hardware in a way the sim rollout doesn't show. Addressed by re-centering and
+     widening `randomize.py`'s `body_com_x_shift_range` backward (torso local +x =
+     forward) from the old symmetric `(-0.03, 0.03)` to `(-0.07, 0.02)`, plus a modest
+     widen on y/z, so training samples a CoM distribution biased toward what the real
+     robot appears to have rather than assuming the MJCF's placement is accurate.
   2. **The policy snaps to the commanded lift target immediately and only then seems to
      work on balance**, rather than raising the leg gradually while continuously
-     re-balancing. A policy that ramps into the lift instead of snapping to it is
-     expected to be more robust sim-to-real. **Worth trying for the next policy:** push
-     `action_rate` (or a similar rate/smoothness term) more aggressively, or add an
-     explicit curriculum/reward shaping that rewards a slower approach to the target
-     pose instead of an instantaneous jump — the goal is "slowly lift while balancing"
-     rather than "snap to position, sort out balance after."
+     re-balancing. Fixing this with a body-wide action-rate penalty was rejected: it
+     would also cap the 9 stance-leg joints, which are exactly what needs fast
+     authority to correct balance while a leg is in the air — see point 3 below, and
+     the concern the user raised that motivated this design. Instead,
+     `configs.LIFT_HIP_MAX_ACTION_DELTA` (in `leg_lift_env.py`'s `step()`) hard-clamps
+     the physics consequence of *only* the actively-lifted leg's hip action per
+     control step, modeling an actuator max-velocity limit, while leaving all 11 other
+     joints (the 9 stance joints plus that leg's own abduction/knee) untouched. The
+     clamp is applied only to what reaches `pipeline_step`; `action_rate`/`dof_acc`/
+     `last_act` still see the raw action, so a raw action beyond the limit costs
+     `action_rate` for zero extra physical effect — the intent is for the policy's raw
+     output to converge to already respecting the limit, so it transfers to the
+     deployed (unclamped) policy without a `neural_controller.cpp` change. **This is
+     not yet verified on hardware** — if the exported policy still snaps on the robot,
+     the clamp needs to be replicated in `neural_controller.cpp` directly, since
+     nothing there currently rate-limits actions (confirmed: no
+     `rate_limit`/`slew`/velocity-limit logic in `neural_controller.cpp` as of
+     2026-08-18).
+  3. **Whole-body oscillation while a leg is held up** — not confined to the lifted
+     leg; the stance legs/body wobble too (per user report from watching training,
+     2026-08-18). Because a hard cap on this would blunt balance-correction
+     authority (see point 2), this is addressed with **soft** costs instead, applied
+     body-wide: `action_rate` raised from -0.05 to -0.1, `dof_acc` raised 4x from
+     -2.5e-6 to -1e-5. Both are priced-in costs rather than physical limits, so a
+     large fast corrective action to avoid a fall (which risks a much larger
+     termination penalty) is still fully available — only *sustained, unnecessary*
+     jitter should get trained out. These are starting points, not tuned values;
+     check the eval video for residual oscillation and adjust weights if it persists.
 
 ## Deployment (monorepo side)
 

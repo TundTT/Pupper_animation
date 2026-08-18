@@ -159,6 +159,30 @@ STAND_TORSO_HEIGHT = 0.1556
 # penalize "resting a knee on the ground to cheat the lift".
 KNEE_RADIUS = 0.025
 
+# Per-step cap (action-space units, |a|<=1) on how far the ACTIVELY-LIFTED leg's
+# hip action may move from what was actually applied last step. Models an
+# actuator max-velocity limit so the lift ramps in instead of snapping to the
+# commanded height in one step (observed on-hardware 2026-08-17/18 -- see
+# workspace/README.md Status -- as "snaps to target, then seems to work on
+# balance" rather than lifting while continuously balancing).
+#
+# Deliberately scoped to ONLY the lifted leg's hip (leg_lift_env.py selects it
+# per-step via the same per-command lookup as _lift_hip_idx), not applied
+# body-wide: the 9 stance-leg joints are exactly what corrects balance while a
+# leg is in the air, and a uniform cap would blunt that responsiveness along
+# with the snap. See leg_lift_env.py step() for how this is applied: it clamps
+# only the PHYSICS consequence (what reaches pipeline_step); action_rate/
+# dof_acc/obs last_act are computed on the raw action, so exceeding this limit
+# costs reward for no physical gain, which should pull the policy's raw output
+# toward already respecting it -- i.e. this is expected (not yet hardware-
+# verified) to transfer to the deployed, unclamped policy without a
+# neural_controller.cpp change.
+#
+# 0.05 action units = 0.08 rad/step at ACTION_SCALE_HIP=1.6, reaching the full
+# hip_lift_reference=1.4 rad target in ~18 steps (~0.35 s) -- gradual, but with
+# large margin inside the 1.0 s minimum command hold (command_hold_steps_min).
+LIFT_HIP_MAX_ACTION_DELTA = 0.05
+
 
 def get_config() -> config_dict.ConfigDict:
     """Returns the full leg-lift training config."""
@@ -175,6 +199,7 @@ def get_config() -> config_dict.ConfigDict:
         ctrl_dt=0.02,   # 50 Hz policy, matches deployment repeat_action=10 @ 500Hz
         sim_dt=0.004,
         action_scale=tuple(float(a) for a in ACTION_SCALE),  # per-joint, see ACTION_SCALE
+        lift_hip_max_action_delta=LIFT_HIP_MAX_ACTION_DELTA,  # see constant above
         position_control_kp=5.0,
         dof_damping=0.25,
         observation_history=1,  # set >1 to stack frames like the locomotion policy
@@ -246,10 +271,16 @@ def get_config() -> config_dict.ConfigDict:
                 body_drift=2.5,             # torso does not translate away from where it started
                 # -- penalties --
                 ground_contact=-3.0,        # no knee/limb resting on the floor
-                # Raised from -0.01. Smoothness is a sim-to-real requirement here, not
-                # just a nicety: it is what stops the policy commanding position steps
-                # the real motor cannot follow. Also protects the polymer link.
-                action_rate=-0.05,
+                # Raised from -0.01, then again from -0.05 (2026-08-18) to chase
+                # whole-body oscillation observed while a leg is held up on hardware
+                # (not just the lifted leg -- the stance legs/body wobble too, so this
+                # stays a body-wide penalty rather than being scoped like the hip rate
+                # limit above). Smoothness is a sim-to-real requirement here, not just
+                # a nicety: it is what stops the policy commanding position steps the
+                # real motor cannot follow. Also protects the polymer link. A starting
+                # point, not a tuned value -- check the eval video/oscillation by eye
+                # and adjust.
+                action_rate=-0.1,
                 # Keep the lift OFF the motor's torque ceiling. Measured on the first
                 # policy: steady hold needs only ~0.11 Nm, but the raise transient
                 # pinned the lifting hip at exactly 3.000 Nm -- the model's forcerange
@@ -260,7 +291,10 @@ def get_config() -> config_dict.ConfigDict:
                 # saturated joint cost -0.0018/step against ~20/step of reward.
                 torque_limit=-2.0,
                 torques=-2e-4,
-                dof_acc=-2.5e-6,
+                # Raised 4x from -2.5e-6 (2026-08-18), alongside action_rate above,
+                # to damp the whole-body oscillation seen on hardware while a leg is
+                # held up. Same "starting point, not tuned" caveat applies.
+                dof_acc=-1e-5,
                 dof_pos_limits=-1.0,
             ),
             # Foot clearance (m) that earns full lift credit. The reward ramps
