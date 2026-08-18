@@ -305,6 +305,17 @@ a policy is earning its reward rather than just how much:
      termination penalty) is still fully available — only *sustained, unnecessary*
      jitter should get trained out. These are starting points, not tuned values;
      check the eval video for residual oscillation and adjust weights if it persists.
+  - **Run `leg_lift_2026-08-18_15-09-43` completed** (200M steps, warm-started from
+    `leg_lift_2026-08-11_01-35-11`, ~15.5 min wall-clock on the dual RTX PRO 6000
+    workstation). `eval/episode_reward` plateaued around 90-104 (final eval 96.4,
+    vs. 53.8 at the warm-start baseline eval), tilt held 3.4-4.0°, torso height
+    0.158-0.160 m throughout — posture metrics look at least as good as before.
+    Exported to `workspace/output/leg_lift_2026-08-18_15-09-43/policy_leg_lift.json`.
+    **Not yet verified**: whether the lift is visibly gradual (not snapping) and
+    whether hold-phase oscillation is visibly reduced — those are behavioral
+    properties the aggregate reward/eval numbers don't directly confirm; needs a
+    look at `rollout_final.mp4` (or on-robot/`pupper_mujoco_sim` testing) before
+    calling the fix successful, and before this policy is wired into the monorepo.
 
 ## Deployment (monorepo side)
 
