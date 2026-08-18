@@ -259,6 +259,29 @@ a policy is earning its reward rather than just how much:
   policy, and confirm the per-joint `action_scale` vector round-trips through
   `neural_controller` (the C++ supports it, but no run has exercised the array form
   yet — every policy shipped so far wrote a scalar).
+- **`action_scale` array form confirmed working on real hardware (2026-08-17/18).**
+  `leg_lift_2026-08-11_01-35-11` deployed and tested on the physical robot across two
+  sessions (see `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`'s test log for the raw
+  notes). `front_l`/`front_r`/`back_l` lifted cleanly; `back_r` failed the first session
+  from a cracked 3D-printed leg link (hardware fault, not policy), and improved after a
+  reprint but still visibly struggles more than the other three legs.
+- **Two sim-to-real gaps to address in the next training pass, from watching that
+  hardware testing:**
+  1. **Real robot's center of mass sits further back than the sim model assumes.**
+     The back legs — `back_r` especially — visibly struggle to lift and hold balance on
+     hardware in a way the sim rollout doesn't show. This reads as a genuine model
+     mismatch, not just noise: **the next policy should train against a model with the
+     CoM shifted backward** (or otherwise corrected to match the real robot's actual
+     mass distribution) rather than assuming the current MJCF's CoM placement is
+     accurate.
+  2. **The policy snaps to the commanded lift target immediately and only then seems to
+     work on balance**, rather than raising the leg gradually while continuously
+     re-balancing. A policy that ramps into the lift instead of snapping to it is
+     expected to be more robust sim-to-real. **Worth trying for the next policy:** push
+     `action_rate` (or a similar rate/smoothness term) more aggressively, or add an
+     explicit curriculum/reward shaping that rewards a slower approach to the target
+     pose instead of an instantaneous jump — the goal is "slowly lift while balancing"
+     rather than "snap to position, sort out balance after."
 
 ## Deployment (monorepo side)
 

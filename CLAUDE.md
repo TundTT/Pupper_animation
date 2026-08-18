@@ -61,25 +61,18 @@ they're one codebase; just commit/push through the single top-level repo.
   height by leaning back, sitting, or resting another limb on the ground. This is enforced
   by the reward *and* by episode termination; see `workspace/README.md` "Reward design".
   (Supersedes the earlier fixed `LIFT_DELTAS` target-pose approach, which was removed.)
-- **Status: deployed end-to-end and sim-validated, but the shipped policy lifts by leaning;
-  the reward/action-scale redesign that fixes it is training now (2026-08-10, branch
-  `leg-lift-upright-pose`).** The policy in the monorepo
-  (`leg_lift_2026-07-22_21-35-05`, `activation="elu"` — an earlier `"swish"` run trained fine
-  but would have segfaulted on-robot since the vendored RTNeural only implements
-  `tanh`/`relu`/`sigmoid`/`softmax`/`elu`) is exported, wired into
-  `neural_controller_leg_lift`, and compiles/runs against `pupperv3_mujoco_sim` (O-button
-  integration below is **done**, not pending). But it reaches the commanded leg's height by
-  shifting back / sitting / grounding another limb, and converges to a ~26° body tilt in the
-  deployment sim. Root cause found: the policy head is tanh-squashed, so the old uniform
-  `action_scale = 0.3` capped **every** joint at 0.3 rad from home, while the reward demanded
-  a 0.08 m foot clearance (needs ~1.2 rad of hip) and a 0.18 m knee height (above the 0.156 m
-  torso) — unreachable by leg motion, so moving the body was the genuine optimum. Fixed by a
-  per-joint `ACTION_SCALE` plus a reward built around "hold the stand pose, ramp on foot
-  height", with posture enforced by termination. **`eval/episode_reward` is not comparable
-  across this change.** See `mujoco_playground/workspace/README.md` "Reward design (and the
-  bug it fixes)" and "Status" for full detail, including two unrelated repo bugs fixed along
-  the way (bad `libmujoco.so` symlinks in `pupperv3_mujoco_sim`) and a headless-rendering
-  fix (`MUJOCO_GL` must be set in `workspace/__init__.py`, not `train.py`).
+- **Status: `leg_lift_2026-08-11_01-35-11` (the "lift with the leg, not the body" policy)
+  is deployed and real-hardware tested (2026-08-17), with one hardware fault found, not a
+  software/policy problem.** `front_l`, `front_r`, `back_l` all lifted cleanly and held, on
+  the actual robot. `back_r` did not lift — the leg physically snapped during the test,
+  with pre-existing crack lines along the 3D-print layers, consistent with it being unable
+  to push off. Command routing to `back_r` had already been verified working in an earlier
+  hardware session (before this leg broke), so this is judged a print/hardware fault, not a
+  policy or `neural_controller` bug. **Next step: reprint the `back_r` leg link and retest**
+  once hardware is 100% functional, to confirm `back_r` lifts like the other three. Full
+  test log and reporting template: `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`. For how
+  this policy fixed the earlier "lifts by leaning" failure mode (the previous status here),
+  see `mujoco_playground/workspace/README.md` "Reward design (and the bug it fixes)".
 
 ## Training side — `mujoco_playground/workspace/` (our code)
 

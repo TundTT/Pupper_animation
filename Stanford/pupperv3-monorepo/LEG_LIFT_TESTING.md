@@ -125,6 +125,42 @@ commanded leg. Earlier policies did all of those; if you see them, something reg
   found, comment its entry out of the `nodes = [...]` list in
   `ros2_ws/src/neural_controller/launch/launch.py`. Local throwaway fix; don't upstream it.
 
+## Test log
+
+### 2026-08-17 — `leg_lift_2026-08-11_01-35-11`, first real-hardware test
+
+- Launch log confirmed `From JSON, setting action_scale vector element-by-element` (the
+  array-form check above) and `neural_controller_leg_lift` configured successfully.
+- **`front_l`, `front_r`, `back_l` all lifted cleanly and held** — matched "What good looks
+  like" above: leg swings up, body stays level and at standing height, no leaning/sitting.
+- **`back_r` did not lift.** The leg physically snapped during the test. Visible
+  pre-existing crack lines along the 3D-print layer lines, consistent with the joint being
+  unable to push off enough to raise the leg.
+- **Judged a hardware/print fault, not a software or policy issue** — command routing to
+  `back_r` had already been verified reaching the controller correctly in an earlier
+  hardware session (before this leg broke), and the other three legs on the same policy
+  worked as expected in this session.
+- **Next step: reprint the `back_r` leg link, then retest** with fully functional hardware
+  to confirm `back_r` lifts like the other three.
+
+### 2026-08-18 — same policy, retest with the reprinted `back_r` leg
+
+- Command routing to `back_r` reconfirmed reliable (14 presses reached the controller
+  cleanly in this session, same cadence as the other legs). No automatic tip-over/
+  `max_body_angle` stop fired at any point — both e-stops in the session were deliberate
+  PS-button presses.
+- **Better than the broken-leg session, but the back legs (`back_r` especially) still
+  visibly struggle to lift and hold balance compared to the front legs.** This is judged
+  a policy/training-side issue now that the hardware fault is fixed, not a hardware fault
+  — see the two "sim-to-real gaps" bullets added to
+  `mujoco_playground/workspace/README.md`'s "Status / what still needs doing":
+  1. the real robot's CoM appears to sit further back than the sim model assumes, and
+  2. the policy snaps to the commanded lift target immediately instead of raising the
+     leg gradually while continuously balancing.
+- **Feeds the next training pass, not a code fix:** retrain against a model with the CoM
+  shifted back, and try biasing the reward/`action_rate` toward a slower, continuously-
+  balanced lift instead of a fast snap-to-target.
+
 ## Reporting back
 
 Worth capturing: whether the `action_scale` vector line appeared, per-leg behavior for
