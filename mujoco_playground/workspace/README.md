@@ -346,8 +346,33 @@ a policy is earning its reward rather than just how much:
     with a less extreme CoM correction — 1cm back / 1cm right instead of the
     current 2cm/2cm** — i.e. `body_com_x_shift_range` recentered to -0.035
     (not -0.045) and `body_com_y_shift_range` recentered to -0.01 (not -0.02),
-    keeping the same half-widths as the current range. Not yet implemented or
-    retrained as of this note.
+    keeping the same half-widths as the current range.
+  - **`randomize.py`'s committed default backed off to the 1cm/1cm correction**
+    (commit `e847e9d`). `train.py` also gained `--com_x_shift_range`/
+    `--com_y_shift_range` CLI overrides (commit `1072a9e`), so a run can use a
+    different CoM range than the committed default without editing the shared
+    file — used to run a 1.5cm/1.5cm variant alongside the 1cm default as an
+    extra data point, in case 1cm undercorrects.
+  - **Two runs completed in parallel** (2026-08-19, both warm-started from
+    `leg_lift_2026-08-19_20-18-08`, both ~16.5 min wall-clock, GPUs 0 and 1):
+    - `leg_lift_2026-08-19_21-12-29` — **1cm back / 1cm right** (committed
+      default). `eval/episode_reward` plateaued 80-103, final eval 94.3, tilt
+      3.5-3.9°. **Exported and shipped to `neural_controller/launch/
+      policy_leg_lift.json` — this is the policy currently deployed, ready for
+      the next round of hardware testing. Watch `front_l` specifically** (the
+      leg that regressed under the 2cm/2cm correction) to see if it recovers.
+    - `leg_lift_2026-08-19_21-48-33` — **1.5cm back / 1.5cm right** (CLI
+      override, NOT the committed default). `eval/episode_reward` plateaued
+      86-106, final eval 91.3, tilt 3.3-3.9° — comparable posture to the 1cm
+      run. Exported to `workspace/output/leg_lift_2026-08-19_21-48-33/
+      policy_leg_lift.json` but **not deployed** — kept as a ready-to-swap-in
+      backup in case the 1cm correction under-corrects and `front_l` (or
+      back-leg balance) doesn't fully recover on hardware.
+    - Aggregate reward/tilt/torso-height numbers look similar across both and
+      don't distinguish them — as with every round so far, the thing that
+      actually matters (per-leg lift height, specifically `front_l`) needs
+      hardware testing or at least `evaluate.py`'s per-leg breakdown, not the
+      aggregate eval metrics, to tell them apart.
 
 ## Deployment (monorepo side)
 

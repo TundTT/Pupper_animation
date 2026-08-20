@@ -68,15 +68,21 @@ they're one codebase; just commit/push through the single top-level repo.
   `back_r` had already been verified working in an earlier session before that leg broke. Full
   test log and reporting template: `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`.
 - **`leg_lift_2026-08-19_20-18-08` was real-hardware tested (2026-08-19): success, with one
-  regression to tune out next.** This policy addressed three issues found in the 2026-08-17
-  hardware round — CoM-mismatch back-leg struggling, lift-snapping, and hold-phase
-  oscillation (see `workspace/README.md` Status for the full rationale and both CoM-correction
-  rounds' numbers) — and on this test, **all four legs lifted and stabilized cleanly**, no
-  e-stop, no fall. One regression: **`front_l` doesn't lift as high as before**, suspected to
-  be the CoM correction overshooting (this run trained ~4.5cm back / 2cm right of the model's
-  original assumed CoM). **Next: retrain with a less extreme correction — 1cm back / 1cm
-  right instead of 2cm/2cm — and retest**, watching `front_l` specifically. Full test log:
-  `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`.
+  regression that led to the current policy.** This policy addressed three issues found in
+  the 2026-08-17 hardware round — CoM-mismatch back-leg struggling, lift-snapping, and
+  hold-phase oscillation (see `workspace/README.md` Status for the full rationale) — and on
+  this test, **all four legs lifted and stabilized cleanly**, no e-stop, no fall. One
+  regression: **`front_l` didn't lift as high as before**, suspected to be the CoM correction
+  overshooting (that run trained ~4.5cm back / 2cm right of the model's original assumed CoM).
+- **`leg_lift_2026-08-19_21-12-29` is now deployed (1cm back / 1cm right CoM correction,
+  down from 2cm/2cm) and READY FOR THE NEXT ROUND OF HARDWARE TESTING — awaiting results,
+  watch `front_l` specifically.** A parallel 1.5cm/1.5cm variant
+  (`leg_lift_2026-08-19_21-48-33`) was also trained as an extra data point and exported but
+  **not deployed** — kept as a ready-to-swap-in backup if 1cm undercorrects. Full rationale,
+  both runs' numbers, and the new `train.py --com_x_shift_range`/`--com_y_shift_range` CLI
+  overrides that made running them in parallel possible without touching the committed
+  default: `workspace/README.md` Status section. Full hardware test log and reporting
+  template: `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`.
 
 ## Training side — `mujoco_playground/workspace/` (our code)
 
