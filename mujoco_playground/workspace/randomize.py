@@ -31,7 +31,7 @@ def domain_randomize(
     # y=+0.0835, both at x=+0.075 vs. -0.075 for the back legs -- so with the
     # robot facing +x, +y=left/-y=right (standard robotics convention).
     #
-    # Two rounds of correction so far, both from on-hardware testing (see
+    # Three rounds of correction so far, all from on-hardware testing (see
     # workspace/README.md Status):
     #  - 2026-08-17/18: back legs (back_r especially) visibly struggled vs. sim,
     #    consistent with the real CoM sitting further back than this MJCF
@@ -39,11 +39,20 @@ def domain_randomize(
     #  - 2026-08-18 (2nd test, of the run trained with that first correction):
     #    user asked for a further ~2cm back, ~2cm right correction on top of
     #    that -- x center shifted an additional -0.02 (to -0.045), y center
-    #    shifted -0.02 (right) off its previous 0. Half-widths kept the same
-    #    as before this second shift, just re-centered, so there's still DR
-    #    coverage around the new best-guess offset rather than a fixed value.
-    body_com_x_shift_range: Tuple = (-0.09, 0.0),
-    body_com_y_shift_range: Tuple = (-0.035, -0.005),
+    #    shifted -0.02 (right) off its previous 0.
+    #  - 2026-08-19 (hardware test of that 2nd-correction run): SUCCESS overall
+    #    (all four legs lifted and stabilized cleanly, first fully clean session)
+    #    but with a regression -- front_l didn't lift as high as before,
+    #    suspected to be this correction overshooting (pushing the assumed CoM
+    #    further right plausibly makes the left-side lift, which needs the
+    #    stance legs to shift weight rightward, harder to reach as high). Backed
+    #    off to a less extreme 1cm-back/1cm-right correction: x center -0.045 ->
+    #    -0.035, y center -0.02 -> -0.01. Half-widths kept the same as before
+    #    across all three rounds, just re-centered, so there's still DR coverage
+    #    around the new best-guess offset rather than a fixed value. Full test
+    #    log: Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md.
+    body_com_x_shift_range: Tuple = (-0.08, 0.01),
+    body_com_y_shift_range: Tuple = (-0.025, 0.005),
     body_com_z_shift_range: Tuple = (-0.025, 0.025),
     body_inertia_scale_range: Tuple = (0.9, 1.3),
     body_mass_scale_range: Tuple = (0.9, 1.3),
