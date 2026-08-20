@@ -184,6 +184,27 @@ commanded leg. Earlier policies did all of those; if you see them, something reg
   `body_com_x_shift_range` to -0.035 (not -0.045) and `body_com_y_shift_range` to -0.01
   (not -0.02), same half-widths. Then retest, watching `front_l` specifically.
 
+### 2026-08-20 — `leg_lift_2026-08-19_21-12-29` (1cm) then `_21-48-33` (1.5cm), CoM comparison
+
+- Tested both the 1cm/1cm and 1.5cm/1.5cm CoM-correction variants back to back on
+  hardware (swapped `policy_leg_lift.json` content between them, no rebuild needed —
+  the `launch/` directory is symlink-installed).
+- **Verdict: 2cm/2cm (the previous, 2026-08-19 policy) is still the best of the three.**
+  1cm was "too central" (undercorrected the CoM mismatch); 1.5cm didn't improve on 2cm
+  either. Recommendation is to revert to the 2cm/2cm correction for the next training
+  pass rather than continue backing it off.
+- **New issue found: lowering snaps just as hard as lifting does.** When the O-button
+  command switches to the next leg, the currently-lifted leg drops straight down into
+  the ground abruptly instead of lowering smoothly. The existing hip-rate-limit fix
+  only covers the *raise*, not the *lower* — see `workspace/README.md` Status.
+- **Recurring issue confirmed, not CoM-specific: `front_l` doesn't lift as high as the
+  other three legs**, across 2cm, 1cm, and 1.5cm alike — needs its own fix next pass,
+  separate from CoM tuning.
+- **Overall: a real success.** Command routing, balance, and lift quality on 3 of 4
+  legs are solid across all three variants tested so far. The three items above are
+  refinements to build on the 2cm/2cm base, not a sign anything is fundamentally
+  broken.
+
 ## Reporting back
 
 Worth capturing: whether the `action_scale` vector line appeared, per-leg behavior for

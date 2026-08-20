@@ -74,15 +74,18 @@ they're one codebase; just commit/push through the single top-level repo.
   this test, **all four legs lifted and stabilized cleanly**, no e-stop, no fall. One
   regression: **`front_l` didn't lift as high as before**, suspected to be the CoM correction
   overshooting (that run trained ~4.5cm back / 2cm right of the model's original assumed CoM).
-- **`leg_lift_2026-08-19_21-12-29` is now deployed (1cm back / 1cm right CoM correction,
-  down from 2cm/2cm) and READY FOR THE NEXT ROUND OF HARDWARE TESTING — awaiting results,
-  watch `front_l` specifically.** A parallel 1.5cm/1.5cm variant
-  (`leg_lift_2026-08-19_21-48-33`) was also trained as an extra data point and exported but
-  **not deployed** — kept as a ready-to-swap-in backup if 1cm undercorrects. Full rationale,
-  both runs' numbers, and the new `train.py --com_x_shift_range`/`--com_y_shift_range` CLI
-  overrides that made running them in parallel possible without touching the committed
-  default: `workspace/README.md` Status section. Full hardware test log and reporting
-  template: `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`.
+- **Both the 1cm/1cm and 1.5cm/1.5cm CoM corrections were hardware-tested (2026-08-20)
+  and neither beat the original 2cm/2cm.** Verdict: 2cm/2cm is still the best CoM
+  correction so far — 1cm was too central (undercorrected), 1.5cm didn't improve on
+  2cm either. **Two more issues found, both to fix alongside reverting to 2cm/2cm in
+  the next training pass:** (1) lowering a leg on O-button switch snaps down abruptly —
+  the existing hip rate limit only covers raising, not lowering; (2) `front_l` lifts
+  lower than the other three legs **across all three CoM variants tested**, so it's a
+  separate issue from CoM tuning, not something more CoM sweeps will fix. Overall
+  verdict is still a real success — command routing, balance, and 3-of-4 leg lift
+  quality are solid; these are refinements on the 2cm/2cm base, not a redesign. Full
+  rationale: `workspace/README.md` Status section. Full hardware test log:
+  `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`.
 
 ## Training side — `mujoco_playground/workspace/` (our code)
 

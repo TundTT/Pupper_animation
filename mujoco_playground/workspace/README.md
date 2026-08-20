@@ -373,6 +373,42 @@ a policy is earning its reward rather than just how much:
       actually matters (per-leg lift height, specifically `front_l`) needs
       hardware testing or at least `evaluate.py`'s per-leg breakdown, not the
       aggregate eval metrics, to tell them apart.
+  - **Hardware test of both 1cm and 1.5cm (2026-08-20): neither beat the
+    original 2cm/2cm correction overall.** Both ran cleanly on hardware (no
+    e-stop, no fall), but the user's verdict after comparing all three:
+    **2cm/2cm is still the best CoM correction so far**, despite its known
+    `front_l` shortfall — 1cm was "too central" (undercorrected) and 1.5cm
+    didn't improve on 2cm either. **Recommendation for the next training
+    pass: go back to the 2cm/2cm correction** (`body_com_x_shift_range`
+    recentered to -0.045, `body_com_y_shift_range` to -0.02, i.e. revert
+    `e847e9d`) as the base to build the two fixes below on top of, rather
+    than continuing to back off the correction.
+  - **Two new issues identified in this same round of testing, both to fix in
+    the next training pass alongside reverting to 2cm/2cm:**
+    1. **Lowering snaps just as hard as lifting does.** When the O-button
+       command switches (leg-lift cycling to the next leg), the
+       currently-lifted leg drops straight down into the ground abruptly
+       rather than lowering smoothly. The existing fix
+       (`configs.LIFT_HIP_MAX_ACTION_DELTA` in `leg_lift_env.py`'s `step()`,
+       from the 2026-08-18 training pass) only rate-limits the hip of the
+       **actively-lifted** leg — it does not cover the transition where a
+       leg stops being commanded and needs to come back down. **Next:**
+       extend the rate limit (or add an equivalent one) to cover the
+       lowering transition too, so the commanded leg raises AND lowers
+       gradually through the O-button cycle, not just on the way up.
+    2. **`front_l` still doesn't lift as high as the other three legs** —
+       persists across 2cm, 1cm, and 1.5cm CoM corrections alike, so this is
+       a separate issue from the CoM-correction magnitude, not something the
+       CoM tuning alone will fix. Needs its own investigation next pass
+       (e.g. per-leg lift-height reward/cap asymmetry, or something specific
+       to the front-left leg/joint limits) rather than more CoM sweeps.
+  - **Net priorities for the next training pass, per user feedback
+    (2026-08-20): (1) revert to the 2cm/2cm CoM correction, (2) add a
+    gradual-lowering rate limit to match the existing gradual-raise one,
+    (3) fix `front_l`'s lift height specifically.** Overall the 2cm-based
+    policy family is considered a real success on hardware — command
+    routing, balance, and 3-of-4 leg lift quality are solid; these three
+    items are refinements, not a redesign.
 
 ## Deployment (monorepo side)
 
