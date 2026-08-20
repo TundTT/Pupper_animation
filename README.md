@@ -1,5 +1,15 @@
 # Pupper V3 Codebase
 
+> **This is the `robot-code` branch**: just this monorepo (rooted here instead of nested
+> under `Stanford/pupperv3-monorepo/`), with the RL training pipeline, training-reference
+> repo, and planning notes from the `master` branch of this checkout's parent project
+> stripped out. Clone this branch directly on the robot/Pi 5 or a build machine to build
+> and run — including the `neural_controller_leg_lift` controller — without pulling in
+> that unrelated training bloat. `master` (or the `Pupper_animation` workspace this was
+> cut from) is where that other content and history lives.
+>
+> **Testing the leg-lift policy on the robot: see [LEG_LIFT_TESTING.md](LEG_LIFT_TESTING.md).**
+
 # Deploying to real robot
 Follow instructions here https://pupper-v3-documentation.readthedocs.io/en/latest/guide/software_installation.html to flash your Raspberry Pi 5 with our custom image.
 
