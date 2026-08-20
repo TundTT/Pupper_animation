@@ -61,18 +61,26 @@ they're one codebase; just commit/push through the single top-level repo.
   height by leaning back, sitting, or resting another limb on the ground. This is enforced
   by the reward *and* by episode termination; see `workspace/README.md` "Reward design".
   (Supersedes the earlier fixed `LIFT_DELTAS` target-pose approach, which was removed.)
-- **Status: `leg_lift_2026-08-11_01-35-11` (the "lift with the leg, not the body" policy)
-  is deployed and real-hardware tested (2026-08-17), with one hardware fault found, not a
-  software/policy problem.** `front_l`, `front_r`, `back_l` all lifted cleanly and held, on
-  the actual robot. `back_r` did not lift — the leg physically snapped during the test,
-  with pre-existing crack lines along the 3D-print layers, consistent with it being unable
-  to push off. Command routing to `back_r` had already been verified working in an earlier
-  hardware session (before this leg broke), so this is judged a print/hardware fault, not a
-  policy or `neural_controller` bug. **Next step: reprint the `back_r` leg link and retest**
-  once hardware is 100% functional, to confirm `back_r` lifts like the other three. Full
-  test log and reporting template: `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`. For how
-  this policy fixed the earlier "lifts by leaning" failure mode (the previous status here),
-  see `mujoco_playground/workspace/README.md` "Reward design (and the bug it fixes)".
+- **Status: `leg_lift_2026-08-11_01-35-11` was real-hardware tested (2026-08-17) with one
+  hardware fault found, not a software/policy problem** — `front_l`, `front_r`, `back_l` all
+  lifted cleanly and held; `back_r` did not lift because the leg physically snapped
+  (pre-existing 3D-print crack lines), judged a print/hardware fault since command routing to
+  `back_r` had already been verified working in an earlier session before that leg broke. Full
+  test log and reporting template: `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`.
+- **`leg_lift_2026-08-19_20-18-08` is now deployed (`neural_controller/launch/policy_leg_lift.json`)
+  and READY FOR THE NEXT ROUND OF HARDWARE TESTING — awaiting results.** This policy addresses
+  three issues found in that 2026-08-17 hardware round: (1) `back_r`/back-leg balance struggling
+  on hardware in a way sim didn't show, from the model's assumed CoM being off from the real
+  robot's — fixed by biasing+widening CoM domain randomization, corrected twice (see
+  `workspace/README.md` Status for both rounds' numbers) to end up centered ~4.5cm back / 2cm
+  right of the model's original assumed CoM; (2) the lift snapping to the target instead of
+  raising gradually — fixed with a hard per-step rate limit scoped to ONLY the actively-lifted
+  leg's hip joint, so the 9 stance-leg joints keep full balance-correction authority; (3)
+  whole-body oscillation while a leg is held up — fixed with higher `action_rate`/`dof_acc`
+  reward weights (soft costs, not a hard cap, so fast corrective actions stay available). None
+  of the three fixes have been visually confirmed working on hardware yet — that confirmation
+  is what this round of testing is for. Full rationale and reward-curve numbers for both
+  training runs behind this policy: `mujoco_playground/workspace/README.md` Status section.
 
 ## Training side — `mujoco_playground/workspace/` (our code)
 

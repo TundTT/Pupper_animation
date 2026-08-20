@@ -310,12 +310,32 @@ a policy is earning its reward rather than just how much:
     workstation). `eval/episode_reward` plateaued around 90-104 (final eval 96.4,
     vs. 53.8 at the warm-start baseline eval), tilt held 3.4-4.0°, torso height
     0.158-0.160 m throughout — posture metrics look at least as good as before.
-    Exported to `workspace/output/leg_lift_2026-08-18_15-09-43/policy_leg_lift.json`.
-    **Not yet verified**: whether the lift is visibly gradual (not snapping) and
-    whether hold-phase oscillation is visibly reduced — those are behavioral
-    properties the aggregate reward/eval numbers don't directly confirm; needs a
-    look at `rollout_final.mp4` (or on-robot/`pupper_mujoco_sim` testing) before
-    calling the fix successful, and before this policy is wired into the monorepo.
+    Exported and shipped to `neural_controller/launch/policy_leg_lift.json` for a
+    round of testing.
+  - **On testing that run, the user asked for the CoM correction to go further**:
+    an additional ~2cm back, ~2cm right (robot-forward frame; axis convention
+    verified directly against the model's leg attachment positions, not assumed
+    — see the code comment in `randomize.py`). `body_com_x_shift_range` recentered
+    from -0.025 to -0.045, `body_com_y_shift_range` from 0 to -0.02. Both ranges
+    stay entirely on the back/right side, so every episode gets a consistent
+    back+right bias, not just wider noise.
+  - **Run `leg_lift_2026-08-19_20-18-08` completed** with that further CoM
+    correction (200M steps, warm-started from `leg_lift_2026-08-18_15-09-43`,
+    ~17.2 min wall-clock). `eval/episode_reward` plateaued 85-106 (final eval
+    92.9), tilt 3.5-4.4°, torso height 0.159-0.161 m — comparable posture to the
+    previous run. **Exported and shipped to `neural_controller/launch/
+    policy_leg_lift.json` — this is the policy currently deployed, awaiting the
+    next round of hardware testing.** None of the three targeted fixes (CoM
+    correction, gradual lift vs. snapping, reduced hold-phase oscillation) have
+    been visually/hardware confirmed yet; that confirmation is what this round
+    of testing is for. `rollout_final.mp4` for this run is at
+    `workspace/output/leg_lift_2026-08-19_20-18-08/rollout_final.mp4` if you want
+    to sanity-check the sim rollout before/alongside hardware testing.
+  - **Process note**: both training runs behind this policy needed a background
+    process fully detached from the Claude Code session (`nohup ... &` +
+    `disown`) to reliably finish — the session runs over SSH and can drop, which
+    killed two earlier in-session attempts before completion (one at 94% done).
+    Always launch long training runs detached from here on.
 
 ## Deployment (monorepo side)
 
