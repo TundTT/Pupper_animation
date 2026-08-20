@@ -53,6 +53,14 @@ def main() -> None:
     p.add_argument("--wandb_project", default="pupper-leg-lift")
     p.add_argument("--wandb_entity", default=None)
     p.add_argument("--no_eval_videos", action="store_true", help="skip the per-eval W&B video")
+    p.add_argument(
+        "--com_x_shift_range", type=float, nargs=2, default=None, metavar=("MIN", "MAX"),
+        help="override randomize.py's body_com_x_shift_range for this run, without touching its committed default",
+    )
+    p.add_argument(
+        "--com_y_shift_range", type=float, nargs=2, default=None, metavar=("MIN", "MAX"),
+        help="override randomize.py's body_com_y_shift_range for this run, without touching its committed default",
+    )
     args = p.parse_args()
 
     config = configs.get_config()
@@ -90,9 +98,19 @@ def main() -> None:
         print(f"Warm-starting from {args.init_params}")
         restore_params = model.load_params(args.init_params)
 
+    randomization_fn = domain_randomize
+    com_overrides = {}
+    if args.com_x_shift_range is not None:
+        com_overrides["body_com_x_shift_range"] = tuple(args.com_x_shift_range)
+    if args.com_y_shift_range is not None:
+        com_overrides["body_com_y_shift_range"] = tuple(args.com_y_shift_range)
+    if com_overrides:
+        print(f"Overriding CoM shift range(s) for this run only: {com_overrides}")
+        randomization_fn = functools.partial(domain_randomize, **com_overrides)
+
     ppo_kwargs = dict(config.ppo)
     train_fn = functools.partial(
-        ppo.train, **ppo_kwargs, network_factory=network_factory, randomization_fn=domain_randomize,
+        ppo.train, **ppo_kwargs, network_factory=network_factory, randomization_fn=randomization_fn,
         restore_params=restore_params,
     )
 
