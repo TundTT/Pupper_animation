@@ -13,11 +13,18 @@ the way it does) lives on `master` in `mujoco_playground/workspace/README.md` an
 
 | | |
 |---|---|
-| Policy | `leg_lift_2026-08-11_01-35-11` (wandb `t0e8qg3f`) |
+| Policy | `leg_lift_2026-08-19_20-18-08` |
 | File | `ros2_ws/src/neural_controller/launch/policy_leg_lift.json` |
 | Controller | `neural_controller_leg_lift` (already in `config.yaml` + `launch.py`) |
 
-Measured in sim over 256 domain-randomized robots, 12 s five-lift sequence:
+See `mujoco_playground/workspace/README.md`'s "Status" section on `master` for this
+run's training-time numbers and the CoM-domain-randomization history behind it. The
+sim-DR sweep below is from the original `leg_lift_2026-08-11_01-35-11` characterization
+and hasn't been re-run for later policies — treat it as indicative, not current; the
+test log below has the actual on-hardware results per policy.
+
+Measured in sim over 256 domain-randomized robots, 12 s five-lift sequence (original
+`leg_lift_2026-08-11_01-35-11` numbers, see caveat above):
 
 - raises **all four** legs, foot clearance **0.123 – 0.132 m**
 - torso stays at standing height (0.155 – 0.160 m), tilt ≤ ~4.7° mean
@@ -160,6 +167,22 @@ commanded leg. Earlier policies did all of those; if you see them, something reg
 - **Feeds the next training pass, not a code fix:** retrain against a model with the CoM
   shifted back, and try biasing the reward/`action_rate` toward a slower, continuously-
   balanced lift instead of a fast snap-to-target.
+
+### 2026-08-19 — `leg_lift_2026-08-19_20-18-08`, further CoM correction
+
+- **Success: all four legs lifted and stabilized cleanly.** First fully clean session
+  across the whole command cycle — no e-stop, no fall, no leg struggling to lift.
+- **Regression: `front_l` doesn't lift as high as it used to.** Suspected cause is the
+  CoM domain-randomization correction being too aggressive (this run trained with an
+  additional ~2cm-back/~2cm-right shift on top of the first correction — see
+  `mujoco_playground/workspace/README.md`'s "Status" section, and `randomize.py`'s
+  `body_com_x_shift_range`/`body_com_y_shift_range`). Pushing the assumed CoM further
+  right plausibly makes the left-side lift (which needs the stance legs to shift weight
+  rightward) harder to reach as high.
+- **Next step, not yet done: retrain with a less extreme CoM correction** — 1cm
+  back / 1cm right instead of the current 2cm/2cm, i.e. recenter
+  `body_com_x_shift_range` to -0.035 (not -0.045) and `body_com_y_shift_range` to -0.01
+  (not -0.02), same half-widths. Then retest, watching `front_l` specifically.
 
 ## Reporting back
 

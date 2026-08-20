@@ -67,20 +67,16 @@ they're one codebase; just commit/push through the single top-level repo.
   (pre-existing 3D-print crack lines), judged a print/hardware fault since command routing to
   `back_r` had already been verified working in an earlier session before that leg broke. Full
   test log and reporting template: `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`.
-- **`leg_lift_2026-08-19_20-18-08` is now deployed (`neural_controller/launch/policy_leg_lift.json`)
-  and READY FOR THE NEXT ROUND OF HARDWARE TESTING — awaiting results.** This policy addresses
-  three issues found in that 2026-08-17 hardware round: (1) `back_r`/back-leg balance struggling
-  on hardware in a way sim didn't show, from the model's assumed CoM being off from the real
-  robot's — fixed by biasing+widening CoM domain randomization, corrected twice (see
-  `workspace/README.md` Status for both rounds' numbers) to end up centered ~4.5cm back / 2cm
-  right of the model's original assumed CoM; (2) the lift snapping to the target instead of
-  raising gradually — fixed with a hard per-step rate limit scoped to ONLY the actively-lifted
-  leg's hip joint, so the 9 stance-leg joints keep full balance-correction authority; (3)
-  whole-body oscillation while a leg is held up — fixed with higher `action_rate`/`dof_acc`
-  reward weights (soft costs, not a hard cap, so fast corrective actions stay available). None
-  of the three fixes have been visually confirmed working on hardware yet — that confirmation
-  is what this round of testing is for. Full rationale and reward-curve numbers for both
-  training runs behind this policy: `mujoco_playground/workspace/README.md` Status section.
+- **`leg_lift_2026-08-19_20-18-08` was real-hardware tested (2026-08-19): success, with one
+  regression to tune out next.** This policy addressed three issues found in the 2026-08-17
+  hardware round — CoM-mismatch back-leg struggling, lift-snapping, and hold-phase
+  oscillation (see `workspace/README.md` Status for the full rationale and both CoM-correction
+  rounds' numbers) — and on this test, **all four legs lifted and stabilized cleanly**, no
+  e-stop, no fall. One regression: **`front_l` doesn't lift as high as before**, suspected to
+  be the CoM correction overshooting (this run trained ~4.5cm back / 2cm right of the model's
+  original assumed CoM). **Next: retrain with a less extreme correction — 1cm back / 1cm
+  right instead of 2cm/2cm — and retest**, watching `front_l` specifically. Full test log:
+  `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`.
 
 ## Training side — `mujoco_playground/workspace/` (our code)
 

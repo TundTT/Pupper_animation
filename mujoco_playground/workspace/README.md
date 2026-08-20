@@ -336,6 +336,18 @@ a policy is earning its reward rather than just how much:
     `disown`) to reliably finish — the session runs over SSH and can drop, which
     killed two earlier in-session attempts before completion (one at 94% done).
     Always launch long training runs detached from here on.
+  - **Hardware test of `leg_lift_2026-08-19_20-18-08` (2026-08-19): success —
+    all four legs lifted and stabilized.** First fully clean run across all
+    four commands. One regression noted: **`front_l` doesn't lift as high as
+    before**, suspected to be a side effect of the ~2cm back/~2cm right CoM
+    correction above being too aggressive — pushing the assumed CoM further
+    right plausibly makes the left-side lift (which needs to shift weight
+    rightward onto the stance legs) harder to reach as high. **Next: retry
+    with a less extreme CoM correction — 1cm back / 1cm right instead of the
+    current 2cm/2cm** — i.e. `body_com_x_shift_range` recentered to -0.035
+    (not -0.045) and `body_com_y_shift_range` recentered to -0.01 (not -0.02),
+    keeping the same half-widths as the current range. Not yet implemented or
+    retrained as of this note.
 
 ## Deployment (monorepo side)
 
