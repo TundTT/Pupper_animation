@@ -25,15 +25,25 @@ def domain_randomize(
     friction_range: Tuple = (0.4, 1.5),
     kp_multiplier_range: Tuple = (0.5, 1.6),
     kd_multiplier_range: Tuple = (0.5, 2.0),
-    # Biased backward (torso local +x = forward, see leg_lift_env._forward_xy) and
-    # widened from the old symmetric (-0.03, 0.03). On-hardware testing
-    # (2026-08-17/18, see workspace/README.md Status) showed the back legs --
-    # back_r especially -- visibly struggle in a way the old sim rollouts didn't,
-    # consistent with the real robot's CoM sitting further back than this MJCF
-    # assumes. Still covers some forward slack rather than only ever sampling
-    # backward, so the policy doesn't overfit to one exact offset.
-    body_com_x_shift_range: Tuple = (-0.07, 0.02),
-    body_com_y_shift_range: Tuple = (-0.015, 0.015),
+    # Biased backward-and-right of center, widened from the old symmetric
+    # (-0.03, 0.03) / (-0.01, 0.01). Axis convention verified directly against
+    # the model (not assumed): leg_front_r sits at y=-0.0835, leg_front_l at
+    # y=+0.0835, both at x=+0.075 vs. -0.075 for the back legs -- so with the
+    # robot facing +x, +y=left/-y=right (standard robotics convention).
+    #
+    # Two rounds of correction so far, both from on-hardware testing (see
+    # workspace/README.md Status):
+    #  - 2026-08-17/18: back legs (back_r especially) visibly struggled vs. sim,
+    #    consistent with the real CoM sitting further back than this MJCF
+    #    assumes -- x center shifted from 0 to -0.025.
+    #  - 2026-08-18 (2nd test, of the run trained with that first correction):
+    #    user asked for a further ~2cm back, ~2cm right correction on top of
+    #    that -- x center shifted an additional -0.02 (to -0.045), y center
+    #    shifted -0.02 (right) off its previous 0. Half-widths kept the same
+    #    as before this second shift, just re-centered, so there's still DR
+    #    coverage around the new best-guess offset rather than a fixed value.
+    body_com_x_shift_range: Tuple = (-0.09, 0.0),
+    body_com_y_shift_range: Tuple = (-0.035, -0.005),
     body_com_z_shift_range: Tuple = (-0.025, 0.025),
     body_inertia_scale_range: Tuple = (0.9, 1.3),
     body_mass_scale_range: Tuple = (0.9, 1.3),
