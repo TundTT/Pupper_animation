@@ -31,10 +31,13 @@ Lift-hip rate limit
 --------------------
 The actively-lifted leg's hip action is rate-limited per step (see
 configs.LIFT_HIP_MAX_ACTION_DELTA) so the lift ramps in instead of snapping to
-the commanded height. Scoped to that single joint only -- the 9 stance-leg
-joints are left uncapped so balance corrections stay full-bandwidth while a leg
-is in the air. See step() for the clamp and why it's expected to transfer to
-the deployed (unclamped) policy.
+the commanded height, and (configs.LOWER_HIP_RATE_LIMIT_STEPS) the same limit
+continues to apply to a leg's hip for a window after the command switches away
+from it, so lowering ramps too instead of dropping straight down. Both are
+scoped to a single joint at a time -- the 9 stance-leg joints are left uncapped
+so balance corrections stay full-bandwidth while a leg is in the air or coming
+down. See step() for the clamp and why it's expected to transfer to the
+deployed (unclamped) policy.
 """
 
 from typing import Any, Dict, List, Optional, Sequence
@@ -234,6 +237,13 @@ class PupperLegLiftEnv(PipelineEnv):
             # rate-limit clamp (see step()). Zeros at reset matches the raw
             # last_act init, so the first lift step ramps from a standstill.
             "last_clamped_action": jp.zeros(12),
+            # Which hip is currently being rate-limited on its way back DOWN
+            # after a command switch away from it, and how many steps that
+            # lasts for. See step() -- this is the lowering-side counterpart
+            # to the (raising-side) mask above; 0 remaining steps means no
+            # leg is currently in a lowering cooldown.
+            "lowering_hip_idx": jp.int32(0),
+            "lowering_steps_left": jp.int32(0),
             # Where the torso started, so the body_drift reward can measure "has it
             # walked/shuffled away from where it was standing" per episode. Recorded
             # per-episode rather than hard-coded because domain randomization changes
@@ -264,22 +274,37 @@ class PupperLegLiftEnv(PipelineEnv):
         state.info["rng"], kick_rng, lat_rng, obs_rng = jax.random.split(state.info["rng"], 4)
         command = state.info["command"]
 
-        # Rate-limit ONLY the currently-lifted leg's hip, relative to what was
-        # actually applied last step -- models an actuator max-velocity limit so
-        # the lift ramps in instead of snapping. See configs.LIFT_HIP_MAX_ACTION_
-        # DELTA for the full rationale. Scoped via a one-hot mask so the other 11
-        # joints (all 9 stance-leg joints, plus the lifted leg's abduction/knee)
-        # are untouched and keep full-bandwidth balance-correction authority.
+        # Rate-limit the currently-lifted leg's hip (raising) AND, separately, the
+        # most-recently-lifted leg's hip for a cooldown window after the command
+        # switches away from it (lowering) -- relative to what was actually
+        # applied last step, modeling an actuator max-velocity limit so the leg
+        # ramps up AND down instead of snapping either way. The raise-only
+        # version of this shipped and was hardware-validated (2026-08-19); a
+        # 2026-08-20 hardware round then found the leg drops straight down on
+        # an O-button switch, because the mask below only ever covered whichever
+        # leg is UP NOW -- the instant the command changes, the leg that WAS up
+        # falls out of the mask entirely and its hip is free to snap home at
+        # full speed. `lowering_hip_idx`/`lowering_steps_left` (set below, at the
+        # command-switch point) are the fix: they keep that specific leg's hip
+        # under the same limit for a window after the switch, without touching
+        # the OTHER stance legs (which need full-bandwidth balance authority the
+        # whole time) or the newly-rising leg (its own, separate mask).
         #
         # Only the PHYSICS consequence is clamped here (what reaches
         # pipeline_step below). `last_act`, and therefore the action_rate/dof_acc
         # rewards and next step's observation, still use the RAW `action` -- so
         # a raw action beyond this limit costs action_rate for zero extra
         # physical effect, which should push the policy to converge to a raw
-        # output that already respects the limit (untested on hardware so far).
+        # output that already respects the limit (the raise-side version of this
+        # was confirmed to transfer to the deployed, unclamped policy on
+        # hardware; the lowering side is the same mechanism, untested so far).
         lifted_row = self._lifted_foot_row[command]
         hip_i = self._lift_hip_idx[command]
-        hip_mask = jax.nn.one_hot(hip_i, 12) * (lifted_row >= 0).astype(jp.float32)
+        rising_mask = jax.nn.one_hot(hip_i, 12) * (lifted_row >= 0).astype(jp.float32)
+        lowering_mask = jax.nn.one_hot(state.info["lowering_hip_idx"], 12) * (
+            state.info["lowering_steps_left"] > 0
+        ).astype(jp.float32)
+        hip_mask = jp.maximum(rising_mask, lowering_mask)
         max_delta = self._config.lift_hip_max_action_delta
         prev_applied = state.info["last_clamped_action"]
         clamped_action = jp.where(
@@ -354,6 +379,20 @@ class PupperLegLiftEnv(PipelineEnv):
         state.info["command_switch_step"] = jp.where(
             switch, state.info["step"] + self._sample_hold(hold_rng), state.info["command_switch_step"]
         )
+
+        # Start (or continue counting down) the lowering-rate-limit cooldown for
+        # the leg that was just commanded up during THIS step (`command`/
+        # `lifted_row`/`hip_i` above, all still bound to the pre-switch value).
+        # Only starts a NEW cooldown when a leg was actually up and the command
+        # is changing away from it -- switching between "stand" and "stand", or
+        # continuing to hold the same leg, does nothing here.
+        newly_lowering = switch & (lifted_row >= 0)
+        state.info["lowering_steps_left"] = jp.where(
+            newly_lowering,
+            self._config.lift_hip_max_action_delta_lower_steps,
+            jp.maximum(state.info["lowering_steps_left"] - 1, 0),
+        )
+        state.info["lowering_hip_idx"] = jp.where(newly_lowering, hip_i, state.info["lowering_hip_idx"])
 
         # Store raw commanded action (not lagged) in last_act — the obs and
         # action_rate penalty both reference what the policy last commanded.

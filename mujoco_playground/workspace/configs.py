@@ -181,7 +181,25 @@ KNEE_RADIUS = 0.025
 # 0.05 action units = 0.08 rad/step at ACTION_SCALE_HIP=1.6, reaching the full
 # hip_lift_reference=1.4 rad target in ~18 steps (~0.35 s) -- gradual, but with
 # large margin inside the 1.0 s minimum command hold (command_hold_steps_min).
+#
+# CONFIRMED on hardware (2026-08-19): the lift raises gradually rather than
+# snapping, and the raw-action mechanism above (clamp physics only, penalize
+# the raw action via action_rate) transferred to the deployed policy with no
+# neural_controller.cpp change needed, as hoped.
 LIFT_HIP_MAX_ACTION_DELTA = 0.05
+
+# How many steps the SAME rate limit above continues to apply to a leg's hip
+# after the command switches AWAY from it (i.e. on the way back down), timed
+# from the step the switch takes effect. Without this, the lowering leg falls
+# out of the (raise-only) mask above the instant the command changes, and its
+# hip is free to snap home at full speed -- confirmed as a real on-hardware
+# problem 2026-08-20 (see workspace/README.md Status): the raise-side fix
+# above did not cover this, since it only ever tracked whichever leg is UP
+# NOW, not whichever leg WAS just up. Same order of magnitude as the ~18 steps
+# the raise itself takes, plus a small margin for whatever fraction of the
+# full lift was actually reached (a leg lowered from a partial lift has less
+# distance to cover, so this is a safe upper bound, not a precise one).
+LOWER_HIP_RATE_LIMIT_STEPS = 20
 
 
 def get_config() -> config_dict.ConfigDict:
@@ -200,6 +218,7 @@ def get_config() -> config_dict.ConfigDict:
         sim_dt=0.004,
         action_scale=tuple(float(a) for a in ACTION_SCALE),  # per-joint, see ACTION_SCALE
         lift_hip_max_action_delta=LIFT_HIP_MAX_ACTION_DELTA,  # see constant above
+        lift_hip_max_action_delta_lower_steps=LOWER_HIP_RATE_LIMIT_STEPS,  # see constant above
         position_control_kp=5.0,
         dof_damping=0.25,
         observation_history=1,  # set >1 to stack frames like the locomotion policy
