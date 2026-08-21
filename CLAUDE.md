@@ -84,8 +84,23 @@ they're one codebase; just commit/push through the single top-level repo.
   separate issue from CoM tuning, not something more CoM sweeps will fix. Overall
   verdict is still a real success — command routing, balance, and 3-of-4 leg lift
   quality are solid; these are refinements on the 2cm/2cm base, not a redesign. Full
-  rationale: `workspace/README.md` Status section. Full hardware test log:
-  `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`.
+  hardware test log: `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`.
+- **Tried and discarded a from-scratch (no warm-start) run** to test whether `front_l`'s
+  shortfall was a policy artifact vs. CoM-related — it collapsed into an extreme
+  version of the "lifts three, gives up on the fourth" local optimum, except mirrored:
+  it lifted only `front_l` (near the 0.12m target) and gave up entirely on the other
+  three. Informative (argues `front_l` isn't inherently harder to lift, so the
+  warm-started lineage's shortfall is likely inherited/policy-level, not physical) but
+  not deployable — discarded rather than kept. **Decision: keep warm-starting.**
+- **`leg_lift_2026-08-21_18-17-50` is now deployed** — warm-started from
+  `leg_lift_2026-08-19_20-18-08`, reverted to the 2cm/2cm CoM correction, and now
+  includes a new **gradual-lowering rate limit** (`configs.LOWER_HIP_RATE_LIMIT_STEPS`)
+  extending the existing raise-side hip rate limit to also cover a leg's hip while it's
+  lowering after an O-button switch, fixing item (1) above. Item (2) (`front_l`) is
+  still unaddressed. **READY FOR THE NEXT ROUND OF HARDWARE TESTING — awaiting
+  results.** Watch specifically: whether lowering is now gradual (not a snap-down), and
+  `front_l` lift height (not expected to have changed). Full rationale and this run's
+  numbers: `workspace/README.md` Status section.
 
 ## Training side — `mujoco_playground/workspace/` (our code)
 

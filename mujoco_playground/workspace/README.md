@@ -409,6 +409,44 @@ a policy is earning its reward rather than just how much:
     policy family is considered a real success on hardware — command
     routing, balance, and 3-of-4 leg lift quality are solid; these three
     items are refinements, not a redesign.
+  - **Tried a from-scratch (no warm-start) run to test whether `front_l`'s
+    shortfall was policy-inherited vs. CoM-related — discarded, but
+    informative.** It collapsed into a more extreme version of "local optimum
+    3" above: instead of dropping one leg, it kept only `front_l` (mean foot
+    clearance 0.0665m, p90 0.1233m — close to the 0.12m target) and gave up
+    entirely on `front_r`/`back_r`/`back_l` (all ~0m, never left the ground).
+    0% actual falls, so posture/balance was fine — the lift behavior
+    specifically collapsed onto one leg. **Reading**: this argues `front_l` is
+    not inherently harder to lift (a fresh optimization found it the *easiest*
+    leg to commit to), which points toward the warm-started lineage's
+    shortfall being an artifact inherited from the original 2026-08-11
+    ancestor and carried through every subsequent warm-start, rather than a
+    CoM or hardware issue — though it doesn't rule out a hardware
+    contribution either. Decision: keep warm-starting (it reliably avoids this
+    collapse) rather than pursue more from-scratch runs; treat `front_l` as a
+    smaller, separate fine-tuning target for later. This run's artifacts were
+    discarded, not committed.
+  - **Added the gradual-lowering rate limit** (item 2 above).
+    `configs.LOWER_HIP_RATE_LIMIT_STEPS` (20 steps) extends
+    `LIFT_HIP_MAX_ACTION_DELTA`'s existing raise-side clamp to also cover a
+    leg's hip for a cooldown window after the command switches away from it —
+    tracked via new `lowering_hip_idx`/`lowering_steps_left` env-info fields,
+    combined with the raising mask via `max()`. Same scoping principle: only
+    that one leg's hip, so the 9 stance-leg joints keep full-bandwidth balance
+    authority throughout. The raise-side version of this mechanism was
+    hardware-confirmed to transfer without a `neural_controller.cpp` change;
+    the lowering side is the same mechanism, not yet hardware-verified.
+  - **Run `leg_lift_2026-08-21_18-17-50` completed**: warm-started from
+    `leg_lift_2026-08-19_20-18-08` (the last hardware-tested-well policy),
+    with the CoM correction reverted to 2cm/2cm and the new lowering rate
+    limit included. 200M steps, ~16.7 min wall-clock. `eval/episode_reward`
+    plateaued 74-98 (final eval 87.7, a bit lower/wider spread than prior
+    warm-started runs but not concerning), tilt 3.7-4.0°, torso height
+    0.159-0.160m. **Exported and shipped to `neural_controller/launch/
+    policy_leg_lift.json` — ready for the next round of hardware testing.**
+    Specifically watch: (1) whether lowering is now gradual, not a snap-down,
+    on O-button switches, and (2) `front_l` lift height — still unaddressed
+    by this run, not expected to have changed.
 
 ## Deployment (monorepo side)
 
