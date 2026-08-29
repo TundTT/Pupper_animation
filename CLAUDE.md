@@ -4,17 +4,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this workspace is
 
-A **working area for one task**: build a leg-lift behavior for the **Pupper V3** quadruped
-that raises one leg, holds it up stably on the other three legs for a fixed window (so heat
-can be applied to a smart-polymer link while it's off the ground), then lowers it. See
-[.notes/goal.md](.notes/goal.md) for the research context. This task owns **mechanical
-motion only** — not heating or polymer sensing.
+A **working area for training a new RL policy for Pupper V3: wheeled locomotion.**
+This branch (`wheel`) was forked 2026-08-29 from the `master` branch, which builds a
+leg-lift behavior (raise one leg, hold it stably on the other three, lower it — see
+[.notes/goal.md](.notes/goal.md) for that task's original research context). The
+leg-lift work and its full decision history stay on `master`, untouched; this branch
+reuses the same training pipeline, deployment plumbing, and vendored Pupper V3 model
+as a hardware-verified starting point, to be customized for wheeled locomotion instead.
+**As of the fork, nothing here has actually been changed for wheels yet** — see
+`mujoco_playground/workspace/README.md`'s "Starting point" and "Status" sections for
+what still needs building (a wheeled MJCF model, a new env, a new reward).
 
-> **Approach: this is an RL policy, NOT a scripted/keyframe animation.** Despite the
-> "animation" wording in goal.md, the chosen approach is to **train a reinforcement-learning
-> policy** (the same kind of artifact as Pupper's locomotion policy) and deploy it to the
-> robot. The CSV-keyframe `animation_controller_py` package in the monorepo is therefore
-> **not** the relevant subsystem here — ignore it for this work.
+> **Approach: this is an RL policy, NOT a scripted/keyframe animation** (inherited from
+> the leg-lift branch this forked from). The chosen approach is to **train a
+> reinforcement-learning policy** (the same kind of artifact as Pupper's locomotion
+> policy) and deploy it to the robot. The CSV-keyframe `animation_controller_py`
+> package in the monorepo is therefore **not** the relevant subsystem here — ignore it
+> for this work.
 
 **This directory *is* a single git repo** (`Pupper_animation`, origin
 `github.com/TundTT/Pupper_animation.git`, branch `master`). Despite the layout below looking
@@ -44,63 +50,18 @@ they're one codebase; just commit/push through the single top-level repo.
 
 ## Project decisions made so far
 
-- **One command-conditioned policy.** A single RL policy, separate from locomotion, observes
-  a 5-way one-hot command = which leg is up (`stand`, `front_l`, `front_r`, `back_r`, `back_l`)
-  and raises/holds/lowers that leg while balancing on the other three.
-- **O button steps a clockwise sequence.** On the robot, each press of O advances
-  `stand → front_l → front_r → back_r → back_l → …`, lowering the current leg and raising the
-  next. This state machine lives **on the robot** (`joy_util_node`'s `EStopController`, see
-  Deployment side below), not in the policy — the policy is order-agnostic and only sees
-  "which leg is up now."
-- **Hold is operator-timed.** "Hold" = the command not changing, so duration is however long
-  the operator waits between presses. No fixed duration baked into the policy; no retrain to
-  change it. (Supersedes the earlier "fixed duration, retrain" decision.)
-- **Lift with the leg, not the body.** The policy must hold the standard standing pose —
-  torso upright, at full standing height, roughly where it started, other three feet
-  planted — and raise the commanded leg as high as it can from there. It must NOT reach
-  height by leaning back, sitting, or resting another limb on the ground. This is enforced
-  by the reward *and* by episode termination; see `workspace/README.md` "Reward design".
-  (Supersedes the earlier fixed `LIFT_DELTAS` target-pose approach, which was removed.)
-- **Status: `leg_lift_2026-08-11_01-35-11` was real-hardware tested (2026-08-17) with one
-  hardware fault found, not a software/policy problem** — `front_l`, `front_r`, `back_l` all
-  lifted cleanly and held; `back_r` did not lift because the leg physically snapped
-  (pre-existing 3D-print crack lines), judged a print/hardware fault since command routing to
-  `back_r` had already been verified working in an earlier session before that leg broke. Full
-  test log and reporting template: `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`.
-- **`leg_lift_2026-08-19_20-18-08` was real-hardware tested (2026-08-19): success, with one
-  regression that led to the current policy.** This policy addressed three issues found in
-  the 2026-08-17 hardware round — CoM-mismatch back-leg struggling, lift-snapping, and
-  hold-phase oscillation (see `workspace/README.md` Status for the full rationale) — and on
-  this test, **all four legs lifted and stabilized cleanly**, no e-stop, no fall. One
-  regression: **`front_l` didn't lift as high as before**, suspected to be the CoM correction
-  overshooting (that run trained ~4.5cm back / 2cm right of the model's original assumed CoM).
-- **Both the 1cm/1cm and 1.5cm/1.5cm CoM corrections were hardware-tested (2026-08-20)
-  and neither beat the original 2cm/2cm.** Verdict: 2cm/2cm is still the best CoM
-  correction so far — 1cm was too central (undercorrected), 1.5cm didn't improve on
-  2cm either. **Two more issues found, both to fix alongside reverting to 2cm/2cm in
-  the next training pass:** (1) lowering a leg on O-button switch snaps down abruptly —
-  the existing hip rate limit only covers raising, not lowering; (2) `front_l` lifts
-  lower than the other three legs **across all three CoM variants tested**, so it's a
-  separate issue from CoM tuning, not something more CoM sweeps will fix. Overall
-  verdict is still a real success — command routing, balance, and 3-of-4 leg lift
-  quality are solid; these are refinements on the 2cm/2cm base, not a redesign. Full
-  hardware test log: `Stanford/pupperv3-monorepo/LEG_LIFT_TESTING.md`.
-- **Tried and discarded a from-scratch (no warm-start) run** to test whether `front_l`'s
-  shortfall was a policy artifact vs. CoM-related — it collapsed into an extreme
-  version of the "lifts three, gives up on the fourth" local optimum, except mirrored:
-  it lifted only `front_l` (near the 0.12m target) and gave up entirely on the other
-  three. Informative (argues `front_l` isn't inherently harder to lift, so the
-  warm-started lineage's shortfall is likely inherited/policy-level, not physical) but
-  not deployable — discarded rather than kept. **Decision: keep warm-starting.**
-- **`leg_lift_2026-08-21_18-17-50` is now deployed** — warm-started from
-  `leg_lift_2026-08-19_20-18-08`, reverted to the 2cm/2cm CoM correction, and now
-  includes a new **gradual-lowering rate limit** (`configs.LOWER_HIP_RATE_LIMIT_STEPS`)
-  extending the existing raise-side hip rate limit to also cover a leg's hip while it's
-  lowering after an O-button switch, fixing item (1) above. Item (2) (`front_l`) is
-  still unaddressed. **READY FOR THE NEXT ROUND OF HARDWARE TESTING — awaiting
-  results.** Watch specifically: whether lowering is now gradual (not a snap-down), and
-  `front_l` lift height (not expected to have changed). Full rationale and this run's
-  numbers: `workspace/README.md` Status section.
+- **This branch (`wheel`) is a fresh fork of `master`'s leg-lift work (2026-08-29),
+  set up to train a wheeled-locomotion policy instead.** No wheeled-specific
+  training, env, reward, or model work has happened here yet — see
+  `workspace/README.md`'s "Starting point" and "Status" sections for the concrete
+  next steps (build a wheeled MJCF, write a new env/reward, wire it into the
+  pipeline files that still hardcode the leg-lift env).
+- **The leg-lift decision log and hardware-testing history live on `master`**, not
+  here — `master`'s `CLAUDE.md` has the full "Project decisions made so far" for
+  that task (reward-design iterations, CoM-correction hardware tests, the
+  `front_l`/lowering-snap issues, etc.). Consult it for lessons that generalize
+  (e.g. reward-shaping pitfalls, warm-starting, detached-training process notes),
+  but treat its specific numbers/fixes as leg-lift-only, not applicable here.
 
 ## Training side — `mujoco_playground/workspace/` (our code)
 
