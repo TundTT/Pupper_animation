@@ -1,8 +1,14 @@
 <mujoco model="pupper_v3">
     <keyframe>
+        <!-- Wheeled home pose: front/back legs splayed via the abduction (_1) joints at ±1 rad
+        so the wheels sit under the body on the ground, instead of the old folded-up all-zero
+        leg-lift pose. Wheel joints (continuous) stay at 0, no natural "home" angle for them.
+        qpos joint order: front_r(1,2,3,wheel), front_l(1,2,3,wheel), back_r(1,2,3,wheel),
+        back_l(1,2,3,wheel). ctrl actuator order: front_r(1,2,3), front_l(1,2,3), wheel motors
+        (front_l, front_r, back_l, back_r), back_r(1,2,3), back_l(1,2,3). -->
         <key name="home"
-            qpos="0 0 0.28             1 0 0 0             0.0 0.0 0.0             0.0 0.0 0.0             0.0 0.0 0.0             0.0 0.0 0.0"
-            ctrl="0.0 0.0 0.0             0.0 0.0 0.0             0.0 0.0 0.0             0.0 0.0 0.0" />
+            qpos="0 0 0.28             1 0 0 0             1 0 0 0             -1 0 0 0             1 0 0 0             -1 0 0 0"
+            ctrl="1 0 0             -1 0 0             0 0 0 0             1 0 0             -1 0 0" />
     </keyframe>
     <asset>
         <texture type="skybox" builtin="gradient" rgb1=".3 .5 .7" rgb2="0 0 0" width="512"
