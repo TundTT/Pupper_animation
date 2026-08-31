@@ -152,13 +152,15 @@
                         <inertial pos="0 0 0" mass="0.001" diaginertia="1e-8 1e-8 1e-8" />
                         <joint name="leg_front_l_3" pos="0 0 0" axis="0 0 1" range="-0.71 2.79" />
                         <site name="leg_front_l_3_foot_site" pos="0.06231 0.06216 0.018" />
-                        <!-- Wheel mounts directly on the knee joint's own output (pos="0 0 0"),
-                        not offset like the old foot was; there's no shin tube standing it off
-                        anymore. If the real hardware has some standoff/spacer between the motor
-                        face and the wheel's mounting face, replace this with that distance.
-                        Orientation (quat="1 0 0 0", identity relative to leg_front_l_3) is
-                        confirmed correct: spin axis lands on world Y (lateral) at the home pose. -->
-                        <body name="leg_front_l_wheel" pos="0 0 0" quat="1 0 0 0"
+                        <!-- Wheel mounts on the knee joint's output, offset 0.0185m along the
+                        spin axis to clear the knee motor housing (measured directly from the
+                        leg_front_l_2 mesh's extent along this axis, which protrudes 18.5mm past
+                        the joint origin) so the mounting face sits flush instead of clipping
+                        into the motor. If the real hardware's standoff differs, replace this
+                        with that distance. Orientation (quat="1 0 0 0", identity relative to
+                        leg_front_l_3) is confirmed correct: spin axis lands on world Y
+                        (lateral) at the home pose. -->
+                        <body name="leg_front_l_wheel" pos="0 0 0.0185" quat="1 0 0 0"
                             gravcomp="0">
                             <inertial pos="1.6e-05 -1.9e-05 0.01638" mass="0.062"
                                 fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
