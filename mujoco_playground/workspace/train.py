@@ -63,7 +63,11 @@ def main() -> None:
     p.add_argument("--output_dir", default=os.path.join(os.path.dirname(__file__), "output"))
     p.add_argument("--use_wandb", action="store_true", help="log metrics + rollout videos to W&B")
     p.add_argument("--wandb_project", default="pupper-wheel")
-    p.add_argument("--wandb_entity", default=None)
+    # Default to the QuadMorph team so runs and their videos land somewhere the whole
+    # team can see, not in whoever-launched-it's personal workspace. Slug is
+    # case-sensitive and was read back from the W&B API, not guessed from the UI
+    # label. Override with --wandb_entity for a personal scratch run.
+    p.add_argument("--wandb_entity", default="QuadMorph")
     p.add_argument("--no_eval_videos", action="store_true", help="skip the per-eval W&B video")
     p.add_argument(
         "--com_x_shift_range", type=float, nargs=2, default=None, metavar=("MIN", "MAX"),
