@@ -143,14 +143,14 @@
                         mesh="LegAssemblyForFlangedv26_011" />
                     <body name="leg_front_l_3" pos="0 -0.0494 0.0685"
                         quat="9.38184e-07 -0.707108 9.38187e-07 0.707105" gravcomp="0">
-                        <inertial pos="0.03866 0.03585 0.01833"
-                            quat="0.653281 0.270598 -0.653281 0.270598" mass="0.05"
-                            diaginertia="7.7e-05 7.55e-05 5.5e-06" />
+                        <!-- Old shin visual mesh + inertial (LegAssemblyForFlangedv26_012, the
+                        physical shin tube ending in a foot) removed entirely; the wheel
+                        assembly's own mounting-bracket parts (see WHEEL_MASS_LOG.md) bolt
+                        straight onto this joint's output, replacing that appendage rather than
+                        capping it. Placeholder inertial below is nominal/near-zero, just enough
+                        for solver validity, since all real mass now lives in leg_front_l_wheel. -->
+                        <inertial pos="0 0 0" mass="0.001" diaginertia="1e-8 1e-8 1e-8" />
                         <joint name="leg_front_l_3" pos="0 0 0" axis="0 0 1" range="-0.71 2.79" />
-                        <geom pos="0.0685 -0.0494 -0.028"
-                            quat="1.76029e-12 1.32679e-06 1 1.32679e-06" type="mesh" contype="0"
-                            conaffinity="0" group="1" density="0"
-                            mesh="LegAssemblyForFlangedv26_012" />
                         <site name="leg_front_l_3_foot_site" pos="0.06231 0.06216 0.018" />
                         <!-- Wheel replacing the foot contact point. Orientation (quat="1 0 0 0",
                         i.e. identity relative to leg_front_l_3) is a PLACEHOLDER, not yet
