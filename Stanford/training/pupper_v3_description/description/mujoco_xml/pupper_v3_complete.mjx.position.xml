@@ -160,13 +160,13 @@
                         confirmed correct: spin axis lands on world Y (lateral) at the home pose. -->
                         <body name="leg_front_l_wheel" pos="0 0 0" quat="1 0 0 0"
                             gravcomp="0">
-                            <inertial pos="1.6e-05 1.9e-05 -0.01638" mass="0.062"
-                                fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 9.384091e-09 -1.185e-08 -1.388295e-08" />
+                            <inertial pos="1.6e-05 -1.9e-05 0.01638" mass="0.062"
+                                fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
                             <joint name="leg_front_l_wheel" pos="0 0 0" axis="0 0 1"
                                 limited="false" />
-                            <geom size="0.048 0.01675" pos="0 0 -0.01675" type="cylinder"
+                            <geom size="0.048 0.01675" pos="0 0 0.01675" type="cylinder"
                                 class="collision" />
-                            <geom pos="0 0 0" quat="0.7071068 0.7071068 0 0" type="mesh"
+                            <geom pos="0 0 0" quat="0.7071068 -0.7071068 0 0" type="mesh"
                                 contype="0" conaffinity="0" group="1" density="0"
                                 mesh="AdaptiveWheel" />
                         </body>
