@@ -1,15 +1,28 @@
-"""Physics domain randomization for the Pupper V3 leg-lift training env.
+"""Physics domain randomization for the Pupper V3 training envs.
 
 Mirrors pupperv3-mjx/pupperv3_mjx/domain_randomization.py but with parameter
 ranges tuned to the Pupper_RL_PUBLIC notebook (cell 21): tighter kp/kd range,
 higher floor on mass/inertia scale. Passed as `randomization_fn` to ppo.train;
 brax vmaps it over the parallel envs before each eval.
+
+Two variants:
+  * `domain_randomize`         -- the original, all-actuators-are-position-PD
+                                  version. Correct for the leg-lift quadruped.
+  * `domain_randomize_wheeled` -- for the wheeled robot, whose `_3` actuators are
+                                  VELOCITY actuators. Randomizing those with the
+                                  position-PD formula would write a nonzero
+                                  biasprm[1] onto them, which a velocity actuator
+                                  does not have -- the same silent-corruption trap
+                                  wheel_env.py avoids when it overrides gains.
 """
 
 from typing import Tuple
 
 import jax
+import numpy as np
 from jax import numpy as jp
+
+from workspace import configs
 
 
 def domain_randomize(
@@ -98,6 +111,113 @@ def domain_randomize(
         )
         body_mass = sys.body_mass * jax.random.uniform(
             key_mass, sys.body_mass.shape, minval=body_mass_scale_range[0], maxval=body_mass_scale_range[1]
+        )
+
+        return friction, gain, bias, body_com, body_inertia, body_mass
+
+    friction, gain, bias, body_com, body_inertia, body_mass = rand(rng)
+
+    in_axes = jax.tree.map(lambda x: None, sys)
+    in_axes = in_axes.tree_replace({
+        "geom_friction": 0,
+        "actuator_gainprm": 0,
+        "actuator_biasprm": 0,
+        "body_ipos": 0,
+        "body_inertia": 0,
+        "body_mass": 0,
+    })
+
+    sys = sys.tree_replace({
+        "geom_friction": friction,
+        "actuator_gainprm": gain,
+        "actuator_biasprm": bias,
+        "body_ipos": body_com,
+        "body_inertia": body_inertia,
+        "body_mass": body_mass,
+    })
+
+    return sys, in_axes
+
+
+def domain_randomize_wheeled(
+    sys,
+    rng,
+    torso_body_idx: int = 1,
+    friction_range: Tuple = (0.4, 1.5),
+    kp_multiplier_range: Tuple = (0.5, 1.6),
+    kd_multiplier_range: Tuple = (0.5, 2.0),
+    # Wheel velocity-actuator gain multiplier. Same intent as kp/kd above: the
+    # real wheel motor's effective velocity loop is not modeled here, so make the
+    # policy indifferent to a wide spread of it.
+    kv_multiplier_range: Tuple = (0.5, 1.6),
+    # The leg-lift CoM offsets are deliberately NOT carried over. They encode
+    # hardware findings about a quadruped standing on feet (see the long comment
+    # on domain_randomize above) and there is no reason to think the wheeled
+    # robot's CoM error has the same sign or magnitude -- it has different end
+    # effectors and a different stance. Symmetric ranges until wheeled hardware
+    # says otherwise.
+    body_com_x_shift_range: Tuple = (-0.02, 0.02),
+    body_com_y_shift_range: Tuple = (-0.02, 0.02),
+    body_com_z_shift_range: Tuple = (-0.02, 0.02),
+    body_inertia_scale_range: Tuple = (0.9, 1.3),
+    body_mass_scale_range: Tuple = (0.9, 1.3),
+):
+    """Randomize friction, actuator gains, torso CoM, body inertia and mass per env.
+
+    Actuator gains are randomized PER GROUP, because the two groups have
+    different affine-bias semantics:
+        position actuator: gainprm[0]=kp, biasprm=(0, -kp, -kd)
+        velocity actuator: gainprm[0]=kv, biasprm=(0,   0, -kv)
+    Writing the position form onto a velocity row (what the un-suffixed
+    domain_randomize does) leaves it with a spurious -kp position term.
+    """
+    pos_mask = np.zeros(12)
+    pos_mask[configs.POSITION_ACTUATOR_ROWS] = 1.0
+    wheel_mask = np.zeros(12)
+    wheel_mask[configs.WHEEL_ACTUATOR_ROWS] = 1.0
+    pos_mask = jp.array(pos_mask)
+    wheel_mask = jp.array(wheel_mask)
+
+    @jax.vmap
+    def rand(rng):
+        rng, key = jax.random.split(rng)
+        friction = jax.random.uniform(key, (1,), minval=friction_range[0], maxval=friction_range[1])
+        friction = sys.geom_friction.at[:, 0].set(friction)
+
+        rng, key_kp, key_kd, key_kv = jax.random.split(rng, 4)
+        kp_mult = jax.random.uniform(key_kp, (), minval=kp_multiplier_range[0], maxval=kp_multiplier_range[1])
+        kd_mult = jax.random.uniform(key_kd, (), minval=kd_multiplier_range[0], maxval=kd_multiplier_range[1])
+        kv_mult = jax.random.uniform(key_kv, (), minval=kv_multiplier_range[0], maxval=kv_multiplier_range[1])
+
+        base_gain = sys.actuator_gainprm[:, 0]          # kp on position rows, kv on wheel rows
+        base_damp = -sys.actuator_biasprm[:, 2]         # kd on position rows, kv on wheel rows
+
+        gain_new = base_gain * (pos_mask * kp_mult + wheel_mask * kv_mult)
+        damp_new = base_damp * (pos_mask * kd_mult + wheel_mask * kv_mult)
+        # biasprm[1] is -kp for a position actuator and must stay 0 for a velocity
+        # actuator, hence the mask rather than a blanket -gain_new.
+        bias1_new = -gain_new * pos_mask
+
+        gain = sys.actuator_gainprm.at[:, 0].set(gain_new)
+        bias = sys.actuator_biasprm.at[:, 1].set(bias1_new).at[:, 2].set(-damp_new)
+
+        rng, key_com = jax.random.split(rng)
+        body_com_shift = jax.random.uniform(
+            key_com,
+            (3,),
+            minval=jp.array([body_com_x_shift_range[0], body_com_y_shift_range[0], body_com_z_shift_range[0]]),
+            maxval=jp.array([body_com_x_shift_range[1], body_com_y_shift_range[1], body_com_z_shift_range[1]]),
+        )
+        body_com = sys.body_ipos.at[torso_body_idx].set(sys.body_ipos[torso_body_idx] + body_com_shift)
+
+        rng, key_inertia, key_mass = jax.random.split(rng, 3)
+        body_inertia = sys.body_inertia * jax.random.uniform(
+            key_inertia, sys.body_inertia.shape,
+            minval=body_inertia_scale_range[0], maxval=body_inertia_scale_range[1],
+        )
+        body_mass = sys.body_mass * jax.random.uniform(
+            key_mass, sys.body_mass.shape,
+            minval=body_mass_scale_range[0], maxval=body_mass_scale_range[1],
         )
 
         return friction, gain, bias, body_com, body_inertia, body_mass

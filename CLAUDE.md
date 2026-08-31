@@ -10,10 +10,10 @@ leg-lift behavior (raise one leg, hold it stably on the other three, lower it �
 [.notes/goal.md](.notes/goal.md) for that task's original research context). The
 leg-lift work and its full decision history stay on `master`, untouched; this branch
 reuses the same training pipeline, deployment plumbing, and vendored Pupper V3 model
-as a hardware-verified starting point, to be customized for wheeled locomotion instead.
-**As of the fork, nothing here has actually been changed for wheels yet** — see
-`mujoco_playground/workspace/README.md`'s "Starting point" and "Status" sections for
-what still needs building (a wheeled MJCF model, a new env, a new reward).
+as a hardware-verified starting point, customized for wheeled locomotion instead.
+**The wheeled model + training pipeline now exist and run end to end in sim, but no
+wheeled policy has been trained yet and nothing has touched hardware** — see
+`mujoco_playground/workspace/README.md`'s "The wheeled robot" and "Status" sections.
 
 > **Approach: this is an RL policy, NOT a scripted/keyframe animation** (inherited from
 > the leg-lift branch this forked from). The chosen approach is to **train a
@@ -50,12 +50,28 @@ they're one codebase; just commit/push through the single top-level repo.
 
 ## Project decisions made so far
 
-- **This branch (`wheel`) is a fresh fork of `master`'s leg-lift work (2026-08-29),
-  set up to train a wheeled-locomotion policy instead.** No wheeled-specific
-  training, env, reward, or model work has happened here yet — see
-  `workspace/README.md`'s "Starting point" and "Status" sections for the concrete
-  next steps (build a wheeled MJCF, write a new env/reward, wire it into the
-  pipeline files that still hardcode the leg-lift env).
+- **This branch (`wheel`) is a fork of `master`'s leg-lift work (2026-08-29),
+  training a wheeled-locomotion policy instead.**
+- **The wheel replaces each leg's end effector, reusing the knee joint — 12 joints,
+  not 16.** Each leg's `_3` joint (the old knee) is now the wheel's continuous spin
+  joint, with the wheel's mass/geometry on that same body. Wheel mass/inertia are
+  from **real scale measurements, not CAD estimates** (see
+  `Stanford/training/pupper_v3_description/WHEEL_MASS_LOG.md`).
+- **Actuation is MIXED and code must respect it**: `_1`/`_2` are position-controlled
+  (ctrl = rad), `_3` is velocity-controlled (ctrl = rad/s). Both the providers'
+  `PupperV3Env` and this repo's `leg_lift_env.py`/`randomize.domain_randomize`
+  stamp one position-PD gain set over *every* actuator row, which silently corrupts
+  the wheel actuators. Use `wheel_env.py` / `domain_randomize_wheeled`, which split
+  by `configs.POSITION_ACTUATOR_ROWS` / `WHEEL_ACTUATOR_ROWS`.
+- **The left/right leg frames are mirrored**, so the two sides' wheels spin about
+  opposite world axes; `configs.WHEEL_FORWARD_SIGN` corrects this. Without it the
+  sides fight and the robot does not translate at all. The real motors need the
+  same convention.
+- **Wheel speed is capped at 1 m/s** — the robot flipped in sim at the earlier
+  1.44 m/s cap when all four wheels were driven to full scale.
+- **Do not use `uv run` in `mujoco_playground/`** — it re-syncs jax to `uv.lock`'s
+  0.6.2, mismatching the installed CUDA plugin 0.5.0, which disables the GPUs and
+  segfaults on model load. Use `.venv/bin/python`. (`uv pip install` is fine.)
 - **The leg-lift decision log and hardware-testing history live on `master`**, not
   here — `master`'s `CLAUDE.md` has the full "Project decisions made so far" for
   that task (reward-design iterations, CoM-correction hardware tests, the
@@ -65,15 +81,21 @@ they're one codebase; just commit/push through the single top-level repo.
 
 ## Training side — `mujoco_playground/workspace/` (our code)
 
-The leg-lift training pipeline. See `workspace/README.md` for setup/run. Key files:
+The wheeled-locomotion training pipeline. See `workspace/README.md` for setup/run.
+Key files:
 
-- `leg_lift_env.py` — `PupperLegLiftEnv` (brax `PipelineEnv`, MJX): reset/step/obs/reward and
-  command sampling. Modeled on `pupperv3-mjx`'s `PupperV3Env` and go1 `getup.py`.
-- `configs.py` — **single source of truth**: canonical 12-joint order, limits, home pose,
-  per-joint `ACTION_SCALE` (abduction 0.5 / hip 2.0 / knee 1.0 — the policy head is
-  tanh-squashed, so this IS the reachable joint range around the home pose), reward
-  weights, PPO hyperparams, model path.
+- `wheel_env.py` — `PupperWheelEnv` (brax `PipelineEnv`, MJX): the wheeled task —
+  reset/step/obs/reward and velocity-command sampling. Modeled on `pupperv3-mjx`'s
+  `PupperV3Env`, but handles the mixed actuation noted above.
+- `configs.py` — **single source of truth**: canonical 12-joint order, limits,
+  default pose (the splayed ±1 rad abduction stance), per-joint `ACTION_SCALE`
+  (mixed units: rad on position rows, rad/s on wheel rows — the policy head is
+  tanh-squashed, so this IS the reachable range around the default), actuator row
+  splits, wheel geometry, reward weights, PPO hyperparams, model path.
+  `get_wheel_config()` is live; `get_config()` is legacy leg-lift.
 - `train.py` — brax PPO training entry; saves brax params to `output/<run>/mjx_params`.
+- `leg_lift_env.py` / `visualize.py` — **legacy leg-lift, unused here**, kept as a
+  reference. The live leg-lift task is on `master`.
 - `export_policy.py` — converts brax params → `neural_controller` JSON (folds obs normalization
   into layer 0; same scheme as `pupperv3-mjx/export.py`). Emits `observation_layout` /
   `command_states` / `button_sequence` metadata for the deployment side.

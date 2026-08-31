@@ -104,10 +104,20 @@ POSITION_ACTUATOR_ROWS = [0, 1, 3, 4, 6, 7, 9, 10]
 # between commanded body velocity and wheel angular velocity.
 WHEEL_RADIUS = 0.048
 
-# Max commanded wheel speed (rad/s). At WHEEL_RADIUS this is ~1.44 m/s of ground
-# speed, which is the reachable envelope the action scale below is built around.
-# Mirrored by the `<velocity ctrlrange>` in the MJCF -- keep the two in sync.
-WHEEL_MAX_SPEED = 30.0
+# Top ground speed the wheels may be commanded to (m/s), and the wheel angular
+# velocity that corresponds to (rad/s) -- the latter is what actually goes to the
+# actuators, derived rather than hand-written so the two can never disagree.
+#
+# Capped at 1 m/s deliberately. An earlier 30 rad/s (~1.44 m/s) cap was tested in
+# sim and the robot FLIPS at full command: driving all four wheels at action 1.0
+# pitched it to 90 deg of tilt within ~250 steps. 1 m/s keeps full-scale command
+# inside what the chassis can actually take.
+#
+# WHEEL_MAX_SPEED is mirrored by the `<velocity ctrlrange>` in the MJCF (which is
+# set fractionally wider so this config, not the model, is the binding limit) --
+# keep the two in sync.
+WHEEL_MAX_LINEAR_SPEED = 1.0
+WHEEL_MAX_SPEED = WHEEL_MAX_LINEAR_SPEED / WHEEL_RADIUS  # ~20.83 rad/s
 
 # Sign that turns "drive forward" into a signed wheel-joint command, per wheel,
 # in WHEEL_ACTUATOR_ROWS order (front_r, front_l, back_r, back_l).
@@ -549,8 +559,11 @@ def get_wheel_config() -> config_dict.ConfigDict:
         # the policy headroom to exceed the command while correcting.
         command_resample_steps_min=100,   # 2.0 s at 50 Hz
         command_resample_steps_max=250,   # 5.0 s
-        lin_vel_x_range=(-0.6, 1.0),      # m/s, forward-biased
-        lin_vel_y_range=(-0.3, 0.3),      # m/s, lateral (wheels can't strafe;
+        # Kept strictly INSIDE WHEEL_MAX_LINEAR_SPEED (1.0 m/s): a command at the
+        # actuation cap would leave the policy no wheel authority left to steer or
+        # correct with, since it would already be saturated just to hold speed.
+        lin_vel_x_range=(-0.5, 0.8),      # m/s, forward-biased
+        lin_vel_y_range=(-0.2, 0.2),      # m/s, lateral (wheels can't strafe;
                                           # this mostly teaches it to refuse)
         ang_vel_yaw_range=(-1.5, 1.5),    # rad/s
         # Fraction of commands that are exactly zero. Standing still on wheels is

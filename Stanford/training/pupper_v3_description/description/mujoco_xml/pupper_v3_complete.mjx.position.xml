@@ -36,22 +36,22 @@
         what the real wheel motor controller takes. kv is set here and mirrored in
         workspace/configs.py (wheel_kv); the env overrides actuator gains at load time and
         must write the same value back, see wheel_env.py. -->
-        <velocity joint="leg_front_r_3" name="leg_front_r_3" kv="0.35" ctrlrange="-30 30"
+        <velocity joint="leg_front_r_3" name="leg_front_r_3" kv="0.35" ctrlrange="-21 21"
             forcerange="-3 3" />
 
         <general joint="leg_front_l_1" name="leg_front_l_1" />
         <general joint="leg_front_l_2" name="leg_front_l_2" />
-        <velocity joint="leg_front_l_3" name="leg_front_l_3" kv="0.35" ctrlrange="-30 30"
+        <velocity joint="leg_front_l_3" name="leg_front_l_3" kv="0.35" ctrlrange="-21 21"
             forcerange="-3 3" />
 
         <general joint="leg_back_r_1" name="leg_back_r_1" />
         <general joint="leg_back_r_2" name="leg_back_r_2" />
-        <velocity joint="leg_back_r_3" name="leg_back_r_3" kv="0.35" ctrlrange="-30 30"
+        <velocity joint="leg_back_r_3" name="leg_back_r_3" kv="0.35" ctrlrange="-21 21"
             forcerange="-3 3" />
 
         <general joint="leg_back_l_1" name="leg_back_l_1" />
         <general joint="leg_back_l_2" name="leg_back_l_2" />
-        <velocity joint="leg_back_l_3" name="leg_back_l_3" kv="0.35" ctrlrange="-30 30"
+        <velocity joint="leg_back_l_3" name="leg_back_l_3" kv="0.35" ctrlrange="-21 21"
             forcerange="-3 3" />
     </actuator>
     <default>
