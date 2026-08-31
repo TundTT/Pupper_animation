@@ -1,14 +1,32 @@
-"""Configuration for the Pupper V3 leg-lift policy.
+"""Configuration for the Pupper V3 WHEELED locomotion policy (`wheel` branch).
 
 Single source of truth for: the canonical 12-joint order (must match the robot's
-`neural_controller` config.yaml and the pupperv3-mjx training env), joint limits,
-the default standing pose, the per-leg "lifted" targets, the reward weights, and
-the PPO hyperparameters.
+`neural_controller` config.yaml and the pupperv3-mjx training env), joint/ctrl
+limits, the default splayed wheeled pose, the reward weights, and the PPO
+hyperparameters.
 
-Design (see README.md): ONE policy, conditioned on a command = which leg is
-currently lifted (stand / FL / FR / BR / BL). "Hold" is just the command staying
-constant, so hold duration is operator-controlled on the robot (each press of the
-O button advances a clockwise state machine) and is NOT baked into the policy.
+Wheeled robot layout
+--------------------
+Still 12 joints, same names as the quadruped. Per leg: `_1` = abduction and
+`_2` = hip are POSITION controlled as before, while `_3` -- formerly the knee --
+is now the WHEEL's continuous spin joint and is VELOCITY controlled (ctrl =
+target wheel speed in rad/s, no meaningful target angle). See
+`pupper_v3_complete.mjx.position.xml`, whose `_3` joints are `limited="false"`
+with `<velocity>` actuators.
+
+That mixed actuation is the one thing an env MUST respect here: the providers'
+`pupperv3_mjx.environment.PupperV3Env` (and our `leg_lift_env.py`, which mirrors
+it) overwrite EVERY actuator's gains with one position-PD setting at load time,
+which would silently corrupt the wheel actuators. `wheel_env.py` overrides the
+position rows and the wheel rows separately -- see POSITION_ACTUATOR_ROWS /
+WHEEL_ACTUATOR_ROWS below.
+
+Leg-lift legacy
+---------------
+The leg-lift constants and `get_config()` below are retained from the fork but
+are NOT used by the wheeled pipeline and no longer describe this branch's model
+(the knee joints they assume are wheels now). The live leg-lift task lives on
+`master`. Wheeled training uses `get_wheel_config()`.
 
 Conventions (see workspace-root CLAUDE.md): no silent fallbacks. Paths that don't
 resolve raise; we never quietly substitute a default model.
@@ -61,13 +79,60 @@ JOINT_NAMES = [
     "leg_back_l_1", "leg_back_l_2", "leg_back_l_3",
 ]  # fmt: skip
 
-# Each leg's (abduction=_1, hip=_2, knee=_3) joint indices.
+# Each leg's (abduction=_1, hip=_2, wheel=_3) joint indices. `_3` was the knee on
+# the quadruped; on this branch it is the wheel's continuous spin joint.
 LEG_JOINT_INDICES = {
     "front_r": [0, 1, 2],
     "front_l": [3, 4, 5],
     "back_r": [6, 7, 8],
     "back_l": [9, 10, 11],
 }
+
+# The two actuation groups. Rows index BOTH the 12-joint vectors above and the 12
+# actuators (the model declares one actuator per joint, in the same order -- an
+# invariant wheel_env.py asserts at construction).
+#
+# Position rows are angle-controlled (rad); wheel rows are velocity-controlled
+# (rad/s). Everything downstream that treats "the action vector" uniformly has to
+# know which entries mean what, so these are the single place that split lives.
+WHEEL_ACTUATOR_ROWS = [2, 5, 8, 11]
+POSITION_ACTUATOR_ROWS = [0, 1, 3, 4, 6, 7, 9, 10]
+
+# Wheel geometry, from the CAD/mesh (see
+# Stanford/training/pupper_v3_description/WHEEL_MASS_LOG.md). The collision
+# cylinder in the MJCF uses this same radius; the reward code needs it to convert
+# between commanded body velocity and wheel angular velocity.
+WHEEL_RADIUS = 0.048
+
+# Max commanded wheel speed (rad/s). At WHEEL_RADIUS this is ~1.44 m/s of ground
+# speed, which is the reachable envelope the action scale below is built around.
+# Mirrored by the `<velocity ctrlrange>` in the MJCF -- keep the two in sync.
+WHEEL_MAX_SPEED = 30.0
+
+# Sign that turns "drive forward" into a signed wheel-joint command, per wheel,
+# in WHEEL_ACTUATOR_ROWS order (front_r, front_l, back_r, back_l).
+#
+# The left and right legs' frames are MIRRORED, so the two sides' wheel joints
+# spin about OPPOSITE world axes: measured on the model at the home pose, the
+# right wheels' spin axis is world -Y and the left wheels' is world +Y. A wheel
+# rolling forward (+x) needs world +Y angular velocity, so the same positive
+# joint command drives the right wheels backwards and the left wheels forwards.
+# Left uncorrected, commanding all four wheels the same way makes them fight each
+# other and the robot does not move at all -- confirmed in sim before this was
+# added (wheels spinning at ~14 rad/s, body drifting <3 cm in 2 s).
+#
+# Applying it here means +1 action = "this wheel drives the robot forward" on all
+# four, so the policy sees one consistent convention. The deployment side needs
+# the same sign convention applied to the real motors.
+WHEEL_FORWARD_SIGN = np.array([-1.0, 1.0, -1.0, 1.0])
+
+# Wheel centre offset along the wheel body's own local z (= the spin axis), in m.
+# The `_3` body's origin sits at the knee joint / motor output; the wheel's
+# collision cylinder is centred WHEEL_CENTER_LOCAL_Z further out along that axis
+# (0.0136 mount standoff + 0.01675 half-width). Used to find the wheel centre in
+# world coordinates for ground-contact checks -- its lowest point is
+# (centre z - WHEEL_RADIUS) while the spin axis is horizontal.
+WHEEL_CENTER_LOCAL_Z = 0.03035
 
 FOOT_SITE_NAMES = [
     "leg_front_r_3_foot_site",
@@ -97,19 +162,35 @@ KNEE_BODY_NAMES = [
 COMMAND_STATES = ["stand", "front_l", "front_r", "back_r", "back_l"]
 NUM_COMMANDS = len(COMMAND_STATES)
 
-# Standing "home" pose, identical to the locomotion policy's default_joint_pos.
+# Default wheeled pose = the ctrl vector the policy's actions are offsets FROM.
+# Units are mixed, matching the mixed actuation: the `_1`/`_2` entries are joint
+# ANGLES (rad), the `_3` (wheel) entries are wheel SPEEDS (rad/s), and 0 there
+# means "wheels stopped" -- a continuously-spinning joint has no home angle.
+#
+# The +-1 rad abduction splay is the stance chosen in the MuJoCo viewer and
+# committed as the model's `home` keyframe: it swings all four wheels out from
+# under the body so they sit upright on the ground. Signs mirror left/right
+# (front_r/back_r = +1, front_l/back_l = -1) because those two abduction joints
+# have mirrored axes -- see the mirrored joint ranges below.
+#
+# Verified against the model: holding this ctrl under position control settles
+# upright and stationary (see STAND_TORSO_HEIGHT).
 DEFAULT_POSE = np.array(
-    [0.26, 0.0, -0.52, -0.26, 0.0, 0.52, 0.26, 0.0, -0.52, -0.26, 0.0, 0.52]
+    [1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0]
 )
 
-# Joint limits, copied from pupperv3-mjx PupperV3Env (same robot, same order).
+# Per-row ctrl limits, mixed units to match DEFAULT_POSE. The `_1`/`_2` rows are
+# the model's real joint angle limits (unchanged from the quadruped, copied from
+# pupperv3-mjx PupperV3Env). The `_3` rows are NOT angle limits -- the wheel
+# joints are `limited="false"` and spin freely -- they are the velocity ctrl range
+# +-WHEEL_MAX_SPEED, matching the MJCF's `<velocity ctrlrange>`.
 JOINT_LOWER_LIMITS = np.array(
-    [-1.220, -0.420, -2.790, -2.510, -3.140, -0.710,
-     -1.220, -0.420, -2.790, -2.510, -3.140, -0.710]
+    [-1.220, -0.420, -WHEEL_MAX_SPEED, -2.510, -3.140, -WHEEL_MAX_SPEED,
+     -1.220, -0.420, -WHEEL_MAX_SPEED, -2.510, -3.140, -WHEEL_MAX_SPEED]
 )  # fmt: skip
 JOINT_UPPER_LIMITS = np.array(
-    [2.510, 3.140, 0.710, 1.220, 0.420, 2.790,
-     2.510, 3.140, 0.710, 1.220, 0.420, 2.790]
+    [2.510, 3.140, WHEEL_MAX_SPEED, 1.220, 0.420, WHEEL_MAX_SPEED,
+     2.510, 3.140, WHEEL_MAX_SPEED, 1.220, 0.420, WHEEL_MAX_SPEED]
 )  # fmt: skip
 
 # Per-JOINT action scale (rad of commanded offset from DEFAULT_POSE at |action|=1).
@@ -136,22 +217,45 @@ JOINT_UPPER_LIMITS = np.array(
 # own exploration noise into violent leg swings that just tip the robot over, which
 # teaches it to hold still rather than to lift. 1.6 still clears far more than the
 # behavior needs.
+#
+# WHEELED VALUES (this branch). The comment block above is the leg-lift
+# derivation, kept because the mechanism is identical -- tanh-squashed head, so
+# the reachable envelope is exactly DEFAULT_POSE +/- ACTION_SCALE -- but the
+# numbers themselves are re-chosen for wheels and are UNTUNED starting points.
+#
+# Abduction (0.5 rad): lets the stance widen/narrow around the +-1 rad splay for
+# balance and turning lean, while staying well inside the abduction limits
+# (front_r_1 spans -1.22..2.51, so 1.0 +- 0.5 has margin on both sides).
+#
+# Hip (0.4 rad): deliberately small. The hip's own limits are asymmetric and
+# mirrored (front_r_2 spans -0.42..3.14, front_l_2 spans -3.14..0.42), so the
+# widest envelope that is symmetric about the 0.0 default AND legal on both
+# sides is +-0.42. 0.4 sits just inside that, which keeps the reachable range
+# identical left-to-right -- a larger value would clip asymmetrically and quietly
+# give the two sides different authority. The legs are suspension/posture here,
+# not the thing producing locomotion, so this does not need to be large.
+#
+# Wheel (WHEEL_MAX_SPEED): full-scale action = full wheel speed, i.e. the wheel
+# entries of the action vector ARE the normalized drive command. This is the
+# term that actually moves the robot.
 ACTION_SCALE_ABDUCTION = 0.5
-ACTION_SCALE_HIP = 1.6
-ACTION_SCALE_KNEE = 1.0
+ACTION_SCALE_HIP = 0.4
+ACTION_SCALE_WHEEL = WHEEL_MAX_SPEED
 ACTION_SCALE = np.array(
-    [ACTION_SCALE_ABDUCTION, ACTION_SCALE_HIP, ACTION_SCALE_KNEE] * 4
+    [ACTION_SCALE_ABDUCTION, ACTION_SCALE_HIP, ACTION_SCALE_WHEEL] * 4
 )
 
 # Direction each leg's hip joint (_2) must rotate to raise that leg. Left and right
 # legs mirror. Used by the dense `lift_progress` reward -- see get_config().
 HIP_LIFT_SIGN = {"front_r": 1.0, "front_l": -1.0, "back_r": 1.0, "back_l": -1.0}
 
-# Torso height (m) the robot actually settles at while standing in DEFAULT_POSE under
-# position control at position_control_kp. MEASURED from the model, not guessed: the
-# previous config's 0.14 target was below the true standing height, so the height
-# reward was actively paying the policy to sit down.
-STAND_TORSO_HEIGHT = 0.1556
+# Torso height (m) the robot settles at resting on its wheels in DEFAULT_POSE under
+# position control at position_control_kp. MEASURED from the wheeled model (settle
+# the home ctrl for 3 s and read base_link z), not guessed -- the leg-lift value
+# this replaces (0.1556) was measured on the quadruped standing on feet and is
+# ~24 mm too high for the wheeled stance, which would pay the policy to hoist
+# itself.
+STAND_TORSO_HEIGHT = 0.1313
 
 # Radius of the knee collision sphere on each leg_*_2 body. Its center coincides with
 # the origin of the corresponding leg_*_3 body (KNEE_BODY_NAMES), so a knee's height
@@ -202,8 +306,26 @@ LIFT_HIP_MAX_ACTION_DELTA = 0.05
 LOWER_HIP_RATE_LIMIT_STEPS = 20
 
 
+# Bodies carrying each wheel. `_3` is the wheel body now (the old shin/knee body,
+# with the wheel's mass and collision cylinder attached directly to it), so these
+# are the same names KNEE_BODY_NAMES lists -- kept separate because the wheeled
+# code means "the wheel", not "the knee". Same row order as FOOT_ROW_BY_LEG.
+WHEEL_BODY_NAMES = [
+    "leg_front_r_3",
+    "leg_front_l_3",
+    "leg_back_r_3",
+    "leg_back_l_3",
+]
+
+
 def get_config() -> config_dict.ConfigDict:
-    """Returns the full leg-lift training config."""
+    """LEGACY leg-lift config -- not used by the wheeled pipeline.
+
+    Retained from the fork for reference only. It describes a knee joint that no
+    longer exists on this branch's model (it is a wheel now), so it will NOT
+    produce a working leg-lift run here; the live leg-lift task is on `master`.
+    Wheeled training uses get_wheel_config().
+    """
     return config_dict.create(
         # ---- command sampling during training ----
         # Hold a command for a random number of steps, then switch (this teaches
@@ -401,6 +523,136 @@ def get_config() -> config_dict.ConfigDict:
             # The real path is ROS2 -> CAN -> motor controller, which is both slower
             # and more variable than one control period, and a policy tuned on
             # near-zero latency is exactly the kind that oscillates on hardware.
+            latency_distribution=(0.5, 0.3, 0.2),
+        ),
+    )
+
+
+def get_wheel_config() -> config_dict.ConfigDict:
+    """Returns the full WHEELED-locomotion training config.
+
+    Task: drive to a commanded body velocity (vx, vy, yaw rate) on four wheels,
+    keeping the torso upright, level and at its resting height, with the legs
+    holding the splayed DEFAULT_POSE stance.
+
+    Everything here is a first pass, not a tuned configuration -- no wheeled run
+    has been trained yet. The reward weights follow the shape of the providers'
+    locomotion reward (tracking terms positive and dominant, everything else a
+    small regularizer) rather than the leg-lift reward, which was built around a
+    completely different objective.
+    """
+    return config_dict.create(
+        # ---- velocity command sampling ----
+        # Commands are resampled mid-episode so one policy learns the whole
+        # command space rather than a single gait. Ranges are modest relative to
+        # the ~1.44 m/s the wheels can actually reach (WHEEL_MAX_SPEED), leaving
+        # the policy headroom to exceed the command while correcting.
+        command_resample_steps_min=100,   # 2.0 s at 50 Hz
+        command_resample_steps_max=250,   # 5.0 s
+        lin_vel_x_range=(-0.6, 1.0),      # m/s, forward-biased
+        lin_vel_y_range=(-0.3, 0.3),      # m/s, lateral (wheels can't strafe;
+                                          # this mostly teaches it to refuse)
+        ang_vel_yaw_range=(-1.5, 1.5),    # rad/s
+        # Fraction of commands that are exactly zero. Standing still on wheels is
+        # its own skill (and the most common real command), and without explicit
+        # zero commands a velocity-tracking policy tends to creep.
+        zero_command_prob=0.15,
+        # Below this speed a command counts as "stand still" for the
+        # stand_still reward term.
+        stand_still_threshold=0.05,
+
+        # ---- timestepping ----
+        ctrl_dt=0.02,   # 50 Hz policy, matches deployment repeat_action=10 @ 500Hz
+        sim_dt=0.004,
+        action_scale=tuple(float(a) for a in ACTION_SCALE),  # per-joint, mixed units
+        position_control_kp=5.0,   # applied to POSITION_ACTUATOR_ROWS only
+        dof_damping=0.25,          # ditto
+        # Velocity-actuator gain for WHEEL_ACTUATOR_ROWS. Mirrors the MJCF's
+        # `<velocity kv>`; wheel_env.py writes it back over the loaded model so
+        # this file stays the single source of truth.
+        wheel_kv=0.35,
+        observation_history=1,  # set >1 to stack frames like the locomotion policy
+        soft_joint_pos_limit_factor=0.95,
+
+        # ---- episode / termination ----
+        episode_length=600,        # 12 s; several command resamples per episode
+        terminal_body_angle=0.6,   # rad of tilt (~34 deg) before we call it a fall.
+                                   # Looser than leg-lift's 0.4: a wheeled robot
+                                   # legitimately leans under acceleration.
+        terminal_body_z=0.08,      # torso on the floor => chassis is down
+
+        # ---- reward weights ----
+        reward_config=config_dict.create(
+            scales=config_dict.create(
+                # -- the task --
+                tracking_lin_vel=2.0,       # match commanded body-frame xy velocity
+                tracking_ang_vel=1.0,       # match commanded yaw rate
+                # -- posture: hold the wheeled stance --
+                orientation=1.0,            # torso upright
+                torso_height=1.0,           # torso at its resting height
+                stance_pose=1.0,            # the 8 leg joints stay at DEFAULT_POSE
+                wheels_on_ground=1.0,       # all four wheels stay in contact
+                stand_still=0.5,            # zero command => actually stop
+                # -- penalties --
+                lin_vel_z=-0.5,             # no bouncing
+                ang_vel_xy=-0.05,           # no roll/pitch rate
+                action_rate=-0.05,          # smooth commands (sim-to-real)
+                torques=-2e-4,
+                dof_acc=-1e-6,
+                dof_pos_limits=-1.0,        # position joints only, see wheel_env.py
+            ),
+            # Gaussian widths for the tracking terms, same exp(-err^2/sigma) shape
+            # the providers' locomotion reward uses.
+            tracking_lin_vel_sigma=0.10,   # (m/s)^2
+            tracking_ang_vel_sigma=0.25,   # (rad/s)^2
+            # Posture widths, carried over from the leg-lift config where the same
+            # quantity is being measured the same way.
+            orientation_sigma=0.05,        # on (1 - cos tilt); looser than leg-lift
+            torso_height_sigma=0.0004,     # ~0.78 at 1 cm off
+            # Only the 8 position joints are scored (a wheel has no home angle).
+            stance_pose_sigma=0.15,
+            # Squared body speed at which the stand_still bonus has fully decayed.
+            stand_still_sigma=0.02,
+        ),
+
+        # ---- PPO (brax) ----
+        # Same shape as the leg-lift run, which trained successfully on this
+        # hardware; velocity tracking is a better-conditioned objective than the
+        # leg-lift reward, so this is a reasonable starting point.
+        ppo=config_dict.create(
+            num_timesteps=200_000_000,
+            num_evals=15,
+            episode_length=600,  # kept in sync with episode_length above by train.py
+            normalize_observations=True,
+            action_repeat=1,
+            unroll_length=20,
+            num_minibatches=32,
+            num_updates_per_batch=4,
+            discounting=0.97,
+            learning_rate=3e-4,
+            entropy_cost=1e-2,
+            num_envs=8192,
+            batch_size=256,
+            seed=0,
+        ),
+        policy=config_dict.create(
+            hidden_layer_sizes=(128, 128, 128),
+            # "elu", not "swish": the vendored RTNeural build in neural_controller's
+            # model_loader.h only implements tanh/relu/sigmoid/softmax/elu.
+            activation="elu",
+        ),
+
+        # ---- domain randomization (sensor noise, kicks, action latency) ----
+        dr=config_dict.create(
+            angular_velocity_noise=0.1,   # rad/s
+            gravity_noise=0.05,           # unit vector components
+            motor_angle_noise=0.05,       # rad, on the position joints
+            # Wheel rows of the joint observation are SPEEDS, not angles, so they
+            # get their own (much larger, in rad/s) noise scale.
+            wheel_velocity_noise=0.5,     # rad/s
+            last_action_noise=0.01,       # normalized action units
+            kick_probability=0.05,
+            kick_vel=0.15,                # m/s
             latency_distribution=(0.5, 0.3, 0.2),
         ),
     )
