@@ -2,13 +2,13 @@
     <keyframe>
         <!-- Wheeled home pose: front/back legs splayed via the abduction (_1) joints at ±1 rad
         so the wheels sit under the body on the ground, instead of the old folded-up all-zero
-        leg-lift pose. Wheel joints (continuous) stay at 0, no natural "home" angle for them.
-        qpos joint order: front_r(1,2,3,wheel), front_l(1,2,3,wheel), back_r(1,2,3,wheel),
-        back_l(1,2,3,wheel). ctrl actuator order: front_r(1,2,3), front_l(1,2,3), wheel motors
-        (front_l, front_r, back_l, back_r), back_r(1,2,3), back_l(1,2,3). -->
+        leg-lift pose. Still 12 joints (_3 is now each wheel's continuous spin joint, repurposed
+        from the old knee, not an added 4th joint); its qpos/ctrl stay at 0, no natural "home"
+        angle for a continuously-spinning joint. Order (both qpos joints and ctrl actuators):
+        front_r(1,2,3), front_l(1,2,3), back_r(1,2,3), back_l(1,2,3). -->
         <key name="home"
-            qpos="0 0 0.28             1 0 0 0             1 0 0 0             -1 0 0 0             1 0 0 0             -1 0 0 0"
-            ctrl="1 0 0             -1 0 0             0 0 0 0             1 0 0             -1 0 0" />
+            qpos="0 0 0.28             1 0 0 0             1 0 0             -1 0 0             1 0 0             -1 0 0"
+            ctrl="1 0 0             -1 0 0             1 0 0             -1 0 0" />
     </keyframe>
     <asset>
         <texture type="skybox" builtin="gradient" rgb1=".3 .5 .7" rgb2="0 0 0" width="512"
@@ -30,28 +30,22 @@
     <actuator>
         <general joint="leg_front_r_1" name="leg_front_r_1" />
         <general joint="leg_front_r_2" name="leg_front_r_2" />
-        <general joint="leg_front_r_3" name="leg_front_r_3" />
+        <!-- leg_X_3 is now the wheel's continuous spin joint (repurposed knee), not a
+        limited-range position joint, so it needs direct torque control (<motor>) instead of
+        the position-PD <general> default the other leg joints use. -->
+        <motor joint="leg_front_r_3" name="leg_front_r_3" ctrlrange="-1 1" gear="1" />
 
         <general joint="leg_front_l_1" name="leg_front_l_1" />
         <general joint="leg_front_l_2" name="leg_front_l_2" />
-        <general joint="leg_front_l_3" name="leg_front_l_3" />
-
-        <!-- Placeholder torque actuators for the wheels; ctrlrange/gear not yet tuned to the
-        real wheel motor's spec. The leg joints above use the position-PD <general> default
-        from this file's <default> block; continuously-spinning wheels need direct torque
-        control instead, hence <motor> here rather than another <general>. -->
-        <motor joint="leg_front_l_wheel" name="leg_front_l_wheel" ctrlrange="-1 1" gear="1" />
-        <motor joint="leg_front_r_wheel" name="leg_front_r_wheel" ctrlrange="-1 1" gear="1" />
-        <motor joint="leg_back_l_wheel" name="leg_back_l_wheel" ctrlrange="-1 1" gear="1" />
-        <motor joint="leg_back_r_wheel" name="leg_back_r_wheel" ctrlrange="-1 1" gear="1" />
+        <motor joint="leg_front_l_3" name="leg_front_l_3" ctrlrange="-1 1" gear="1" />
 
         <general joint="leg_back_r_1" name="leg_back_r_1" />
         <general joint="leg_back_r_2" name="leg_back_r_2" />
-        <general joint="leg_back_r_3" name="leg_back_r_3" />
+        <motor joint="leg_back_r_3" name="leg_back_r_3" ctrlrange="-1 1" gear="1" />
 
         <general joint="leg_back_l_1" name="leg_back_l_1" />
         <general joint="leg_back_l_2" name="leg_back_l_2" />
-        <general joint="leg_back_l_3" name="leg_back_l_3" />
+        <motor joint="leg_back_l_3" name="leg_back_l_3" ctrlrange="-1 1" gear="1" />
     </actuator>
     <default>
         <general forcerange="-3 3" forcelimited="true" biastype="affine" gainprm="5.0 0 0"
@@ -121,27 +115,20 @@
                         mesh="LegAssemblyForFlangedv26_002" />
                     <body name="leg_front_r_3" pos="0 -0.0494 0.0685" quat="0.707105 0 0.707108 0"
                         gravcomp="0">
-                        <!-- Same wheel conversion as leg_front_l_3: old shin visual+inertial
-                        removed, near-zero placeholder inertial for solver validity, wheel
-                        mounted as a child body with its own spin joint. Offset/orientation
-                        reused as-is from leg_front_l_3's empirically-confirmed values; local Z
-                        lands on the world Y line at the home pose here too (sign flipped vs.
-                        the left-side legs, which doesn't matter for a symmetric wheel). -->
-                        <inertial pos="0 0 0" mass="0.001" diaginertia="1e-8 1e-8 1e-8" />
-                        <joint name="leg_front_r_3" pos="0 0 0" axis="0 0 1" range="-2.79 0.71" />
+                        <!-- This joint IS the wheel now (12 joints total, not 16): the old
+                        limited-range knee joint is repurposed as the wheel's continuous spin
+                        joint, and the wheel's mass/geometry attach directly to this body rather
+                        than a separate child body+joint. Old shin visual mesh removed (see
+                        leg_front_l_3 for the fuller history/derivation of these numbers). -->
+                        <inertial pos="1.6e-05 -1.9e-05 0.02998" mass="0.062"
+                            fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
+                        <joint name="leg_front_r_3" pos="0 0 0" axis="0 0 1" limited="false" />
                         <site name="leg_front_r_3_foot_site" pos="0.06231 -0.06216 0.018" />
-                        <body name="leg_front_r_wheel" pos="0 0 0.0136" quat="1 0 0 0"
-                            gravcomp="0">
-                            <inertial pos="1.6e-05 -1.9e-05 0.01638" mass="0.062"
-                                fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
-                            <joint name="leg_front_r_wheel" pos="0 0 0" axis="0 0 1"
-                                limited="false" />
-                            <geom size="0.048 0.01675" pos="0 0 0.01675" type="cylinder"
-                                class="collision" />
-                            <geom pos="0 0 0" quat="0.7071068 -0.7071068 0 0" type="mesh"
-                                contype="0" conaffinity="0" group="1" density="0"
-                                mesh="AdaptiveWheel" />
-                        </body>
+                        <geom size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
+                            class="collision" />
+                        <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
+                            contype="0" conaffinity="0" group="1" density="0"
+                            mesh="AdaptiveWheel" />
                     </body>
                 </body>
             </body>
@@ -163,33 +150,32 @@
                         mesh="LegAssemblyForFlangedv26_011" />
                     <body name="leg_front_l_3" pos="0 -0.0494 0.0685"
                         quat="9.38184e-07 -0.707108 9.38187e-07 0.707105" gravcomp="0">
-                        <!-- Old shin visual mesh + inertial (LegAssemblyForFlangedv26_012, the
-                        physical shin tube ending in a foot) removed entirely; the wheel
-                        assembly's own mounting-bracket parts (see WHEEL_MASS_LOG.md) bolt
-                        straight onto this joint's output, replacing that appendage rather than
-                        capping it. Placeholder inertial below is nominal/near-zero, just enough
-                        for solver validity, since all real mass now lives in leg_front_l_wheel. -->
-                        <inertial pos="0 0 0" mass="0.001" diaginertia="1e-8 1e-8 1e-8" />
-                        <joint name="leg_front_l_3" pos="0 0 0" axis="0 0 1" range="-0.71 2.79" />
+                        <!-- This joint IS the wheel now (12 joints total, not 16): the old
+                        limited-range knee joint is repurposed as the wheel's continuous spin
+                        joint, and the wheel's mass/geometry attach directly to this body rather
+                        than a separate child body+joint. Old shin visual mesh (LegAssembly
+                        ForFlangedv26_012, the physical shin tube ending in a foot) removed
+                        entirely; the wheel assembly's own mounting-bracket parts (see
+                        WHEEL_MASS_LOG.md) bolt straight onto this joint's output, replacing
+                        that appendage rather than capping it.
+
+                        Wheel offset along the joint axis: 0.0185m (knee motor extrusion,
+                        modeled as part of leg_front_l_2's mesh) + 0.0069m (real 6.9mm metal
+                        mounting plate, not included in either mesh), empirically corrected to
+                        0.0136m by eye against the physical assembly to sit flush; folded into
+                        the numbers below (offsets are relative to this body's own origin, since
+                        the wheel is no longer a separate child body). Orientation (mesh geom
+                        quat) confirmed correct: spin axis lands on world Y (lateral) at the
+                        home pose. -->
+                        <inertial pos="1.6e-05 -1.9e-05 0.02998" mass="0.062"
+                            fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
+                        <joint name="leg_front_l_3" pos="0 0 0" axis="0 0 1" limited="false" />
                         <site name="leg_front_l_3_foot_site" pos="0.06231 0.06216 0.018" />
-                        <!-- Wheel offset = 0.0185m (knee motor extrusion, modeled as part of
-                        leg_front_l_2's mesh) + 0.0069m (real 6.9mm metal mounting plate, not
-                        included in either mesh), then empirically corrected down to 0.0136m
-                        by eye against the physical assembly to sit the wheel flush. Orientation
-                        (quat="1 0 0 0", identity relative to leg_front_l_3) is confirmed
-                        correct: spin axis lands on world Y (lateral) at the home pose. -->
-                        <body name="leg_front_l_wheel" pos="0 0 0.0136" quat="1 0 0 0"
-                            gravcomp="0">
-                            <inertial pos="1.6e-05 -1.9e-05 0.01638" mass="0.062"
-                                fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
-                            <joint name="leg_front_l_wheel" pos="0 0 0" axis="0 0 1"
-                                limited="false" />
-                            <geom size="0.048 0.01675" pos="0 0 0.01675" type="cylinder"
-                                class="collision" />
-                            <geom pos="0 0 0" quat="0.7071068 -0.7071068 0 0" type="mesh"
-                                contype="0" conaffinity="0" group="1" density="0"
-                                mesh="AdaptiveWheel" />
-                        </body>
+                        <geom size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
+                            class="collision" />
+                        <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
+                            contype="0" conaffinity="0" group="1" density="0"
+                            mesh="AdaptiveWheel" />
                     </body>
                 </body>
             </body>
@@ -211,22 +197,16 @@
                         mesh="LegAssemblyForFlangedv26_006" />
                     <body name="leg_back_r_3" pos="0 -0.0494 0.0685" quat="0.707105 0 0.707108 0"
                         gravcomp="0">
-                        <!-- Same wheel conversion as leg_front_l_3; see that body's comments. -->
-                        <inertial pos="0 0 0" mass="0.001" diaginertia="1e-8 1e-8 1e-8" />
-                        <joint name="leg_back_r_3" pos="0 0 0" axis="0 0 1" range="-2.79 0.71" />
+                        <!-- This joint IS the wheel now; see leg_front_l_3 for the derivation. -->
+                        <inertial pos="1.6e-05 -1.9e-05 0.02998" mass="0.062"
+                            fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
+                        <joint name="leg_back_r_3" pos="0 0 0" axis="0 0 1" limited="false" />
                         <site name="leg_back_r_3_foot_site" pos="0.06231 -0.06216 0.018" />
-                        <body name="leg_back_r_wheel" pos="0 0 0.0136" quat="1 0 0 0"
-                            gravcomp="0">
-                            <inertial pos="1.6e-05 -1.9e-05 0.01638" mass="0.062"
-                                fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
-                            <joint name="leg_back_r_wheel" pos="0 0 0" axis="0 0 1"
-                                limited="false" />
-                            <geom size="0.048 0.01675" pos="0 0 0.01675" type="cylinder"
-                                class="collision" />
-                            <geom pos="0 0 0" quat="0.7071068 -0.7071068 0 0" type="mesh"
-                                contype="0" conaffinity="0" group="1" density="0"
-                                mesh="AdaptiveWheel" />
-                        </body>
+                        <geom size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
+                            class="collision" />
+                        <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
+                            contype="0" conaffinity="0" group="1" density="0"
+                            mesh="AdaptiveWheel" />
                     </body>
                 </body>
             </body>
@@ -248,22 +228,16 @@
                         mesh="LegAssemblyForFlangedv26_014" />
                     <body name="leg_back_l_3" pos="0 -0.0494 0.0685"
                         quat="9.38184e-07 -0.707108 9.38187e-07 0.707105" gravcomp="0">
-                        <!-- Same wheel conversion as leg_front_l_3; see that body's comments. -->
-                        <inertial pos="0 0 0" mass="0.001" diaginertia="1e-8 1e-8 1e-8" />
-                        <joint name="leg_back_l_3" pos="0 0 0" axis="0 0 1" range="-0.71 2.79" />
+                        <!-- This joint IS the wheel now; see leg_front_l_3 for the derivation. -->
+                        <inertial pos="1.6e-05 -1.9e-05 0.02998" mass="0.062"
+                            fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
+                        <joint name="leg_back_l_3" pos="0 0 0" axis="0 0 1" limited="false" />
                         <site name="leg_back_l_3_foot_site" pos="0.06231 0.06216 0.018" />
-                        <body name="leg_back_l_wheel" pos="0 0 0.0136" quat="1 0 0 0"
-                            gravcomp="0">
-                            <inertial pos="1.6e-05 -1.9e-05 0.01638" mass="0.062"
-                                fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
-                            <joint name="leg_back_l_wheel" pos="0 0 0" axis="0 0 1"
-                                limited="false" />
-                            <geom size="0.048 0.01675" pos="0 0 0.01675" type="cylinder"
-                                class="collision" />
-                            <geom pos="0 0 0" quat="0.7071068 -0.7071068 0 0" type="mesh"
-                                contype="0" conaffinity="0" group="1" density="0"
-                                mesh="AdaptiveWheel" />
-                        </body>
+                        <geom size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
+                            class="collision" />
+                        <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
+                            contype="0" conaffinity="0" group="1" density="0"
+                            mesh="AdaptiveWheel" />
                     </body>
                 </body>
             </body>
