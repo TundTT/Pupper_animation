@@ -30,6 +30,12 @@
         <general joint="leg_front_l_2" name="leg_front_l_2" />
         <general joint="leg_front_l_3" name="leg_front_l_3" />
 
+        <!-- Placeholder torque actuator for the wheel; ctrlrange/gear not yet tuned to the
+        real wheel motor's spec. The leg joints above use the position-PD <general> default
+        from this file's <default> block; a continuously-spinning wheel needs direct torque
+        control instead, hence <motor> here rather than another <general>. -->
+        <motor joint="leg_front_l_wheel" name="leg_front_l_wheel" ctrlrange="-1 1" gear="1" />
+
         <general joint="leg_back_r_1" name="leg_back_r_1" />
         <general joint="leg_back_r_2" name="leg_back_r_2" />
         <general joint="leg_back_r_3" name="leg_back_r_3" />
@@ -77,6 +83,7 @@
             scale="1 1 -1" />
         <mesh name="LegAssemblyForFlangedv26_015" file="LegAssemblyForFlangedv26_015.stl"
             scale="1 1 -1" />
+        <mesh name="AdaptiveWheel" file="AdaptiveWheel.stl" scale="0.001 0.001 0.001" />
     </asset>
     <worldbody>
         <body name="base_link" pos="0 0 0.13" gravcomp="0">
@@ -140,13 +147,27 @@
                             quat="0.653281 0.270598 -0.653281 0.270598" mass="0.05"
                             diaginertia="7.7e-05 7.55e-05 5.5e-06" />
                         <joint name="leg_front_l_3" pos="0 0 0" axis="0 0 1" range="-0.71 2.79" />
-                        <geom size="0.01995" pos="0.06231 0.06216 0.018" quat="1.32679e-06 0 0 1"
-                            type="sphere" class="collision" />
                         <geom pos="0.0685 -0.0494 -0.028"
                             quat="1.76029e-12 1.32679e-06 1 1.32679e-06" type="mesh" contype="0"
                             conaffinity="0" group="1" density="0"
                             mesh="LegAssemblyForFlangedv26_012" />
                         <site name="leg_front_l_3_foot_site" pos="0.06231 0.06216 0.018" />
+                        <!-- Wheel replacing the foot contact point. Orientation (quat="1 0 0 0",
+                        i.e. identity relative to leg_front_l_3) is a PLACEHOLDER, not yet
+                        confirmed which way the spin axis should point for correct forward
+                        rolling. Visually check and correct once loaded. -->
+                        <body name="leg_front_l_wheel" pos="0.06231 0.06216 0.018" quat="1 0 0 0"
+                            gravcomp="0">
+                            <inertial pos="1.6e-05 1.9e-05 -0.01638" mass="0.062"
+                                fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 9.384091e-09 -1.185e-08 -1.388295e-08" />
+                            <joint name="leg_front_l_wheel" pos="0 0 0" axis="0 0 1"
+                                limited="false" />
+                            <geom size="0.048 0.01675" pos="0 0 -0.01675" type="cylinder"
+                                class="collision" />
+                            <geom pos="0 0 0" quat="0.7071068 0.7071068 0 0" type="mesh"
+                                contype="0" conaffinity="0" group="1" density="0"
+                                mesh="AdaptiveWheel" />
+                        </body>
                     </body>
                 </body>
             </body>
