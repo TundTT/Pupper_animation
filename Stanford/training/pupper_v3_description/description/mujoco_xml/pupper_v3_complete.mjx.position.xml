@@ -152,15 +152,15 @@
                         <inertial pos="0 0 0" mass="0.001" diaginertia="1e-8 1e-8 1e-8" />
                         <joint name="leg_front_l_3" pos="0 0 0" axis="0 0 1" range="-0.71 2.79" />
                         <site name="leg_front_l_3_foot_site" pos="0.06231 0.06216 0.018" />
-                        <!-- Wheel mounts on the knee joint's output, offset 0.0185m along the
-                        spin axis to clear the knee motor housing (measured directly from the
-                        leg_front_l_2 mesh's extent along this axis, which protrudes 18.5mm past
-                        the joint origin) so the mounting face sits flush instead of clipping
-                        into the motor. If the real hardware's standoff differs, replace this
-                        with that distance. Orientation (quat="1 0 0 0", identity relative to
-                        leg_front_l_3) is confirmed correct: spin axis lands on world Y
+                        <!-- Wheel mounts directly at the knee joint's own output (pos="0 0 0"),
+                        no standoff; the old leg_front_l_2 mesh's dome/stepped shape near this
+                        joint is leftover foot-mounting geometry, not an accurate model of the
+                        real wheel motor (see hardware photos: real motor has a flat face with a
+                        thin flush adapter plate, already included in AdaptiveWheel.stl's own
+                        mounting-bracket parts). Orientation (quat="1 0 0 0", identity relative
+                        to leg_front_l_3) is confirmed correct: spin axis lands on world Y
                         (lateral) at the home pose. -->
-                        <body name="leg_front_l_wheel" pos="0 0 0.0185" quat="1 0 0 0"
+                        <body name="leg_front_l_wheel" pos="0 0 0.003" quat="1 0 0 0"
                             gravcomp="0">
                             <inertial pos="1.6e-05 -1.9e-05 0.01638" mass="0.062"
                                 fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
