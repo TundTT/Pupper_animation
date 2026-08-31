@@ -559,13 +559,29 @@ def get_wheel_config() -> config_dict.ConfigDict:
         # the policy headroom to exceed the command while correcting.
         command_resample_steps_min=100,   # 2.0 s at 50 Hz
         command_resample_steps_max=250,   # 5.0 s
-        # Kept strictly INSIDE WHEEL_MAX_LINEAR_SPEED (1.0 m/s): a command at the
-        # actuation cap would leave the policy no wheel authority left to steer or
-        # correct with, since it would already be saturated just to hold speed.
-        lin_vel_x_range=(-0.5, 0.8),      # m/s, forward-biased
-        lin_vel_y_range=(-0.2, 0.2),      # m/s, lateral (wheels can't strafe;
-                                          # this mostly teaches it to refuse)
-        ang_vel_yaw_range=(-1.5, 1.5),    # rad/s
+        # Ranges are set from what the robot can ACTUALLY do, measured on the model
+        # (full-command sweeps at the 1 m/s wheel cap): 0.958 m/s straight and
+        # 4.65 rad/s spinning in place, both at ~0.2-1.1 deg of tilt. Commanding
+        # something unreachable is not harmless -- the tracking reward can then
+        # never saturate, so the policy is permanently penalised for physics rather
+        # than for its behaviour, and the gradient it does see is mostly noise.
+        #
+        # x: kept inside the 0.958 m/s ceiling so the policy still has wheel
+        #    authority left to steer and correct rather than saturating just to
+        #    hold the commanded speed.
+        lin_vel_x_range=(-0.6, 0.8),      # m/s, forward-biased
+        # y: ALWAYS ZERO, and deliberately so. These are fixed, non-steerable
+        #    wheels, i.e. a skid-steer -- lateral velocity is not actuatable at
+        #    all, only skidded. The providers' legged config samples +-0.5 m/s
+        #    here, which does not transfer. Keeping the command DIMENSION (so the
+        #    obs/deployment interface stays the standard vx/vy/yaw triple) but
+        #    pinning it to 0 turns this half of tracking_lin_vel into "do not
+        #    drift sideways", which is exactly what a skid-steer should be scored
+        #    on.
+        lin_vel_y_range=(0.0, 0.0),       # m/s, not actuatable; see above
+        # yaw: 2.0 matches the providers' legged config and sits well inside the
+        #      measured 4.65 rad/s ceiling.
+        ang_vel_yaw_range=(-2.0, 2.0),    # rad/s
         # Fraction of commands that are exactly zero. Standing still on wheels is
         # its own skill (and the most common real command), and without explicit
         # zero commands a velocity-tracking policy tends to creep.
@@ -615,8 +631,11 @@ def get_wheel_config() -> config_dict.ConfigDict:
                 dof_pos_limits=-1.0,        # position joints only, see wheel_env.py
             ),
             # Gaussian widths for the tracking terms, same exp(-err^2/sigma) shape
-            # the providers' locomotion reward uses.
-            tracking_lin_vel_sigma=0.10,   # (m/s)^2
+            # AND the same 0.25 width the providers' locomotion reward uses for
+            # both. An earlier 0.10 on the linear term was tighter than the
+            # reference for no reason: at 0.10 a 0.3 m/s error already scores
+            # ~0.41, which is a steep cliff to climb from a standing start.
+            tracking_lin_vel_sigma=0.25,   # (m/s)^2
             tracking_ang_vel_sigma=0.25,   # (rad/s)^2
             # Posture widths, carried over from the leg-lift config where the same
             # quantity is being measured the same way.
@@ -626,6 +645,16 @@ def get_wheel_config() -> config_dict.ConfigDict:
             stance_pose_sigma=0.15,
             # Squared body speed at which the stand_still bonus has fully decayed.
             stand_still_sigma=0.02,
+            # Penalty applied once, on the step an episode ends early (a fall).
+            # Deliberately NOT in `scales`: the shaped terms are clipped to >=0
+            # before this is applied, which would erase a negative term placed in
+            # there. Scaled by dt like everything else, so a fall costs 2.0
+            # against a ~90 best-case episode return.
+            #
+            # This is a nudge, not the main deterrent -- the dominant cost of
+            # falling is already forfeiting the rest of the episode. The
+            # providers' legged config uses -100 here too. Untuned.
+            termination_penalty=-100.0,
         ),
 
         # ---- PPO (brax) ----

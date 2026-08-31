@@ -312,6 +312,7 @@ class PupperWheelEnv(PipelineEnv):
         metrics["torso_z"] = 0.0
         metrics["tilt_deg"] = 0.0
         metrics["wheel_contacts"] = 0.0
+        metrics["termination_penalty"] = 0.0
         return State(pipeline_state, obs, jp.zeros(()), jp.zeros(()), metrics, info)
 
     # ------------------------------------------------------------------- step
@@ -370,7 +371,12 @@ class PupperWheelEnv(PipelineEnv):
             lin_vel_error, ang_vel_error, wheel_contact, cos_tilt, torso_z, action, state.info,
         )
         rewards = {k: v * self._config.reward_config.scales[k] for k, v in rewards.items()}
+        # The shaped terms are clipped to >=0 (inherited from the leg-lift env), so
+        # the fall penalty has to be added AFTER the clip -- inside it, a negative
+        # term would simply be erased and the penalty would silently do nothing.
         reward = jp.clip(sum(rewards.values()) * self.dt, 0.0, 10000.0)
+        termination_penalty = self._config.reward_config.termination_penalty * self.dt * done
+        reward = reward + termination_penalty
 
         # Resample the velocity command when the hold window elapses.
         state.info["rng"], cmd_rng, hold_rng = jax.random.split(state.info["rng"], 3)
@@ -391,6 +397,7 @@ class PupperWheelEnv(PipelineEnv):
         state.metrics["torso_z"] = torso_z
         state.metrics["tilt_deg"] = jp.rad2deg(jp.arccos(jp.clip(cos_tilt, -1.0, 1.0)))
         state.metrics["wheel_contacts"] = jp.sum(wheel_contact.astype(jp.float32))
+        state.metrics["termination_penalty"] = termination_penalty
 
         return state.replace(pipeline_state=pipeline_state, obs=obs, reward=reward, done=jp.float32(done))
 
