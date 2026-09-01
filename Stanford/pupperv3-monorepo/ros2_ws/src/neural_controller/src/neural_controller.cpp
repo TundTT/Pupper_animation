@@ -143,6 +143,49 @@ controller_interface::CallbackReturn NeuralController::on_init() {
       joint_position_idx_ = 3 + 3 + num_commands_;  // ang_vel + gravity + command_one_hot
       last_action_idx_ = joint_position_idx_ + kActionSize;
       single_observation_size_ = last_action_idx_ + kActionSize;
+    } else if (behavior_ == "wheel") {
+      // Velocity-command wheeled policy. Same command triple as locomotion, but no
+      // desired_world_z, so the joint block starts 3 earlier (33 vs 36 per frame).
+      joint_position_idx_ = 3 + 3 + 3;  // ang_vel + gravity + xyyaw_vel_cmd
+      last_action_idx_ = joint_position_idx_ + kActionSize;
+      single_observation_size_ = last_action_idx_ + kActionSize;
+
+      for (const auto &key : {"wheel_joint_rows", "wheel_forward_sign",
+                              "wheel_velocity_normalizer"}) {
+        if (j.find(key) == j.end()) {
+          RCLCPP_ERROR(get_node()->get_logger(),
+                       "behavior=\"wheel\" but model JSON has no \"%s\"", key);
+          return controller_interface::CallbackReturn::ERROR;
+        }
+      }
+      wheel_joint_rows_ = j["wheel_joint_rows"].get<std::vector<int>>();
+      wheel_forward_sign_ = j["wheel_forward_sign"].get<std::vector<double>>();
+      wheel_velocity_normalizer_ = j["wheel_velocity_normalizer"];
+      if (wheel_joint_rows_.size() != wheel_forward_sign_.size()) {
+        RCLCPP_ERROR(get_node()->get_logger(),
+                     "wheel_joint_rows (%zu) and wheel_forward_sign (%zu) differ in length",
+                     wheel_joint_rows_.size(), wheel_forward_sign_.size());
+        return controller_interface::CallbackReturn::ERROR;
+      }
+      if (wheel_velocity_normalizer_ == 0.0) {
+        RCLCPP_ERROR(get_node()->get_logger(), "wheel_velocity_normalizer must be nonzero");
+        return controller_interface::CallbackReturn::ERROR;
+      }
+      // Every declared wheel row must actually be a velocity-type joint, or the
+      // observation and the action would disagree about what that row means.
+      for (int row : wheel_joint_rows_) {
+        if (row < 0 || row >= kActionSize) {
+          RCLCPP_ERROR(get_node()->get_logger(), "wheel_joint_rows entry %d out of range", row);
+          return controller_interface::CallbackReturn::ERROR;
+        }
+        if (params_.action_types.at(row) != "velocity") {
+          RCLCPP_ERROR(get_node()->get_logger(),
+                       "wheel row %d has action_type \"%s\", expected \"velocity\" -- check "
+                       "config.yaml against the policy JSON",
+                       row, params_.action_types.at(row).c_str());
+          return controller_interface::CallbackReturn::ERROR;
+        }
+      }
     } else {
       RCLCPP_ERROR(get_node()->get_logger(), "Unknown behavior \"%s\" in model JSON",
                    behavior_.c_str());
@@ -535,14 +578,17 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
         observation_.at(6 + i) = (i == command_index_) ? 1.0f : 0.0f;
       }
     } else {
-      // Velocity commands
+      // Velocity commands (locomotion and wheel)
       observation_.at(6) = (float)cmd_x_vel_;
       observation_.at(7) = (float)cmd_y_vel_;
       observation_.at(8) = (float)cmd_yaw_vel_;
-      // Orientation commands
-      observation_.at(9) = (float)desired_world_z_in_body_frame_.getX();
-      observation_.at(10) = (float)desired_world_z_in_body_frame_.getY();
-      observation_.at(11) = (float)desired_world_z_in_body_frame_.getZ();
+      if (behavior_ != "wheel") {
+        // Orientation commands -- locomotion only; the wheel layout has no such block
+        // and slots 9..11 there are already the first joints.
+        observation_.at(9) = (float)desired_world_z_in_body_frame_.getX();
+        observation_.at(10) = (float)desired_world_z_in_body_frame_.getY();
+        observation_.at(11) = (float)desired_world_z_in_body_frame_.getZ();
+      }
     }
 
     // Joint positions
@@ -554,6 +600,20 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
         float joint_pos =
             state_interfaces_map_.at(params_.joint_names.at(i)).at("position").get().get_value();
         observation_.at(joint_position_idx_ + i) = joint_pos - params_.default_joint_pos.at(i);
+      }
+    }
+
+    // Wheel joints: the loop above skips them (they are velocity-type), which would leave
+    // their slots permanently 0. The wheeled policy was trained on normalized, sign-corrected
+    // wheel VELOCITY in those slots -- a free-spinning wheel's angle is unbounded and wraps,
+    // so position is not a usable input here.
+    if (behavior_ == "wheel") {
+      for (size_t k = 0; k < wheel_joint_rows_.size(); k++) {
+        const int i = wheel_joint_rows_.at(k);
+        const float joint_vel =
+            state_interfaces_map_.at(params_.joint_names.at(i)).at("velocity").get().get_value();
+        observation_.at(joint_position_idx_ + i) =
+            static_cast<float>(joint_vel / wheel_velocity_normalizer_ * wheel_forward_sign_.at(k));
       }
     }
   } catch (const std::out_of_range &e) {

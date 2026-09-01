@@ -75,6 +75,11 @@ class NeuralController : public controller_interface::ControllerInterface {
   //     desired_world_z[3] + joint_pos[12] + last_action[12] = 36
   //   "leg_lift": ang_vel[3] + gravity[3] + command_one_hot[num_commands_] + joint_pos[12] +
   //     last_action[12]
+  //   "wheel": ang_vel[3] + gravity[3] + xyyaw_vel_cmd[3] + joint_block[12] + last_action[12] = 33
+  //     Same velocity command as locomotion but WITHOUT desired_world_z, and the joint block is
+  //     mixed: position-type joints report (position - default) as usual, while velocity-type
+  //     joints (the wheels) report their VELOCITY, normalized and sign-corrected. A wheel spins
+  //     freely, so its angle is unbounded and wraps -- useless as an input.
   // These used to be compile-time constants shared by every controller instance; they are now
   // computed once in on_init from the loaded JSON so a leg-lift instance and a locomotion
   // instance can run the same plugin class with different observation shapes.
@@ -87,6 +92,14 @@ class NeuralController : public controller_interface::ControllerInterface {
   // Driven by /leg_lift_command_index (published by joy_util_node's O-button state machine).
   std::vector<std::string> command_states_;
   int num_commands_ = 0;
+
+  // "wheel" behavior only. The wheels' observation slots carry
+  // (joint velocity / wheel_velocity_normalizer_) * wheel_forward_sign_, matching how the policy
+  // was trained. wheel_forward_sign_ exists because the left and right legs' frames are mirrored,
+  // so the two sides' wheel joints spin about opposite world axes.
+  std::vector<int> wheel_joint_rows_;
+  std::vector<double> wheel_forward_sign_;
+  double wheel_velocity_normalizer_ = 1.0;
   int command_index_ = 0;  // defaults to command_states_[0], which export_policy.py guarantees is
                             // "stand"
 
