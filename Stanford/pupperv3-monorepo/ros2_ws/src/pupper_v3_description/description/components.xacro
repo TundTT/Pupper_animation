@@ -63,12 +63,12 @@
         </joint>
 
         <joint name="leg_front_r_3">
-            <!-- WHEEL joint (was the knee). Continuous: position limits widened so the
+            <!-- WHEEL joint (was the knee), continuous. Position limits are widened so the
                  wheel can spin freely, and homing disarmed (homing_kp/velocity 0)
                  because a free-spinning wheel has no home angle to seek and a
                  homing sweep would spin it on startup.
 
-                 homing_torque_threshold is 0.0 ON PURPOSE and is load-bearing:
+                 homing_torque_threshold is 0.0 ON PURPOSE and is load-bearing, because
                  control_board_hardware_interface homes in a BLOCKING
                  while(!all_homed) loop that only exits when a joint pushes past
                  its torque threshold. A free-spinning wheel has no hard stop, so
@@ -164,12 +164,12 @@
         </joint>
 
         <joint name="leg_front_l_3">
-            <!-- WHEEL joint (was the knee). Continuous: position limits widened so the
+            <!-- WHEEL joint (was the knee), continuous. Position limits are widened so the
                  wheel can spin freely, and homing disarmed (homing_kp/velocity 0)
                  because a free-spinning wheel has no home angle to seek and a
                  homing sweep would spin it on startup.
 
-                 homing_torque_threshold is 0.0 ON PURPOSE and is load-bearing:
+                 homing_torque_threshold is 0.0 ON PURPOSE and is load-bearing, because
                  control_board_hardware_interface homes in a BLOCKING
                  while(!all_homed) loop that only exits when a joint pushes past
                  its torque threshold. A free-spinning wheel has no hard stop, so
@@ -265,12 +265,12 @@
         </joint>
 
         <joint name="leg_back_r_3">
-            <!-- WHEEL joint (was the knee). Continuous: position limits widened so the
+            <!-- WHEEL joint (was the knee), continuous. Position limits are widened so the
                  wheel can spin freely, and homing disarmed (homing_kp/velocity 0)
                  because a free-spinning wheel has no home angle to seek and a
                  homing sweep would spin it on startup.
 
-                 homing_torque_threshold is 0.0 ON PURPOSE and is load-bearing:
+                 homing_torque_threshold is 0.0 ON PURPOSE and is load-bearing, because
                  control_board_hardware_interface homes in a BLOCKING
                  while(!all_homed) loop that only exits when a joint pushes past
                  its torque threshold. A free-spinning wheel has no hard stop, so
@@ -366,12 +366,12 @@
         </joint>
 
         <joint name="leg_back_l_3">
-            <!-- WHEEL joint (was the knee). Continuous: position limits widened so the
+            <!-- WHEEL joint (was the knee), continuous. Position limits are widened so the
                  wheel can spin freely, and homing disarmed (homing_kp/velocity 0)
                  because a free-spinning wheel has no home angle to seek and a
                  homing sweep would spin it on startup.
 
-                 homing_torque_threshold is 0.0 ON PURPOSE and is load-bearing:
+                 homing_torque_threshold is 0.0 ON PURPOSE and is load-bearing, because
                  control_board_hardware_interface homes in a BLOCKING
                  while(!all_homed) loop that only exits when a joint pushes past
                  its torque threshold. A free-spinning wheel has no hard stop, so

@@ -244,12 +244,12 @@ neural_controller_wheel:
 
     # Splayed wheeled stance (abduction +-1 rad). The wheel entries are 0 and are
     # only read by the init phase, which is disarmed on those rows via init_kps=0.
-    default_joint_pos: [1, 0, 0, -1, 0, 0, 1, 0, 0, -1, 0, 0]
+    default_joint_pos: [1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0]
 
-    kps: [5, 5, 0, 5, 5, 0, 5, 5, 0, 5, 5, 0]
+    kps: [5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0]
     kds: [0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35]
 
-    init_kps: [7.5, 7.5, 0, 7.5, 7.5, 0, 7.5, 7.5, 0, 7.5, 7.5, 0]
+    init_kps: [7.5, 7.5, 0.0, 7.5, 7.5, 0.0, 7.5, 7.5, 0.0, 7.5, 7.5, 0.0]
     init_kds: [0.25, 0.25, 0.1, 0.25, 0.25, 0.1, 0.25, 0.25, 0.1, 0.25, 0.25, 0.1]
 
     init_duration: 2.0
@@ -317,12 +317,18 @@ joy_util_node:
   ros__parameters:
     estop_index: 12
     estop_release_index: 9
-    controller_names: ["neural_controller", "neural_controller_three_legged", "neural_controller_leg_lift", "forward_kp_controller", "forward_kd_controller", "forward_position_controller"]
+    # switch_button_indices[i] and controller_names[i] pair up positionally -- pressing
+    # switch_button_indices[i] activates controller_names[i]. Entries in controller_names past
+    # the end of switch_button_indices (leg_lift here) get NO button this way; they're only in
+    # this list so switch_to_controller()/e-stop know to deactivate them too. Keep any
+    # button-less controller (leg_lift) LAST, or it will silently steal the next entry's button.
+    controller_names: ["neural_controller", "neural_controller_three_legged", "neural_controller_wheel", "neural_controller_leg_lift", "forward_kp_controller", "forward_kd_controller", "forward_position_controller"]
     # X (0) -> neural_controller (locomotion, also exits leg-lift mode). Square (3) ->
-    # neural_controller_three_legged. O (1) is NOT here: it's the leg-lift button below, handled
+    # neural_controller_three_legged. Triangle (2) -> neural_controller_wheel (UNTESTED ON
+    # HARDWARE, see config below). O (1) is NOT here: it's the leg-lift button below, handled
     # separately since it enters leg-lift mode on first press and cycles legs on repeated presses,
     # rather than switching once.
-    switch_button_indices: [0, 3]
+    switch_button_indices: [0, 3, 2]
 
     # O-button leg-lift cycle. First press (from any other controller) activates
     # neural_controller_leg_lift and immediately commands front_l; each subsequent press while

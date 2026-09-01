@@ -157,6 +157,19 @@ def generate_launch_description():
         ],
     )
 
+    wheel_robot_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "neural_controller_wheel",
+            "--controller-manager",
+            "/controller_manager",
+            "--controller-manager-timeout",
+            "30",
+            "--inactive",
+        ],
+    )
+
     # Forward command controllers for animation system (inactive by default)
     forward_position_controller_spawner = Node(
         package="controller_manager",
@@ -307,6 +320,7 @@ def generate_launch_description():
         robot_controller_spawner,
         three_legged_robot_controller_spawner,
         leg_lift_robot_controller_spawner,
+        wheel_robot_controller_spawner,
         # Forward command controllers for animation
         forward_position_controller_spawner,
         forward_kp_controller_spawner,
