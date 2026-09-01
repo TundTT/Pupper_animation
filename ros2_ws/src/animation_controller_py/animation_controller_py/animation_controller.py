@@ -104,7 +104,16 @@ class AnimationControllerPy(Node):
         self.controller_switch_client = self.create_client(SwitchController, "/controller_manager/switch_controller")
 
         # Controller names
-        self.neural_controllers = ["neural_controller", "neural_controller_three_legged"]
+        # Every neural controller that could be holding the joints. Animation activates the
+        # forward_* controllers, which claim the SAME command interfaces, so any neural
+        # controller left active would collide with them and the switch would fail.
+        # neural_controller_leg_lift and neural_controller_wheel were both missing here.
+        self.neural_controllers = [
+            "neural_controller",
+            "neural_controller_three_legged",
+            "neural_controller_leg_lift",
+            "neural_controller_wheel",
+        ]
         self.forward_controllers = ["forward_position_controller", "forward_kp_controller", "forward_kd_controller"]
 
         # Timer for control loop
