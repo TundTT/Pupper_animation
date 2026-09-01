@@ -226,14 +226,86 @@ Known open items:
 
 ## Deployment (monorepo side)
 
-The exported JSON carries `observation_layout`, `command_states`, and
-`button_sequence` metadata. To run it on the robot:
+Status: the policy is exported and its artifact has been validated OFFLINE against
+the wheeled MuJoCo model (see below), but **nothing has run in `pupperv3_mujoco_sim`
+or on the robot yet** — that needs a ROS2 Humble machine (the Pi, or x86 Ubuntu
+22.04); the training workstation has no ROS2 installed.
 
-1. Copy the JSON into `neural_controller/launch/` and add a third controller instance
-   in `config.yaml` with its `model_path` (mirror `neural_controller_three_legged`).
-2. Spawn it in `launch.py` and add it to `joy_util_node`'s `controller_names`.
-3. **New integration work:** feed the policy its command. Unlike the locomotion
-   policy (driven by `cmd_vel`), this one needs a small state machine that, while the
-   controller is active, increments the command index on each O press and supplies
-   the one-hot to the observation. This is the main on-robot task and does not exist
-   yet — `neural_controller`'s observation builder currently has no command-of-this-shape.
+Export:
+
+```sh
+.venv/bin/python -m workspace.export_policy \
+    --params workspace/output/wheel_2026-08-31_19-17-45/mjx_params
+# -> workspace/output/.../policy_wheel.json   (behavior="wheel", in_shape [None,132])
+```
+
+**Offline validation already done.** `policy_wheel.json` was used to drive the
+wheeled MJCF with the observation assembled and the MLP evaluated the way
+`neural_controller.cpp` does (plain numpy, no brax). It reproduces the training-side
+behaviour: vx 0.8 → 0.748, vx −0.4 → −0.416, yaw 2.0 → 1.825, combined 0.5/1.0 →
+0.491/0.932. So the weights, the folded normalization, the action scaling and the
+gain mapping are all correct in the exported artifact.
+
+### What the robot still needs
+
+**1. Two small `neural_controller.cpp` patches** (neither exists yet):
+
+  a. *A `behavior == "wheel"` branch.* `single_observation_size` must be 33
+     (`ang_vel 3 + gravity 3 + cmd_xyyaw 3 + joints 12 + last_action 12`), i.e.
+     `joint_position_idx_ = 3 + 3 + 3`. The existing `locomotion` branch is 36 —
+     it carries an extra `desired_world_z[3]` this policy was not trained with, so
+     reusing it would mis-align every downstream index. (The in_shape check would
+     catch it loudly: 132 ≠ 4×36.)
+
+  b. *Populate the wheel rows of the joint block.* Today the observation loop only
+     writes a slot `if (action_types[i] == "position")`, so velocity-type joints
+     keep a permanent 0. This policy expects
+     `wheel_joint_velocity / wheel_velocity_normalizer * wheel_forward_sign` there
+     (all three values are in the JSON). Left unpatched the policy flies blind on
+     wheel speed — it will still move, but not as trained.
+
+**2. A controller instance in `config.yaml`**, mirroring the locomotion one but
+with the JSON's per-joint values — `action_types` = `velocity` on rows 2/5/8/11 and
+`position` elsewhere, `kps` = **0 on the wheel rows**, `kds` = 0.35 there,
+`default_joint_pos` = the splayed ±1 rad stance, and `model_path` pointing at
+`policy_wheel.json`. Spawn it in `launch.py` and add it to `joy_util_node`'s
+`controller_names`.
+
+**3. Nothing to build for the command path.** The controller already subscribes to
+`/cmd_vel` (`geometry_msgs/Twist`) for the locomotion behavior; the wheeled policy
+uses the same three numbers (vx, vy, yaw). Note `vy` is ignored by design — these
+are fixed wheels.
+
+**4. Do NOT re-apply `WHEEL_FORWARD_SIGN` on the robot.** It is already folded into
+the exported per-joint `action_scale` (negative on the right-hand wheels), because
+the controller computes `action * action_scale` for velocity joints with no sign
+handling of its own. Applying it twice cancels it out and the two sides will fight
+each other — the failure mode where the robot spins its wheels and does not move.
+
+**5. Why `kp = 0` on the wheels matters.** `control_board_hardware_interface`
+computes `torque = (pos_cmd − pos_state)·kp + (vel_cmd − vel_state)·kd`. With
+`kp = 0` that reduces to `torque = kd·(vel_cmd − vel_state)`, algebraically the same
+law as MuJoCo's `<velocity kv>` actuator, so `kd` here IS `configs.wheel_kv`. Any
+nonzero `kp` fights the free-spinning wheel against a stale position target.
+
+### Suggested bring-up order
+
+1. `pupperv3_mujoco_sim` first, on a ROS2 box — it exercises the same controller,
+   config and JSON without risking hardware, and the wheel-sign and mixed-actuation
+   traps above would show up immediately there.
+2. Robot **on a stand, wheels off the ground**, `/cmd_vel` at low vx only. Confirm
+   all four wheels turn the same direction for +vx. This is the sign check.
+3. Ground test at reduced command. Measured envelope is 0.958 m/s and 4.65 rad/s;
+   the policy is trained for vx ≤ 0.8 and |yaw| ≤ 2.0.
+4. Watch for oscillation. Run 2 was chosen partly for smoothness/torque headroom
+   (0.734 Nm peak of a 3.0 Nm ceiling); if it still oscillates, `wheel_kv` is the
+   first thing to lower.
+
+### Not yet addressed
+
+* The robot's own `pupper_v3_description` copy is still the QUADRUPED model. The
+  wheeled MJCF/URDF changes on this branch were made to the `Stanford/training`
+  copy only; the monorepo copy (and the ros2_control joint definitions, which must
+  declare the wheel joints continuous and expose a velocity command interface)
+  has not been updated.
+* Homing: startup must be able to reach the ±1 rad abduction stance safely.
