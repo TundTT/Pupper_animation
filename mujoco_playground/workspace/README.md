@@ -138,9 +138,31 @@ averages — `train.py`'s progress line already does this.
 
 ## Status / what still needs doing
 
-The wheeled **pipeline exists and runs end to end**, but **no wheeled policy has been
-trained yet** — every reward weight, command range and gain below is a first pass, not
-a tuned value, and nothing here has touched hardware.
+**First wheeled policy trained and sim-verified (2026-08-31):** run
+`wheel_2026-08-31_18-53-25`
+([W&B](https://wandb.ai/QuadMorph/pupper-wheel/runs/h6yhfsxe)), 200M steps in
+**14m27s** on one Blackwell GPU (~230k steps/s), params at
+`workspace/output/wheel_2026-08-31_18-53-25/mjx_params`.
+
+Final eval: reward 79.67, episode length 600/600 (never falls), tilt 0.29°, all four
+wheels in contact, `vel_err` 0.0097, `yaw_err` 0.0965. It converged by ~43M steps and
+then drifted up slowly; the remaining ~150M bought about +0.5 reward.
+
+Measured on the trained policy (deterministic, steady state) — commanded vs achieved:
+
+| commanded | achieved vx | achieved yaw | tilt |
+|---|---|---|---|
+| stop | −0.003 | +0.009 | 0.1° |
+| vx 0.40 | +0.387 | −0.002 | 0.0° |
+| vx 0.80 | +0.783 | −0.047 | 0.6° |
+| vx −0.40 | −0.416 | +0.011 | 0.0° |
+| yaw +1.0 | −0.020 | +0.931 | 0.2° |
+| yaw +2.0 | −0.029 | +1.879 | 0.3° |
+| yaw −2.0 | −0.032 | −1.885 | 0.4° |
+| vx 0.5 + yaw 1.0 | +0.512 | +1.000 | 0.0° |
+
+Within 2–7% on every axis with no meaningful cross-coupling. **Nothing here has
+touched hardware**, and the reward weights / gains are still a first pass, not tuned.
 
 Built and verified in sim (2026-08-31):
 - Wheeled MJCF: four wheels on repurposed knee joints, real measured mass/inertia,
@@ -154,6 +176,13 @@ Built and verified in sim (2026-08-31):
   spurious terminations.
 
 Known open items:
+- **No intermediate checkpointing.** `train.py` saves params only after `ppo.train`
+  returns, and no `checkpoint_logdir` is set — killing a run mid-flight loses the
+  weights entirely. Worth adding before any run long enough that you'd want to
+  early-stop it.
+- Yaw is the weaker axis (`trk_ang` plateaued ~0.80 of 1.0 vs `trk_lin` 0.97). If
+  yaw accuracy matters, the lever is raising `tracking_ang_vel` (1.0) toward
+  `tracking_lin_vel` (2.0) — linear tracking has margin to give up.
 - **Wheel speed is capped at 1 m/s** (`configs.WHEEL_MAX_LINEAR_SPEED`). At the
   earlier 1.44 m/s cap the robot **flipped** when all four wheels were commanded to
   full scale. Command ranges are kept strictly inside the cap so the policy has
