@@ -244,12 +244,12 @@ neural_controller_wheel:
 
     # Splayed wheeled stance (abduction +-1 rad). The wheel entries are 0 and are
     # only read by the init phase, which is disarmed on those rows via init_kps=0.
-    default_joint_pos: [1, 0, 0, -1, 0, 0, 1, 0, 0, -1, 0, 0]
+    default_joint_pos: [1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0]
 
-    kps: [5, 5, 0, 5, 5, 0, 5, 5, 0, 5, 5, 0]
+    kps: [5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0]
     kds: [0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35]
 
-    init_kps: [7.5, 7.5, 0, 7.5, 7.5, 0, 7.5, 7.5, 0, 7.5, 7.5, 0]
+    init_kps: [7.5, 7.5, 0.0, 7.5, 7.5, 0.0, 7.5, 7.5, 0.0, 7.5, 7.5, 0.0]
     init_kds: [0.25, 0.25, 0.1, 0.25, 0.25, 0.1, 0.25, 0.25, 0.1, 0.25, 0.25, 0.1]
 
     init_duration: 2.0
