@@ -1,0 +1,96 @@
+wandb: Currently logged in as: tundt (QuadMorph) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run h6yhfsxe
+wandb: Tracking run with wandb version 0.23.1
+wandb: Run data is saved locally in /home/theerawit/Pupper_animation/mujoco_playground/wandb/run-20260831_185326-h6yhfsxe
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run wheel_2026-08-31_18-53-25
+wandb: ⭐️ View project at https://wandb.ai/QuadMorph/pupper-wheel
+wandb: 🚀 View run at https://wandb.ai/QuadMorph/pupper-wheel/runs/h6yhfsxe
+/home/theerawit/Pupper_animation/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+Training WHEELED locomotion policy: vx=(-0.6, 0.8) vy=(0.0, 0.0) yaw=(-2.0, 2.0), wheel cap 1.00 m/s (20.83 rad/s), episode_length=600 steps (12.0s)
+[           0] reward=   25.47 eplen=  562 vel_err=0.2496 yaw_err=1.9873 tilt= 2.47deg torso_z=0.1321m contacts=3.45 | trk_lin=1.125 trk_ang=0.251 stance=0.359 still=0.002
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_0.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_14417920.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[  14,417,920] reward=   75.77 eplen=  600 vel_err=0.0136 yaw_err=0.2059 tilt= 0.38deg torso_z=0.1315m contacts=3.99 | trk_lin=1.918 trk_ang=0.660 stance=0.885 still=0.026
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_28835840.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[  28,835,840] reward=   78.23 eplen=  600 vel_err=0.0134 yaw_err=0.1196 tilt= 0.32deg torso_z=0.1316m contacts=3.99 | trk_lin=1.922 trk_ang=0.762 stance=0.911 still=0.032
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_43253760.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[  43,253,760] reward=   78.76 eplen=  600 vel_err=0.0121 yaw_err=0.1098 tilt= 0.30deg torso_z=0.1316m contacts=4.00 | trk_lin=1.925 trk_ang=0.783 stance=0.914 still=0.042
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_57671680.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[  57,671,680] reward=   79.33 eplen=  600 vel_err=0.0111 yaw_err=0.0972 tilt= 0.27deg torso_z=0.1314m contacts=4.00 | trk_lin=1.933 trk_ang=0.795 stance=0.927 still=0.041
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_72089600.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[  72,089,600] reward=   79.27 eplen=  600 vel_err=0.0119 yaw_err=0.0985 tilt= 0.30deg torso_z=0.1315m contacts=3.99 | trk_lin=1.931 trk_ang=0.799 stance=0.920 still=0.042
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_86507520.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[  86,507,520] reward=   79.17 eplen=  600 vel_err=0.0113 yaw_err=0.1048 tilt= 0.30deg torso_z=0.1316m contacts=3.99 | trk_lin=1.934 trk_ang=0.791 stance=0.924 still=0.038
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_100925440.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[ 100,925,440] reward=   79.36 eplen=  600 vel_err=0.0117 yaw_err=0.0943 tilt= 0.29deg torso_z=0.1317m contacts=4.00 | trk_lin=1.932 trk_ang=0.803 stance=0.926 still=0.041
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_115343360.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[ 115,343,360] reward=   79.47 eplen=  600 vel_err=0.0124 yaw_err=0.0962 tilt= 0.30deg torso_z=0.1316m contacts=3.99 | trk_lin=1.934 trk_ang=0.804 stance=0.930 still=0.044
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_129761280.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[ 129,761,280] reward=   79.38 eplen=  600 vel_err=0.0118 yaw_err=0.0994 tilt= 0.31deg torso_z=0.1317m contacts=4.00 | trk_lin=1.933 trk_ang=0.799 stance=0.926 still=0.042
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_144179200.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[ 144,179,200] reward=   79.80 eplen=  600 vel_err=0.0104 yaw_err=0.0883 tilt= 0.29deg torso_z=0.1316m contacts=4.00 | trk_lin=1.942 trk_ang=0.812 stance=0.930 still=0.046
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_158597120.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[ 158,597,120] reward=   79.68 eplen=  600 vel_err=0.0106 yaw_err=0.0925 tilt= 0.29deg torso_z=0.1317m contacts=4.00 | trk_lin=1.940 trk_ang=0.809 stance=0.927 still=0.048
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_173015040.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[ 173,015,040] reward=   79.55 eplen=  600 vel_err=0.0112 yaw_err=0.0996 tilt= 0.29deg torso_z=0.1317m contacts=4.00 | trk_lin=1.938 trk_ang=0.802 stance=0.929 still=0.040
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_187432960.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[ 187,432,960] reward=   79.76 eplen=  600 vel_err=0.0108 yaw_err=0.0897 tilt= 0.27deg torso_z=0.1316m contacts=4.00 | trk_lin=1.939 trk_ang=0.808 stance=0.932 still=0.046
+  wrote video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_step_201850880.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[ 201,850,880] reward=   79.67 eplen=  600 vel_err=0.0097 yaw_err=0.0965 tilt= 0.29deg torso_z=0.1316m contacts=4.00 | trk_lin=1.943 trk_ang=0.803 stance=0.931 still=0.044
+time to jit:   0:00:55.371166
+time to train: 0:14:26.881468
+Saved brax params -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/mjx_params
+Rendering final rollout video...
+Final video -> /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/rollout_final.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+wandb: updating run metadata
+wandb: uploading history steps 14-14, summary, console lines 52-53
+wandb: 
+wandb: Run history:
+wandb:        eval/avg_episode_length ▁██████████████
+wandb:       eval/episode_action_rate ▁██████████████
+wandb:   eval/episode_action_rate_std █▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:     eval/episode_ang_vel_error █▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb: eval/episode_ang_vel_error_std █▂▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:        eval/episode_ang_vel_xy ▁██████████████
+wandb:    eval/episode_ang_vel_xy_std █▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:           eval/episode_dof_acc ▁██████████████
+wandb:       eval/episode_dof_acc_std █▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb:    eval/episode_dof_pos_limits ▁██████████████
+wandb:                            +49 ...
+wandb: 
+wandb: Run summary:
+wandb:        eval/avg_episode_length 600
+wandb:       eval/episode_action_rate -9.20369
+wandb:   eval/episode_action_rate_std 2.56273
+wandb:     eval/episode_ang_vel_error 57.89281
+wandb: eval/episode_ang_vel_error_std 26.51911
+wandb:        eval/episode_ang_vel_xy -2.14996
+wandb:    eval/episode_ang_vel_xy_std 1.25845
+wandb:           eval/episode_dof_acc -35.61194
+wandb:       eval/episode_dof_acc_std 10.54158
+wandb:    eval/episode_dof_pos_limits 0
+wandb:                            +49 ...
+wandb: 
+wandb: 🚀 View run wheel_2026-08-31_18-53-25 at: https://wandb.ai/QuadMorph/pupper-wheel/runs/h6yhfsxe
+wandb: ⭐️ View project at: https://wandb.ai/QuadMorph/pupper-wheel
+wandb: Synced 5 W&B file(s), 16 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260831_185326-h6yhfsxe/logs
+Next: python -m workspace.export_policy --params /home/theerawit/Pupper_animation/mujoco_playground/workspace/output/wheel_2026-08-31_18-53-25/mjx_params

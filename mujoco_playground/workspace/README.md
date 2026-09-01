@@ -161,8 +161,36 @@ Measured on the trained policy (deterministic, steady state) — commanded vs ac
 | yaw −2.0 | −0.032 | −1.885 | 0.4° |
 | vx 0.5 + yaw 1.0 | +0.512 | +1.000 | 0.0° |
 
-Within 2–7% on every axis with no meaningful cross-coupling. **Nothing here has
-touched hardware**, and the reward weights / gains are still a first pass, not tuned.
+Within 2–7% on every axis with no meaningful cross-coupling.
+
+**Run 2 — `wheel_2026-08-31_19-17-45`**
+([W&B](https://wandb.ai/QuadMorph/pupper-wheel/runs/xoegcor0)), the current
+recommended policy. Same task, two sim-to-real changes: `observation_history`
+1 → 4 and `action_rate` −0.05 → −0.1. Final eval reward 79.56 vs run 1's 79.67,
+i.e. inside eval noise despite double the smoothness penalty.
+
+Head-to-head on the trained policies (probes include the env's obs noise and
+action latency):
+
+| | run 1 (hist=1, ar=−0.05) | run 2 (hist=4, ar=−0.10) |
+|---|---|---|
+| mean tracking error | **0.0517** | 0.0644 |
+| mean \|Δaction\| | 0.0313 | **0.0272** (−13%) |
+| max wheel torque | 1.070 Nm | **0.734 Nm** (−31%) |
+
+A genuine trade, not a clean win. Run 2 is preferred for DEPLOYMENT because its
+advantages are the ones an outer loop cannot fix: a ~6% steady-state speed error
+(run 2's worst case, vx 0.8 → 0.748) is trivially corrected by an operator or a
+higher-level controller, whereas oscillation and actuator saturation are not —
+and 31% more torque headroom matters against a real motor with current limits and
+backlash the sim does not model. 4-frame history is also what the already-deployed
+locomotion policy uses, so it has precedent on this robot. Run 1 is kept as a
+fallback; if hardware shows run 2 tracking too loosely, `action_rate` −0.075 with
+history 4 is the middle option.
+
+**Nothing here has touched hardware**, and the reward weights / gains are still a
+first pass, not tuned. The run-2 preference is a judgement about untested
+transfer, not a measured hardware result.
 
 Built and verified in sim (2026-08-31):
 - Wheeled MJCF: four wheels on repurposed knee joints, real measured mass/inertia,
