@@ -600,7 +600,15 @@ def get_wheel_config() -> config_dict.ConfigDict:
         # `<velocity kv>`; wheel_env.py writes it back over the loaded model so
         # this file stays the single source of truth.
         wheel_kv=0.35,
-        observation_history=1,  # set >1 to stack frames like the locomotion policy
+        # Stack 4 frames, matching both the providers' notebook and the already
+        # DEPLOYED locomotion policy. Run 1 (wheel_2026-08-31_18-53-25) used 1 and
+        # was the outlier. A single frame gives the policy no way to infer what the
+        # actuators are actually doing under latency -- it sees a noisy snapshot and
+        # must react to it blind. History is a standard sim-to-real lever, and the
+        # on-robot side already supports it: neural_controller.cpp reads
+        # `observation_history` from the exported JSON and checks it against the
+        # network's input shape, and export_policy.py already emits it.
+        observation_history=4,
         soft_joint_pos_limit_factor=0.95,
 
         # ---- episode / termination ----
@@ -625,7 +633,15 @@ def get_wheel_config() -> config_dict.ConfigDict:
                 # -- penalties --
                 lin_vel_z=-0.5,             # no bouncing
                 ang_vel_xy=-0.05,           # no roll/pitch rate
-                action_rate=-0.05,          # smooth commands (sim-to-real)
+                # Raised from -0.05 after measuring run 1: mean |delta action| was
+                # 0.09-0.10 per step with peaks of 0.27. For comparison the leg-lift
+                # task needed a hard 0.05/step rate limit to stop the robot
+                # oscillating on hardware, so run 1 was commanding steps roughly
+                # twice that, under a weaker penalty than the reference's -0.1.
+                # Smoothness is a sim-to-real requirement here, not a nicety: it is
+                # what stops the policy asking for velocity steps the real motor
+                # cannot follow.
+                action_rate=-0.1,           # smooth commands (sim-to-real)
                 torques=-2e-4,
                 dof_acc=-1e-6,
                 dof_pos_limits=-1.0,        # position joints only, see wheel_env.py
