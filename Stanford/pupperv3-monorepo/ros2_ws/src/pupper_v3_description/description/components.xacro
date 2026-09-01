@@ -63,19 +63,23 @@
         </joint>
 
         <joint name="leg_front_r_3">
+            <!-- WHEEL joint (was the knee). Continuous: position limits widened so the
+                 wheel can spin freely, and homing disarmed (homing_kp/velocity 0)
+                 because a free-spinning wheel has no home angle to seek and a
+                 homing sweep would spin it on startup. REVIEW BEFORE HARDWARE. -->
             <param name="can_channel">2</param>
             <param name="can_id">3</param>
 
             <param name="homing_stage">0</param>
-            <param name="homing_velocity">1.5</param>
+            <param name="homing_velocity">0.0</param>
             <param name="homed_position">0.71</param>
             <param name="post_homing_position">0.71</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">2.0</param>
 
-            <param name="position_min">-2.69</param>
-            <param name="position_max">0.61</param>
+            <param name="position_min">-1000.0</param>
+            <param name="position_max">1000.0</param>
             <param name="velocity_max">30.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
@@ -150,19 +154,23 @@
         </joint>
 
         <joint name="leg_front_l_3">
+            <!-- WHEEL joint (was the knee). Continuous: position limits widened so the
+                 wheel can spin freely, and homing disarmed (homing_kp/velocity 0)
+                 because a free-spinning wheel has no home angle to seek and a
+                 homing sweep would spin it on startup. REVIEW BEFORE HARDWARE. -->
             <param name="can_channel">1</param>
             <param name="can_id">3</param>
 
             <param name="homing_stage">0</param>
-            <param name="homing_velocity">-1.5</param>
+            <param name="homing_velocity">0.0</param>
             <param name="homed_position">-0.71</param>
             <param name="post_homing_position">-0.71</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">2.0</param>
 
-            <param name="position_min">-0.61</param>
-            <param name="position_max">2.69</param>
+            <param name="position_min">-1000.0</param>
+            <param name="position_max">1000.0</param>
             <param name="velocity_max">30.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
@@ -237,19 +245,23 @@
         </joint>
 
         <joint name="leg_back_r_3">
+            <!-- WHEEL joint (was the knee). Continuous: position limits widened so the
+                 wheel can spin freely, and homing disarmed (homing_kp/velocity 0)
+                 because a free-spinning wheel has no home angle to seek and a
+                 homing sweep would spin it on startup. REVIEW BEFORE HARDWARE. -->
             <param name="can_channel">4</param>
             <param name="can_id">3</param>
 
             <param name="homing_stage">0</param>
-            <param name="homing_velocity">1.5</param>
+            <param name="homing_velocity">0.0</param>
             <param name="homed_position">0.71</param>
             <param name="post_homing_position">0.71</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">2.0</param>
 
-            <param name="position_min">-2.69</param>
-            <param name="position_max">0.61</param>
+            <param name="position_min">-1000.0</param>
+            <param name="position_max">1000.0</param>
             <param name="velocity_max">30.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
@@ -324,19 +336,23 @@
         </joint>
 
         <joint name="leg_back_l_3">
+            <!-- WHEEL joint (was the knee). Continuous: position limits widened so the
+                 wheel can spin freely, and homing disarmed (homing_kp/velocity 0)
+                 because a free-spinning wheel has no home angle to seek and a
+                 homing sweep would spin it on startup. REVIEW BEFORE HARDWARE. -->
             <param name="can_channel">3</param>
             <param name="can_id">3</param>
 
             <param name="homing_stage">0</param>
-            <param name="homing_velocity">-1.5</param>
+            <param name="homing_velocity">0.0</param>
             <param name="homed_position">-0.71</param>
             <param name="post_homing_position">-0.71</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">2.0</param>
 
-            <param name="position_min">-0.61</param>
-            <param name="position_max">2.69</param>
+            <param name="position_min">-1000.0</param>
+            <param name="position_max">1000.0</param>
             <param name="velocity_max">30.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
