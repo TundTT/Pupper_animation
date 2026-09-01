@@ -92,8 +92,21 @@ def _wheel_payload(config) -> dict:
         "behavior": "wheel",
         "action_scale": action_scale.tolist(),
         "action_types": action_types,
+        # NOTE: the controller does NOT read these. It reads scalar "kp"/"kd" only
+        # (set_param_from_json_scalar, broadcast to all 12 joints), so per-joint
+        # gains have to live in config.yaml. They are emitted here as the values to
+        # paste there, and this export deliberately omits scalar "kp"/"kd" -- if it
+        # emitted them they would overwrite config.yaml's per-joint arrays and put
+        # a nonzero kp back on the wheels.
         "kps": kps,
         "kds": kds,
+        # Init phase: neural_controller drives EVERY joint to default_joint_pos
+        # under POSITION control with init_kps before handing over to the policy.
+        # On a wheel that means "rotate to angle 0 with kp=7.5" -- the wheels would
+        # spin on activation. init_kps must be 0 on the wheel rows so they are only
+        # damped, never position-servoed, during init.
+        "init_kps": [0.0 if i in set(configs.WHEEL_ACTUATOR_ROWS) else 7.5 for i in range(12)],
+        "init_kds": [0.1 if i in set(configs.WHEEL_ACTUATOR_ROWS) else 0.25 for i in range(12)],
         "default_joint_pos": configs.DEFAULT_POSE.tolist(),
         "joint_upper_limits": configs.JOINT_UPPER_LIMITS.tolist(),
         "joint_lower_limits": configs.JOINT_LOWER_LIMITS.tolist(),

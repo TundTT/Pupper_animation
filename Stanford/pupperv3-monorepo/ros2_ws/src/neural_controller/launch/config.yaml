@@ -13,6 +13,9 @@ controller_manager:
     neural_controller_leg_lift:
       type: neural_controller/NeuralController
 
+    neural_controller_wheel:
+      type: neural_controller/NeuralController
+
     # Forward command controllers for animation
     forward_position_controller:
       type: forward_command_controller/ForwardCommandController
@@ -193,6 +196,84 @@ neural_controller_leg_lift:
     max_body_angle: 1.5
 
     model_path: "$(find-pkg-share neural_controller)/launch/policy_leg_lift.json"
+
+# ---------------------------------------------------------------------------
+# Wheeled locomotion policy (branch `wheel`). UNTESTED ON HARDWARE.
+# Generated from policy_wheel.json so the two cannot disagree; see
+# mujoco_playground/workspace/README.md's deployment section.
+#
+# The `_3` joints are WHEELS here, not knees: continuous joints driven in
+# VELOCITY mode. Three things differ from every other instance in this file,
+# and all three matter:
+#   * action_types is "velocity" on the wheel rows, so the controller commands
+#     action*action_scale with no default offset and no clamping.
+#   * kps is 0 on the wheel rows. The control board computes
+#     torque = (pos_cmd-pos_state)*kp + (vel_cmd-vel_state)*kd, so kp=0 makes it
+#     a pure velocity servo and kds there is the velocity gain (sim's wheel_kv).
+#     A nonzero kp would fight the free-spinning wheel against a stale target.
+#   * init_kps is 0 on the wheel rows. During init the controller drives EVERY
+#     joint to default_joint_pos under POSITION control -- with a nonzero kp the
+#     wheels would spin to angle 0 on activation.
+#
+# The mirrored-wheel direction correction is already folded into the policy's
+# exported action_scale (negative on the right-hand wheels). Do NOT apply it
+# again anywhere else or the two sides will cancel.
+# ---------------------------------------------------------------------------
+neural_controller_wheel:
+  ros__parameters:
+    repeat_action: 10
+
+    gain_multiplier: 1.0
+    estop_kd: 0.3
+
+    joint_names:
+      [
+        "leg_front_r_1",
+        "leg_front_r_2",
+        "leg_front_r_3",
+        "leg_front_l_1",
+        "leg_front_l_2",
+        "leg_front_l_3",
+        "leg_back_r_1",
+        "leg_back_r_2",
+        "leg_back_r_3",
+        "leg_back_l_1",
+        "leg_back_l_2",
+        "leg_back_l_3",
+      ]
+
+    # Splayed wheeled stance (abduction +-1 rad). The wheel entries are 0 and are
+    # only read by the init phase, which is disarmed on those rows via init_kps=0.
+    default_joint_pos: [1, 0, 0, -1, 0, 0, 1, 0, 0, -1, 0, 0]
+
+    kps: [5, 5, 0, 5, 5, 0, 5, 5, 0, 5, 5, 0]
+    kds: [0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35]
+
+    init_kps: [7.5, 7.5, 0, 7.5, 7.5, 0, 7.5, 7.5, 0, 7.5, 7.5, 0]
+    init_kds: [0.25, 0.25, 0.1, 0.25, 0.25, 0.1, 0.25, 0.25, 0.1, 0.25, 0.25, 0.1]
+
+    init_duration: 2.0
+    fade_in_duration: 2.0
+
+    action_types:
+      [
+        "position",
+        "position",
+        "velocity",
+        "position",
+        "position",
+        "velocity",
+        "position",
+        "position",
+        "velocity",
+        "position",
+        "position",
+        "velocity",
+      ]
+
+    max_body_angle: 1.5
+
+    model_path: "$(find-pkg-share neural_controller)/launch/policy_wheel.json"
 
 teleop_twist_joy_node:
   ros__parameters:
