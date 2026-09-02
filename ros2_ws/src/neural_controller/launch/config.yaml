@@ -198,7 +198,8 @@ neural_controller_leg_lift:
     model_path: "$(find-pkg-share neural_controller)/launch/policy_leg_lift.json"
 
 # ---------------------------------------------------------------------------
-# Wheeled locomotion policy (branch `wheel`). UNTESTED ON HARDWARE.
+# Wheeled locomotion policy (branch `wheel`). Hardware-verified 2026-09-01:
+# activates cleanly, drives and turns correctly via the joystick.
 # Generated from policy_wheel.json so the two cannot disagree; see
 # mujoco_playground/workspace/README.md's deployment section.
 #
@@ -218,13 +219,24 @@ neural_controller_leg_lift:
 # The mirrored-wheel direction correction is already folded into the policy's
 # exported action_scale (negative on the right-hand wheels). Do NOT apply it
 # again anywhere else or the two sides will cancel.
+#
+# estop_kd is deliberately higher here (near kd_max) than every other instance
+# in this file (0.1-0.3). The e-stop path (on /emergency_stop or the tilt
+# check) zeros kp and the position/velocity targets, leaving ONLY
+# kd*(0 - current_velocity) as braking torque -- for a leg that's fine, gravity
+# and ground contact let it settle even with weak damping (locomotion uses
+# 0.1). A spinning WHEEL has no such assist: at 0.3 (barely above the 0.25 used
+# during normal driving) it just coasts, which hardware-tested 2026-09-01 as
+# visibly unresponsive while the robot was moving even though the e-stop
+# message itself was confirmed to fire and land instantly. Raised to 1.0
+# (components.xacro's kd_max) for real braking authority.
 # ---------------------------------------------------------------------------
 neural_controller_wheel:
   ros__parameters:
     repeat_action: 10
 
     gain_multiplier: 1.0
-    estop_kd: 0.3
+    estop_kd: 1.0
 
     joint_names:
       [
