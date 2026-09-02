@@ -188,6 +188,26 @@ locomotion policy uses, so it has precedent on this robot. Run 1 is kept as a
 fallback; if hardware shows run 2 tracking too loosely, `action_rate` −0.075 with
 history 4 is the middle option.
 
+**Run 3 — `wheel_2026-09-02_00-21-44`**
+([W&B](https://wandb.ai/QuadMorph/pupper-wheel/runs/3vzecsvs)), **the current
+recommended policy**, trained after the first hardware session. Adds wheel-diameter
+randomization (+-5mm, independent per wheel), slippery ground (friction 0.25-1.5),
+IMU latency, and start randomization. CoM deliberately untouched.
+
+Final eval reward 78.72 vs run 2's 79.56 -- but eval reward is the wrong yardstick
+here, because run 3's evals run under harder randomization. Measured head to head on
+the same probes:
+
+| policy | nominal tracking err | slippery (0.30) + mismatched wheels | mean \|dact\| | max wheel torque |
+|---|---|---|---|---|
+| run 2 | 0.0632 | 0.1058 | 0.0270 | 0.657 Nm |
+| **run 3** | **0.0308** | **0.0615** | 0.0270 | 0.918 Nm |
+
+Run 3 is ~2x more accurate nominally AND ~1.7x more accurate under the perturbed
+conditions, at identical smoothness. It draws ~40% more wheel torque (0.918 Nm), still
+well inside the 3 Nm ceiling and the ~1.32 Nm back-EMF limit at top speed. The extra
+randomization acted as a regularizer rather than a tax.
+
 **Nothing here has touched hardware**, and the reward weights / gains are still a
 first pass, not tuned. The run-2 preference is a judgement about untested
 transfer, not a measured hardware result.
