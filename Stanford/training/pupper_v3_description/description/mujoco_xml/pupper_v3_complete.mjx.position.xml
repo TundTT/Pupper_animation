@@ -131,7 +131,7 @@
                             fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
                         <joint name="leg_front_r_3" pos="0 0 0" axis="0 0 1" limited="false" />
                         <site name="leg_front_r_3_foot_site" pos="0.06231 -0.06216 0.018" />
-                        <geom size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
+                        <geom name="leg_front_r_3_wheel_collision" size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
                             class="collision" />
                         <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
@@ -178,7 +178,7 @@
                             fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
                         <joint name="leg_front_l_3" pos="0 0 0" axis="0 0 1" limited="false" />
                         <site name="leg_front_l_3_foot_site" pos="0.06231 0.06216 0.018" />
-                        <geom size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
+                        <geom name="leg_front_l_3_wheel_collision" size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
                             class="collision" />
                         <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
@@ -209,7 +209,7 @@
                             fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
                         <joint name="leg_back_r_3" pos="0 0 0" axis="0 0 1" limited="false" />
                         <site name="leg_back_r_3_foot_site" pos="0.06231 -0.06216 0.018" />
-                        <geom size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
+                        <geom name="leg_back_r_3_wheel_collision" size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
                             class="collision" />
                         <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
@@ -240,7 +240,7 @@
                             fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
                         <joint name="leg_back_l_3" pos="0 0 0" axis="0 0 1" limited="false" />
                         <site name="leg_back_l_3_foot_site" pos="0.06231 0.06216 0.018" />
-                        <geom size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
+                        <geom name="leg_back_l_3_wheel_collision" size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
                             class="collision" />
                         <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"

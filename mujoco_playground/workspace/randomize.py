@@ -113,13 +113,14 @@ def domain_randomize(
             key_mass, sys.body_mass.shape, minval=body_mass_scale_range[0], maxval=body_mass_scale_range[1]
         )
 
-        return friction, gain, bias, body_com, body_inertia, body_mass
+        return friction, geom_size, gain, bias, body_com, body_inertia, body_mass
 
-    friction, gain, bias, body_com, body_inertia, body_mass = rand(rng)
+    friction, geom_size, gain, bias, body_com, body_inertia, body_mass = rand(rng)
 
     in_axes = jax.tree.map(lambda x: None, sys)
     in_axes = in_axes.tree_replace({
         "geom_friction": 0,
+        "geom_size": 0,
         "actuator_gainprm": 0,
         "actuator_biasprm": 0,
         "body_ipos": 0,
@@ -129,6 +130,7 @@ def domain_randomize(
 
     sys = sys.tree_replace({
         "geom_friction": friction,
+        "geom_size": geom_size,
         "actuator_gainprm": gain,
         "actuator_biasprm": bias,
         "body_ipos": body_com,
@@ -139,11 +141,45 @@ def domain_randomize(
     return sys, in_axes
 
 
+def _wheel_collision_geom_ids(sys) -> np.ndarray:
+    """Resolve the four wheel collision geoms BY NAME, erroring if any is missing.
+
+    By name rather than index so that editing the MJCF cannot silently repoint the
+    size randomization at some other geom (the torso box or a knee sphere).
+    """
+    import mujoco
+
+    mj_model = getattr(sys, "mj_model", None)
+    if mj_model is None:
+        raise RuntimeError(
+            "domain_randomize_wheeled needs sys.mj_model to resolve the wheel collision "
+            "geoms by name; got a System without one."
+        )
+    ids = []
+    for name in configs.WHEEL_COLLISION_GEOM_NAMES:
+        gid = mujoco.mj_name2id(mj_model, mujoco.mjtObj.mjOBJ_GEOM.value, name)
+        if gid == -1:
+            raise ValueError(
+                f"wheel collision geom '{name}' not found in the model. The wheel geoms "
+                "must be named for wheel-diameter randomization; see configs."
+            )
+        if mj_model.geom_type[gid] != mujoco.mjtGeom.mjGEOM_CYLINDER:
+            raise ValueError(f"geom '{name}' is not a cylinder; refusing to randomize its size.")
+        ids.append(gid)
+    return np.array(ids)
+
+
 def domain_randomize_wheeled(
     sys,
     rng,
     torso_body_idx: int = 1,
-    friction_range: Tuple = (0.4, 1.5),
+    # Widened at the bottom from 0.4 after the first hardware session: the real floor
+    # is slippery, and a policy that has only ever driven on grippy ground leans on
+    # traction it will not have.
+    friction_range: Tuple = (0.25, 1.5),
+    # Manufacturing spread in wheel DIAMETER (m); the radius moves by half of this.
+    # Each wheel is drawn independently -- see configs.WHEEL_DIAMETER_JITTER.
+    wheel_diameter_jitter: float = configs.WHEEL_DIAMETER_JITTER,
     kp_multiplier_range: Tuple = (0.5, 1.6),
     kd_multiplier_range: Tuple = (0.5, 2.0),
     # Wheel velocity-actuator gain multiplier. Same intent as kp/kd above: the
@@ -177,12 +213,25 @@ def domain_randomize_wheeled(
     wheel_mask[configs.WHEEL_ACTUATOR_ROWS] = 1.0
     pos_mask = jp.array(pos_mask)
     wheel_mask = jp.array(wheel_mask)
+    wheel_geom_ids = jp.array(_wheel_collision_geom_ids(sys))
+    radius_jitter = wheel_diameter_jitter / 2.0
 
     @jax.vmap
     def rand(rng):
         rng, key = jax.random.split(rng)
         friction = jax.random.uniform(key, (1,), minval=friction_range[0], maxval=friction_range[1])
         friction = sys.geom_friction.at[:, 0].set(friction)
+
+        # Wheel diameter: one INDEPENDENT draw per wheel (shape (4,)), applied to the
+        # cylinder radius (geom_size[:, 0]) only. geom_size[:, 1] (half-length) and
+        # geom_pos are untouched, so each wheel keeps its width and stays mounted at
+        # the same point on the motor; only its rolling radius, and hence its contact
+        # height, changes.
+        rng, key_r = jax.random.split(rng)
+        dr_radius = jax.random.uniform(
+            key_r, (wheel_geom_ids.shape[0],), minval=-radius_jitter, maxval=radius_jitter
+        )
+        geom_size = sys.geom_size.at[wheel_geom_ids, 0].add(dr_radius)
 
         rng, key_kp, key_kd, key_kv = jax.random.split(rng, 4)
         kp_mult = jax.random.uniform(key_kp, (), minval=kp_multiplier_range[0], maxval=kp_multiplier_range[1])
@@ -220,13 +269,14 @@ def domain_randomize_wheeled(
             minval=body_mass_scale_range[0], maxval=body_mass_scale_range[1],
         )
 
-        return friction, gain, bias, body_com, body_inertia, body_mass
+        return friction, geom_size, gain, bias, body_com, body_inertia, body_mass
 
-    friction, gain, bias, body_com, body_inertia, body_mass = rand(rng)
+    friction, geom_size, gain, bias, body_com, body_inertia, body_mass = rand(rng)
 
     in_axes = jax.tree.map(lambda x: None, sys)
     in_axes = in_axes.tree_replace({
         "geom_friction": 0,
+        "geom_size": 0,
         "actuator_gainprm": 0,
         "actuator_biasprm": 0,
         "body_ipos": 0,
@@ -236,6 +286,7 @@ def domain_randomize_wheeled(
 
     sys = sys.tree_replace({
         "geom_friction": friction,
+        "geom_size": geom_size,
         "actuator_gainprm": gain,
         "actuator_biasprm": bias,
         "body_ipos": body_com,

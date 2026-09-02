@@ -136,6 +136,26 @@ WHEEL_MAX_SPEED = WHEEL_MAX_LINEAR_SPEED / WHEEL_RADIUS  # ~20.83 rad/s
 # the same sign convention applied to the real motors.
 WHEEL_FORWARD_SIGN = np.array([-1.0, 1.0, -1.0, 1.0])
 
+# The four wheel COLLISION cylinders, by name (named in the MJCF for this purpose).
+# These are the only geoms whose size is randomized, and they are exactly the geoms
+# that contact the floor -- the other collision geoms are the torso box and the knee
+# spheres. Referenced by name rather than index so a model edit cannot silently
+# repoint the randomization at the wrong geom.
+WHEEL_COLLISION_GEOM_NAMES = [
+    "leg_front_r_3_wheel_collision",
+    "leg_front_l_3_wheel_collision",
+    "leg_back_r_3_wheel_collision",
+    "leg_back_l_3_wheel_collision",
+]
+
+# Manufacturing spread in wheel DIAMETER (m), i.e. the rolling radius varies by half
+# this. The printed polymer wheels are not all identical, so each of the four gets its
+# OWN draw -- a single shared scale would model a systematically different wheel size
+# rather than per-wheel variation. Only the radius changes; the cylinder's position on
+# the spin axis is untouched, so the wheel stays mounted at the same point on the motor
+# and only its contact height moves.
+WHEEL_DIAMETER_JITTER = 0.005
+
 # Wheel centre offset along the wheel body's own local z (= the spin axis), in m.
 # The `_3` body's origin sits at the knee joint / motor output; the wheel's
 # collision cylinder is centred WHEEL_CENTER_LOCAL_Z further out along that axis
@@ -711,6 +731,24 @@ def get_wheel_config() -> config_dict.ConfigDict:
             last_action_noise=0.01,       # normalized action units
             kick_probability=0.05,
             kick_vel=0.15,                # m/s
+            # Action latency: 3 steps deep, wider than the providers' 2-step
+            # [0.2, 0.8]. Kept deliberately wider; the real path is
+            # ROS2 -> CAN -> motor controller.
             latency_distribution=(0.5, 0.3, 0.2),
+            # IMU latency, separate from action latency: the IMU-derived part of the
+            # observation (angular velocity + projected gravity) is lagged on its own
+            # schedule, matching the providers' imu_latency_distribution. Sensor lag
+            # and command lag are physically different paths and were previously
+            # modelled as if only the latter existed.
+            imu_latency_distribution=(0.5, 0.5),
+            # Start-position randomization. Only the drop height does anything on a
+            # flat plane -- x/y are translation-invariant and initial yaw is too,
+            # since the velocity commands are body-frame. Dropping from here instead
+            # of spawning settled costs ~0.5 s per episode but makes the policy robust
+            # to not starting in a perfect stance.
+            start_height_range=(0.15, 0.20),   # m
+            # The part of "start randomization" that actually buys robustness on flat
+            # ground: perturb the initial joint angles about the default pose.
+            start_joint_jitter=0.05,           # rad, uniform +/- on position joints
         ),
     )

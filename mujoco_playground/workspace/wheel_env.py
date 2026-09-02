@@ -151,6 +151,15 @@ class PupperWheelEnv(PipelineEnv):
         self._lat_dist = jp.array(lat_dist)
         self._lat_buf_len = len(lat_dist)
 
+        # IMU latency is modelled SEPARATELY from action latency: sensor lag and
+        # command lag are different physical paths (IMU -> filter -> controller vs
+        # controller -> CAN -> motor), and only the latter was modelled before.
+        # The lagged quantity is the 6 IMU-derived observation values
+        # (angular velocity 3 + projected gravity 3).
+        imu_dist = list(config.dr.imu_latency_distribution)
+        self._imu_lat_dist = jp.array(imu_dist)
+        self._imu_lat_buf_len = len(imu_dist)
+
     # ------------------------------------------------------- model / actuators
     @staticmethod
     def _assert_actuator_layout(mj_model) -> None:
@@ -292,8 +301,25 @@ class PupperWheelEnv(PipelineEnv):
 
     # ------------------------------------------------------------------ reset
     def reset(self, rng: jax.Array) -> State:
-        rng, cmd_rng, hold_rng, obs_rng = jax.random.split(rng, 4)
-        pipeline_state = self.pipeline_init(self._init_q, jp.zeros(self._nv))
+        rng, cmd_rng, hold_rng, obs_rng, z_rng, jj_rng = jax.random.split(rng, 6)
+
+        # Start-position randomization. Only the drop height matters on a flat plane:
+        # x/y are translation-invariant, and so is initial yaw because the velocity
+        # commands are expressed in the body frame. The joint jitter is the part that
+        # actually buys robustness here -- it stops every episode beginning from the
+        # exact same settled stance.
+        dr = self._config.dr
+        init_q = self._init_q.at[2].set(
+            jax.random.uniform(z_rng, (), minval=dr.start_height_range[0],
+                               maxval=dr.start_height_range[1])
+        )
+        jitter = (
+            jax.random.uniform(jj_rng, (12,), minval=-1.0, maxval=1.0)
+            * dr.start_joint_jitter
+            * self._pos_mask  # wheel joints have no meaningful start angle
+        )
+        init_q = init_q.at[7:].add(jitter)
+        pipeline_state = self.pipeline_init(init_q, jp.zeros(self._nv))
 
         info = {
             "rng": rng,
@@ -303,6 +329,7 @@ class PupperWheelEnv(PipelineEnv):
             "last_act": jp.zeros(12),
             "last_vel": jp.zeros(12),
             "action_buffer": jp.zeros((12, self._lat_buf_len)),
+            "imu_buffer": jp.zeros((6, self._imu_lat_buf_len)),
         }
         obs_history = jp.zeros(self._obs_history * self._single_obs_dim)
         obs = self._get_obs(pipeline_state, info, obs_history, obs_rng)
@@ -465,7 +492,7 @@ class PupperWheelEnv(PipelineEnv):
         self, pipeline_state: base.State, info: dict[str, Any], obs_history: jax.Array, rng: jax.Array
     ) -> jax.Array:
         dr = self._config.dr
-        ang_rng, grav_rng, jpos_rng, jvel_rng, lact_rng = jax.random.split(rng, 5)
+        ang_rng, grav_rng, jpos_rng, jvel_rng, lact_rng, imu_rng = jax.random.split(rng, 6)
 
         inv_torso_rot = math.quat_inv(pipeline_state.x.rot[0])
         ang_vel = math.rotate(pipeline_state.xd.ang[0], inv_torso_rot)
@@ -473,6 +500,15 @@ class PupperWheelEnv(PipelineEnv):
 
         gravity = math.rotate(jp.array([0.0, 0.0, -1.0]), inv_torso_rot)
         gravity = gravity + jax.random.uniform(grav_rng, (3,), minval=-1.0, maxval=1.0) * dr.gravity_noise
+
+        # IMU latency: push this step's (noisy) IMU reading into its own buffer and
+        # hand the policy a sampled earlier one, the same trick used for actions.
+        imu_now = jp.concatenate([ang_vel, gravity])
+        imu_lagged, imu_buffer = _sample_lagged(
+            imu_rng, info["imu_buffer"], imu_now, self._imu_lat_dist
+        )
+        info["imu_buffer"] = imu_buffer
+        ang_vel, gravity = imu_lagged[:3], imu_lagged[3:]
 
         # Mixed joint observation: ANGLE (rel. to default) on the position rows,
         # SPEED on the wheel rows. A free-spinning wheel's angle is unbounded and
