@@ -580,7 +580,15 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
     } else {
       // Velocity commands (locomotion and wheel)
       observation_.at(6) = (float)cmd_x_vel_;
-      observation_.at(7) = (float)cmd_y_vel_;
+      // Lateral velocity: ZERO for the wheel behavior, whatever /cmd_vel carries.
+      // These are fixed, non-steerable wheels -- a skid-steer cannot strafe -- so the
+      // wheeled policy was trained with vy pinned to 0 and has NEVER seen a nonzero
+      // value in this slot. The joystick still publishes linear.y (teleop_twist_joy
+      // maps an axis to it with scale 0.5 for the legged policies), and feeding that
+      // through put the policy out of distribution, which is what made it behave
+      // erratically on hardware when the stick was pushed sideways. Locomotion is
+      // unaffected and still uses the real command.
+      observation_.at(7) = (behavior_ == "wheel") ? 0.0f : (float)cmd_y_vel_;
       observation_.at(8) = (float)cmd_yaw_vel_;
       if (behavior_ != "wheel") {
         // Orientation commands -- locomotion only; the wheel layout has no such block
