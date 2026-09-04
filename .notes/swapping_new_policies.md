@@ -317,10 +317,18 @@ git rm -q .gitignore
 git mv Stanford/pupperv3-monorepo/.gitignore .gitignore
 git mv Stanford/pupperv3-monorepo/.gitattributes .gitattributes
 git mv Stanford/pupperv3-monorepo/.vscode .vscode
-for item in ai analysis bags infra install_dev_dependencies.sh LICENSE llm_logs.sh \
+for item in install_dev_dependencies.sh LICENSE llm_logs.sh \
             pupper-rs README.md robot ros2_ws scripts stop_all_services.sh; do
   git mv "Stanford/pupperv3-monorepo/$item" "$item"
 done
+# Deliberately NOT moved: ai/, analysis/, bags/, infra/. These were included by an
+# earlier version of this recipe (an unfiltered "move everything" list) and turned out
+# to be ~240MB of bloat with nothing to do with running the deployed policies -- ai/ is
+# an unrelated RL pipeline + ML experiments, analysis/ a standalone rosbag tool, bags/
+# recorded animation-dance sessions, infra/ a one-time Pi-image builder. See the
+# 2026-09-0X "Debloat robot-code" commit for the full reasoning. If a future `master`
+# change genuinely needs one of these on the robot, move that specific file/subdir
+# deliberately -- don't restore the whole directory by widening this loop back out.
 # RE-ADD the "this is the robot-code branch" note at the top of README.md. You DO have
 # to do this every time -- an earlier version of this doc claimed the note survives the
 # git mv because it lives in the file content, not the path. That is wrong: the note
