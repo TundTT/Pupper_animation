@@ -454,3 +454,26 @@ bag_recorder:
     record_stop_button: 5 # R1 button
     bag_output_dir: "~/bags"
     start_button_hold_duration: 1.0 # 1 second
+
+# D-pad -> Arduino Nano GPIO bridge. Up=D3, Right=D4, Down=D5, Left=D6.
+# Hardware-verified 2026-09-03 via `ros2 topic echo /joy` on the physical robot
+# (joy_linux_node, PS5 DualSense): D-pad reports as two hat-style axes, not buttons.
+#   Up    -> axes[7] = +1.0      Down  -> axes[7] = -1.0
+#   Left  -> axes[6] = +1.0      Right -> axes[6] = -1.0
+# Horizontal axis is inverted from the typical convention (positive = left, not
+# right), hence dpad_axis_horizontal_sign = -1 below to normalize it.
+#
+# serial_port: this robot's Nano uses a CH340 USB-serial chip (confirmed via `lsusb`/
+# `dmesg` 2026-09-04), which enumerates as /dev/ttyUSB0, NOT /dev/ttyACM0 (that path is
+# only for boards with native USB, e.g. Nano Every/33 IoT). If a second USB-serial
+# adapter is ever added, ttyUSB0's index could shift on boot -- if that happens, switch
+# to the stable path under `ls /dev/serial/by-id/` instead.
+dpad_serial_bridge:
+  ros__parameters:
+    serial_port: "/dev/ttyUSB0"
+    baud_rate: 115200
+    dpad_mode: "axes"
+    dpad_axis_horizontal: 6
+    dpad_axis_vertical: 7
+    dpad_axis_horizontal_sign: -1
+    dpad_axis_vertical_sign: 1

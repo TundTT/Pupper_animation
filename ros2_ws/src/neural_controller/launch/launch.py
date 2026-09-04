@@ -275,6 +275,14 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration("bag_recorder")),
     )
 
+    dpad_serial_bridge_node = Node(
+        package="dpad_serial_bridge",
+        executable="dpad_serial_bridge_node",
+        parameters=[node_parameters],
+        output="both",
+        name="dpad_serial_bridge",
+    )
+
     imu_to_tf_node = Node(
         package="imu_to_tf",
         executable="imu_to_tf_node",
@@ -338,6 +346,7 @@ def generate_launch_description():
         camera_node,
         cmd_vel_mux_node,
         bag_recorder_node,
+        dpad_serial_bridge_node,
         imu_to_tf_node,
         animation_controller_py_node,
         joint_state_throttler,
