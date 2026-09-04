@@ -125,16 +125,18 @@ divergence from this is worth investigating rather than tuning around.
 
 ## Test log
 
-### 2026-09-0X — `wheel_2026-09-02_00-21-44` (run 3), first test of the new policy
+### 2026-09-03 — `wheel_2026-09-02_00-21-44` (run 3), first test of the new policy
 
-- Result:
-- Straight-line driving:
-- Turning / spin in place:
-- Stopping at zero command:
-- Oscillation, if any:
-- Motor temperature after sustained driving:
-- Behavior with the stick pushed sideways (expected: nothing):
-- Notes:
+- **Result: clean pass. Policy is stable, drives well, no issues found. Shippable.**
+- Went through the staged bring-up (stand, then ground) without any problems reported.
+- No oscillation, no direction-convention issues, no erratic behavior.
+- This is the first fully clean wheeled-driving hardware session after the prior
+  session's two fixes (raised `estop_kd` to `kd_max`, and forcing the `vy` observation
+  slot to zero for the wheel behavior) — both appear to have resolved what they were
+  meant to.
+
+**Status: `wheel_2026-09-02_00-21-44` (run 3) is the recommended, hardware-validated
+wheeled policy going forward.**
 
 ## Reporting back
 
