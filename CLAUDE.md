@@ -11,9 +11,14 @@ leg-lift behavior (raise one leg, hold it stably on the other three, lower it �
 leg-lift work and its full decision history stay on `master`, untouched; this branch
 reuses the same training pipeline, deployment plumbing, and vendored Pupper V3 model
 as a hardware-verified starting point, customized for wheeled locomotion instead.
-**The wheeled model + training pipeline now exist and run end to end in sim, but no
-wheeled policy has been trained yet and nothing has touched hardware** — see
-`mujoco_playground/workspace/README.md`'s "The wheeled robot" and "Status" sections.
+**The wheeled model + training pipeline exist and run end to end in sim, and a wheeled
+policy (run 3, `wheel_2026-09-02_00-21-44`) is now hardware-validated as shippable** —
+drives and turns correctly on the real robot with no issues in the latest test. See
+`mujoco_playground/workspace/README.md`'s "The wheeled robot" and "Status" sections, and
+`WHEEL_TESTING.md` on the `robot-code` branch for the full hardware test log. One
+separate, still-open issue: a physical bump during the first hardware session caused a
+momentary power disconnect that led to brief uncontrolled wheel spinning — a
+connector/mounting robustness issue, not a policy or software bug.
 
 > **Approach: this is an RL policy, NOT a scripted/keyframe animation** (inherited from
 > the leg-lift branch this forked from). The chosen approach is to **train a

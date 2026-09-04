@@ -208,9 +208,31 @@ conditions, at identical smoothness. It draws ~40% more wheel torque (0.918 Nm),
 well inside the 3 Nm ceiling and the ~1.32 Nm back-EMF limit at top speed. The extra
 randomization acted as a regularizer rather than a tax.
 
-**Nothing here has touched hardware**, and the reward weights / gains are still a
-first pass, not tuned. The run-2 preference is a judgement about untested
-transfer, not a measured hardware result.
+**Hardware-tested, 2026-09-01 through 2026-09-03 — run 3 is shippable.** Two rounds:
+
+- **2026-09-01, run 2 (first hardware session):** activated cleanly, drove and turned
+  correctly via the joystick -- the core sim-to-real transfer worked. But two real gaps
+  surfaced: (1) `estop_kd` (0.3, inherited from the leg-based reference) was too weak to
+  arrest a spinning wheel's momentum -- the e-stop message fired instantly every time
+  (verified in isolation while stationary) but produced only gentle damping while
+  moving, since the e-stop path zeros `kp` and relies on `kd*(0-velocity)` alone, and a
+  wheel has no ground-contact/gravity assist the way a settling leg does. Fixed by
+  raising `estop_kd` to `kd_max` (1.0) on the deploy side. (2) Pushing the stick sideways
+  produced erratic behavior -- the policy was trained with `vy` pinned to 0 (fixed wheels
+  can't strafe) and had never seen a nonzero value there, but `/cmd_vel`'s real
+  `linear.y` was still being fed straight into that observation slot, putting the policy
+  out of distribution. Fixed on the deploy side by forcing that slot to 0 for the wheel
+  behavior regardless of what `/cmd_vel` carries. Separately, a physical bump caused a
+  momentary power disconnect that left the motor board in an uncommanded state and the
+  robot spinning with no software able to reach it -- a connector/mounting robustness
+  issue, not a policy or estop-code bug, and still unaddressed.
+- **2026-09-03, run 3, after both fixes:** clean pass. Stable, drives well, no issues
+  reported across the staged bring-up (stand, then ground). See
+  `WHEEL_TESTING.md`'s test log on `robot-code` for the full entry.
+
+The reward weights / gains are still a first pass, not tuned against these hardware
+findings — there is real room to improve smoothness/tracking further, but the current
+run-3 policy is validated as safe and drivable, not just a sim result.
 
 Built and verified in sim (2026-08-31):
 - Wheeled MJCF: four wheels on repurposed knee joints, real measured mass/inertia,
