@@ -101,16 +101,26 @@
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">0.0</param>
 
-            <param name="position_min">-2.615937</param>
-            <param name="position_max">0.525655</param>
-            <!-- position_min/max tightened to +-90 deg around home (hardware-measured
-                 "comfortable max" was 102-120 deg per side, each leg measured individually;
-                 see the leg-calibration session notes). This is a real hard limit as of the
-                 unconditional end-stop added to copy_actuator_commands() in
-                 control_board_hardware_interface.cpp, which enforces it from the actual
-                 measured position regardless of control mode (position or velocity), not
-                 just when a position-mode controller is active. -->
-            <param name="velocity_max">30.0</param>
+            <param name="position_min">-2.69</param>
+            <param name="position_max">0.61</param>
+            <param name="hard_limit_min">-2.615937</param>
+            <param name="hard_limit_max">0.525655</param>
+            <!-- hard_limit_min/max is +-90 deg around home (hardware-measured "comfortable
+                 max" was 102-120 deg per side, each leg measured individually; see the
+                 leg-calibration session notes). This is the REAL mechanical protection,
+                 enforced unconditionally in copy_actuator_commands()'s hard end-stop from
+                 the actual measured position, regardless of control mode (position or
+                 velocity) or which controller is active; unlike position_min/max above,
+                 which is left at its original wider value on purpose, because that pair is a soft
+                 command clip only enforced under active position control, sized with
+                 headroom inside what deployed policies actually command, and must NOT be
+                 reused as a substitute for a real limit (an earlier version of this file
+                 did exactly that, which broke on review; it collided with the deployed
+                 locomotion policy's own envelope on this and other joints). velocity_max
+                 is also reduced from the walk/locomotion default (30) on this joint alone,
+                 to bound worst-case kinetic energy hitting the hard limit; legged walking
+                 does not need anywhere near 30 rad/s on a knee joint. -->
+            <param name="velocity_max">15.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
             <param name="kd_max">1.0</param>
@@ -222,16 +232,26 @@
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">0.0</param>
 
-            <param name="position_min">-0.619960</param>
-            <param name="position_max">2.521632</param>
-            <!-- position_min/max tightened to +-90 deg around home (hardware-measured
-                 "comfortable max" was 102-120 deg per side, each leg measured individually;
-                 see the leg-calibration session notes). This is a real hard limit as of the
-                 unconditional end-stop added to copy_actuator_commands() in
-                 control_board_hardware_interface.cpp, which enforces it from the actual
-                 measured position regardless of control mode (position or velocity), not
-                 just when a position-mode controller is active. -->
-            <param name="velocity_max">30.0</param>
+            <param name="position_min">-0.61</param>
+            <param name="position_max">2.69</param>
+            <param name="hard_limit_min">-0.619960</param>
+            <param name="hard_limit_max">2.521632</param>
+            <!-- hard_limit_min/max is +-90 deg around home (hardware-measured "comfortable
+                 max" was 102-120 deg per side, each leg measured individually; see the
+                 leg-calibration session notes). This is the REAL mechanical protection,
+                 enforced unconditionally in copy_actuator_commands()'s hard end-stop from
+                 the actual measured position, regardless of control mode (position or
+                 velocity) or which controller is active; unlike position_min/max above,
+                 which is left at its original wider value on purpose, because that pair is a soft
+                 command clip only enforced under active position control, sized with
+                 headroom inside what deployed policies actually command, and must NOT be
+                 reused as a substitute for a real limit (an earlier version of this file
+                 did exactly that, which broke on review; it collided with the deployed
+                 locomotion policy's own envelope on this and other joints). velocity_max
+                 is also reduced from the walk/locomotion default (30) on this joint alone,
+                 to bound worst-case kinetic energy hitting the hard limit; legged walking
+                 does not need anywhere near 30 rad/s on a knee joint. -->
+            <param name="velocity_max">15.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
             <param name="kd_max">1.0</param>
@@ -343,16 +363,26 @@
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">0.0</param>
 
-            <param name="position_min">-2.615937</param>
-            <param name="position_max">0.525655</param>
-            <!-- position_min/max tightened to +-90 deg around home (hardware-measured
-                 "comfortable max" was 102-120 deg per side, each leg measured individually;
-                 see the leg-calibration session notes). This is a real hard limit as of the
-                 unconditional end-stop added to copy_actuator_commands() in
-                 control_board_hardware_interface.cpp, which enforces it from the actual
-                 measured position regardless of control mode (position or velocity), not
-                 just when a position-mode controller is active. -->
-            <param name="velocity_max">30.0</param>
+            <param name="position_min">-2.69</param>
+            <param name="position_max">0.61</param>
+            <param name="hard_limit_min">-2.615937</param>
+            <param name="hard_limit_max">0.525655</param>
+            <!-- hard_limit_min/max is +-90 deg around home (hardware-measured "comfortable
+                 max" was 102-120 deg per side, each leg measured individually; see the
+                 leg-calibration session notes). This is the REAL mechanical protection,
+                 enforced unconditionally in copy_actuator_commands()'s hard end-stop from
+                 the actual measured position, regardless of control mode (position or
+                 velocity) or which controller is active; unlike position_min/max above,
+                 which is left at its original wider value on purpose, because that pair is a soft
+                 command clip only enforced under active position control, sized with
+                 headroom inside what deployed policies actually command, and must NOT be
+                 reused as a substitute for a real limit (an earlier version of this file
+                 did exactly that, which broke on review; it collided with the deployed
+                 locomotion policy's own envelope on this and other joints). velocity_max
+                 is also reduced from the walk/locomotion default (30) on this joint alone,
+                 to bound worst-case kinetic energy hitting the hard limit; legged walking
+                 does not need anywhere near 30 rad/s on a knee joint. -->
+            <param name="velocity_max">15.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
             <param name="kd_max">1.0</param>
@@ -464,16 +494,26 @@
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">0.0</param>
 
-            <param name="position_min">-0.619960</param>
-            <param name="position_max">2.521632</param>
-            <!-- position_min/max tightened to +-90 deg around home (hardware-measured
-                 "comfortable max" was 102-120 deg per side, each leg measured individually;
-                 see the leg-calibration session notes). This is a real hard limit as of the
-                 unconditional end-stop added to copy_actuator_commands() in
-                 control_board_hardware_interface.cpp, which enforces it from the actual
-                 measured position regardless of control mode (position or velocity), not
-                 just when a position-mode controller is active. -->
-            <param name="velocity_max">30.0</param>
+            <param name="position_min">-0.61</param>
+            <param name="position_max">2.69</param>
+            <param name="hard_limit_min">-0.619960</param>
+            <param name="hard_limit_max">2.521632</param>
+            <!-- hard_limit_min/max is +-90 deg around home (hardware-measured "comfortable
+                 max" was 102-120 deg per side, each leg measured individually; see the
+                 leg-calibration session notes). This is the REAL mechanical protection,
+                 enforced unconditionally in copy_actuator_commands()'s hard end-stop from
+                 the actual measured position, regardless of control mode (position or
+                 velocity) or which controller is active; unlike position_min/max above,
+                 which is left at its original wider value on purpose, because that pair is a soft
+                 command clip only enforced under active position control, sized with
+                 headroom inside what deployed policies actually command, and must NOT be
+                 reused as a substitute for a real limit (an earlier version of this file
+                 did exactly that, which broke on review; it collided with the deployed
+                 locomotion policy's own envelope on this and other joints). velocity_max
+                 is also reduced from the walk/locomotion default (30) on this joint alone,
+                 to bound worst-case kinetic energy hitting the hard limit; legged walking
+                 does not need anywhere near 30 rad/s on a knee joint. -->
+            <param name="velocity_max">15.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
             <param name="kd_max">1.0</param>

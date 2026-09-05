@@ -77,6 +77,24 @@ hardware_interface::CallbackReturn ControlBoardHardwareInterface::on_init(
     hw_actuator_position_mins_.push_back(std::stod(joint.parameters.at("position_min")));
     hw_actuator_position_maxs_.push_back(std::stod(joint.parameters.at("position_max")));
     hw_actuator_velocity_maxs_.push_back(std::stod(joint.parameters.at("velocity_max")));
+
+    // hard_limit_min/max is OPTIONAL -- most joints don't declare it and get +-infinity
+    // (the unconditional end-stop in copy_actuator_commands() never triggers). Only
+    // joints with a real "this breaks the hardware if driven too far" constraint should
+    // set a finite value. Deliberately separate from position_min/max above -- see the
+    // member comment in the header for why reusing that would be wrong.
+    if (joint.parameters.count("hard_limit_min")) {
+      hw_actuator_hard_limit_mins_.push_back(std::stod(joint.parameters.at("hard_limit_min")));
+    } else {
+      hw_actuator_hard_limit_mins_.push_back(-std::numeric_limits<double>::infinity());
+    }
+    if (joint.parameters.count("hard_limit_max")) {
+      hw_actuator_hard_limit_maxs_.push_back(std::stod(joint.parameters.at("hard_limit_max")));
+    } else {
+      hw_actuator_hard_limit_maxs_.push_back(std::numeric_limits<double>::infinity());
+    }
+    hw_actuator_hard_limit_active_max_.push_back(false);
+    hw_actuator_hard_limit_active_min_.push_back(false);
     hw_actuator_effort_maxs_.push_back(std::stod(joint.parameters.at("effort_max")));
     hw_actuator_kp_maxs_.push_back(std::stod(joint.parameters.at("kp_max")));
     hw_actuator_kd_maxs_.push_back(std::stod(joint.parameters.at("kd_max")));
@@ -512,67 +530,131 @@ void ControlBoardHardwareInterface::copy_actuator_commands(bool use_position_lim
     }
 
     // Hard end-stop, unconditional: unlike the block above, this does NOT depend on
-    // use_position_limits or cmd_kp > 0.0. It exists because that block only restrains
-    // what gets COMMANDED under position control -- it does nothing at all in pure
-    // velocity mode (cmd_kp == 0, e.g. a wheel-style controller), since the torque law
-    // is torque = (cmd_pos-state_pos)*kp + (cmd_vel-state_vel)*kd and kp=0 makes the
-    // position term vanish regardless of what cmd_pos is clamped to. A joint whose real
-    // mechanical range is well short of a full revolution (e.g. this board's leg knee
-    // joints, which self-destruct on the physical frame if driven far enough) needs a
-    // limit that holds no matter what commanded the motion -- a future controller in
-    // velocity mode, a homing bug, anything.
+    // use_position_limits or cmd_kp > 0.0, and does NOT use position_min/max -- it uses
+    // the separate hw_actuator_hard_limit_mins_/maxs_ (see the header comment for why:
+    // position_min/max is a soft command clip sized with headroom inside each policy's
+    // own commanded envelope, not a real mechanical limit, and is +-infinity here for
+    // every joint except the ones that opt in with a finite hard_limit_min/max in the
+    // xacro). It exists because the block above only restrains what gets COMMANDED
+    // under position control -- it does nothing in pure velocity mode (cmd_kp == 0,
+    // e.g. a wheel-style controller), since torque = kp*(cmd_pos-state_pos) +
+    // kd*(cmd_vel-state_vel) and kp=0 makes the position term vanish regardless of what
+    // cmd_pos is clamped to. A joint whose real hardware self-destructs if driven far
+    // enough (no mechanical hard stop, e.g. this board's leg knee joints) needs a limit
+    // that holds no matter what commanded the motion -- a future controller in velocity
+    // mode, a homing bug, anything.
     //
-    // Independent review (before this was ever run on hardware) found the first version
-    // of this block insufficient in exactly the mode it exists to defend against, and
-    // both issues below are fixed here:
+    // Two independent adversarial reviews (before this ever ran on hardware) each found
+    // real problems and are both addressed below:
     //
-    // 1. Zeroing cmd_vel alone is NOT a stop under kp=0 -- it's a damper.
-    //    torque = kp*(cmd_pos-state_pos) + kd*(cmd_vel-state_vel); with kp=0 the first
-    //    term is always zero no matter what cmd_pos is clamped to, so all that's left is
-    //    kd*(0-state_vel), which only resists velocity, and cannot hold a position
-    //    against so much as a constant gravity torque -- the joint creeps through the
-    //    "limit" indefinitely. Simulated: at velocity_max this let the joint coast tens
-    //    of degrees past the boundary and never return. Fixed by SEIZING full
-    //    position-control authority at the boundary once triggered -- force kp/kd to
-    //    their configured maxima and command the boundary position itself, regardless of
-    //    what the caller asked for. That makes torque = kp_max*(boundary-state_pos), a
-    //    genuine restoring force back toward the boundary, not just a brake.
-    // 2. Checking only the CURRENT position leaves no braking distance: this function
-    //    only stages spi_command_ for the NEXT read()'s spi_driver_run() to transmit, so
-    //    there are >=2 cycles of pipeline latency before a corrective command can take
-    //    effect. At velocity_max that alone is several degrees -- a large fraction of
-    //    the tightest configured margin on these joints. Fixed by triggering on a
-    //    short-horizon predicted position (current position extrapolated forward by
-    //    kLookaheadSeconds at the current velocity), not just the instantaneous one, so
-    //    the response starts before the joint actually reaches the line.
+    // Round 1 found: zeroing cmd_vel alone under kp=0 is a damper, not a stop (cannot
+    // hold against so much as gravity, so the joint creeps through indefinitely); and
+    // checking only the instantaneous position leaves no braking distance against
+    // pipeline latency. Fixed by seizing full position-control authority at the
+    // boundary (forcing kp/kd to their maxima) plus a short lookahead so the response
+    // starts before the joint physically reaches the line.
     //
-    // A NaN/non-finite state reading fails CLOSED here (refuses new motion outright)
-    // rather than failing open -- naive >=/<= comparisons against NaN are always false,
-    // which would silently disable this protection exactly when the position reading
-    // can't be trusted.
+    // Round 2 found the round-1 fix introduced three new problems:
+    // 1. Reusing position_min/max meant this fired during ordinary in-envelope
+    //    operation on 8 of 12 joints (those values sit only ~0.1 rad inside what
+    //    deployed policies actually command) -- gain-seizing mid-stride on a
+    //    load-bearing leg. Fixed by using the separate, opt-in hard_limit_min/max
+    //    instead, which is finite ONLY on the four knee/foot joints that actually need
+    //    it.
+    // 2. `cmd_pos = boundary` was an unconditional ASSIGNMENT, not a clamp. While still
+    //    inside the band but predicted to exceed it, boundary > state_pos, so
+    //    kp_max*(boundary-state_pos) is a POSITIVE torque pulling the joint TOWARD the
+    //    limit -- an attractor, not a repeller, that only happened to net negative
+    //    because of an unrelated kd/lookahead ratio. Fixed: cmd_pos is now clamped
+    //    (std::min/std::max against the boundary) instead of assigned, so it can only
+    //    ever pull the *commanded* position back toward safety, never push it further.
+    // 3. Before a joint is homed, hw_actuator_zero_positions_[i] is still 0, so
+    //    hw_state_positions_[i] is the RAW encoder value being compared against a
+    //    joint-frame limit -- a frame mismatch that could seize full kp_max/kd_max
+    //    authority toward an arbitrary raw-frame target while a leg is supposed to be
+    //    hanging free for calibration, with motors already enabled. Fixed by gating
+    //    this whole block on hw_actuator_is_homed_[i].
+    //
+    // Round 2 also found the NaN path didn't actually fail closed (cmd_kp passed
+    // through untouched, so a position-mode controller's original unclamped target
+    // still got driven at full authority) -- fixed by also zeroing cmd_kp. And flagged
+    // that a bare threshold crossing would chatter kp/kd on and off every cycle right
+    // at the boundary -- fixed with a release-margin hysteresis latch.
     constexpr double kLookaheadSeconds = 0.02;  // several x the >=2-cycle pipeline latency at 520 Hz
+    // The predictive (lookahead) trigger is only meaningful, and only safe, when
+    // gated to genuinely fast motion. At this margin (hard_limit sits only a few
+    // degrees beyond what the deployed policy's own gait actually commands), a 20ms
+    // lookahead at even a normal walking angular velocity covers enough distance to
+    // spuriously predict a crossing that will never happen -- fighting a policy that
+    // was never actually going to violate the limit. kPredictiveVelocityThreshold
+    // separates "fast enough that this might be the real danger case (e.g. a
+    // wheel-style runaway, whose whole point is continuous rotation near
+    // velocity_max)" from "normal gait speed, don't second-guess it on a
+    // prediction." The instantaneous check below (state already at/past the limit)
+    // is NOT gated -- that one has no false-positive risk regardless of velocity.
+    // NOTE: chosen conservatively above a rough estimate of normal walking angular
+    // velocity for this joint, not measured from a real logged gait -- revisit
+    // against actual /joint_states velocity data from a real walking test before
+    // trusting this threshold blindly.
+    constexpr double kPredictiveVelocityThreshold = 8.0;  // rad/s
+    constexpr double kHardLimitReleaseMargin = 0.0349;  // ~2 deg; re-arm only once clearly inside
     const bool state_finite =
         std::isfinite(hw_state_positions_[i]) && std::isfinite(hw_state_velocities_[i]);
     if (!state_finite) {
+      // Can't tell which direction is safe without a valid reading. Fail closed: refuse
+      // any new motion (including position-mode authority) rather than fail open, which
+      // is what would happen if this just fell through to the >=/<= checks below, since
+      // NaN compares false to everything.
       cmd_vel = 0.0;
       cmd_eff = 0.0;
-    } else {
-      const double predicted_pos =
-          hw_state_positions_[i] + hw_state_velocities_[i] * kLookaheadSeconds;
-      if (hw_state_positions_[i] >= hw_actuator_position_maxs_[i] ||
-          predicted_pos >= hw_actuator_position_maxs_[i]) {
-        cmd_pos = hw_actuator_position_maxs_[i];
+      cmd_kp = 0.0;
+    } else if (hw_actuator_is_homed_[i]) {
+      const bool fast_enough_to_predict =
+          std::abs(hw_state_velocities_[i]) >= kPredictiveVelocityThreshold;
+      const double predicted_pos = fast_enough_to_predict
+                                        ? hw_state_positions_[i] +
+                                              hw_state_velocities_[i] * kLookaheadSeconds
+                                        : hw_state_positions_[i];
+      const double hard_max = hw_actuator_hard_limit_maxs_[i];
+      const double hard_min = hw_actuator_hard_limit_mins_[i];
+
+      // Each direction's latch is updated independently, from the trigger that actually
+      // fired for THAT direction -- not derived from current position relative to some
+      // midpoint, which could disagree with a predicted-position trigger on the other
+      // side of it. (Plain bool, not bool&: std::vector<bool> is bit-packed and its
+      // operator[] returns a proxy, not a real reference, so read-compute-write instead
+      // of binding a reference to it.)
+      const bool active_max =
+          hw_actuator_hard_limit_active_max_[i]
+              ? (hw_state_positions_[i] > hard_max - kHardLimitReleaseMargin)
+              : (hw_state_positions_[i] >= hard_max || predicted_pos >= hard_max);
+      hw_actuator_hard_limit_active_max_[i] = active_max;
+
+      const bool active_min =
+          hw_actuator_hard_limit_active_min_[i]
+              ? (hw_state_positions_[i] < hard_min + kHardLimitReleaseMargin)
+              : (hw_state_positions_[i] <= hard_min || predicted_pos <= hard_min);
+      hw_actuator_hard_limit_active_min_[i] = active_min;
+
+      // Clamp, never assign: this can only pull an out-of-range commanded position back
+      // toward the boundary, never push an in-range one further (see round-2 finding #2
+      // above). Both branches can't legitimately be active at once (hard_min < hard_max
+      // with a real gap between them), but apply independently regardless so a
+      // misconfigured band fails toward "commands nothing" rather than an inconsistent
+      // combination.
+      if (active_max) {
+        cmd_pos = std::min(cmd_pos, hard_max);
         cmd_vel = std::min(cmd_vel, 0.0);
         cmd_eff = std::min(cmd_eff, 0.0);
         cmd_kp = hw_actuator_kp_maxs_[i];
-        cmd_kd = std::max(cmd_kd, hw_actuator_kd_maxs_[i]);
-      } else if (hw_state_positions_[i] <= hw_actuator_position_mins_[i] ||
-                 predicted_pos <= hw_actuator_position_mins_[i]) {
-        cmd_pos = hw_actuator_position_mins_[i];
+        cmd_kd = hw_actuator_kd_maxs_[i];
+      }
+      if (active_min) {
+        cmd_pos = std::max(cmd_pos, hard_min);
         cmd_vel = std::max(cmd_vel, 0.0);
         cmd_eff = std::max(cmd_eff, 0.0);
         cmd_kp = hw_actuator_kp_maxs_[i];
-        cmd_kd = std::max(cmd_kd, hw_actuator_kd_maxs_[i]);
+        cmd_kd = hw_actuator_kd_maxs_[i];
       }
     }
 

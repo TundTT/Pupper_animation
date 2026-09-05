@@ -118,6 +118,26 @@ class ControlBoardHardwareInterface : public hardware_interface::SystemInterface
   std::vector<double> hw_actuator_position_maxs_;
   std::vector<double> hw_actuator_velocity_maxs_;
   std::vector<double> hw_actuator_effort_maxs_;
+
+  // Unconditional hard end-stop, separate from position_min/max above. Those are a soft
+  // command clip that only applies under position control (use_position_limits &&
+  // cmd_kp > 0) and are set with headroom inside each policy's actual commanded
+  // envelope -- they are NOT a real mechanical limit for most joints and must not be
+  // reused as one. hard_limit_min/max is optional per joint (defaults to +-infinity,
+  // i.e. disabled) and is meant only for a joint whose real hardware self-destructs if
+  // driven far enough (e.g. a knee/foot joint with no mechanical hard stop) -- see
+  // copy_actuator_commands().
+  std::vector<double> hw_actuator_hard_limit_mins_;
+  std::vector<double> hw_actuator_hard_limit_maxs_;
+  // Hysteresis latches per joint: once a hard limit engages, stays engaged until the
+  // joint has retreated kHardLimitReleaseMargin back inside that limit, so it doesn't
+  // chatter kp/kd on and off every cycle right at the boundary. Tracked separately per
+  // direction (not merged into one bool + a derived "which side" check) because the
+  // trigger can come from the predicted position while the actual position is still on
+  // the other side of the band's midpoint -- deriving direction from current position
+  // alone would pick the wrong boundary in that case.
+  std::vector<bool> hw_actuator_hard_limit_active_max_;
+  std::vector<bool> hw_actuator_hard_limit_active_min_;
   std::vector<double> hw_actuator_kp_maxs_;
   std::vector<double> hw_actuator_kd_maxs_;
 
