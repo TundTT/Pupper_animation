@@ -7,14 +7,23 @@
         <joint name="leg_front_r_1">
             <param name="can_channel">2</param>
             <param name="can_id">1</param>
+            <!-- No hard stop on this leg design, so homing is disarmed (homing_kp/velocity/
+                 threshold all 0), same pattern as the wheel joints. homed_position is the
+                 gravity-droop equilibrium angle for this joint (computed via MuJoCo root-
+                 solve on the leg branch CustomLegFoot model + independent per-side energy
+                 check; left/right are NOT exact mirrors; verified visually against
+                 photos of the real leg hanging free). Requires the leg to actually be
+                 hanging freely (unpowered) at boot for this to be correct; if the leg is
+                 resting on something or held, re-derive. REVIEW BEFORE HARDWARE. -->
+
 
             <param name="homing_stage">2</param>
-            <param name="homing_velocity">-1.5</param>
-            <param name="homed_position">-1.22</param>
-            <param name="post_homing_position">0.0</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_velocity">0.0</param>
+            <param name="homed_position">0.990537</param>
+            <param name="post_homing_position">0.990537</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
-            <param name="homing_torque_threshold">2.0</param>
+            <param name="homing_torque_threshold">0.0</param>
 
             <param name="position_min">-1.12</param>
             <param name="position_max">2.41</param>
@@ -36,14 +45,23 @@
         <joint name="leg_front_r_2">
             <param name="can_channel">2</param>
             <param name="can_id">2</param>
+            <!-- No hard stop on this leg design, so homing is disarmed (homing_kp/velocity/
+                 threshold all 0), same pattern as the wheel joints. homed_position is the
+                 gravity-droop equilibrium angle for this joint (computed via MuJoCo root-
+                 solve on the leg branch CustomLegFoot model + independent per-side energy
+                 check; left/right are NOT exact mirrors; verified visually against
+                 photos of the real leg hanging free). Requires the leg to actually be
+                 hanging freely (unpowered) at boot for this to be correct; if the leg is
+                 resting on something or held, re-derive. REVIEW BEFORE HARDWARE. -->
+
 
             <param name="homing_stage">1</param>
-            <param name="homing_velocity">-1.5</param>
-            <param name="homed_position">-0.42</param>
-            <param name="post_homing_position">0.0</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_velocity">0.0</param>
+            <param name="homed_position">-0.179972</param>
+            <param name="post_homing_position">-0.179972</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
-            <param name="homing_torque_threshold">2.0</param>
+            <param name="homing_torque_threshold">0.0</param>
 
             <param name="position_min">-0.32</param>
             <param name="position_max">3.04</param>
@@ -65,14 +83,23 @@
         <joint name="leg_front_r_3">
             <param name="can_channel">2</param>
             <param name="can_id">3</param>
+            <!-- No hard stop on this leg design, so homing is disarmed (homing_kp/velocity/
+                 threshold all 0), same pattern as the wheel joints. homed_position is the
+                 gravity-droop equilibrium angle for this joint (computed via MuJoCo root-
+                 solve on the leg branch CustomLegFoot model + independent per-side energy
+                 check; left/right are NOT exact mirrors; verified visually against
+                 photos of the real leg hanging free). Requires the leg to actually be
+                 hanging freely (unpowered) at boot for this to be correct; if the leg is
+                 resting on something or held, re-derive. REVIEW BEFORE HARDWARE. -->
+
 
             <param name="homing_stage">0</param>
-            <param name="homing_velocity">1.5</param>
-            <param name="homed_position">0.71</param>
-            <param name="post_homing_position">0.71</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_velocity">0.0</param>
+            <param name="homed_position">-1.045141</param>
+            <param name="post_homing_position">-1.045141</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
-            <param name="homing_torque_threshold">2.0</param>
+            <param name="homing_torque_threshold">0.0</param>
 
             <param name="position_min">-2.69</param>
             <param name="position_max">0.61</param>
@@ -94,14 +121,23 @@
         <joint name="leg_front_l_1">
             <param name="can_channel">1</param>
             <param name="can_id">1</param>
+            <!-- No hard stop on this leg design, so homing is disarmed (homing_kp/velocity/
+                 threshold all 0), same pattern as the wheel joints. homed_position is the
+                 gravity-droop equilibrium angle for this joint (computed via MuJoCo root-
+                 solve on the leg branch CustomLegFoot model + independent per-side energy
+                 check; left/right are NOT exact mirrors; verified visually against
+                 photos of the real leg hanging free). Requires the leg to actually be
+                 hanging freely (unpowered) at boot for this to be correct; if the leg is
+                 resting on something or held, re-derive. REVIEW BEFORE HARDWARE. -->
+
 
             <param name="homing_stage">2</param>
-            <param name="homing_velocity">1.5</param>
-            <param name="homed_position">1.22</param>
-            <param name="post_homing_position">0.0</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_velocity">0.0</param>
+            <param name="homed_position">-0.990539</param>
+            <param name="post_homing_position">-0.990539</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
-            <param name="homing_torque_threshold">2.0</param>
+            <param name="homing_torque_threshold">0.0</param>
 
             <param name="position_min">-2.41</param>
             <param name="position_max">1.12</param>
@@ -123,14 +159,23 @@
         <joint name="leg_front_l_2">
             <param name="can_channel">1</param>
             <param name="can_id">2</param>
+            <!-- No hard stop on this leg design, so homing is disarmed (homing_kp/velocity/
+                 threshold all 0), same pattern as the wheel joints. homed_position is the
+                 gravity-droop equilibrium angle for this joint (computed via MuJoCo root-
+                 solve on the leg branch CustomLegFoot model + independent per-side energy
+                 check; left/right are NOT exact mirrors; verified visually against
+                 photos of the real leg hanging free). Requires the leg to actually be
+                 hanging freely (unpowered) at boot for this to be correct; if the leg is
+                 resting on something or held, re-derive. REVIEW BEFORE HARDWARE. -->
+
 
             <param name="homing_stage">1</param>
-            <param name="homing_velocity">1.5</param>
-            <param name="homed_position">0.42</param>
-            <param name="post_homing_position">0.0</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_velocity">0.0</param>
+            <param name="homed_position">0.179973</param>
+            <param name="post_homing_position">0.179973</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
-            <param name="homing_torque_threshold">2.0</param>
+            <param name="homing_torque_threshold">0.0</param>
 
             <param name="position_min">-3.04</param>
             <param name="position_max">0.32</param>
@@ -152,14 +197,23 @@
         <joint name="leg_front_l_3">
             <param name="can_channel">1</param>
             <param name="can_id">3</param>
+            <!-- No hard stop on this leg design, so homing is disarmed (homing_kp/velocity/
+                 threshold all 0), same pattern as the wheel joints. homed_position is the
+                 gravity-droop equilibrium angle for this joint (computed via MuJoCo root-
+                 solve on the leg branch CustomLegFoot model + independent per-side energy
+                 check; left/right are NOT exact mirrors; verified visually against
+                 photos of the real leg hanging free). Requires the leg to actually be
+                 hanging freely (unpowered) at boot for this to be correct; if the leg is
+                 resting on something or held, re-derive. REVIEW BEFORE HARDWARE. -->
+
 
             <param name="homing_stage">0</param>
-            <param name="homing_velocity">-1.5</param>
-            <param name="homed_position">-0.71</param>
-            <param name="post_homing_position">-0.71</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_velocity">0.0</param>
+            <param name="homed_position">0.950836</param>
+            <param name="post_homing_position">0.950836</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
-            <param name="homing_torque_threshold">2.0</param>
+            <param name="homing_torque_threshold">0.0</param>
 
             <param name="position_min">-0.61</param>
             <param name="position_max">2.69</param>
@@ -181,14 +235,23 @@
         <joint name="leg_back_r_1">
             <param name="can_channel">4</param>
             <param name="can_id">1</param>
+            <!-- No hard stop on this leg design, so homing is disarmed (homing_kp/velocity/
+                 threshold all 0), same pattern as the wheel joints. homed_position is the
+                 gravity-droop equilibrium angle for this joint (computed via MuJoCo root-
+                 solve on the leg branch CustomLegFoot model + independent per-side energy
+                 check; left/right are NOT exact mirrors; verified visually against
+                 photos of the real leg hanging free). Requires the leg to actually be
+                 hanging freely (unpowered) at boot for this to be correct; if the leg is
+                 resting on something or held, re-derive. REVIEW BEFORE HARDWARE. -->
+
 
             <param name="homing_stage">2</param>
-            <param name="homing_velocity">-1.5</param>
-            <param name="homed_position">-1.22</param>
-            <param name="post_homing_position">0.0</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_velocity">0.0</param>
+            <param name="homed_position">0.990537</param>
+            <param name="post_homing_position">0.990537</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
-            <param name="homing_torque_threshold">2.0</param>
+            <param name="homing_torque_threshold">0.0</param>
 
             <param name="position_min">-1.12</param>
             <param name="position_max">2.41</param>
@@ -210,14 +273,23 @@
         <joint name="leg_back_r_2">
             <param name="can_channel">4</param>
             <param name="can_id">2</param>
+            <!-- No hard stop on this leg design, so homing is disarmed (homing_kp/velocity/
+                 threshold all 0), same pattern as the wheel joints. homed_position is the
+                 gravity-droop equilibrium angle for this joint (computed via MuJoCo root-
+                 solve on the leg branch CustomLegFoot model + independent per-side energy
+                 check; left/right are NOT exact mirrors; verified visually against
+                 photos of the real leg hanging free). Requires the leg to actually be
+                 hanging freely (unpowered) at boot for this to be correct; if the leg is
+                 resting on something or held, re-derive. REVIEW BEFORE HARDWARE. -->
+
 
             <param name="homing_stage">1</param>
-            <param name="homing_velocity">-1.5</param>
-            <param name="homed_position">-0.42</param>
-            <param name="post_homing_position">0.0</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_velocity">0.0</param>
+            <param name="homed_position">-0.179972</param>
+            <param name="post_homing_position">-0.179972</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
-            <param name="homing_torque_threshold">2.0</param>
+            <param name="homing_torque_threshold">0.0</param>
 
             <param name="position_min">-0.32</param>
             <param name="position_max">3.04</param>
@@ -239,14 +311,23 @@
         <joint name="leg_back_r_3">
             <param name="can_channel">4</param>
             <param name="can_id">3</param>
+            <!-- No hard stop on this leg design, so homing is disarmed (homing_kp/velocity/
+                 threshold all 0), same pattern as the wheel joints. homed_position is the
+                 gravity-droop equilibrium angle for this joint (computed via MuJoCo root-
+                 solve on the leg branch CustomLegFoot model + independent per-side energy
+                 check; left/right are NOT exact mirrors; verified visually against
+                 photos of the real leg hanging free). Requires the leg to actually be
+                 hanging freely (unpowered) at boot for this to be correct; if the leg is
+                 resting on something or held, re-derive. REVIEW BEFORE HARDWARE. -->
+
 
             <param name="homing_stage">0</param>
-            <param name="homing_velocity">1.5</param>
-            <param name="homed_position">0.71</param>
-            <param name="post_homing_position">0.71</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_velocity">0.0</param>
+            <param name="homed_position">-1.045141</param>
+            <param name="post_homing_position">-1.045141</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
-            <param name="homing_torque_threshold">2.0</param>
+            <param name="homing_torque_threshold">0.0</param>
 
             <param name="position_min">-2.69</param>
             <param name="position_max">0.61</param>
@@ -268,14 +349,23 @@
         <joint name="leg_back_l_1">
             <param name="can_channel">3</param>
             <param name="can_id">1</param>
+            <!-- No hard stop on this leg design, so homing is disarmed (homing_kp/velocity/
+                 threshold all 0), same pattern as the wheel joints. homed_position is the
+                 gravity-droop equilibrium angle for this joint (computed via MuJoCo root-
+                 solve on the leg branch CustomLegFoot model + independent per-side energy
+                 check; left/right are NOT exact mirrors; verified visually against
+                 photos of the real leg hanging free). Requires the leg to actually be
+                 hanging freely (unpowered) at boot for this to be correct; if the leg is
+                 resting on something or held, re-derive. REVIEW BEFORE HARDWARE. -->
+
 
             <param name="homing_stage">2</param>
-            <param name="homing_velocity">1.5</param>
-            <param name="homed_position">1.22</param>
-            <param name="post_homing_position">0.0</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_velocity">0.0</param>
+            <param name="homed_position">-0.990539</param>
+            <param name="post_homing_position">-0.990539</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
-            <param name="homing_torque_threshold">2.0</param>
+            <param name="homing_torque_threshold">0.0</param>
 
             <param name="position_min">-2.41</param>
             <param name="position_max">1.12</param>
@@ -297,14 +387,23 @@
         <joint name="leg_back_l_2">
             <param name="can_channel">3</param>
             <param name="can_id">2</param>
+            <!-- No hard stop on this leg design, so homing is disarmed (homing_kp/velocity/
+                 threshold all 0), same pattern as the wheel joints. homed_position is the
+                 gravity-droop equilibrium angle for this joint (computed via MuJoCo root-
+                 solve on the leg branch CustomLegFoot model + independent per-side energy
+                 check; left/right are NOT exact mirrors; verified visually against
+                 photos of the real leg hanging free). Requires the leg to actually be
+                 hanging freely (unpowered) at boot for this to be correct; if the leg is
+                 resting on something or held, re-derive. REVIEW BEFORE HARDWARE. -->
+
 
             <param name="homing_stage">1</param>
-            <param name="homing_velocity">1.5</param>
-            <param name="homed_position">0.42</param>
-            <param name="post_homing_position">0.0</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_velocity">0.0</param>
+            <param name="homed_position">0.179973</param>
+            <param name="post_homing_position">0.179973</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
-            <param name="homing_torque_threshold">2.0</param>
+            <param name="homing_torque_threshold">0.0</param>
 
             <param name="position_min">-3.04</param>
             <param name="position_max">0.32</param>
@@ -326,14 +425,23 @@
         <joint name="leg_back_l_3">
             <param name="can_channel">3</param>
             <param name="can_id">3</param>
+            <!-- No hard stop on this leg design, so homing is disarmed (homing_kp/velocity/
+                 threshold all 0), same pattern as the wheel joints. homed_position is the
+                 gravity-droop equilibrium angle for this joint (computed via MuJoCo root-
+                 solve on the leg branch CustomLegFoot model + independent per-side energy
+                 check; left/right are NOT exact mirrors; verified visually against
+                 photos of the real leg hanging free). Requires the leg to actually be
+                 hanging freely (unpowered) at boot for this to be correct; if the leg is
+                 resting on something or held, re-derive. REVIEW BEFORE HARDWARE. -->
+
 
             <param name="homing_stage">0</param>
-            <param name="homing_velocity">-1.5</param>
-            <param name="homed_position">-0.71</param>
-            <param name="post_homing_position">-0.71</param>
-            <param name="homing_kp">5.5</param>
+            <param name="homing_velocity">0.0</param>
+            <param name="homed_position">0.950836</param>
+            <param name="post_homing_position">0.950836</param>
+            <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
-            <param name="homing_torque_threshold">2.0</param>
+            <param name="homing_torque_threshold">0.0</param>
 
             <param name="position_min">-0.61</param>
             <param name="position_max">2.69</param>
