@@ -643,19 +643,25 @@ void ControlBoardHardwareInterface::copy_actuator_commands(bool use_position_lim
       // midpoint, which could disagree with a predicted-position trigger on the other
       // side of it. (Plain bool, not bool&: std::vector<bool> is bit-packed and its
       // operator[] returns a proxy, not a real reference, so read-compute-write instead
-      // of binding a reference to it.) The release check uses predicted_pos, the SAME
-      // quantity that can trigger it -- round 3 review found that releasing on raw
-      // position alone let a predictively-set latch drop out on the very next cycle,
-      // since actual position lags prediction by construction, causing sustained
-      // chatter instead of the hold this hysteresis is supposed to provide.
-      const bool active_max = hw_actuator_hard_limit_active_max_[i]
-                                   ? (predicted_pos > hard_max - kHardLimitReleaseMargin)
-                                   : (instant_max || predicted_pos >= hard_max);
+      // of binding a reference to it.) The release check requires BOTH the actual and
+      // predicted position to be back inside the release margin, not predicted_pos
+      // alone -- round 4 review found that releasing on predicted_pos alone let the
+      // latch clear while the joint's ACTUAL position was still past the boundary
+      // during a fast retreat (predicted_pos can swing back inside well before actual
+      // position does), toggling full protection on and off every other cycle. Requiring
+      // both is monotone-safe on approach and on retreat.
+      const bool active_max =
+          hw_actuator_hard_limit_active_max_[i]
+              ? (hw_state_positions_[i] > hard_max - kHardLimitReleaseMargin ||
+                 predicted_pos > hard_max - kHardLimitReleaseMargin)
+              : (instant_max || predicted_pos >= hard_max);
       hw_actuator_hard_limit_active_max_[i] = active_max;
 
-      const bool active_min = hw_actuator_hard_limit_active_min_[i]
-                                   ? (predicted_pos < hard_min + kHardLimitReleaseMargin)
-                                   : (instant_min || predicted_pos <= hard_min);
+      const bool active_min =
+          hw_actuator_hard_limit_active_min_[i]
+              ? (hw_state_positions_[i] < hard_min + kHardLimitReleaseMargin ||
+                 predicted_pos < hard_min + kHardLimitReleaseMargin)
+              : (instant_min || predicted_pos <= hard_min);
       hw_actuator_hard_limit_active_min_[i] = active_min;
 
       // Clamp, never assign: this can only pull an out-of-range commanded position back
