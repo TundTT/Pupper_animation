@@ -413,17 +413,17 @@ joy_util_node:
     # load-bearing and must stay in this order. The remaining entries are not
     # button-mapped through this array; they are listed so this node deactivates
     # them when switching (order-independent for that purpose).
-    controller_names: ["neural_controller", "neural_controller_three_legged", "neural_controller_wheel", "neural_controller_walk_v2", "neural_controller_leg_lift", "forward_kp_controller", "forward_kd_controller", "forward_position_controller"]
+    controller_names: ["neural_controller", "neural_controller_walk_v2", "neural_controller_wheel", "neural_controller_three_legged", "neural_controller_leg_lift", "forward_kp_controller", "forward_kd_controller", "forward_position_controller"]
     # X (0) -> neural_controller (locomotion, also exits leg-lift/wheel mode).
-    # Square (3) -> neural_controller_three_legged.
+    # Square (3) -> neural_controller_walk_v2, the new sim-validated-only walking
+    #   policy -- moved here from L2 at the user's request, replacing
+    #   neural_controller_three_legged's old binding on this button.
     # Triangle (2) -> neural_controller_wheel (the wheeled velocity policy; drive it
     #   with /cmd_vel from the sticks, same as locomotion).
-    # L2 (6) -> neural_controller_walk_v2, the new sim-validated-only walking policy
-    #   (inserted at controller_names position 3, before neural_controller_leg_lift,
-    #   which was never button-mapped through this array and is unaffected by
-    #   shifting down a slot). Button 6 is a guess (unused by anything else here,
-    #   commonly L2 on a PS-style pad) -- VERIFY against the actual joystick's /joy
-    #   button indices before testing and change this one line if it's wrong.
+    # L2 (6) -> neural_controller_three_legged (moved here to free up Square for
+    #   walk_v2 above). Button 6 was previously walk_v2's own guessed, unverified
+    #   slot; three_legged has been hardware-tested before, so reusing its slot for
+    #   the still-unverified button is lower-risk than leaving walk_v2 on it.
     # O (1) is NOT here: it's the leg-lift button below, handled separately since it
     # enters leg-lift mode on first press and cycles legs on repeated presses, rather
     # than switching once.
