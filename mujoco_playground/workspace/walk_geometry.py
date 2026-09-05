@@ -57,8 +57,12 @@ def ring_costs(points, velocities, bottom_mask, bottom_allowance=.006, side_clea
     touch = xp.clip((.001-height)/.002, 0., 1.)
     rub = xp.max(xp.where(side, touch * xp.sum(velocities[..., :2]**2, axis=-1), 0.), axis=1)
     return {
-        'ring_side': xp.mean(xp.minimum(side_depth/.01, 5.)**2),
-        'ring_bottom': xp.mean(xp.minimum(bottom_depth/.01, 5.)**2),
+        # Capped at 2 (not 5): at reward_scales.ring_side=-1, a per-foot cap of 4
+        # keeps the worst case below tracking_linear's own ceiling instead of
+        # dwarfing it, so the ring behaves as a strong penalty rather than an
+        # effectively-infinite one that swamps the task reward.
+        'ring_side': xp.mean(xp.minimum(side_depth/.01, 2.)**2),
+        'ring_bottom': xp.mean(xp.minimum(bottom_depth/.01, 2.)**2),
         'ring_rub': xp.mean(rub),
         'ring_side_fraction': xp.mean(xp.any((height < 0) & side, axis=1).astype(float)),
         'ring_penetration_m': xp.max(xp.maximum(-height, 0.)),

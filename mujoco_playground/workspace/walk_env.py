@@ -99,19 +99,33 @@ class PupperWalkEnv(Env):
         age = jp.where(fresh,0,info['step'])
         air = jp.where(fresh,jp.zeros(4),info['air_time'])
         old_contact = jp.where(fresh,jp.ones(4,dtype=bool),info['last_contact'])
-        command = jp.where(fresh,info['initial_command'],info['command'])
-        rng, ck, lk, ok = jax.random.split(info['rng'],4)
+        rng, ck, lk, ok, fk, pk1, pk2 = jax.random.split(info['rng'],7)
+        # Resample on every auto-reset instead of replaying the one command this env
+        # slot happened to draw at its very first reset: with command_hold_steps=150
+        # and episode_length=600, replaying `initial_command` meant the first 25% of
+        # every episode always retraced one of only num_envs fixed commands.
+        command = jp.where(fresh,self.sample_command(fk),info['command'])
         action = jp.clip(action,-1.,1.)
         applied = jp.where(jax.random.bernoulli(lk,c.latency_probability),prev,action)
         target = jp.clip(self.home + applied*self.action_scale,self.limits[:,0],self.limits[:,1])
         d = state.pipeline_state.replace(ctrl=target-self.home)
+        # Occasional random horizontal velocity kick: the sim otherwise never
+        # produces a disturbance, so the policy has no incentive to reject one.
+        kick = jax.random.uniform(pk2,(2,),minval=-c.push_velocity,maxval=c.push_velocity)*jax.random.bernoulli(pk1,c.push_probability)
+        d = d.replace(qvel=d.qvel.at[:2].add(kick))
         def substep(d,_):
             d = mjx.step(self.sys,d)
-            return d,self.ring_signals(d)
-        d, ring_history = jax.lax.scan(substep,d,None,length=self.frames)
+            substep_contact,_ = self.contact_mask(d)
+            substep_points = geom.capsule_bottom(d.geom_xpos[self.foot_ids],d.geom_xmat[self.foot_ids],self.sizes,jp)
+            swing = jp.sum(jp.clip(substep_points[:,2],0.,c.swing_clearance_target)*(~substep_contact))
+            return d,(self.ring_signals(d),swing)
+        d, (ring_history,swing_history) = jax.lax.scan(substep,d,None,length=self.frames)
         # step() integrates qpos after forward; refresh geometry to the resulting pose.
         d = mjx.forward(self.sys,d)
         ring = jax.tree.map(lambda x: jp.mean(x,axis=0),ring_history)
+        # Sampled at the 250Hz substep rate (like the ring terms), not the 50Hz
+        # control rate: a swing apex between control steps was otherwise undercounted.
+        swing_clearance_raw = jp.mean(swing_history)
         contact, unwanted = self.contact_mask(d)
         points = geom.capsule_bottom(d.geom_xpos[self.foot_ids],d.geom_xmat[self.foot_ids],self.sizes,jp)
         foot_velocity = geom.point_velocities(points[:,None,:],d.subtree_com[self.root_ids],d.cvel[self.body_ids],jp)[:,0,:]
@@ -124,15 +138,29 @@ class PupperWalkEnv(Env):
         moving = jp.linalg.norm(command)> .05
         air += self.dt
         touchdown = contact & ~old_contact
-        low, high = self.limits[:,0]+.05,self.limits[:,1]-.05
+        low, high = self.limits[:,0]+c.joint_limit_margin,self.limits[:,1]-c.joint_limit_margin
         terms = dict(
-            tracking_linear=jp.exp(-jp.sum((v[:2]-command[:2])**2)/.1),
+            # Sharper than the original /.1: the shipped policy undershot every
+            # commanded speed by ~14%, so give tracking error more gradient.
+            tracking_linear=jp.exp(-jp.sum((v[:2]-command[:2])**2)/.07),
             tracking_yaw=jp.exp(-(omega[2]-command[2])**2/.25),
             upright=rot[2,2], height=((d.qpos[2]-self.height)/.04)**2,
             vertical_velocity=v[2]**2, roll_pitch_velocity=jp.sum(omega[:2]**2),
             foot_slip=jp.sum(jp.sum(foot_velocity[:,:2]**2,axis=1)*contact),
             air_time=jp.sum(jp.clip(air-.08,0.,.25)*touchdown)*moving,
+            # Real swing-height reward. Weight derived to beat the ring's marginal
+            # per-mm cost along the (otherwise favored) pure-knee lift direction --
+            # see .notes; a weaker weight is arithmetically incapable of moving the
+            # gait, which is why the first version of this term (air_time, and then
+            # this term at weight .5) both realized as under 0.1% of total reward.
+            swing_clearance=swing_clearance_raw*moving,
             stand_pose=jp.mean((d.qpos[7:]-self.home)**2)*(~moving),
+            # stand_pose alone can't fix a lifted stance foot: it averages the
+            # penalty over all 12 joints, so a single foot held 3mm up costs ~1/12th
+            # as much as an equivalent whole-body deviation. Penalize missing foot
+            # contacts directly, gated on genuinely being at rest (not just mid
+            # deceleration right after a command drops to zero).
+            stance_feet=(4.-jp.sum(contact.astype(float)))*(~moving)*(jp.linalg.norm(v[:2])<.05),
             ring_side=ring['ring_side'],ring_bottom=ring['ring_bottom'],ring_rub=ring['ring_rub'],
             unwanted_contact=unwanted, action_rate=jp.mean((action-prev)**2),
             torques=jp.sum(d.actuator_force**2),

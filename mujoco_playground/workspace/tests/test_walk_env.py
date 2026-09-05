@@ -33,6 +33,24 @@ def test_jit_reset_rollout_and_episode_bookkeeping():
     assert float(state.metrics['action_rate'])==0
 
 
+def test_shaping_term_ceilings_are_not_negligible():
+    """A positive shaping term whose per-second ceiling is tiny next to
+    tracking_linear's cannot move the gait no matter how it's tuned -- this has
+    happened twice now (air_time, then swing_clearance at its original weight of
+    .5, both realizing under 0.1% of total reward). Guards the weights chosen to
+    fix that, using the measured gait characteristics from the walk-policy review
+    (duty factor ~.6 -> ~1.4 of 4 feet in swing at any instant; moving ~80% of the
+    time given stand_probability=.2)."""
+    c=get_config()
+    tracking_ceiling=c.reward_scales.tracking_linear*1.
+    swing_ceiling=c.reward_scales.swing_clearance*1.4*c.swing_clearance_target*.8
+    assert swing_ceiling/tracking_ceiling>.02,'swing_clearance is too small to shape the gait'
+    # A single foot held up at rest must cost noticeably more than stand_pose's
+    # per-joint-averaged penalty for the same deviation (~.006/s measured), or the
+    # dilution over 12 joints makes it invisible again.
+    assert abs(c.reward_scales.stance_feet)*1.>.05,'stance_feet is too small to fix tripod standing'
+
+
 def test_randomized_gain_preserves_home_target():
     env=PupperWalkEnv()
     model,axes=domain_randomize(env.sys,jax.random.split(jax.random.PRNGKey(8),3))
