@@ -497,6 +497,29 @@ void ControlBoardHardwareInterface::copy_actuator_commands(bool use_position_lim
       cmd_pos = std::clamp(cmd_pos, hw_actuator_position_mins_[i], hw_actuator_position_maxs_[i]);
     }
 
+    // Hard end-stop, unconditional: unlike the block above, this does NOT depend on
+    // use_position_limits or cmd_kp > 0.0. It exists because that block only restrains
+    // what gets COMMANDED under position control -- it does nothing at all in pure
+    // velocity mode (cmd_kp == 0, e.g. a wheel-style controller), since the torque law
+    // is torque = (cmd_pos-state_pos)*kp + (cmd_vel-state_vel)*kd and kp=0 makes the
+    // position term vanish regardless of what cmd_pos is clamped to. A joint whose real
+    // mechanical range is well short of a full revolution (e.g. this board's leg knee
+    // joints, which self-destruct on the physical frame if driven far enough) needs a
+    // limit that holds no matter what commanded the motion -- a future controller in
+    // velocity mode, a homing bug, anything. This checks the ACTUAL measured position
+    // (hw_state_positions_, not the commanded one) and refuses to command further
+    // motion past the limit in that direction, regardless of control mode. It does not
+    // dampen motion already inside the limits and does not affect kp/kd.
+    if (hw_state_positions_[i] >= hw_actuator_position_maxs_[i]) {
+      cmd_vel = std::min(cmd_vel, 0.0);
+      cmd_eff = std::min(cmd_eff, 0.0);
+      cmd_pos = std::min(cmd_pos, hw_actuator_position_maxs_[i]);
+    } else if (hw_state_positions_[i] <= hw_actuator_position_mins_[i]) {
+      cmd_vel = std::max(cmd_vel, 0.0);
+      cmd_eff = std::max(cmd_eff, 0.0);
+      cmd_pos = std::max(cmd_pos, hw_actuator_position_mins_[i]);
+    }
+
     cmd_pos += hw_actuator_zero_positions_[i];
 
     uint can_channel = hw_actuator_can_channels_[i] - 1;

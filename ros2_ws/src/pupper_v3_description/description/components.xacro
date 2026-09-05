@@ -101,8 +101,15 @@
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">0.0</param>
 
-            <param name="position_min">-2.69</param>
-            <param name="position_max">0.61</param>
+            <param name="position_min">-2.615937</param>
+            <param name="position_max">0.525655</param>
+            <!-- position_min/max tightened to +-90 deg around home (hardware-measured
+                 "comfortable max" was 102-120 deg per side, each leg measured individually;
+                 see the leg-calibration session notes). This is a real hard limit as of the
+                 unconditional end-stop added to copy_actuator_commands() in
+                 control_board_hardware_interface.cpp, which enforces it from the actual
+                 measured position regardless of control mode (position or velocity), not
+                 just when a position-mode controller is active. -->
             <param name="velocity_max">30.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
@@ -215,8 +222,15 @@
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">0.0</param>
 
-            <param name="position_min">-0.61</param>
-            <param name="position_max">2.69</param>
+            <param name="position_min">-0.619960</param>
+            <param name="position_max">2.521632</param>
+            <!-- position_min/max tightened to +-90 deg around home (hardware-measured
+                 "comfortable max" was 102-120 deg per side, each leg measured individually;
+                 see the leg-calibration session notes). This is a real hard limit as of the
+                 unconditional end-stop added to copy_actuator_commands() in
+                 control_board_hardware_interface.cpp, which enforces it from the actual
+                 measured position regardless of control mode (position or velocity), not
+                 just when a position-mode controller is active. -->
             <param name="velocity_max">30.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
@@ -329,8 +343,15 @@
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">0.0</param>
 
-            <param name="position_min">-2.69</param>
-            <param name="position_max">0.61</param>
+            <param name="position_min">-2.615937</param>
+            <param name="position_max">0.525655</param>
+            <!-- position_min/max tightened to +-90 deg around home (hardware-measured
+                 "comfortable max" was 102-120 deg per side, each leg measured individually;
+                 see the leg-calibration session notes). This is a real hard limit as of the
+                 unconditional end-stop added to copy_actuator_commands() in
+                 control_board_hardware_interface.cpp, which enforces it from the actual
+                 measured position regardless of control mode (position or velocity), not
+                 just when a position-mode controller is active. -->
             <param name="velocity_max">30.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
@@ -443,8 +464,15 @@
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">0.0</param>
 
-            <param name="position_min">-0.61</param>
-            <param name="position_max">2.69</param>
+            <param name="position_min">-0.619960</param>
+            <param name="position_max">2.521632</param>
+            <!-- position_min/max tightened to +-90 deg around home (hardware-measured
+                 "comfortable max" was 102-120 deg per side, each leg measured individually;
+                 see the leg-calibration session notes). This is a real hard limit as of the
+                 unconditional end-stop added to copy_actuator_commands() in
+                 control_board_hardware_interface.cpp, which enforces it from the actual
+                 measured position regardless of control mode (position or velocity), not
+                 just when a position-mode controller is active. -->
             <param name="velocity_max">30.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
