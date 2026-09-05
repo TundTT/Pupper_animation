@@ -79,11 +79,16 @@ design history and two rounds of review that shaped the reward weights).
 - Peak foot swing clearance 10-17mm forward, up to ~17mm on the best-lifting foot in
   reverse (asymmetric — front feet lift less than rear in reverse, worth watching).
 - No falls in the deterministic showcase rollout (stop/forward/arcs/spin/reverse/stop).
-- **Known from sim, not yet fixed**: standing still on command can leave one foot (in
-  sim, consistently the back-right) hovering a few mm off the ground rather than planted
-  — a `stance_feet` reward term was added to address this in the *next* training
-  iteration, not yet reflected in this exported checkpoint. Don't be surprised if a
-  standing-still test shows a slightly uneven stance.
+- **Standing still is not perfectly settled.** A `stance_feet` reward term (added to
+  fix an earlier checkpoint that consistently held one foot, back-right, hovering
+  ~95-100% of the time) *is* in the training run this policy came from, and that
+  specific bug is gone -- no single foot is a consistent outlier anymore. But a
+  stand-still check on `best_params` (6 seeds, 200 steps each, deterministic policy)
+  shows most seeds cycling all four feet between ~65-85% ground contact rather than
+  holding a clean 100%; only 1 of 6 seeds settled to a rock-solid four-foot stance.
+  Expect some visible fidgeting/weight-shifting on a "stand still" command, not
+  outright limping on three legs. Worth watching on hardware, not necessarily a
+  stop-ship issue.
 
 ## Test procedure
 
@@ -128,7 +133,8 @@ conservative than the wheel bring-up was:
    walking-like pattern (not wheel-spinning, not locomotion's pose) and don't hit any
    joint limit.
 3. **On the ground, held or spotted, zero command.** Check whether all four feet
-   actually settle on the ground evenly (see the tripod-standing caveat above).
+   settle, or fidget/shift weight continuously (see the standing-stability caveat
+   above and below).
 4. **Small `vx` only**, no yaw. Check it drives roughly straight.
 5. **Add yaw and reverse.** The reverse gait was specifically reworked over two review
    rounds on the training side; check whether it still looks asymmetric/uneven the way
@@ -148,8 +154,9 @@ conservative than the wheel bring-up was:
   wheel-mode homing/limits for some other reason, flag that before merging this further;
   this update assumes the robot is currently legged, per hardware confirmation at the
   time of this addition.
-- **Standing-still tripod stance** (one foot slightly off the ground) is a known sim
-  behavior not yet fixed in this exported checkpoint — see "Sim numbers" above.
+- **Standing still fidgets rather than settling completely** in most sim seeds — see
+  "Sim numbers" above. The specific one-foot-always-up bug from an earlier checkpoint is
+  fixed; this is a milder residual instability.
 
 ## Test log
 
