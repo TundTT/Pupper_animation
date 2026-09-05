@@ -110,19 +110,21 @@
                         mesh="LegAssemblyForFlangedv26_002" />
                     <body name="leg_front_r_3" pos="0 -0.0494 0.0685" quat="0.707105 0 0.707108 0"
                         gravcomp="0">
-                        <!-- CustomLegFoot placeholder: mesh assumed centered on the joint
-                             axis (unconfirmed -- may need the same kind of mm offset tuning
-                             the wheel mount required); mass/CoM/inertia are provisional,
-                             taken from a mixed multi-part Onshape measurement, not a clean
-                             single-part one. Collision uses the mesh's convex hull rather
+                        <!-- CustomLegFoot mounted at the same joint offset as the wheel
+                             (pos 0 0 0.0136, quat 0.7071068 -0.7071068 0 0 for the r side).
+                             Mass/CoM/inertia are provisional, taken from a mixed multi-part
+                             Onshape measurement, not a clean single-part one -- rotated into
+                             this mount's frame. Collision uses the mesh's convex hull rather
                              than a hand-picked primitive until the real contact geometry
                              is known. -->
-                        <inertial pos="0.000573 -0.012143 0.017071" mass="0.05518"
-                            fullinertia="3.854067e-05 4.2234926e-05 7.3464297e-05 5.97847e-07 1.8696e-08 -3.21278e-07" />
+                        <inertial pos="0.000573 0.017071 0.025743" mass="0.05518"
+                            fullinertia="3.854067e-05 7.346430e-05 4.223493e-05 1.8696e-08 -5.978471e-07 3.21278e-07" />
                         <joint name="leg_front_r_3" pos="0 0 0" axis="0 0 1" range="-2.79 0.71" />
-                        <geom pos="0 0 0" type="mesh" mesh="CustomLegFoot" class="collision" />
-                        <geom pos="0 0 0" type="mesh" contype="0" conaffinity="0" group="1"
-                            density="0" mesh="CustomLegFoot" />
+                        <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
+                            mesh="CustomLegFoot" class="collision" />
+                        <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
+                            contype="0" conaffinity="0" group="1" density="0"
+                            mesh="CustomLegFoot" />
                         <site name="leg_front_r_3_foot_site" pos="0.06231 -0.06216 0.018" />
                     </body>
                 </body>
@@ -145,13 +147,19 @@
                         mesh="LegAssemblyForFlangedv26_011" />
                     <body name="leg_front_l_3" pos="0 -0.0494 0.0685"
                         quat="9.38184e-07 -0.707108 9.38187e-07 0.707105" gravcomp="0">
-                        <!-- CustomLegFoot placeholder; see leg_front_r_3 for caveats. -->
-                        <inertial pos="0.000573 -0.012143 0.017071" mass="0.05518"
-                            fullinertia="3.854067e-05 4.2234926e-05 7.3464297e-05 5.97847e-07 1.8696e-08 -3.21278e-07" />
+                        <!-- CustomLegFoot placeholder; see leg_front_r_3 for caveats. This
+                             body's parent chain is mirrored vs. the r side, so the mount
+                             quat's x sign is flipped (0.7071068 0.7071068 0 0) to keep the
+                             foot oriented the same way instead of upside down -- derived
+                             from FK, not guessed. -->
+                        <inertial pos="0.000573 -0.017071 0.001457" mass="0.05518"
+                            fullinertia="3.854067e-05 7.346430e-05 4.223493e-05 -1.8696e-08 5.978471e-07 3.21278e-07" />
                         <joint name="leg_front_l_3" pos="0 0 0" axis="0 0 1" range="-0.71 2.79" />
-                        <geom pos="0 0 0" type="mesh" mesh="CustomLegFoot" class="collision" />
-                        <geom pos="0 0 0" type="mesh" contype="0" conaffinity="0" group="1"
-                            density="0" mesh="CustomLegFoot" />
+                        <geom pos="0 0 0.0136" quat="0.7071068 0.7071068 0 0" type="mesh"
+                            mesh="CustomLegFoot" class="collision" />
+                        <geom pos="0 0 0.0136" quat="0.7071068 0.7071068 0 0" type="mesh"
+                            contype="0" conaffinity="0" group="1" density="0"
+                            mesh="CustomLegFoot" />
                         <site name="leg_front_l_3_foot_site" pos="0.06231 0.06216 0.018" />
                     </body>
                 </body>
@@ -175,12 +183,14 @@
                     <body name="leg_back_r_3" pos="0 -0.0494 0.0685" quat="0.707105 0 0.707108 0"
                         gravcomp="0">
                         <!-- CustomLegFoot placeholder; see leg_front_r_3 for caveats. -->
-                        <inertial pos="0.000573 -0.012143 0.017071" mass="0.05518"
-                            fullinertia="3.854067e-05 4.2234926e-05 7.3464297e-05 5.97847e-07 1.8696e-08 -3.21278e-07" />
+                        <inertial pos="0.000573 0.017071 0.025743" mass="0.05518"
+                            fullinertia="3.854067e-05 7.346430e-05 4.223493e-05 1.8696e-08 -5.978471e-07 3.21278e-07" />
                         <joint name="leg_back_r_3" pos="0 0 0" axis="0 0 1" range="-2.79 0.71" />
-                        <geom pos="0 0 0" type="mesh" mesh="CustomLegFoot" class="collision" />
-                        <geom pos="0 0 0" type="mesh" contype="0" conaffinity="0" group="1"
-                            density="0" mesh="CustomLegFoot" />
+                        <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
+                            mesh="CustomLegFoot" class="collision" />
+                        <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
+                            contype="0" conaffinity="0" group="1" density="0"
+                            mesh="CustomLegFoot" />
                         <site name="leg_back_r_3_foot_site" pos="0.06231 -0.06216 0.018" />
                     </body>
                 </body>
@@ -203,13 +213,16 @@
                         mesh="LegAssemblyForFlangedv26_014" />
                     <body name="leg_back_l_3" pos="0 -0.0494 0.0685"
                         quat="9.38184e-07 -0.707108 9.38187e-07 0.707105" gravcomp="0">
-                        <!-- CustomLegFoot placeholder; see leg_front_r_3 for caveats. -->
-                        <inertial pos="0.000573 -0.012143 0.017071" mass="0.05518"
-                            fullinertia="3.854067e-05 4.2234926e-05 7.3464297e-05 5.97847e-07 1.8696e-08 -3.21278e-07" />
+                        <!-- CustomLegFoot placeholder; see leg_front_l_3 for the mirrored-mount
+                             quat rationale. -->
+                        <inertial pos="0.000573 -0.017071 0.001457" mass="0.05518"
+                            fullinertia="3.854067e-05 7.346430e-05 4.223493e-05 -1.8696e-08 5.978471e-07 3.21278e-07" />
                         <joint name="leg_back_l_3" pos="0 0 0" axis="0 0 1" range="-0.71 2.79" />
-                        <geom pos="0 0 0" type="mesh" mesh="CustomLegFoot" class="collision" />
-                        <geom pos="0 0 0" type="mesh" contype="0" conaffinity="0" group="1"
-                            density="0" mesh="CustomLegFoot" />
+                        <geom pos="0 0 0.0136" quat="0.7071068 0.7071068 0 0" type="mesh"
+                            mesh="CustomLegFoot" class="collision" />
+                        <geom pos="0 0 0.0136" quat="0.7071068 0.7071068 0 0" type="mesh"
+                            contype="0" conaffinity="0" group="1" density="0"
+                            mesh="CustomLegFoot" />
                         <site name="leg_back_l_3_foot_site" pos="0.06231 0.06216 0.018" />
                     </body>
                 </body>
