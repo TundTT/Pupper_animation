@@ -514,6 +514,49 @@ void ControlBoardHardwareInterface::do_homing() {
     // Sleep for dt
     std::this_thread::sleep_for(std::chrono::milliseconds(dt_ms));
   }
+
+  // Sanity check for the four disarmed-homing knee/foot joints (see components.xacro):
+  // their homed reading is NOT an independent measurement of anything -- by construction,
+  // zero_position is computed so the reading immediately equals the configured
+  // homed_position, so comparing it against that same configured value would always
+  // trivially "pass" no matter what pose the leg was actually in. What CAN be checked
+  // without that circularity: front_r_3 and back_r_3 (and front_l_3/back_l_3) are the
+  // same mechanical design and measured within ~0.1-0.2 deg of each other when
+  // hardware-calibrated. A same-side front/back mismatch after homing means one of that
+  // pair is NOT resting in the expected gravity-droop pose right now (caught on
+  // something, held, resting on a surface, etc.) -- exactly the precondition violation
+  // the disarmed-homing design depends on, made visible instead of silent.
+  {
+    constexpr double kSideMismatchThreshold = 0.0873;  // ~5 deg
+    const std::pair<const char *, const char *> side_pairs[] = {
+        {"leg_front_r_3", "leg_back_r_3"},
+        {"leg_front_l_3", "leg_back_l_3"},
+    };
+    for (const auto &pair : side_pairs) {
+      int idx_a = -1, idx_b = -1;
+      for (auto i = 0u; i < info_.joints.size(); i++) {
+        if (info_.joints[i].name == pair.first) idx_a = static_cast<int>(i);
+        if (info_.joints[i].name == pair.second) idx_b = static_cast<int>(i);
+      }
+      if (idx_a < 0 || idx_b < 0) continue;  // joints not present on this description; skip
+      const double diff = std::abs(hw_state_positions_[idx_a] - hw_state_positions_[idx_b]);
+      if (diff > kSideMismatchThreshold) {
+        RCLCPP_ERROR(rclcpp::get_logger("ControlBoardHardwareInterface"),
+                     "Homing sanity check FAILED: %s (%.4f) and %s (%.4f) differ by %.4f rad "
+                     "(%.1f deg), expected ~0. This means one of these legs was likely NOT "
+                     "hanging freely at boot -- do not trust the hard position limit on either "
+                     "joint in this pair until this is investigated.",
+                     pair.first, hw_state_positions_[idx_a], pair.second,
+                     hw_state_positions_[idx_b], diff, diff * 180.0 / M_PI);
+      } else {
+        RCLCPP_INFO(rclcpp::get_logger("ControlBoardHardwareInterface"),
+                    "Homing sanity check OK: %s (%.4f) and %s (%.4f) agree within %.1f deg",
+                    pair.first, hw_state_positions_[idx_a], pair.second,
+                    hw_state_positions_[idx_b], diff * 180.0 / M_PI);
+      }
+    }
+  }
+
   RCLCPP_INFO(rclcpp::get_logger("ControlBoardHardwareInterface"), "Finished homing!");
 }
 
