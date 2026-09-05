@@ -113,6 +113,7 @@ class AnimationControllerPy(Node):
             "neural_controller_three_legged",
             "neural_controller_leg_lift",
             "neural_controller_wheel",
+            "neural_controller_walk_v2",
         ]
         self.forward_controllers = ["forward_position_controller", "forward_kp_controller", "forward_kd_controller"]
 

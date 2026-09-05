@@ -15,6 +15,7 @@
 >
 > **Testing the leg-lift policy: see [LEG_LIFT_TESTING.md](LEG_LIFT_TESTING.md).**
 > **Testing the wheeled policy: see [WHEEL_TESTING.md](WHEEL_TESTING.md).**
+> **Testing the new leg-walking policy: see [WALK_V2_TESTING.md](WALK_V2_TESTING.md).**
 
 # Deploying to real robot
 Follow instructions here https://pupper-v3-documentation.readthedocs.io/en/latest/guide/software_installation.html to flash your Raspberry Pi 5 with our custom image.

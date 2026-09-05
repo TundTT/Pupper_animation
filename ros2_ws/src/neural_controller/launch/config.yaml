@@ -16,6 +16,14 @@ controller_manager:
     neural_controller_wheel:
       type: neural_controller/NeuralController
 
+    # New leg-walking policy trained on the `leg` branch (mujoco_playground/workspace),
+    # SIM-VALIDATED ONLY -- not yet run on hardware. Added as its own instance so it
+    # can be bench/hardware-tested without touching the currently deployed
+    # `neural_controller` (locomotion) or any other instance below. See
+    # policy_walk_v2_TESTING.md.
+    neural_controller_walk_v2:
+      type: neural_controller/NeuralController
+
     # Forward command controllers for animation
     forward_position_controller:
       type: forward_command_controller/ForwardCommandController
@@ -287,6 +295,76 @@ neural_controller_wheel:
 
     model_path: "$(find-pkg-share neural_controller)/launch/policy_wheel.json"
 
+# ---------------------------------------------------------------------------
+# New leg-walking policy (branch `leg`, mujoco_playground/workspace/train_walk.py).
+# SIM-VALIDATED ONLY as of this addition -- never run on hardware. Do not treat
+# this like the other instances above until it has a hardware test entry of its
+# own; see policy_walk_v2_TESTING.md for status and how to activate it safely.
+#
+# default_joint_pos/kp/kd/action_scale/joint limits below are copied verbatim
+# from this policy's own run.json/exported JSON, NOT from the other instances'
+# values -- this training pipeline uses a different home pose ([1, 0, -1] per
+# leg vs the other instances' [0.26, 0, -0.52]) and gains (kp=5.0 vs the
+# default 7.5 used for init) than every other policy in this file. Do not copy
+# another instance's numbers here if you add a future retrain of this policy.
+#
+# kps/kds are intentionally left unset (like neural_controller/three_legged/
+# leg_lift): neural_controller.cpp falls back to the `kp`/`kd` scalars baked
+# into model_path's JSON (5.0/0.25) when this yaml doesn't override them.
+# ---------------------------------------------------------------------------
+neural_controller_walk_v2:
+  ros__parameters:
+    repeat_action: 10
+
+    gain_multiplier: 1.0
+    estop_kd: 0.3
+
+    joint_names:
+      [
+        "leg_front_r_1",
+        "leg_front_r_2",
+        "leg_front_r_3",
+        "leg_front_l_1",
+        "leg_front_l_2",
+        "leg_front_l_3",
+        "leg_back_r_1",
+        "leg_back_r_2",
+        "leg_back_r_3",
+        "leg_back_l_1",
+        "leg_back_l_2",
+        "leg_back_l_3",
+      ]
+
+    default_joint_pos:
+      [1.0, 0.0, -1.0, -1.0, 0.0, 1.0, 1.0, 0.0, -1.0, -1.0, 0.0, 1.0]
+
+    init_kps: [7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5]
+    init_kds:
+      [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25]
+
+    init_duration: 2.0
+    fade_in_duration: 2.0
+
+    action_types:
+      [
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+      ]
+
+    max_body_angle: 1.5
+
+    model_path: "$(find-pkg-share neural_controller)/launch/policy_walk_v2.json"
+
 teleop_twist_joy_node:
   ros__parameters:
     axis_linear:
@@ -329,20 +407,27 @@ joy_util_node:
   ros__parameters:
     estop_index: 12
     estop_release_index: 9
-    # NOTE: switch_button_indices maps POSITIONALLY onto the first entries of
+    # NOTE: switch_button_indices maps POSITIONALLY onto the first N entries of
     # controller_names (estop_controller.cpp: switch_button_indices_[i] ->
-    # controller_names_[i]), so the order of the first three entries here is
-    # load-bearing. The remaining entries are not button-mapped; they are listed so
-    # this node deactivates them when switching.
-    controller_names: ["neural_controller", "neural_controller_three_legged", "neural_controller_wheel", "neural_controller_leg_lift", "forward_kp_controller", "forward_kd_controller", "forward_position_controller"]
+    # controller_names_[i]), so the order of the first four entries here is
+    # load-bearing and must stay in this order. The remaining entries are not
+    # button-mapped through this array; they are listed so this node deactivates
+    # them when switching (order-independent for that purpose).
+    controller_names: ["neural_controller", "neural_controller_three_legged", "neural_controller_wheel", "neural_controller_walk_v2", "neural_controller_leg_lift", "forward_kp_controller", "forward_kd_controller", "forward_position_controller"]
     # X (0) -> neural_controller (locomotion, also exits leg-lift/wheel mode).
     # Square (3) -> neural_controller_three_legged.
     # Triangle (2) -> neural_controller_wheel (the wheeled velocity policy; drive it
     #   with /cmd_vel from the sticks, same as locomotion).
+    # L2 (6) -> neural_controller_walk_v2, the new sim-validated-only walking policy
+    #   (inserted at controller_names position 3, before neural_controller_leg_lift,
+    #   which was never button-mapped through this array and is unaffected by
+    #   shifting down a slot). Button 6 is a guess (unused by anything else here,
+    #   commonly L2 on a PS-style pad) -- VERIFY against the actual joystick's /joy
+    #   button indices before testing and change this one line if it's wrong.
     # O (1) is NOT here: it's the leg-lift button below, handled separately since it
     # enters leg-lift mode on first press and cycles legs on repeated presses, rather
     # than switching once.
-    switch_button_indices: [0, 3, 2]
+    switch_button_indices: [0, 3, 2, 6]
 
     # O-button leg-lift cycle. First press (from any other controller) activates
     # neural_controller_leg_lift and immediately commands front_l; each subsequent press while
