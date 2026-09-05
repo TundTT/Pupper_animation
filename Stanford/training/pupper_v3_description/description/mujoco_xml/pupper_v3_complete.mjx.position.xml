@@ -114,14 +114,18 @@
                              no added rotation -- this orientation was confirmed correct.
                              Mass/CoM/inertia are provisional, taken from a mixed multi-part
                              Onshape measurement, not a clean single-part one -- shifted into
-                             this mount's frame. Collision uses the mesh's convex hull rather
-                             than a hand-picked primitive until the real contact geometry
-                             is known. -->
+                             this mount's frame. Collision approximates only the lower petal
+                             with a 12 mm-radius capsule, 60 mm overall from the hub to its tip.
+                             The cap centers are 36 mm apart, leaving 12 mm for each round end.
+                             Its axis is local -Y, centered across the petal's X/Z thickness;
+                             fromto includes the 13.6 mm mesh mount offset. The outer rim and
+                             other petals remain visual only. This is a rigid approximation,
+                             not the petal's exact tapered outline. -->
                         <inertial pos="0.000573 -0.012143 0.030671" mass="0.05518"
                             fullinertia="3.854067e-05 4.223493e-05 7.346430e-05 5.978470e-07 1.8696e-08 -3.21278e-07" />
                         <joint name="leg_front_r_3" pos="0 0 0" axis="0 0 1" range="-2.79 0.71" />
-                        <geom pos="0 0 0.0136" type="mesh"
-                            mesh="CustomLegFoot" class="collision" />
+                        <geom name="leg_front_r_3_foot_collision" type="capsule" size="0.012"
+                            fromto="0.00063 -0.012 0.029884 0.00063 -0.048 0.029884" class="collision" />
                         <geom pos="0 0 0.0136" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
                             mesh="CustomLegFoot" />
@@ -158,8 +162,10 @@
                         <inertial pos="-0.000573 0.012143 0.030671" mass="0.05518"
                             fullinertia="3.854067e-05 4.223493e-05 7.346430e-05 5.978470e-07 -1.8696e-08 3.21278e-07" />
                         <joint name="leg_front_l_3" pos="0 0 0" axis="0 0 1" range="-0.71 2.79" />
-                        <geom pos="0 0 0.0136" quat="0 0 0 1" type="mesh"
-                            mesh="CustomLegFoot" class="collision" />
+                        <!-- Lower-petal capsule checked in this mount: local +Y points
+                             toward the petal tip; X changes sign with the hub clocking. -->
+                        <geom name="leg_front_l_3_foot_collision" type="capsule" size="0.012"
+                            fromto="-0.00063 0.012 0.029884 -0.00063 0.048 0.029884" class="collision" />
                         <geom pos="0 0 0.0136" quat="0 0 0 1" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
                             mesh="CustomLegFoot" />
@@ -189,8 +195,8 @@
                         <inertial pos="0.000573 -0.012143 0.030671" mass="0.05518"
                             fullinertia="3.854067e-05 4.223493e-05 7.346430e-05 5.978470e-07 1.8696e-08 -3.21278e-07" />
                         <joint name="leg_back_r_3" pos="0 0 0" axis="0 0 1" range="-2.79 0.71" />
-                        <geom pos="0 0 0.0136" type="mesh"
-                            mesh="CustomLegFoot" class="collision" />
+                        <geom name="leg_back_r_3_foot_collision" type="capsule" size="0.012"
+                            fromto="0.00063 -0.012 0.029884 0.00063 -0.048 0.029884" class="collision" />
                         <geom pos="0 0 0.0136" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
                             mesh="CustomLegFoot" />
@@ -221,8 +227,8 @@
                         <inertial pos="-0.000573 0.012143 0.030671" mass="0.05518"
                             fullinertia="3.854067e-05 4.223493e-05 7.346430e-05 5.978470e-07 -1.8696e-08 3.21278e-07" />
                         <joint name="leg_back_l_3" pos="0 0 0" axis="0 0 1" range="-0.71 2.79" />
-                        <geom pos="0 0 0.0136" quat="0 0 0 1" type="mesh"
-                            mesh="CustomLegFoot" class="collision" />
+                        <geom name="leg_back_l_3_foot_collision" type="capsule" size="0.012"
+                            fromto="-0.00063 0.012 0.029884 -0.00063 0.048 0.029884" class="collision" />
                         <geom pos="0 0 0.0136" quat="0 0 0 1" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
                             mesh="CustomLegFoot" />
