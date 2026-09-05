@@ -95,6 +95,7 @@ hardware_interface::CallbackReturn ControlBoardHardwareInterface::on_init(
     }
     hw_actuator_hard_limit_active_max_.push_back(false);
     hw_actuator_hard_limit_active_min_.push_back(false);
+    hw_actuator_predicting_.push_back(false);
     hw_actuator_effort_maxs_.push_back(std::stod(joint.parameters.at("effort_max")));
     hw_actuator_kp_maxs_.push_back(std::stod(joint.parameters.at("kp_max")));
     hw_actuator_kd_maxs_.push_back(std::stod(joint.parameters.at("kd_max")));
@@ -201,6 +202,9 @@ hardware_interface::CallbackReturn ControlBoardHardwareInterface::on_configure(
     hw_command_efforts_[i] = 0.0;
     hw_command_kps_[i] = 0.0;
     hw_command_kds_[i] = 0.0;
+    hw_actuator_hard_limit_active_max_[i] = false;
+    hw_actuator_hard_limit_active_min_[i] = false;
+    hw_actuator_predicting_[i] = false;
   }
 
   RCLCPP_INFO(rclcpp::get_logger("ControlBoardHardwareInterface"), "Successfully configured!");
@@ -461,6 +465,14 @@ void ControlBoardHardwareInterface::do_homing() {
                      (hw_command_velocities_[i] - hw_state_velocities_[i]) * hw_command_kds_[i]);
         if (std::abs(filtered_torques[i]) >= hw_actuator_homing_torque_thresholds_[i]) {
           hw_actuator_zero_positions_[i] = hw_state_positions_[i] - hw_actuator_homed_positions_[i];
+          // Put hw_state_positions_ in the new (joint) frame in this SAME cycle, not the
+          // next copy_actuator_states() call. Review found that without this, the
+          // is_homed_ gate on the hard end-stop in copy_actuator_commands() opens one
+          // cycle before hw_state_positions_ reflects the offset it now depends on --
+          // copy_actuator_commands() runs later this same cycle and would otherwise
+          // compare a still-raw encoder value against a joint-frame limit. By
+          // definition state - zero == homed_position, so this is exact, not approximate.
+          hw_state_positions_[i] = hw_actuator_homed_positions_[i];
           hw_command_positions_[i] = hw_actuator_homed_positions_[i];
           hw_command_velocities_[i] = 0.0;
           hw_actuator_is_homed_[i] = true;
@@ -586,17 +598,17 @@ void ControlBoardHardwareInterface::copy_actuator_commands(bool use_position_lim
     // degrees beyond what the deployed policy's own gait actually commands), a 20ms
     // lookahead at even a normal walking angular velocity covers enough distance to
     // spuriously predict a crossing that will never happen -- fighting a policy that
-    // was never actually going to violate the limit. kPredictiveVelocityThreshold
-    // separates "fast enough that this might be the real danger case (e.g. a
-    // wheel-style runaway, whose whole point is continuous rotation near
-    // velocity_max)" from "normal gait speed, don't second-guess it on a
-    // prediction." The instantaneous check below (state already at/past the limit)
-    // is NOT gated -- that one has no false-positive risk regardless of velocity.
-    // NOTE: chosen conservatively above a rough estimate of normal walking angular
-    // velocity for this joint, not measured from a real logged gait -- revisit
-    // against actual /joint_states velocity data from a real walking test before
-    // trusting this threshold blindly.
-    constexpr double kPredictiveVelocityThreshold = 8.0;  // rad/s
+    // was never actually going to violate the limit. The velocity gate itself is
+    // hysteretic (arms at the high threshold, only disarms below the low one) so
+    // velocity dithering right at a single threshold can't flicker the prediction
+    // on and off every cycle -- round 3 review found exactly that failure mode with
+    // a single un-hysteresced threshold.
+    // NOTE: both thresholds are chosen conservatively above a rough estimate of
+    // normal walking angular velocity for this joint, not measured from a real
+    // logged gait -- revisit against actual /joint_states velocity data from a real
+    // walking test before trusting them blindly.
+    constexpr double kPredictiveVelocityArmThreshold = 8.0;    // rad/s
+    constexpr double kPredictiveVelocityDisarmThreshold = 6.0;  // rad/s
     constexpr double kHardLimitReleaseMargin = 0.0349;  // ~2 deg; re-arm only once clearly inside
     const bool state_finite =
         std::isfinite(hw_state_positions_[i]) && std::isfinite(hw_state_velocities_[i]);
@@ -609,31 +621,41 @@ void ControlBoardHardwareInterface::copy_actuator_commands(bool use_position_lim
       cmd_eff = 0.0;
       cmd_kp = 0.0;
     } else if (hw_actuator_is_homed_[i]) {
-      const bool fast_enough_to_predict =
-          std::abs(hw_state_velocities_[i]) >= kPredictiveVelocityThreshold;
-      const double predicted_pos = fast_enough_to_predict
-                                        ? hw_state_positions_[i] +
-                                              hw_state_velocities_[i] * kLookaheadSeconds
-                                        : hw_state_positions_[i];
+      const double abs_vel = std::abs(hw_state_velocities_[i]);
+      const bool predicting = hw_actuator_predicting_[i]
+                                   ? (abs_vel >= kPredictiveVelocityDisarmThreshold)
+                                   : (abs_vel >= kPredictiveVelocityArmThreshold);
+      hw_actuator_predicting_[i] = predicting;
+      const double predicted_pos =
+          predicting ? hw_state_positions_[i] + hw_state_velocities_[i] * kLookaheadSeconds
+                     : hw_state_positions_[i];
       const double hard_max = hw_actuator_hard_limit_maxs_[i];
       const double hard_min = hw_actuator_hard_limit_mins_[i];
+
+      // Instantaneous triggers -- the joint is ACTUALLY at or past the boundary right
+      // now. No false-positive risk regardless of velocity; this is the only thing
+      // allowed to seize cmd_kp (see round-3 finding below).
+      const bool instant_max = hw_state_positions_[i] >= hard_max;
+      const bool instant_min = hw_state_positions_[i] <= hard_min;
 
       // Each direction's latch is updated independently, from the trigger that actually
       // fired for THAT direction -- not derived from current position relative to some
       // midpoint, which could disagree with a predicted-position trigger on the other
       // side of it. (Plain bool, not bool&: std::vector<bool> is bit-packed and its
       // operator[] returns a proxy, not a real reference, so read-compute-write instead
-      // of binding a reference to it.)
-      const bool active_max =
-          hw_actuator_hard_limit_active_max_[i]
-              ? (hw_state_positions_[i] > hard_max - kHardLimitReleaseMargin)
-              : (hw_state_positions_[i] >= hard_max || predicted_pos >= hard_max);
+      // of binding a reference to it.) The release check uses predicted_pos, the SAME
+      // quantity that can trigger it -- round 3 review found that releasing on raw
+      // position alone let a predictively-set latch drop out on the very next cycle,
+      // since actual position lags prediction by construction, causing sustained
+      // chatter instead of the hold this hysteresis is supposed to provide.
+      const bool active_max = hw_actuator_hard_limit_active_max_[i]
+                                   ? (predicted_pos > hard_max - kHardLimitReleaseMargin)
+                                   : (instant_max || predicted_pos >= hard_max);
       hw_actuator_hard_limit_active_max_[i] = active_max;
 
-      const bool active_min =
-          hw_actuator_hard_limit_active_min_[i]
-              ? (hw_state_positions_[i] < hard_min + kHardLimitReleaseMargin)
-              : (hw_state_positions_[i] <= hard_min || predicted_pos <= hard_min);
+      const bool active_min = hw_actuator_hard_limit_active_min_[i]
+                                   ? (predicted_pos < hard_min + kHardLimitReleaseMargin)
+                                   : (instant_min || predicted_pos <= hard_min);
       hw_actuator_hard_limit_active_min_[i] = active_min;
 
       // Clamp, never assign: this can only pull an out-of-range commanded position back
@@ -642,19 +664,33 @@ void ControlBoardHardwareInterface::copy_actuator_commands(bool use_position_lim
       // with a real gap between them), but apply independently regardless so a
       // misconfigured band fails toward "commands nothing" rather than an inconsistent
       // combination.
+      //
+      // cmd_kp is seized ONLY on the instantaneous trigger, not a purely predictive one.
+      // Round 3 review found that seizing kp on prediction alone creates a residual
+      // attractor: while still inside the band, torque = kp_max*(cmd_pos-state_pos) is
+      // POSITIVE whenever the controller's target leads the joint -- true under normal
+      // tracking -- and pipeline latency can let that outlast the braking kd term that
+      // was supposed to offset it. A purely predictive trigger instead only clamps
+      // velocity/effort and raises kd (extra damping, no invented positional pull);
+      // full position-hold authority only engages once the joint has genuinely reached
+      // the line.
       if (active_max) {
         cmd_pos = std::min(cmd_pos, hard_max);
         cmd_vel = std::min(cmd_vel, 0.0);
         cmd_eff = std::min(cmd_eff, 0.0);
-        cmd_kp = hw_actuator_kp_maxs_[i];
         cmd_kd = hw_actuator_kd_maxs_[i];
+        if (instant_max) {
+          cmd_kp = hw_actuator_kp_maxs_[i];
+        }
       }
       if (active_min) {
         cmd_pos = std::max(cmd_pos, hard_min);
         cmd_vel = std::max(cmd_vel, 0.0);
         cmd_eff = std::max(cmd_eff, 0.0);
-        cmd_kp = hw_actuator_kp_maxs_[i];
         cmd_kd = hw_actuator_kd_maxs_[i];
+        if (instant_min) {
+          cmd_kp = hw_actuator_kp_maxs_[i];
+        }
       }
     }
 

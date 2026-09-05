@@ -138,6 +138,10 @@ class ControlBoardHardwareInterface : public hardware_interface::SystemInterface
   // alone would pick the wrong boundary in that case.
   std::vector<bool> hw_actuator_hard_limit_active_max_;
   std::vector<bool> hw_actuator_hard_limit_active_min_;
+  // Separate hysteresis for whether the predictive lookahead is currently armed at all
+  // (arms at a higher velocity than it disarms), so a velocity dithering right at the
+  // threshold doesn't flicker the prediction itself on and off every cycle.
+  std::vector<bool> hw_actuator_predicting_;
   std::vector<double> hw_actuator_kp_maxs_;
   std::vector<double> hw_actuator_kd_maxs_;
 
