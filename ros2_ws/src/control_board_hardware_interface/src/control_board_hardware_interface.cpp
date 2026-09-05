@@ -7,6 +7,7 @@
 #include <time.h>
 #include <unistd.h>
 
+#include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <fstream>
@@ -422,6 +423,19 @@ void ControlBoardHardwareInterface::do_homing() {
       // std::cout << "Commanded torque: " << filtered_torques[i] << std::endl;
       // std::cout << "Current position: " << hw_state_positions_[i] << std::endl;
       // std::cout << "Commanded position: " << hw_command_positions_[i] << std::endl;
+      // WARNING if you ever re-enable active (nonzero-threshold) torque-seeking homing on
+      // a joint that also has the copy_actuator_commands() hard end-stop active: this
+      // torque estimate is computed from the RAW hw_command_positions_/velocities_
+      // members, not from what copy_actuator_commands() actually clamps them to before
+      // sending. If the end-stop is holding the joint short of where this loop thinks
+      // it commanded, filtered_torques will read a torque that was never actually
+      // applied, and "homed" will be declared at the wrong position -- silently shifting
+      // this joint's entire safety band by an arbitrary amount for the rest of the
+      // session. Currently inert for every joint using this pattern (their
+      // homing_torque_threshold is 0.0, so this branch fires on iteration 1 before any
+      // meaningful command divergence can accumulate) -- but do not add real
+      // torque-threshold homing back to a joint with a tight position_min/max without
+      // first fixing this to use the same clamped values copy_actuator_commands() sends.
       if (!hw_actuator_is_homed_[i]) {
         filtered_torques[i] =
             (1.0 - alpha) * filtered_torques[i] +
@@ -506,18 +520,60 @@ void ControlBoardHardwareInterface::copy_actuator_commands(bool use_position_lim
     // mechanical range is well short of a full revolution (e.g. this board's leg knee
     // joints, which self-destruct on the physical frame if driven far enough) needs a
     // limit that holds no matter what commanded the motion -- a future controller in
-    // velocity mode, a homing bug, anything. This checks the ACTUAL measured position
-    // (hw_state_positions_, not the commanded one) and refuses to command further
-    // motion past the limit in that direction, regardless of control mode. It does not
-    // dampen motion already inside the limits and does not affect kp/kd.
-    if (hw_state_positions_[i] >= hw_actuator_position_maxs_[i]) {
-      cmd_vel = std::min(cmd_vel, 0.0);
-      cmd_eff = std::min(cmd_eff, 0.0);
-      cmd_pos = std::min(cmd_pos, hw_actuator_position_maxs_[i]);
-    } else if (hw_state_positions_[i] <= hw_actuator_position_mins_[i]) {
-      cmd_vel = std::max(cmd_vel, 0.0);
-      cmd_eff = std::max(cmd_eff, 0.0);
-      cmd_pos = std::max(cmd_pos, hw_actuator_position_mins_[i]);
+    // velocity mode, a homing bug, anything.
+    //
+    // Independent review (before this was ever run on hardware) found the first version
+    // of this block insufficient in exactly the mode it exists to defend against, and
+    // both issues below are fixed here:
+    //
+    // 1. Zeroing cmd_vel alone is NOT a stop under kp=0 -- it's a damper.
+    //    torque = kp*(cmd_pos-state_pos) + kd*(cmd_vel-state_vel); with kp=0 the first
+    //    term is always zero no matter what cmd_pos is clamped to, so all that's left is
+    //    kd*(0-state_vel), which only resists velocity, and cannot hold a position
+    //    against so much as a constant gravity torque -- the joint creeps through the
+    //    "limit" indefinitely. Simulated: at velocity_max this let the joint coast tens
+    //    of degrees past the boundary and never return. Fixed by SEIZING full
+    //    position-control authority at the boundary once triggered -- force kp/kd to
+    //    their configured maxima and command the boundary position itself, regardless of
+    //    what the caller asked for. That makes torque = kp_max*(boundary-state_pos), a
+    //    genuine restoring force back toward the boundary, not just a brake.
+    // 2. Checking only the CURRENT position leaves no braking distance: this function
+    //    only stages spi_command_ for the NEXT read()'s spi_driver_run() to transmit, so
+    //    there are >=2 cycles of pipeline latency before a corrective command can take
+    //    effect. At velocity_max that alone is several degrees -- a large fraction of
+    //    the tightest configured margin on these joints. Fixed by triggering on a
+    //    short-horizon predicted position (current position extrapolated forward by
+    //    kLookaheadSeconds at the current velocity), not just the instantaneous one, so
+    //    the response starts before the joint actually reaches the line.
+    //
+    // A NaN/non-finite state reading fails CLOSED here (refuses new motion outright)
+    // rather than failing open -- naive >=/<= comparisons against NaN are always false,
+    // which would silently disable this protection exactly when the position reading
+    // can't be trusted.
+    constexpr double kLookaheadSeconds = 0.02;  // several x the >=2-cycle pipeline latency at 520 Hz
+    const bool state_finite =
+        std::isfinite(hw_state_positions_[i]) && std::isfinite(hw_state_velocities_[i]);
+    if (!state_finite) {
+      cmd_vel = 0.0;
+      cmd_eff = 0.0;
+    } else {
+      const double predicted_pos =
+          hw_state_positions_[i] + hw_state_velocities_[i] * kLookaheadSeconds;
+      if (hw_state_positions_[i] >= hw_actuator_position_maxs_[i] ||
+          predicted_pos >= hw_actuator_position_maxs_[i]) {
+        cmd_pos = hw_actuator_position_maxs_[i];
+        cmd_vel = std::min(cmd_vel, 0.0);
+        cmd_eff = std::min(cmd_eff, 0.0);
+        cmd_kp = hw_actuator_kp_maxs_[i];
+        cmd_kd = std::max(cmd_kd, hw_actuator_kd_maxs_[i]);
+      } else if (hw_state_positions_[i] <= hw_actuator_position_mins_[i] ||
+                 predicted_pos <= hw_actuator_position_mins_[i]) {
+        cmd_pos = hw_actuator_position_mins_[i];
+        cmd_vel = std::max(cmd_vel, 0.0);
+        cmd_eff = std::max(cmd_eff, 0.0);
+        cmd_kp = hw_actuator_kp_maxs_[i];
+        cmd_kd = std::max(cmd_kd, hw_actuator_kd_maxs_[i]);
+      }
     }
 
     cmd_pos += hw_actuator_zero_positions_[i];
