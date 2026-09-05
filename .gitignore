@@ -15,3 +15,5 @@ __pycache__/
 .vscode/
 *.swp
 *~
+
+mujoco_playground/.venv-walk/
