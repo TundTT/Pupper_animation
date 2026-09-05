@@ -13,9 +13,17 @@ the way it does) lives on `master` in `mujoco_playground/workspace/README.md` an
 
 | | |
 |---|---|
-| Policy | `leg_lift_2026-08-19_20-18-08` |
+| Policy | `leg_lift_2026-08-21_18-17-50` (2cm/2cm CoM correction + gradual-lowering hip rate limit) |
 | File | `ros2_ws/src/neural_controller/launch/policy_leg_lift.json` |
 | Controller | `neural_controller_leg_lift` (already in `config.yaml` + `launch.py`) |
+
+Supersedes `leg_lift_2026-08-19_20-18-08` (and the 1cm/1.5cm CoM variants tested
+2026-08-20, which lost out to 2cm/2cm) — see the 2026-08-20 test log entry below for why,
+and `mujoco_playground/workspace/README.md`'s "Status" section on `master` for the
+gradual-lowering fix's training-side implementation. **Not yet hardware-tested** — this
+is the first deployment of this exact policy; watch specifically for whether lowering is
+now gradual (was the open issue from 2026-08-20) and note that `front_l`'s lift-height
+shortfall is a separate, still-unaddressed issue.
 
 See `mujoco_playground/workspace/README.md`'s "Status" section on `master` for this
 run's training-time numbers and the CoM-domain-randomization history behind it. The
