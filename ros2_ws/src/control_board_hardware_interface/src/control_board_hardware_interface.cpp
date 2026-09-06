@@ -121,6 +121,9 @@ hardware_interface::CallbackReturn ControlBoardHardwareInterface::on_init(
     if (joint.parameters.count("homing_reference_raw")) {
       hw_actuator_homing_reference_raw_.push_back(
           std::stod(joint.parameters.at("homing_reference_raw")));
+      RCLCPP_INFO(rclcpp::get_logger("ControlBoardHardwareInterface"),
+                  "[debug] %s: parsed homing_reference_raw=%.6f", joint.name.c_str(),
+                  hw_actuator_homing_reference_raw_.back());
     } else {
       hw_actuator_homing_reference_raw_.push_back(std::numeric_limits<double>::quiet_NaN());
     }
