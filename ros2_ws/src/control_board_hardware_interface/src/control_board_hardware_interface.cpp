@@ -464,6 +464,14 @@ void ControlBoardHardwareInterface::do_homing() {
             alpha * ((hw_command_positions_[i] - hw_state_positions_[i]) * hw_command_kps_[i] +
                      (hw_command_velocities_[i] - hw_state_velocities_[i]) * hw_command_kds_[i]);
         if (std::abs(filtered_torques[i]) >= hw_actuator_homing_torque_thresholds_[i]) {
+          // TEMPORARY diagnostic: log the raw pre-homing reading (before it gets snapped
+          // to homed_position below) so we can check across power cycles whether this
+          // actuator's position sensor is absolute (repeatable) or incremental (not) --
+          // that answer decides whether a cross-boot homing-verification check is even
+          // possible. Remove once that's settled and the real check is built.
+          RCLCPP_INFO(rclcpp::get_logger("ControlBoardHardwareInterface"),
+                      "[homing diag] raw pre-homing reading for %s: %.6f",
+                      info_.joints[i].name.c_str(), hw_state_positions_[i]);
           hw_actuator_zero_positions_[i] = hw_state_positions_[i] - hw_actuator_homed_positions_[i];
           // Put hw_state_positions_ in the new (joint) frame in this SAME cycle, not the
           // next copy_actuator_states() call. Review found that without this, the
