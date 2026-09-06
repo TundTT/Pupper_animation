@@ -112,6 +112,18 @@ hardware_interface::CallbackReturn ControlBoardHardwareInterface::on_init(
     hw_actuator_homing_torque_thresholds_.push_back(
         std::stod(joint.parameters.at("homing_torque_threshold")));
     hw_actuator_is_homed_.push_back(false);
+
+    // homing_reference_raw is OPTIONAL -- a hardware-measured raw sensor reading (taken
+    // before the homed_position snap) from a boot where the joint was confirmed to be
+    // resting in the correct gravity-drop pose. Only meaningful for disarmed-homing
+    // joints (homing_torque_threshold == 0), where nothing else validates that the joint
+    // was actually in that pose at boot. Absent (NaN) disables the check for this joint.
+    if (joint.parameters.count("homing_reference_raw")) {
+      hw_actuator_homing_reference_raw_.push_back(
+          std::stod(joint.parameters.at("homing_reference_raw")));
+    } else {
+      hw_actuator_homing_reference_raw_.push_back(std::numeric_limits<double>::quiet_NaN());
+    }
   }
 
   if (info_.hardware_parameters.count("use_imu") &&
@@ -464,14 +476,38 @@ void ControlBoardHardwareInterface::do_homing() {
             alpha * ((hw_command_positions_[i] - hw_state_positions_[i]) * hw_command_kps_[i] +
                      (hw_command_velocities_[i] - hw_state_velocities_[i]) * hw_command_kds_[i]);
         if (std::abs(filtered_torques[i]) >= hw_actuator_homing_torque_thresholds_[i]) {
-          // TEMPORARY diagnostic: log the raw pre-homing reading (before it gets snapped
-          // to homed_position below) so we can check across power cycles whether this
-          // actuator's position sensor is absolute (repeatable) or incremental (not) --
-          // that answer decides whether a cross-boot homing-verification check is even
-          // possible. Remove once that's settled and the real check is built.
-          RCLCPP_INFO(rclcpp::get_logger("ControlBoardHardwareInterface"),
-                      "[homing diag] raw pre-homing reading for %s: %.6f",
-                      info_.joints[i].name.c_str(), hw_state_positions_[i]);
+          // Verify the raw pre-homing reading against a known-good reference (see
+          // homing_reference_raw in on_init()) BEFORE it gets snapped to homed_position
+          // below -- confirmed empirically (4 boots, legs left untouched) that this
+          // sensor reading is absolute/repeatable when the joint is genuinely resting in
+          // the gravity-drop pose, and that a disturbed/mis-caught leg reads differently
+          // (one boot differed from the other three by up to 33 deg on this same
+          // hardware). This is the only check that isn't circular -- see the comment
+          // further down for why comparing post-snap values can't catch this.
+          if (std::isfinite(hw_actuator_homing_reference_raw_[i])) {
+            constexpr double kHomingRawMismatchThreshold = 0.05;  // ~2.9 deg
+            const double raw_diff =
+                std::abs(hw_state_positions_[i] - hw_actuator_homing_reference_raw_[i]);
+            if (raw_diff > kHomingRawMismatchThreshold) {
+              RCLCPP_ERROR(rclcpp::get_logger("ControlBoardHardwareInterface"),
+                           "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+              RCLCPP_ERROR(rclcpp::get_logger("ControlBoardHardwareInterface"),
+                           "!!! HOMING MISMATCH on %s: raw=%.4f, expected=%.4f (diff=%.1f "
+                           "deg) -- this joint was likely NOT resting in the correct "
+                           "gravity-drop pose at boot. DO NOT TRUST THIS HOMING. !!!",
+                           info_.joints[i].name.c_str(), hw_state_positions_[i],
+                           hw_actuator_homing_reference_raw_[i],
+                           raw_diff * 180.0 / M_PI);
+              RCLCPP_ERROR(rclcpp::get_logger("ControlBoardHardwareInterface"),
+                           "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            } else {
+              RCLCPP_INFO(rclcpp::get_logger("ControlBoardHardwareInterface"),
+                          "Homing reference check OK for %s: raw=%.4f (expected %.4f, "
+                          "diff=%.1f deg)",
+                          info_.joints[i].name.c_str(), hw_state_positions_[i],
+                          hw_actuator_homing_reference_raw_[i], raw_diff * 180.0 / M_PI);
+            }
+          }
           hw_actuator_zero_positions_[i] = hw_state_positions_[i] - hw_actuator_homed_positions_[i];
           // Put hw_state_positions_ in the new (joint) frame in this SAME cycle, not the
           // next copy_actuator_states() call. Review found that without this, the

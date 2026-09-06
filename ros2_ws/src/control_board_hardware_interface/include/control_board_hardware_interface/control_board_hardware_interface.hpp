@@ -112,6 +112,10 @@ class ControlBoardHardwareInterface : public hardware_interface::SystemInterface
   std::vector<double> hw_actuator_zero_positions_;
   std::vector<double> hw_actuator_homing_torque_thresholds_;
   std::vector<bool> hw_actuator_is_homed_;
+  // Optional hardware-measured raw sensor reading (pre-homing, pre-snap) from a boot
+  // confirmed to have the joint resting in the correct gravity-drop pose. NaN means no
+  // reference recorded for this joint (check skipped). See on_init() and do_homing().
+  std::vector<double> hw_actuator_homing_reference_raw_;
 
   // Actuator limits
   std::vector<double> hw_actuator_position_mins_;

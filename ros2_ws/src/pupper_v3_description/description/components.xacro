@@ -100,6 +100,10 @@
             <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">0.0</param>
+            <!-- Raw pre-homing sensor reading recorded on 2026-09-05 with this leg
+                 confirmed hanging freely, untouched, reproduced identically across 3
+                 consecutive power cycles. See do_homing() for the check this enables. -->
+            <param name="homing_reference_raw">0.012779</param>
 
             <param name="position_min">-2.69</param>
             <param name="position_max">0.61</param>
@@ -231,6 +235,10 @@
             <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">0.0</param>
+            <!-- Raw pre-homing sensor reading recorded on 2026-09-05 with this leg
+                 confirmed hanging freely, untouched, reproduced identically across 3
+                 consecutive power cycles. See do_homing() for the check this enables. -->
+            <param name="homing_reference_raw">0.260738</param>
 
             <param name="position_min">-0.61</param>
             <param name="position_max">2.69</param>
@@ -362,6 +370,10 @@
             <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">0.0</param>
+            <!-- Raw pre-homing sensor reading recorded on 2026-09-05 with this leg
+                 confirmed hanging freely, untouched, reproduced identically across 3
+                 consecutive power cycles. See do_homing() for the check this enables. -->
+            <param name="homing_reference_raw">0.290494</param>
 
             <param name="position_min">-2.69</param>
             <param name="position_max">0.61</param>
@@ -493,6 +505,10 @@
             <param name="homing_kp">0.0</param>
             <param name="homing_kd">0.2</param>
             <param name="homing_torque_threshold">0.0</param>
+            <!-- Raw pre-homing sensor reading recorded on 2026-09-05 with this leg
+                 confirmed hanging freely, untouched, reproduced identically across 3
+                 consecutive power cycles. See do_homing() for the check this enables. -->
+            <param name="homing_reference_raw">-0.079919</param>
 
             <param name="position_min">-0.61</param>
             <param name="position_max">2.69</param>
