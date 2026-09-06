@@ -1,0 +1,14 @@
+[Unit]
+Description=Watch PS5 controller D-pad up and launch the neural_controller stack
+After=bluetooth.target network.target
+Wants=bluetooth.target
+
+[Service]
+Type=simple
+User=pi
+ExecStart=/usr/bin/python3 /home/pi/robot-code-leglift/scripts/dpad_launch_trigger.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
