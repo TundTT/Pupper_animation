@@ -15,7 +15,7 @@ the homing verification check (see control_board_hardware_interface.cpp) without
 error -- this exact failure mode cost an hour to diagnose by hand once already. Kills by
 explicit PID, never `pkill -f`, since -f matches this script's own command line too.
 """
-import fcntl
+import errno
 import os
 import struct
 import subprocess
@@ -94,25 +94,26 @@ def main():
           f"== {DPAD_UP_VALUE})")
     while True:
         try:
-            f = open(JS_DEVICE, "rb")
+            fd = os.open(JS_DEVICE, os.O_RDONLY | os.O_NONBLOCK)
         except FileNotFoundError:
             print(f"[dpad_launch_trigger] {JS_DEVICE} not found, retrying in 5s "
                   "(controller not connected?)")
             time.sleep(5)
             continue
 
-        flags = fcntl.fcntl(f, fcntl.F_GETFL)
-        fcntl.fcntl(f, fcntl.F_SETFL, flags | os.O_NONBLOCK)
         last_trigger = 0.0
         try:
             while True:
                 try:
-                    data = f.read(8)
-                except BlockingIOError:
+                    data = os.read(fd, 8)
+                except OSError as e:
+                    if e.errno in (errno.EAGAIN, errno.EWOULDBLOCK):
+                        time.sleep(0.02)
+                        continue
+                    raise  # a real error (e.g. ENODEV on disconnect)
+                if not data:
                     time.sleep(0.02)
                     continue
-                if not data:
-                    break  # device disconnected
                 _, value, ev_type, number = struct.unpack("IhBB", data)
                 if ev_type & 0x80:
                     continue  # startup sync event, not a real press
@@ -126,7 +127,7 @@ def main():
         except OSError:
             pass
         finally:
-            f.close()
+            os.close(fd)
         print(f"[dpad_launch_trigger] {JS_DEVICE} lost, waiting for reconnect")
         time.sleep(2)
 
