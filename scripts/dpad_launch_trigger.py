@@ -102,6 +102,12 @@ def main():
             continue
 
         last_trigger = 0.0
+        axis_was_up = False  # edge-triggered: the controller re-sends the held axis
+        # value periodically over Bluetooth even with no physical change, so triggering
+        # on "value == DPAD_UP_VALUE" alone re-fired every ~3s for as long as the button
+        # stayed down, causing a kill/relaunch loop instead of a single launch. Only fire
+        # on the transition into the pressed value; DEBOUNCE_SECONDS remains as a backstop
+        # against a literal double-press.
         try:
             while True:
                 try:
@@ -117,13 +123,16 @@ def main():
                 _, value, ev_type, number = struct.unpack("IhBB", data)
                 if ev_type & 0x80:
                     continue  # startup sync event, not a real press
-                if (ev_type & 0x02) and number == DPAD_UP_AXIS and value == DPAD_UP_VALUE:
+                if not ((ev_type & 0x02) and number == DPAD_UP_AXIS):
+                    continue
+                is_up = value == DPAD_UP_VALUE
+                if is_up and not axis_was_up:
                     now = time.time()
-                    if now - last_trigger < DEBOUNCE_SECONDS:
-                        continue
-                    last_trigger = now
-                    print("[dpad_launch_trigger] D-pad up detected")
-                    launch_stack()
+                    if now - last_trigger >= DEBOUNCE_SECONDS:
+                        last_trigger = now
+                        print("[dpad_launch_trigger] D-pad up detected")
+                        launch_stack()
+                axis_was_up = is_up
         except OSError:
             pass
         finally:
