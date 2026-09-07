@@ -380,7 +380,7 @@
                  confirmed hanging freely, untouched, reproduced identically across 3
                  consecutive power cycles. See do_homing() for the check this enables.
                  Updated 2026-09-07: boot reading shifted to -0.2523 (31.1 deg, likely
-                 due to the back_r leg link reprint from earlier testing -- see
+                 due to the back_r leg link reprint from earlier testing; see
                  LEG_LIFT_TESTING.md's 2026-08-17/18 log entries); leg visually
                  confirmed hanging freely in the correct gravity-drop pose at the new
                  reading, so the reference was moved to match. -->
