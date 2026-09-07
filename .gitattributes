@@ -9,3 +9,5 @@ ros2_ws/src/neural_controller/launch/policy.json filter=lfs diff=lfs merge=lfs -
 *.deb filter=lfs diff=lfs merge=lfs -text
 *.mcap filter=lfs diff=lfs merge=lfs -text
 *.hef filter=lfs diff=lfs merge=lfs -text
+# Keep small hardware validation/provenance records reviewable in normal git diffs.
+hardware_testing/**/*.json -filter diff merge text

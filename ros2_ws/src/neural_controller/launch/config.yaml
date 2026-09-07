@@ -20,7 +20,7 @@ controller_manager:
     # SIM-VALIDATED ONLY -- not yet run on hardware. Added as its own instance so it
     # can be bench/hardware-tested without touching the currently deployed
     # `neural_controller` (locomotion) or any other instance below. See
-    # policy_walk_v2_TESTING.md.
+    # WALK_V2_TESTING.md.
     neural_controller_walk_v2:
       type: neural_controller/NeuralController
 
@@ -299,7 +299,7 @@ neural_controller_wheel:
 # New leg-walking policy (branch `leg`, mujoco_playground/workspace/train_walk.py).
 # SIM-VALIDATED ONLY as of this addition -- never run on hardware. Do not treat
 # this like the other instances above until it has a hardware test entry of its
-# own; see policy_walk_v2_TESTING.md for status and how to activate it safely.
+# own; see WALK_V2_TESTING.md for status and how to activate it safely.
 #
 # default_joint_pos/kp/kd/action_scale/joint limits below are copied verbatim
 # from this policy's own run.json/exported JSON, NOT from the other instances'
@@ -338,7 +338,7 @@ neural_controller_walk_v2:
     default_joint_pos:
       [1.0, 0.0, -1.0, -1.0, 0.0, 1.0, 1.0, 0.0, -1.0, -1.0, 0.0, 1.0]
 
-    init_kps: [7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5, 7.5]
+    init_kps: [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0]
     init_kds:
       [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25]
 
@@ -361,7 +361,7 @@ neural_controller_walk_v2:
         "position",
       ]
 
-    max_body_angle: 1.5
+    max_body_angle: 0.65
 
     model_path: "$(find-pkg-share neural_controller)/launch/policy_walk_v2.json"
 

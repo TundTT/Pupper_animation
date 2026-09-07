@@ -60,6 +60,14 @@ install(
 )
 
 if(BUILD_TESTING)
+  add_executable(walk_policy_test test/walk_policy_test.cpp)
+  target_compile_features(walk_policy_test PRIVATE cxx_std_17)
+  target_include_directories(walk_policy_test PRIVATE include)
+  target_link_libraries(walk_policy_test RTNeural)
+  add_test(NAME walk_policy_contract_and_inference
+    COMMAND walk_policy_test
+      ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_walk_v2.json
+      ${CMAKE_CURRENT_SOURCE_DIR}/test/walk_policy_reference.csv)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
   # comment the line when a copyright and license is added to all source files

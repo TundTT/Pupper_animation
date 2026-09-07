@@ -1,0 +1,8 @@
+{
+  "checkpoint_sha256": "d240a2cd345a3e00eec49fdd2ac8b9697aabb191b6383e68271099edd25acd1f",
+  "export_sha256": "d296c9d8b08a1b46f756c89362505a248c5921b633a4d55778632d7fbaa65b04",
+  "fixtures_sha256": "d61f4bfacdabd99e3071419c306942e8e4113a6488b203993ac9e9e965c339a2",
+  "count": 64,
+  "generator": "Brax networks.make_inference_fn deterministic; NumPy seed907; saved normalization mean/std with 0.5 sigma variations; 13 fixed commands; home and calibrated droop startup",
+  "jax": "0.6.2"
+}

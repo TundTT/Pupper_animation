@@ -1,5 +1,7 @@
 # Pupper V3 Codebase
 
+The selected September 7 walking policy is ready for first hardware testing via **Square**. See [WALK_V2_TESTING.md](WALK_V2_TESTING.md) for the exact checkpoint, build checks, and procedure.
+
 > **This is the `robot-code` branch**: just this monorepo (rooted here instead of nested
 > under `Stanford/pupperv3-monorepo/`), with the RL training pipeline, training-reference
 > repo, and planning notes from the `master` branch of this checkout's parent project

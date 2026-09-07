@@ -173,8 +173,8 @@ def generate_launch_description():
     )
 
     # New leg-walking policy (branch `leg`). SIM-VALIDATED ONLY -- see
-    # policy_walk_v2_TESTING.md. Inactive by default, like the other neural
-    # controllers; joy_util_node activates it on L2 (button 6, verify on hardware).
+    # WALK_V2_TESTING.md. Inactive by default, like the other neural
+    # controllers; joy_util_node activates it on Square (button 3).
     walk_v2_robot_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",

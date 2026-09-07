@@ -64,6 +64,26 @@ controller_interface::CallbackReturn NeuralController::on_init() {
     std::ifstream json_file(params_.model_path);
     json_file >> j;
 
+    policy_contract_ = PolicyContract(j);
+    if (j.contains("joint_names") &&
+        j.at("joint_names").get<std::vector<std::string>>() != params_.joint_names) {
+      throw std::runtime_error("Configured joint order differs from the policy export");
+    }
+    if (j.contains("action_types") &&
+        j.at("action_types").get<std::vector<std::string>>() != params_.action_types) {
+      throw std::runtime_error("Configured action types differ from the policy export");
+    }
+    if (!model_ || model_->layers.empty() || model_->getOutSize() != kActionSize) {
+      throw std::runtime_error("Policy must output exactly 12 actions");
+    }
+    if (policy_contract_.bounded_commands) {
+      RCLCPP_INFO(get_node()->get_logger(),
+                  "Policy command limits: vx [%g,%g], vy [%g,%g], yaw [%g,%g]",
+                  policy_contract_.low[0], policy_contract_.high[0],
+                  policy_contract_.low[1], policy_contract_.high[1],
+                  policy_contract_.low[2], policy_contract_.high[2]);
+    }
+
     auto set_param_from_json_vector = [&](const std::string &key, auto &param) {
       if (j.find(key) != j.end()) {
         RCLCPP_INFO(get_node()->get_logger(), "From JSON, setting %s vector element-by-element",
@@ -277,7 +297,10 @@ controller_interface::CallbackReturn NeuralController::on_activate(
   cmd_yaw_vel_ = 0.0;
 
   // Initialize the observation vector
-  observation_.resize(params_.observation_history * single_observation_size_, 0.0);
+  observation_.assign(params_.observation_history * single_observation_size_, 0.0);
+  seed_history_ = true;
+  model_->reset();
+  desired_world_z_in_body_frame_ = tf2::Vector3(0, 0, 1);
 
   // Set the gravity z-component in the initial observation vector
   for (int i = 0; i < params_.observation_history; i++) {
@@ -405,6 +428,16 @@ controller_interface::CallbackReturn NeuralController::on_deactivate(
 
 controller_interface::return_type NeuralController::update(const rclcpp::Time &time,
                                                            const rclcpp::Duration &period) {
+  // Stop immediately, including during the move to home and between policy ticks.
+  // Previously both early returns bypassed the emergency-stop check.
+  if (estop_active_) {
+    for (auto &command_interface : command_interfaces_) command_interface.set_value(0.0);
+    for (int i = 0; i < kActionSize; ++i) {
+      command_interfaces_map_.at(params_.joint_names.at(i))
+          .at("kd").get().set_value(params_.estop_kd);
+    }
+    return controller_interface::return_type::OK;
+  }
   // When started, return to the default joint positions
   double time_since_init = (time - init_time_).seconds();
   if (time_since_init < params_.init_duration) {
@@ -444,9 +477,11 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
   // Get the latest commanded velocities
   auto cmd_vel = rt_cmd_vel_ptr_.readFromRT();
   if (cmd_vel && cmd_vel->get()) {
-    cmd_x_vel_ = cmd_vel->get()->linear.x;
-    cmd_y_vel_ = cmd_vel->get()->linear.y;
-    cmd_yaw_vel_ = cmd_vel->get()->angular.z;
+    const auto bounded = policy_contract_.command(
+        {cmd_vel->get()->linear.x, cmd_vel->get()->linear.y, cmd_vel->get()->angular.z});
+    cmd_x_vel_ = bounded[0];
+    cmd_y_vel_ = bounded[1];
+    cmd_yaw_vel_ = bounded[2];
   }
 
   // Get the latest leg-lift command index ("leg_lift" behavior only)
@@ -465,27 +500,15 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
 
   // Get the latest commanded pose
   auto cmd_pose = rt_cmd_pose_ptr_.readFromRT();
-  if (cmd_pose && cmd_pose->get()) {
+  if (policy_contract_.fixed_orientation) {
+    const auto &z = policy_contract_.orientation;
+    desired_world_z_in_body_frame_ = tf2::Vector3(z[0], z[1], z[2]);
+  } else if (cmd_pose && cmd_pose->get()) {
     const auto &pose_msg = *cmd_pose->get();
     tf2::Quaternion q(pose_msg.orientation.x, pose_msg.orientation.y, pose_msg.orientation.z,
                       pose_msg.orientation.w);
     desired_world_z_in_body_frame_ = tf2::Vector3(0, 0, 1);
     desired_world_z_in_body_frame_ = tf2::quatRotate(q.inverse(), desired_world_z_in_body_frame_);
-  }
-
-  // If an emergency stop has been triggered, set all commands to 0, set damping, and return
-  // TODO: use deactivate instead?
-  if (estop_active_) {
-    for (auto &command_interface : command_interfaces_) {
-      command_interface.set_value(0.0);
-    }
-    for (int i = 0; i < kActionSize; i++) {
-      command_interfaces_map_.at(params_.joint_names.at(i))
-          .at("kd")
-          .get()
-          .set_value(params_.estop_kd);
-    }
-    return controller_interface::return_type::OK;
   }
 
   // Get the latest observation
@@ -683,6 +706,13 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
   if (contains_nan(observation_)) {
     RCLCPP_ERROR(get_node()->get_logger(), "observation_ contains NaN");
     return controller_interface::return_type::ERROR;
+  }
+
+  // Training resets tile the first measured frame through all history slots.
+  // Do this once per activation, after sensing, rather than retain stale actions.
+  if (seed_history_) {
+    seed_observation_history(observation_, single_observation_size_);
+    seed_history_ = false;
   }
 
   // Publish the observation

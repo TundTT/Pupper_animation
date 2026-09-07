@@ -1,0 +1,25 @@
+{
+  "checkpoint_step": 129761280,
+  "checkpoint_sha256": "d240a2cd345a3e00eec49fdd2ac8b9697aabb191b6383e68271099edd25acd1f",
+  "export_sha256": "d296c9d8b08a1b46f756c89362505a248c5921b633a4d55778632d7fbaa65b04",
+  "training_run": "walk_2026-09-07_04-04-36",
+  "wandb_url": "https://wandb.ai/QuadMorph/pupper-leg/runs/61am09cq",
+  "video_key": "eval/video_selected",
+  "training_model_sha256": "a79d5a4520da2700f85ce946c49564ec0ad011b2a10137f5d31855d20e814637",
+  "robot_branch_base": "a1629f3",
+  "hardware_status": "Prepared for first test; this checkpoint has not run on hardware",
+  "action_scale": [
+    0.5,
+    0.25,
+    1.1,
+    0.5,
+    0.25,
+    1.1,
+    0.5,
+    0.25,
+    1.1,
+    0.5,
+    0.25,
+    1.1
+  ]
+}
