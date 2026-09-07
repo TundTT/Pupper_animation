@@ -103,7 +103,7 @@
             <!-- Raw pre-homing sensor reading recorded on 2026-09-05 with this leg
                  confirmed hanging freely, untouched, reproduced identically across 3
                  consecutive power cycles. See do_homing() for the check this enables.
-                 Updated 2026-09-07: boot reading drifted to 0.0727 (3.4 deg); leg
+                 Updated 2026-09-07, boot reading drifted to 0.0727 (3.4 deg); leg
                  visually confirmed still hanging freely in the correct gravity-drop
                  pose, so the reference was moved to match. -->
             <param name="homing_reference_raw">0.072700</param>
@@ -241,7 +241,7 @@
             <!-- Raw pre-homing sensor reading recorded on 2026-09-05 with this leg
                  confirmed hanging freely, untouched, reproduced identically across 3
                  consecutive power cycles. See do_homing() for the check this enables.
-                 Updated 2026-09-07: boot reading drifted to 0.1101 (8.6 deg); leg
+                 Updated 2026-09-07, boot reading drifted to 0.1101 (8.6 deg); leg
                  visually confirmed still hanging freely in the correct gravity-drop
                  pose, so the reference was moved to match. -->
             <param name="homing_reference_raw">0.110100</param>
@@ -379,7 +379,7 @@
             <!-- Raw pre-homing sensor reading recorded on 2026-09-05 with this leg
                  confirmed hanging freely, untouched, reproduced identically across 3
                  consecutive power cycles. See do_homing() for the check this enables.
-                 Updated 2026-09-07: boot reading shifted to -0.2523 (31.1 deg, likely
+                 Updated 2026-09-07, boot reading shifted to -0.2523 (31.1 deg, likely
                  due to the back_r leg link reprint from earlier testing; see
                  LEG_LIFT_TESTING.md's 2026-08-17/18 log entries); leg visually
                  confirmed hanging freely in the correct gravity-drop pose at the new
