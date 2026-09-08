@@ -1,0 +1,9 @@
+{
+  "checkpoint_sha256": "f9b30170c1d927c039204a92b4015fff59ebbdc9ede2137aca4878812290ea5e",
+  "export_sha256": "814d095421ebfbf7d2b8a1cdb4f1fa9d2ccd7c8fb85406e4162ce60bcfd42b2a",
+  "fixtures_sha256": "1db07556048ff6e122f83fbf5478800e7bbbd449937c8e7b9428610a11cd68e8",
+  "count": 128,
+  "generator": "Original Brax make_inference_fn deterministic with saved normalization; 64 previous regression inputs including home/droop startup plus 64 selected-normalization samples at 0.5 sigma, seed 907, 13 commands, upright orientation",
+  "previous_fixture_sha256": "d61f4bfacdabd99e3071419c306942e8e4113a6488b203993ac9e9e965c339a2",
+  "jax": "0.6.2"
+}

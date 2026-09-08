@@ -1,0 +1,30 @@
+{
+  "checkpoint_step": 21626880,
+  "checkpoint_sha256": "f9b30170c1d927c039204a92b4015fff59ebbdc9ede2137aca4878812290ea5e",
+  "export_sha256": "814d095421ebfbf7d2b8a1cdb4f1fa9d2ccd7c8fb85406e4162ce60bcfd42b2a",
+  "training_run": "walk_2026-09-07_16-48-35",
+  "checkpoint_file": "params_000021626880",
+  "wandb_url": "https://wandb.ai/QuadMorph/pupper-leg/runs/zw331stu",
+  "video_key": "eval/video_selected",
+  "obstacle_video_key": "eval/video_obstacles_10mm",
+  "training_model_sha256": "a79d5a4520da2700f85ce946c49564ec0ad011b2a10137f5d31855d20e814637",
+  "effective_model_sha256": "44b9291a8362e8dd30119c280d38d45083316460b62976e1fbfa2bfc8f12970d",
+  "foot_model": "rigid_flush",
+  "robot_branch_base": "b455cbf8eaffdb4665eae7849e21ad9fc36f710b",
+  "hardware_status": "Prepared for first hardware test; not activated during preparation",
+  "action_scale": [
+    0.5,
+    0.25,
+    1.1,
+    0.5,
+    0.25,
+    1.1,
+    0.5,
+    0.25,
+    1.1,
+    0.5,
+    0.25,
+    1.1
+  ],
+  "selection_reason": "Preserves the preferred long stride (98 mm, 2.17 Hz, 224 ms swings) while improving front clearance to 9.2/11.3 mm; 57/57 flat trials survive and 3/3 ten-mm obstacle courses finish. Later checkpoints shorten the stride again."
+}
