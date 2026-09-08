@@ -1,0 +1,510 @@
+{
+  "config": {
+    "action_scale": [
+      0.5,
+      0.25,
+      1.1,
+      0.5,
+      0.25,
+      1.1,
+      0.5,
+      0.25,
+      1.1,
+      0.5,
+      0.25,
+      1.1
+    ],
+    "activation": "elu",
+    "air_time_floor": -0.08,
+    "axis_probability": 0.25,
+    "bottom_allowance": 0.009,
+    "command_high": [
+      0.35,
+      0.15,
+      0.8
+    ],
+    "command_hold_steps": 150,
+    "command_low": [
+      -0.35,
+      -0.15,
+      -0.8
+    ],
+    "ctrl_dt": 0.02,
+    "episode_length": 600,
+    "floor_friction": 2.0,
+    "foot_model": "rigid_flush",
+    "friction_range": [
+      0.8,
+      2.5
+    ],
+    "hidden_layer_sizes": [
+      128,
+      128,
+      128
+    ],
+    "joint_limit_margin": 0.15,
+    "latency_probability": 0.2,
+    "leg_length_common_range": [
+      0.9,
+      0.98
+    ],
+    "leg_length_per_leg_range": [
+      0.96,
+      1.04
+    ],
+    "minimum_swing_clearance": 0.012,
+    "moving_height_offset": -0.003,
+    "observation_history": 4,
+    "planned_swing_bonus": 0.25,
+    "planned_swing_duration": 0.32,
+    "planned_swing_foot_weights": [
+      3.0,
+      3.0,
+      1.0,
+      1.0
+    ],
+    "planned_swing_height": 0.016,
+    "ppo": {
+      "batch_size": 256,
+      "discounting": 0.97,
+      "entropy_cost": 0.01,
+      "learning_rate": 5e-05,
+      "normalize_observations": true,
+      "num_envs": 8192,
+      "num_eval_envs": 128,
+      "num_evals": 5,
+      "num_minibatches": 32,
+      "num_timesteps": 86400000,
+      "num_updates_per_batch": 4,
+      "reward_scaling": 1.0,
+      "seed": 0,
+      "unroll_length": 20
+    },
+    "push_probability": 0.02,
+    "push_velocity": 0.3,
+    "reset_joint_noise": 0.01,
+    "reset_xy_noise": 0.01,
+    "reset_yaw_noise": 0.1,
+    "reward_scales": {
+      "action_acceleration": -1.6,
+      "action_rate": -0.3,
+      "air_time": 1.5,
+      "clearance_shortfall": -0.5,
+      "foot_slip": -0.6,
+      "height": -12.0,
+      "joint_limits": -1.5,
+      "planned_swing": -6.0,
+      "ring_bottom": 0.0,
+      "ring_rub": -2.0,
+      "ring_side": -3.0,
+      "ring_side_contact": -6.0,
+      "roll_pitch_velocity": -0.05,
+      "stance_feet": -0.4,
+      "stand_pose": -3.0,
+      "swing_clearance": 0.0,
+      "termination": -2.0,
+      "tip_support": -0.5,
+      "torques": -0.0002,
+      "touchdown": -1.5,
+      "tracking_linear": 6.0,
+      "tracking_yaw": 3.0,
+      "unwanted_contact": -2.0,
+      "upright": 0.3,
+      "vertical_velocity": -0.3
+    },
+    "sensor_noise": 0.01,
+    "side_clearance": 0.001,
+    "smoothness_reference_scale": [
+      0.5,
+      0.25,
+      0.5,
+      0.5,
+      0.25,
+      0.5,
+      0.5,
+      0.25,
+      0.5,
+      0.5,
+      0.25,
+      0.5
+    ],
+    "stand_probability": 0.2,
+    "straight_min_speed": 0.1,
+    "straight_probability": 0.5,
+    "swing_clearance_target": 0.028,
+    "terminal_height": 0.085,
+    "terminal_tilt": 0.65,
+    "tip_tilt_allowance_deg": 15.0,
+    "tip_tilt_scale_deg": 45.0,
+    "touchdown_speed_allowance": 0.15,
+    "tracking_variance_base": 0.0025,
+    "tracking_variance_speed_gain": 0.55,
+    "tracking_variance_yaw_gain": 0.27
+  },
+  "model_path": "/home/theerawit/Pupper_animation/Stanford/training/pupper_v3_description/description/mujoco_xml/pupper_v3_complete.mjx.position.xml",
+  "eval_config": {
+    "action_scale": [
+      0.5,
+      0.25,
+      1.1,
+      0.5,
+      0.25,
+      1.1,
+      0.5,
+      0.25,
+      1.1,
+      0.5,
+      0.25,
+      1.1
+    ],
+    "activation": "elu",
+    "air_time_floor": -0.08,
+    "axis_probability": 0.25,
+    "bottom_allowance": 0.009,
+    "command_high": [
+      0.35,
+      0.15,
+      0.8
+    ],
+    "command_hold_steps": 150,
+    "command_low": [
+      -0.35,
+      -0.15,
+      -0.8
+    ],
+    "ctrl_dt": 0.02,
+    "episode_length": 600,
+    "floor_friction": 2.0,
+    "foot_model": "rigid_flush",
+    "friction_range": [
+      0.8,
+      2.5
+    ],
+    "hidden_layer_sizes": [
+      128,
+      128,
+      128
+    ],
+    "joint_limit_margin": 0.15,
+    "latency_probability": 0.0,
+    "leg_length_common_range": [
+      0.9,
+      0.98
+    ],
+    "leg_length_per_leg_range": [
+      0.96,
+      1.04
+    ],
+    "minimum_swing_clearance": 0.012,
+    "moving_height_offset": -0.003,
+    "observation_history": 4,
+    "planned_swing_bonus": 0.25,
+    "planned_swing_duration": 0.32,
+    "planned_swing_foot_weights": [
+      3.0,
+      3.0,
+      1.0,
+      1.0
+    ],
+    "planned_swing_height": 0.016,
+    "ppo": {
+      "batch_size": 256,
+      "discounting": 0.97,
+      "entropy_cost": 0.01,
+      "learning_rate": 5e-05,
+      "normalize_observations": true,
+      "num_envs": 8192,
+      "num_eval_envs": 128,
+      "num_evals": 5,
+      "num_minibatches": 32,
+      "num_timesteps": 86400000,
+      "num_updates_per_batch": 4,
+      "reward_scaling": 1.0,
+      "seed": 0,
+      "unroll_length": 20
+    },
+    "push_probability": 0.0,
+    "push_velocity": 0.3,
+    "reset_joint_noise": 0.0,
+    "reset_xy_noise": 0.01,
+    "reset_yaw_noise": 0.1,
+    "reward_scales": {
+      "action_acceleration": -1.6,
+      "action_rate": -0.3,
+      "air_time": 1.5,
+      "clearance_shortfall": -0.5,
+      "foot_slip": -0.6,
+      "height": -12.0,
+      "joint_limits": -1.5,
+      "planned_swing": -6.0,
+      "ring_bottom": 0.0,
+      "ring_rub": -2.0,
+      "ring_side": -3.0,
+      "ring_side_contact": -6.0,
+      "roll_pitch_velocity": -0.05,
+      "stance_feet": -0.4,
+      "stand_pose": -3.0,
+      "swing_clearance": 0.0,
+      "termination": -2.0,
+      "tip_support": -0.5,
+      "torques": -0.0002,
+      "touchdown": -1.5,
+      "tracking_linear": 6.0,
+      "tracking_yaw": 3.0,
+      "unwanted_contact": -2.0,
+      "upright": 0.3,
+      "vertical_velocity": -0.3
+    },
+    "sensor_noise": 0.0,
+    "side_clearance": 0.001,
+    "smoothness_reference_scale": [
+      0.5,
+      0.25,
+      0.5,
+      0.5,
+      0.25,
+      0.5,
+      0.5,
+      0.25,
+      0.5,
+      0.5,
+      0.25,
+      0.5
+    ],
+    "stand_probability": 0.2,
+    "straight_min_speed": 0.1,
+    "straight_probability": 0.5,
+    "swing_clearance_target": 0.028,
+    "terminal_height": 0.085,
+    "terminal_tilt": 0.65,
+    "tip_tilt_allowance_deg": 15.0,
+    "tip_tilt_scale_deg": 45.0,
+    "touchdown_speed_allowance": 0.15,
+    "tracking_variance_base": 0.0025,
+    "tracking_variance_speed_gain": 0.55,
+    "tracking_variance_yaw_gain": 0.27
+  },
+  "eval_video_fps": 50,
+  "eval_video_mode": "all",
+  "init_params": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/front_drag_trials/ring6/walk_2026-09-07_15-29-41/params_000043253760",
+  "init_params_sha256": "a3dc1e16c6f2680af34130000048075e54728d7008d9e3269b0ad5e5bd6ba450",
+  "warm_start_action_scale": [
+    0.5,
+    0.25,
+    1.1,
+    0.5,
+    0.25,
+    1.1,
+    0.5,
+    0.25,
+    1.1,
+    0.5,
+    0.25,
+    1.1
+  ],
+  "height_reference": "randomized neutral capsule projection; floor-normal torso height",
+  "randomization_lifetime": "environment slot",
+  "randomization_enabled": true,
+  "smoke_test": false,
+  "model_sha256": "a79d5a4520da2700f85ce946c49564ec0ad011b2a10137f5d31855d20e814637",
+  "ring_sha256": "35ef3b878096afc11895e671bac3bdefa4065117487193d25283006d8c2bbefc",
+  "home_joint_pos": [
+    1.0,
+    0.0,
+    -1.0,
+    -1.0,
+    0.0,
+    1.0,
+    1.0,
+    0.0,
+    -1.0,
+    -1.0,
+    0.0,
+    1.0
+  ],
+  "effective_home_qpos": [
+    -0.0005828672437928617,
+    6.045989948688657e-07,
+    0.1467231810092926,
+    0.9999998211860657,
+    4.050464485771954e-05,
+    0.00011727317905751988,
+    -0.0006130783585831523,
+    1.0074821710586548,
+    0.014884314499795437,
+    -0.9993436932563782,
+    -1.0052430629730225,
+    -0.014915313571691513,
+    1.0015184879302979,
+    1.0100288391113281,
+    0.011657257564365864,
+    -0.9977387189865112,
+    -1.009008765220642,
+    -0.011866115964949131,
+    0.9992510080337524
+  ],
+  "effective_foot_geometry": {
+    "size": [
+      [
+        0.012,
+        0.019324980500000206,
+        0.0
+      ],
+      [
+        0.012,
+        0.019324980500000206,
+        0.0
+      ],
+      [
+        0.012,
+        0.019324980500000206,
+        0.0
+      ],
+      [
+        0.012,
+        0.019324980500000206,
+        0.0
+      ]
+    ],
+    "pos": [
+      [
+        0.00063,
+        -0.0313249805000002,
+        0.029884
+      ],
+      [
+        -0.00063,
+        0.0313249805000002,
+        0.029884
+      ],
+      [
+        0.00063,
+        -0.0313249805000002,
+        0.029884
+      ],
+      [
+        -0.00063,
+        0.0313249805000002,
+        0.029884
+      ]
+    ],
+    "solref": [
+      [
+        0.008,
+        1.0
+      ],
+      [
+        0.008,
+        1.0
+      ],
+      [
+        0.008,
+        1.0
+      ],
+      [
+        0.008,
+        1.0
+      ]
+    ],
+    "solimp": [
+      [
+        0.99,
+        0.99,
+        0.001,
+        0.5,
+        2.0
+      ],
+      [
+        0.99,
+        0.99,
+        0.001,
+        0.5,
+        2.0
+      ],
+      [
+        0.99,
+        0.99,
+        0.001,
+        0.5,
+        2.0
+      ],
+      [
+        0.99,
+        0.99,
+        0.001,
+        0.5,
+        2.0
+      ]
+    ]
+  },
+  "joint_lower_limits": [
+    -1.22,
+    -0.42,
+    -2.79,
+    -2.51,
+    -3.14,
+    -0.71,
+    -1.22,
+    -0.42,
+    -2.79,
+    -2.51,
+    -3.14,
+    -0.71
+  ],
+  "joint_upper_limits": [
+    2.51,
+    3.14,
+    0.71,
+    1.22,
+    0.42,
+    2.79,
+    2.51,
+    3.14,
+    0.71,
+    1.22,
+    0.42,
+    2.79
+  ],
+  "kp": [
+    5.0,
+    5.0,
+    5.0,
+    5.0,
+    5.0,
+    5.0,
+    5.0,
+    5.0,
+    5.0,
+    5.0,
+    5.0,
+    5.0
+  ],
+  "kd": [
+    0.25,
+    0.25,
+    0.25,
+    0.25,
+    0.25,
+    0.25,
+    0.25,
+    0.25,
+    0.25,
+    0.25,
+    0.25,
+    0.25
+  ],
+  "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+  "devices": [
+    "cuda:0"
+  ],
+  "versions": {
+    "jax": "0.6.2",
+    "jaxlib": "0.6.2",
+    "mujoco": "3.12.0",
+    "mujoco-mjx": "3.12.0",
+    "brax": "0.14.2",
+    "flax": "0.10.6",
+    "orbax-checkpoint": "0.11.24"
+  },
+  "wandb_run_path": "QuadMorph/pupper-leg/zw331stu"
+}

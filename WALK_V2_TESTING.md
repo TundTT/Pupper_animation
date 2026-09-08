@@ -1,93 +1,89 @@
-# Selected walking policy: hardware test preparation
+# Selected long-stride walking policy: hardware test preparation
 
-The September 7 reverse/spin improvement is installed as `policy_walk_v2.json`,
-using the existing **`neural_controller_walk_v2` / Square (button 3)** binding.
-This checkpoint is simulation-validated and prepared for its first hardware test.
-No robot was connected or activated during this preparation.
+`policy_walk_v2.json` now contains the selected long-stride checkpoint from
+`walk_2026-09-07_16-48-35`. Activate it with the existing
+**`neural_controller_walk_v2` / Square (button 3)** binding. This checkpoint is
+prepared for its first hardware test; no robot was connected or activated here.
 
 ## Exact policy
 
 | Item | Value |
 |---|---|
-| Training run | `walk_2026-09-07_04-04-36`, W&B `61am09cq` |
-| Selected step | **129,761,280**, selected by direction-specific evaluation |
-| Checkpoint SHA256 | `d240a2cd345a3e00eec49fdd2ac8b9697aabb191b6383e68271099edd25acd1f` |
-| Export SHA256 | `d296c9d8b08a1b46f756c89362505a248c5921b633a4d55778632d7fbaa65b04` |
+| Training run | `walk_2026-09-07_16-48-35`, W&B `zw331stu` |
+| Selected step | **21,626,880**, `params_000021626880` / `selected_params` |
+| Checkpoint SHA256 | `f9b30170c1d927c039204a92b4015fff59ebbdc9ede2137aca4878812290ea5e` |
+| Export SHA256 | `814d095421ebfbf7d2b8a1cdb4f1fa9d2ccd7c8fb85406e4162ce60bcfd42b2a` |
 | Inputs / outputs | 144 / 12, four newest-first 36-value history frames |
 | Joint order | FR, FL, BR, BL; hip, abduction, knee within each leg |
 | Home angles | `[1,0,-1, -1,0,1, 1,0,-1, -1,0,1]` rad |
-| Action scales | **`[0.5,0.25,1.1]` repeated four times** |
-| Position gains | kp **5.0**, kd **0.25**, including the initial move to home |
+| Action scales | `[0.5,0.25,1.1]` repeated four times |
+| Position gains | kp **5.0**, kd **0.25**, including initial move to home |
 | Startup | 2 seconds to home, then 2 seconds action fade-in |
 | Commands | vx ±0.35 m/s, vy ±0.15 m/s, yaw ±0.8 rad/s; upright only |
-| Tilt cutoff | 0.65 rad (about 37 degrees), matching training |
+| Tilt cutoff | 0.65 rad |
 
-The complete export is copied byte-for-byte from the selected training artifact;
-normalization and the tanh output are already included. Do not apply normalization,
-tanh, mirrored-leg sign changes, or a second action scaling at runtime. The robot
-controller sends **absolute joint targets** `home + scale * action`. The training
-XML's actuator inputs were offsets from home; do not send those offsets directly
-as hardware positions.
+Use **`eval/video_selected`** in the
+[W&B run](https://wandb.ai/QuadMorph/pupper-leg/runs/zw331stu) to identify this gait.
+`best_params` is a later, shorter-stride checkpoint and is not installed here.
+The obstacle clip is `eval/video_obstacles_10mm`.
 
-[Video on W&B](https://wandb.ai/QuadMorph/pupper-leg/runs/61am09cq): choose
-**`eval/video_selected`**, not the training-reward-best panel. The selected file is
-129M even though training finished at 173M.
+## Interface and simulation changes
 
-## What this port changes
+This update replaces the weights, inference fixtures, selection manifest and
+validation notes. The policy interface matches the previous hardware export:
+joint order, home angles, gains, action scales, command limits and startup settings.
+The export includes normalization and the tanh output. Runtime targets are absolute
+positions `home + scale * action`; no additional normalization, tanh or leg sign
+changes are needed.
 
-- Replaces the previous walking weights and uses their matching knee scale.
-- Honors exported command bounds before constructing observations. Global joystick
-  gains stay as configured for the other controllers; commands outside this walk
-  policy's range saturate at the training limits. Exported upright orientation is
-  held fixed instead of accepting `/cmd_pose` tilt commands.
-- Checks the configured joint order/action types against the export on load.
-- Clears observation/action history on reactivation and fills history from the
-  first measured frame, matching the training reset convention.
-- Checks emergency stop before both the move-to-home phase and policy decimation.
-  Previously those early returns could bypass the stop handler. This shared
-  controller correction also applies to the other neural instances.
-- Sets only walk mode's init kp to 5.0 and tilt cutoff to 0.65 rad.
+Training now uses stiff capsules extended to 62.650 mm overall length so their
+distal ends are flush with the outer ring. The ring compression reward has zero
+weight; ring-side avoidance remains. The ring is still a reward-only geometric
+proxy and does not simulate TPU deformation or load sharing. Simulation geometry
+is not a hardware calibration offset or an encoder adjustment.
 
-The current `robot-code` calibration is retained: **gravity-droop zeroing, not
-hard-stop homing**. Homing velocities/kp/thresholds remain zero. The four knees
-retain their raw-reference checks and mechanical end-stop protection. Do not
-restore the old September 5 guide's hard-stop instructions. Its old L2 activation
-and old gait/standing measurements are superseded by this document.
+Gravity-droop zeroing, knee raw-reference checks, mechanical end-stop protection,
+emergency-stop handling and reset-history behavior remain configured as before.
+The entire target envelope fits the hardware soft limits, with at least 0.4216 rad
+margin to knee hard limits. This checks targets, not measured-state overshoot.
 
-The entire tanh target envelope fits the current hardware soft limits. Knee
-commands span right **[-2.1, 0.1]** and left **[-0.1, 2.1]** radians, with at least
-**0.4216 rad** to the configured knee hard limits. This checks commanded positions;
-measured-state overshoot and physical assembly/calibration still need testing.
+## Checks and measured performance
 
-## Checks completed here
+- Read-only preflight passed: exact export hash, joint order, scales, gains,
+  Square binding, command envelope and joint target limits.
+- The controller's vendored RTNeural Eigen float32 backend matched original Brax
+  deterministic inference on **128 observations**, including home/droop startup,
+  reverse and turns. Maximum action difference was **1.43051e-6** (less than
+  1.6e-6 rad after scaling). Command-contract and reset-history checks passed.
+- Full ROS/Jazzy build and hardware validation remain pending on the robot; this
+  preparation machine has no ROS installation.
 
-- Read-only preflight passed for policy hash, joint order, scales, gains, button
-  binding, command envelope, and every joint target versus hardware limits.
-- Compiled the same vendored **RTNeural Eigen float32 backend** used by the ROS
-  controller. Across 64 reference observations generated from the original JAX
-  checkpoint, maximum absolute action difference was **1.81e-6** (under 2e-6 rad
-  after the largest scale). Includes home/droop startup inputs and both turn and
-  reverse commands. Contract/reset-history tests passed too.
-- The training workspace passed all 30 tests before this port.
-- **Full ROS/Jazzy plugin build and hardware tests remain to be run on the robot**:
-  this preparation machine has no ROS installation. The standalone inference test
-  does not certify controller lifecycle, CAN communication, or timing.
+At 0.20 m/s forward on the rigid model with friction 2, this checkpoint has
+2.17 Hz cadence, approximately 98 mm front strides, 224 ms median major swing
+duration, and 9.2 / 11.3 mm front swing peaks. It preserves much of the preferred
+older policy's longer stride while improving front clearance. Later checkpoints
+lifted higher but shortened strides and increased command roughness.
 
-Evidence is in [hardware_testing/walk_2026-09-07](hardware_testing/walk_2026-09-07).
-To repeat the local checks (Python needs PyYAML; C++ needs a C++17 compiler):
+All **57/57 flat trials** survived: 13 commands × 3 seeds at friction 2 and
+6 commands × 3 seeds at friction 1, each 8 seconds. On separate native MuJoCo
+courses it completed **3/3 five-mm and 3/3 ten-mm obstacle trials**, with no falls.
+The preferred older policy completed 1/3 ten-mm trials under the same physics.
+These are small simulation samples, not hardware success rates.
+
+The obstacle course has three 30 mm-wide bars at a 0.20 m/s command and friction 2.
+Ten-mm trials still accumulated 860 capsule side-contact records and 4.74% mean
+ring-side overlap. Contact records repeat at 250 Hz and are not distinct impacts;
+ring overlap is a geometric proxy, not force. Completion means the torso cleared
+the course, not that every foot cleanly cleared every bar.
+
+Current evidence: [hardware_testing/walk_2026-09-07_long_stride](hardware_testing/walk_2026-09-07_long_stride).
+The older `hardware_testing/walk_2026-09-07` directory documents the previous policy.
+Repeat local checks with:
 
 ```sh
 python3 scripts/check_walk_policy.py
 bash scripts/test_walk_policy.sh
 ```
-
-Simulation comparison: 13 commands × 3 seeds × 10 seconds, first second discarded,
-nominal model without pushes/noise/latency. Both policies survived 39/39. Reverse
-cadence fell from 5–6 Hz to 2–3 Hz with comparable or better reverse tracking.
-Spin speed error fell 39% left / 63% right. Modeled ring-side overlap fell from
-1.85% to 0.0023%; randomized training evaluation had about 1.4%, so the clean nominal
-number does not cover every geometry. Forward speed error rose 5–8 mm/s. The TPU
-ring is a reward-only geometric proxy; load sharing/deformation is not simulated.
 
 ## Bring-up on the robot
 
