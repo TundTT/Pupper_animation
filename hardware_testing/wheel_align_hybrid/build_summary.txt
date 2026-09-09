@@ -1,0 +1,3 @@
+
+Summary: 16 packages finished [11.0s]
+  16 packages had stderr output: animation_controller_py bag_recorder cmd_vel_mux control_board_hardware_interface dpad_serial_bridge hailo imu_to_tf joy_utils llm_websocket_server neural_controller openai_bridge person_follower pupper_feelings pupper_mujoco_sim pupper_v3_description real2sim_controller

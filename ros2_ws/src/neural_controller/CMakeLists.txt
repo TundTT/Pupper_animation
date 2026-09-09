@@ -6,6 +6,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 add_library(neural_controller SHARED src/neural_controller.cpp)
+target_compile_features(neural_controller PUBLIC cxx_std_17)
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
@@ -60,6 +61,24 @@ install(
 )
 
 if(BUILD_TESTING)
+  add_executable(hybrid_controller_test test/hybrid_controller_test.cpp)
+  target_compile_features(hybrid_controller_test PRIVATE cxx_std_17)
+  target_include_directories(hybrid_controller_test PRIVATE include)
+  target_link_libraries(hybrid_controller_test neural_controller neural_controller_parameters RTNeural)
+  ament_target_dependencies(hybrid_controller_test controller_interface hardware_interface
+    realtime_tools rclcpp rclcpp_lifecycle geometry_msgs tf2)
+  add_test(NAME hybrid_controller_lifecycle
+    COMMAND hybrid_controller_test
+      ${CMAKE_CURRENT_SOURCE_DIR}/launch/config.yaml
+      ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_wheel_align_hybrid.json)
+  add_executable(hybrid_policy_test test/hybrid_policy_test.cpp)
+  target_compile_features(hybrid_policy_test PRIVATE cxx_std_17)
+  target_include_directories(hybrid_policy_test PRIVATE include)
+  target_link_libraries(hybrid_policy_test RTNeural)
+  add_test(NAME hybrid_policy_contract_and_inference
+    COMMAND hybrid_policy_test
+      ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_wheel_align_hybrid.json
+      ${CMAKE_CURRENT_SOURCE_DIR}/test/hybrid_policy_reference.csv)
   add_executable(walk_policy_test test/walk_policy_test.cpp)
   target_compile_features(walk_policy_test PRIVATE cxx_std_17)
   target_include_directories(walk_policy_test PRIVATE include)

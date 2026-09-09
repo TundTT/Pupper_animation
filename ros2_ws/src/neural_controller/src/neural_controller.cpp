@@ -73,8 +73,10 @@ controller_interface::CallbackReturn NeuralController::on_init() {
         j.at("action_types").get<std::vector<std::string>>() != params_.action_types) {
       throw std::runtime_error("Configured action types differ from the policy export");
     }
-    if (!model_ || model_->layers.empty() || model_->getOutSize() != kActionSize) {
-      throw std::runtime_error("Policy must output exactly 12 actions");
+    behavior_ = j.value("behavior", std::string("locomotion"));
+    policy_action_size_ = behavior_ == "wheel_align_hybrid" ? 8 : kActionSize;
+    if (!model_ || model_->layers.empty() || model_->getOutSize() != policy_action_size_) {
+      throw std::runtime_error("Policy output size differs from its behavior contract");
     }
     if (policy_contract_.bounded_commands) {
       RCLCPP_INFO(get_node()->get_logger(),
@@ -163,6 +165,39 @@ controller_interface::CallbackReturn NeuralController::on_init() {
       joint_position_idx_ = 3 + 3 + num_commands_;  // ang_vel + gravity + command_one_hot
       last_action_idx_ = joint_position_idx_ + kActionSize;
       single_observation_size_ = last_action_idx_ + kActionSize;
+    } else if (behavior_ == "wheel_align_hybrid") {
+      command_states_ = j.at("command_states").get<std::vector<std::string>>();
+      num_commands_ = 5;
+      joint_position_idx_ = 11;
+      last_action_idx_ = 35;
+      single_observation_size_ = 51;
+      const std::vector<std::string> commands{"stand", "front_l", "front_r", "back_r", "back_l"};
+      const std::vector<std::string> blocks{"body_angular_velocity", "projected_gravity",
+          "effective_command_one_hot", "joint_position", "joint_velocity", "last_action",
+          "target_error_sin", "target_error_cos"};
+      const std::vector<int> sizes{3, 3, 5, 12, 12, 8, 4, 4};
+      int offset = 0;
+      if (j.at("observation_layout").size() != blocks.size())
+        throw std::runtime_error("Hybrid observation layout block count mismatch");
+      for (size_t i = 0; i < blocks.size(); ++i) {
+        const auto &block = j.at("observation_layout").at(i);
+        if (block.at("name") != blocks[i] || block.at("offset") != offset || block.at("size") != sizes[i])
+          throw std::runtime_error("Hybrid observation layout mismatch");
+        offset += sizes[i];
+      }
+      if (command_states_ != commands || params_.observation_history != 1 ||
+          j.at("position_joint_rows") != std::vector<int>({0, 1, 3, 4, 6, 7, 9, 10}) ||
+          j.at("wheel_joint_rows") != std::vector<int>({2, 5, 8, 11}) ||
+          j.at("command_leg") != std::vector<int>({-1, 1, 0, 2, 3}) ||
+          j.at("single_observation_size") != 51 || j.at("policy_action_size") != 8 ||
+          !j.at("observation_clip").is_null() || params_.repeat_action < 1)
+        throw std::runtime_error("Unsupported hybrid policy contract");
+      for (int i = 0; i < kActionSize; ++i) {
+        const bool wheel = i % 3 == 2;
+        if (params_.action_types.at(i) != (wheel ? "velocity" : "position") ||
+            (wheel && (params_.kps.at(i) != 0.0 || params_.init_kps.at(i) != 0.0)))
+          throw std::runtime_error("Hybrid wheels require velocity mode with zero position gain");
+      }
     } else if (behavior_ == "wheel") {
       // Velocity-command wheeled policy. Same command triple as locomotion, but no
       // desired_world_z, so the joint block starts 3 earlier (33 vs 36 per frame).
@@ -286,6 +321,19 @@ controller_interface::CallbackReturn NeuralController::on_activate(
         state_interfaces_map_.at(params_.joint_names.at(i)).at("position").get().get_value();
   }
 
+  if (behavior_ == "wheel_align_hybrid") {
+    if (!std::all_of(init_joint_pos_.begin(), init_joint_pos_.end(),
+                     [](double x) { return std::isfinite(x); }))
+      return controller_interface::CallbackReturn::ERROR;
+    hybrid_.reset(init_joint_pos_);
+    hybrid_elapsed_ = 0.0;
+    hybrid_first_step_ = true;
+    // Remove stale velocity/effort targets inherited from another controller.
+    for (auto &interface : command_interfaces_) interface.set_value(0.0);
+    RCLCPP_WARN(get_node()->get_logger(),
+        "Hybrid calibration TODO: session home captured from activation encoders; button unbound");
+  }
+
   // Reset estop caused by falling over
   estop_active_ = false;
 
@@ -311,12 +359,15 @@ controller_interface::CallbackReturn NeuralController::on_activate(
   // (re)subscribe so a freshly-activated controller doesn't act on a stale buffer. QoS is
   // transient_local so a late-joining subscriber immediately gets the last command joy_util_node
   // published, instead of momentarily commanding "stand" until the next button press.
-  if (behavior_ == "leg_lift") {
+  // Hybrid uses its own volatile topic: publish after activation. It must not replay
+  // a retained leg command against newly acquired provisional calibration.
+  if (behavior_ == "leg_lift" || behavior_ == "wheel_align_hybrid") {
     command_index_ = 0;
     rt_leg_lift_command_ptr_ =
         realtime_tools::RealtimeBuffer<std::shared_ptr<std_msgs::msg::Int32>>(nullptr);
     leg_lift_command_subscriber_ = get_node()->create_subscription<std_msgs::msg::Int32>(
-        "/leg_lift_command_index", rclcpp::QoS(1).transient_local(),
+        behavior_ == "wheel_align_hybrid" ? "/wheel_align_hybrid_command_index" : "/leg_lift_command_index",
+        behavior_ == "wheel_align_hybrid" ? rclcpp::QoS(1).durability_volatile() : rclcpp::QoS(1).transient_local(),
         [this](const std_msgs::msg::Int32::SharedPtr msg) {
           rt_leg_lift_command_ptr_.writeFromNonRT(msg);
         });
@@ -441,7 +492,23 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
   // When started, return to the default joint positions
   double time_since_init = (time - init_time_).seconds();
   if (time_since_init < params_.init_duration) {
+    if (behavior_ == "wheel_align_hybrid") {
+      for (int i = 0; i < kActionSize; ++i) {
+        hybrid_q_[i] = state_interfaces_map_.at(params_.joint_names[i]).at("position").get().get_value();
+        hybrid_qd_[i] = state_interfaces_map_.at(params_.joint_names[i]).at("velocity").get().get_value();
+        if (!std::isfinite(hybrid_q_[i]) || !std::isfinite(hybrid_qd_[i]))
+          return controller_interface::return_type::ERROR;
+      }
+    }
     for (int i = 0; i < kActionSize; i++) {
+      if (behavior_ == "wheel_align_hybrid" && i % 3 == 2) {
+        command_interfaces_map_.at(params_.joint_names[i]).at("velocity").get().set_value(
+            WheelAlignHybrid::wheel_pd(hybrid_.hold[i / 3], hybrid_q_[i], hybrid_qd_[i]));
+        command_interfaces_map_.at(params_.joint_names[i]).at("kp").get().set_value(0.0);
+        command_interfaces_map_.at(params_.joint_names[i]).at("kd").get().set_value(
+            params_.kds[i] * params_.gain_multiplier);
+        continue;
+      }
       // Interpolate between the initial joint positions and the default joint
       // positions
       double interpolated_joint_pos =
@@ -465,7 +532,11 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
 
   // After the init_duration has passed, fade in the policy actions
   double time_since_fade_in = (time - init_time_).seconds() - params_.init_duration;
-  float fade_in_multiplier = std::min(time_since_fade_in / params_.fade_in_duration, 1.0);
+  float fade_in_multiplier = params_.fade_in_duration > 0.0 ?
+      std::min(time_since_fade_in / params_.fade_in_duration, 1.0) : 1.0;
+  // Hybrid uses the direct action contract (no sim latency/hip slew or action fade).
+  if (behavior_ == "wheel_align_hybrid") fade_in_multiplier = 1.0;
+  if (behavior_ == "wheel_align_hybrid") hybrid_elapsed_ += period.seconds();
 
   // Only get a new action from the policy when repeat_action_counter_ is 0
   repeat_action_counter_ += 1;
@@ -484,14 +555,14 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
     cmd_yaw_vel_ = bounded[2];
   }
 
-  // Get the latest leg-lift command index ("leg_lift" behavior only)
-  if (behavior_ == "leg_lift") {
+  // Get the latest leg-select command for either one-hot behavior.
+  if (behavior_ == "leg_lift" || behavior_ == "wheel_align_hybrid") {
     auto leg_lift_command = rt_leg_lift_command_ptr_.readFromRT();
     if (leg_lift_command && leg_lift_command->get()) {
       int idx = leg_lift_command->get()->data;
       if (idx < 0 || idx >= num_commands_) {
         RCLCPP_ERROR(get_node()->get_logger(),
-                     "leg_lift command index %d out of range [0, %d)", idx, num_commands_);
+                     "%s command index %d out of range [0, %d)", behavior_.c_str(), idx, num_commands_);
         return controller_interface::return_type::ERROR;
       }
       command_index_ = idx;
@@ -572,6 +643,14 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
       }
     }
 
+    if (behavior_ == "wheel_align_hybrid" &&
+        (!std::isfinite(ang_vel_x) || !std::isfinite(ang_vel_y) || !std::isfinite(ang_vel_z) ||
+         !std::isfinite(orientation_x) || !std::isfinite(orientation_y) ||
+         !std::isfinite(orientation_z) || !std::isfinite(orientation_w) ||
+         orientation_x * orientation_x + orientation_y * orientation_y +
+             orientation_z * orientation_z + orientation_w * orientation_w < 1e-12))
+      return controller_interface::return_type::ERROR;
+
     // Calculate the projected gravity vector
     tf2::Quaternion q(orientation_x, orientation_y, orientation_z, orientation_w);
     tf2::Matrix3x3 m(q);
@@ -595,7 +674,35 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
     observation_.at(4) = (float)projected_gravity_vector[1];
     observation_.at(5) = (float)projected_gravity_vector[2];
 
-    if (behavior_ == "leg_lift") {
+    if (behavior_ == "wheel_align_hybrid") {
+      for (int i = 0; i < kActionSize; ++i) {
+        hybrid_q_[i] = state_interfaces_map_.at(params_.joint_names[i]).at("position").get().get_value();
+        hybrid_qd_[i] = state_interfaces_map_.at(params_.joint_names[i]).at("velocity").get().get_value();
+        if (!std::isfinite(hybrid_q_[i]) || !std::isfinite(hybrid_qd_[i]))
+          return controller_interface::return_type::ERROR;
+      }
+      const auto previous_phase = hybrid_.phase;
+      hybrid_.finish_step(hybrid_q_, hybrid_qd_);
+      hybrid_.select_command(command_index_, hybrid_q_);
+      if (hybrid_.phase != previous_phase) {
+        static constexpr const char *phases[]{"IDLE", "LIFT", "ROTATE", "VERIFY", "LOWER", "HOLD"};
+        RCLCPP_INFO(get_node()->get_logger(), "Hybrid %s -> %s; active=%s requested=%s",
+            phases[previous_phase], phases[hybrid_.phase],
+            command_states_[hybrid_.active_command].c_str(), command_states_[command_index_].c_str());
+      }
+      for (int i = 0; i < 5; ++i)
+        observation_[6 + i] = i == hybrid_.effective_command() ? 1.0f : 0.0f;
+      for (int i = 0; i < kActionSize; ++i) {
+        observation_[11 + i] = i % 3 == 2 ? WheelAlignHybrid::wrap(hybrid_q_[i]) :
+            hybrid_q_[i] - params_.default_joint_pos[i];
+        observation_[23 + i] = 0.1 * hybrid_qd_[i];
+      }
+      for (int k = 0; k < 4; ++k) {
+        const double err = WheelAlignHybrid::wrap(hybrid_.target[k] - hybrid_q_[3 * k + 2]);
+        observation_[43 + k] = std::sin(err);
+        observation_[47 + k] = std::cos(err);
+      }
+    } else if (behavior_ == "leg_lift") {
       // Which-leg-is-up one-hot, driven by joy_util_node's O-button state machine
       for (int i = 0; i < num_commands_; i++) {
         observation_.at(6 + i) = (i == command_index_) ? 1.0f : 0.0f;
@@ -696,8 +803,12 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
     return controller_interface::return_type::ERROR;
   }
 
-  // Clip the observation vector
+  // Hybrid observe() has no observation clipping; normalization is folded into JSON.
+  if (behavior_ == "wheel_align_hybrid" &&
+      !std::all_of(observation_.begin(), observation_.end(), [](float x) { return std::isfinite(x); }))
+    return controller_interface::return_type::ERROR;
   for (auto &obs : observation_) {
+    if (behavior_ == "wheel_align_hybrid") continue;
     obs = std::clamp(obs, static_cast<float>(-params_.observation_limit),
                      static_cast<float>(params_.observation_limit));
   }
@@ -747,29 +858,46 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
 
   // Publish the policy output
   if (rt_policy_output_publisher_->trylock()) {
-    rt_policy_output_publisher_->msg_.data.resize(kActionSize, 0.0);
-    for (int i = 0; i < kActionSize; i++) {
+    rt_policy_output_publisher_->msg_.data.resize(policy_action_size_, 0.0);
+    for (int i = 0; i < policy_action_size_; i++) {
       rt_policy_output_publisher_->msg_.data.at(i) = policy_output[i];
     }
     // rt_policy_output_publisher_->msg_.header.stamp = time;
     rt_policy_output_publisher_->unlockAndPublish();
   }
 
+  std::array<double, 4> hybrid_wheels{};
+  if (behavior_ == "wheel_align_hybrid") {
+    for (int a = 0; a < 8; ++a) {
+      if (!std::isfinite(policy_output[a])) return controller_interface::return_type::ERROR;
+      observation_[last_action_idx_ + a] = policy_output[a];
+    }
+    const bool gate = hybrid_.lift_ready(hybrid_q_, params_.default_joint_pos[3 * hybrid_.leg()],
+        {ang_vel_x, ang_vel_y, ang_vel_z}, observation_[5]);
+    hybrid_.begin_step(hybrid_q_, gate, hybrid_first_step_ ? 0.02 : hybrid_elapsed_);
+    hybrid_first_step_ = false;
+    hybrid_elapsed_ = 0.0;
+    hybrid_wheels = hybrid_.wheel_commands(hybrid_q_, hybrid_qd_);
+  }
+
   for (int i = 0; i < kActionSize; i++) {
-    float action = policy_output[i];
+    const bool hybrid = behavior_ == "wheel_align_hybrid";
+    const bool hybrid_wheel = hybrid && i % 3 == 2;
+    const int policy_row = hybrid ? (i / 3) * 2 + i % 3 : i;
+    float action = hybrid_wheel ? 0.0f : policy_output[policy_row];
     float action_scale = params_.action_scales.at(i);
     float default_joint_pos = params_.default_joint_pos.at(i);
     float lower_limit = params_.joint_lower_limits.at(i);
     float upper_limit = params_.joint_upper_limits.at(i);
 
     // Copy policy_output to the observation vector
-    observation_.at(last_action_idx_ + i) = fade_in_multiplier * action;
+    if (!hybrid) observation_.at(last_action_idx_ + i) = fade_in_multiplier * action;
     // Scale and de-normalize to get the action vector
     if (params_.action_types.at(i) == "position") {
       float unclipped = fade_in_multiplier * action * action_scale + default_joint_pos;
       action_.at(i) = std::clamp(unclipped, lower_limit, upper_limit);
     } else {
-      action_.at(i) = fade_in_multiplier * action * action_scale;
+      action_.at(i) = hybrid_wheel ? hybrid_wheels[i / 3] : fade_in_multiplier * action * action_scale;
     }
 
     if (std::isnan(action_.at(i))) {

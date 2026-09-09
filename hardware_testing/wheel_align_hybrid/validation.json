@@ -1,0 +1,42 @@
+{
+  "controller": "neural_controller_wheel_align_hybrid",
+  "checkpoint_sha256": "3c514877e07c28fed37525ff712cf8b22ca513f17de9853bbb0c64a0d77e0c2a",
+  "checkpoint": "/home/theerawit/Pupper_animation-align-hybrid/mujoco_playground/workspace/hybrid_results/attempt2_guard/mjx_params",
+  "final_step": 50790400,
+  "export_sha256": "4804edb8fa2381f9b48aca449354e13af7ab3b56731a65db0d17fbd1d6a8c8cb",
+  "network": [
+    51,
+    128,
+    128,
+    128,
+    8
+  ],
+  "observation_history": 1,
+  "brax_json_max_action_error": 3.7252903e-06,
+  "brax_rtneural_max_action_error": 3.09944e-06,
+  "inference_fixtures": 128,
+  "build": {
+    "environment": "existing micromamba ros_jazzy, x86_64",
+    "packages_succeeded": 16,
+    "packages_failed": 0,
+    "warnings": "existing compiler/dependency warnings",
+    "toolchain_workarounds": [
+      "build-local setuptools==79.0.1 via PYTHONPATH (shared env unchanged)",
+      "normal install",
+      "CMAKE_POLICY_VERSION_MINIMUM=3.5 for CMake 4"
+    ],
+    "testing": "BUILD_TESTING=ON for neural_controller; OFF elsewhere (local simulator ros_testing absent)"
+  },
+  "tests": [
+    "hybrid_controller_lifecycle",
+    "hybrid_policy_contract_and_inference",
+    "walk_policy_contract_and_inference"
+  ],
+  "test_result": "3/3 passed",
+  "placeholders": [
+    "activation-encoder session calibration",
+    "joystick binding completely unbound"
+  ],
+  "hardware_tested": false,
+  "source_detail": "hold latches at VERIFY -> LOWER, not LOWER -> HOLD; completed legs skipped until reactivation"
+}

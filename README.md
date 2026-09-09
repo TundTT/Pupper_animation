@@ -1,5 +1,7 @@
 # Pupper V3 Codebase
 
+Hybrid wheel alignment is built and available as an inactive, unbound controller. See [the lab handoff](WHEEL_ALIGN_HYBRID_TESTING.md) for calibration and button-binding TODOs.
+
 The selected September 7 walking policy is ready for first hardware testing via **Square**. See [WALK_V2_TESTING.md](WALK_V2_TESTING.md) for the exact checkpoint, build checks, and procedure.
 
 > **This is the `robot-code` branch**: just this monorepo (rooted here instead of nested

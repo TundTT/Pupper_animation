@@ -157,6 +157,18 @@ def generate_launch_description():
         ],
     )
 
+    # Hybrid alignment is intentionally unbound; activate manually for lab bring-up.
+    wheel_align_hybrid_robot_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=[
+            "neural_controller_wheel_align_hybrid",
+            "--controller-manager", "/controller_manager",
+            "--controller-manager-timeout", "30",
+            "--inactive",
+        ],
+    )
+
     # Wheeled locomotion policy (Triangle button). Inactive by default, like the
     # other neural controllers -- joy_util_node activates it on demand.
     wheel_robot_controller_spawner = Node(
@@ -346,6 +358,7 @@ def generate_launch_description():
         robot_controller_spawner,
         three_legged_robot_controller_spawner,
         leg_lift_robot_controller_spawner,
+        wheel_align_hybrid_robot_controller_spawner,
         wheel_robot_controller_spawner,
         walk_v2_robot_controller_spawner,
         # Forward command controllers for animation
