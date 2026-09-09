@@ -1,0 +1,41 @@
+{
+  "params": "mujoco_playground/workspace/hybrid_results/attempt2_guard/mjx_params",
+  "num_envs": 64,
+  "seed": 20260908,
+  "physics": "randomized",
+  "abduction_guard": 0.35,
+  "slew_rate": 0.25,
+  "sequence_seconds": 90,
+  "all_four_success_count": 50,
+  "all_four_success_fraction": 0.78125,
+  "survival_fraction": 0.9375,
+  "strict_success_count": 50,
+  "touchdown_verified_success_count": 50,
+  "fall_count": 0,
+  "unsafe_rotation_count": 0,
+  "rotating_samples": 98828,
+  "min_rotating_clearance_m": 0.022243324667215347,
+  "per_leg_completed": {
+    "front_r": 61,
+    "front_l": 58,
+    "back_r": 59,
+    "back_l": 57
+  },
+  "drift_p95": 0.0650801956653595,
+  "drift_max": 0.15262363851070404,
+  "held_error_p95": 0.03956683352589607,
+  "held_error_mean": 0.01852315664291382,
+  "snapshot_hold_error_p95": 0.039006903767585754,
+  "held_samples": 528840,
+  "final_calibrated_error_p95": 0.4054512679576874,
+  "completed_only_success_count": 50,
+  "thresholds": {
+    "calibrated_error_rad": 0.1,
+    "final_speed_rad_s": 0.25,
+    "strict_error_rad": 0.06,
+    "settle_error_rad": 0.035,
+    "settle_speed_rad_s": 0.08,
+    "settle_dwell_s": 0.5,
+    "min_rotate_clearance_m": 0.005
+  }
+}

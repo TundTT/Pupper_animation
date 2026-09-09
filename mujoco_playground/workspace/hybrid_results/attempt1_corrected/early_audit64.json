@@ -1,0 +1,37 @@
+{
+  "params": "mujoco_playground/workspace/hybrid_results/attempt1_corrected/params_5079040",
+  "num_envs": 64,
+  "seed": 20260908,
+  "physics": "randomized",
+  "slew_rate": 0.25,
+  "sequence_seconds": 90,
+  "all_four_success_count": 0,
+  "all_four_success_fraction": 0.0,
+  "survival_fraction": 0.96875,
+  "strict_success_count": 0,
+  "fall_count": 0,
+  "unsafe_rotation_count": 0,
+  "per_leg_completed": {
+    "front_r": 20,
+    "front_l": 1,
+    "back_r": 0,
+    "back_l": 1
+  },
+  "drift_p95": 0.06152564287185669,
+  "drift_max": 0.15072545409202576,
+  "held_error_p95": 0.057668354362249374,
+  "held_error_mean": 0.021938549354672432,
+  "snapshot_hold_error_p95": 0.04291664436459541,
+  "held_samples": 80970,
+  "final_calibrated_error_p95": 2.950181722640991,
+  "completed_only_success_count": 0,
+  "thresholds": {
+    "calibrated_error_rad": 0.1,
+    "final_speed_rad_s": 0.25,
+    "strict_error_rad": 0.06,
+    "settle_error_rad": 0.035,
+    "settle_speed_rad_s": 0.08,
+    "settle_dwell_s": 0.5,
+    "min_rotate_clearance_m": 0.005
+  }
+}

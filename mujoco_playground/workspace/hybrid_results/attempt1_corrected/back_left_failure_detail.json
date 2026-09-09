@@ -1,0 +1,353 @@
+{
+  "summary": {
+    "unfinished_alive_back_left": 33,
+    "phase_at_timeout_counts": {
+      "0": 0,
+      "1": 13,
+      "2": 20,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    },
+    "mean_fractions": {
+      "hip_guard_fail": 0.0176969696969697,
+      "abd_guard_fail": 0.6268484848484849,
+      "tilt_guard_fail": 0.014878787878787878,
+      "angular_speed_guard_fail_estimate": 0.03476203476203476,
+      "physical_clearance_below_5mm": 0.011696969696969697
+    },
+    "note": "Angular speed estimated from recorded 50 Hz quaternions, not the exact controller IMU sample; conditions can overlap."
+  },
+  "robots": [
+    {
+      "robot": 1,
+      "end_phase": 2,
+      "final_error": 0.7209685444831848,
+      "hip_guard_fail": 0.015,
+      "abd_guard_fail": 0.391,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.009009009009009009,
+      "physical_clearance_below_5mm": 0.005
+    },
+    {
+      "robot": 3,
+      "end_phase": 2,
+      "final_error": 0.544163703918457,
+      "hip_guard_fail": 0.016,
+      "abd_guard_fail": 0.192,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.002002002002002002,
+      "physical_clearance_below_5mm": 0.004
+    },
+    {
+      "robot": 4,
+      "end_phase": 1,
+      "final_error": 1.2266772985458374,
+      "hip_guard_fail": 0.016,
+      "abd_guard_fail": 0.995,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.002002002002002002,
+      "physical_clearance_below_5mm": 0.007
+    },
+    {
+      "robot": 7,
+      "end_phase": 1,
+      "final_error": 0.860538899898529,
+      "hip_guard_fail": 0.023,
+      "abd_guard_fail": 0.991,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.0,
+      "physical_clearance_below_5mm": 0.008
+    },
+    {
+      "robot": 9,
+      "end_phase": 1,
+      "final_error": 0.17461943626403809,
+      "hip_guard_fail": 0.015,
+      "abd_guard_fail": 0.953,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.0,
+      "physical_clearance_below_5mm": 0.004
+    },
+    {
+      "robot": 13,
+      "end_phase": 2,
+      "final_error": 0.964359700679779,
+      "hip_guard_fail": 0.024,
+      "abd_guard_fail": 0.681,
+      "tilt_guard_fail": 0.19,
+      "angular_speed_guard_fail_estimate": 0.4364364364364364,
+      "physical_clearance_below_5mm": 0.096
+    },
+    {
+      "robot": 15,
+      "end_phase": 1,
+      "final_error": 0.2841407060623169,
+      "hip_guard_fail": 0.024,
+      "abd_guard_fail": 0.99,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.0,
+      "physical_clearance_below_5mm": 0.011
+    },
+    {
+      "robot": 19,
+      "end_phase": 2,
+      "final_error": 1.4425100088119507,
+      "hip_guard_fail": 0.021,
+      "abd_guard_fail": 0.278,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.004004004004004004,
+      "physical_clearance_below_5mm": 0.012
+    },
+    {
+      "robot": 22,
+      "end_phase": 2,
+      "final_error": 2.282905101776123,
+      "hip_guard_fail": 0.018,
+      "abd_guard_fail": 0.491,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.0,
+      "physical_clearance_below_5mm": 0.004
+    },
+    {
+      "robot": 23,
+      "end_phase": 1,
+      "final_error": 3.135996103286743,
+      "hip_guard_fail": 0.017,
+      "abd_guard_fail": 0.997,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.004004004004004004,
+      "physical_clearance_below_5mm": 0.005
+    },
+    {
+      "robot": 24,
+      "end_phase": 1,
+      "final_error": 2.9486894607543945,
+      "hip_guard_fail": 0.016,
+      "abd_guard_fail": 0.757,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.004004004004004004,
+      "physical_clearance_below_5mm": 0.005
+    },
+    {
+      "robot": 27,
+      "end_phase": 2,
+      "final_error": 0.9041494131088257,
+      "hip_guard_fail": 0.017,
+      "abd_guard_fail": 0.429,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.0,
+      "physical_clearance_below_5mm": 0.004
+    },
+    {
+      "robot": 31,
+      "end_phase": 1,
+      "final_error": 0.2068513035774231,
+      "hip_guard_fail": 0.015,
+      "abd_guard_fail": 0.926,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.02002002002002002,
+      "physical_clearance_below_5mm": 0.004
+    },
+    {
+      "robot": 33,
+      "end_phase": 2,
+      "final_error": 1.410715937614441,
+      "hip_guard_fail": 0.016,
+      "abd_guard_fail": 0.564,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.0,
+      "physical_clearance_below_5mm": 0.005
+    },
+    {
+      "robot": 34,
+      "end_phase": 1,
+      "final_error": 0.5202601552009583,
+      "hip_guard_fail": 0.017,
+      "abd_guard_fail": 0.996,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.002002002002002002,
+      "physical_clearance_below_5mm": 0.005
+    },
+    {
+      "robot": 36,
+      "end_phase": 2,
+      "final_error": 0.08521635830402374,
+      "hip_guard_fail": 0.016,
+      "abd_guard_fail": 0.077,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.004004004004004004,
+      "physical_clearance_below_5mm": 0.007
+    },
+    {
+      "robot": 38,
+      "end_phase": 2,
+      "final_error": 2.4222700595855713,
+      "hip_guard_fail": 0.016,
+      "abd_guard_fail": 0.434,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.01701701701701702,
+      "physical_clearance_below_5mm": 0.007
+    },
+    {
+      "robot": 39,
+      "end_phase": 2,
+      "final_error": 1.0876063108444214,
+      "hip_guard_fail": 0.018,
+      "abd_guard_fail": 0.408,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.002002002002002002,
+      "physical_clearance_below_5mm": 0.005
+    },
+    {
+      "robot": 40,
+      "end_phase": 2,
+      "final_error": 0.8267549276351929,
+      "hip_guard_fail": 0.018,
+      "abd_guard_fail": 0.277,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.005005005005005005,
+      "physical_clearance_below_5mm": 0.008
+    },
+    {
+      "robot": 41,
+      "end_phase": 2,
+      "final_error": 1.0110063552856445,
+      "hip_guard_fail": 0.015,
+      "abd_guard_fail": 0.68,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.009009009009009009,
+      "physical_clearance_below_5mm": 0.004
+    },
+    {
+      "robot": 42,
+      "end_phase": 1,
+      "final_error": 0.09468090534210205,
+      "hip_guard_fail": 0.017,
+      "abd_guard_fail": 0.979,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.003003003003003003,
+      "physical_clearance_below_5mm": 0.005
+    },
+    {
+      "robot": 43,
+      "end_phase": 2,
+      "final_error": 1.88525390625,
+      "hip_guard_fail": 0.025,
+      "abd_guard_fail": 0.485,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.0,
+      "physical_clearance_below_5mm": 0.01
+    },
+    {
+      "robot": 44,
+      "end_phase": 1,
+      "final_error": 0.12805159389972687,
+      "hip_guard_fail": 0.016,
+      "abd_guard_fail": 0.975,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.005005005005005005,
+      "physical_clearance_below_5mm": 0.005
+    },
+    {
+      "robot": 45,
+      "end_phase": 2,
+      "final_error": 1.4459108114242554,
+      "hip_guard_fail": 0.014,
+      "abd_guard_fail": 0.178,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.001001001001001001,
+      "physical_clearance_below_5mm": 0.003
+    },
+    {
+      "robot": 49,
+      "end_phase": 2,
+      "final_error": 0.3917796313762665,
+      "hip_guard_fail": 0.024,
+      "abd_guard_fail": 0.369,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.0,
+      "physical_clearance_below_5mm": 0.009
+    },
+    {
+      "robot": 50,
+      "end_phase": 2,
+      "final_error": 1.5459648370742798,
+      "hip_guard_fail": 0.023,
+      "abd_guard_fail": 0.658,
+      "tilt_guard_fail": 0.065,
+      "angular_speed_guard_fail_estimate": 0.22822822822822822,
+      "physical_clearance_below_5mm": 0.027
+    },
+    {
+      "robot": 51,
+      "end_phase": 1,
+      "final_error": 2.231935501098633,
+      "hip_guard_fail": 0.016,
+      "abd_guard_fail": 0.993,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.009009009009009009,
+      "physical_clearance_below_5mm": 0.008
+    },
+    {
+      "robot": 53,
+      "end_phase": 2,
+      "final_error": 0.11811524629592896,
+      "hip_guard_fail": 0.017,
+      "abd_guard_fail": 0.429,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.005005005005005005,
+      "physical_clearance_below_5mm": 0.007
+    },
+    {
+      "robot": 55,
+      "end_phase": 2,
+      "final_error": 1.5792406797409058,
+      "hip_guard_fail": 0.018,
+      "abd_guard_fail": 0.248,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.0,
+      "physical_clearance_below_5mm": 0.005
+    },
+    {
+      "robot": 56,
+      "end_phase": 2,
+      "final_error": 0.995968222618103,
+      "hip_guard_fail": 0.014,
+      "abd_guard_fail": 0.496,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.003003003003003003,
+      "physical_clearance_below_5mm": 0.004
+    },
+    {
+      "robot": 59,
+      "end_phase": 1,
+      "final_error": 0.22082507610321045,
+      "hip_guard_fail": 0.015,
+      "abd_guard_fail": 0.993,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.018018018018018018,
+      "physical_clearance_below_5mm": 0.002
+    },
+    {
+      "robot": 61,
+      "end_phase": 1,
+      "final_error": 1.8217389583587646,
+      "hip_guard_fail": 0.016,
+      "abd_guard_fail": 0.72,
+      "tilt_guard_fail": 0.0,
+      "angular_speed_guard_fail_estimate": 0.006006006006006006,
+      "physical_clearance_below_5mm": 0.005
+    },
+    {
+      "robot": 62,
+      "end_phase": 2,
+      "final_error": 1.6635836362838745,
+      "hip_guard_fail": 0.016,
+      "abd_guard_fail": 0.656,
+      "tilt_guard_fail": 0.236,
+      "angular_speed_guard_fail_estimate": 0.3483483483483483,
+      "physical_clearance_below_5mm": 0.086
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/theerawit/.netrc.
+wandb: Currently logged in as: tundt (QuadMorph) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.29.0
+wandb: Run data is saved locally in /home/theerawit/Pupper_animation-align-hybrid/wandb/run-20260908_204236-gawg2max
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Resuming run wheel-align-hybrid_2026-09-08_20-40-55
+wandb: ⭐️ View project at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: 🚀 View run at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/gawg2max
+OUTPUT mujoco_playground/workspace/hybrid_results/attempt1_corrected DEVICES [CudaDevice(id=0)]
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+{"step": 0, "elapsed": 69, "eplen": 1153.21875, "lift": 0.18233, "progress": 0.14383, "stance": 0.07708, "drift": 0.02918, "held_error": 0.02408, "completed": 0.0, "fall": 3e-05, "unsafe_rotation": 0.0}
+{"step": 5079040, "elapsed": 139, "eplen": 1200.0, "lift": 0.96652, "progress": 0.54143, "stance": 0.02512, "drift": 0.03275, "held_error": 0.02724, "completed": 0.20009, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 10158080, "elapsed": 152, "eplen": 1185.328125, "lift": 0.98126, "progress": 0.47768, "stance": 0.02006, "drift": 0.02477, "held_error": 0.02511, "completed": 0.02506, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 15237120, "elapsed": 165, "eplen": 1200.0, "lift": 0.98507, "progress": 0.50559, "stance": 0.08759, "drift": 0.0246, "held_error": 0.02493, "completed": 0.14154, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 20316160, "elapsed": 178, "eplen": 1200.0, "lift": 0.98607, "progress": 0.53841, "stance": 0.39519, "drift": 0.0214, "held_error": 0.02049, "completed": 0.36905, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 25395200, "elapsed": 191, "eplen": 1200.0, "lift": 0.98607, "progress": 0.54947, "stance": 0.604, "drift": 0.01773, "held_error": 0.02162, "completed": 0.3488, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 30474240, "elapsed": 203, "eplen": 1200.0, "lift": 0.98253, "progress": 0.47734, "stance": 0.63855, "drift": 0.01554, "held_error": 0.02141, "completed": 0.43793, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 35553280, "elapsed": 216, "eplen": 1194.671875, "lift": 0.97982, "progress": 0.45643, "stance": 0.69374, "drift": 0.01603, "held_error": 0.01879, "completed": 0.46162, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 40632320, "elapsed": 229, "eplen": 1194.515625, "lift": 0.98341, "progress": 0.46685, "stance": 0.69162, "drift": 0.01395, "held_error": 0.0202, "completed": 0.45517, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 45711360, "elapsed": 242, "eplen": 1200.0, "lift": 0.98675, "progress": 0.50132, "stance": 0.72139, "drift": 0.01287, "held_error": 0.01856, "completed": 0.40947, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 50790400, "elapsed": 255, "eplen": 1200.0, "lift": 0.98799, "progress": 0.47806, "stance": 0.73863, "drift": 0.01272, "held_error": 0.0187, "completed": 0.44988, "fall": 0.0, "unsafe_rotation": 0.0}
+wandb: updating run metadata
+wandb: uploading output.log; uploading wandb-summary.json; uploading config.yaml
+wandb: 
+wandb: Run history:
+wandb:       eval/avg_episode_length ▁█▆████▇▇██
+wandb:        eval/episode_clearance ▁█▇▇▇▇▆▅▅▆▆
+wandb:    eval/episode_clearance_std ▁█▇█▇▇▇▆▅▆▅
+wandb:        eval/episode_completed ▁▄▁▃▇▆███▇█
+wandb:    eval/episode_completed_std ▁▇▄▇████▇█▇
+wandb:          eval/episode_contact ▁▇▇████▇███
+wandb:      eval/episode_contact_std █▃▅▁▁▁▂▃▃▂▁
+wandb:            eval/episode_drift ▆█▅▅▄▃▂▂▁▁▁
+wandb:     eval/episode_drift_reward ▁▆▇█▇█▇▆▇██
+wandb: eval/episode_drift_reward_std █▃▄▁▂▁▃▄▃▁▁
+wandb:                           +45 ...
+wandb: 
+wandb: Run summary:
+wandb:       eval/avg_episode_length 1200
+wandb:        eval/episode_clearance 25.69017
+wandb:    eval/episode_clearance_std 13.0638
+wandb:        eval/episode_completed 539.85938
+wandb:    eval/episode_completed_std 310.95673
+wandb:          eval/episode_contact 1197.06372
+wandb:      eval/episode_contact_std 1.62612
+wandb:            eval/episode_drift 15.26729
+wandb:     eval/episode_drift_reward 1199.74878
+wandb: eval/episode_drift_reward_std 1.35189
+wandb:                           +45 ...
+wandb: 
+wandb: 🚀 View run wheel-align-hybrid_2026-09-08_20-40-55 at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/gawg2max
+wandb: ⭐️ View project at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260908_204236-gawg2max/logs
+FINISHED mujoco_playground/workspace/hybrid_results/attempt1_corrected

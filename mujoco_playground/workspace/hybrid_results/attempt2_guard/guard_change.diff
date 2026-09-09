@@ -1,0 +1,46 @@
+--- attempt1_corrected/hybrid_env.py
++++ attempt2_guard/hybrid_env.py
+@@ -29,7 +29,7 @@
+ 
+ 
+ class HybridAlignEnv(PipelineEnv):
+-    def __init__(self, slew_rate=0.25, noise=True):
++    def __init__(self, slew_rate=0.25, noise=True, abduction_guard=0.35):
+         sys = mjcf.load(str(configs.resolve_model_path()))
+         m = sys.mj_model
+         assert m.nu == 12 and m.nq == 19
+@@ -47,6 +47,7 @@
+         sys = sys.tree_replace({'opt.timestep': .004})
+         super().__init__(sys, backend='mjx', n_frames=5)
+         self.slew_rate, self.noise = slew_rate, noise
++        self.abduction_guard = float(abduction_guard)
+         self.default = jp.array(configs.DEFAULT_POSE[POS])
+         self.scale = jp.array([.5, 1.6] * 4)
+         self.lo = jp.array(m.jnt_range[1 + POS, 0])
+@@ -79,6 +80,17 @@
+ 
+     def effective_command(self, info):
+         return jp.where((info['phase'] >= LIFT) & (info['phase'] <= VERIFY), info['active_command'], 0)
++
++    def lift_ready(self, joint_angles, ang, gravity, leg):
++        """Encoder/IMU guard; the wider abduction margin is validated offline.
++
++        0.35 rad admitted almost all physically clear poses blocked by 0.25.
++        The 5 mm physical margin is unchanged in validation and sequence audits.
++        No simulation geometry enters this runtime decision.
++        """
++        hip = joint_angles[1+3*leg] * jp.where(leg%2==0,1.,-1.)
++        abd_error = jp.abs(joint_angles[3*leg]-self.default[2*leg])
++        return (hip > 1.1) & (abd_error < self.abduction_guard) & (-gravity[2] > jp.cos(.12)) & (jp.linalg.norm(ang) < .3)
+ 
+     def observe(self, ps, info):
+         ang, gravity = self.imu(ps)
+@@ -137,7 +149,7 @@
+         ang, grav = self.imu(ps)
+         signed_hip = ps.q[8+3*leg] * jp.where(leg%2==0,1.,-1.)
+         # Conservative encoder/IMU guard; actual clearance is audited separately.
+-        gate = (signed_hip > 1.1) & (jp.abs(ps.q[7+3*leg]-self.default[2*leg]) < .25) & (-grav[2] > jp.cos(.12)) & (jp.linalg.norm(ang) < .3)
++        gate = self.lift_ready(ps.q[7:],ang,grav,leg)
+         info['gate_steps'] = jp.where(up & gate,info['gate_steps']+1,0)
+         rotating = ((info['phase']==ROTATE)|(info['phase']==VERIFY)) & gate
+         # On loss of the lift guard, latch once at the encoder angle. Continue

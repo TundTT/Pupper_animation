@@ -1,0 +1,55 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/theerawit/.netrc.
+wandb: Currently logged in as: tundt (QuadMorph) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.29.0
+wandb: Run data is saved locally in /home/theerawit/Pupper_animation-align-hybrid/wandb/run-20260908_203437-486wowtn
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Resuming run wheel-align-hybrid_2026-09-08_20-31-59
+wandb: ⭐️ View project at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: 🚀 View run at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/486wowtn
+OUTPUT mujoco_playground/workspace/hybrid_results/attempt1 DEVICES [CudaDevice(id=0)]
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+2026-09-08 20:34:58.420789: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:34:58.420815: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:34:58.420821: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:34:58.420827: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:34:58.420833: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:34:58.420838: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:34:58.420842: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:34:58.420847: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+{"step": 0, "elapsed": 46, "eplen": 1147.234375, "lift": 0.17967, "progress": 0.14405, "stance": 0.07705, "drift": 0.02809, "held_error": 0.02359, "completed": 0.0, "fall": 3e-05, "unsafe_rotation": 0.0}
+2026-09-08 20:35:32.395538: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:35:32.395764: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:35:32.395776: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:35:32.395841: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:35:32.395879: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+{"step": 5079040, "elapsed": 117, "eplen": 1196.75, "lift": 0.8317, "progress": 0.67245, "stance": 0.14763, "drift": 0.03559, "held_error": 0.02864, "completed": 0.04515, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 10158080, "elapsed": 130, "eplen": 1167.875, "lift": 0.21322, "progress": 0.18158, "stance": 0.61708, "drift": 0.01523, "held_error": 0.01867, "completed": 0.0, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 15237120, "elapsed": 143, "eplen": 1200.0, "lift": 0.1821, "progress": 0.07044, "stance": 0.67249, "drift": 0.0075, "held_error": 0.01525, "completed": 0.0, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 20316160, "elapsed": 156, "eplen": 1200.0, "lift": 0.17652, "progress": 0.04324, "stance": 0.70449, "drift": 0.00782, "held_error": 0.01293, "completed": 0.0, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 25395200, "elapsed": 169, "eplen": 1200.0, "lift": 0.18865, "progress": 0.0527, "stance": 0.67023, "drift": 0.0056, "held_error": 0.0141, "completed": 0.0, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 30474240, "elapsed": 182, "eplen": 1200.0, "lift": 0.17992, "progress": 0.03855, "stance": 0.72675, "drift": 0.00806, "held_error": 0.01258, "completed": 0.0, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 35553280, "elapsed": 195, "eplen": 1200.0, "lift": 0.17277, "progress": 0.07735, "stance": 0.64623, "drift": 0.01029, "held_error": 0.00928, "completed": 0.0, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 40632320, "elapsed": 208, "eplen": 1200.0, "lift": 0.16756, "progress": 0.03622, "stance": 0.62995, "drift": 0.00806, "held_error": 0.01088, "completed": 0.0, "fall": 0.0, "unsafe_rotation": 0.0}
+{"step": 45711360, "elapsed": 221, "eplen": 1200.0, "lift": 0.17191, "progress": 0.0038, "stance": 0.57765, "drift": 0.0133, "held_error": 0.013, "completed": 0.0, "fall": 0.0, "unsafe_rotation": 0.0}
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/theerawit/Pupper_animation-align-hybrid/mujoco_playground/workspace/hybrid_train.py", line 69, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/theerawit/Pupper_animation-align-hybrid/mujoco_playground/workspace/hybrid_train.py", line 63, in main
+    _,params,_=train.train(TrainingEnv(),**cfg,network_factory=network_factory(),randomization_fn=randomization(),
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/training/agents/ppo/train.py", line 814, in train
+    training_epoch_with_timing(training_state, env_state, epoch_keys)
+  File "/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/training/agents/ppo/train.py", line 685, in training_epoch_with_timing
+    result = training_epoch(training_state, env_state, key)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 2, in __init__
+KeyboardInterrupt
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mwheel-align-hybrid_2026-09-08_20-31-59[0m at: [34mhttps://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/486wowtn[0m
+[1;34mwandb[0m: Find logs at: [1;35mwandb/run-20260908_203437-486wowtn/logs[0m

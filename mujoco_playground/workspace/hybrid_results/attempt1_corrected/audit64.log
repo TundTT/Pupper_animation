@@ -1,0 +1,50 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+audit stage 0 completed [0, 0, 0, 0]
+audit stage 1 completed [29, 24, 0, 0]
+audit stage 2 completed [29, 24, 0, 0]
+audit stage 3 completed [59, 48, 0, 0]
+audit stage 4 completed [59, 48, 0, 0]
+audit stage 5 completed [59, 48, 30, 9]
+audit stage 6 completed [59, 48, 30, 9]
+audit stage 7 completed [59, 48, 55, 29]
+audit stage 8 completed [59, 48, 55, 29]
+{
+  "params": "mujoco_playground/workspace/hybrid_results/attempt1_corrected/mjx_params",
+  "num_envs": 64,
+  "seed": 20260908,
+  "physics": "randomized",
+  "slew_rate": 0.25,
+  "sequence_seconds": 90,
+  "all_four_success_count": 21,
+  "all_four_success_fraction": 0.328125,
+  "survival_fraction": 0.96875,
+  "strict_success_count": 21,
+  "fall_count": 0,
+  "unsafe_rotation_count": 0,
+  "per_leg_completed": {
+    "front_r": 59,
+    "front_l": 48,
+    "back_r": 55,
+    "back_l": 29
+  },
+  "drift_p95": 0.04598482325673103,
+  "drift_max": 0.15045343339443207,
+  "held_error_p95": 0.040966883301734924,
+  "held_error_mean": 0.018558364361524582,
+  "snapshot_hold_error_p95": 0.04636255279183388,
+  "held_samples": 444795,
+  "final_calibrated_error_p95": 1.718144416809082,
+  "completed_only_success_count": 21,
+  "thresholds": {
+    "calibrated_error_rad": 0.1,
+    "final_speed_rad_s": 0.25,
+    "strict_error_rad": 0.06,
+    "settle_error_rad": 0.035,
+    "settle_speed_rad_s": 0.08,
+    "settle_dwell_s": 0.5,
+    "min_rotate_clearance_m": 0.005
+  }
+}

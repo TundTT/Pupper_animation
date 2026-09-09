@@ -1,0 +1,50 @@
+[
+  {
+    "leg": "front_r",
+    "robots_with_alive_samples": 64,
+    "reached_rotation": 3,
+    "reached_verify": 2,
+    "max_clearance_median": 0.029657864943146706,
+    "max_hip_median": 0.9864039123058319,
+    "hip_guard_fraction_median": 0.0,
+    "abduction_guard_fraction_median": 1.0,
+    "clearance_fraction_median": 0.992,
+    "lift_phase_fraction_median": 1.0
+  },
+  {
+    "leg": "front_l",
+    "robots_with_alive_samples": 62,
+    "reached_rotation": 2,
+    "reached_verify": 0,
+    "max_clearance_median": 0.028197254985570908,
+    "max_hip_median": 1.0200524926185608,
+    "hip_guard_fraction_median": 0.0,
+    "abduction_guard_fraction_median": 1.0,
+    "clearance_fraction_median": 0.992,
+    "lift_phase_fraction_median": 1.0
+  },
+  {
+    "leg": "back_r",
+    "robots_with_alive_samples": 62,
+    "reached_rotation": 25,
+    "reached_verify": 5,
+    "max_clearance_median": 0.03790480084717274,
+    "max_hip_median": 1.1425482034683228,
+    "hip_guard_fraction_median": 0.3725,
+    "abduction_guard_fraction_median": 1.0,
+    "clearance_fraction_median": 0.992,
+    "lift_phase_fraction_median": 0.437
+  },
+  {
+    "leg": "back_l",
+    "robots_with_alive_samples": 61,
+    "reached_rotation": 37,
+    "reached_verify": 17,
+    "max_clearance_median": 0.029834002256393433,
+    "max_hip_median": 1.1572856903076172,
+    "hip_guard_fraction_median": 0.302,
+    "abduction_guard_fraction_median": 1.0,
+    "clearance_fraction_median": 0.811,
+    "lift_phase_fraction_median": 0.039
+  }
+]

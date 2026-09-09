@@ -1,0 +1,55 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+2026-09-08 20:37:19.993058: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:37:35.744854: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:37:39.298892: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:38:01.646093: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 20:38:01.646121: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+audit stage 0 completed [0, 0, 0, 0]
+audit stage 1 completed [1, 0, 0, 0]
+audit stage 2 completed [1, 0, 0, 0]
+audit stage 3 completed [1, 0, 0, 0]
+audit stage 4 completed [1, 0, 0, 0]
+audit stage 5 completed [1, 0, 3, 5]
+audit stage 6 completed [1, 0, 3, 5]
+audit stage 7 completed [1, 0, 3, 10]
+audit stage 8 completed [1, 0, 3, 10]
+{
+  "params": "mujoco_playground/workspace/hybrid_results/attempt1/params_5079040",
+  "num_envs": 64,
+  "seed": 20260908,
+  "physics": "randomized",
+  "slew_rate": 0.25,
+  "sequence_seconds": 90,
+  "all_four_success_count": 0,
+  "all_four_success_fraction": 0.0,
+  "survival_fraction": 0.9375,
+  "strict_success_count": 0,
+  "fall_count": 0,
+  "unsafe_rotation_count": 0,
+  "per_leg_completed": {
+    "front_r": 1,
+    "front_l": 0,
+    "back_r": 3,
+    "back_l": 10
+  },
+  "drift_p95": 0.07774607092142105,
+  "drift_max": 0.15087491273880005,
+  "held_error_p95": 0.06362013518810272,
+  "held_error_mean": 0.024174943566322327,
+  "snapshot_hold_error_p95": 0.06618373095989227,
+  "held_samples": 20445,
+  "final_calibrated_error_p95": 2.919158935546875,
+  "completed_only_success_count": 0,
+  "thresholds": {
+    "calibrated_error_rad": 0.1,
+    "final_speed_rad_s": 0.25,
+    "strict_error_rad": 0.06,
+    "settle_error_rad": 0.035,
+    "settle_speed_rad_s": 0.08,
+    "settle_dwell_s": 0.5,
+    "min_rotate_clearance_m": 0.005
+  }
+}

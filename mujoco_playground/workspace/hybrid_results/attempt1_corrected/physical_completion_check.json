@@ -1,0 +1,31 @@
+{
+  "touchdown_verified_success_count": 21,
+  "completion_clearance_max": 0.004507746547460556,
+  "successful_robots": [
+    0,
+    2,
+    6,
+    10,
+    12,
+    14,
+    16,
+    17,
+    18,
+    20,
+    21,
+    25,
+    28,
+    29,
+    35,
+    37,
+    46,
+    47,
+    48,
+    52,
+    60
+  ],
+  "terminated_robots": [
+    57,
+    63
+  ]
+}

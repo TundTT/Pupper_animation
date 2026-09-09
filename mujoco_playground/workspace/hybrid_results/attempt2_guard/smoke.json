@@ -1,0 +1,31 @@
+{
+  "invariants": "passed",
+  "slew_experiment": [
+    {
+      "slew_rad_s": 0.25,
+      "peak_reaction_torque_nm": 0.001847975873951524,
+      "peak_wheel_speed_rad_s": 0.2500012579341522,
+      "settled_seconds": 13.644
+    },
+    {
+      "slew_rad_s": 0.5,
+      "peak_reaction_torque_nm": 0.004341617034429174,
+      "peak_wheel_speed_rad_s": 0.4999468612824012,
+      "settled_seconds": 7.836
+    },
+    {
+      "slew_rad_s": 1.0,
+      "peak_reaction_torque_nm": 0.009263024270449005,
+      "peak_wheel_speed_rad_s": 0.989620203187929,
+      "settled_seconds": 5.164
+    },
+    {
+      "slew_rad_s": 10.0,
+      "peak_reaction_torque_nm": 0.037665756473398315,
+      "peak_wheel_speed_rad_s": 1.9462655663019708,
+      "settled_seconds": 3.488
+    }
+  ],
+  "chosen_slew": 0.25,
+  "scope": "isolated actuator reaction; balance evaluated after training"
+}

@@ -1,0 +1,1 @@
+This launch is invalid as a training comparison: the default Brax autoreset did not reset the hybrid task timer, command, phases or wheel snapshots. Later episodes therefore trained stand. Stopped after checkpoint 45711360. The corrected run starts from random parameters and uses TaskAutoResetWrapper. The early audit is retained as diagnostics only.

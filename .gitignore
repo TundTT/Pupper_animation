@@ -1,6 +1,12 @@
 # Training run artifacts
 mujoco_playground/wandb/
 mujoco_playground/workspace/output/
+mujoco_playground/workspace/hybrid_results/jax_cache/
+mujoco_playground/workspace/hybrid_results/**/params_*
+mujoco_playground/workspace/hybrid_results/**/mjx_params
+mujoco_playground/workspace/hybrid_results/**/*.mp4
+mujoco_playground/workspace/hybrid_results/**/*.npz
+wandb/
 
 # Python
 __pycache__/

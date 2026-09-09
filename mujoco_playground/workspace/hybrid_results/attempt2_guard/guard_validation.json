@@ -1,0 +1,70 @@
+{
+  "chosen_guard_rad": 0.35,
+  "previous_guard_rad": 0.25,
+  "physical_margin_m": 0.005,
+  "candidates": [
+    {
+      "abduction_guard_rad": 0.25,
+      "admitted_samples": 311514,
+      "new_samples": 0,
+      "unsafe_samples": 0,
+      "min_clearance_m": 0.005346383899450302,
+      "new_min_clearance_m": null
+    },
+    {
+      "abduction_guard_rad": 0.3,
+      "admitted_samples": 387267,
+      "new_samples": 75753,
+      "unsafe_samples": 0,
+      "min_clearance_m": 0.005346383899450302,
+      "new_min_clearance_m": 0.024706128984689713
+    },
+    {
+      "abduction_guard_rad": 0.35,
+      "admitted_samples": 388354,
+      "new_samples": 76840,
+      "unsafe_samples": 0,
+      "min_clearance_m": 0.005346383899450302,
+      "new_min_clearance_m": 0.024427946656942368
+    },
+    {
+      "abduction_guard_rad": 0.4,
+      "admitted_samples": 388358,
+      "new_samples": 76844,
+      "unsafe_samples": 0,
+      "min_clearance_m": 0.005346383899450302,
+      "new_min_clearance_m": 0.024427946656942368
+    },
+    {
+      "abduction_guard_rad": 0.45,
+      "admitted_samples": 388358,
+      "new_samples": 76844,
+      "unsafe_samples": 0,
+      "min_clearance_m": 0.005346383899450302,
+      "new_min_clearance_m": 0.024427946656942368
+    },
+    {
+      "abduction_guard_rad": 0.5,
+      "admitted_samples": 388358,
+      "new_samples": 76844,
+      "unsafe_samples": 0,
+      "min_clearance_m": 0.005346383899450302,
+      "new_min_clearance_m": 0.024427946656942368
+    }
+  ],
+  "stress_samples": 76840,
+  "stress_unsafe_samples": 0,
+  "stress_min_clearance_by_leg_m": {
+    "front_r": 0.026042237040318328,
+    "front_l": 0.01949323629250512,
+    "back_r": 0.02145854541243198,
+    "back_l": 0.013717445765370331
+  },
+  "perturbations": {
+    "torso_drop_m": 0.01,
+    "wheel_radius_increase_m": 0.0025,
+    "joint_angle_noise_rad": 0.005,
+    "roll_pitch_noise_rad": 0.01
+  },
+  "scope": "Empirical offline validation of newly admitted recorded poses; all four legs. Not a guarantee outside the tested distribution. Dynamic rollout must also pass."
+}
