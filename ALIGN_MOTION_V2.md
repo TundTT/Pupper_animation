@@ -2,6 +2,8 @@
 
 Training preparation and runtime implementation, **not a trained or hardware-validated policy**. No training was run on the laptop. Heating and the later SMP deformation/flip procedures are outside this change.
 
+For an agent setting up the PC and running training, follow [AGENT_TRAINING_HANDOFF.md](AGENT_TRAINING_HANDOFF.md). It covers setup, preflight, a persistent training session, failure handling, evaluation and the artifacts to return.
+
 The branch is `codex/align-motion-v2`, based on `robot-code` at `582fd88ccce51d922e38cfd938d26bb5181bb276`. The existing controller instance and X button remain in use. Its YAML still selects `policy_wheel_align_hybrid.json`; selecting a new checkpoint is a separate deployment step after training and evaluation.
 
 ## What changed
