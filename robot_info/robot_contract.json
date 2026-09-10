@@ -7,6 +7,12 @@
     "wheel_profile_commit": "5a3b980057c0a91975431239c1d714a37d8c472b",
     "wheel_profile_ref": "origin/wheel"
   },
+  "access": {
+    "ssh_user": "pi",
+    "last_known_ip": "10.140.55.163",
+    "address_may_change": true,
+    "credentials_stored": false
+  },
   "compute": {
     "board": "Raspberry Pi 5 Model B Rev 1.1",
     "architecture": "arm64",

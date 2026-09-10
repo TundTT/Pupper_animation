@@ -35,6 +35,8 @@ The 2026-09-09 audit did not find `foxglove_bridge`, `camera_ros`, `topic_tools`
 
 The project checkout used for this robot is `/home/pi/robot-code-leglift`, with ROS workspace `/home/pi/robot-code-leglift/ros2_ws`. A separate checkout at `/home/pi/pupperv3-monorepo` belongs to another robot and must not be modified or launched for this target.
 
+The last-known lab connection is `pi@10.140.55.163`. The address can change after a reboot or network reconnect, so verify it before relying on automation. No password is stored in this repository.
+
 Source order is mandatory:
 
 ```bash
@@ -88,4 +90,4 @@ Every policy handoff should identify:
 - Target build command and result.
 - Any optional ROS dependencies required by its launch file.
 
-Never commit robot passwords, private keys, tokens, Wi-Fi credentials, or temporary access instructions. Network addresses are operational details, not compatibility contracts.
+Never commit robot passwords, private keys, tokens, Wi-Fi credentials, or temporary access instructions. The recorded IP address is non-secret convenience metadata, not a compatibility constraint.
