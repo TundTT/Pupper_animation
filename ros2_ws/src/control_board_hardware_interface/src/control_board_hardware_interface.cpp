@@ -204,6 +204,7 @@ ControlBoardHardwareInterface::export_state_interfaces() {
 
 hardware_interface::CallbackReturn ControlBoardHardwareInterface::on_configure(
     const rclcpp_lifecycle::State & /*previous_state*/) {
+  robot_calibration::invalidate_session(calibration_session_id_);
   // reset values always when configuring hardware
   for (uint i = 0; i < hw_state_positions_.size(); i++) {
     hw_state_positions_[i] = 0.0;
@@ -260,6 +261,17 @@ hardware_interface::CallbackReturn ControlBoardHardwareInterface::on_activate(
   //     return hardware_interface::CallbackReturn::ERROR;
   //   }
 
+  // A new hardware activation invalidates old wheel calibration, even in the same process.
+  // Share the lock with capture and policy activation so zeroing cannot race calibration.
+  std::unique_ptr<robot_calibration::CaptureLock> calibration_lock;
+  try {
+    calibration_lock = std::make_unique<robot_calibration::CaptureLock>();
+    calibration_session_id_ = robot_calibration::begin_session();
+  } catch (const std::exception &e) {
+    RCLCPP_ERROR(rclcpp::get_logger("ControlBoardHardwareInterface"), "Cannot establish encoder session: %s", e.what());
+    return hardware_interface::CallbackReturn::ERROR;
+  }
+
   // Enable actuators. Send the command multiple times to ensure it is received.
   for (int i = 0; i < 10; i++) {
     spi_command_->flags[0] = 1;
@@ -273,12 +285,24 @@ hardware_interface::CallbackReturn ControlBoardHardwareInterface::on_activate(
 
   // Homing
   do_homing();
+  try {
+    robot_calibration::finish_session(calibration_session_id_);
+  } catch (const std::exception &e) {
+    deactivate_motors();
+    robot_calibration::invalidate_session(calibration_session_id_);
+    RCLCPP_ERROR(rclcpp::get_logger("ControlBoardHardwareInterface"), "Cannot save encoder session: %s", e.what());
+    return hardware_interface::CallbackReturn::ERROR;
+  }
+  RCLCPP_WARN(rclcpp::get_logger("ControlBoardHardwareInterface"),
+      "Startup wheel calibration required. Confirm physical ring/reference pose with the operator, then run: "
+      "ros2 run robot_calibration calibrate capture. Policies remain gated until calibration is saved.");
 
   RCLCPP_INFO(rclcpp::get_logger("ControlBoardHardwareInterface"), "Successfully activated!");
   return hardware_interface::CallbackReturn::SUCCESS;
 }
 
 void ControlBoardHardwareInterface::deactivate_motors() {
+  robot_calibration::invalidate_session(calibration_session_id_);
   // Disable actuators
   spi_command_->flags[0] = 0;
   spi_command_->flags[1] = 0;

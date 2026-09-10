@@ -288,6 +288,26 @@ controller_interface::InterfaceConfiguration NeuralController::state_interface_c
 
 controller_interface::CallbackReturn NeuralController::on_activate(
     const rclcpp_lifecycle::State & /*previous_state*/) {
+  // Hold this only during lifecycle activation, never during real-time updates.
+  std::unique_ptr<robot_calibration::CaptureLock> calibration_lock;
+  if (params_.calibration_required) {
+    try {
+      calibration_lock = std::make_unique<robot_calibration::CaptureLock>();
+      startup_calibration_ = robot_calibration::load_current();
+      RCLCPP_INFO(get_node()->get_logger(), "Using startup calibration %s", startup_calibration_.calibration_id.c_str());
+    } catch (const std::exception &e) {
+      RCLCPP_ERROR(get_node()->get_logger(), "Policy activation blocked: %s. Confirm physical setup, then run ros2 run robot_calibration calibrate capture", e.what());
+      return controller_interface::CallbackReturn::ERROR;
+    }
+  } else {
+    if (params_.simulation_wheel_home.size() != 4 ||
+        !std::all_of(params_.simulation_wheel_home.begin(), params_.simulation_wheel_home.end(),
+                     [](double q) { return std::isfinite(q); }))
+      return controller_interface::CallbackReturn::ERROR;
+    std::copy(params_.simulation_wheel_home.begin(), params_.simulation_wheel_home.end(), startup_calibration_.wheel_home.begin());
+    RCLCPP_WARN(get_node()->get_logger(), "Simulation/test mode: physical startup calibration is disabled");
+  }
+
   // Clear command buffers to ignore pre-activation commands
   rt_cmd_vel_ptr_ =
       realtime_tools::RealtimeBuffer<std::shared_ptr<geometry_msgs::msg::Twist>>(nullptr);
@@ -325,33 +345,11 @@ controller_interface::CallbackReturn NeuralController::on_activate(
     if (!std::all_of(init_joint_pos_.begin(), init_joint_pos_.end(),
                      [](double x) { return std::isfinite(x); }))
       return controller_interface::CallbackReturn::ERROR;
-    const bool hybrid_was_calibrated = hybrid_.calibrated;
-    hybrid_.reset(init_joint_pos_);
+    hybrid_.reset(init_joint_pos_, startup_calibration_.wheel_home);
     hybrid_elapsed_ = 0.0;
     hybrid_first_step_ = true;
     // Remove stale velocity/effort targets inherited from another controller.
     for (auto &interface : command_interfaces_) interface.set_value(0.0);
-    rt_hybrid_calibrate_ptr_ =
-        realtime_tools::RealtimeBuffer<std::shared_ptr<std_msgs::msg::Empty>>(nullptr);
-    last_hybrid_calibrate_msg_ = nullptr;
-    hybrid_calibrate_subscriber_ = get_node()->create_subscription<std_msgs::msg::Empty>(
-        "/wheel_align_hybrid_calibrate", rclcpp::QoS(1).durability_volatile(),
-        [this](const std_msgs::msg::Empty::SharedPtr msg) {
-          rt_hybrid_calibrate_ptr_.writeFromNonRT(msg);
-        });
-    if (hybrid_was_calibrated) {
-      RCLCPP_INFO(get_node()->get_logger(),
-          "Hybrid calibration: reusing home established earlier this session (not "
-          "re-captured on reactivation). Publish an Empty to /wheel_align_hybrid_calibrate "
-          "while idle if you need to redo it.");
-    } else {
-      RCLCPP_WARN(get_node()->get_logger(),
-          "Hybrid calibration: FIRST activation this session, home auto-captured from "
-          "current encoders now. Physically align all four wheels to the desired home "
-          "BEFORE this press. This will NOT be re-captured on later reactivations -- "
-          "publish an Empty to /wheel_align_hybrid_calibrate while idle to redo it "
-          "intentionally. No cross-process persistence (lost on a relaunch/reboot).");
-    }
   }
 
   // Reset estop caused by falling over
@@ -701,21 +699,6 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
         if (!std::isfinite(hybrid_q_[i]) || !std::isfinite(hybrid_qd_[i]))
           return controller_interface::return_type::ERROR;
       }
-      auto hybrid_calibrate = rt_hybrid_calibrate_ptr_.readFromRT();
-      if (hybrid_calibrate && hybrid_calibrate->get() &&
-          hybrid_calibrate->get() != last_hybrid_calibrate_msg_) {
-        last_hybrid_calibrate_msg_ = hybrid_calibrate->get();
-        if (hybrid_.phase == WheelAlignHybrid::IDLE) {
-          hybrid_.recalibrate_home(hybrid_q_);
-          RCLCPP_INFO(get_node()->get_logger(),
-                      "Hybrid calibration re-captured from current encoder angles");
-        } else {
-          RCLCPP_WARN(get_node()->get_logger(),
-                      "Hybrid calibration request ignored: not idle (phase=%d)",
-                      static_cast<int>(hybrid_.phase));
-        }
-      }
-
       const auto previous_phase = hybrid_.phase;
       hybrid_.finish_step(hybrid_q_, hybrid_qd_);
       hybrid_.select_command(command_index_, hybrid_q_);

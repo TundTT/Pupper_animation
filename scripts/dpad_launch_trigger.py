@@ -73,7 +73,7 @@ def kill_leftover_processes():
 
 def launch_stack():
     kill_leftover_processes()
-    print("[dpad_launch_trigger] launching neural_controller stack")
+    print("[dpad_launch_trigger] launching neural_controller stack; operator-confirmed calibration is required before policy motion")
     cmd = (
         "source /opt/ros/jazzy/setup.bash && "
         "source ~/robot-code-leglift/ros2_ws/install/setup.bash && "

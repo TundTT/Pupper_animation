@@ -11,3 +11,6 @@ ros2_ws/src/neural_controller/launch/policy.json filter=lfs diff=lfs merge=lfs -
 *.hef filter=lfs diff=lfs merge=lfs -text
 # Keep small hardware validation/provenance records reviewable in normal git diffs.
 hardware_testing/**/*.json -filter diff merge text
+# The installed calibration entry point is executed directly on Linux.
+ros2_ws/src/robot_calibration/scripts/calibrate text eol=lf
+scripts/calibrate_robot.py text eol=lf

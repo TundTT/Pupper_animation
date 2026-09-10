@@ -3,6 +3,7 @@
 #include "sensor_msgs/msg/joy.hpp"
 #include "std_msgs/msg/empty.hpp"
 #include "std_msgs/msg/int32.hpp"
+#include "robot_calibration/calibration.hpp"
 #include <algorithm>
 #include <mutex>
 #include <thread>
@@ -12,6 +13,7 @@ public:
   EStopController()
       : Node("estop_controller"), prev_estop_state_(false),
         prev_estop_release_state_(false), service_call_in_progress_(false) {
+    calibration_required_ = declare_parameter<bool>("calibration_required", true);
     // Declare parameters for button indices
     this->declare_parameter<int>(
         "estop_index", 12); // Default index for pressing in right joystick
@@ -139,7 +141,17 @@ public:
 private:
   std::string latest_active_controller_ = "";
 
-  void switch_to_controller(std::string controller_to_switch_to) {
+  bool calibration_ready() {
+    if (!calibration_required_) return true;  // Explicit simulation-only launch setting.
+    try { robot_calibration::load_current(); return true; }
+    catch (const std::exception &e) {
+      RCLCPP_WARN(get_logger(), "Startup calibration required: %s. Ask the operator to position the marked rings, then run ros2 run robot_calibration calibrate capture", e.what());
+      return false;
+    }
+  }
+
+  bool switch_to_controller(std::string controller_to_switch_to) {
+    if (!calibration_ready()) return false;
     std::vector<std::string> deactivate_controllers;
     for (const auto &controller : controller_names_) {
       if (controller != controller_to_switch_to) {
@@ -152,6 +164,7 @@ private:
                 deactivate_controllers,
                 /*strict=*/false)
         .detach();
+    return true;
   }
 
   void deactivate_all_controllers_and_estop() {
@@ -205,7 +218,7 @@ private:
     bool leg_lift_pressed =
         msg->buttons.size() > static_cast<size_t>(leg_lift_button_index_) &&
         msg->buttons.at(leg_lift_button_index_) == 1;
-    if (leg_lift_pressed && !prev_leg_lift_state_) {
+    if (leg_lift_pressed && !prev_leg_lift_state_ && calibration_ready()) {
       bool leg_lift_was_active = (latest_active_controller_ == leg_lift_controller_name_);
       // First press (from any other controller) starts the cycle at its first entry
       // (front_l); each press while already active advances to the next entry.
@@ -237,21 +250,15 @@ private:
         wheel_align_hybrid_button_index_ >= 0 &&
         msg->buttons.size() > static_cast<size_t>(wheel_align_hybrid_button_index_) &&
         msg->buttons.at(wheel_align_hybrid_button_index_) == 1;
-    if (wheel_align_hybrid_pressed && !prev_wheel_align_hybrid_state_) {
+    if (wheel_align_hybrid_pressed && !prev_wheel_align_hybrid_state_ && calibration_ready()) {
       bool was_active = (latest_active_controller_ == wheel_align_hybrid_controller_name_);
       if (!was_active) {
-        // First press: ACTIVATE ONLY, no leg is commanded. on_activate() captures home
-        // from whatever position the wheels are in right now (command_index_ defaults to
-        // 0 == "stand", which never leaves WheelAlignHybrid::IDLE) and sets up
-        // /wheel_align_hybrid_calibrate for re-capturing home while still idle. Physically
-        // position/align all four wheels BEFORE this press; a later press starts the
-        // front_l/front_r/back_r/back_l cycle from scratch (cycle_position stays -1 here).
-        latest_active_controller_ = wheel_align_hybrid_controller_name_;
-        switch_to_controller(wheel_align_hybrid_controller_name_);
-        RCLCPP_INFO(this->get_logger(),
-                    "Button %d pressed: wheel-align-hybrid activated (calibration only, "
-                    "no leg commanded)",
-                    wheel_align_hybrid_button_index_);
+        // Entry consumes shared startup home and refreshes only the current holds.
+        // A later press starts the leg cycle; X never records calibration.
+        if (switch_to_controller(wheel_align_hybrid_controller_name_)) {
+          wheel_align_hybrid_cycle_position_ = -1;
+          RCLCPP_INFO(get_logger(), "Alignment entry requested; startup home reused, no leg commanded");
+        }
       } else {
         wheel_align_hybrid_cycle_position_ =
             (wheel_align_hybrid_cycle_position_ + 1) % wheel_align_hybrid_cycle_states_.size();
@@ -343,6 +350,8 @@ private:
     }
     service_call_in_progress_ = false;
   }
+
+  bool calibration_required_ = true;
 
   // Parameters for button indices
   int estop_index_;

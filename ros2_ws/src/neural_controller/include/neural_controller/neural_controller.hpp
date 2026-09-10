@@ -27,6 +27,7 @@
 #include "neural_controller_parameters.hpp"
 #include "neural_controller/policy_contract.hpp"
 #include "neural_controller/wheel_align_hybrid.hpp"
+#include "robot_calibration/calibration.hpp"
 
 namespace neural_controller {
 
@@ -93,6 +94,8 @@ class NeuralController : public controller_interface::ControllerInterface {
   // Hybrid policy has 8 outputs but still commands all 12 actuators.
   int policy_action_size_ = kActionSize;
   WheelAlignHybrid hybrid_;
+  // Available to every behavior; existing policy coordinate conventions are unchanged.
+  robot_calibration::Calibration startup_calibration_;
   std::array<double, 12> hybrid_q_{}, hybrid_qd_{};
   double hybrid_elapsed_ = 0.0;
   bool hybrid_first_step_ = true;
@@ -159,16 +162,6 @@ class NeuralController : public controller_interface::ControllerInterface {
   // "leg_lift" behavior only: latest command index from joy_util_node.
   realtime_tools::RealtimeBuffer<std::shared_ptr<std_msgs::msg::Int32>> rt_leg_lift_command_ptr_;
   rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr leg_lift_command_subscriber_ = nullptr;
-
-  // "wheel_align_hybrid" behavior only: operator-triggered re-capture of home/target/hold
-  // from the current encoder angles. Only applied by update() while hybrid_.phase == IDLE,
-  // so it never moves a target mid-operation. No persistence -- see recalibrate_home()'s
-  // comment in wheel_align_hybrid.hpp for why.
-  realtime_tools::RealtimeBuffer<std::shared_ptr<std_msgs::msg::Empty>> rt_hybrid_calibrate_ptr_;
-  rclcpp::Subscription<std_msgs::msg::Empty>::SharedPtr hybrid_calibrate_subscriber_ = nullptr;
-  // Raw pointer used only to detect a new message (identity, not content) so a single
-  // press doesn't re-trigger recalibration on every subsequent 520 Hz cycle.
-  const std_msgs::msg::Empty *last_hybrid_calibrate_msg_ = nullptr;
 
   rclcpp::Subscription<std_msgs::msg::Empty>::SharedPtr emergency_stop_subscriber_ = nullptr;
   rclcpp::Subscription<std_msgs::msg::Empty>::SharedPtr emergency_stop_reset_subscriber_ = nullptr;

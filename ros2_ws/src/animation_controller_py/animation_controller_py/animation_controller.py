@@ -9,6 +9,7 @@ import pandas as pd
 import rclpy
 from ament_index_python.packages import get_package_share_directory
 from controller_manager_msgs.srv import SwitchController
+from robot_calibration.storage import load_current
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Float64MultiArray, String
@@ -23,6 +24,7 @@ class AnimationControllerPy(Node):
         super().__init__("animation_controller_py")
 
         # Parameters
+        self.declare_parameter("calibration_required", True)
         self.declare_parameter("frame_rate", 30.0)
         self.declare_parameter("init_duration", 2.0)
 
@@ -216,7 +218,14 @@ class AnimationControllerPy(Node):
         # Wait for service to be available
         if not self.controller_switch_client.wait_for_service(timeout_sec=5.0):
             self.get_logger().error("Controller switch service not available")
-            return
+            return False
+
+        if self.get_parameter("calibration_required").value:
+            try:
+                load_current()
+            except (OSError, ValueError, KeyError) as exc:
+                self.get_logger().error(f"Startup calibration required before animation: {exc}")
+                return False
 
         # Create switch request
         request = SwitchController.Request()
@@ -229,9 +238,11 @@ class AnimationControllerPy(Node):
         try:
             future = self.controller_switch_client.call_async(request)
             future.add_done_callback(self._switch_to_animation_callback)
+            return True
 
         except Exception as e:
             self.get_logger().error(f"Error switching controllers: {e}")
+            return False
 
     def _switch_to_animation_callback(self, future):
         """Callback for animation mode switch."""
@@ -252,7 +263,8 @@ class AnimationControllerPy(Node):
 
         # Switch to animation mode since the user may have switched back to neural mode without
         # us knowing
-        self.switch_to_animation_mode()
+        if not self.switch_to_animation_mode():
+            return
 
         old_animation = self.current_animation_name if self.current_animation_name else "None"
         self.get_logger().info(f"Starting animation '{animation_name}' (was: {old_animation})")

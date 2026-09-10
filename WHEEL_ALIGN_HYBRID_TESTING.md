@@ -1,3 +1,5 @@
+> Current startup procedure: [STARTUP_CALIBRATION.md](STARTUP_CALIBRATION.md). Every fresh stack startup needs physical confirmation and saved session calibration before policy activation. Historical X-time capture/recalibration instructions below are superseded.
+
 # Hybrid wheel alignment: lab handoff
 
 `neural_controller_wheel_align_hybrid` is registered and spawned **inactive** by

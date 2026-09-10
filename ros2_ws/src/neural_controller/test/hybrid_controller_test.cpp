@@ -25,6 +25,8 @@ class Harness : public neural_controller::NeuralController {
 int main(int argc, char **argv) {
   rclcpp::init(argc, argv);
   int result = 0;
+  const auto calibration_dir = std::filesystem::temp_directory_path() / ("quadmorph-plugin-test-"+robot_calibration::identity());
+  setenv("QUADMORPH_CALIBRATION_DIR", calibration_dir.c_str(), 1);
   try {
     require(argc == 3, "usage: hybrid_controller_test CONFIG_YAML POLICY_JSON");
     Harness controller;
@@ -63,6 +65,20 @@ int main(int argc, char **argv) {
       require(controller.update(rclcpp::Time(static_cast<int64_t>(seconds * 1e9), RCL_ROS_TIME),
           rclcpp::Duration::from_seconds(.002)) == controller_interface::return_type::OK, "update");
     };
+    // Hardware policies cannot activate without confirmed calibration, even via direct service calls.
+    require(controller.on_activate(rclcpp_lifecycle::State()) == controller_interface::CallbackReturn::ERROR,
+            "missing startup calibration rejects activation");
+    const auto session = robot_calibration::begin_session();
+    robot_calibration::finish_session(session);
+    nlohmann::json record = {
+      {"schema_version",1}, {"calibration_id","fixture"}, {"encoder_session_id",session},
+      {"operator_confirmed",true}, {"angle_units","radians"},
+      {"reference_convention","marked_point_ring_home"},
+      {"joint_names",controller.params().joint_names}, {"reference_joint_positions",q},
+      {"wheel_home",{q[2],q[5],q[8],q[11]}},
+      {"wheel_base_target",{robot_calibration::wrap(q[2]+M_PI),robot_calibration::wrap(q[5]+M_PI),
+                            robot_calibration::wrap(q[8]+M_PI),robot_calibration::wrap(q[11]+M_PI)}}};
+    { std::ofstream out(calibration_dir/"calibration.json"); out << record; }
     activate();
     auto original_home = controller.hybrid().home;
     for (int k = 0; k < 4; ++k) q[3*k+2] += .1;
@@ -123,22 +139,28 @@ int main(int argc, char **argv) {
     require(controller.hybrid().phase == neural_controller::WheelAlignHybrid::IDLE &&
         controller.hybrid().command == 0, "reactivate clears pending command and phase");
     for (int a = 35; a < 43; ++a) near(controller.obs()[a], 0, "reactivate clears last actions");
-    // 2026-09-09: reactivation must NOT re-home -- q has moved (+.1 on each wheel) since
-    // the first activation, but home must still reflect that first, pre-move capture.
-    // Losing this reference every time the operator switches to another controller and
-    // back (wheel/leg/transition policies) and reactivates was flagged as a real problem.
-    for (int k = 0; k < 4; ++k) near(controller.hybrid().home[k], original_home[k],
-        "reactivate preserves the session's original home, does not recapture");
-    // Explicit recalibration (what publishing to /wheel_align_hybrid_calibrate while idle
-    // triggers) still works and DOES pick up the current, moved q.
-    controller.hybrid().recalibrate_home(q);
-    for (int k = 0; k < 4; ++k) near(controller.hybrid().home[k],
-        neural_controller::WheelAlignHybrid::wrap(q[3*k+2]), "explicit recalibration captures current q");
+    for (int k = 0; k < 4; ++k) {
+      near(controller.hybrid().home[k], original_home[k], "reactivate reuses saved startup home");
+      near(controller.hybrid().hold[k], robot_calibration::wrap(q[3*k+2]), "reactivate refreshes hold from current encoders");
+    }
+    // Exercise a controller switch after many wheel revolutions.
+    controller.on_deactivate(rclcpp_lifecycle::State());
+    for (int k=0;k<4;++k) q[3*k+2] += 8*M_PI+1.1;
+    activate(); tick(.1);
+    for (int k=0;k<4;++k) {
+      near(controller.hybrid().home[k], original_home[k], "driving never redefines home");
+      near(commands[3*k+2][1], -.35*qd[3*k+2], "entry holds current angle rather than driving to stale snapshot");
+    }
     controller.stop(); tick(.1);
     for (const auto &c : commands) near(c[4], 1, "estop works during startup");
     controller.on_deactivate(rclcpp_lifecycle::State());
+    const auto next_session=robot_calibration::begin_session();
+    robot_calibration::finish_session(next_session);
+    require(controller.on_activate(rclcpp_lifecycle::State()) == controller_interface::CallbackReturn::ERROR,
+            "hardware reactivation invalidates old calibration in same process");
     std::cout << "PASS: actual YAML/plugin lifecycle, encoder/IMU observations, direct actions, wheel holds, interruption, estop, reactivation, persistent calibration\n";
   } catch (const std::exception &e) { std::cerr << "FAIL: " << e.what() << '\n'; result = 1; }
+  std::filesystem::remove_all(calibration_dir);
   rclcpp::shutdown();
   return result;
 }

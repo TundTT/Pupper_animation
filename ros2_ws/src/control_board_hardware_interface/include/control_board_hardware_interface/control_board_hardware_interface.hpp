@@ -22,6 +22,7 @@
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 #include "rt/rt_spi.h"
+#include "robot_calibration/calibration.hpp"
 
 // Overload the << operator for vector and array
 template <typename T>
@@ -160,6 +161,8 @@ class ControlBoardHardwareInterface : public hardware_interface::SystemInterface
   std::vector<double> hw_command_efforts_;
   std::vector<double> hw_command_kps_;
   std::vector<double> hw_command_kds_;
+
+  std::string calibration_session_id_;
 
   int64_t imu_packet_timestamp_micros_;
   int64_t imu_measurement_timestamp_micros_;

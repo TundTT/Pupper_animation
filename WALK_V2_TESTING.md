@@ -1,3 +1,5 @@
+> Current startup procedure: [STARTUP_CALIBRATION.md](STARTUP_CALIBRATION.md). Every fresh stack startup needs physical confirmation and saved session calibration before policy activation. Historical X-time capture/recalibration instructions below are superseded.
+
 # Selected long-stride walking policy: hardware test preparation
 
 `policy_walk_v2.json` now contains the selected long-stride checkpoint from

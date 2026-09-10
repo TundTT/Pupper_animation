@@ -8,9 +8,13 @@
   <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>robot_calibration</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
+  <test_depend>ament_cmake_pytest</test_depend>
+  <test_depend>controller_manager</test_depend>
+  <test_depend>launch_ros</test_depend>
 
   <depend>controller_interface</depend>
   <depend>hardware_interface</depend>

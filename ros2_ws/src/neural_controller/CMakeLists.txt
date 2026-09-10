@@ -10,6 +10,7 @@ target_compile_features(neural_controller PUBLIC cxx_std_17)
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(robot_calibration REQUIRED)
 find_package(controller_interface REQUIRED)
 find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
@@ -36,6 +37,7 @@ target_include_directories(neural_controller PRIVATE include)
 ament_target_dependencies(
   neural_controller
   controller_interface
+  robot_calibration
   hardware_interface
   pluginlib
   realtime_tools
@@ -61,12 +63,14 @@ install(
 )
 
 if(BUILD_TESTING)
+  find_package(ament_cmake_pytest REQUIRED)
+  ament_add_pytest_test(startup_launch test/startup_launch_test.py)
   add_executable(hybrid_controller_test test/hybrid_controller_test.cpp)
   target_compile_features(hybrid_controller_test PRIVATE cxx_std_17)
   target_include_directories(hybrid_controller_test PRIVATE include)
   target_link_libraries(hybrid_controller_test neural_controller neural_controller_parameters RTNeural)
   ament_target_dependencies(hybrid_controller_test controller_interface hardware_interface
-    realtime_tools rclcpp rclcpp_lifecycle geometry_msgs tf2)
+    realtime_tools rclcpp rclcpp_lifecycle geometry_msgs tf2 robot_calibration)
   add_test(NAME hybrid_controller_lifecycle
     COMMAND hybrid_controller_test
       ${CMAKE_CURRENT_SOURCE_DIR}/launch/config.yaml

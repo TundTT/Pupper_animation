@@ -18,10 +18,6 @@ struct WheelAlignHybrid {
   bool verified = false, was_rotating = false, step_pending = false;
   std::array<bool, 4> completed{};
   std::array<double, 4> home{}, target{}, hold{}, reference{};
-  // Set once by the first-ever reset() (or an explicit recalibrate_home()) and never
-  // cleared by reset() again -- see reset()'s comment for why.
-  bool calibrated = false;
-
   static double wrap(double x) { return std::atan2(std::sin(x), std::cos(x)); }
   static double wheel_pd(double goal, double angle, double velocity) {
     return std::clamp(2.0 * wrap(goal - angle) - 0.35 * velocity, -2.0, 2.0);
@@ -30,44 +26,15 @@ struct WheelAlignHybrid {
   int leg() const { return std::max(command_leg[active_command], 0); }
   int effective_command() const { return up() ? active_command : 0; }
 
-  // Called on every controller activation. Resets phase/command/gate state for a fresh
-  // run, but deliberately does NOT recapture home/target/hold/reference once they've
-  // been set once (see `calibrated`): the operator needs one ground-truth reference
-  // established at robot-stack startup that survives switching to other controllers
-  // (wheel/leg/etc.) and back -- re-homing on every single activation silently discards
-  // that reference the moment any other policy has moved the wheels. Only the very first
-  // activation after process start, or an explicit /wheel_align_hybrid_calibrate publish
-  // while idle, updates the calibration -- see recalibrate_home().
-  void reset(const std::array<double, 12> &q) {
-    const bool was_calibrated = calibrated;
-    const auto saved_home = home;
-    const auto saved_target = target;
-    const auto saved_hold = hold;
-    const auto saved_reference = reference;
+  // Calibration is supplied by the shared startup owner. Activation never captures home.
+  // Holds, unlike home, must follow the current encoders after another policy has driven.
+  void reset(const std::array<double, 12> &q, const std::array<double, 4> &startup_home) {
     *this = WheelAlignHybrid{};
-    if (was_calibrated) {
-      home = saved_home;
-      target = saved_target;
-      hold = saved_hold;
-      reference = saved_reference;
-      calibrated = true;
-    } else {
-      recalibrate_home(q);
-    }
-  }
-
-  // Re-captures home/target/hold/reference from the current encoder angles without
-  // touching phase/command state. Session-only by design: cross-boot zero repeatability
-  // for these joints is unverified (the knee joints sharing this port's actuator/homing
-  // path have shown up to ~33 deg of boot-to-boot drift), so persisting an absolute
-  // angle to disk would silently go stale. Caller must only invoke this while
-  // phase == IDLE (or HOLD with no leg mid-operation), so it never moves a live target.
-  void recalibrate_home(const std::array<double, 12> &q) {
     for (int k = 0; k < 4; ++k) {
-      home[k] = hold[k] = reference[k] = wrap(q[3 * k + 2]);
+      home[k] = wrap(startup_home[k]);
       target[k] = wrap(home[k] + std::acos(-1.0));
+      hold[k] = reference[k] = wrap(q[3 * k + 2]);
     }
-    calibrated = true;
   }
 
   bool lift_ready(const std::array<double, 12> &q, double default_abduction,

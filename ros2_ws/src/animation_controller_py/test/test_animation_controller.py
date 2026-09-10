@@ -2,6 +2,7 @@
 
 import tempfile
 import unittest
+from unittest.mock import MagicMock, patch
 from pathlib import Path
 
 import numpy as np
@@ -278,7 +279,7 @@ class TestAnimationLogic(TestAnimationController):
         self.controller.get_logger = lambda: self.node.get_logger()
 
         # Mock the switch_to_animation_mode method to avoid service calls in tests
-        self.controller.switch_to_animation_mode = lambda: None
+        self.controller.switch_to_animation_mode = lambda: True
 
         # Add test animations
         self.controller.animations["anim1"] = np.random.rand(5, 12)  # 5 frames
@@ -326,12 +327,28 @@ class TestAnimationLogic(TestAnimationController):
         def mock_switch():
             nonlocal switch_called
             switch_called = True
+            return True
         
         self.controller.switch_to_animation_mode = mock_switch
         self.controller.switch_animation("anim1")
         
         # Should have called the switch method
         self.assertTrue(switch_called)
+
+    def test_rejected_switch_does_not_queue_animation(self):
+        self.controller.switch_to_animation_mode = lambda: False
+        self.controller.switch_animation("anim1")
+        self.assertIsNone(self.controller.current_animation_name)
+        self.assertIsNone(self.controller.init_start_time)
+
+    def test_missing_calibration_never_requests_controller_switch(self):
+        controller = MagicMock()
+        controller.get_parameter.return_value.value = True
+        controller.controller_switch_client.wait_for_service.return_value = True
+        with patch("animation_controller_py.animation_controller.load_current",
+                   side_effect=ValueError("stale encoder session")):
+            self.assertFalse(AnimationControllerPy.switch_to_animation_mode(controller))
+        controller.controller_switch_client.call_async.assert_not_called()
 
 
 if __name__ == "__main__":

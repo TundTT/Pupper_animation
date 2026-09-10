@@ -1,3 +1,5 @@
+> Current startup procedure: [STARTUP_CALIBRATION.md](STARTUP_CALIBRATION.md). Every fresh stack startup needs physical confirmation and saved session calibration before policy activation. Historical X-time capture/recalibration instructions below are superseded.
+
 # Wheel-align Phase 1 export
 
 The requested checkpoint is saved as

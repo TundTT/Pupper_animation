@@ -7,6 +7,7 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(robot_calibration REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(hardware_interface REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -21,6 +22,8 @@ add_library(control_board_hardware_interface SHARED
   src/imu_manager.cpp
 )
 
+target_compile_features(control_board_hardware_interface PUBLIC cxx_std_17)
+
 # add include directory
 target_include_directories(control_board_hardware_interface
   PRIVATE
@@ -29,6 +32,7 @@ target_include_directories(control_board_hardware_interface
 
 ament_target_dependencies(
   control_board_hardware_interface
+  robot_calibration
   hardware_interface
   pluginlib
   rclcpp
@@ -72,6 +76,7 @@ ament_export_libraries(
   ${PROJECT_NAME}
 )
 ament_export_dependencies(
+  robot_calibration
   hardware_interface
   pluginlib
   rclcpp

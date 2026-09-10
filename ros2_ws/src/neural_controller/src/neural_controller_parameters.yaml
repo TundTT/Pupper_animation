@@ -1,4 +1,12 @@
 neural_controller:
+  calibration_required:
+    type: bool
+    default_value: true
+    description: "Require shared calibration for the live hardware encoder session before policy activation. False is for simulation/test only."
+  simulation_wheel_home:
+    type: double_array
+    default_value: [0.0, 0.0, 0.0, 0.0]
+    description: "Explicit synthetic home for simulation when calibration_required is false; never used on hardware."
   repeat_action:
     {
       type: int,

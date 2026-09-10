@@ -466,25 +466,10 @@ joy_util_node:
     # O-button leg-lift cycle. First press (from any other controller) activates
     # neural_controller_leg_lift and immediately commands front_l; each subsequent press while
     # it's active advances to the next state in leg_lift_cycle_states. Press X to leave leg-lift
-    # mode and return to locomotion.
-    # X-button wheel-align-hybrid cycle (2026-09-09). UNLIKE leg-lift above, the first
-    # press EVER THIS SESSION is calibration-only: it activates
-    # neural_controller_wheel_align_hybrid, which captures home from whatever position
-    # each wheel is in RIGHT NOW (physically align all four wheels to the desired start
-    # position before this press) and commands nothing -- command_index_ defaults to 0
-    # ("stand"), which stays in phase IDLE. That captured home then PERSISTS across
-    # switching to other controllers (wheel/leg/etc.) and back -- reactivating this
-    # controller later in the same process does NOT re-home (2026-09-09 fix: the operator
-    # needs one ground truth per robot-stack startup, not one per activation, since
-    # bouncing between wheel/leg/transition policies is a normal part of testing). While
-    # idle, publish an Empty to /wheel_align_hybrid_calibrate to intentionally redo the
-    # capture. Each SUBSEQUENT press (while already active) advances through
-    # wheel_align_hybrid_cycle_states, starting at front_l -- that's the press that
-    # actually lifts/rotates a leg. Bound live at the user's explicit request after
-    # confirming continuous wheel joints are now physically mounted (no mechanical stop)
-    # -- see components.xacro's 2026-09-09 WHEEL-ALIGN-HYBRID TEST comments, which removed
-    # the leg-era hard_limit_min/max software clamp on all four leg_*_3 joints and widened
-    # position_min/max to +-1000 to match.
+    # mode and enter alignment.
+    # X enters alignment using the shared startup calibration and fresh current holds.
+    # Subsequent presses select FL/FR/BR/BL. X never captures or replaces home.
+    # See STARTUP_CALIBRATION.md before launching any policy on hardware.
     wheel_align_hybrid_button_index: 0
     wheel_align_hybrid_controller_name: "neural_controller_wheel_align_hybrid"
     wheel_align_hybrid_command_states: ["stand", "front_l", "front_r", "back_r", "back_l"]

@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Find required packages
 find_package(ament_cmake REQUIRED)
+find_package(robot_calibration REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
@@ -17,6 +18,7 @@ add_executable(estop_controller src/estop_controller.cpp)
 
 # Link against ROS 2 libraries
 ament_target_dependencies(estop_controller
+  robot_calibration
   rclcpp
   sensor_msgs
   std_msgs

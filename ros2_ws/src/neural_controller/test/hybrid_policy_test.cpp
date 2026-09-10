@@ -43,17 +43,18 @@ int main(int argc, char **argv) {
     near(Hybrid::wheel_pd(-2, 0, 0), -2, "PD negative saturation");
     std::array<double, 12> q{1, 0, .3, -1, 0, -.4, 1, 0, .5, -1, 0, -.6}, qd{};
     const auto initial = q;
+    const std::array<double,4> startup_home{initial[2],initial[5],initial[8],initial[11]};
     Hybrid h;
-    h.reset(q);
+    h.reset(q, startup_home);
     for (int k = 0; k < 4; ++k) {
-      near(h.target[k], Hybrid::wrap(q[3*k+2]+pi), "activation calibration");
+      near(h.target[k], Hybrid::wrap(q[3*k+2]+pi), "explicit startup calibration");
       q[3*k+2] += .1;
     }
     for (double cmd : h.wheel_commands(q, qd)) near(cmd, -.2, "all idle wheels actively hold");
     for (int command = 1; command <= 4; ++command) {
       q = initial;
       qd.fill(0);
-      h.reset(q);
+      h.reset(q, startup_home);
       h.select_command(command, q);
       int k = Hybrid::command_leg[command], hip = 3*k+1, wheel = 3*k+2;
       require(h.leg() == k && h.effective_command() == command, "leg index mapping");
@@ -115,7 +116,7 @@ int main(int argc, char **argv) {
     for (auto phase : {Hybrid::LIFT, Hybrid::ROTATE, Hybrid::VERIFY}) {
       for (int requested : {0, 2}) {
         q = initial;
-        h.reset(q); h.select_command(1, q); h.phase = phase;
+        h.reset(q, startup_home); h.select_command(1, q); h.phase = phase;
         q[5] += .7;
         h.select_command(requested, q);
         require(h.phase == Hybrid::LOWER && !h.verified && h.effective_command() == 0, "interrupt lowers immediately");
@@ -126,7 +127,7 @@ int main(int argc, char **argv) {
                 "pending command only starts after lowering");
       }
     }
-    h.reset(initial);
+    h.reset(initial, startup_home);
     require(h.phase == Hybrid::IDLE && !h.completed[0] && h.command == 0 && !h.step_pending,
             "reactivation clears phase/completion state");
     std::cout << "PASS: hybrid gate/PD/phase/reset cases and " << count

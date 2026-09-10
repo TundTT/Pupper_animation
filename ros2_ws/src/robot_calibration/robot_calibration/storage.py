@@ -1,0 +1,175 @@
+"""Versioned, local calibration storage. No ROS or motor operations in this module."""
+from contextlib import contextmanager
+from datetime import datetime, timezone
+import json
+import math
+import os
+from pathlib import Path
+import tempfile
+import uuid
+
+JOINT_NAMES = [f"leg_{leg}_{joint}" for leg in ("front_r", "front_l", "back_r", "back_l")
+               for joint in (1, 2, 3)]
+WHEEL_NAMES = JOINT_NAMES[2::3]
+
+
+def directory():
+    if "QUADMORPH_CALIBRATION_DIR" in os.environ:
+        path = Path(os.environ["QUADMORPH_CALIBRATION_DIR"])
+    else:
+        state = os.environ.get("XDG_STATE_HOME", str(Path.home() / ".local/state"))
+        path = Path(state) / "quadmorph"
+    if not path.is_absolute():
+        raise ValueError("Calibration directory must be absolute")
+    return path
+
+
+def wrap(angle):
+    return math.atan2(math.sin(angle), math.cos(angle))
+
+
+def process_start(pid):
+    text = Path(f"/proc/{int(pid)}/stat").read_text()
+    return text[text.rindex(")") + 2:].split()[19]
+
+
+def current_session():
+    """Reject records left by a dead process, reboot, pending homing or new activation."""
+    session = json.loads((directory() / "encoder-session.json").read_text())
+    if (not isinstance(session, dict) or int(session["schema_version"]) != 1 or session["ready"] not in (True, "true") or
+            session["boot_id"] != Path("/proc/sys/kernel/random/boot_id").read_text().strip() or
+            str(session["owner_start_ticks"]) != process_start(session["owner_pid"]) or
+            not isinstance(session["session_id"], str) or not session["session_id"]):
+        raise ValueError("No live, homed encoder session; start the updated robot stack first")
+    return session["session_id"]
+
+
+def finite_vector(values, size):
+    if (not isinstance(values, list) or len(values) != size or
+            any(type(x) not in (int, float) or not math.isfinite(x) for x in values)):
+        raise ValueError(f"Expected {size} finite numeric angles")
+    return [float(x) for x in values]
+
+
+def validate(record, session):
+    if (not isinstance(record, dict) or record.get("schema_version") != 1 or record.get("encoder_session_id") != session or
+            record.get("operator_confirmed") is not True or record.get("angle_units") != "radians" or
+            record.get("reference_convention") != "marked_point_ring_home" or
+            record.get("joint_names") != JOINT_NAMES or
+            not isinstance(record.get("calibration_id"), str) or not record["calibration_id"]):
+        raise ValueError("Missing, incompatible or stale calibration; capture for this startup")
+    finite_vector(record.get("reference_joint_positions"), 12)
+    home = finite_vector(record.get("wheel_home"), 4)
+    target = finite_vector(record.get("wheel_base_target"), 4)
+    if any(abs(wrap(t - h - math.pi)) > 1e-9 for h, t in zip(home, target)):
+        raise ValueError("Base targets disagree with home + pi")
+    return record
+
+
+def load_current():
+    session = current_session()
+    record = validate(json.loads((directory() / "calibration.json").read_text()), session)
+    if current_session() != session:
+        raise ValueError("Encoder session changed while reading calibration")
+    return record
+
+
+@contextmanager
+def capture_lock():
+    import fcntl  # Robot is Linux; status/storage inspection remains importable elsewhere.
+    directory().mkdir(parents=True, exist_ok=True)
+    with (directory() / "capture.lock").open("a") as lock:
+        try:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as exc:
+            raise ValueError("Calibration/startup is already in progress") from exc
+        try:
+            yield
+        finally:
+            fcntl.flock(lock, fcntl.LOCK_UN)
+
+
+def atomic_json(path, record):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(dir=path.parent, prefix=path.name + ".", suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as stream:
+            json.dump(record, stream, indent=2, allow_nan=False)
+            stream.write("\n")
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(tmp, path)
+    finally:
+        if os.path.exists(tmp):
+            os.unlink(tmp)
+
+
+def make_record(session, positions, wheel_home=None, pose_note="", source_commit="unknown"):
+    positions = finite_vector(positions, 12)
+    home = finite_vector(wheel_home, 4) if wheel_home is not None else positions[2::3]
+    # Manual entry means readings in the CURRENT frame, not arbitrary desired zero values.
+    if any(abs(wrap(h - q)) > 0.03 for h, q in zip(home, positions[2::3])):
+        raise ValueError("Entered home differs from current encoders by more than 0.03 rad")
+    return {
+        "schema_version": 1, "calibration_id": uuid.uuid4().hex,
+        "encoder_session_id": session, "operator_confirmed": True,
+        "captured_at_utc": datetime.now(timezone.utc).isoformat(),
+        "angle_units": "radians", "reference_convention": "marked_point_ring_home",
+        "joint_names": JOINT_NAMES, "reference_joint_positions": positions,
+        "wheel_home": [wrap(h) for h in home],
+        "wheel_base_target": [wrap(h + math.pi) for h in home],
+        "source": "manual_encoder_values" if wheel_home is not None else "joint_states",
+        "pose_note": pose_note, "source_commit": source_commit,
+    }
+
+
+def save_record(record, replace=False):
+    """Caller holds capture_lock from before checking controller ownership through save."""
+    session = current_session()
+    validate(record, session)
+    try:
+        previous = load_current()
+    except (OSError, ValueError, KeyError):
+        previous = None
+    if previous is not None and not replace:
+        raise ValueError("This startup is already calibrated; use status or explicit --replace")
+    atomic_json(directory() / "history" / (record["calibration_id"] + ".json"), record)
+    if current_session() != session:
+        raise ValueError("Encoder session changed; calibration was not activated")
+    atomic_json(directory() / "calibration.json", record)
+
+
+class StationarySample:
+    """Require fresh, increasing ROS timestamps and a continuous stationary interval."""
+    def __init__(self, duration=1.0, max_velocity=0.02, max_drift=0.01):
+        self.duration, self.max_velocity, self.max_drift = duration, max_velocity, max_drift
+        self.reset()
+
+    def reset(self):
+        self.start = self.last_receipt = self.last_stamp = self.anchor = self.positions = None
+        self.count = 0
+
+    def observe(self, names, positions, velocities, stamp, ros_now, monotonic_now):
+        if (len(names) != len(set(names)) or len(positions) != len(names) or
+                len(velocities) != len(names) or not set(JOINT_NAMES).issubset(names) or
+                not all(math.isfinite(x) for x in (stamp, ros_now, monotonic_now)) or
+                stamp <= 0 or not 0 <= ros_now - stamp <= 0.2):
+            self.reset()
+            return False
+        order = [names.index(name) for name in JOINT_NAMES]
+        try:
+            q = finite_vector([positions[i] for i in order], 12)
+            v = finite_vector([velocities[i] for i in order], 12)
+        except ValueError:
+            self.reset()
+            return False
+        if (max(abs(x) for x in v) > self.max_velocity or
+                (self.last_stamp is not None and stamp <= self.last_stamp)):
+            self.reset()
+            return False
+        if (self.last_receipt is None or monotonic_now - self.last_receipt > 0.2 or
+                any(abs(wrap(a-b)) > self.max_drift for a, b in zip(q, self.anchor))):
+            self.start, self.anchor, self.count = monotonic_now, q, 0
+        self.last_receipt, self.last_stamp, self.positions = monotonic_now, stamp, q
+        self.count += 1
+        return self.count >= 10 and monotonic_now - self.start >= self.duration

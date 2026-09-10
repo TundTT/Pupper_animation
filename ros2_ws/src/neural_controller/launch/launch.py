@@ -10,7 +10,7 @@ from launch.substitutions import (
     IfElseSubstitution,
 )
 from launch_ros.actions import Node
-from launch_ros.parameter_descriptions import ParameterFile
+from launch_ros.parameter_descriptions import ParameterFile, ParameterValue
 from launch_ros.substitutions import FindPackageShare
 from launch.conditions import IfCondition, UnlessCondition
 
@@ -128,6 +128,8 @@ def generate_launch_description():
             "--controller-manager-timeout",
             "30",
             "--inactive",
+            "--controller-ros-args=-p",
+            "--controller-ros-args", ["calibration_required:=", PythonExpression(["not ", LaunchConfiguration("sim")])],
         ],
     )
 
@@ -141,6 +143,8 @@ def generate_launch_description():
             "--controller-manager-timeout",
             "30",
             "--inactive",
+            "--controller-ros-args=-p",
+            "--controller-ros-args", ["calibration_required:=", PythonExpression(["not ", LaunchConfiguration("sim")])],
         ],
     )
 
@@ -154,10 +158,12 @@ def generate_launch_description():
             "--controller-manager-timeout",
             "30",
             "--inactive",
+            "--controller-ros-args=-p",
+            "--controller-ros-args", ["calibration_required:=", PythonExpression(["not ", LaunchConfiguration("sim")])],
         ],
     )
 
-    # Hybrid alignment is intentionally unbound; activate manually for lab bring-up.
+    # X enters hybrid alignment after the shared startup calibration has been captured.
     wheel_align_hybrid_robot_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
@@ -166,6 +172,8 @@ def generate_launch_description():
             "--controller-manager", "/controller_manager",
             "--controller-manager-timeout", "30",
             "--inactive",
+            "--controller-ros-args=-p",
+            "--controller-ros-args", ["calibration_required:=", PythonExpression(["not ", LaunchConfiguration("sim")])],
         ],
     )
 
@@ -181,6 +189,8 @@ def generate_launch_description():
             "--controller-manager-timeout",
             "30",
             "--inactive",
+            "--controller-ros-args=-p",
+            "--controller-ros-args", ["calibration_required:=", PythonExpression(["not ", LaunchConfiguration("sim")])],
         ],
     )
 
@@ -197,6 +207,8 @@ def generate_launch_description():
             "--controller-manager-timeout",
             "30",
             "--inactive",
+            "--controller-ros-args=-p",
+            "--controller-ros-args", ["calibration_required:=", PythonExpression(["not ", LaunchConfiguration("sim")])],
         ],
     )
 
@@ -273,7 +285,7 @@ def generate_launch_description():
     joy_util_node = Node(
         package="joy_utils",
         executable="estop_controller",
-        parameters=[node_parameters],
+        parameters=[node_parameters, {"calibration_required": ParameterValue(PythonExpression(["not ", LaunchConfiguration("sim")]), value_type=bool)}],
         output="both",
         name="joy_util_node",
     )
@@ -321,7 +333,7 @@ def generate_launch_description():
         package="animation_controller_py",
         executable="animation_controller_py",
         name="animation_controller_py",
-        parameters=[node_parameters],
+        parameters=[node_parameters, {"calibration_required": ParameterValue(PythonExpression(["not ", LaunchConfiguration("sim")]), value_type=bool)}],
         output="both",
     )
 

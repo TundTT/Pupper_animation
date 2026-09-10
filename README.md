@@ -1,6 +1,6 @@
 # Pupper V3 Codebase
 
-Hybrid wheel alignment is built and available as an inactive, unbound controller. See [the lab handoff](WHEEL_ALIGN_HYBRID_TESTING.md) for calibration and button-binding TODOs.
+**Every fresh robot-stack startup requires operator-confirmed wheel calibration before policy motion.** Read [STARTUP_CALIBRATION.md](STARTUP_CALIBRATION.md). X enters hybrid alignment using that saved home; it does not calibrate. See [the historical hardware log](WHEEL_ALIGN_HYBRID_TESTING.md) for earlier tests.
 
 The selected September 7 walking policy is ready for first hardware testing via **Square**. See [WALK_V2_TESTING.md](WALK_V2_TESTING.md) for the exact checkpoint, build checks, and procedure.
 
