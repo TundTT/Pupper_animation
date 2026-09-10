@@ -160,6 +160,16 @@ class NeuralController : public controller_interface::ControllerInterface {
   realtime_tools::RealtimeBuffer<std::shared_ptr<std_msgs::msg::Int32>> rt_leg_lift_command_ptr_;
   rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr leg_lift_command_subscriber_ = nullptr;
 
+  // "wheel_align_hybrid" behavior only: operator-triggered re-capture of home/target/hold
+  // from the current encoder angles. Only applied by update() while hybrid_.phase == IDLE,
+  // so it never moves a target mid-operation. No persistence -- see recalibrate_home()'s
+  // comment in wheel_align_hybrid.hpp for why.
+  realtime_tools::RealtimeBuffer<std::shared_ptr<std_msgs::msg::Empty>> rt_hybrid_calibrate_ptr_;
+  rclcpp::Subscription<std_msgs::msg::Empty>::SharedPtr hybrid_calibrate_subscriber_ = nullptr;
+  // Raw pointer used only to detect a new message (identity, not content) so a single
+  // press doesn't re-trigger recalibration on every subsequent 520 Hz cycle.
+  const std_msgs::msg::Empty *last_hybrid_calibrate_msg_ = nullptr;
+
   rclcpp::Subscription<std_msgs::msg::Empty>::SharedPtr emergency_stop_subscriber_ = nullptr;
   rclcpp::Subscription<std_msgs::msg::Empty>::SharedPtr emergency_stop_reset_subscriber_ = nullptr;
 

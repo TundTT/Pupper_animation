@@ -35,6 +35,24 @@ public:
     this->declare_parameter<std::vector<std::string>>(
         "leg_lift_cycle_states", {"front_l", "front_r", "back_r", "back_l", "stand"});
 
+    // Declare parameters for the wheel-align-hybrid button cycle. -1 means unbound: the
+    // hardware description on this branch still has leg_*_3 as a limited-range knee joint
+    // (hard stop ~90 deg from home), not the continuous wheel this policy targets a
+    // 180-degree turn on. Do not set this to a real button index until that mismatch is
+    // resolved -- see WHEEL_ALIGN_HYBRID_TESTING.md. Also verify the chosen index against
+    // this robot's actual controller via `ros2 topic echo /joy` before relying on it; this
+    // codebase has previously shipped a "guessed, unverified" button slot that needed
+    // correcting (see walk_v2's binding history in config.yaml).
+    this->declare_parameter<int>("wheel_align_hybrid_button_index", -1);
+    this->declare_parameter<std::string>("wheel_align_hybrid_controller_name",
+                                         "neural_controller_wheel_align_hybrid");
+    this->declare_parameter<std::vector<std::string>>(
+        "wheel_align_hybrid_command_states", {"stand", "front_l", "front_r", "back_r", "back_l"});
+    this->declare_parameter<std::vector<std::string>>(
+        "wheel_align_hybrid_cycle_states", {"front_l", "front_r", "back_r", "back_l"});
+    this->declare_parameter<std::string>("wheel_align_hybrid_command_topic",
+                                         "/wheel_align_hybrid_command_index");
+
     // Get parameter values
     this->get_parameter("estop_index", estop_index_);
     this->get_parameter("estop_release_index", estop_release_index_);
@@ -44,6 +62,11 @@ public:
     this->get_parameter("leg_lift_controller_name", leg_lift_controller_name_);
     this->get_parameter("leg_lift_command_states", leg_lift_command_states_);
     this->get_parameter("leg_lift_cycle_states", leg_lift_cycle_states_);
+    this->get_parameter("wheel_align_hybrid_button_index", wheel_align_hybrid_button_index_);
+    this->get_parameter("wheel_align_hybrid_controller_name", wheel_align_hybrid_controller_name_);
+    this->get_parameter("wheel_align_hybrid_command_states", wheel_align_hybrid_command_states_);
+    this->get_parameter("wheel_align_hybrid_cycle_states", wheel_align_hybrid_cycle_states_);
+    this->get_parameter("wheel_align_hybrid_command_topic", wheel_align_hybrid_command_topic_);
 
     // Every name in leg_lift_cycle_states must resolve in leg_lift_command_states, or we'd
     // silently command the wrong leg -- fail loudly at startup instead.
@@ -55,6 +78,24 @@ public:
                      state.c_str());
         throw std::runtime_error("leg_lift_cycle_states/leg_lift_command_states mismatch");
       }
+    }
+    for (const auto &state : wheel_align_hybrid_cycle_states_) {
+      if (std::find(wheel_align_hybrid_command_states_.begin(),
+                     wheel_align_hybrid_command_states_.end(),
+                     state) == wheel_align_hybrid_command_states_.end()) {
+        RCLCPP_ERROR(this->get_logger(),
+                     "wheel_align_hybrid_cycle_states entry \"%s\" is not in "
+                     "wheel_align_hybrid_command_states",
+                     state.c_str());
+        throw std::runtime_error(
+            "wheel_align_hybrid_cycle_states/wheel_align_hybrid_command_states mismatch");
+      }
+    }
+    if (wheel_align_hybrid_button_index_ < 0) {
+      RCLCPP_WARN(this->get_logger(),
+                  "wheel_align_hybrid_button_index is unbound (-1): the hybrid wheel-align "
+                  "controller cannot be activated from the joystick. See "
+                  "WHEEL_ALIGN_HYBRID_TESTING.md before binding a button.");
     }
 
     latest_active_controller_ = controller_names_.at(0);
@@ -69,6 +110,12 @@ public:
     // (e.g. via estop release) immediately sees the last commanded leg instead of "stand".
     pub_leg_lift_command_ = this->create_publisher<std_msgs::msg::Int32>(
         "/leg_lift_command_index", rclcpp::QoS(1).transient_local());
+    // Volatile (not transient_local) on purpose: a stale retained command must never replay
+    // against a freshly (re)captured, provisional session calibration. We instead wait for
+    // activation and an actual subscriber before publishing the first command ourselves --
+    // see activate_wheel_align_hybrid_and_command() below.
+    pub_wheel_align_hybrid_command_ = this->create_publisher<std_msgs::msg::Int32>(
+        wheel_align_hybrid_command_topic_, rclcpp::QoS(1).durability_volatile());
 
     // Subscriber to /joy
     joy_sub_ = this->create_subscription<sensor_msgs::msg::Joy>(
@@ -177,6 +224,73 @@ private:
       }
     }
     prev_leg_lift_state_ = leg_lift_pressed;
+
+    // Check if the wheel-align-hybrid button is pressed. Unlike leg-lift, this stays a no-op
+    // whenever the button is unbound (index < 0) -- see the constructor's warning.
+    bool wheel_align_hybrid_pressed =
+        wheel_align_hybrid_button_index_ >= 0 &&
+        msg->buttons.size() > static_cast<size_t>(wheel_align_hybrid_button_index_) &&
+        msg->buttons.at(wheel_align_hybrid_button_index_) == 1;
+    if (wheel_align_hybrid_pressed && !prev_wheel_align_hybrid_state_) {
+      bool was_active = (latest_active_controller_ == wheel_align_hybrid_controller_name_);
+      wheel_align_hybrid_cycle_position_ =
+          was_active
+              ? (wheel_align_hybrid_cycle_position_ + 1) % wheel_align_hybrid_cycle_states_.size()
+              : 0;
+      const std::string &state_name =
+          wheel_align_hybrid_cycle_states_.at(wheel_align_hybrid_cycle_position_);
+      auto it = std::find(wheel_align_hybrid_command_states_.begin(),
+                          wheel_align_hybrid_command_states_.end(), state_name);
+      int command_index = static_cast<int>(it - wheel_align_hybrid_command_states_.begin());
+
+      if (was_active) {
+        // Subscriber is already known connected from the first press; publish directly.
+        auto command_msg = std_msgs::msg::Int32();
+        command_msg.data = command_index;
+        pub_wheel_align_hybrid_command_->publish(command_msg);
+        RCLCPP_INFO(this->get_logger(),
+                    "Button %d pressed: wheel-align-hybrid command -> %s (index %d)",
+                    wheel_align_hybrid_button_index_, state_name.c_str(), command_index);
+      } else {
+        activate_wheel_align_hybrid_and_command(command_index, state_name);
+      }
+    }
+    prev_wheel_align_hybrid_state_ = wheel_align_hybrid_pressed;
+  }
+
+  // First press only: switches to the hybrid controller, then -- only once the switch
+  // succeeds and a subscriber is actually connected -- publishes the first command. The
+  // topic is volatile, so publishing any earlier would silently drop the command instead
+  // of it replaying late the way leg-lift's transient_local topic would.
+  void activate_wheel_align_hybrid_and_command(int command_index, std::string state_name) {
+    latest_active_controller_ = wheel_align_hybrid_controller_name_;
+    std::thread([this, command_index, state_name]() {
+      std::vector<std::string> deactivate_controllers;
+      for (const auto &controller : controller_names_) {
+        if (controller != wheel_align_hybrid_controller_name_) {
+          deactivate_controllers.push_back(controller);
+        }
+      }
+      switch_controllers_sync(std::vector<std::string>{wheel_align_hybrid_controller_name_},
+                               deactivate_controllers, /*strict=*/false);
+      const auto deadline = this->now() + rclcpp::Duration::from_seconds(2.0);
+      while (pub_wheel_align_hybrid_command_->get_subscription_count() == 0 &&
+             this->now() < deadline) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+      }
+      if (pub_wheel_align_hybrid_command_->get_subscription_count() == 0) {
+        RCLCPP_ERROR(this->get_logger(),
+                     "wheel-align-hybrid activated but no subscriber connected after 2s; "
+                     "command %d (%s) was NOT sent",
+                     command_index, state_name.c_str());
+        return;
+      }
+      auto command_msg = std_msgs::msg::Int32();
+      command_msg.data = command_index;
+      pub_wheel_align_hybrid_command_->publish(command_msg);
+      RCLCPP_INFO(this->get_logger(), "wheel-align-hybrid activated; command -> %s (index %d)",
+                  state_name.c_str(), command_index);
+    }).detach();
   }
 
   /**
@@ -246,15 +360,25 @@ private:
   // Index into leg_lift_cycle_states_ of the currently-commanded leg; -1 until the first press.
   int leg_lift_cycle_position_ = -1;
 
+  // Parameters for the wheel-align-hybrid cycle
+  int wheel_align_hybrid_button_index_;
+  std::string wheel_align_hybrid_controller_name_;
+  std::vector<std::string> wheel_align_hybrid_command_states_;
+  std::vector<std::string> wheel_align_hybrid_cycle_states_;
+  std::string wheel_align_hybrid_command_topic_;
+  int wheel_align_hybrid_cycle_position_ = -1;
+
   // Previous button states
   bool prev_estop_state_;
   bool prev_estop_release_state_;
   bool prev_leg_lift_state_ = false;
+  bool prev_wheel_align_hybrid_state_ = false;
   std::vector<bool> prev_switch_states_;
 
   // ROS 2 publishers
   rclcpp::Publisher<std_msgs::msg::Empty>::SharedPtr pub_estop_;
   rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr pub_leg_lift_command_;
+  rclcpp::Publisher<std_msgs::msg::Int32>::SharedPtr pub_wheel_align_hybrid_command_;
 
   // ROS 2 subscriber
   rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub_;

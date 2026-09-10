@@ -29,9 +29,17 @@ struct WheelAlignHybrid {
 
   void reset(const std::array<double, 12> &q) {
     *this = WheelAlignHybrid{};
+    recalibrate_home(q);
+  }
+
+  // Re-captures home/target/hold/reference from the current encoder angles without
+  // touching phase/command state. Session-only by design: cross-boot zero repeatability
+  // for these joints is unverified (the knee joints sharing this port's actuator/homing
+  // path have shown up to ~33 deg of boot-to-boot drift), so persisting an absolute
+  // angle to disk would silently go stale. Caller must only invoke this while
+  // phase == IDLE (or HOLD with no leg mid-operation), so it never moves a live target.
+  void recalibrate_home(const std::array<double, 12> &q) {
     for (int k = 0; k < 4; ++k) {
-      // TODO LAB CALIBRATION: provisional session-only home captured on activation.
-      // Replace ONLY this acquisition once the physical home/persistence procedure is decided.
       home[k] = hold[k] = reference[k] = wrap(q[3 * k + 2]);
       target[k] = wrap(home[k] + std::acos(-1.0));
     }

@@ -330,8 +330,19 @@ controller_interface::CallbackReturn NeuralController::on_activate(
     hybrid_first_step_ = true;
     // Remove stale velocity/effort targets inherited from another controller.
     for (auto &interface : command_interfaces_) interface.set_value(0.0);
+    rt_hybrid_calibrate_ptr_ =
+        realtime_tools::RealtimeBuffer<std::shared_ptr<std_msgs::msg::Empty>>(nullptr);
+    last_hybrid_calibrate_msg_ = nullptr;
+    hybrid_calibrate_subscriber_ = get_node()->create_subscription<std_msgs::msg::Empty>(
+        "/wheel_align_hybrid_calibrate", rclcpp::QoS(1).durability_volatile(),
+        [this](const std_msgs::msg::Empty::SharedPtr msg) {
+          rt_hybrid_calibrate_ptr_.writeFromNonRT(msg);
+        });
     RCLCPP_WARN(get_node()->get_logger(),
-        "Hybrid calibration TODO: session home captured from activation encoders; button unbound");
+        "Hybrid calibration: session home auto-captured from activation encoders. "
+        "Physically align all four wheels to the desired home, then publish an Empty to "
+        "/wheel_align_hybrid_calibrate to re-capture (only takes effect while idle). "
+        "No cross-session persistence. Button unbound pending hardware confirmation.");
   }
 
   // Reset estop caused by falling over
@@ -681,6 +692,21 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
         if (!std::isfinite(hybrid_q_[i]) || !std::isfinite(hybrid_qd_[i]))
           return controller_interface::return_type::ERROR;
       }
+      auto hybrid_calibrate = rt_hybrid_calibrate_ptr_.readFromRT();
+      if (hybrid_calibrate && hybrid_calibrate->get() &&
+          hybrid_calibrate->get().get() != last_hybrid_calibrate_msg_) {
+        last_hybrid_calibrate_msg_ = hybrid_calibrate->get().get();
+        if (hybrid_.phase == WheelAlignHybrid::IDLE) {
+          hybrid_.recalibrate_home(hybrid_q_);
+          RCLCPP_INFO(get_node()->get_logger(),
+                      "Hybrid calibration re-captured from current encoder angles");
+        } else {
+          RCLCPP_WARN(get_node()->get_logger(),
+                      "Hybrid calibration request ignored: not idle (phase=%d)",
+                      static_cast<int>(hybrid_.phase));
+        }
+      }
+
       const auto previous_phase = hybrid_.phase;
       hybrid_.finish_step(hybrid_q_, hybrid_qd_);
       hybrid_.select_command(command_index_, hybrid_q_);
