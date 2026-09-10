@@ -694,8 +694,8 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
       }
       auto hybrid_calibrate = rt_hybrid_calibrate_ptr_.readFromRT();
       if (hybrid_calibrate && hybrid_calibrate->get() &&
-          hybrid_calibrate->get().get() != last_hybrid_calibrate_msg_) {
-        last_hybrid_calibrate_msg_ = hybrid_calibrate->get().get();
+          hybrid_calibrate->get() != last_hybrid_calibrate_msg_) {
+        last_hybrid_calibrate_msg_ = hybrid_calibrate->get();
         if (hybrid_.phase == WheelAlignHybrid::IDLE) {
           hybrid_.recalibrate_home(hybrid_q_);
           RCLCPP_INFO(get_node()->get_logger(),
