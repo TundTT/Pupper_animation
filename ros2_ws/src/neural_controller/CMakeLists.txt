@@ -61,6 +61,19 @@ install(
 )
 
 if(BUILD_TESTING)
+  find_package(Python3 REQUIRED COMPONENTS Interpreter)
+  execute_process(COMMAND ${Python3_EXECUTABLE}
+    ${CMAKE_CURRENT_SOURCE_DIR}/test/make_motion_fixture.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_wheel_align_hybrid.json
+    ${CMAKE_CURRENT_BINARY_DIR}/untrained_motion_fixture.json
+    COMMAND_ERROR_IS_FATAL ANY)
+  add_executable(align_export_test test/align_export_test.cpp)
+  target_compile_features(align_export_test PRIVATE cxx_std_17)
+  target_link_libraries(align_export_test RTNeural)
+  add_executable(align_motion_test test/align_motion_test.cpp)
+  target_compile_features(align_motion_test PRIVATE cxx_std_17)
+  target_include_directories(align_motion_test PRIVATE include ../joy_utils/include)
+  add_test(NAME align_motion_runtime COMMAND align_motion_test)
   add_executable(hybrid_controller_test test/hybrid_controller_test.cpp)
   target_compile_features(hybrid_controller_test PRIVATE cxx_std_17)
   target_include_directories(hybrid_controller_test PRIVATE include)
@@ -71,6 +84,10 @@ if(BUILD_TESTING)
     COMMAND hybrid_controller_test
       ${CMAKE_CURRENT_SOURCE_DIR}/launch/config.yaml
       ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_wheel_align_hybrid.json)
+  add_test(NAME align_motion_controller_lifecycle
+    COMMAND hybrid_controller_test
+      ${CMAKE_CURRENT_SOURCE_DIR}/launch/config.yaml
+      ${CMAKE_CURRENT_BINARY_DIR}/untrained_motion_fixture.json)
   add_executable(hybrid_policy_test test/hybrid_policy_test.cpp)
   target_compile_features(hybrid_policy_test PRIVATE cxx_std_17)
   target_include_directories(hybrid_policy_test PRIVATE include)

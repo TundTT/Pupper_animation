@@ -1,9 +1,14 @@
 #include "controller_manager_msgs/srv/switch_controller.hpp"
+#include "controller_manager_msgs/srv/list_controllers.hpp"
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/joy.hpp"
+#include "sensor_msgs/msg/joint_state.hpp"
+#include "std_msgs/msg/float64_multi_array.hpp"
+#include "joy_utils/startup_home.hpp"
 #include "std_msgs/msg/empty.hpp"
 #include "std_msgs/msg/int32.hpp"
 #include <algorithm>
+#include <atomic>
 #include <mutex>
 #include <thread>
 
@@ -104,6 +109,36 @@ public:
                   "WHEEL_ALIGN_HYBRID_TESTING.md before binding a button.");
     }
 
+    startup_home_pub_ = create_publisher<std_msgs::msg::Float64MultiArray>(
+        "/wheel_align/startup_home", rclcpp::QoS(1).reliable().transient_local());
+    startup_joint_sub_ = create_subscription<sensor_msgs::msg::JointState>(
+        "/joint_states", rclcpp::SensorDataQoS(),
+        [this](sensor_msgs::msg::JointState::ConstSharedPtr msg) {
+          if (!startup_controllers_checked_ || now().seconds()-startup_controller_check_time_>.5) {
+            startup_home_.sampling=false; return;
+          }
+          const std::array<std::string,4> names{"leg_front_r_3", "leg_front_l_3", "leg_back_r_3", "leg_back_l_3"};
+          std::array<double,4> q{}, v{};
+          for (int k=0; k<4; ++k) {
+            auto it=std::find(msg->name.begin(),msg->name.end(),names[k]);
+            size_t i=static_cast<size_t>(it-msg->name.begin());
+            if (it==msg->name.end() || i>=msg->position.size() || i>=msg->velocity.size()) {
+              startup_home_.sampling=false; return;
+            }
+            q[k]=msg->position[i]; v[k]=msg->velocity[i];
+          }
+          const double age=(now()-rclcpp::Time(msg->header.stamp)).seconds();
+          if (age<0 || age>.2) { startup_home_.sampling=false; return; }
+          if (startup_home_.observe(q,v,now().seconds())) {
+            std_msgs::msg::Float64MultiArray out;
+            out.data.assign(startup_home_.home.begin(),startup_home_.home.end());
+            startup_home_pub_->publish(out);
+            RCLCPP_INFO(get_logger(), "Wheel home captured at startup, FR/FL/BR/BL: %.6f %.6f %.6f %.6f",
+                out.data[0],out.data[1],out.data[2],out.data[3]);
+          }
+        });
+    RCLCPP_INFO(get_logger(), "Wheel calibration: marked rings must be in the agreed home pose before stack startup. Waiting for stationary encoders.");
+
     latest_active_controller_ = default_controller_name_;
 
     // Initialize previous switch states
@@ -132,6 +167,26 @@ public:
     switch_controller_client_ =
         this->create_client<controller_manager_msgs::srv::SwitchController>(
             "/controller_manager/switch_controller");
+    startup_controllers_client_=create_client<controller_manager_msgs::srv::ListControllers>(
+        "/controller_manager/list_controllers");
+    startup_controllers_timer_=create_wall_timer(std::chrono::milliseconds(100),[this] {
+      if (startup_home_.captured || startup_home_.movement_requested || startup_check_pending_ ||
+          !startup_controllers_client_->service_is_ready()) return;
+      startup_check_pending_=true;
+      startup_controllers_client_->async_send_request(
+          std::make_shared<controller_manager_msgs::srv::ListControllers::Request>(),
+          [this](rclcpp::Client<controller_manager_msgs::srv::ListControllers>::SharedFuture future) {
+            startup_check_pending_=false;
+            for (const auto &controller:future.get()->controller) {
+              if (controller.state=="active" && !controller.claimed_interfaces.empty()) {
+                startup_home_.movement_requested=true;
+                RCLCPP_ERROR(get_logger(),"Startup calibration unavailable: a motion controller was already active. Restart the full stack in the physical home pose.");
+                return;
+              }
+            }
+            startup_controllers_checked_=true;startup_controller_check_time_=now().seconds();
+          });
+    });
 
     RCLCPP_INFO(this->get_logger(), "EStopController node has been started.");
   }
@@ -140,6 +195,12 @@ private:
   std::string latest_active_controller_ = "";
 
   void switch_to_controller(std::string controller_to_switch_to) {
+    if (controller_to_switch_to == wheel_align_hybrid_controller_name_ && !startup_home_.captured) {
+      RCLCPP_ERROR(get_logger(), "Alignment unavailable: startup home was not captured. Re-establish the physical home pose and restart the stack.");
+      return;
+    }
+    startup_home_.movement_requested = true;
+
     std::vector<std::string> deactivate_controllers;
     for (const auto &controller : controller_names_) {
       if (controller != controller_to_switch_to) {
@@ -238,59 +299,44 @@ private:
         msg->buttons.size() > static_cast<size_t>(wheel_align_hybrid_button_index_) &&
         msg->buttons.at(wheel_align_hybrid_button_index_) == 1;
     if (wheel_align_hybrid_pressed && !prev_wheel_align_hybrid_state_) {
-      bool was_active = (latest_active_controller_ == wheel_align_hybrid_controller_name_);
+      bool was_active = alignment_active_.load();
       if (!was_active) {
-        // First press: ACTIVATE ONLY, no leg is commanded. on_activate() captures home
-        // from whatever position the wheels are in right now (command_index_ defaults to
-        // 0 == "stand", which never leaves WheelAlignHybrid::IDLE) and sets up
-        // /wheel_align_hybrid_calibrate for re-capturing home while still idle. Physically
-        // position/align all four wheels BEFORE this press; a later press starts the
-        // front_l/front_r/back_r/back_l cycle from scratch (cycle_position stays -1 here).
-        latest_active_controller_ = wheel_align_hybrid_controller_name_;
+        // Entry reuses startup calibration and captures fresh holds. A later
+        // press advances the leg pointer only after activation has succeeded.
+        if (!startup_home_.captured) {
+          RCLCPP_ERROR(get_logger(), "Startup wheel calibration is unavailable; alignment was not activated.");
+          prev_wheel_align_hybrid_state_=wheel_align_hybrid_pressed;
+          return;
+        }
+        wheel_align_hybrid_cycle_position_=-1;
         switch_to_controller(wheel_align_hybrid_controller_name_);
         RCLCPP_INFO(this->get_logger(),
-                    "Button %d pressed: wheel-align-hybrid activated (calibration only, "
+                    "Button %d pressed: wheel-align-hybrid activation requested (startup home reused, "
                     "no leg commanded)",
                     wheel_align_hybrid_button_index_);
       } else {
-        wheel_align_hybrid_cycle_position_ =
-            (wheel_align_hybrid_cycle_position_ + 1) % wheel_align_hybrid_cycle_states_.size();
+        const int next_cycle = (wheel_align_hybrid_cycle_position_ + 1) % wheel_align_hybrid_cycle_states_.size();
         const std::string &state_name =
-            wheel_align_hybrid_cycle_states_.at(wheel_align_hybrid_cycle_position_);
+            wheel_align_hybrid_cycle_states_.at(next_cycle);
         auto it = std::find(wheel_align_hybrid_command_states_.begin(),
                             wheel_align_hybrid_command_states_.end(), state_name);
         int command_index = static_cast<int>(it - wheel_align_hybrid_command_states_.begin());
-        publish_wheel_align_hybrid_command(command_index, state_name);
+        if (publish_wheel_align_hybrid_command(command_index, state_name)) wheel_align_hybrid_cycle_position_=next_cycle;
       }
     }
     prev_wheel_align_hybrid_state_ = wheel_align_hybrid_pressed;
   }
 
-  // Waits (bounded) for a subscriber before publishing. The topic is volatile, so
-  // publishing before the controller's subscription exists would silently drop the
-  // command instead of it replaying late the way leg-lift's transient_local topic would.
-  // In practice this only actually waits right after activation; by the time later cycle
-  // presses call this the subscriber has long been connected.
-  void publish_wheel_align_hybrid_command(int command_index, std::string state_name) {
-    std::thread([this, command_index, state_name]() {
-      const auto deadline = this->now() + rclcpp::Duration::from_seconds(2.0);
-      while (pub_wheel_align_hybrid_command_->get_subscription_count() == 0 &&
-             this->now() < deadline) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(20));
-      }
-      if (pub_wheel_align_hybrid_command_->get_subscription_count() == 0) {
-        RCLCPP_ERROR(this->get_logger(),
-                     "wheel-align-hybrid: no subscriber connected after 2s; "
-                     "command %d (%s) was NOT sent",
-                     command_index, state_name.c_str());
-        return;
-      }
-      auto command_msg = std_msgs::msg::Int32();
-      command_msg.data = command_index;
-      pub_wheel_align_hybrid_command_->publish(command_msg);
-      RCLCPP_INFO(this->get_logger(), "wheel-align-hybrid command -> %s (index %d)",
-                  state_name.c_str(), command_index);
-    }).detach();
+  // Activation and advance are separate presses. Never reorder commands through
+  // detached publisher threads, and never advance the UI pointer on a lost command.
+  bool publish_wheel_align_hybrid_command(int command_index, const std::string& state_name) {
+    if (!alignment_active_.load() || pub_wheel_align_hybrid_command_->get_subscription_count()==0) {
+      RCLCPP_WARN(get_logger(), "Alignment command not sent: controller/subscriber is not ready. Press again.");
+      return false;
+    }
+    std_msgs::msg::Int32 msg;msg.data=command_index;pub_wheel_align_hybrid_command_->publish(msg);
+    RCLCPP_INFO(get_logger(), "wheel-align-hybrid command -> %s (index %d)",state_name.c_str(),command_index);
+    return true;
   }
 
   /**
@@ -337,12 +383,23 @@ private:
 
     auto result = switch_controller_client_->async_send_request(request).get();
     if (result->ok) {
+      alignment_active_.store(std::find(activate_controllers.begin(),activate_controllers.end(),
+          wheel_align_hybrid_controller_name_)!=activate_controllers.end());
       RCLCPP_INFO(this->get_logger(), "Switched controllers successfully");
     } else {
       RCLCPP_ERROR(this->get_logger(), "Failed to switch controllers");
     }
     service_call_in_progress_ = false;
   }
+
+  std::atomic<bool> alignment_active_{false};
+  bool startup_controllers_checked_=false, startup_check_pending_=false;
+  double startup_controller_check_time_=0;
+  rclcpp::Client<controller_manager_msgs::srv::ListControllers>::SharedPtr startup_controllers_client_;
+  rclcpp::TimerBase::SharedPtr startup_controllers_timer_;
+  joy_utils::StartupHome startup_home_;
+  rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr startup_home_pub_;
+  rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr startup_joint_sub_;
 
   // Parameters for button indices
   int estop_index_;

@@ -157,7 +157,7 @@ def generate_launch_description():
         ],
     )
 
-    # Hybrid alignment is intentionally unbound; activate manually for lab bring-up.
+    # Alignment starts inactive; X enters it after startup calibration is ready.
     wheel_align_hybrid_robot_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",

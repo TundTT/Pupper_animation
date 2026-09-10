@@ -19,6 +19,7 @@
 #include "realtime_tools/realtime_publisher.h"
 #include "std_msgs/msg/empty.hpp"
 #include "std_msgs/msg/float32.hpp"
+#include "std_msgs/msg/float64_multi_array.hpp"
 #include "std_msgs/msg/float32_multi_array.hpp"
 #include "std_msgs/msg/int32.hpp"
 #include "tf2/LinearMath/Matrix3x3.h"
@@ -27,6 +28,7 @@
 #include "neural_controller_parameters.hpp"
 #include "neural_controller/policy_contract.hpp"
 #include "neural_controller/wheel_align_hybrid.hpp"
+#include "neural_controller/wheel_align_motion.hpp"
 
 namespace neural_controller {
 
@@ -93,6 +95,8 @@ class NeuralController : public controller_interface::ControllerInterface {
   // Hybrid policy has 8 outputs but still commands all 12 actuators.
   int policy_action_size_ = kActionSize;
   WheelAlignHybrid hybrid_;
+  WheelAlignMotion motion_;
+  void integrate_alignment_motion(double dt);
   std::array<double, 12> hybrid_q_{}, hybrid_qd_{};
   double hybrid_elapsed_ = 0.0;
   bool hybrid_first_step_ = true;
@@ -160,15 +164,10 @@ class NeuralController : public controller_interface::ControllerInterface {
   realtime_tools::RealtimeBuffer<std::shared_ptr<std_msgs::msg::Int32>> rt_leg_lift_command_ptr_;
   rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr leg_lift_command_subscriber_ = nullptr;
 
-  // "wheel_align_hybrid" behavior only: operator-triggered re-capture of home/target/hold
-  // from the current encoder angles. Only applied by update() while hybrid_.phase == IDLE,
-  // so it never moves a target mid-operation. No persistence -- see recalibrate_home()'s
-  // comment in wheel_align_hybrid.hpp for why.
-  realtime_tools::RealtimeBuffer<std::shared_ptr<std_msgs::msg::Empty>> rt_hybrid_calibrate_ptr_;
-  rclcpp::Subscription<std_msgs::msg::Empty>::SharedPtr hybrid_calibrate_subscriber_ = nullptr;
-  // Raw pointer used only to detect a new message (identity, not content) so a single
-  // press doesn't re-trigger recalibration on every subsequent 520 Hz cycle.
-  const std_msgs::msg::Empty *last_hybrid_calibrate_msg_ = nullptr;
+  // Non-actuating startup owner publishes once, before locomotion. Subscription
+  // exists while inactive; action buttons never acquire calibration.
+  realtime_tools::RealtimeBuffer<std::shared_ptr<std_msgs::msg::Float64MultiArray>> rt_startup_home_ptr_;
+  rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr startup_home_subscriber_;
 
   rclcpp::Subscription<std_msgs::msg::Empty>::SharedPtr emergency_stop_subscriber_ = nullptr;
   rclcpp::Subscription<std_msgs::msg::Empty>::SharedPtr emergency_stop_reset_subscriber_ = nullptr;

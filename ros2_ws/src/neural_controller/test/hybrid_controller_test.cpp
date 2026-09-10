@@ -14,12 +14,17 @@ class Harness : public neural_controller::NeuralController {
   const auto &hybrid() const { return hybrid_; }
   auto &hybrid() { return hybrid_; }
   auto &params() { return params_; }
+  const auto &motion() const { return motion_; }
   void zero_time() { init_time_ = rclcpp::Time(0, 0, RCL_ROS_TIME); }
   void command(int value) {
     auto msg = std::make_shared<std_msgs::msg::Int32>(); msg->data = value;
     rt_leg_lift_command_ptr_.writeFromNonRT(msg);
   }
   void stop() { estop_active_ = true; }
+  void startup(const std::array<double,12>& q) {
+    auto msg=std::make_shared<std_msgs::msg::Float64MultiArray>();
+    for(int k=0;k<4;++k)msg->data.push_back(q[3*k+2]);rt_startup_home_ptr_.writeFromNonRT(msg);
+  }
 };
 
 int main(int argc, char **argv) {
@@ -63,6 +68,7 @@ int main(int argc, char **argv) {
       require(controller.update(rclcpp::Time(static_cast<int64_t>(seconds * 1e9), RCL_ROS_TIME),
           rclcpp::Duration::from_seconds(.002)) == controller_interface::return_type::OK, "update");
     };
+    controller.startup(q);
     activate();
     auto original_home = controller.hybrid().home;
     for (int k = 0; k < 4; ++k) q[3*k+2] += .1;
@@ -76,7 +82,8 @@ int main(int argc, char **argv) {
     controller.command(1);
     tick(2.0);
     auto obs = controller.obs();
-    require(obs.size() == 51 && controller.hybrid().leg() == 1, "51 observations and command 1 selects FL");
+    const bool v2=controller.hybrid().motion_version==2;
+    require(obs.size() == (v2 ? 82 : 51) && controller.hybrid().leg() == 1, "observations and command 1 selects FL");
     for (int i = 0; i < 3; ++i) near(obs[i], imu[i], "angular velocity frame");
     near(obs[5], -1, "gravity frame");
     for (int i = 0; i < 5; ++i) near(obs[6+i], i == 1 ? 1 : 0, "effective command one hot");
@@ -100,19 +107,39 @@ int main(int argc, char **argv) {
       int row = neural_controller::WheelAlignHybrid::position_rows[a];
       double action = network->getOutputs()[a];
       near(obs[35+a], action, "last action stores raw network output");
-      near(commands[row][0], std::clamp(controller.params().default_joint_pos[row] +
-          controller.params().action_scales[row] * action, controller.params().joint_lower_limits[row],
-          controller.params().joint_upper_limits[row]), "8 outputs map directly to position rows");
+      double desired=std::clamp(controller.params().default_joint_pos[row] +
+          controller.params().action_scales[row]*action,controller.params().joint_lower_limits[row],
+          controller.params().joint_upper_limits[row]);
+      if(a==3) desired=std::clamp(desired,-.08,.08);
+      if(v2) near(commands[row][0],controller.motion().applied[a],"v2 applied reference reaches hardware interface");
+      else near(commands[row][0],desired,"legacy active hip is rate limited; support outputs remain direct");
+    }
+    if(v2) {
+      near(obs[52],1,"v2 lift phase observation");
+      require(obs[57]>0 && obs[57]<.01,"v2 gradual lift progress");
+      for(int a=0;a<8;++a) near(obs[58+a],controller.motion().reference[a],"v2 reference observation");
+      // Track the output with ideal encoders to exercise manager-rate integration;
+      // this is a controller test, not a claim about physical balance.
+      auto previous=controller.motion().velocity;
+      for(int n=1;n<=200;++n) {
+        for(int a=0;a<8;++a) q[neural_controller::WheelAlignHybrid::position_rows[a]]=commands[neural_controller::WheelAlignHybrid::position_rows[a]][0];
+        tick(2.+.002*n);
+        for(int a=0;a<8;++a) {
+          require(std::abs(controller.motion().velocity[a]-previous[a])<=16*.002+1e-8,"manager acceleration bound");
+          previous[a]=controller.motion().velocity[a];
+        }
+      }
+      require(std::abs(commands[4][0])>.001,"v2 lift advances between inference ticks");
     }
     // Changed command interrupts rotation before wheel output; the new leg waits.
     controller.hybrid().phase = neural_controller::WheelAlignHybrid::ROTATE;
     controller.command(2);
-    for (int n = 1; n <= 10; ++n) tick(2.0 + .002*n);
+    for (int n = 1; n <= 10; ++n) tick((v2 ? 2.4 : 2.0) + .002*n);
     require(controller.hybrid().phase == neural_controller::WheelAlignHybrid::LOWER &&
         controller.hybrid().active_command == 1, "runtime command interruption");
     near(controller.obs()[6], 1, "runtime lowering observes stand");
     near(commands[5][1], -.35*qd[5], "interruption holds current FL encoder");
-    controller.stop(); tick(2.022);  // between policy ticks
+    controller.stop(); tick(v2 ? 2.422 : 2.022);  // between policy ticks
     for (const auto &c : commands) {
       near(c[0], 0, "estop position"); near(c[1], 0, "estop velocity");
       near(c[3], 0, "estop kp"); near(c[4], 1, "estop damping");
@@ -129,8 +156,7 @@ int main(int argc, char **argv) {
     // back (wheel/leg/transition policies) and reactivates was flagged as a real problem.
     for (int k = 0; k < 4; ++k) near(controller.hybrid().home[k], original_home[k],
         "reactivate preserves the session's original home, does not recapture");
-    // Explicit recalibration (what publishing to /wheel_align_hybrid_calibrate while idle
-    // triggers) still works and DOES pick up the current, moved q.
+    // Explicit test setup can replace the home; no action button or active-controller subscription does this.
     controller.hybrid().recalibrate_home(q);
     for (int k = 0; k < 4; ++k) near(controller.hybrid().home[k],
         neural_controller::WheelAlignHybrid::wrap(q[3*k+2]), "explicit recalibration captures current q");

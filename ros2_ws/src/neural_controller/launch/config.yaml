@@ -368,16 +368,16 @@ neural_controller_walk_v2:
 
     model_path: "$(find-pkg-share neural_controller)/launch/policy_walk_v2.json"
 
-# Hybrid wheel alignment: eight direct position outputs and four classical wheel PDs.
-# Spawned inactive; manual topic commands work, joystick dispatch intentionally unbound.
-# See WHEEL_ALIGN_HYBRID_TESTING.md for the two explicit lab TODOs.
+# Hybrid wheel alignment: versioned eight-action policy and four hub servos.
+# Spawned inactive; X enters after startup home capture. Legacy weights remain selected.
+# See ALIGN_MOTION_V2.md for training and deployment of the new motion contract.
 neural_controller_wheel_align_hybrid:
   ros__parameters:
     repeat_action: 10  # established manager cadence; slew uses elapsed control time
     gain_multiplier: 1.0
     estop_kd: 1.0
     init_duration: 2.0
-    fade_in_duration: 0.0  # direct action contract after the initial pose ramp
+    fade_in_duration: 0.0  # alignment has its own versioned motion shaping
     max_body_angle: 0.5  # hybrid training fall threshold
     joint_names: ["leg_front_r_1", "leg_front_r_2", "leg_front_r_3", "leg_front_l_1", "leg_front_l_2", "leg_front_l_3", "leg_back_r_1", "leg_back_r_2", "leg_back_r_3", "leg_back_l_1", "leg_back_l_2", "leg_back_l_3"]
     action_types: ["position", "position", "velocity", "position", "position", "velocity", "position", "position", "velocity", "position", "position", "velocity"]
@@ -438,8 +438,8 @@ joy_util_node:
     # them when switching (order-independent for that purpose).
     controller_names: ["neural_controller_walk_v2", "neural_controller_wheel", "neural_controller_three_legged", "neural_controller", "neural_controller_leg_lift", "neural_controller_wheel_align_hybrid", "forward_kp_controller", "forward_kd_controller", "forward_position_controller"]
     # Seeds latest_active_controller_ at boot -- NOT read positionally from controller_names
-    # above (see estop_controller.cpp). This is genuinely the controller launch.py spawns
-    # active by default.
+    # above (see estop_controller.cpp). This is the estop-release fallback;
+    # launch.py actually spawns all motion controllers inactive.
     default_controller_name: "neural_controller"
     # Square (3) -> neural_controller_walk_v2, the new sim-validated-only walking
     #   policy -- moved here from L2 at the user's request, replacing
@@ -467,24 +467,12 @@ joy_util_node:
     # neural_controller_leg_lift and immediately commands front_l; each subsequent press while
     # it's active advances to the next state in leg_lift_cycle_states. Press X to leave leg-lift
     # mode and return to locomotion.
-    # X-button wheel-align-hybrid cycle (2026-09-09). UNLIKE leg-lift above, the first
-    # press EVER THIS SESSION is calibration-only: it activates
-    # neural_controller_wheel_align_hybrid, which captures home from whatever position
-    # each wheel is in RIGHT NOW (physically align all four wheels to the desired start
-    # position before this press) and commands nothing -- command_index_ defaults to 0
-    # ("stand"), which stays in phase IDLE. That captured home then PERSISTS across
-    # switching to other controllers (wheel/leg/etc.) and back -- reactivating this
-    # controller later in the same process does NOT re-home (2026-09-09 fix: the operator
-    # needs one ground truth per robot-stack startup, not one per activation, since
-    # bouncing between wheel/leg/transition policies is a normal part of testing). While
-    # idle, publish an Empty to /wheel_align_hybrid_calibrate to intentionally redo the
-    # capture. Each SUBSEQUENT press (while already active) advances through
-    # wheel_align_hybrid_cycle_states, starting at front_l -- that's the press that
-    # actually lifts/rotates a leg. Bound live at the user's explicit request after
-    # confirming continuous wheel joints are now physically mounted (no mechanical stop)
-    # -- see components.xacro's 2026-09-09 WHEEL-ALIGN-HYBRID TEST comments, which removed
-    # the leg-era hard_limit_min/max software clamp on all four leg_*_3 joints and widened
-    # position_min/max to +-1000 to match.
+    # Startup home is captured by joy_util_node from stationary joint states before
+    # any joystick activation. Physically establish the reference ring pose before
+    # launching the stack. X enters alignment using that home; subsequent X presses
+    # advance legs. Reentry refreshes wheel holds without recalibrating home.
+    # This YAML still selects the legacy checkpoint. See ALIGN_MOTION_V2.md for the
+    # PC training/export workflow and explicit v2 model selection after evaluation.
     wheel_align_hybrid_button_index: 0
     wheel_align_hybrid_controller_name: "neural_controller_wheel_align_hybrid"
     wheel_align_hybrid_command_states: ["stand", "front_l", "front_r", "back_r", "back_l"]

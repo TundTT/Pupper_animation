@@ -18,9 +18,11 @@ struct WheelAlignHybrid {
   bool verified = false, was_rotating = false, step_pending = false;
   std::array<bool, 4> completed{};
   std::array<double, 4> home{}, target{}, hold{}, reference{};
-  // Set once by the first-ever reset() (or an explicit recalibrate_home()) and never
-  // cleared by reset() again -- see reset()'s comment for why.
+  // Calibration is supplied by the startup owner, never acquired on activation.
   bool calibrated = false;
+  int motion_version = 1;
+  bool motion_lower_finished = true;
+  std::array<double, 8> applied_position{};
 
   static double wrap(double x) { return std::atan2(std::sin(x), std::cos(x)); }
   static double wheel_pd(double goal, double angle, double velocity) {
@@ -30,38 +32,26 @@ struct WheelAlignHybrid {
   int leg() const { return std::max(command_leg[active_command], 0); }
   int effective_command() const { return up() ? active_command : 0; }
 
-  // Called on every controller activation. Resets phase/command/gate state for a fresh
-  // run, but deliberately does NOT recapture home/target/hold/reference once they've
-  // been set once (see `calibrated`): the operator needs one ground-truth reference
-  // established at robot-stack startup that survives switching to other controllers
-  // (wheel/leg/etc.) and back -- re-homing on every single activation silently discards
-  // that reference the moment any other policy has moved the wheels. Only the very first
-  // activation after process start, or an explicit /wheel_align_hybrid_calibrate publish
-  // while idle, updates the calibration -- see recalibrate_home().
+  // Home belongs to the hardware-zeroing session; holds belong to this activation.
   void reset(const std::array<double, 12> &q) {
     const bool was_calibrated = calibrated;
     const auto saved_home = home;
     const auto saved_target = target;
-    const auto saved_hold = hold;
-    const auto saved_reference = reference;
+    const int saved_version = motion_version;
     *this = WheelAlignHybrid{};
+    motion_version = saved_version;
     if (was_calibrated) {
       home = saved_home;
       target = saved_target;
-      hold = saved_hold;
-      reference = saved_reference;
       calibrated = true;
-    } else {
-      recalibrate_home(q);
     }
+    for (int k = 0; k < 4; ++k) hold[k] = reference[k] = wrap(q[3*k+2]);
+    for (int a = 0; a < 8; ++a) applied_position[a] = q[position_rows[a]];
   }
 
-  // Re-captures home/target/hold/reference from the current encoder angles without
-  // touching phase/command state. Session-only by design: cross-boot zero repeatability
-  // for these joints is unverified (the knee joints sharing this port's actuator/homing
-  // path have shown up to ~33 deg of boot-to-boot drift), so persisting an absolute
-  // angle to disk would silently go stale. Caller must only invoke this while
-  // phase == IDLE (or HOLD with no leg mid-operation), so it never moves a live target.
+  // Used by the startup owner/test setup. The controller calls this from the
+  // retained startup message before reset(), which then refreshes current holds.
+  // It is not exposed as an active-controller/action-button calibration command.
   void recalibrate_home(const std::array<double, 12> &q) {
     for (int k = 0; k < 4; ++k) {
       home[k] = hold[k] = reference[k] = wrap(q[3 * k + 2]);
@@ -80,6 +70,7 @@ struct WheelAlignHybrid {
   }
 
   void select_command(int requested, const std::array<double, 12> &q) {
+    if (!calibrated || requested < 0 || requested >= 5) return;
     if (requested != command && up()) {
       hold[leg()] = wrap(q[3 * leg() + 2]);
       phase = LOWER;
@@ -95,6 +86,18 @@ struct WheelAlignHybrid {
       reference = hold;
       verified = false;
     }
+  }
+
+  // Legacy checkpoint parity: training limited the active hip by .05 action units
+  // per .02 s, with a 1.6 rad scale. Keep applied targets separate from raw actions.
+  std::array<double, 8> limit_positions(const std::array<double, 8> &desired, double dt) {
+    for (int a = 0; a < 8; ++a) {
+      const bool active_hip = a == 2*leg()+1 && (up() || phase == LOWER);
+      const double step = 4.0 * std::clamp(dt, 0.0, 0.04);
+      applied_position[a] = active_hip ? std::clamp(desired[a],
+          applied_position[a]-step, applied_position[a]+step) : desired[a];
+    }
+    return applied_position;
   }
 
   // Complete the preceding control interval using newly measured encoders. This
@@ -117,7 +120,7 @@ struct WheelAlignHybrid {
       // the settled encoder snapshot throughout lowering and subsequent HOLD.
       hold[k] = wrap(q[wheel]);
       verified = true;
-    } else if (phase == LOWER && phase_steps >= 50 &&
+    } else if (phase == LOWER && phase_steps >= 50 && motion_lower_finished &&
                std::abs(q[hip]) < 0.25 && std::abs(qd[hip]) < 0.2) {
       next = HOLD;
       completed[k] = completed[k] || verified;

@@ -10,3 +10,9 @@ ros2_ws/install/
 untracked_bags
 
 *.wav
+# Alignment training runs and local validation artifacts
+training/wheel_align/.venv/
+training/wheel_align/.pytest_cache/
+runs/
+*.exe
+*.obj

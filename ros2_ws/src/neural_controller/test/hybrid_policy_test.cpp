@@ -44,6 +44,7 @@ int main(int argc, char **argv) {
     std::array<double, 12> q{1, 0, .3, -1, 0, -.4, 1, 0, .5, -1, 0, -.6}, qd{};
     const auto initial = q;
     Hybrid h;
+    h.recalibrate_home(q);
     h.reset(q);
     for (int k = 0; k < 4; ++k) {
       near(h.target[k], Hybrid::wrap(q[3*k+2]+pi), "activation calibration");

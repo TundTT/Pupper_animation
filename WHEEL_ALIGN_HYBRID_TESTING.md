@@ -1,5 +1,7 @@
 # Hybrid wheel alignment: lab handoff
 
+**Current implementation:** see [ALIGN_MOTION_V2.md](ALIGN_MOTION_V2.md) for startup calibration, restored legacy slew, and the new training workflow. The dated entries below are historical; their old calibration/button instructions do not describe the current branch.
+
 `neural_controller_wheel_align_hybrid` is registered and spawned **inactive** by
 `neural_controller/launch.py`. The controller and full ROS workspace compile;
 robot testing is still pending. No joystick button activates this behavior yet.

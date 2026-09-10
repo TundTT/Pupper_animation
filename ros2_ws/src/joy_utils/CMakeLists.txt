@@ -14,6 +14,7 @@ find_package(controller_manager_msgs REQUIRED)
 
 # Add the executable
 add_executable(estop_controller src/estop_controller.cpp)
+target_include_directories(estop_controller PRIVATE include)
 
 # Link against ROS 2 libraries
 ament_target_dependencies(estop_controller
