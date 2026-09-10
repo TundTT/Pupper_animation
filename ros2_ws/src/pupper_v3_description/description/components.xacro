@@ -108,26 +108,18 @@
                  pose, so the reference was moved to match. -->
             <param name="homing_reference_raw">0.072700</param>
 
-            <param name="position_min">-2.69</param>
-            <param name="position_max">0.61</param>
-            <param name="hard_limit_min">-2.615937</param>
-            <param name="hard_limit_max">0.525655</param>
-            <!-- hard_limit_min/max is +-90 deg around home (hardware-measured "comfortable
-                 max" was 102-120 deg per side, each leg measured individually; see the
-                 leg-calibration session notes). This is the REAL mechanical protection,
-                 enforced unconditionally in copy_actuator_commands()'s hard end-stop from
-                 the actual measured position, regardless of control mode (position or
-                 velocity) or which controller is active; unlike position_min/max above,
-                 which is left at its original wider value on purpose, because that pair is a soft
-                 command clip only enforced under active position control, sized with
-                 headroom inside what deployed policies actually command, and must NOT be
-                 reused as a substitute for a real limit (an earlier version of this file
-                 did exactly that, which broke on review; it collided with the deployed
-                 locomotion policy's own envelope on this and other joints). velocity_max
-                 is also reduced from the walk/locomotion default (30) on this joint alone,
-                 to bound worst-case kinetic energy hitting the hard limit; legged walking
-                 does not need anywhere near 30 rad/s on a knee joint. -->
-            <param name="velocity_max">15.0</param>
+            <param name="position_min">-1000.0</param>
+            <param name="position_max">1000.0</param>
+            <!-- WHEEL-ALIGN-HYBRID TEST (2026-09-09): position_min/max widened and
+                 hard_limit_min/max removed. A continuous wheel is now physically mounted
+                 on this joint (no mechanical stop), and neural_controller_wheel_align_hybrid
+                 commands a 180-degree turn that the prior +-90-deg-from-home leg clamp
+                 would fight. hard_limit_min/max defaults to +-infinity when absent (see
+                 control_board_hardware_interface.cpp's OPTIONAL hard_limit_min/max comment).
+                 REVERT before putting the CustomLegFoot leg back on this joint:
+                 position_min -2.69, position_max 0.61, hard_limit_min -2.615937,
+                 hard_limit_max 0.525655, velocity_max 15.0. -->
+            <param name="velocity_max">30.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
             <param name="kd_max">1.0</param>
@@ -246,26 +238,18 @@
                  pose, so the reference was moved to match. -->
             <param name="homing_reference_raw">0.110100</param>
 
-            <param name="position_min">-0.61</param>
-            <param name="position_max">2.69</param>
-            <param name="hard_limit_min">-0.619960</param>
-            <param name="hard_limit_max">2.521632</param>
-            <!-- hard_limit_min/max is +-90 deg around home (hardware-measured "comfortable
-                 max" was 102-120 deg per side, each leg measured individually; see the
-                 leg-calibration session notes). This is the REAL mechanical protection,
-                 enforced unconditionally in copy_actuator_commands()'s hard end-stop from
-                 the actual measured position, regardless of control mode (position or
-                 velocity) or which controller is active; unlike position_min/max above,
-                 which is left at its original wider value on purpose, because that pair is a soft
-                 command clip only enforced under active position control, sized with
-                 headroom inside what deployed policies actually command, and must NOT be
-                 reused as a substitute for a real limit (an earlier version of this file
-                 did exactly that, which broke on review; it collided with the deployed
-                 locomotion policy's own envelope on this and other joints). velocity_max
-                 is also reduced from the walk/locomotion default (30) on this joint alone,
-                 to bound worst-case kinetic energy hitting the hard limit; legged walking
-                 does not need anywhere near 30 rad/s on a knee joint. -->
-            <param name="velocity_max">15.0</param>
+            <param name="position_min">-1000.0</param>
+            <param name="position_max">1000.0</param>
+            <!-- WHEEL-ALIGN-HYBRID TEST (2026-09-09): position_min/max widened and
+                 hard_limit_min/max removed. A continuous wheel is now physically mounted
+                 on this joint (no mechanical stop), and neural_controller_wheel_align_hybrid
+                 commands a 180-degree turn that the prior +-90-deg-from-home leg clamp
+                 would fight. hard_limit_min/max defaults to +-infinity when absent (see
+                 control_board_hardware_interface.cpp's OPTIONAL hard_limit_min/max comment).
+                 REVERT before putting the CustomLegFoot leg back on this joint:
+                 position_min -0.61, position_max 2.69, hard_limit_min -0.619960,
+                 hard_limit_max 2.521632, velocity_max 15.0. -->
+            <param name="velocity_max">30.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
             <param name="kd_max">1.0</param>
@@ -386,26 +370,18 @@
                  reading, so the reference was moved to match. -->
             <param name="homing_reference_raw">-0.252300</param>
 
-            <param name="position_min">-2.69</param>
-            <param name="position_max">0.61</param>
-            <param name="hard_limit_min">-2.615937</param>
-            <param name="hard_limit_max">0.525655</param>
-            <!-- hard_limit_min/max is +-90 deg around home (hardware-measured "comfortable
-                 max" was 102-120 deg per side, each leg measured individually; see the
-                 leg-calibration session notes). This is the REAL mechanical protection,
-                 enforced unconditionally in copy_actuator_commands()'s hard end-stop from
-                 the actual measured position, regardless of control mode (position or
-                 velocity) or which controller is active; unlike position_min/max above,
-                 which is left at its original wider value on purpose, because that pair is a soft
-                 command clip only enforced under active position control, sized with
-                 headroom inside what deployed policies actually command, and must NOT be
-                 reused as a substitute for a real limit (an earlier version of this file
-                 did exactly that, which broke on review; it collided with the deployed
-                 locomotion policy's own envelope on this and other joints). velocity_max
-                 is also reduced from the walk/locomotion default (30) on this joint alone,
-                 to bound worst-case kinetic energy hitting the hard limit; legged walking
-                 does not need anywhere near 30 rad/s on a knee joint. -->
-            <param name="velocity_max">15.0</param>
+            <param name="position_min">-1000.0</param>
+            <param name="position_max">1000.0</param>
+            <!-- WHEEL-ALIGN-HYBRID TEST (2026-09-09): position_min/max widened and
+                 hard_limit_min/max removed. A continuous wheel is now physically mounted
+                 on this joint (no mechanical stop), and neural_controller_wheel_align_hybrid
+                 commands a 180-degree turn that the prior +-90-deg-from-home leg clamp
+                 would fight. hard_limit_min/max defaults to +-infinity when absent (see
+                 control_board_hardware_interface.cpp's OPTIONAL hard_limit_min/max comment).
+                 REVERT before putting the CustomLegFoot leg back on this joint:
+                 position_min -2.69, position_max 0.61, hard_limit_min -2.615937,
+                 hard_limit_max 0.525655, velocity_max 15.0. -->
+            <param name="velocity_max">30.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
             <param name="kd_max">1.0</param>
@@ -521,26 +497,18 @@
                  consecutive power cycles. See do_homing() for the check this enables. -->
             <param name="homing_reference_raw">-0.079919</param>
 
-            <param name="position_min">-0.61</param>
-            <param name="position_max">2.69</param>
-            <param name="hard_limit_min">-0.619960</param>
-            <param name="hard_limit_max">2.521632</param>
-            <!-- hard_limit_min/max is +-90 deg around home (hardware-measured "comfortable
-                 max" was 102-120 deg per side, each leg measured individually; see the
-                 leg-calibration session notes). This is the REAL mechanical protection,
-                 enforced unconditionally in copy_actuator_commands()'s hard end-stop from
-                 the actual measured position, regardless of control mode (position or
-                 velocity) or which controller is active; unlike position_min/max above,
-                 which is left at its original wider value on purpose, because that pair is a soft
-                 command clip only enforced under active position control, sized with
-                 headroom inside what deployed policies actually command, and must NOT be
-                 reused as a substitute for a real limit (an earlier version of this file
-                 did exactly that, which broke on review; it collided with the deployed
-                 locomotion policy's own envelope on this and other joints). velocity_max
-                 is also reduced from the walk/locomotion default (30) on this joint alone,
-                 to bound worst-case kinetic energy hitting the hard limit; legged walking
-                 does not need anywhere near 30 rad/s on a knee joint. -->
-            <param name="velocity_max">15.0</param>
+            <param name="position_min">-1000.0</param>
+            <param name="position_max">1000.0</param>
+            <!-- WHEEL-ALIGN-HYBRID TEST (2026-09-09): position_min/max widened and
+                 hard_limit_min/max removed. A continuous wheel is now physically mounted
+                 on this joint (no mechanical stop), and neural_controller_wheel_align_hybrid
+                 commands a 180-degree turn that the prior +-90-deg-from-home leg clamp
+                 would fight. hard_limit_min/max defaults to +-infinity when absent (see
+                 control_board_hardware_interface.cpp's OPTIONAL hard_limit_min/max comment).
+                 REVERT before putting the CustomLegFoot leg back on this joint:
+                 position_min -0.61, position_max 2.69, hard_limit_min -0.619960,
+                 hard_limit_max 2.521632, velocity_max 15.0. -->
+            <param name="velocity_max">30.0</param>
             <param name="effort_max">3.0</param>
             <param name="kp_max">10.0</param>
             <param name="kd_max">1.0</param>

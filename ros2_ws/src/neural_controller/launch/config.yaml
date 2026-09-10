@@ -436,8 +436,11 @@ joy_util_node:
     # load-bearing and must stay in this order. The remaining entries are not
     # button-mapped through this array; they are listed so this node deactivates
     # them when switching (order-independent for that purpose).
-    controller_names: ["neural_controller", "neural_controller_walk_v2", "neural_controller_wheel", "neural_controller_three_legged", "neural_controller_leg_lift", "neural_controller_wheel_align_hybrid", "forward_kp_controller", "forward_kd_controller", "forward_position_controller"]
-    # X (0) -> neural_controller (locomotion, also exits leg-lift/wheel mode).
+    controller_names: ["neural_controller_walk_v2", "neural_controller_wheel", "neural_controller_three_legged", "neural_controller", "neural_controller_leg_lift", "neural_controller_wheel_align_hybrid", "forward_kp_controller", "forward_kd_controller", "forward_position_controller"]
+    # Seeds latest_active_controller_ at boot -- NOT read positionally from controller_names
+    # above (see estop_controller.cpp). This is genuinely the controller launch.py spawns
+    # active by default.
+    default_controller_name: "neural_controller"
     # Square (3) -> neural_controller_walk_v2, the new sim-validated-only walking
     #   policy -- moved here from L2 at the user's request, replacing
     #   neural_controller_three_legged's old binding on this button.
@@ -447,27 +450,34 @@ joy_util_node:
     #   walk_v2 above). Button 6 was previously walk_v2's own guessed, unverified
     #   slot; three_legged has been hardware-tested before, so reusing its slot for
     #   the still-unverified button is lower-risk than leaving walk_v2 on it.
-    # O (1) is NOT here: it's the leg-lift button below, handled separately since it
+    # X (0) is NOT here anymore: it's the wheel-align-hybrid button below (2026-09-09,
+    # at the user's request, replacing its old "back to locomotion" job). There is
+    # currently NO button bound to plain neural_controller (locomotion) -- PS (estop)
+    # + Options (release) reactivates whatever was latest_active_controller_, not
+    # locomotion specifically. "neural_controller" stays in this list (moved to index 3,
+    # after the three positionally-mapped entries above) purely so estop_controller.cpp's
+    # deactivate-everything-else logic still includes it; it is intentionally NOT
+    # positionally paired with any entry in switch_button_indices below.
+    # O (1) is NOT here either: it's the leg-lift button, handled separately since it
     # enters leg-lift mode on first press and cycles legs on repeated presses, rather
     # than switching once.
-    switch_button_indices: [0, 3, 2, 6]
+    switch_button_indices: [3, 2, 6]
 
     # O-button leg-lift cycle. First press (from any other controller) activates
     # neural_controller_leg_lift and immediately commands front_l; each subsequent press while
     # it's active advances to the next state in leg_lift_cycle_states. Press X to leave leg-lift
     # mode and return to locomotion.
-    # Wheel-align-hybrid button cycle: estop_controller.cpp now has the dispatch logic
-    # (switches to the controller on first press, waits for activation + a connected
-    # subscriber before publishing, then cycles legs on subsequent presses -- see its
-    # activate_wheel_align_hybrid_and_command()). button_index is deliberately left
-    # unbound (-1): this branch's hardware description still has leg_*_3 as a
-    # limited-range knee joint (hard stop ~90 deg from home), while this policy commands
-    # a 180-degree turn assuming a continuous wheel joint. Do not set a real button index
-    # until that mismatch is resolved (bring over align-hybrid's wheel joint description,
-    # or confirm wheels are physically mounted) -- see WHEEL_ALIGN_HYBRID_TESTING.md.
-    # Once resolved, also verify the chosen index against the physical controller with
-    # `ros2 topic echo /joy` before relying on it.
-    wheel_align_hybrid_button_index: -1  # UNBOUND -- see comment above
+    # X-button wheel-align-hybrid cycle (2026-09-09): first press activates
+    # neural_controller_wheel_align_hybrid and immediately commands front_l; each
+    # subsequent press while active advances through wheel_align_hybrid_cycle_states.
+    # Bound live at the user's explicit request after confirming continuous wheel
+    # joints are now physically mounted (no mechanical stop) -- see components.xacro's
+    # 2026-09-09 WHEEL-ALIGN-HYBRID TEST comments, which removed the leg-era
+    # hard_limit_min/max software clamp on all four leg_*_3 joints and widened
+    # position_min/max to +-1000 to match. Physically align all four wheels to the
+    # desired home, then publish an Empty to /wheel_align_hybrid_calibrate (only takes
+    # effect while idle) before commanding a leg with this button.
+    wheel_align_hybrid_button_index: 0
     wheel_align_hybrid_controller_name: "neural_controller_wheel_align_hybrid"
     wheel_align_hybrid_command_states: ["stand", "front_l", "front_r", "back_r", "back_l"]
     wheel_align_hybrid_cycle_states: ["front_l", "front_r", "back_r", "back_l"]

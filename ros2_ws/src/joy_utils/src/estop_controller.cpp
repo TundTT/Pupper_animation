@@ -25,6 +25,11 @@ public:
     this->declare_parameter<std::vector<std::string>>(
         "controller_names",
         {"neural_controller", "neural_controller_three_legged"});
+    // The controller assumed active at boot (before any button is ever pressed), used to
+    // seed latest_active_controller_ for estop-release. Deliberately NOT controller_names_.at(0)
+    // -- that slot is only meaningful for the positional switch_button_indices_ pairing and,
+    // as of the X-button reassignment below, "neural_controller" no longer lives there.
+    this->declare_parameter<std::string>("default_controller_name", "neural_controller");
 
     // Declare parameters for the O-button leg-lift cycle
     this->declare_parameter<int>("leg_lift_button_index", 1);  // Default: 'o' button
@@ -35,12 +40,12 @@ public:
     this->declare_parameter<std::vector<std::string>>(
         "leg_lift_cycle_states", {"front_l", "front_r", "back_r", "back_l", "stand"});
 
-    // Declare parameters for the wheel-align-hybrid button cycle. -1 means unbound: the
-    // hardware description on this branch still has leg_*_3 as a limited-range knee joint
-    // (hard stop ~90 deg from home), not the continuous wheel this policy targets a
-    // 180-degree turn on. Do not set this to a real button index until that mismatch is
-    // resolved -- see WHEEL_ALIGN_HYBRID_TESTING.md. Also verify the chosen index against
-    // this robot's actual controller via `ros2 topic echo /joy` before relying on it; this
+    // Declare parameters for the wheel-align-hybrid button cycle. -1 means unbound.
+    // Bound live on X (2026-09-09) at the user's explicit request after confirming
+    // continuous wheel joints are physically mounted (no mechanical stop); components.xacro's
+    // leg-era hard_limit_min/max clamp on leg_*_3 was removed to match. Still verify the
+    // chosen index against this robot's actual controller via `ros2 topic echo /joy`
+    // before relying on it in a session where the joystick/mapping might differ; this
     // codebase has previously shipped a "guessed, unverified" button slot that needed
     // correcting (see walk_v2's binding history in config.yaml).
     this->declare_parameter<int>("wheel_align_hybrid_button_index", -1);
@@ -58,6 +63,7 @@ public:
     this->get_parameter("estop_release_index", estop_release_index_);
     this->get_parameter("switch_button_indices", switch_button_indices_);
     this->get_parameter("controller_names", controller_names_);
+    this->get_parameter("default_controller_name", default_controller_name_);
     this->get_parameter("leg_lift_button_index", leg_lift_button_index_);
     this->get_parameter("leg_lift_controller_name", leg_lift_controller_name_);
     this->get_parameter("leg_lift_command_states", leg_lift_command_states_);
@@ -98,7 +104,7 @@ public:
                   "WHEEL_ALIGN_HYBRID_TESTING.md before binding a button.");
     }
 
-    latest_active_controller_ = controller_names_.at(0);
+    latest_active_controller_ = default_controller_name_;
 
     // Initialize previous switch states
     prev_switch_states_.resize(switch_button_indices_.size(), false);
@@ -351,6 +357,7 @@ private:
 
   // Parameters for controller names
   std::vector<std::string> controller_names_;
+  std::string default_controller_name_;
 
   // Parameters for the O-button leg-lift cycle
   int leg_lift_button_index_;
