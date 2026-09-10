@@ -110,13 +110,13 @@
 
             <param name="position_min">-1000.0</param>
             <param name="position_max">1000.0</param>
-            <!-- WHEEL-ALIGN-HYBRID TEST (2026-09-09): position_min/max widened and
+            <!-- WHEEL-ALIGN-HYBRID TEST (2026-09-09), position_min/max widened and
                  hard_limit_min/max removed. A continuous wheel is now physically mounted
                  on this joint (no mechanical stop), and neural_controller_wheel_align_hybrid
                  commands a 180-degree turn that the prior +-90-deg-from-home leg clamp
                  would fight. hard_limit_min/max defaults to +-infinity when absent (see
                  control_board_hardware_interface.cpp's OPTIONAL hard_limit_min/max comment).
-                 REVERT before putting the CustomLegFoot leg back on this joint:
+                 REVERT before putting the CustomLegFoot leg back on this joint,
                  position_min -2.69, position_max 0.61, hard_limit_min -2.615937,
                  hard_limit_max 0.525655, velocity_max 15.0. -->
             <param name="velocity_max">30.0</param>
@@ -240,13 +240,13 @@
 
             <param name="position_min">-1000.0</param>
             <param name="position_max">1000.0</param>
-            <!-- WHEEL-ALIGN-HYBRID TEST (2026-09-09): position_min/max widened and
+            <!-- WHEEL-ALIGN-HYBRID TEST (2026-09-09), position_min/max widened and
                  hard_limit_min/max removed. A continuous wheel is now physically mounted
                  on this joint (no mechanical stop), and neural_controller_wheel_align_hybrid
                  commands a 180-degree turn that the prior +-90-deg-from-home leg clamp
                  would fight. hard_limit_min/max defaults to +-infinity when absent (see
                  control_board_hardware_interface.cpp's OPTIONAL hard_limit_min/max comment).
-                 REVERT before putting the CustomLegFoot leg back on this joint:
+                 REVERT before putting the CustomLegFoot leg back on this joint,
                  position_min -0.61, position_max 2.69, hard_limit_min -0.619960,
                  hard_limit_max 2.521632, velocity_max 15.0. -->
             <param name="velocity_max">30.0</param>
@@ -372,13 +372,13 @@
 
             <param name="position_min">-1000.0</param>
             <param name="position_max">1000.0</param>
-            <!-- WHEEL-ALIGN-HYBRID TEST (2026-09-09): position_min/max widened and
+            <!-- WHEEL-ALIGN-HYBRID TEST (2026-09-09), position_min/max widened and
                  hard_limit_min/max removed. A continuous wheel is now physically mounted
                  on this joint (no mechanical stop), and neural_controller_wheel_align_hybrid
                  commands a 180-degree turn that the prior +-90-deg-from-home leg clamp
                  would fight. hard_limit_min/max defaults to +-infinity when absent (see
                  control_board_hardware_interface.cpp's OPTIONAL hard_limit_min/max comment).
-                 REVERT before putting the CustomLegFoot leg back on this joint:
+                 REVERT before putting the CustomLegFoot leg back on this joint,
                  position_min -2.69, position_max 0.61, hard_limit_min -2.615937,
                  hard_limit_max 0.525655, velocity_max 15.0. -->
             <param name="velocity_max">30.0</param>
@@ -499,13 +499,13 @@
 
             <param name="position_min">-1000.0</param>
             <param name="position_max">1000.0</param>
-            <!-- WHEEL-ALIGN-HYBRID TEST (2026-09-09): position_min/max widened and
+            <!-- WHEEL-ALIGN-HYBRID TEST (2026-09-09), position_min/max widened and
                  hard_limit_min/max removed. A continuous wheel is now physically mounted
                  on this joint (no mechanical stop), and neural_controller_wheel_align_hybrid
                  commands a 180-degree turn that the prior +-90-deg-from-home leg clamp
                  would fight. hard_limit_min/max defaults to +-infinity when absent (see
                  control_board_hardware_interface.cpp's OPTIONAL hard_limit_min/max comment).
-                 REVERT before putting the CustomLegFoot leg back on this joint:
+                 REVERT before putting the CustomLegFoot leg back on this joint,
                  position_min -0.61, position_max 2.69, hard_limit_min -0.619960,
                  hard_limit_max 2.521632, velocity_max 15.0. -->
             <param name="velocity_max">30.0</param>
