@@ -4,6 +4,8 @@ Training preparation and runtime implementation, **not a trained or hardware-val
 
 For an agent setting up the PC and running training, follow [AGENT_TRAINING_HANDOFF.md](AGENT_TRAINING_HANDOFF.md). It covers setup, preflight, a persistent training session, failure handling, evaluation and the artifacts to return.
 
+W&B logging and policy videos are enabled by default. See [WANDB_LOGGING.md](WANDB_LOGGING.md) for the requested project, authentication and backfilling a completed run from its original checkout.
+
 The branch is `codex/align-motion-v2`, based on `robot-code` at `582fd88ccce51d922e38cfd938d26bb5181bb276`. The existing controller instance and X button remain in use. Its YAML still selects `policy_wheel_align_hybrid.json`; selecting a new checkpoint is a separate deployment step after training and evaluation.
 
 ## What changed
@@ -46,6 +48,7 @@ git lfs install
 git lfs pull
 uv sync --project training/wheel_align --extra cuda --frozen
 PY=training/wheel_align/.venv/bin/python
+$PY -m wandb login
 $PY -m training.wheel_align.generate_geometry --check
 $PY -m training.wheel_align.preflight --jit-step
 $PY -m training.wheel_align.train --envs 2048 --steps 50000000 --seed 0 --out runs/align-motion-v2-seed0

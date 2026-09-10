@@ -1,5 +1,7 @@
 # PC agent handoff: wheel alignment v2
 
+**W&B update:** online logging and policy videos are now the default. Read [WANDB_LOGGING.md](WANDB_LOGGING.md) for authentication and the separate-worktree command to upload the already completed run without retraining. Preserve its original source checkout.
+
 ## Task and authorization
 
 Set up and run wheel-alignment v2 training on the user's NVIDIA RTX 6000 PC, then evaluate the resulting checkpoint and prepare an export for review. The user explicitly reserved training for that PC. **Do not train on the laptop.** This file is a handoff for the PC agent; it is not a request to start another run wherever it is read.
@@ -34,6 +36,7 @@ git lfs install
 git lfs pull
 uv sync --project training/wheel_align --extra cuda --frozen
 PY="$PWD/training/wheel_align/.venv/bin/python"
+"$PY" -m wandb login
 nvidia-smi
 "$PY" -c "import jax; print(jax.devices()); assert any(d.platform == 'gpu' for d in jax.devices()), 'JAX cannot access an NVIDIA GPU'"
 ```
@@ -131,4 +134,4 @@ For a completed job, return:
 - Exported policy JSON, reference CSV, checkpoint/export SHA-256 hashes, and RTNeural/ROS test results or explicit pending checks.
 - Any remaining issues, especially collision clearance, lowering impact, drift or alignment failures. Simulation success does not verify physical marked-ring calibration or hardware performance.
 
-`runs/` is gitignored. A push of source code does not transfer trained artifacts. Give exact artifact paths and a concrete transfer method; do not claim the checkpoint is available on the laptop merely because this branch is pushed. Keep large training outputs out of normal git commits unless the user requests an artifact publication route. Do not upload model artifacts to an unrelated external service.
+`runs/` is gitignored. A push of source code does not transfer trained artifacts. Return the W&B run URL, confirm the policy video in Media, and identify the uploaded policy-run artifact containing the checkpoint. Give local paths too. Keep large outputs out of normal git commits. The user authorized this W&B destination; do not upload model artifacts to an unrelated external service.

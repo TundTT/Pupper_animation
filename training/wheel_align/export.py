@@ -4,6 +4,9 @@ import hashlib
 import json
 from pathlib import Path
 import jax
+# The PC agent found TF32 made the float32 export parity check fail on its GPU.
+# Keep this confined to the exporter process; training precision is unchanged.
+jax.config.update('jax_default_matmul_precision', 'highest')
 from jax import numpy as jp
 import numpy as np
 from brax.io import model

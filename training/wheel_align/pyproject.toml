@@ -3,9 +3,16 @@ name = "quadmorph-align-motion"
 version = "0.1.0"
 requires-python = ">=3.11,<3.13"
 dependencies = [
-  "brax==0.14.2", "mujoco==3.6.0", "mujoco-mjx==3.6.0",
-  "jax==0.8.2", "flax==0.12.2", "numpy==2.4.6", "pytest==9.1.1",
+  "brax==0.14.2",
+  "mujoco==3.6.0",
+  "mujoco-mjx==3.6.0",
+  "jax==0.8.2",
+  "flax==0.12.2",
+  "numpy==2.4.6",
+  "pytest==9.1.1",
   "pillow==12.3.0",
+  "wandb>=0.20,<1",
+  "imageio[ffmpeg]>=2.37,<3",
 ]
 
 [project.optional-dependencies]

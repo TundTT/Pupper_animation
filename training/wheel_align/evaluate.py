@@ -72,5 +72,16 @@ def main():
         and result['min_body_gap_m']>0 and result['max_impact_speed_m_s']<.10)
     args.out.parent.mkdir(parents=True,exist_ok=True);args.out.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result,indent=2))
+    identity=args.params.parent/'wandb_run.json'
+    if identity.exists():
+        from training.wandb_logging import ExperimentLogger
+        saved=json.loads(identity.read_text())
+        if saved['mode']=='offline':
+            print('Audit saved locally. Offline W&B sessions cannot resume; sync the saved training session and upload the audit files separately.')
+            return
+        config=json.loads(args.params.parent.joinpath('config.json').read_text())
+        logger=ExperimentLogger(args.params.parent,config,entity=saved['entity'],project=saved['project'],mode=saved['mode'])
+        try:logger.audits();logger.artifacts()
+        finally:logger.finish()
 
 if __name__=='__main__':main()
