@@ -1,5 +1,7 @@
 # Pupper V3 Codebase
 
+> **Robot compatibility reference:** Start with [ROBOT_INFO.md](ROBOT_INFO.md) when writing code or training policies intended to run on this physical robot. The `robot_info/` contract is authoritative for hardware and software compatibility; task-status notes elsewhere are curated separately.
+
 The selected September 7 walking policy is ready for first hardware testing via **Square**. See [WALK_V2_TESTING.md](WALK_V2_TESTING.md) for the exact checkpoint, build checks, and procedure.
 
 > **This is the `robot-code` branch**: just this monorepo (rooted here instead of nested

@@ -1,0 +1,207 @@
+{
+  "schema_version": 1,
+  "purpose": "Offline source of truth for policies and software targeting this physical Pupper robot.",
+  "generated_from": {
+    "verified_baseline_commit": "13c46c8",
+    "robot_audit_date": "2026-09-09",
+    "wheel_profile_commit": "5a3b980057c0a91975431239c1d714a37d8c472b",
+    "wheel_profile_ref": "origin/wheel"
+  },
+  "compute": {
+    "board": "Raspberry Pi 5 Model B Rev 1.1",
+    "architecture": "arm64",
+    "cpu": "4-core Cortex-A76",
+    "memory_gib": 7.9,
+    "accelerator": "Hailo-8 PCIe",
+    "motor_transport": "SPI"
+  },
+  "software": {
+    "os": "Debian GNU/Linux 12 (bookworm)",
+    "kernel_audited": "6.12.47+rpt-rpi-2712",
+    "ros_distribution": "jazzy",
+    "ros_prefix": "/opt/ros/jazzy",
+    "python": "3.11.2",
+    "gcc": "12.2.0",
+    "cmake": "3.25.1",
+    "colcon_core": "0.20.0"
+  },
+  "control_loop": {
+    "controller_manager_update_rate_hz": 520,
+    "repeat_action": 10,
+    "configured_policy_rate_hz": 52.0,
+    "training_reference_policy_dt_seconds": 0.02,
+    "training_reference_physics_dt_seconds": 0.004,
+    "actual_hardware_timing_must_be_measured": true
+  },
+  "canonical_joint_order": [
+    "leg_front_r_1",
+    "leg_front_r_2",
+    "leg_front_r_3",
+    "leg_front_l_1",
+    "leg_front_l_2",
+    "leg_front_l_3",
+    "leg_back_r_1",
+    "leg_back_r_2",
+    "leg_back_r_3",
+    "leg_back_l_1",
+    "leg_back_l_2",
+    "leg_back_l_3"
+  ],
+  "can_map": {
+    "front_left": {
+      "channel": 1,
+      "joint_indices": [3, 4, 5],
+      "motor_ids": [1, 2, 3]
+    },
+    "front_right": {
+      "channel": 2,
+      "joint_indices": [0, 1, 2],
+      "motor_ids": [1, 2, 3]
+    },
+    "back_left": {
+      "channel": 3,
+      "joint_indices": [9, 10, 11],
+      "motor_ids": [1, 2, 3]
+    },
+    "back_right": {
+      "channel": 4,
+      "joint_indices": [6, 7, 8],
+      "motor_ids": [1, 2, 3]
+    }
+  },
+  "imu": {
+    "device": "BNO055",
+    "mount_rpy_radians": [0.0, -2.35619, 0.0],
+    "request_period_microseconds": 10000,
+    "orientation_order": ["x", "y", "z", "w"],
+    "angular_velocity_order": ["x", "y", "z"],
+    "linear_acceleration_order": ["x", "y", "z"],
+    "gravity_world_vector": [0.0, 0.0, -1.0]
+  },
+  "policy": {
+    "runtime": "RTNeural float32",
+    "controller_plugin": "neural_controller/NeuralController",
+    "output_size": 12,
+    "recommended_output_activation": "tanh",
+    "allowed_activations": ["tanh", "relu", "sigmoid", "softmax", "elu"],
+    "default_observation_limit": 100.0,
+    "history_order": "newest_first",
+    "history_reset": "tile_first_measured_frame_with_previous_action_zero",
+    "behaviors": {
+      "locomotion": {
+        "hardware_profile": "leg_position",
+        "single_frame_size": 36,
+        "observation_layout": [
+          "body_angular_velocity_xyz[3]",
+          "projected_gravity_xyz[3]",
+          "command_vx_vy_yaw_rate[3]",
+          "desired_world_z_in_body_xyz[3]",
+          "joint_position_minus_default[12]",
+          "previous_faded_normalized_action[12]"
+        ]
+      },
+      "leg_lift": {
+        "hardware_profile": "leg_position",
+        "single_frame_fixed_size": 30,
+        "single_frame_size_formula": "30 + len(command_states)",
+        "observation_layout": [
+          "body_angular_velocity_xyz[3]",
+          "projected_gravity_xyz[3]",
+          "command_state_one_hot[len(command_states)]",
+          "joint_position_minus_default[12]",
+          "previous_faded_normalized_action[12]"
+        ]
+      },
+      "wheel": {
+        "hardware_profile": "wheel_velocity",
+        "single_frame_size": 33,
+        "observation_layout": [
+          "body_angular_velocity_xyz[3]",
+          "projected_gravity_xyz[3]",
+          "command_vx_zero_yaw_rate[3]",
+          "mixed_joint_position_or_normalized_wheel_velocity[12]",
+          "previous_faded_normalized_action[12]"
+        ],
+        "wheel_joint_rows": [2, 5, 8, 11],
+        "wheel_forward_sign": [-1.0, 1.0, -1.0, 1.0],
+        "reference_wheel_velocity_normalizer": 20.833333333333332
+      }
+    }
+  },
+  "profiles": {
+    "leg_position": {
+      "profile_source": "robot_info/HARDWARE.md and current leg components.xacro",
+      "compatible_behaviors": ["locomotion", "leg_lift"],
+      "action_types": [
+        "position", "position", "position",
+        "position", "position", "position",
+        "position", "position", "position",
+        "position", "position", "position"
+      ],
+      "homed_position": [
+        0.990537, -0.179972, -1.045141,
+        -0.990539, 0.179973, 0.950836,
+        0.990537, -0.179972, -1.045141,
+        -0.990539, 0.179973, 0.950836
+      ],
+      "hardware_position_min": [
+        -1.12, -0.32, -2.69,
+        -2.41, -3.04, -0.61,
+        -1.12, -0.32, -2.69,
+        -2.41, -3.04, -0.61
+      ],
+      "hardware_position_max": [
+        2.41, 3.04, 0.61,
+        1.12, 0.32, 2.69,
+        2.41, 3.04, 0.61,
+        1.12, 0.32, 2.69
+      ],
+      "hardware_velocity_max": [30.0, 30.0, 15.0, 30.0, 30.0, 15.0, 30.0, 30.0, 15.0, 30.0, 30.0, 15.0],
+      "hardware_effort_max": [3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
+      "hardware_kp_max": [10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0],
+      "hardware_kd_max": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+      "third_joint_hard_position_min": {
+        "right": -2.615937,
+        "left": -0.619960
+      },
+      "third_joint_hard_position_max": {
+        "right": 0.525655,
+        "left": 2.521632
+      },
+      "raw_encoder_reference_informational": [-0.015800, 0.103600, -0.202800, -0.517100]
+    },
+    "wheel_velocity": {
+      "profile_source": "origin/wheel@5a3b980057c0a91975431239c1d714a37d8c472b",
+      "selection_requirement": "Use the matching wheel robot description, controller configuration, and policy together.",
+      "compatible_behaviors": ["wheel"],
+      "action_types": [
+        "position", "position", "velocity",
+        "position", "position", "velocity",
+        "position", "position", "velocity",
+        "position", "position", "velocity"
+      ],
+      "hardware_position_min": [
+        -1.12, -0.32, -1000.0,
+        -2.41, -3.04, -1000.0,
+        -1.12, -0.32, -1000.0,
+        -2.41, -3.04, -1000.0
+      ],
+      "hardware_position_max": [
+        2.41, 3.04, 1000.0,
+        1.12, 0.32, 1000.0,
+        2.41, 3.04, 1000.0,
+        1.12, 0.32, 1000.0
+      ],
+      "hardware_velocity_max": [30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0],
+      "hardware_effort_max": [3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 3.0],
+      "hardware_kp_max": [10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0],
+      "hardware_kd_max": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+      "reference_policy_kp": [5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0],
+      "reference_policy_kd": [0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35],
+      "reference_initialization_kp": [7.5, 7.5, 0.0, 7.5, 7.5, 0.0, 7.5, 7.5, 0.0, 7.5, 7.5, 0.0],
+      "reference_initialization_kd": [0.25, 0.25, 0.1, 0.25, 0.25, 0.1, 0.25, 0.25, 0.1, 0.25, 0.25, 0.1],
+      "reference_estop_kd": 1.0,
+      "wheel_homing_enabled": false
+    }
+  }
+}
