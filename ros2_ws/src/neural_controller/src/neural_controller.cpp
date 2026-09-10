@@ -325,6 +325,7 @@ controller_interface::CallbackReturn NeuralController::on_activate(
     if (!std::all_of(init_joint_pos_.begin(), init_joint_pos_.end(),
                      [](double x) { return std::isfinite(x); }))
       return controller_interface::CallbackReturn::ERROR;
+    const bool hybrid_was_calibrated = hybrid_.calibrated;
     hybrid_.reset(init_joint_pos_);
     hybrid_elapsed_ = 0.0;
     hybrid_first_step_ = true;
@@ -338,11 +339,19 @@ controller_interface::CallbackReturn NeuralController::on_activate(
         [this](const std_msgs::msg::Empty::SharedPtr msg) {
           rt_hybrid_calibrate_ptr_.writeFromNonRT(msg);
         });
-    RCLCPP_WARN(get_node()->get_logger(),
-        "Hybrid calibration: session home auto-captured from activation encoders. "
-        "Physically align all four wheels to the desired home, then publish an Empty to "
-        "/wheel_align_hybrid_calibrate to re-capture (only takes effect while idle). "
-        "No cross-session persistence. Button unbound pending hardware confirmation.");
+    if (hybrid_was_calibrated) {
+      RCLCPP_INFO(get_node()->get_logger(),
+          "Hybrid calibration: reusing home established earlier this session (not "
+          "re-captured on reactivation). Publish an Empty to /wheel_align_hybrid_calibrate "
+          "while idle if you need to redo it.");
+    } else {
+      RCLCPP_WARN(get_node()->get_logger(),
+          "Hybrid calibration: FIRST activation this session, home auto-captured from "
+          "current encoders now. Physically align all four wheels to the desired home "
+          "BEFORE this press. This will NOT be re-captured on later reactivations -- "
+          "publish an Empty to /wheel_align_hybrid_calibrate while idle to redo it "
+          "intentionally. No cross-process persistence (lost on a relaunch/reboot).");
+    }
   }
 
   // Reset estop caused by falling over

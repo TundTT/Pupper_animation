@@ -64,6 +64,7 @@ int main(int argc, char **argv) {
           rclcpp::Duration::from_seconds(.002)) == controller_interface::return_type::OK, "update");
     };
     activate();
+    auto original_home = controller.hybrid().home;
     for (int k = 0; k < 4; ++k) q[3*k+2] += .1;
     tick(.5);
     for (int k = 0; k < 4; ++k) {
@@ -122,12 +123,21 @@ int main(int argc, char **argv) {
     require(controller.hybrid().phase == neural_controller::WheelAlignHybrid::IDLE &&
         controller.hybrid().command == 0, "reactivate clears pending command and phase");
     for (int a = 35; a < 43; ++a) near(controller.obs()[a], 0, "reactivate clears last actions");
+    // 2026-09-09: reactivation must NOT re-home -- q has moved (+.1 on each wheel) since
+    // the first activation, but home must still reflect that first, pre-move capture.
+    // Losing this reference every time the operator switches to another controller and
+    // back (wheel/leg/transition policies) and reactivates was flagged as a real problem.
+    for (int k = 0; k < 4; ++k) near(controller.hybrid().home[k], original_home[k],
+        "reactivate preserves the session's original home, does not recapture");
+    // Explicit recalibration (what publishing to /wheel_align_hybrid_calibrate while idle
+    // triggers) still works and DOES pick up the current, moved q.
+    controller.hybrid().recalibrate_home(q);
     for (int k = 0; k < 4; ++k) near(controller.hybrid().home[k],
-        neural_controller::WheelAlignHybrid::wrap(q[3*k+2]), "reactivate captures fresh session home");
+        neural_controller::WheelAlignHybrid::wrap(q[3*k+2]), "explicit recalibration captures current q");
     controller.stop(); tick(.1);
     for (const auto &c : commands) near(c[4], 1, "estop works during startup");
     controller.on_deactivate(rclcpp_lifecycle::State());
-    std::cout << "PASS: actual YAML/plugin lifecycle, encoder/IMU observations, direct actions, wheel holds, interruption, estop, reactivation\n";
+    std::cout << "PASS: actual YAML/plugin lifecycle, encoder/IMU observations, direct actions, wheel holds, interruption, estop, reactivation, persistent calibration\n";
   } catch (const std::exception &e) { std::cerr << "FAIL: " << e.what() << '\n'; result = 1; }
   rclcpp::shutdown();
   return result;

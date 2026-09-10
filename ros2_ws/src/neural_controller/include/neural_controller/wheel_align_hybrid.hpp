@@ -18,6 +18,9 @@ struct WheelAlignHybrid {
   bool verified = false, was_rotating = false, step_pending = false;
   std::array<bool, 4> completed{};
   std::array<double, 4> home{}, target{}, hold{}, reference{};
+  // Set once by the first-ever reset() (or an explicit recalibrate_home()) and never
+  // cleared by reset() again -- see reset()'s comment for why.
+  bool calibrated = false;
 
   static double wrap(double x) { return std::atan2(std::sin(x), std::cos(x)); }
   static double wheel_pd(double goal, double angle, double velocity) {
@@ -27,9 +30,30 @@ struct WheelAlignHybrid {
   int leg() const { return std::max(command_leg[active_command], 0); }
   int effective_command() const { return up() ? active_command : 0; }
 
+  // Called on every controller activation. Resets phase/command/gate state for a fresh
+  // run, but deliberately does NOT recapture home/target/hold/reference once they've
+  // been set once (see `calibrated`): the operator needs one ground-truth reference
+  // established at robot-stack startup that survives switching to other controllers
+  // (wheel/leg/etc.) and back -- re-homing on every single activation silently discards
+  // that reference the moment any other policy has moved the wheels. Only the very first
+  // activation after process start, or an explicit /wheel_align_hybrid_calibrate publish
+  // while idle, updates the calibration -- see recalibrate_home().
   void reset(const std::array<double, 12> &q) {
+    const bool was_calibrated = calibrated;
+    const auto saved_home = home;
+    const auto saved_target = target;
+    const auto saved_hold = hold;
+    const auto saved_reference = reference;
     *this = WheelAlignHybrid{};
-    recalibrate_home(q);
+    if (was_calibrated) {
+      home = saved_home;
+      target = saved_target;
+      hold = saved_hold;
+      reference = saved_reference;
+      calibrated = true;
+    } else {
+      recalibrate_home(q);
+    }
   }
 
   // Re-captures home/target/hold/reference from the current encoder angles without
@@ -43,6 +67,7 @@ struct WheelAlignHybrid {
       home[k] = hold[k] = reference[k] = wrap(q[3 * k + 2]);
       target[k] = wrap(home[k] + std::acos(-1.0));
     }
+    calibrated = true;
   }
 
   bool lift_ready(const std::array<double, 12> &q, double default_abduction,
