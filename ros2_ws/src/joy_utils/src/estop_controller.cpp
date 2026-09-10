@@ -118,8 +118,8 @@ public:
         "/leg_lift_command_index", rclcpp::QoS(1).transient_local());
     // Volatile (not transient_local) on purpose: a stale retained command must never replay
     // against a freshly (re)captured, provisional session calibration. We instead wait for
-    // activation and an actual subscriber before publishing the first command ourselves --
-    // see activate_wheel_align_hybrid_and_command() below.
+    // an actual subscriber before publishing any command ourselves -- see
+    // publish_wheel_align_hybrid_command() below.
     pub_wheel_align_hybrid_command_ = this->create_publisher<std_msgs::msg::Int32>(
         wheel_align_hybrid_command_topic_, rclcpp::QoS(1).durability_volatile());
 
@@ -239,46 +239,40 @@ private:
         msg->buttons.at(wheel_align_hybrid_button_index_) == 1;
     if (wheel_align_hybrid_pressed && !prev_wheel_align_hybrid_state_) {
       bool was_active = (latest_active_controller_ == wheel_align_hybrid_controller_name_);
-      wheel_align_hybrid_cycle_position_ =
-          was_active
-              ? (wheel_align_hybrid_cycle_position_ + 1) % wheel_align_hybrid_cycle_states_.size()
-              : 0;
-      const std::string &state_name =
-          wheel_align_hybrid_cycle_states_.at(wheel_align_hybrid_cycle_position_);
-      auto it = std::find(wheel_align_hybrid_command_states_.begin(),
-                          wheel_align_hybrid_command_states_.end(), state_name);
-      int command_index = static_cast<int>(it - wheel_align_hybrid_command_states_.begin());
-
-      if (was_active) {
-        // Subscriber is already known connected from the first press; publish directly.
-        auto command_msg = std_msgs::msg::Int32();
-        command_msg.data = command_index;
-        pub_wheel_align_hybrid_command_->publish(command_msg);
+      if (!was_active) {
+        // First press: ACTIVATE ONLY, no leg is commanded. on_activate() captures home
+        // from whatever position the wheels are in right now (command_index_ defaults to
+        // 0 == "stand", which never leaves WheelAlignHybrid::IDLE) and sets up
+        // /wheel_align_hybrid_calibrate for re-capturing home while still idle. Physically
+        // position/align all four wheels BEFORE this press; a later press starts the
+        // front_l/front_r/back_r/back_l cycle from scratch (cycle_position stays -1 here).
+        latest_active_controller_ = wheel_align_hybrid_controller_name_;
+        switch_to_controller(wheel_align_hybrid_controller_name_);
         RCLCPP_INFO(this->get_logger(),
-                    "Button %d pressed: wheel-align-hybrid command -> %s (index %d)",
-                    wheel_align_hybrid_button_index_, state_name.c_str(), command_index);
+                    "Button %d pressed: wheel-align-hybrid activated (calibration only, "
+                    "no leg commanded)",
+                    wheel_align_hybrid_button_index_);
       } else {
-        activate_wheel_align_hybrid_and_command(command_index, state_name);
+        wheel_align_hybrid_cycle_position_ =
+            (wheel_align_hybrid_cycle_position_ + 1) % wheel_align_hybrid_cycle_states_.size();
+        const std::string &state_name =
+            wheel_align_hybrid_cycle_states_.at(wheel_align_hybrid_cycle_position_);
+        auto it = std::find(wheel_align_hybrid_command_states_.begin(),
+                            wheel_align_hybrid_command_states_.end(), state_name);
+        int command_index = static_cast<int>(it - wheel_align_hybrid_command_states_.begin());
+        publish_wheel_align_hybrid_command(command_index, state_name);
       }
     }
     prev_wheel_align_hybrid_state_ = wheel_align_hybrid_pressed;
   }
 
-  // First press only: switches to the hybrid controller, then -- only once the switch
-  // succeeds and a subscriber is actually connected -- publishes the first command. The
-  // topic is volatile, so publishing any earlier would silently drop the command instead
-  // of it replaying late the way leg-lift's transient_local topic would.
-  void activate_wheel_align_hybrid_and_command(int command_index, std::string state_name) {
-    latest_active_controller_ = wheel_align_hybrid_controller_name_;
+  // Waits (bounded) for a subscriber before publishing. The topic is volatile, so
+  // publishing before the controller's subscription exists would silently drop the
+  // command instead of it replaying late the way leg-lift's transient_local topic would.
+  // In practice this only actually waits right after activation; by the time later cycle
+  // presses call this the subscriber has long been connected.
+  void publish_wheel_align_hybrid_command(int command_index, std::string state_name) {
     std::thread([this, command_index, state_name]() {
-      std::vector<std::string> deactivate_controllers;
-      for (const auto &controller : controller_names_) {
-        if (controller != wheel_align_hybrid_controller_name_) {
-          deactivate_controllers.push_back(controller);
-        }
-      }
-      switch_controllers_sync(std::vector<std::string>{wheel_align_hybrid_controller_name_},
-                               deactivate_controllers, /*strict=*/false);
       const auto deadline = this->now() + rclcpp::Duration::from_seconds(2.0);
       while (pub_wheel_align_hybrid_command_->get_subscription_count() == 0 &&
              this->now() < deadline) {
@@ -286,7 +280,7 @@ private:
       }
       if (pub_wheel_align_hybrid_command_->get_subscription_count() == 0) {
         RCLCPP_ERROR(this->get_logger(),
-                     "wheel-align-hybrid activated but no subscriber connected after 2s; "
+                     "wheel-align-hybrid: no subscriber connected after 2s; "
                      "command %d (%s) was NOT sent",
                      command_index, state_name.c_str());
         return;
@@ -294,7 +288,7 @@ private:
       auto command_msg = std_msgs::msg::Int32();
       command_msg.data = command_index;
       pub_wheel_align_hybrid_command_->publish(command_msg);
-      RCLCPP_INFO(this->get_logger(), "wheel-align-hybrid activated; command -> %s (index %d)",
+      RCLCPP_INFO(this->get_logger(), "wheel-align-hybrid command -> %s (index %d)",
                   state_name.c_str(), command_index);
     }).detach();
   }
