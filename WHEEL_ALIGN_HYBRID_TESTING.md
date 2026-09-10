@@ -193,3 +193,49 @@ Paths below are relative to the repository root:
 - Handoff: this file and the link in `README.md`.
 - Evidence: `hardware_testing/wheel_align_hybrid/validation.json`,
   `build_summary.txt`, and `test_results.txt`.
+
+## Hardware test log
+
+### 2026-09-09: first real-hardware activation, all four legs -- with two open issues
+
+Continuous wheel joints were confirmed physically mounted on `leg_*_3` (no mechanical
+stop), so `components.xacro`'s leg-era `hard_limit_min/max` clamp on all four of those
+joints was removed and `position_min/max` widened to +-1000 to match, and the button
+was bound live: **X now activates `neural_controller_wheel_align_hybrid`** (replacing
+its prior job of switching back to plain locomotion -- there is currently no button
+bound to locomotion; PS+Options reactivates whatever was last active, not locomotion
+specifically).
+
+The first X press after activation is calibration-only (captures home from wherever the
+wheels are, commands nothing); each press after that advances the
+front_l/front_r/back_r/back_l cycle. That calibration now also persists across
+switching to another controller and back within the same process (fixed same day --
+see the `wheel_align_hybrid.hpp` commit adding the `calibrated` flag -- because the
+operator regularly bounces between wheel/leg/transition policies and was losing the
+ground-truth home every time this controller reactivated).
+
+**Result: on a full run through all four legs (front_l, front_r, back_r, back_l), each
+one lifted, rotated to its target, and lowered successfully** -- the ported policy,
+contract, PD gains, and phase machine all check out end to end on real hardware, not
+just in sim.
+
+**Open issue 1 -- mechanical interference:** when a leg lifts and then rotates back, it
+collides/rubs against the back wheel. This is a geometry/clearance problem, not a policy
+or control bug -- needs physical measurement of the collision and either a trajectory
+adjustment (e.g. widen the lift or rotation path) or a hardware clearance fix. Not yet
+investigated further.
+
+**Open issue 2 -- one uncommanded shutdown, not reproduced:** during an earlier attempt
+the same session, the robot went completely dead (full reboot, not just an estop) right
+as the operator pressed X to advance from a just-completed `front_l` cycle to the next
+leg -- `front_l` itself had lifted, rotated, and lowered cleanly beforehand. This matches
+the signature of a previously-documented, still-open issue from the wheel-driving
+policy's own hardware testing (`6f91d4d`, `WHEEL_TESTING.md`): a physical bump causing a
+momentary power-connector disconnect. The operator subsequently checked and confirmed
+the power connector was secure, then reproduced the full four-leg sequence above
+cleanly with no further shutdown. Cause is therefore **undetermined** -- possibly the
+same intermittent connector/mounting issue (which can reseat itself and look secure at
+rest even though the fault is momentary, under jolt), possibly something else. Flag this
+if it recurs; nothing in this session's code changes obviously explains a full system
+reboot (as opposed to a node crash or estop), which points away from a pure software
+cause.
