@@ -8,7 +8,7 @@ int main(int argc,char** argv) {
   try {
     if(argc!=3)throw std::runtime_error("usage: align_export_test POLICY_JSON FIXTURES_CSV");
     std::ifstream json(argv[1]);auto m=RTNeural::json_parser::parseJson<float>(json,false);
-    if(!m || m->getInSize()!=82 || m->getOutSize()!=8)throw std::runtime_error("v2 network shape");
+    if(!m || m->getInSize()!=82 || m->getOutSize()!=8)throw std::runtime_error("motion network shape");
     std::ifstream input(argv[2]);std::string line;int count=0;double worst=0;
     while(std::getline(input,line)) {
       std::replace(line.begin(),line.end(),',',' ');std::istringstream row(line);
@@ -20,6 +20,6 @@ int main(int argc,char** argv) {
       ++count;
     }
     if(count!=128)throw std::runtime_error("expected 128 fixtures");
-    std::cout<<"PASS: RTNeural v2 export, max error "<<worst<<'\n';return 0;
+    std::cout<<"PASS: RTNeural motion export, max error "<<worst<<'\n';return 0;
   }catch(const std::exception&e){std::cerr<<e.what()<<'\n';return 1;}
 }

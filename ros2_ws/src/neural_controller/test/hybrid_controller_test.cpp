@@ -82,8 +82,8 @@ int main(int argc, char **argv) {
     controller.command(1);
     tick(2.0);
     auto obs = controller.obs();
-    const bool v2=controller.hybrid().motion_version==2;
-    require(obs.size() == (v2 ? 82 : 51) && controller.hybrid().leg() == 1, "observations and command 1 selects FL");
+    const bool motion_policy=controller.hybrid().motion_version==neural_controller::WheelAlignMotion::version;
+    require(obs.size() == (motion_policy ? 82 : 51) && controller.hybrid().leg() == 1, "observations and command 1 selects FL");
     for (int i = 0; i < 3; ++i) near(obs[i], imu[i], "angular velocity frame");
     near(obs[5], -1, "gravity frame");
     for (int i = 0; i < 5; ++i) near(obs[6+i], i == 1 ? 1 : 0, "effective command one hot");
@@ -111,13 +111,13 @@ int main(int argc, char **argv) {
           controller.params().action_scales[row]*action,controller.params().joint_lower_limits[row],
           controller.params().joint_upper_limits[row]);
       if(a==3) desired=std::clamp(desired,-.08,.08);
-      if(v2) near(commands[row][0],controller.motion().applied[a],"v2 applied reference reaches hardware interface");
+      if(motion_policy) near(commands[row][0],controller.motion().applied[a],"motion_policy applied reference reaches hardware interface");
       else near(commands[row][0],desired,"legacy active hip is rate limited; support outputs remain direct");
     }
-    if(v2) {
-      near(obs[52],1,"v2 lift phase observation");
-      require(obs[57]>0 && obs[57]<.01,"v2 gradual lift progress");
-      for(int a=0;a<8;++a) near(obs[58+a],controller.motion().reference[a],"v2 reference observation");
+    if(motion_policy) {
+      near(obs[52],1,"motion_policy lift phase observation");
+      require(obs[57]>0 && obs[57]<.01,"motion_policy gradual lift progress");
+      for(int a=0;a<8;++a) near(obs[58+a],controller.motion().reference[a],"motion_policy reference observation");
       // Track the output with ideal encoders to exercise manager-rate integration;
       // this is a controller test, not a claim about physical balance.
       auto previous=controller.motion().velocity;
@@ -129,17 +129,17 @@ int main(int argc, char **argv) {
           previous[a]=controller.motion().velocity[a];
         }
       }
-      require(std::abs(commands[4][0])>.001,"v2 lift advances between inference ticks");
+      require(std::abs(commands[4][0])>.001,"motion_policy lift advances between inference ticks");
     }
     // Changed command interrupts rotation before wheel output; the new leg waits.
     controller.hybrid().phase = neural_controller::WheelAlignHybrid::ROTATE;
     controller.command(2);
-    for (int n = 1; n <= 10; ++n) tick((v2 ? 2.4 : 2.0) + .002*n);
+    for (int n = 1; n <= 10; ++n) tick((motion_policy ? 2.4 : 2.0) + .002*n);
     require(controller.hybrid().phase == neural_controller::WheelAlignHybrid::LOWER &&
         controller.hybrid().active_command == 1, "runtime command interruption");
     near(controller.obs()[6], 1, "runtime lowering observes stand");
     near(commands[5][1], -.35*qd[5], "interruption holds current FL encoder");
-    controller.stop(); tick(v2 ? 2.422 : 2.022);  // between policy ticks
+    controller.stop(); tick(motion_policy ? 2.422 : 2.022);  // between policy ticks
     for (const auto &c : commands) {
       near(c[0], 0, "estop position"); near(c[1], 0, "estop velocity");
       near(c[3], 0, "estop kp"); near(c[4], 1, "estop damping");

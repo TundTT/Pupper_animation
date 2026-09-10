@@ -20,7 +20,7 @@ def test_interrupt_limits_and_completion():
         s=ct.prepare(s);s,_=ct.begin(s,q,np.zeros(12),np.zeros(3),np.array([0.,0.,-1.]),np.zeros(8))
         for _ in range(10):
             previous=s['velocity'].copy();s=ct.integrate(s)
-            assert np.max(np.abs(s['velocity']-previous))/c.PHYSICS_DT<=16+1e-9
+            assert np.max(np.abs(s['velocity']-previous))/c.PHYSICS_DT<=8+1e-9
         q[ct.POS]=s['applied'];s=ct.finish(s,q,np.zeros(12))
         if n==70:s=ct.select(s,2,q)
         if n>70 and s['phase']==ct.LOWER:assert s['active_command']==1

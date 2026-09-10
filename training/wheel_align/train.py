@@ -26,7 +26,7 @@ def network_factory():
 
 def source_hashes():
     paths=list(Path(__file__).parent.glob('*.py'))+list(Path(__file__).parent.glob('*.json'))+[
-        c.MODEL_PATH,Path(__file__).with_name('uv.lock')]
+        c.MODEL_PATH,Path(__file__).with_name('uv.lock'),ROOT/'training/wandb_logging.py']
     paths+=list(c.MODEL_PATH.with_name('meshes').glob('*.stl'))
     paths+=list((ROOT/'ros2_ws/src/neural_controller/include/neural_controller').glob('wheel_align_*.hpp'))
     return {str(p.relative_to(ROOT)).replace('\\','/'):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
@@ -49,13 +49,13 @@ def main():
         raise SystemExit('--envs must be 256, 512, 1024, 2048 or 4096 (divides the PPO batch); --steps must be positive.')
     if args.video_every_steps<0:
         raise SystemExit('--video-every-steps must be nonnegative')
-    out=args.out or ROOT/'runs'/datetime.now().strftime('align-motion-v2_%Y%m%d_%H%M%S')
+    out=args.out or ROOT/'runs'/datetime.now().strftime('align-motion-v3_%Y%m%d_%H%M%S')
     out.mkdir(parents=True,exist_ok=False)
     cfg=dict(num_timesteps=args.steps,num_envs=args.envs,episode_length=6656,num_evals=11,
         num_eval_envs=16,unroll_length=20,num_minibatches=16,batch_size=256,num_updates_per_batch=4,
-        learning_rate=3e-4,discounting=.99,entropy_cost=.01,normalize_observations=True,
+        learning_rate=3e-4,discounting=.999,entropy_cost=.01,normalize_observations=True,
         seed=args.seed,deterministic_eval=True,action_repeat=1,max_devices_per_host=1)
-    metadata=dict(motion_contract_version=2,motion_contract_id='quadmorph-align-motion-v2',
+    metadata=dict(motion_contract_version=c.MOTION_VERSION,motion_contract_id=c.MOTION_ID,
         source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         source_hashes=source_hashes(),ppo=cfg,observation_size=82,action_size=8,
         ctrl_dt=c.CONTROL_DT,physics_dt=c.PHYSICS_DT,

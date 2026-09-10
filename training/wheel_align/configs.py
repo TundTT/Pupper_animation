@@ -15,15 +15,18 @@ COMMAND_STATES = ['stand', 'front_l', 'front_r', 'back_r', 'back_l']
 CONTROL_DT = 10 / 520
 PHYSICS_DT = 1 / 520
 OBSERVATION_SIZE = 82
-MOTION_VERSION = 2
+MOTION_VERSION = 3
+MOTION_ID = 'quadmorph-align-motion-v3'
 
 # Fixed runtime contract: change C++ and parity tests together.
 LIFT_SECONDS = 3.
 LOWER_SECONDS = 4.
 APEX_HIP = .85
-ACTIVE_RESIDUAL = np.array([.06, .04])
+# v2 could balance by crowding the opposite wheel, but gave the lifted leg
+# insufficient authority to recover separation. See ALIGN_RETRAINING.md.
+ACTIVE_RESIDUAL = np.array([.20, .12])
 SUPPORT_RESIDUAL = np.array([.20, .30])
 ACTIVE_SPEED = np.array([.4, .7])
-SUPPORT_SPEED = np.array([2., 3.])
+SUPPORT_SPEED = np.array([1., 1.5])
 ACTIVE_ACCEL = np.array([2., 2.])
-SUPPORT_ACCEL = np.array([12., 16.])
+SUPPORT_ACCEL = np.array([6., 8.])

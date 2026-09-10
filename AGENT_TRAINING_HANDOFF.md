@@ -1,10 +1,12 @@
-# PC agent handoff: wheel alignment v2
+# PC agent handoff: wheel alignment v3 retraining
+
+**Retraining update:** Read [ALIGN_RETRAINING.md](ALIGN_RETRAINING.md) first. The branch remains `codex/align-motion-v2`, but the current controller contract is v3. Preserve the failed v2 run and its original checkout; start a fresh v3 run in a separate worktree. Do not resume or relabel v2 weights.
 
 **W&B update:** online logging and policy videos are now the default. Read [WANDB_LOGGING.md](WANDB_LOGGING.md) for authentication and the separate-worktree command to upload the already completed run without retraining. Preserve its original source checkout.
 
 ## Task and authorization
 
-Set up and run wheel-alignment v2 training on the user's NVIDIA RTX 6000 PC, then evaluate the resulting checkpoint and prepare an export for review. The user explicitly reserved training for that PC. **Do not train on the laptop.** This file is a handoff for the PC agent; it is not a request to start another run wherever it is read.
+Set up and run wheel-alignment v3 training on the user's NVIDIA RTX 6000 PC, then evaluate the resulting checkpoint and prepare an export for review. The user explicitly reserved training for that PC. **Do not train on the laptop.** This file is a handoff for the PC agent; it is not a request to start another run wherever it is read.
 
 Proceed with ordinary environment setup, dependency installation into the isolated project environment, checks, and the initial training run without repeatedly asking for permission. Preserve existing work and running jobs. If GPU access or a required system change blocks setup, report the concrete blocker. Do not silently fall back to CPU training, change system drivers, or replace the project's dependency versions to make an error disappear.
 
@@ -18,7 +20,7 @@ Read [ALIGN_MOTION_V2.md](ALIGN_MOTION_V2.md), including its hardware-source lin
 - `training/wheel_align/evaluate.py`, `export.py`, `preflight.py`, `pyproject.toml` and `uv.lock`.
 - `ros2_ws/src/neural_controller/include/neural_controller/wheel_align_motion.hpp` and `wheel_align_hybrid.hpp`.
 
-The implementation was added in `5a1f8f4`; `af1a9f8` fixes storage of the geometry JSON. Use the latest `origin/codex/align-motion-v2`, including this handoff. This is a new 82-observation, eight-action residual policy. **Do not resume or load the old 51-input alignment checkpoint as if it were compatible.**
+The implementation was added in `5a1f8f4`; `af1a9f8` fixes storage of the geometry JSON. Use the latest `origin/codex/align-motion-v2`, including this handoff. Contract v3 also rejects the previous 82-input v2 checkpoint because residual/rate semantics changed. This is a new 82-observation, eight-action residual policy. **Do not resume or load the old 51-input alignment checkpoint as if it were compatible.**
 
 Hardware facts to preserve: 12 existing motors, canonical joint order FR/FL/BR/BL with three joints each, third joints used as continuous hubs, eight proximal position commands and four encoder-based hub velocity servos. There is no measured foot-contact/force input. Startup home is distinct from the current wheel hold. The marked-ring convention still needs physical verification; a successful simulation is not that verification.
 
@@ -26,12 +28,16 @@ Hardware facts to preserve: 12 existing motors, canonical joint order FR/FL/BR/B
 
 Inspect the PC's OS, repository status and current GPU jobs first. Use Linux or WSL2 with GPU access. Prefer a checkout on the Linux filesystem. If the existing checkout has unrelated edits, use a separate checkout/worktree; do not stash, reset or overwrite the user's work. Do not switch away from a checkout used by another running training job.
 
-For an otherwise available checkout:
+For the reported PC layout, preserve the old checkout and create a separate one. If the new path already exists, inspect it first and reuse an appropriate clean checkout; do not overwrite it:
 
 ```bash
-git fetch origin
-git switch codex/align-motion-v2
-git pull --ff-only
+ORIGINAL=/home/theerawit/Pupper_animation-align-motion-v2
+NEXT=/home/theerawit/Pupper_animation-align-motion-v3
+git -C "$ORIGINAL" status --short
+git -C "$ORIGINAL" fetch origin
+git -C "$ORIGINAL" worktree add --detach "$NEXT" origin/codex/align-motion-v2
+cd "$NEXT"
+git log -1 --oneline
 git lfs install
 git lfs pull
 uv sync --project training/wheel_align --extra cuda --frozen
@@ -47,17 +53,25 @@ Record the source commit, GPU model/VRAM, driver version, Python version and JAX
 
 ## 2. Pass preflight before launching the long run
 
+The previous PC report lacked a C++ compiler and ROS. If that is still true, run the Python/MJX checks below and report the C++ checks as pending on that machine; the laptop's source-matched runtime checks are recorded in `ALIGN_RETRAINING.md`. Do not install the full robot stack merely to start GPU training. Actual trained-export RTNeural verification remains required before deployment. A present compiler producing a compile/test failure is a real failure to resolve.
+
 ```bash
 "$PY" -m training.wheel_align.generate_geometry --check
 "$PY" -m training.wheel_align.preflight --jit-step
+"$PY" -m training.wheel_align.diagnose
 mkdir -p runs/checks
-c++ -std=c++17 -O2 \
+if command -v c++ >/dev/null; then
+  c++ -std=c++17 -O2 \
   -Iros2_ws/src/neural_controller/include \
   -Iros2_ws/src/joy_utils/include \
   ros2_ws/src/neural_controller/test/align_motion_test.cpp \
   -o runs/checks/align_motion_test
-export ALIGN_MOTION_TEST_EXE="$PWD/runs/checks/align_motion_test"
-"$ALIGN_MOTION_TEST_EXE"
+  export ALIGN_MOTION_TEST_EXE="$PWD/runs/checks/align_motion_test"
+  "$ALIGN_MOTION_TEST_EXE"
+else
+  unset ALIGN_MOTION_TEST_EXE ALIGN_EXPORT_TEST_EXE
+  printf '%s\n' 'PC C++ checks pending: no compiler available; retain laptop validation report.'
+fi
 "$PY" -m pytest training/wheel_align/tests -q
 ```
 
@@ -74,9 +88,9 @@ Run inside a persistent terminal session such as `tmux`, so closing the agent or
 ```bash
 set -o pipefail
 PY="$PWD/training/wheel_align/.venv/bin/python"
-RUN="runs/align-motion-v2-seed0-$(date -u +%Y%m%dT%H%M%SZ)"
+RUN="runs/align-motion-v3-seed0-$(date -u +%Y%m%dT%H%M%SZ)"
 mkdir -p runs
-printf '%s\n' "$RUN" > runs/align-motion-v2-active-run.txt
+printf '%s\n' "$RUN" > runs/align-motion-v3-active-run.txt
 "$PY" -u -m training.wheel_align.train \
   --envs 2048 --steps 50000000 --seed 0 --out "$RUN" \
   2>&1 | tee "${RUN}.console.log"
@@ -100,7 +114,7 @@ Confirm a successful process exit and the final `mjx_params` file. Recover the r
 
 ```bash
 PY="$PWD/training/wheel_align/.venv/bin/python"
-RUN=$(cat runs/align-motion-v2-active-run.txt)
+RUN=$(cat runs/align-motion-v3-active-run.txt)
 "$PY" -m training.wheel_align.evaluate --params "$RUN/mjx_params" \
   --nominal --out "$RUN/audit-nominal.json"
 "$PY" -m training.wheel_align.evaluate --params "$RUN/mjx_params" \
@@ -109,18 +123,18 @@ RUN=$(cat runs/align-motion-v2-active-run.txt)
   --interrupt --seed 20260911 --out "$RUN/audit-interrupted.json"
 ```
 
-Inspect each audit's `passes_simulation_gate`, completion counts, final angle/speed errors, unsafe rotations, minimum wheel/body gap and maximum contact approach speed. All environments must finish all four alignments and pass the criteria documented in `ALIGN_MOTION_V2.md`. A high PPO reward alone is not acceptance. If the audit fails, report the actual failure and preserve the checkpoint; do not weaken thresholds, omit failed environments, or call the result hardware-ready. Propose a focused next experiment instead of silently spending another full training budget.
+Inspect the phase/gate diagnostics described in `ALIGN_RETRAINING.md`. Report `rotation_enabled_seconds_mean` and per-wheel errors so a stalled lift is distinguishable from a wrong-angle rotation. Inspect each audit's `passes_simulation_gate`, completion counts, final angle/speed errors, unsafe rotations, minimum wheel/body gap and maximum contact approach speed. All environments must finish all four alignments and pass the criteria documented in `ALIGN_MOTION_V2.md`. A high PPO reward alone is not acceptance. If the audit fails, report the actual failure and preserve the checkpoint; do not weaken thresholds, omit failed environments, or call the result hardware-ready. Propose a focused next experiment instead of silently spending another full training budget.
 
 ## 5. Export and verify the runtime, without deploying
 
 ```bash
 "$PY" -m training.wheel_align.export --params "$RUN/mjx_params" \
-  --out "$RUN/policy_wheel_align_motion_v2.json"
+  --out "$RUN/policy_wheel_align_motion_v3.json"
 ```
 
-This writes the policy JSON and `policy_wheel_align_motion_v2.reference.csv`. Export refuses to overwrite an existing policy output. If an export is made to diagnose a failed audit, label it as a failed-audit artifact.
+This writes the policy JSON and `policy_wheel_align_motion_v3.reference.csv`. Export refuses to overwrite an existing policy output. If an export is made to diagnose a failed audit, label it as a failed-audit artifact.
 
-Follow the ROS Jazzy build, CTest and `align_export_test` commands in [ALIGN_MOTION_V2.md](ALIGN_MOTION_V2.md). Run RTNeural against the **trained export's** CSV, not just the untrained unit-test fixture. If ROS is unavailable on the PC, preserve the export/CSV and identify the runtime verification as pending; GPU training does not require installing the full robot stack. Do not connect to the robot, replace its checkpoint, or alter the selected deployment YAML as part of this training handoff.
+Follow the ROS Jazzy build, CTest and `align_export_test` commands in [ALIGN_MOTION_V2.md](ALIGN_MOTION_V2.md), substituting `policy_wheel_align_motion_v3.json` and `policy_wheel_align_motion_v3.reference.csv` for the historical v2 filenames. Run RTNeural against the **trained export's** CSV, not just the untrained unit-test fixture. If ROS is unavailable on the PC, preserve the export/CSV and identify the runtime verification as pending; GPU training does not require installing the full robot stack. Do not connect to the robot, replace its checkpoint, or alter the selected deployment YAML as part of this training handoff.
 
 ## Report and artifacts to return
 

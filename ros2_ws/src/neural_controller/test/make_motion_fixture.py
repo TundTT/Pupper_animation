@@ -4,8 +4,8 @@ import sys
 from pathlib import Path
 
 data=json.loads(Path(sys.argv[1]).read_text())
-data.update(in_shape=[None,82],single_observation_size=82,motion_contract_version=2,
-    motion_contract_id='quadmorph-align-motion-v2',ctrl_dt=10/520,
+data.update(in_shape=[None,82],single_observation_size=82,motion_contract_version=3,
+    motion_contract_id='quadmorph-align-motion-v3',ctrl_dt=10/520,
     status='UNTRAINED ZERO-OUTPUT UNIT TEST FIXTURE')
 offset=51
 for name,size in [('phase',6),('progress',1),('motion_reference',8),('applied_position',8),('applied_velocity',8)]:

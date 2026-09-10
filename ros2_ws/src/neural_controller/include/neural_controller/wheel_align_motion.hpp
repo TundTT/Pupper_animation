@@ -3,8 +3,10 @@
 #include "neural_controller/wheel_align_geometry_data.hpp"
 
 namespace neural_controller {
-// Version 2 is a new policy ABI, not a reinterpretation of the legacy 51-input net.
+// Version 3 changes residual/rate semantics; v2 weights must be retrained.
 struct WheelAlignMotion {
+  static constexpr int version = 3;
+  static constexpr const char* contract_id = "quadmorph-align-motion-v3";
   static constexpr int observation_size = 82;
   static constexpr double control_dt = 10.0/520.0;
   static constexpr std::array<double,8> neutral{1,0,-1,0,1,0,-1,0};
@@ -36,7 +38,7 @@ struct WheelAlignMotion {
     for(int a=0;a<8;++a) {
       const bool active=(a/2==h.leg())&&(h.up()||h.phase==WheelAlignHybrid::LOWER);
       // Residual authority vanishes at touchdown; support legs retain balance authority.
-      double scale=active ? (a%2==0 ? .06 : .04) : (a%2==0 ? .20 : .30);
+      double scale=active ? (a%2==0 ? .20 : .12) : (a%2==0 ? .20 : .30);
       if(active && h.phase==WheelAlignHybrid::LOWER) scale*=1-smooth(progress);
       desired[a]=std::clamp(reference[a]+scale*action[a],low[a],high[a]);
     }
@@ -46,8 +48,8 @@ struct WheelAlignMotion {
     dt=std::clamp(dt,0.,.01);
     for(int a=0;a<8;++a) {
       const bool active=(a/2==h.leg())&&(h.up()||h.phase==WheelAlignHybrid::LOWER);
-      const double vmax=active ? (a%2==0 ? .4 : .7) : (a%2==0 ? 2. : 3.);
-      const double accel=active ? 2. : (a%2==0 ? 12. : 16.);
+      const double vmax=active ? (a%2==0 ? .4 : .7) : (a%2==0 ? 1. : 1.5);
+      const double accel=active ? 2. : (a%2==0 ? 6. : 8.);
       // Decelerate to a newly smaller speed limit without resetting velocity.
       const double dv=std::clamp(36*(desired[a]-applied[a])-12*velocity[a],-accel,accel)*dt;
       const double bound=std::max(vmax,std::abs(velocity[a])-accel*dt);

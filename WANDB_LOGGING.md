@@ -43,6 +43,8 @@ The old report's maximum angle error near pi does **not** establish that each wh
 
 ## Future training
 
+The current retraining revision is motion contract v3 on branch `codex/align-motion-v2`. Follow [AGENT_TRAINING_HANDOFF.md](AGENT_TRAINING_HANDOFF.md) in a separate checkout, preserving the old v2 run for the upload command above. New audits include phase durations, blocked-gate durations, rotation time and per-wheel errors; these also appear in W&B summary fields.
+
 New alignment runs log online by default to this project. Authenticate once with the training environment's `python -m wandb login`, then use the normal `train` command. Optional `--wandb-entity` and `--wandb-project` select an explicitly requested alternative destination.
 
 - Scalar training/evaluation history uses `train/env_steps` as its horizontal axis. Local `metrics.jsonl` and checkpoints are still written.

@@ -17,7 +17,7 @@ from . import configs as c,contract as ct
 
 def load_policy(params,env):
     config=json.loads(Path(params).parent.joinpath('config.json').read_text())
-    if config['motion_contract_version']!=2 or config['source_hashes']!=source_hashes():
+    if config['motion_contract_version']!=c.MOTION_VERSION or config['source_hashes']!=source_hashes():
         raise ValueError('Training sources/geometry differ from this checkout. Evaluate in the exact training checkout.')
     net=network_factory()(82,8,preprocess_observations_fn=running_statistics.normalize)
     return networks.make_inference_fn(net)(model.load_params(str(params)),deterministic=True)
@@ -70,6 +70,16 @@ def main():
     result['passes_simulation_gate']=(result['all_four_completed']==n and result['final_aligned_and_settled']==n
         and result['unsafe_rotations']==0 and result['min_wheel_gap_m']>.005
         and result['min_body_gap_m']>0 and result['max_impact_speed_m_s']<.10)
+    # Distinguish a gate stall from genuine rotation towards the wrong target.
+    result['phase_seconds_mean']={name:float((metrics['phase_'+name]*valid).sum()/n*c.CONTROL_DT)
+        for name in ('idle','lift','rotate','verify','lower','hold')}
+    result['blocked_gate_seconds_mean']={name:float((metrics[name+'_gate_blocked']*valid).sum()/n*c.CONTROL_DT)
+        for name in ('floor','wheel','body','stability')}
+    result['rotation_enabled_seconds_mean']=float((metrics['rotation_enabled']*valid).sum()/n*c.CONTROL_DT)
+    result['per_wheel']={name:dict(completed=int(completed[-1,:,i].sum()),
+        final_angle_error_median_rad=float(np.median(final_error[:,i])),
+        final_angle_error_p95_rad=float(np.percentile(final_error[:,i],95)))
+        for i,name in enumerate(c.LEGS)}
     args.out.parent.mkdir(parents=True,exist_ok=True);args.out.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result,indent=2))
     identity=args.params.parent/'wandb_run.json'

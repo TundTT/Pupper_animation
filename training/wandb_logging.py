@@ -73,9 +73,13 @@ class ExperimentLogger:
             audit = json.loads(path.read_text())
             label = path.stem.removeprefix('audit-')
             gates[label] = audit.get('passes_simulation_gate')
-            for key, value in audit.items():
-                if isinstance(value, (int, float, bool, str)):
-                    self.run.summary[f'audit/{label}/{key}'] = value
+            def record(prefix, values):
+                for key, value in values.items():
+                    if isinstance(value, dict):
+                        record(f'{prefix}/{key}', value)
+                    elif isinstance(value, (int, float, bool, str)):
+                        self.run.summary[f'{prefix}/{key}'] = value
+            record(f'audit/{label}', audit)
         expected = ('nominal', 'randomized', 'interrupted')
         status = ('failed' if any(value is False for value in gates.values()) else
                   'passed' if all(gates.get(key) is True for key in expected) else 'pending')

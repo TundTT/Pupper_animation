@@ -6,7 +6,7 @@ import numpy as np
 from brax import math
 from brax.envs.base import PipelineEnv, State
 from brax.io import mjcf
-from . import configs as c, contract as ct, geometry
+from . import configs as c, contract as ct, geometry, rewards
 
 class AlignEnv(PipelineEnv):
     def __init__(self, noise=True, training=False):
@@ -64,7 +64,10 @@ class AlignEnv(PipelineEnv):
             early_interrupt=jax.random.bernoulli(a,.2),
             action_buffer=jp.zeros((3,8)))
         metrics={k:jp.asarray(0.) for k in ['tracking','clearance','wheel_gap','body_gap','impact_speed','torque',
-            'drift','tilt','fall','completed','unsafe_rotation','command_speed','command_accel']}
+            'drift','tilt','fall','completed','unsafe_rotation','command_speed','command_accel',
+            'gate_quality','angle_progress','verified_event','completed_event','active_angle_error',
+            'floor_gate_blocked','wheel_gate_blocked','body_gate_blocked','stability_gate_blocked',
+            'rotation_enabled','phase_idle','phase_lift','phase_rotate','phase_verify','phase_lower','phase_hold']}
         return State(ps,self.observe(ps,info),jp.asarray(0.),jp.asarray(0.),metrics,info)
 
     def select_command(self,state,command):
@@ -89,7 +92,9 @@ class AlignEnv(PipelineEnv):
             ps=self.pipeline_step(ps,control)
             clear=self.clearance(ps);_,gravity=self.imu(ps)
             _,gap,bodygap=geometry.margins(ps.q[7:],gravity,k,jp)
-            impact=jp.where(clear[k]<.008,jp.maximum(-(clear[k]-old_clear[k])/c.PHYSICS_DT,0),0)
+            # Support wheels can also slam down while the body shifts. Penalize
+            # the worst approaching wheel, not just the requested lifted wheel.
+            impact=jp.max(jp.where(clear<.008,jp.maximum(-(clear-old_clear)/c.PHYSICS_DT,0),0))
             unsafe=motion['was_rotating']&((clear[k]<.005)|(gap<.005)|(bodygap<0))
             return (ps,motion),(gap,bodygap,impact,unsafe,jp.max(jp.abs(motion['velocity'])),
                 jp.max(jp.abs(motion['velocity']-old_velocity))/c.PHYSICS_DT)
@@ -97,7 +102,7 @@ class AlignEnv(PipelineEnv):
         gap,bodygap=jp.min(audit[0]),jp.min(audit[1])
         impact,unsafe=jp.max(audit[2]),jp.any(audit[3])
         clear=self.clearance(new_ps)
-        _,g=self.imu(new_ps)
+        angular,g=self.imu(new_ps)
         tilt=jp.arccos(jp.clip(-g[2],-1,1));drift=jp.linalg.norm(new_ps.q[:2]-info['origin'])
         tracking=jp.exp(-jp.sum((new_ps.q[7+ct.POS]-motion['motion_reference'])**2)/.25)
         gap_cost=jp.square(jp.maximum(.015-gap,0)/.015)+jp.square(jp.maximum(.010-bodygap,0)/.010)
@@ -105,16 +110,24 @@ class AlignEnv(PipelineEnv):
         support=(jp.arange(4)!=k)|~ct.up(motion)
         contacts=jp.sum((clear<.006)&support)/jp.maximum(jp.sum(support),1)
         upright=jp.exp(-(1+g[2])/.02)
-        active_target=motion['motion_reference'][2*k+1]
+        # Tracking the nominal apex penalized the residual needed to clear the
+        # other wheel. Track the actual bounded command instead.
+        active_target=motion['applied'][2*k+1]
         motion_tracking=jp.exp(-jp.square(new_ps.q[8+3*k]-active_target)/.015)
-        reward=self.dt*(4*motion_tracking+tracking+2*contacts+2*upright+
+        reward=self.dt*(motion_tracking+.5*tracking+contacts+upright+
             jp.exp(-jp.square(new_ps.q[2]-self.height)/.0004)+
             2*jp.exp(-jp.square(jp.maximum(drift-.02,0))/.0025)-
-            6*gap_cost-3*jp.square(impact/.10)-.1*jp.sum((action-motion['last_action'])**2)-.5*torque)
+            12*gap_cost-6*jp.square(impact/.10)-.1*jp.sum((action-motion['last_action'])**2)-.5*torque)
         fall=(tilt>.5)|(new_ps.q[2]<.075)
         done=fall|(drift>.15)|(gap<0)|(bodygap<-.005)|~jp.all(jp.isfinite(new_ps.q))
-        motion['last_action']=action
+        before_finish=motion
         motion=ct.finish(motion,new_ps.q[7:],new_ps.qd[6:],jp)
+        floor,_,_=geometry.margins(new_ps.q[7:],g,k,jp)
+        floor=jp.minimum(floor,clear[k]);angular_speed=jp.linalg.norm(angular)
+        task=rewards.task_terms(before_finish,motion,ps.q[7:],new_ps.q[7:],
+            floor,gap,bodygap,tilt,angular_speed,unsafe,self.dt,jp)
+        reward+=task['reward']-100*done
+        motion['last_action']=action
         step=info['step']+1
         command=motion['command']
         if self.training:
@@ -130,4 +143,13 @@ class AlignEnv(PipelineEnv):
             impact_speed=impact,torque=torque,drift=drift,tilt=tilt,fall=fall.astype(float),
             completed=jp.sum(motion['completed']).astype(float),unsafe_rotation=unsafe.astype(float),
             command_speed=jp.max(audit[4]),command_accel=jp.max(audit[5]))
+        metrics.update({key:value for key,value in task.items() if key!='reward'})
+        apex=ct.up(before_finish)&(before_finish['progress']>=1)
+        metrics.update(floor_gate_blocked=(apex&(floor<=.010)).astype(float),
+            wheel_gate_blocked=(apex&(gap<=.010)).astype(float),
+            body_gate_blocked=(apex&(bodygap<=.005)).astype(float),
+            stability_gate_blocked=(apex&((tilt>=.12)|(angular_speed>=.3))).astype(float),
+            rotation_enabled=before_finish['was_rotating'].astype(float))
+        for phase,name in enumerate(('idle','lift','rotate','verify','lower','hold')):
+            metrics['phase_'+name]=(before_finish['phase']==phase).astype(float)
         return state.replace(pipeline_state=new_ps,info=info,obs=self.observe(new_ps,info),reward=reward,done=done.astype(float),metrics=metrics)

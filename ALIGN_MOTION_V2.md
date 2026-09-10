@@ -1,3 +1,5 @@
+> Historical v2 design and validation. Current retraining changes are in [ALIGN_RETRAINING.md](ALIGN_RETRAINING.md); use [AGENT_TRAINING_HANDOFF.md](AGENT_TRAINING_HANDOFF.md) for current PC commands. The branch name remains `codex/align-motion-v2`, but new weights require motion contract v3. Preserve old training checkouts for historical replay.
+
 # Wheel alignment motion v2
 
 Training preparation and runtime implementation, **not a trained or hardware-validated policy**. No training was run on the laptop. Heating and the later SMP deformation/flip procedures are outside this change.

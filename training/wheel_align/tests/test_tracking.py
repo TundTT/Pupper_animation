@@ -31,8 +31,10 @@ def test_backfill_identity_metrics_audits_and_media(tmp_path):
     assert replay_metrics(logger,metrics)==200
     assert len(logger.run.logs)==3
     for label,passed in [('nominal',False),('randomized',False),('interrupted',False)]:
-        (tmp_path/f'audit-{label}.json').write_text(json.dumps(dict(passes_simulation_gate=passed,all_four_completed=0)))
+        (tmp_path/f'audit-{label}.json').write_text(json.dumps(dict(passes_simulation_gate=passed,
+            all_four_completed=0,phase_seconds_mean=dict(lift=25.))))
     assert logger.audits()=='failed'
+    assert logger.run.summary['audit/nominal/phase_seconds_mean/lift']==25.
     video=tmp_path/'policy.mp4';video.write_bytes(b'test-only-placeholder')
     logger.video(video,200)
     assert logger.run.logs[-1]['policy/rollout']['video']==str(video)

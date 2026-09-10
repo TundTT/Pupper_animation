@@ -34,7 +34,7 @@ int main(int argc,char**) {
       for(auto&x:q)std::cin>>x;for(auto&x:qd)std::cin>>x;
       for(auto&x:angular)std::cin>>x;for(auto&x:gravity)std::cin>>x;for(auto&x:action)std::cin>>x;
       check(bool(std::cin),"truncated parity input");
-      if(first){h=H{};h.motion_version=2;h.recalibrate_home(q);h.reset(q);motion.reset(q);first=false;}
+      if(first){h=H{};h.motion_version=neural_controller::WheelAlignMotion::version;h.recalibrate_home(q);h.reset(q);motion.reset(q);first=false;}
       h.motion_lower_finished=motion.lower_finished(h);h.finish_step(q,qd);h.select_command(cmd,q);motion.prepare(h,dt);
       std::cout<<int(h.phase)<<' '<<h.active_command<<' '<<h.gate_steps<<' '<<h.settled_steps<<' '<<motion.progress<<' ';
       for(double x:motion.reference)std::cout<<x<<' ';

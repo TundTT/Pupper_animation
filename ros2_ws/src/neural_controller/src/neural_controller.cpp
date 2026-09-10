@@ -171,35 +171,35 @@ controller_interface::CallbackReturn NeuralController::on_init() {
       joint_position_idx_ = 11;
       last_action_idx_ = 35;
       hybrid_.motion_version = j.value("motion_contract_version", 1);
-      if (hybrid_.motion_version != 1 && hybrid_.motion_version != 2)
+      if (hybrid_.motion_version != 1 && hybrid_.motion_version != WheelAlignMotion::version)
         throw std::runtime_error("Unsupported alignment motion version");
-      if (hybrid_.motion_version == 2 && j.at("motion_contract_id") != "quadmorph-align-motion-v2")
+      if (hybrid_.motion_version == WheelAlignMotion::version && j.at("motion_contract_id") != WheelAlignMotion::contract_id)
         throw std::runtime_error("Alignment motion contract identifier mismatch");
-      single_observation_size_ = hybrid_.motion_version == 2 ? 82 : 51;
+      single_observation_size_ = hybrid_.motion_version == WheelAlignMotion::version ? 82 : 51;
       const std::vector<std::string> commands{"stand", "front_l", "front_r", "back_r", "back_l"};
       std::vector<std::string> blocks{"body_angular_velocity", "projected_gravity",
           "effective_command_one_hot", "joint_position", "joint_velocity", "last_action",
           "target_error_sin", "target_error_cos"};
       std::vector<int> sizes{3, 3, 5, 12, 12, 8, 4, 4};
-      if (hybrid_.motion_version == 2) {
+      if (hybrid_.motion_version == WheelAlignMotion::version) {
         for (const auto &block : {"phase", "progress", "motion_reference", "applied_position", "applied_velocity"}) blocks.push_back(block);
         for (int size : {6,1,8,8,8}) sizes.push_back(size);
         if (get_update_rate()!=520 || params_.repeat_action != 10 || j.at("ctrl_dt") != WheelAlignMotion::control_dt)
-          throw std::runtime_error("Motion v2 requires 520 Hz manager / repeat 10");
+          throw std::runtime_error("Motion v3 requires 520 Hz manager / repeat 10");
         if (std::abs(params_.gain_multiplier-1.)>1e-6)
-          throw std::runtime_error("Motion v2 requires the trained gain multiplier 1.0");
+          throw std::runtime_error("Motion v3 requires the trained gain multiplier 1.0");
         for(int row=0;row<12;++row) {
           const bool wheel=row%3==2;
           if(std::abs(params_.kps[row]-(wheel ? 0. : 5.))>1e-6 ||
              std::abs(params_.kds[row]-(wheel ? .35 : .25))>1e-6)
-            throw std::runtime_error("Motion v2 actuator gains differ from training");
+            throw std::runtime_error("Motion v3 actuator gains differ from training");
         }
         for(int a=0;a<8;++a) {
           const int row=WheelAlignHybrid::position_rows[a];
           if (std::abs(params_.default_joint_pos[row]-WheelAlignMotion::neutral[a])>1e-6 ||
               std::abs(params_.joint_lower_limits[row]-WheelAlignMotion::low[a])>1e-6 ||
               std::abs(params_.joint_upper_limits[row]-WheelAlignMotion::high[a])>1e-6)
-            throw std::runtime_error("Motion v2 pose/limit contract mismatch");
+            throw std::runtime_error("Motion v3 pose/limit contract mismatch");
         }
       }
       int offset = 0;
@@ -597,7 +597,7 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
   repeat_action_counter_ += 1;
   repeat_action_counter_ %= params_.repeat_action;
   if (repeat_action_counter_ != 0) {
-    if (behavior_ == "wheel_align_hybrid" && hybrid_.motion_version == 2)
+    if (behavior_ == "wheel_align_hybrid" && hybrid_.motion_version == WheelAlignMotion::version)
       integrate_alignment_motion(period.seconds());
     return controller_interface::return_type::OK;
   }
@@ -742,7 +742,7 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
       hybrid_.motion_lower_finished = hybrid_.motion_version == 1 || motion_.lower_finished(hybrid_);
       hybrid_.finish_step(hybrid_q_, hybrid_qd_);
       hybrid_.select_command(command_index_, hybrid_q_);
-      if(hybrid_.motion_version==2) motion_.prepare(hybrid_, hybrid_first_step_ ? WheelAlignMotion::control_dt : hybrid_elapsed_);
+      if(hybrid_.motion_version==WheelAlignMotion::version) motion_.prepare(hybrid_, hybrid_first_step_ ? WheelAlignMotion::control_dt : hybrid_elapsed_);
       if (hybrid_.phase != previous_phase) {
         static constexpr const char *phases[]{"IDLE", "LIFT", "ROTATE", "VERIFY", "LOWER", "HOLD"};
         RCLCPP_INFO(get_node()->get_logger(), "Hybrid %s -> %s; active=%s requested=%s",
@@ -761,7 +761,7 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
         observation_[43 + k] = std::sin(err);
         observation_[47 + k] = std::cos(err);
       }
-      if(hybrid_.motion_version==2) {
+      if(hybrid_.motion_version==WheelAlignMotion::version) {
         for(int p=0;p<6;++p) observation_[51+p]=p==hybrid_.phase ? 1.f : 0.f;
         observation_[57]=motion_.progress;
         for(int a=0;a<8;++a) {
@@ -940,11 +940,11 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
       if (!std::isfinite(policy_output[a])) return controller_interface::return_type::ERROR;
       observation_[last_action_idx_ + a] = policy_output[a];
     }
-    const bool gate = hybrid_.motion_version==2 ? motion_.ready(hybrid_,hybrid_q_,
+    const bool gate = hybrid_.motion_version==WheelAlignMotion::version ? motion_.ready(hybrid_,hybrid_q_,
         {ang_vel_x,ang_vel_y,ang_vel_z},{observation_[3],observation_[4],observation_[5]}) :
         hybrid_.lift_ready(hybrid_q_, params_.default_joint_pos[3*hybrid_.leg()],
           {ang_vel_x,ang_vel_y,ang_vel_z},observation_[5]);
-    hybrid_.begin_step(hybrid_q_, gate, hybrid_first_step_ ? (hybrid_.motion_version==2 ? WheelAlignMotion::control_dt : .02) : hybrid_elapsed_);
+    hybrid_.begin_step(hybrid_q_, gate, hybrid_first_step_ ? (hybrid_.motion_version==WheelAlignMotion::version ? WheelAlignMotion::control_dt : .02) : hybrid_elapsed_);
     hybrid_first_step_ = false;
     hybrid_elapsed_ = 0.0;
     hybrid_wheels = hybrid_.wheel_commands(hybrid_q_, hybrid_qd_);
@@ -957,7 +957,7 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
       hybrid_positions[a]=std::clamp(double(params_.default_joint_pos[row] + policy_output[a]*params_.action_scales[row]),
           double(params_.joint_lower_limits[row]), double(params_.joint_upper_limits[row]));
     }
-    if(hybrid_.motion_version==2) {
+    if(hybrid_.motion_version==WheelAlignMotion::version) {
       std::array<double,8> raw{}; std::copy_n(policy_output,8,raw.begin());
       motion_.targets(hybrid_,raw);
       motion_.integrate(hybrid_,period.seconds());
