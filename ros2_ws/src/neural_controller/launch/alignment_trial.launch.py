@@ -39,8 +39,9 @@ def generate_launch_description():
         args = [name, "--controller-manager", "/controller_manager",
                 "--controller-manager-timeout", "60"]
         if name == controller:
-            args += ["--inactive", "--controller-ros-args=-p",
-                     "--controller-ros-args", "calibration_required:=True"]
+            args += ["--inactive", "--param-file", PathJoinSubstitution([
+                FindPackageShare("neural_controller"), "launch", "calibration_hardware.yaml"
+            ])]
         nodes.append(Node(package="controller_manager", executable="spawner",
                           arguments=args, output="both"))
     return LaunchDescription(nodes)

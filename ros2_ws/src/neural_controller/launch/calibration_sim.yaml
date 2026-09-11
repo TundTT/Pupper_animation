@@ -1,0 +1,4 @@
+# Simulation only: do not consume the physical encoder-session calibration.
+/**:
+  ros__parameters:
+    calibration_required: false

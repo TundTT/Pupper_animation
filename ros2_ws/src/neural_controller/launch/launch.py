@@ -84,6 +84,16 @@ def generate_launch_description():
         PathJoinSubstitution([FindPackageShare("neural_controller"), "launch", "config.yaml"]),
         allow_substs=True,
     )
+    # Parameter files work across Jazzy spawner versions; repeated
+    # --controller-ros-args silently lose tokens on older Pi installations.
+    calibration_parameters = PathJoinSubstitution([
+        FindPackageShare("neural_controller"), "launch",
+        IfElseSubstitution(
+            condition=LaunchConfiguration("sim"),
+            if_value="calibration_sim.yaml",
+            else_value="calibration_hardware.yaml",
+        ),
+    ])
 
     #
     # 6. Nodes from your original launch files
@@ -128,8 +138,7 @@ def generate_launch_description():
             "--controller-manager-timeout",
             "30",
             "--inactive",
-            "--controller-ros-args=-p",
-            "--controller-ros-args", ["calibration_required:=", PythonExpression(["not ", LaunchConfiguration("sim")])],
+            "--param-file", calibration_parameters,
         ],
     )
 
@@ -143,8 +152,7 @@ def generate_launch_description():
             "--controller-manager-timeout",
             "30",
             "--inactive",
-            "--controller-ros-args=-p",
-            "--controller-ros-args", ["calibration_required:=", PythonExpression(["not ", LaunchConfiguration("sim")])],
+            "--param-file", calibration_parameters,
         ],
     )
 
@@ -158,8 +166,7 @@ def generate_launch_description():
             "--controller-manager-timeout",
             "30",
             "--inactive",
-            "--controller-ros-args=-p",
-            "--controller-ros-args", ["calibration_required:=", PythonExpression(["not ", LaunchConfiguration("sim")])],
+            "--param-file", calibration_parameters,
         ],
     )
 
@@ -172,8 +179,7 @@ def generate_launch_description():
             "--controller-manager", "/controller_manager",
             "--controller-manager-timeout", "30",
             "--inactive",
-            "--controller-ros-args=-p",
-            "--controller-ros-args", ["calibration_required:=", PythonExpression(["not ", LaunchConfiguration("sim")])],
+            "--param-file", calibration_parameters,
         ],
     )
 
@@ -189,8 +195,7 @@ def generate_launch_description():
             "--controller-manager-timeout",
             "30",
             "--inactive",
-            "--controller-ros-args=-p",
-            "--controller-ros-args", ["calibration_required:=", PythonExpression(["not ", LaunchConfiguration("sim")])],
+            "--param-file", calibration_parameters,
         ],
     )
 
@@ -207,8 +212,7 @@ def generate_launch_description():
             "--controller-manager-timeout",
             "30",
             "--inactive",
-            "--controller-ros-args=-p",
-            "--controller-ros-args", ["calibration_required:=", PythonExpression(["not ", LaunchConfiguration("sim")])],
+            "--param-file", calibration_parameters,
         ],
     )
 
