@@ -111,4 +111,14 @@ The export is unchanged from the reviewed weights. The runtime port adds the sha
 - Export SHA-256: `05f62e90101597ffbbd9d6a26dce443b3f1af831ba5a5879607f1709b19860a9`. Trained RTNeural action error versus Brax fixtures: at most 1.07288e-6.
 - The source preflight passed, including all twelve joint axes and mounting transforms against the saved training geometry.
 
-The Pi did not respond at its recorded lab address during this integration. **ARM64 build, installed-overlay verification, physical calibration and actual motion remain to be done on the Pi.** Run the preparation command before starting hardware. The original randomized audit failure remains visible; these software checks do not turn it into a passing physical policy.
+The Pi was initially unreachable. The subsequent lab setup below completes the ARM64 software checks. The original randomized audit failure remains visible; these software checks do not turn it into a passing physical policy.
+
+## Pi software preparation, September 11
+
+Prepared `/home/pi/robot-code-leglift` on `pupper` at `10.140.55.163`, through commit `ecc6e75`. All six packages built on the ARM64 Pi, all 11 selected CTests passed (three calibration, one joystick, seven neural), and the installed-overlay preflight passed with the exact reviewed v5 export. The connected `/dev/input/js0` identifies as the DualSense Wireless Controller; `js1` is its motion-sensor device. See [the actual Pi build/test log](hardware_testing/align_v5_2026-09-11/pi-setup-build.txt).
+
+Two Pi compatibility fixes were required: use the canonical generated controller-parameter header (the old deprecated header contained duplicate definitions), and pass calibration overrides through YAML files. The older Pi spawner overwrites repeated `--controller-ros-args` arguments. Launch tests now exercise the installed spawner parser and resolve its parameter file; both the older Pi and newer local Jazzy versions passed. Hardware overrides require calibration; simulation overrides remain simulation-only.
+
+The Pi's three existing local edits were preserved: homing-reference logging, raw encoder reference values, and disabled optional nodes in the general launch. They are backed up in `/home/pi/align-v5-setup-backup-c1ef4d2/pre-update.patch` and retained git stashes. The untracked `motion_capture/` directory was left in place. The other robot's checkout was not changed.
+
+The legacy `dpad-launch-trigger.service` was stopped for preparation and remains stopped; it is still enabled for a future reboot. Do not use D-pad startup alongside the dedicated launch. No hardware stack or policy motion was started during these checks. **Physical positioning confirmation, fresh homing, live-session calibration capture, and motion validation remain pending.**

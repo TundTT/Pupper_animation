@@ -32,8 +32,11 @@
   "calibration_ctests": "3 passed",
   "joystick_integration_ctests": "1 passed",
   "source_hardware_contract_check": "passed",
-  "target_pi_arm64_build": "pending; Pi unreachable at recorded address",
-  "target_installed_overlay_check": "pending",
+  "target_pi_arm64_build": "passed; six packages at ecc6e75 plus preserved Pi local edits",
+  "target_pi_ctests": "11 passed: 3 calibration, 1 joystick, 7 neural",
+  "target_installed_overlay_check": "passed; /home/pi/robot-code-leglift/ros2_ws/install",
+  "target_pi_setup_log": "pi-setup-build.txt",
+  "target_pi_preserved_edits": "hardware homing reference logging, raw reference values, general-launch optional node disables; backup /home/pi/align-v5-setup-backup-c1ef4d2/pre-update.patch",
   "physical_calibration": "required for each fresh encoder session",
   "hardware_motion_validation": "not performed",
   "runtime_integration_changes": [
