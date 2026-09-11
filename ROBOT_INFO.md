@@ -8,12 +8,12 @@ This branch does not track project progress, deployed-policy status, or which ex
 
 When asked to create robot code or train a policy:
 
-1. Read this file and the relevant files in `robot_info/`.
+1. Read this file, [the pre-lab preparation procedure](robot_info/PRE_LAB.md), and the relevant files in `robot_info/`.
 2. Select an existing hardware profile instead of inventing a new interface.
 3. Start from the Stanford-derived training and controller paths described in `robot_info/BASELINE.md`.
 4. Implement the deployed observation, action, timing, and metadata contracts before training.
 5. Export a self-describing RTNeural JSON model and run `robot_info/validate_policy.py`.
-6. Complete the checks in `robot_info/LAB_READY.md` before declaring the work ready for hardware testing.
+6. Complete the hardware-free checks in `robot_info/PRE_LAB.md` and `robot_info/LAB_READY.md` before the lab visit. Record exact target-version evidence and explicitly list pending physical checks before declaring readiness.
 
 Do not optimize only for simulation videos and defer robot integration. A policy is not complete if its joint order, observation layout, action interpretation, timing, or runtime dependencies still require reconstruction in the lab.
 
@@ -26,6 +26,7 @@ Do not optimize only for simulation videos and defer robot integration. A policy
 - `robot_info/POLICY_INTERFACE.md`: controller observations, actions, history, timing, and model format.
 - `robot_info/TRAINING.md`: sim-to-real workflow and export requirements.
 - `robot_info/LAB_READY.md`: pre-lab and hardware-test checklists.
+- `robot_info/PRE_LAB.md`: preparation workflow, target-version matching, and regression lessons from the September 11 Pi setup.
 - `robot_info/robot_contract.json`: machine-readable compatibility data.
 - `robot_info/validate_policy.py`: offline policy metadata and hardware-envelope checker.
 

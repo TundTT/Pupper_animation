@@ -19,6 +19,13 @@ The following was observed read-only on the robot on 2026-09-09:
 
 The exact patch versions may change. Code must remain compatible with Debian 12, ROS 2 Jazzy, Python 3.11, GCC 12, CMake 3.25, and ARM64 unless the target image is deliberately upgraded and this contract is updated.
 
+Matching these broad versions is necessary but insufficient. September 11 testing
+found different Jazzy spawner argument semantics and generated-header behavior on
+the laptop and Pi. Follow [PRE_LAB.md](PRE_LAB.md): preserve exact package/source
+versions, test the installed target parser and generated headers, and prepare a
+matching ARM64 environment before the next lab visit. The historical table above
+is not a complete reproducible image or a current package inventory.
+
 ## Required ROS Capability
 
 The target image includes the core packages used by this stack, including:
@@ -47,7 +54,10 @@ source install/local_setup.bash
 
 Without both setup files, ROS package discovery can report project packages as missing even when the build exists.
 
-Use a clean, targeted build before hardware testing:
+Use a clean build in an isolated matching environment before hardware testing.
+On the Pi, inspect processes first and build only while the motor stack is stopped;
+preserve existing local edits and use the behavior's preparation script or explicit
+package selection. The general workspace command is:
 
 ```bash
 source /opt/ros/jazzy/setup.bash
@@ -58,6 +68,10 @@ ros2 pkg prefix neural_controller
 ```
 
 The neural controller built successfully on this target during the audit. That result is evidence that the present toolchain can build it, not permission to skip future clean-build checks.
+
+Reuse a verified build for an unchanged release/environment. Rebuild and rerun
+affected checks when the software or environment changes; avoid spending the lab
+visit repeating unchanged checks already completed beforehand.
 
 ## Launch Integration
 

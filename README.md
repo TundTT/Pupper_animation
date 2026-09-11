@@ -2,6 +2,11 @@
 
 > **Robot compatibility reference:** Start with [ROBOT_INFO.md](ROBOT_INFO.md) when writing code or training policies intended to run on this physical robot. The `robot_info/` contract is authoritative for hardware and software compatibility; task-status notes elsewhere are curated separately.
 
+> **Before the lab:** Follow [the preparation workflow](robot_info/PRE_LAB.md) and
+> [readiness checklist](robot_info/LAB_READY.md). This is the `robot-info` reference
+> branch; the inherited runtime README below is historical, not a current deployment
+> or policy-readiness report.
+
 The selected September 7 walking policy is ready for first hardware testing via **Square**. See [WALK_V2_TESTING.md](WALK_V2_TESTING.md) for the exact checkpoint, build checks, and procedure.
 
 > **This is the `robot-code` branch**: just this monorepo (rooted here instead of nested

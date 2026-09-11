@@ -2,6 +2,10 @@
 
 The purpose of this gate is to make lab time about controlled hardware testing and feedback. Complete the offline sections before traveling to the robot.
 
+Follow [PRE_LAB.md](PRE_LAB.md) for the preparation order and evidence requirements.
+Do not present a laptop build or matching ROS distribution name as exact target
+compatibility. The target package versions and installed artifacts must be checked.
+
 ## Policy Contract
 
 - [ ] A hardware profile is explicitly selected.
@@ -32,6 +36,13 @@ The purpose of this gate is to make lab time about controlled hardware testing a
 - [ ] Every required ROS package is installed; optional packages cannot block motor control.
 - [ ] Launch files use the intended checkout and model path.
 - [ ] Controller activation, deactivation, and emergency-stop paths are known.
+- [ ] Exact target ROS/package versions and environment provenance are recorded; unavailable target checks are listed explicitly.
+- [ ] The target spawner parses the resolved launch arguments correctly, including inactive startup and calibration overrides.
+- [ ] Generated headers and incremental upgrades are checked in addition to a clean build when reusing a prepared installation.
+- [ ] Installed plugin/configuration/model paths and hashes match the tested release.
+- [ ] Joystick transitions, repeated presses, failed activation, and stop priority pass hardware-free integration tests.
+- [ ] Launch-user device access, realtime scheduling permissions, service behavior, and optional dependencies have been reviewed.
+- [ ] The update/rollback plan preserves target-local edits and excludes the other robot's checkout.
 
 ## Handoff Record
 
@@ -50,6 +61,11 @@ Action types / scale:
 Offline validator result:
 RTNeural parity result:
 Target build command and result:
+Exact target environment / package inventory:
+Installed-artifact verification:
+Launch-parser / lifecycle / joystick test results:
+Update and rollback procedure:
+Checks still requiring the physical target:
 Launch command:
 Safe initial pose:
 First-test command limits:
@@ -67,22 +83,37 @@ source /opt/ros/jazzy/setup.bash
 cd /home/pi/robot-code-leglift/ros2_ws
 source install/local_setup.bash
 ros2 pkg prefix neural_controller
-ros2 control list_hardware_interfaces
-ros2 control list_controllers
 sha256sum path/to/policy.json
 ```
 
 Compare the robot's model hash with the handoff record. Confirm that the working tree and checkout are the intended test version. Do not overwrite another robot's checkout.
 
+Inspect existing processes and services before launch. Only query controller-manager
+services when a stack is already running; do not start hardware merely to make a
+preflight query succeed. Never build or replace libraries beneath a running stack.
+
 ## Hardware Activation Boundary
 
-Before enabling actuators:
+Read `STARTUP_CALIBRATION.md` from the actual deployment checkout first (or inspect
+`origin/robot-code:STARTUP_CALIBRATION.md` with `git show` from this reference branch).
+Starting the hardware stack performs homing even when the policy is inactive.
+
+Before starting a fresh hardware stack:
 
 - Place the robot in the documented safe initial pose and support it appropriately.
+- Obtain the user's explicit confirmation of the encoder-homing pose and marked-ring reference; a request to test is not physical confirmation.
 - Confirm the correct physical profile, motor mapping, and controller are selected.
 - Confirm emergency stop and controller deactivation are immediately available.
 - Start with conservative command bounds and no unexpected joystick state.
-- Observe initialization and fade-in before issuing a task command.
+
+After homing, capture shared calibration with `python3 scripts/calibrate_robot.py
+capture` and verify `status` before activating motion. An agent may use
+`--operator-confirmed` only after the actual confirmation for that startup. Report
+the calibration ID, FR/FL/BR/BL homes and storage path. Reuse valid calibration in
+the same encoder session; a fresh homing requires a new confirmed capture. Check
+controller state, fresh joint/IMU feedback, scheduling and startup warnings before
+the authorized trial. Observe policy initialization and fade-in before issuing a
+task command. Heating remains manual.
 
 Hardware activation remains a human-controlled safety decision. Passing offline checks reduces integration risk but does not certify physical safety.
 
