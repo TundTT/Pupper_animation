@@ -69,7 +69,7 @@ def test_actual_render_and_offline_wandb(tmp_path):
 
 
 def test_checkpoint_video_worker(tmp_path):
-    # Four control steps of an untrained actor: verifies historical-checkout
+    # Four control steps of an untrained actor: verifies exact-checkout
     # import/provenance, real rollout, MP4 and trace. No optimizer is invoked.
     import os
     import subprocess
@@ -106,6 +106,8 @@ def test_training_callbacks_log_final_video_without_optimizer(tmp_path,monkeypat
         path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(b'UNIT TEST VIDEO PLACEHOLDER');return path
     monkeypatch.setattr(policy_video,'record_policy',render)
     def fake_train(environment,**kwargs):
+        assert kwargs['restore_value_fn'] is False
+        assert kwargs['restore_params'] is None
         make_policy=lambda params,deterministic:object()
         for step in (0,100):
             kwargs['progress_fn'](step,{'eval/reward':float(step)})
@@ -117,7 +119,7 @@ def test_training_callbacks_log_final_video_without_optimizer(tmp_path,monkeypat
     entry.main()
     run=sdk.runs[0][1]
     assert run.summary['last_env_step']==100
-    assert run.summary['training_status']=='completed; audits pending'
+    assert run.summary['training_status']=='completed'
     assert any('policy/final' in row for row in run.logs)
     assert any('policy/rollout' in row for row in run.logs)
     assert any(Path(path).name=='mjx_params' for artifact in run.artifacts for path,kw in artifact.files)

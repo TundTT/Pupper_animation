@@ -48,19 +48,22 @@ def write_video(qposes, diagnostics, model_path, output, *, caption, fps=13):
             temporary.unlink()
 
 
-def record_policy(policy, output, *, seed=20260910, max_steps=6656, training_step=0):
-    if max_steps < 4 or max_steps > 6656 or max_steps % 4:
-        raise ValueError('Video steps must be a multiple of four between 4 and 6656')
+def record_policy(policy, output, *, seed=20260910, max_steps=None, training_step=0):
+    from training.wheel_align import configs as c
+    max_steps=c.SEQUENCE_STEPS if max_steps is None else max_steps
+    if max_steps < 4 or max_steps > c.SEQUENCE_STEPS or max_steps % 4:
+        raise ValueError('Video steps must be a multiple of four within the configured sequence budget')
     import jax
     from jax import numpy as jp
     import numpy as np
     from training.wheel_align.env import AlignEnv
     from training.wheel_align import configs as c, contract as ct
-    env = AlignEnv(noise=False)
+    env = AlignEnv(noise=False,automatic=True)
     state = jax.jit(env.reset)(jax.random.PRNGKey(seed))
+    state.info['order']=jp.arange(1,5)
+    state.info['early_interrupt']=jp.asarray(False)
     @jax.jit
-    def advance(state, command):
-        state = env.select_command(state, command)
+    def advance(state):
         def tick(s, _):
             def move(s):
                 action, _ = policy(s.obs, jax.random.PRNGKey(0))
@@ -69,9 +72,8 @@ def record_policy(policy, output, *, seed=20260910, max_steps=6656, training_ste
         return jax.lax.scan(tick, state, None, length=4)[0]
     qposes, rows = [], []
     for step in range(0, max_steps, 4):
-        slot = min(step // 1664, 3)
-        command = 0 if step % 1664 < 104 else slot + 1
-        state = advance(state, jp.asarray(command))
+        state = advance(state)
+        command = int(state.info['motion']['command'])
         q = np.asarray(state.pipeline_state.q)
         motion = jax.tree.map(np.asarray, state.info['motion'])
         row = dict(seconds=(step+4)*c.CONTROL_DT, phase=int(motion['phase']), command=command,
@@ -82,10 +84,11 @@ def record_policy(policy, output, *, seed=20260910, max_steps=6656, training_ste
             target = float(motion['target'][k]); actual = float(q[9+3*k])
             row.update({leg+'_target': target, leg+'_actual': actual,
                         leg+'_error': float(ct.wrap(target-actual))})
-        for key in ('wheel_gap','body_gap','impact_speed','unsafe_rotation'):
+        for key in ('wheel_gap','body_gap','impact_speed','unsafe_rotation','clearance','floor_estimate','tilt','support_fraction','active_load','contact_peak_cost','floor_gate_blocked','stability_gate_blocked'):
             row[key] = float(state.metrics[key])
+        for i in range(8):row['action_'+str(i)]=float(motion['last_action'][i]);row['proximal_q_'+str(i)]=float(q[7+ct.POS[i]])
         qposes.append(q); rows.append(row)
-        if row['done']:
+        if row['done'] or (int(state.info['sequence']['index'])>=4 and int(state.info['sequence']['age'])>=104):
             break
     output = Path(output)
     write_video(qposes, rows, c.MODEL_PATH, output,
@@ -106,7 +109,7 @@ def main():
     p.add_argument('--params', type=Path, required=True)
     p.add_argument('--out', type=Path, required=True)
     p.add_argument('--step', type=int, required=True)
-    p.add_argument('--max-steps', type=int, default=6656, help='Short diagnostic/test videos only; full sequence is 6656')
+    p.add_argument('--max-steps', type=int, default=None, help='Short diagnostic/test video limit; default is the contract sequence budget')
     args = p.parse_args()
     # This worker imports the ORIGINAL implementation without changing it or its hashes.
     sys.path.insert(0, str(args.source_root.resolve()))
@@ -122,7 +125,14 @@ def main():
         raise ValueError('Video source checkout differs from the recorded training sources. Use the original checkout.')
     net = network_factory()(82, 8, preprocess_observations_fn=running_statistics.normalize)
     policy = networks.make_inference_fn(net)(model.load_params(str(args.params)), deterministic=True)
-    record_policy(policy, args.out, training_step=args.step, max_steps=args.max_steps)
+    from training.wheel_align import configs as original_config
+    version=config.get('motion_contract_version',original_config.MOTION_VERSION)
+    if version<4:
+        import runpy
+        legacy=runpy.run_path(str(Path(__file__).with_name('legacy_video.py')))['record_policy']
+        legacy(policy,args.out,training_step=args.step,max_steps=args.max_steps or 6656,renderer=write_video)
+    else:
+        record_policy(policy, args.out, training_step=args.step, max_steps=args.max_steps)
 
 
 if __name__ == '__main__':

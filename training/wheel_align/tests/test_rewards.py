@@ -38,13 +38,16 @@ def test_completion_events_are_one_shot_and_verified():
     finished=ct.finish(pending,q,np.zeros(12))
     assert not finished['completed'].any()  # an interrupted descent is not success
 
-def test_real_servo_traverses_half_turn_and_all_four_completions():
+def test_real_servo_traverses_half_turn_and_all_four_completions(monkeypatch):
+    # A granted stability gate isolates the supervisor/hub servo; actual loaded
+    # geometry is tested by native_audit. No instantaneous hub target jumps.
+    monkeypatch.setattr(ct.geometry,"ready",lambda *args:np.asarray(True))
     # Ideal proximal tracking isolates the supervisor/hub servo, without
     # teleporting the hub to its target as the language-parity fixture does.
     q=c.DEFAULT_POSE.copy();qd=np.zeros(12);s=ct.reset(q,np.zeros(4))
     for command in (1,2,3,4):
         s=ct.select(s,command,q);enabled=0
-        for _ in range(1664):
+        for _ in range(c.SINGLE_STEPS):
             s=ct.prepare(s);s,w=ct.begin(s,q,qd,np.zeros(3),np.array([0.,0.,-1.]),np.zeros(8))
             enabled+=int(s['was_rotating'])
             for _ in range(10):
@@ -60,9 +63,12 @@ def test_real_servo_traverses_half_turn_and_all_four_completions():
     assert s['completed'].all()
     assert np.max(np.abs(ct.wrap(s['target']-q[ct.WHEEL])))<.035
 
-def test_native_front_lift_can_clear_rotate_and_lower():
-    from training.wheel_align.diagnose import probe,FEASIBLE_FL_ACTION
-    result=probe(FEASIBLE_FL_ACTION)
-    assert result['completed'][1]
-    assert all(result['phase_seconds'][phase]>0 for phase in ('lift','rotate','verify','lower','hold'))
-    assert np.all(np.array(result['min_rotation_gate_margins_m'])>np.array([.010,.010,.005]))
+def test_native_all_wheels_and_interruption_are_safe():
+    from training.wheel_align.native_audit import probe
+    for interrupted in (False,True):
+        result=probe(interrupt=interrupted)
+        assert all(result['completed'])
+        for leg in result['legs']:
+            assert leg['peak_impact']<.10
+            assert leg['min_wheel_gap']>.010 and leg['min_body_gap']>.005
+            assert np.all(np.array(leg['min_rotation_margins'])>np.array([.010,.010,.005]))

@@ -185,21 +185,21 @@ controller_interface::CallbackReturn NeuralController::on_init() {
         for (const auto &block : {"phase", "progress", "motion_reference", "applied_position", "applied_velocity"}) blocks.push_back(block);
         for (int size : {6,1,8,8,8}) sizes.push_back(size);
         if (get_update_rate()!=520 || params_.repeat_action != 10 || j.at("ctrl_dt") != WheelAlignMotion::control_dt)
-          throw std::runtime_error("Motion v3 requires 520 Hz manager / repeat 10");
+          throw std::runtime_error("Motion v4 requires 520 Hz manager / repeat 10");
         if (std::abs(params_.gain_multiplier-1.)>1e-6)
-          throw std::runtime_error("Motion v3 requires the trained gain multiplier 1.0");
+          throw std::runtime_error("Motion v4 requires the trained gain multiplier 1.0");
         for(int row=0;row<12;++row) {
           const bool wheel=row%3==2;
           if(std::abs(params_.kps[row]-(wheel ? 0. : 5.))>1e-6 ||
              std::abs(params_.kds[row]-(wheel ? .35 : .25))>1e-6)
-            throw std::runtime_error("Motion v3 actuator gains differ from training");
+            throw std::runtime_error("Motion v4 actuator gains differ from training");
         }
         for(int a=0;a<8;++a) {
           const int row=WheelAlignHybrid::position_rows[a];
           if (std::abs(params_.default_joint_pos[row]-WheelAlignMotion::neutral[a])>1e-6 ||
               std::abs(params_.joint_lower_limits[row]-WheelAlignMotion::low[a])>1e-6 ||
               std::abs(params_.joint_upper_limits[row]-WheelAlignMotion::high[a])>1e-6)
-            throw std::runtime_error("Motion v3 pose/limit contract mismatch");
+            throw std::runtime_error("Motion v4 pose/limit contract mismatch");
         }
       }
       int offset = 0;
@@ -762,7 +762,7 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
         observation_[47 + k] = std::cos(err);
       }
       if(hybrid_.motion_version==WheelAlignMotion::version) {
-        for(int p=0;p<6;++p) observation_[51+p]=p==hybrid_.phase ? 1.f : 0.f;
+        for(int p=0;p<6;++p) observation_[51+p]=p==(hybrid_.phase==WheelAlignHybrid::VERIFY ? WheelAlignHybrid::ROTATE : hybrid_.phase) ? 1.f : 0.f;
         observation_[57]=motion_.progress;
         for(int a=0;a<8;++a) {
           observation_[58+a]=motion_.reference[a]; observation_[66+a]=motion_.applied[a];

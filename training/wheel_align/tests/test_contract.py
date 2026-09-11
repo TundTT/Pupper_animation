@@ -5,22 +5,23 @@ import numpy as np
 import pytest
 from training.wheel_align import configs as c,contract as ct,geometry
 
-def test_nominal_path_clearance():
-    # Deliberately conservative spheres, including radius manufacturing margin.
-    for k in range(4):
-        for u in np.linspace(0,1,101):
-            q=c.DEFAULT_POSE.copy();q[3*k+1]=.85*(1 if k%2==0 else -1)*ct.smooth(u)
-            floor,gap,body=geometry.margins(q,np.array([0.,0.,-1.]),k)
+def test_reference_paths_have_self_clearance():
+    # Geometry-only path check. Actual loaded dynamics are checked separately.
+    for command in range(1,5):
+        q=c.DEFAULT_POSE.copy();s=ct.select(ct.reset(q,q[ct.WHEEL]),command,q)
+        for _ in range(400):
+            s=ct.prepare(s);q[ct.POS]=s['motion_reference']
+            _,gap,body=geometry.margins(q,np.array([0.,0.,-1.]),ct.leg(s))
             assert gap>.010 and body>.005
-        assert floor>.010
+
 
 def test_interrupt_limits_and_completion():
     q=c.DEFAULT_POSE.copy();s=ct.reset(q,q[ct.WHEEL]);s=ct.select(s,1,q)
-    for n in range(500):
+    for n in range(800):
         s=ct.prepare(s);s,_=ct.begin(s,q,np.zeros(12),np.zeros(3),np.array([0.,0.,-1.]),np.zeros(8))
         for _ in range(10):
             previous=s['velocity'].copy();s=ct.integrate(s)
-            assert np.max(np.abs(s['velocity']-previous))/c.PHYSICS_DT<=8+1e-9
+            assert np.max(np.abs(s['velocity']-previous))/c.PHYSICS_DT<=2+1e-9
         q[ct.POS]=s['applied'];s=ct.finish(s,q,np.zeros(12))
         if n==70:s=ct.select(s,2,q)
         if n>70 and s['phase']==ct.LOWER:assert s['active_command']==1
@@ -33,9 +34,9 @@ def test_cpp_trace_parity():
     if not exe:pytest.skip('Compile align_motion_test and set ALIGN_MOTION_TEST_EXE for cross-language parity')
     rng=np.random.default_rng(20260910);q=c.DEFAULT_POSE.copy();q[ct.WHEEL]=[.3,-.4,.5,-.6]
     s=ct.reset(q,q[ct.WHEEL]);records=[];expected=[];phases=set()
-    for n in range(3000):
-        dt=c.CONTROL_DT;cmd=[0,1,2,3,4][min(n//600,4)]
-        if n%600 in range(100,150):cmd=0
+    for n in range(10000):
+        dt=c.CONTROL_DT;cmd=[0,1,2,3,4][min(n//2000,4)]
+        if n%2000 in range(100,150):cmd=0
         qd=np.zeros(12);q[ct.POS]=s['applied']
         if s['phase'] in (ct.ROTATE,ct.VERIFY):q[3*ct.leg(s)+2]=s['target'][ct.leg(s)]
         a=rng.uniform(-.03,.03,8);angular=np.zeros(3);g=np.array([0.,0.,-1.])

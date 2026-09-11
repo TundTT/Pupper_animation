@@ -1,3 +1,5 @@
+> Current work is motion contract v4. Read [ALIGN_MOTION_V4.md](ALIGN_MOTION_V4.md) and [AGENT_TRAINING_HANDOFF.md](AGENT_TRAINING_HANDOFF.md). The material below records earlier revisions.
+
 # Alignment retraining: motion contract v3
 
 Branch: `codex/align-motion-v2`. New runs use `quadmorph-align-motion-v3` metadata. Follow [AGENT_TRAINING_HANDOFF.md](AGENT_TRAINING_HANDOFF.md) for PC setup, one fresh 50-million-step run, three audits, and export. No training was performed on the laptop.

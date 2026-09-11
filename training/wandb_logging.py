@@ -80,10 +80,14 @@ class ExperimentLogger:
                     elif isinstance(value, (int, float, bool, str)):
                         self.run.summary[f'{prefix}/{key}'] = value
             record(f'audit/{label}', audit)
-        expected = ('nominal', 'randomized', 'interrupted')
+        stage=self.run.config.get('curriculum_stage')
+        expected = (stage,) if stage in ('foundation','single') else ('nominal', 'randomized', 'interrupted')
+        self.run.summary['simulation_audit_scope'] = stage or 'full sequence'
         status = ('failed' if any(value is False for value in gates.values()) else
                   'passed' if all(gates.get(key) is True for key in expected) else 'pending')
         self.run.summary['simulation_audit_status'] = status
+        if status in ('passed','failed'):
+            self.run.summary['handoff_status'] = 'audits complete: '+status+'; hardware not validated'
         self.run.summary['hardware_validated'] = False
         return status
 

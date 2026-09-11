@@ -55,8 +55,19 @@ def prepare(s,dt=c.CONTROL_DT,xp=np):
     s['previous_phase']=s['phase']
     duration=xp.where(s['phase']==LOWER,c.LOWER_SECONDS,c.LIFT_SECONDS)
     s['progress']=xp.minimum(s['elapsed']/duration,1.)
-    goal=xp.where((xp.arange(8)==2*k+1)&up(s),c.APEX_HIP*xp.where(k%2==0,1.,-1.),xp.asarray(NEUTRAL))
-    s['motion_reference']=s['start']+smooth(s['progress'],xp)*(goal-s['start'])
+    apex=xp.asarray(c.APEX_POSES)[k];sign=xp.where(k%2==0,1.,-1.)
+    hip=xp.arange(8)==2*k+1
+    shift=xp.where(hip,c.LAND_HIP*sign,apex)
+    lifting=xp.where(s['elapsed']<c.SHIFT_SECONDS,
+        s['start']+smooth(s['elapsed']/c.SHIFT_SECONDS,xp)*(shift-s['start']),
+        shift+smooth((s['elapsed']-c.SHIFT_SECONDS)/c.RISE_SECONDS,xp)*(apex-shift))
+    # Keep the learned support stance through landing. Only then recenter all
+    # joints. An early interrupt never raises the old leg to a landing waypoint.
+    landing=xp.where(hip,sign*xp.minimum(xp.maximum(sign*s['start'],0),c.LAND_HIP),s['start'])
+    lowering=xp.where(s['elapsed']<c.LAND_SECONDS,
+        s['start']+smooth(s['elapsed']/c.LAND_SECONDS,xp)*(landing-s['start']),
+        landing+smooth((s['elapsed']-c.LAND_SECONDS)/c.RECENTER_SECONDS,xp)*(xp.asarray(NEUTRAL)-landing))
+    s['motion_reference']=xp.where(up(s),lifting,xp.where(s['phase']==LOWER,lowering,xp.asarray(NEUTRAL)))
     return s
 
 def finish(s,q,qd,xp=np):
@@ -89,8 +100,13 @@ def begin(s,q,qd,angular,gravity,action,dt=c.CONTROL_DT,xp=np):
     s['was_rotating']=rotating;s['step_pending']=xp.asarray(True)
     active=(xp.arange(8)//2==k)&(up(s)|(s['phase']==LOWER))
     scales=xp.where(active,xp.tile(xp.asarray(c.ACTIVE_RESIDUAL),4),xp.tile(xp.asarray(c.SUPPORT_RESIDUAL),4))
-    scales*=xp.where(active&(s['phase']==LOWER),1-smooth(s['progress'],xp),1)
-    s['desired']=xp.clip(s['motion_reference']+scales*action,xp.asarray(LOW),xp.asarray(HIGH))
+    # Residuals cannot undo the requested hip lift. Lowering starts from the
+    # actual applied posture and has no fresh policy disturbance.
+    sign=xp.where(k%2==0,1.,-1.)
+    bounded=xp.where((xp.arange(8)==2*k+1)&up(s),sign*xp.maximum(sign*action,0),action)
+    scales*=up(s).astype(float)*smooth(xp.minimum(s['elapsed']/c.SHIFT_SECONDS,1),xp)
+    desired=xp.clip(s['motion_reference']+scales*bounded,xp.asarray(LOW),xp.asarray(HIGH))
+    s['desired']=xp.where(s['phase']==VERIFY,s['desired'],desired)
     goal=xp.where((xp.arange(4)==k)&up(s),s['reference'],s['hold'])
     wheel=xp.clip(2*wrap(goal-q[WHEEL],xp)-.35*qd[WHEEL],-2,2)
     return s,wheel
@@ -112,5 +128,5 @@ def observation(s,q,qd,angular,gravity,xp=np):
     mixed=xp.where(xp.arange(12)%3==2,wrap(q,xp),q-xp.asarray(c.DEFAULT_POSE))
     error=wrap(s['target']-q[WHEEL],xp)
     return xp.concatenate([angular,gravity,(xp.arange(5)==effective).astype(float),mixed,.1*qd,s['last_action'],
-        xp.sin(error),xp.cos(error),(xp.arange(6)==s['phase']).astype(float),xp.reshape(s['progress'],(1,)),
+        xp.sin(error),xp.cos(error),(xp.arange(6)==xp.where(s['phase']==VERIFY,ROTATE,s['phase'])).astype(float),xp.reshape(s['progress'],(1,)),
         s['motion_reference'],s['applied'],s['velocity']])

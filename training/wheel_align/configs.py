@@ -15,18 +15,26 @@ COMMAND_STATES = ['stand', 'front_l', 'front_r', 'back_r', 'back_l']
 CONTROL_DT = 10 / 520
 PHYSICS_DT = 1 / 520
 OBSERVATION_SIZE = 82
-MOTION_VERSION = 3
-MOTION_ID = 'quadmorph-align-motion-v3'
+MOTION_VERSION = 4
+MOTION_ID = 'quadmorph-align-motion-v4'
 
-# Fixed runtime contract: change C++ and parity tests together.
-LIFT_SECONDS = 3.
-LOWER_SECONDS = 4.
-APEX_HIP = .85
-# v2 could balance by crowding the opposite wheel, but gave the lifted leg
-# insufficient authority to recover separation. See ALIGN_RETRAINING.md.
-ACTIVE_RESIDUAL = np.array([.20, .12])
-SUPPORT_RESIDUAL = np.array([.20, .30])
-ACTIVE_SPEED = np.array([.4, .7])
-SUPPORT_SPEED = np.array([1., 1.5])
-ACTIVE_ACCEL = np.array([2., 2.])
-SUPPORT_ACCEL = np.array([6., 8.])
+# Runtime reference stages: support shift, lift, supported landing, recenter.
+SHIFT_SECONDS = 3.5
+RISE_SECONDS = 3.
+LIFT_SECONDS = SHIFT_SECONDS + RISE_SECONDS
+LAND_SECONDS = 6.
+RECENTER_SECONDS = 4.
+LOWER_SECONDS = LAND_SECONDS + RECENTER_SECONDS
+LAND_HIP = .50
+APEX_HIP = .95  # legacy diagnostic only; runtime uses per-wheel poses below
+ACTIVE_RESIDUAL = np.array([.04, .04])
+SUPPORT_RESIDUAL = np.array([.10, .15])
+ACTIVE_SPEED = np.array([.30, .45])
+SUPPORT_SPEED = np.array([.35, .45])
+ACTIVE_ACCEL = np.array([1.5, 2.])
+SUPPORT_ACCEL = np.array([1.5, 2.])
+LEG_TIMEOUT_STEPS = 48 * 52
+SEQUENCE_STEPS = 320 * 52
+SINGLE_STEPS = 60 * 52
+# Nominal joint targets fitted in the current model; see ALIGN_MOTION_V4.md.
+APEX_POSES = np.array([[1.16890458, 1.00215022, -1.26259869, 0.28754656, 1.01678593, -0.16507621, -0.60319068, -0.19620607], [1.26259869, -0.28754656, -1.16890458, -1.00215022, 0.60319068, 0.19620607, -1.01678593, 0.16507621], [1.0, 0.0, -1.0, 0.0, 1.0, 1.05, -1.0, 0.0], [1.0, 0.0, -1.0, 0.0, 1.0, 0.0, -1.0, -1.05]])

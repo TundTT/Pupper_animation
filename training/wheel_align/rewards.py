@@ -14,7 +14,7 @@ def task_terms(before, after, q_before, q_after, floor, gap, bodygap,
     deficits=xp.stack([xp.maximum(.012-floor,0)/.012,
         xp.maximum(.012-gap,0)/.012, xp.maximum(.007-bodygap,0)/.007,
         xp.maximum(tilt-.08,0)/.12, xp.maximum(angular_speed-.20,0)/.3])
-    quality=xp.exp(-xp.sum(xp.square(deficits)))
+    quality=1/(1+xp.sum(deficits))
     apex=ct.up(before)&(before['progress']>=1)
     error_before=xp.abs(ct.wrap(before['target'][k]-q_before[3*k+2],xp))
     error_after=xp.abs(ct.wrap(before['target'][k]-q_after[3*k+2],xp))
@@ -25,7 +25,7 @@ def task_terms(before, after, q_before, q_after, floor, gap, bodygap,
     completed=xp.sum(after['completed'].astype(int)-before['completed'].astype(int))
     # Dense quality remains useful before the first successful rotation. Once
     # at the apex, delay has a cost; holding forever is less valuable than finish.
-    reward=dt*(-6*apex*(1-quality) -2*apex*error_after/xp.pi
+    reward=dt*(-4*ct.up(before)*xp.sum(deficits)*xp.minimum(before["progress"]*2,1) -2*apex*error_after/xp.pi
         -ct.up(before).astype(float) -10*unsafe) + 20*progress + 20*verified + 60*completed
     return dict(reward=reward, gate_quality=quality, angle_progress=progress,
                 verified_event=verified.astype(float), completed_event=completed.astype(float),

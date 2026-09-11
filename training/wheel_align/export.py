@@ -1,4 +1,4 @@
-"""Export a trained v3 checkpoint and RTNeural parity fixtures. Never overwrite v1."""
+"""Export a trained v4 checkpoint and RTNeural parity fixtures. Never overwrite v1."""
 import argparse
 import hashlib
 import json
@@ -41,7 +41,7 @@ def payload_from_params(params,config):
         command_states=c.COMMAND_STATES,command_leg=ct.COMMAND_LEG.tolist(),joint_names=list(c.JOINT_NAMES),
         action_types=['velocity' if i in ct.WHEEL else 'position' for i in range(12)],
         default_joint_pos=c.DEFAULT_POSE.tolist(),action_scale=[.2,.3,0.]*4,
-        action_semantics='bounded residual about phase reference; see motion contract v3',
+        action_semantics='bounded residual about phase reference; see motion contract v4',
         joint_lower_limits=low.tolist(),joint_upper_limits=high.tolist(),ctrl_dt=c.CONTROL_DT,
         kps=[5.,5.,0.]*4,kds=[.25,.25,.35]*4,
         source_commit=config['source_commit'],source_hashes=config['source_hashes'],

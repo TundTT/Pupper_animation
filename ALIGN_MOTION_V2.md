@@ -1,3 +1,5 @@
+> Current work is motion contract v4. Read [ALIGN_MOTION_V4.md](ALIGN_MOTION_V4.md) and [AGENT_TRAINING_HANDOFF.md](AGENT_TRAINING_HANDOFF.md). The material below records earlier revisions.
+
 > Historical v2 design and validation. Current retraining changes are in [ALIGN_RETRAINING.md](ALIGN_RETRAINING.md); use [AGENT_TRAINING_HANDOFF.md](AGENT_TRAINING_HANDOFF.md) for current PC commands. The branch name remains `codex/align-motion-v2`, but new weights require motion contract v3. Preserve old training checkouts for historical replay.
 
 # Wheel alignment motion v2

@@ -18,16 +18,21 @@ def main():
     assert np.isfinite(np.asarray(state.obs)).all()
     # Shape tracing catches the randomized batched task/autoreset contract without learning.
     randomize=functools.partial(domain_randomize_wheeled,rng=jax.random.split(jax.random.PRNGKey(2),2))
-    wrapper=wrap_for_training(AlignEnv(training=True),episode_length=6656,randomization_fn=randomize)
+    wrapper=wrap_for_training(AlignEnv(training=True),episode_length=c.SEQUENCE_STEPS,randomization_fn=randomize)
     shape=jax.eval_shape(wrapper.reset,jax.random.split(jax.random.PRNGKey(3),2))
     output=jax.eval_shape(wrapper.step,shape,jax.ShapeDtypeStruct((2,8),jp.float32))
     assert output.obs.shape==(2,82)
+    for stage in ('foundation','single'):
+        staged=wrap_for_training(AlignEnv(training=True,stage=stage),episode_length=c.SINGLE_STEPS)
+        staged_shape=jax.eval_shape(staged.reset,jax.random.split(jax.random.PRNGKey(4),2))
+        assert jax.eval_shape(staged.step,staged_shape,jax.ShapeDtypeStruct((2,8),jp.float32)).obs.shape==(2,82)
     if args.jit_step:
         state=env.select_command(state,jp.asarray(1))
         step=jax.jit(env.step)
         for _ in range(3):state=step(state,jp.zeros(8));state.obs.block_until_ready()
         assert np.isfinite(np.asarray(state.obs)).all()
         assert float(state.done)==0
+        assert np.isfinite(float(state.reward))
     print(json.dumps(dict(status='PASS',observations=82,actions=8,control_dt=c.CONTROL_DT,
         collision_pairs='cylinder-floor; conservative sphere-wheel/body',
         randomized_batch_shape=list(output.obs.shape),jit_steps=3 if args.jit_step else 0,

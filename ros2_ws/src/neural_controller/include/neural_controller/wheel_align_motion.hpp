@@ -1,12 +1,13 @@
 #pragma once
 #include "neural_controller/wheel_align_hybrid.hpp"
 #include "neural_controller/wheel_align_geometry_data.hpp"
+#include "neural_controller/wheel_align_reference_data.hpp"
 
 namespace neural_controller {
-// Version 3 changes residual/rate semantics; v2 weights must be retrained.
+// Version 4 supplies coordinated reference poses and supported descent.
 struct WheelAlignMotion {
-  static constexpr int version = 3;
-  static constexpr const char* contract_id = "quadmorph-align-motion-v3";
+  static constexpr int version = 4;
+  static constexpr const char* contract_id = "quadmorph-align-motion-v4";
   static constexpr int observation_size = 82;
   static constexpr double control_dt = 10.0/520.0;
   static constexpr std::array<double,8> neutral{1,0,-1,0,1,0,-1,0};
@@ -27,29 +28,43 @@ struct WheelAlignMotion {
     }
     previous_phase=h.phase;
     elapsed+=std::clamp(dt,0.,.04);
-    const double duration=h.phase==WheelAlignHybrid::LOWER ? 4. : 3.;
+    using namespace align_reference;
+    const double duration=h.phase==WheelAlignHybrid::LOWER ? lower_seconds : lift_seconds;
     progress=std::min(elapsed/duration,1.);
-    auto goal=neutral;
-    if(h.up()) goal[2*h.leg()+1]=.85*(h.leg()%2==0 ? 1 : -1);
-    const double s=smooth(progress);
-    for(int a=0;a<8;++a) reference[a]=start[a]+s*(goal[a]-start[a]);
+    auto apex=poses[h.leg()], shift=apex, landing=start;
+    const int hip=2*h.leg()+1; const double sign=h.leg()%2==0 ? 1. : -1.;
+    shift[hip]=land_hip*sign;
+    landing[hip]=sign*std::min(std::max(sign*start[hip],0.),land_hip);
+    for(int a=0;a<8;++a) {
+      if(h.up()) reference[a]=elapsed<shift_seconds ?
+        start[a]+smooth(elapsed/shift_seconds)*(shift[a]-start[a]) :
+        shift[a]+smooth((elapsed-shift_seconds)/rise_seconds)*(apex[a]-shift[a]);
+      else if(h.phase==WheelAlignHybrid::LOWER) reference[a]=elapsed<land_seconds ?
+        start[a]+smooth(elapsed/land_seconds)*(landing[a]-start[a]) :
+        landing[a]+smooth((elapsed-land_seconds)/recenter_seconds)*(neutral[a]-landing[a]);
+      else reference[a]=neutral[a];
+    }
   }
   std::array<double,8> targets(const WheelAlignHybrid& h, const std::array<double,8>& action) {
+    using namespace align_reference;
+    if(h.phase==WheelAlignHybrid::VERIFY) return desired;
     for(int a=0;a<8;++a) {
-      const bool active=(a/2==h.leg())&&(h.up()||h.phase==WheelAlignHybrid::LOWER);
-      // Residual authority vanishes at touchdown; support legs retain balance authority.
-      double scale=active ? (a%2==0 ? .20 : .12) : (a%2==0 ? .20 : .30);
-      if(active && h.phase==WheelAlignHybrid::LOWER) scale*=1-smooth(progress);
-      desired[a]=std::clamp(reference[a]+scale*action[a],low[a],high[a]);
+      const bool active=a/2==h.leg();
+      double scale=(active ? active_residual[a%2] : support_residual[a%2]);
+      scale*=h.up() ? smooth(std::min(elapsed/shift_seconds,1.)) : 0.;
+      const double sign=h.leg()%2==0 ? 1. : -1.;
+      const double residual=(active && a%2==1 && h.up()) ? sign*std::max(sign*action[a],0.) : action[a];
+      desired[a]=std::clamp(reference[a]+scale*residual,low[a],high[a]);
     }
     return desired;
   }
+
   void integrate(const WheelAlignHybrid& h, double dt) {
     dt=std::clamp(dt,0.,.01);
     for(int a=0;a<8;++a) {
       const bool active=(a/2==h.leg())&&(h.up()||h.phase==WheelAlignHybrid::LOWER);
-      const double vmax=active ? (a%2==0 ? .4 : .7) : (a%2==0 ? 1. : 1.5);
-      const double accel=active ? 2. : (a%2==0 ? 6. : 8.);
+      const double vmax=active ? align_reference::active_speed[a%2] : align_reference::support_speed[a%2];
+      const double accel=active ? align_reference::active_accel[a%2] : align_reference::support_accel[a%2];
       // Decelerate to a newly smaller speed limit without resetting velocity.
       const double dv=std::clamp(36*(desired[a]-applied[a])-12*velocity[a],-accel,accel)*dt;
       const double bound=std::max(vmax,std::abs(velocity[a])-accel*dt);
