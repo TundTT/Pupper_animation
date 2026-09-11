@@ -368,9 +368,9 @@ neural_controller_walk_v2:
 
     model_path: "$(find-pkg-share neural_controller)/launch/policy_walk_v2.json"
 
-# Hybrid wheel alignment: eight direct position outputs and four classical wheel PDs.
-# Spawned inactive; manual topic commands work, joystick dispatch intentionally unbound.
-# See WHEEL_ALIGN_HYBRID_TESTING.md for the two explicit lab TODOs.
+# V5 alignment trial, W&B fe72769ebe2543bd, step 35225600.
+# X enters stand; later presses request one wheel. Shared startup calibration required.
+# Nominal audit passed; randomized audit failed. See ALIGN_V5_LAB.md.
 neural_controller_wheel_align_hybrid:
   ros__parameters:
     repeat_action: 10  # established manager cadence; slew uses elapsed control time
@@ -386,7 +386,7 @@ neural_controller_wheel_align_hybrid:
     kds: [0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35]
     init_kps: [5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0]
     init_kds: [0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35]
-    model_path: "$(find-pkg-share neural_controller)/launch/policy_wheel_align_hybrid.json"
+    model_path: "$(find-pkg-share neural_controller)/launch/policy_wheel_align_motion_v5.json"
 
 teleop_twist_joy_node:
   ros__parameters:

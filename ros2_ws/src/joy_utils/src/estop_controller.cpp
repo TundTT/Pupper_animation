@@ -5,6 +5,7 @@
 #include "std_msgs/msg/int32.hpp"
 #include "robot_calibration/calibration.hpp"
 #include <algorithm>
+#include <atomic>
 #include <mutex>
 #include <thread>
 
@@ -152,6 +153,10 @@ private:
 
   bool switch_to_controller(std::string controller_to_switch_to) {
     if (!calibration_ready()) return false;
+    if (switch_pending_.exchange(true)) {
+      RCLCPP_WARN(get_logger(), "Controller switch is still pending; press again when ready");
+      return false;
+    }
     std::vector<std::string> deactivate_controllers;
     for (const auto &controller : controller_names_) {
       if (controller != controller_to_switch_to) {
@@ -159,6 +164,8 @@ private:
       }
     }
     latest_active_controller_ = controller_to_switch_to;
+    if (controller_to_switch_to == wheel_align_hybrid_controller_name_)
+      wheel_align_hybrid_cycle_position_ = -1;
     std::thread(&EStopController::switch_controllers_sync, this,
                 std::vector<std::string>{controller_to_switch_to},
                 deactivate_controllers,
@@ -187,6 +194,7 @@ private:
       deactivate_all_controllers_and_estop();
     }
     prev_estop_state_ = estop_pressed;
+    if (estop_pressed) return;  // Stop wins over simultaneous activation/leg buttons.
 
     // Check if estop release button is pressed
     bool estop_release_pressed = msg->buttons.size() > estop_release_index_ &&
@@ -251,7 +259,7 @@ private:
         msg->buttons.size() > static_cast<size_t>(wheel_align_hybrid_button_index_) &&
         msg->buttons.at(wheel_align_hybrid_button_index_) == 1;
     if (wheel_align_hybrid_pressed && !prev_wheel_align_hybrid_state_ && calibration_ready()) {
-      bool was_active = (latest_active_controller_ == wheel_align_hybrid_controller_name_);
+      bool was_active = alignment_active_.load();
       if (!was_active) {
         // Entry consumes shared startup home and refreshes only the current holds.
         // A later press starts the leg cycle; X never records calibration.
@@ -260,44 +268,33 @@ private:
           RCLCPP_INFO(get_logger(), "Alignment entry requested; startup home reused, no leg commanded");
         }
       } else {
-        wheel_align_hybrid_cycle_position_ =
+        const int next_cycle =
             (wheel_align_hybrid_cycle_position_ + 1) % wheel_align_hybrid_cycle_states_.size();
         const std::string &state_name =
-            wheel_align_hybrid_cycle_states_.at(wheel_align_hybrid_cycle_position_);
+            wheel_align_hybrid_cycle_states_.at(next_cycle);
         auto it = std::find(wheel_align_hybrid_command_states_.begin(),
                             wheel_align_hybrid_command_states_.end(), state_name);
         int command_index = static_cast<int>(it - wheel_align_hybrid_command_states_.begin());
-        publish_wheel_align_hybrid_command(command_index, state_name);
+        if (publish_wheel_align_hybrid_command(command_index, state_name))
+          wheel_align_hybrid_cycle_position_ = next_cycle;
       }
     }
     prev_wheel_align_hybrid_state_ = wheel_align_hybrid_pressed;
   }
 
-  // Waits (bounded) for a subscriber before publishing. The topic is volatile, so
-  // publishing before the controller's subscription exists would silently drop the
-  // command instead of it replaying late the way leg-lift's transient_local topic would.
-  // In practice this only actually waits right after activation; by the time later cycle
-  // presses call this the subscriber has long been connected.
-  void publish_wheel_align_hybrid_command(int command_index, std::string state_name) {
-    std::thread([this, command_index, state_name]() {
-      const auto deadline = this->now() + rclcpp::Duration::from_seconds(2.0);
-      while (pub_wheel_align_hybrid_command_->get_subscription_count() == 0 &&
-             this->now() < deadline) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(20));
-      }
-      if (pub_wheel_align_hybrid_command_->get_subscription_count() == 0) {
-        RCLCPP_ERROR(this->get_logger(),
-                     "wheel-align-hybrid: no subscriber connected after 2s; "
-                     "command %d (%s) was NOT sent",
-                     command_index, state_name.c_str());
-        return;
-      }
-      auto command_msg = std_msgs::msg::Int32();
-      command_msg.data = command_index;
-      pub_wheel_align_hybrid_command_->publish(command_msg);
-      RCLCPP_INFO(this->get_logger(), "wheel-align-hybrid command -> %s (index %d)",
-                  state_name.c_str(), command_index);
-    }).detach();
+  // Never defer leg presses into detached threads or advance on a dropped command.
+  bool publish_wheel_align_hybrid_command(int command_index, const std::string &state_name) {
+    if (switch_pending_.load() || !alignment_active_.load() ||
+        pub_wheel_align_hybrid_command_->get_subscription_count() == 0) {
+      RCLCPP_WARN(get_logger(), "Alignment is not ready; command was not sent. Press again.");
+      return false;
+    }
+    std_msgs::msg::Int32 msg;
+    msg.data = command_index;
+    pub_wheel_align_hybrid_command_->publish(msg);
+    RCLCPP_INFO(get_logger(), "wheel-align-hybrid command -> %s (index %d)",
+                state_name.c_str(), command_index);
+    return true;
   }
 
   /**
@@ -339,19 +336,24 @@ private:
       RCLCPP_WARN(this->get_logger(),
                   "Switch controller service is not available");
       service_call_in_progress_ = false;
+      switch_pending_.store(false);
       return;
     }
 
     auto result = switch_controller_client_->async_send_request(request).get();
     if (result->ok) {
+      alignment_active_.store(std::find(activate_controllers.begin(), activate_controllers.end(),
+          wheel_align_hybrid_controller_name_) != activate_controllers.end());
       RCLCPP_INFO(this->get_logger(), "Switched controllers successfully");
     } else {
       RCLCPP_ERROR(this->get_logger(), "Failed to switch controllers");
     }
     service_call_in_progress_ = false;
+    switch_pending_.store(false);
   }
 
   bool calibration_required_ = true;
+  std::atomic<bool> alignment_active_{false}, switch_pending_{false};
 
   // Parameters for button indices
   int estop_index_;

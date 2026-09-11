@@ -31,3 +31,23 @@ def test_calibration_gate_for_all_policy_spawners():
             assert controllers[0]["controller_ros_args"] == ["-p", "calibration_required:=" + expected]
             count += 1
         assert count == 6
+
+
+def test_alignment_trial_has_only_core_nodes_and_inactive_motion():
+    context = LaunchContext()
+    path = Path(__file__).parents[1] / "launch" / "alignment_trial.launch.py"
+    description = runpy.run_path(str(path))["generate_launch_description"]()
+    packages = []
+    motion_spawners = 0
+    for node in description.entities:
+        packages.append(perform_substitutions(context, normalize_to_list_of_substitutions(node.node_package)))
+        executable = perform_substitutions(context, normalize_to_list_of_substitutions(node.node_executable))
+        if executable != "spawner":
+            continue
+        args = [perform_substitutions(context, normalize_to_list_of_substitutions(word)) for word in node.cmd][1:]
+        if "neural_controller_wheel_align_hybrid" in args:
+            assert "--inactive" in args
+            assert "calibration_required:=True" in args
+            motion_spawners += 1
+    assert motion_spawners == 1
+    assert set(packages) == {"robot_state_publisher", "controller_manager", "joy_linux", "joy_utils"}

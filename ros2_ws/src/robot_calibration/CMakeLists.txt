@@ -17,6 +17,7 @@ if(BUILD_TESTING)
   ament_add_pytest_test(calibration_python test/test_calibration.py
     APPEND_ENV PYTHONPATH=${CMAKE_CURRENT_SOURCE_DIR})
   ament_add_pytest_test(calibration_ros test/test_ros_capture.py TIMEOUT 60
-    APPEND_ENV PYTHONPATH=${CMAKE_CURRENT_SOURCE_DIR} ROS_DOMAIN_ID=164 ROS_LOCALHOST_ONLY=1)
+    APPEND_ENV PYTHONPATH=${CMAKE_CURRENT_SOURCE_DIR}
+    ENV ROS_DOMAIN_ID=164 ROS_LOCALHOST_ONLY=1)
 endif()
 ament_package()

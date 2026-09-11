@@ -19,6 +19,7 @@
 #include "realtime_tools/realtime_publisher.h"
 #include "std_msgs/msg/empty.hpp"
 #include "std_msgs/msg/float32.hpp"
+#include "std_msgs/msg/float64_multi_array.hpp"
 #include "std_msgs/msg/float32_multi_array.hpp"
 #include "std_msgs/msg/int32.hpp"
 #include "tf2/LinearMath/Matrix3x3.h"
@@ -27,6 +28,7 @@
 #include "neural_controller_parameters.hpp"
 #include "neural_controller/policy_contract.hpp"
 #include "neural_controller/wheel_align_hybrid.hpp"
+#include "neural_controller/wheel_align_motion.hpp"
 #include "robot_calibration/calibration.hpp"
 
 namespace neural_controller {
@@ -94,6 +96,12 @@ class NeuralController : public controller_interface::ControllerInterface {
   // Hybrid policy has 8 outputs but still commands all 12 actuators.
   int policy_action_size_ = kActionSize;
   WheelAlignHybrid hybrid_;
+  WheelAlignMotion motion_;
+  void integrate_alignment_motion(double dt);
+  double alignment_up_seconds_ = 0.0;
+  int alignment_timed_out_command_ = -1;
+  rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr alignment_status_publisher_;
+  std::shared_ptr<realtime_tools::RealtimePublisher<std_msgs::msg::Float64MultiArray>> rt_alignment_status_publisher_;
   // Available to every behavior; existing policy coordinate conventions are unchanged.
   robot_calibration::Calibration startup_calibration_;
   std::array<double, 12> hybrid_q_{}, hybrid_qd_{};

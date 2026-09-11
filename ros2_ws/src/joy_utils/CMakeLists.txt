@@ -31,4 +31,10 @@ install(TARGETS estop_controller
 )
 
 # Export package
+if(BUILD_TESTING)
+  find_package(ament_cmake_pytest REQUIRED)
+  ament_add_pytest_test(alignment_joystick test/alignment_joystick_test.py
+    ENV "ALIGN_JOY_TEST_EXE=$<TARGET_FILE:estop_controller>" TIMEOUT 45)
+endif()
+
 ament_package()

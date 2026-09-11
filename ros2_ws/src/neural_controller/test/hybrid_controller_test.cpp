@@ -14,6 +14,8 @@ class Harness : public neural_controller::NeuralController {
   const auto &hybrid() const { return hybrid_; }
   auto &hybrid() { return hybrid_; }
   auto &params() { return params_; }
+  const auto &motion() const { return motion_; }
+  void expire_attempt() { alignment_up_seconds_ = 48.0; }
   void zero_time() { init_time_ = rclcpp::Time(0, 0, RCL_ROS_TIME); }
   void command(int value) {
     auto msg = std::make_shared<std_msgs::msg::Int32>(); msg->data = value;
@@ -36,6 +38,7 @@ int main(int argc, char **argv) {
         controller_interface::return_type::OK, "plugin initialization with actual config");
     require(controller.on_configure(rclcpp_lifecycle::State()) ==
         controller_interface::CallbackReturn::SUCCESS, "configure");
+    const bool motion_v5 = controller.hybrid().motion_version == 5;
     std::array<double, 12> q{1, 0, .3, -1, 0, -.4, 1, 0, .5, -1, 0, -.6}, qd{};
     std::array<std::array<double, 5>, 12> commands{};
     std::vector<hardware_interface::CommandInterface> ci;
@@ -63,7 +66,7 @@ int main(int argc, char **argv) {
     };
     auto tick = [&](double seconds) {
       require(controller.update(rclcpp::Time(static_cast<int64_t>(seconds * 1e9), RCL_ROS_TIME),
-          rclcpp::Duration::from_seconds(.002)) == controller_interface::return_type::OK, "update");
+          rclcpp::Duration::from_seconds(1.0/520.0)) == controller_interface::return_type::OK, "update");
     };
     // Hardware policies cannot activate without confirmed calibration, even via direct service calls.
     require(controller.on_activate(rclcpp_lifecycle::State()) == controller_interface::CallbackReturn::ERROR,
@@ -92,7 +95,8 @@ int main(int argc, char **argv) {
     controller.command(1);
     tick(2.0);
     auto obs = controller.obs();
-    require(obs.size() == 51 && controller.hybrid().leg() == 1, "51 observations and command 1 selects FL");
+    require(obs.size() == (motion_v5 ? 83 : 51) && controller.hybrid().leg() == 1,
+            "versioned observation size and command 1 selects FL");
     for (int i = 0; i < 3; ++i) near(obs[i], imu[i], "angular velocity frame");
     near(obs[5], -1, "gravity frame");
     for (int i = 0; i < 5; ++i) near(obs[6+i], i == 1 ? 1 : 0, "effective command one hot");
@@ -116,7 +120,11 @@ int main(int argc, char **argv) {
       int row = neural_controller::WheelAlignHybrid::position_rows[a];
       double action = network->getOutputs()[a];
       near(obs[35+a], action, "last action stores raw network output");
-      near(commands[row][0], std::clamp(controller.params().default_joint_pos[row] +
+      if (motion_v5) {
+        near(commands[row][0], controller.motion().applied[a], "v5 sends filtered target");
+        require(std::abs(controller.motion().velocity[a]) <= .5, "v5 initial speed bounded");
+        near(obs[58+a], controller.motion().reference[a], "v5 reference observation");
+      } else near(commands[row][0], std::clamp(controller.params().default_joint_pos[row] +
           controller.params().action_scales[row] * action, controller.params().joint_lower_limits[row],
           controller.params().joint_upper_limits[row]), "8 outputs map directly to position rows");
     }
@@ -128,6 +136,13 @@ int main(int argc, char **argv) {
         controller.hybrid().active_command == 1, "runtime command interruption");
     near(controller.obs()[6], 1, "runtime lowering observes stand");
     near(commands[5][1], -.35*qd[5], "interruption holds current FL encoder");
+    if (motion_v5) {
+      require(controller.hybrid().motion_version == 5, "calibration reset preserves v5 contract");
+      const auto before=controller.motion().applied;
+      tick(2.021);
+      for(int a=0;a<8;++a) require(std::abs(controller.motion().applied[a]-before[a])<.001,
+                                 "lowering has no target jump between policy ticks");
+    }
     controller.stop(); tick(2.022);  // between policy ticks
     for (const auto &c : commands) {
       near(c[0], 0, "estop position"); near(c[1], 0, "estop velocity");
@@ -154,6 +169,25 @@ int main(int argc, char **argv) {
     controller.stop(); tick(.1);
     for (const auto &c : commands) near(c[4], 1, "estop works during startup");
     controller.on_deactivate(rclcpp_lifecycle::State());
+    if (motion_v5) {
+      qd.fill(0);
+      activate();
+      controller.command(1); tick(2.0);
+      controller.expire_attempt();
+      for(int n=1;n<=10;++n) tick(2.0+n/520.0);
+      require(controller.hybrid().phase == neural_controller::WheelAlignHybrid::LOWER &&
+              controller.hybrid().command == 0, "48s watchdog requests soft lower");
+      for(int n=11;n<=20;++n) tick(2.0+n/520.0);
+      require(controller.hybrid().command == 0, "retained timed-out command cannot restart itself");
+      controller.command(0);
+      for(int n=21;n<=30;++n) tick(2.0+n/520.0);
+      controller.command(1);
+      for(int n=31;n<=40;++n) tick(2.0+n/520.0);
+      require(controller.hybrid().command == 1 &&
+              controller.hybrid().phase == neural_controller::WheelAlignHybrid::LOWER,
+              "explicit retry still waits for completed descent");
+      controller.on_deactivate(rclcpp_lifecycle::State());
+    }
     const auto next_session=robot_calibration::begin_session();
     robot_calibration::finish_session(next_session);
     require(controller.on_activate(rclcpp_lifecycle::State()) == controller_interface::CallbackReturn::ERROR,

@@ -1,0 +1,79 @@
+{
+  "stage": "sequence",
+  "requested_completed": 64,
+  "simulated_seconds": 126.0,
+  "timeouts": 0,
+  "params": "/home/theerawit/Pupper_animation-align-motion-v5/runs/align-motion-v5-seed0-20260911T035402Z-sequence/params_35225600",
+  "seed": 20260910,
+  "envs": 64,
+  "nominal": true,
+  "interrupt": false,
+  "survived": 64,
+  "all_four_completed": 64,
+  "final_aligned_and_settled": 64,
+  "max_final_angle_error_rad": 0.058834247291088104,
+  "max_final_wheel_speed_rad_s": 0.022156119346618652,
+  "max_all_wheel_angle_error_rad": 0.058834247291088104,
+  "lowering_and_settling_finished": 64,
+  "checkpoint_sha256": "83a3e4caa8481d22fcbff5ad39947057707c87c4fa394343c8abd0ddf6212cc3",
+  "falls": 0,
+  "unsafe_rotations": 0,
+  "min_wheel_gap_m": 0.01204882562160492,
+  "min_body_gap_m": 0.0177350752055645,
+  "max_impact_speed_m_s": 0.03700442612171173,
+  "drift_p95_m": 0.03772949427366257,
+  "max_command_speed_rad_s": 0.3284168839454651,
+  "max_command_accel_rad_s2": 1.6850966215133667,
+  "status": "Simulation audit only; hardware validation still required",
+  "passes_simulation_gate": true,
+  "phase_seconds_mean": {
+    "idle": 2.0,
+    "lift": 26.69230842590332,
+    "rotate": 29.87680435180664,
+    "verify": 1.846153974533081,
+    "lower": 40.0,
+    "hold": 25.584735870361328
+  },
+  "blocked_gate_seconds_mean": {
+    "floor": 0.0,
+    "wheel": 0.0,
+    "body": 0.0,
+    "stability": 0.0
+  },
+  "recovery_seconds_mean": 0.0,
+  "rotation_enabled_seconds_mean": 31.722957611083984,
+  "per_wheel": {
+    "front_r": {
+      "attempted": 64,
+      "completed": 64,
+      "final_angle_error_median_rad": 0.017618421465158463,
+      "final_angle_error_p95_rad": 0.019522087648510933
+    },
+    "front_l": {
+      "attempted": 64,
+      "completed": 64,
+      "final_angle_error_median_rad": 0.017555713653564453,
+      "final_angle_error_p95_rad": 0.02054859884083271
+    },
+    "back_r": {
+      "attempted": 64,
+      "completed": 64,
+      "final_angle_error_median_rad": 0.017491936683654785,
+      "final_angle_error_p95_rad": 0.01842755638062954
+    },
+    "back_l": {
+      "attempted": 64,
+      "completed": 64,
+      "final_angle_error_median_rad": 0.017574995756149292,
+      "final_angle_error_p95_rad": 0.021662406623363495
+    }
+  },
+  "max_impact_by_phase_m_s": {
+    "idle": 0.0004797778092324734,
+    "lift": 0.03700442612171173,
+    "rotate": 0.0005473056808114052,
+    "verify": 0.00023863278329372406,
+    "lower": 0.021984241902828217,
+    "hold": 0.00022979453206062317
+  }
+}

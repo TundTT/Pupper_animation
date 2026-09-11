@@ -18,6 +18,12 @@ struct WheelAlignHybrid {
   bool verified = false, was_rotating = false, step_pending = false;
   std::array<bool, 4> completed{};
   std::array<double, 4> home{}, target{}, hold{}, reference{};
+  // Calibration is supplied by the startup owner, never acquired on activation.
+  bool calibrated = false;
+  int motion_version = 1;
+  bool motion_lower_finished = true;
+  std::array<double, 8> applied_position{};
+
   static double wrap(double x) { return std::atan2(std::sin(x), std::cos(x)); }
   static double wheel_pd(double goal, double angle, double velocity) {
     return std::clamp(2.0 * wrap(goal - angle) - 0.35 * velocity, -2.0, 2.0);
@@ -26,15 +32,40 @@ struct WheelAlignHybrid {
   int leg() const { return std::max(command_leg[active_command], 0); }
   int effective_command() const { return up() ? active_command : 0; }
 
-  // Calibration is supplied by the shared startup owner. Activation never captures home.
-  // Holds, unlike home, must follow the current encoders after another policy has driven.
-  void reset(const std::array<double, 12> &q, const std::array<double, 4> &startup_home) {
+  // Home belongs to the hardware-zeroing session; holds belong to this activation.
+  void reset(const std::array<double, 12> &q) {
+    const bool was_calibrated = calibrated;
+    const auto saved_home = home;
+    const auto saved_target = target;
+    const int saved_version = motion_version;
     *this = WheelAlignHybrid{};
-    for (int k = 0; k < 4; ++k) {
-      home[k] = wrap(startup_home[k]);
-      target[k] = wrap(home[k] + std::acos(-1.0));
-      hold[k] = reference[k] = wrap(q[3 * k + 2]);
+    motion_version = saved_version;
+    if (was_calibrated) {
+      home = saved_home;
+      target = saved_target;
+      calibrated = true;
     }
+    for (int k = 0; k < 4; ++k) hold[k] = reference[k] = wrap(q[3*k+2]);
+    for (int a = 0; a < 8; ++a) applied_position[a] = q[position_rows[a]];
+  }
+
+  // Shared calibration has already been validated by the lifecycle gate.
+  void reset(const std::array<double,12>& q, const std::array<double,4>& startup_home) {
+    auto home_q=q;
+    for(int k=0;k<4;++k) home_q[3*k+2]=startup_home[k];
+    recalibrate_home(home_q);
+    reset(q);
+  }
+
+  // Used by the startup owner/test setup. The controller calls this from the
+  // validated shared calibration before reset(), which then refreshes current holds.
+  // It is not exposed as an active-controller/action-button calibration command.
+  void recalibrate_home(const std::array<double, 12> &q) {
+    for (int k = 0; k < 4; ++k) {
+      home[k] = hold[k] = reference[k] = wrap(q[3 * k + 2]);
+      target[k] = wrap(home[k] + std::acos(-1.0));
+    }
+    calibrated = true;
   }
 
   bool lift_ready(const std::array<double, 12> &q, double default_abduction,
@@ -47,6 +78,7 @@ struct WheelAlignHybrid {
   }
 
   void select_command(int requested, const std::array<double, 12> &q) {
+    if (!calibrated || requested < 0 || requested >= 5) return;
     if (requested != command && up()) {
       hold[leg()] = wrap(q[3 * leg() + 2]);
       phase = LOWER;
@@ -62,6 +94,18 @@ struct WheelAlignHybrid {
       reference = hold;
       verified = false;
     }
+  }
+
+  // Legacy checkpoint parity: training limited the active hip by .05 action units
+  // per .02 s, with a 1.6 rad scale. Keep applied targets separate from raw actions.
+  std::array<double, 8> limit_positions(const std::array<double, 8> &desired, double dt) {
+    for (int a = 0; a < 8; ++a) {
+      const bool active_hip = a == 2*leg()+1 && (up() || phase == LOWER);
+      const double step = 4.0 * std::clamp(dt, 0.0, 0.04);
+      applied_position[a] = active_hip ? std::clamp(desired[a],
+          applied_position[a]-step, applied_position[a]+step) : desired[a];
+    }
+    return applied_position;
   }
 
   // Complete the preceding control interval using newly measured encoders. This
@@ -84,7 +128,7 @@ struct WheelAlignHybrid {
       // the settled encoder snapshot throughout lowering and subsequent HOLD.
       hold[k] = wrap(q[wheel]);
       verified = true;
-    } else if (phase == LOWER && phase_steps >= 50 &&
+    } else if (phase == LOWER && phase_steps >= 50 && motion_lower_finished &&
                std::abs(q[hip]) < 0.25 && std::abs(qd[hip]) < 0.2) {
       next = HOLD;
       completed[k] = completed[k] || verified;

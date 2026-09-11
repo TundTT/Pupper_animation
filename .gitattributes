@@ -14,3 +14,5 @@ hardware_testing/**/*.json -filter diff merge text
 # The installed calibration entry point is executed directly on Linux.
 ros2_ws/src/robot_calibration/scripts/calibrate text eol=lf
 scripts/calibrate_robot.py text eol=lf
+scripts/prepare_align_v5.sh text eol=lf
+scripts/check_align_v5.py text eol=lf

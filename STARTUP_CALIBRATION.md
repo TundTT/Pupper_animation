@@ -2,6 +2,8 @@
 
 This workflow applies whenever an agent starts the robot stack: ordinary use, a fresh boot, a restart, a new branch, or a new policy test. It is the user's standing requirement, not just a testing checklist. Heating remains manual and is outside this workflow.
 
+For the current v5 alignment trial, follow [ALIGN_V5_LAB.md](ALIGN_V5_LAB.md) for the selected checkpoint, preparation checks and minimal launch. The physical-confirmation and live-session capture requirements below still apply.
+
 ## Agent procedure
 
 1. Inspect the selected checkout, installed overlay and existing processes without activating anything. If the stack is already running, run `status` below. A valid calibration in that same live encoder session should be reused; do not restart or recalibrate merely to switch policies.

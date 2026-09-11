@@ -65,6 +65,17 @@ install(
 if(BUILD_TESTING)
   find_package(ament_cmake_pytest REQUIRED)
   ament_add_pytest_test(startup_launch test/startup_launch_test.py)
+  add_executable(align_motion_test test/align_motion_test.cpp)
+  target_compile_features(align_motion_test PRIVATE cxx_std_17)
+  target_include_directories(align_motion_test PRIVATE include)
+  add_test(NAME align_v5_motion_contract COMMAND align_motion_test)
+  add_executable(align_export_test test/align_export_test.cpp)
+  target_compile_features(align_export_test PRIVATE cxx_std_17)
+  target_link_libraries(align_export_test RTNeural)
+  add_test(NAME align_v5_trained_export
+    COMMAND align_export_test
+      ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_wheel_align_motion_v5.json
+      ${CMAKE_CURRENT_SOURCE_DIR}/test/align_v5_reference.csv)
   add_executable(hybrid_controller_test test/hybrid_controller_test.cpp)
   target_compile_features(hybrid_controller_test PRIVATE cxx_std_17)
   target_include_directories(hybrid_controller_test PRIVATE include)
@@ -75,6 +86,10 @@ if(BUILD_TESTING)
     COMMAND hybrid_controller_test
       ${CMAKE_CURRENT_SOURCE_DIR}/launch/config.yaml
       ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_wheel_align_hybrid.json)
+  add_test(NAME align_v5_controller_lifecycle
+    COMMAND hybrid_controller_test
+      ${CMAKE_CURRENT_SOURCE_DIR}/launch/config.yaml
+      ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_wheel_align_motion_v5.json)
   add_executable(hybrid_policy_test test/hybrid_policy_test.cpp)
   target_compile_features(hybrid_policy_test PRIVATE cxx_std_17)
   target_include_directories(hybrid_policy_test PRIVATE include)
