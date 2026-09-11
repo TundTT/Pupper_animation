@@ -6,6 +6,10 @@ collect positive progress. Events use supervisor transitions, not angle alone.
 import numpy as np
 from . import contract as ct
 
+def residual_cost(action,motion,dt,xp=np):
+    # A constant saturated output must not evade the existing change penalty.
+    return dt*.5*ct.up(motion)*(motion['residual_gain']>=1)*xp.sum(xp.square(action))
+
 def task_terms(before, after, q_before, q_after, floor, gap, bodygap,
                tilt, angular_speed, unsafe, dt, xp=np):
     k=ct.leg(before,xp)
@@ -26,7 +30,7 @@ def task_terms(before, after, q_before, q_after, floor, gap, bodygap,
     # Dense quality remains useful before the first successful rotation. Once
     # at the apex, delay has a cost; holding forever is less valuable than finish.
     reward=dt*(-4*ct.up(before)*xp.sum(deficits)*xp.minimum(before["progress"]*2,1) -2*apex*error_after/xp.pi
-        -ct.up(before).astype(float) -10*unsafe) + 20*progress + 20*verified + 60*completed
+        -ct.up(before).astype(float) -6*apex*~safe -10*unsafe) + 20*progress + 20*verified + 60*completed
     return dict(reward=reward, gate_quality=quality, angle_progress=progress,
                 verified_event=verified.astype(float), completed_event=completed.astype(float),
                 active_angle_error=error_after)

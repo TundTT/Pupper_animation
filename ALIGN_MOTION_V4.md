@@ -1,3 +1,5 @@
+> Historical v4 implementation. Current training instructions are in [ALIGN_MOTION_V5.md](ALIGN_MOTION_V5.md).
+
 # Alignment v4: coordinated support and staged training
 
 Implementation is ready for PC training on `codex/align-motion-v2`; the branch name is retained, but the motion contract is **v4**. No policy training was performed on the laptop. Follow [AGENT_TRAINING_HANDOFF.md](AGENT_TRAINING_HANDOFF.md) for the staged run and required audits. v2/v3 checkpoints are incompatible with this controller and training environment.

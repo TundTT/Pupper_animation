@@ -4,7 +4,10 @@ from . import configs as c,contract as ct
 
 def reset(xp=np):
     return dict(index=xp.asarray(0),age=xp.asarray(0),interrupted=xp.asarray(False),
-                timeouts=xp.zeros(4,dtype=bool))
+                timeouts=xp.zeros(4,dtype=bool),settle_steps=xp.asarray(0))
+
+def finished(s,motion,count=4):
+    return (s['index']>=count)&(s['settle_steps']>=104)&((motion['phase']==ct.HOLD)|(motion['phase']==ct.IDLE))
 
 def advance(s,motion,order,interrupt=False,count=4,xp=np):
     s=dict(s);idx=xp.minimum(s['index'],3);command=order[idx]
@@ -22,4 +25,6 @@ def advance(s,motion,order,interrupt=False,count=4,xp=np):
     s['interrupted']=s['interrupted']|cut
     command=order[xp.minimum(s['index'],3)]
     command=xp.where((s['age']<104)|cut|(s['index']>=count),0,command)
+    at_rest=(motion['phase']==ct.IDLE)|(motion['phase']==ct.HOLD)
+    s['settle_steps']=xp.where((s['index']>=count)&at_rest,s['settle_steps']+1,0)
     return s,command

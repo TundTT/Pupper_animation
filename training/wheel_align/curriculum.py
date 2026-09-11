@@ -23,7 +23,7 @@ def initialization(path,stage,hashes):
     from brax.io import model
     path=Path(path);config=json.loads(path.parent.joinpath('config.json').read_text())
     if config.get('motion_contract_version')!=c.MOTION_VERSION or config.get('source_hashes')!=hashes:
-        raise ValueError('Initial checkpoint must use this exact v4 source and contract; v2/v3 are incompatible.')
+        raise ValueError('Initial checkpoint must use this exact v5 source and contract; v2/v3/v4 are incompatible.')
     previous=config.get('curriculum_stage')
     if (previous,stage) not in {('foundation','single'),('single','sequence'),(stage,stage)}:
         raise ValueError('Expected foundation -> single -> sequence stage order.')

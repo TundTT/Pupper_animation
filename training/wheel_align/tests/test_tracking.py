@@ -79,18 +79,18 @@ def test_checkpoint_video_worker(tmp_path):
     from brax.io import model
     from brax.training.acme import running_statistics,specs
     from training.wheel_align.train import network_factory,source_hashes,ROOT
-    net=network_factory()(82,8,preprocess_observations_fn=running_statistics.normalize)
-    stats=running_statistics.init_state(specs.Array((82,),jp.float32))
+    net=network_factory()(83,8,preprocess_observations_fn=running_statistics.normalize)
+    stats=running_statistics.init_state(specs.Array((83,),jp.float32))
     params=(stats,net.policy_network.init(jax.random.PRNGKey(42)))
     model.save_params(str(tmp_path/'mjx_params'),params)
-    (tmp_path/'config.json').write_text(json.dumps(dict(source_hashes=source_hashes())))
+    (tmp_path/'config.json').write_text(json.dumps(dict(source_hashes=source_hashes(),curriculum_stage="foundation")))
     output=tmp_path/'untrained-rollout-test.mp4'
     env=dict(os.environ,JAX_PLATFORMS='cpu',XLA_PYTHON_CLIENT_PREALLOCATE='false')
     subprocess.run([sys.executable,str(ROOT/'training/wheel_align/policy_video.py'),
         '--source-root',str(ROOT),'--params',str(tmp_path/'mjx_params'),'--out',str(output),
         '--step','0','--max-steps','4'],env=env,check=True)
     metadata=json.loads(output.with_suffix('.json').read_text())
-    assert metadata['frames']==1 and metadata['training_step']==0
+    assert metadata['frames']==1 and metadata['training_step']==0 and metadata['stage']=='foundation'
     assert output.with_suffix('.trace.csv').is_file()
 
 
@@ -115,11 +115,12 @@ def test_training_callbacks_log_final_video_without_optimizer(tmp_path,monkeypat
         return make_policy,object(),{}
     monkeypatch.setattr(entry.train,'train',fake_train)
     directory=tmp_path/'test-run'
-    monkeypatch.setattr(sys,'argv',['train','--steps','100','--envs','256','--out',str(directory),'--video-every-steps','50'])
+    monkeypatch.setattr(sys,'argv',['train','--stage','foundation','--steps','100','--envs','256','--out',str(directory),'--video-every-steps','50'])
     entry.main()
     run=sdk.runs[0][1]
     assert run.summary['last_env_step']==100
     assert run.summary['training_status']=='completed'
+    assert any('policy/full_sequence_diagnostic' in row for row in run.logs)
     assert any('policy/final' in row for row in run.logs)
     assert any('policy/rollout' in row for row in run.logs)
     assert any(Path(path).name=='mjx_params' for artifact in run.artifacts for path,kw in artifact.files)

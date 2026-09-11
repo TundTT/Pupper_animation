@@ -4,18 +4,18 @@
 #include "neural_controller/wheel_align_reference_data.hpp"
 
 namespace neural_controller {
-// Version 4 supplies coordinated reference poses and supported descent.
+// Version 5 supplies coordinated reference poses and supported descent.
 struct WheelAlignMotion {
-  static constexpr int version = 4;
-  static constexpr const char* contract_id = "quadmorph-align-motion-v4";
-  static constexpr int observation_size = 82;
+  static constexpr int version = 5;
+  static constexpr const char* contract_id = "quadmorph-align-motion-v5";
+  static constexpr int observation_size = 83;
   static constexpr double control_dt = 10.0/520.0;
   static constexpr std::array<double,8> neutral{1,0,-1,0,1,0,-1,0};
   static constexpr std::array<double,8> low{-1.12,-.32,-2.41,-3.04,-1.12,-.32,-2.41,-3.04};
   static constexpr std::array<double,8> high{2.41,3.04,1.12,.32,2.41,3.04,1.12,.32};
   std::array<double,8> reference=neutral, start=neutral, applied=neutral, velocity{}, desired=neutral;
   int previous_phase=WheelAlignHybrid::IDLE;
-  double elapsed=0, progress=0;
+  double elapsed=0, progress=0, residual_gain=1;
   static double smooth(double u) { u=std::clamp(u,0.,1.); return u*u*u*(10+u*(-15+6*u)); }
   void reset(const std::array<double,12>& q) {
     *this=WheelAlignMotion{};
@@ -25,6 +25,7 @@ struct WheelAlignMotion {
     const bool previous_up=previous_phase>=WheelAlignHybrid::LIFT && previous_phase<=WheelAlignHybrid::VERIFY;
     if (h.phase!=previous_phase && !(h.up() && previous_up)) {
       previous_phase=h.phase; elapsed=0; start=applied;
+      if(h.phase==WheelAlignHybrid::LIFT) residual_gain=1;
     }
     previous_phase=h.phase;
     elapsed+=std::clamp(dt,0.,.04);
@@ -45,8 +46,15 @@ struct WheelAlignMotion {
       else reference[a]=neutral[a];
     }
   }
-  std::array<double,8> targets(const WheelAlignHybrid& h, const std::array<double,8>& action) {
+  std::array<double,8> targets(const WheelAlignHybrid& h, const std::array<double,8>& action,
+      bool comfortable=true, double dt=control_dt) {
     using namespace align_reference;
+    if(h.up() && progress>=1 && (residual_gain<1 || !comfortable)) {
+      const double previous=residual_gain;
+      residual_gain=std::max(previous-std::clamp(dt,0.,.04)/recovery_seconds,0.);
+      for(int a=0;a<8;++a) desired[a]=reference[a]+(desired[a]-reference[a])*residual_gain/std::max(previous,1e-9);
+      return desired;
+    }
     if(h.phase==WheelAlignHybrid::VERIFY) return desired;
     for(int a=0;a<8;++a) {
       const bool active=a/2==h.leg();
@@ -120,6 +128,11 @@ struct WheelAlignMotion {
   bool ready(const WheelAlignHybrid& h,const std::array<double,12>& q,const Vec& angular,const Vec& gravity) const {
     const auto m=margins(q,gravity,h.leg());
     return progress>=1 && m[0]>.010 && m[1]>.010 && m[2]>.005 && -gravity[2]>std::cos(.12) && norm(angular)<.3;
+  }
+  bool comfortable(const WheelAlignHybrid& h,const std::array<double,12>& q,const Vec& angular,const Vec& gravity) const {
+    const auto m=margins(q,gravity,h.leg());
+    return m[0]>align_reference::recovery_floor && m[1]>align_reference::recovery_wheel &&
+      m[2]>align_reference::recovery_body && ready(h,q,angular,gravity);
   }
 };
 }

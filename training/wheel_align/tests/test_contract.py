@@ -45,7 +45,7 @@ def test_cpp_trace_parity():
         prefix=np.r_[s['phase'],s['active_command'],s['gate_steps'],s['settled_steps'],s['progress'],s['motion_reference']]
         phases.add(int(s['phase']));s,w=ct.begin(s,q,qd,angular,g,a,dt)
         for _ in range(10):s=ct.integrate(s,dt/10)
-        expected.append(np.r_[prefix,s['applied'],s['velocity'],w,s['completed'],geometry.margins(q,g,ct.leg(s))])
+        expected.append(np.r_[prefix,s['applied'],s['velocity'],w,s['completed'],s['residual_gain'],geometry.margins(q,g,ct.leg(s))])
     proc=subprocess.run([exe,'trace'],input='\n'.join(records)+'\n',text=True,capture_output=True,check=True)
     actual=np.array([[float(v) for v in line.split()] for line in proc.stdout.splitlines()])
     np.testing.assert_allclose(actual,expected,rtol=0,atol=3e-10)

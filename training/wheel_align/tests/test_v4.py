@@ -33,7 +33,9 @@ def test_force_decoder_matches_native_mujoco():
     np.testing.assert_allclose(contact_metrics.wheel_loads(d.contact,d.efc_force,wheels,0),expected,atol=1e-10)
     assert np.all(expected>0)
 
-def test_actor_cannot_cancel_lift_or_change_verification_and_lowering():
+def test_actor_cannot_cancel_lift_or_change_verification_and_lowering(monkeypatch):
+    monkeypatch.setattr(ct.geometry,"margins",lambda *a:(.03,.03,.03))
+    monkeypatch.setattr(ct.geometry,"ready",lambda *a:True)
     q=c.DEFAULT_POSE.copy();s=ct.select(ct.reset(q,np.zeros(4)),1,q)
     for _ in range(400):s=ct.prepare(s)
     s,_=ct.begin(s,q,np.zeros(12),np.zeros(3),np.array([0.,0.,-1.]),np.ones(8))
@@ -70,7 +72,7 @@ def test_interruption_gets_time_to_retry_same_wheel():
 def test_warm_start_checks_contract_and_provenance(tmp_path,monkeypatch):
     from brax.io import model
     p=tmp_path/'mjx_params';p.write_bytes(b'TEST ONLY')
-    cfg=dict(motion_contract_version=4,source_hashes={'a':'b'},curriculum_stage='foundation')
+    cfg=dict(motion_contract_version=c.MOTION_VERSION,source_hashes={'a':'b'},curriculum_stage='foundation')
     (tmp_path/'config.json').write_text(json.dumps(cfg))
     params=object();monkeypatch.setattr(model,'load_params',lambda path:params)
     result,meta=curriculum.initialization(p,'single',{'a':'b'})

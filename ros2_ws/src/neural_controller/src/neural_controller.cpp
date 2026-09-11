@@ -175,31 +175,31 @@ controller_interface::CallbackReturn NeuralController::on_init() {
         throw std::runtime_error("Unsupported alignment motion version");
       if (hybrid_.motion_version == WheelAlignMotion::version && j.at("motion_contract_id") != WheelAlignMotion::contract_id)
         throw std::runtime_error("Alignment motion contract identifier mismatch");
-      single_observation_size_ = hybrid_.motion_version == WheelAlignMotion::version ? 82 : 51;
+      single_observation_size_ = hybrid_.motion_version == WheelAlignMotion::version ? 83 : 51;
       const std::vector<std::string> commands{"stand", "front_l", "front_r", "back_r", "back_l"};
       std::vector<std::string> blocks{"body_angular_velocity", "projected_gravity",
           "effective_command_one_hot", "joint_position", "joint_velocity", "last_action",
           "target_error_sin", "target_error_cos"};
       std::vector<int> sizes{3, 3, 5, 12, 12, 8, 4, 4};
       if (hybrid_.motion_version == WheelAlignMotion::version) {
-        for (const auto &block : {"phase", "progress", "motion_reference", "applied_position", "applied_velocity"}) blocks.push_back(block);
-        for (int size : {6,1,8,8,8}) sizes.push_back(size);
+        for (const auto &block : {"phase", "progress", "motion_reference", "applied_position", "applied_velocity", "residual_gain"}) blocks.push_back(block);
+        for (int size : {6,1,8,8,8,1}) sizes.push_back(size);
         if (get_update_rate()!=520 || params_.repeat_action != 10 || j.at("ctrl_dt") != WheelAlignMotion::control_dt)
-          throw std::runtime_error("Motion v4 requires 520 Hz manager / repeat 10");
+          throw std::runtime_error("Motion v5 requires 520 Hz manager / repeat 10");
         if (std::abs(params_.gain_multiplier-1.)>1e-6)
-          throw std::runtime_error("Motion v4 requires the trained gain multiplier 1.0");
+          throw std::runtime_error("Motion v5 requires the trained gain multiplier 1.0");
         for(int row=0;row<12;++row) {
           const bool wheel=row%3==2;
           if(std::abs(params_.kps[row]-(wheel ? 0. : 5.))>1e-6 ||
              std::abs(params_.kds[row]-(wheel ? .35 : .25))>1e-6)
-            throw std::runtime_error("Motion v4 actuator gains differ from training");
+            throw std::runtime_error("Motion v5 actuator gains differ from training");
         }
         for(int a=0;a<8;++a) {
           const int row=WheelAlignHybrid::position_rows[a];
           if (std::abs(params_.default_joint_pos[row]-WheelAlignMotion::neutral[a])>1e-6 ||
               std::abs(params_.joint_lower_limits[row]-WheelAlignMotion::low[a])>1e-6 ||
               std::abs(params_.joint_upper_limits[row]-WheelAlignMotion::high[a])>1e-6)
-            throw std::runtime_error("Motion v4 pose/limit contract mismatch");
+            throw std::runtime_error("Motion v5 pose/limit contract mismatch");
         }
       }
       int offset = 0;
@@ -764,6 +764,7 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
       if(hybrid_.motion_version==WheelAlignMotion::version) {
         for(int p=0;p<6;++p) observation_[51+p]=p==(hybrid_.phase==WheelAlignHybrid::VERIFY ? WheelAlignHybrid::ROTATE : hybrid_.phase) ? 1.f : 0.f;
         observation_[57]=motion_.progress;
+        observation_[82]=motion_.residual_gain;
         for(int a=0;a<8;++a) {
           observation_[58+a]=motion_.reference[a]; observation_[66+a]=motion_.applied[a];
           observation_[74+a]=motion_.velocity[a];
@@ -934,6 +935,7 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
   }
 
   std::array<double, 4> hybrid_wheels{};
+  const double motion_control_dt = hybrid_first_step_ ? WheelAlignMotion::control_dt : hybrid_elapsed_;
   const double hybrid_control_dt = hybrid_first_step_ ? .02 : hybrid_elapsed_;
   if (behavior_ == "wheel_align_hybrid") {
     for (int a = 0; a < 8; ++a) {
@@ -959,7 +961,8 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
     }
     if(hybrid_.motion_version==WheelAlignMotion::version) {
       std::array<double,8> raw{}; std::copy_n(policy_output,8,raw.begin());
-      motion_.targets(hybrid_,raw);
+      motion_.targets(hybrid_,raw,motion_.comfortable(hybrid_,hybrid_q_,
+          {ang_vel_x,ang_vel_y,ang_vel_z},{observation_[3],observation_[4],observation_[5]}),motion_control_dt);
       motion_.integrate(hybrid_,period.seconds());
       hybrid_positions=motion_.applied;
     } else hybrid_positions=hybrid_.limit_positions(hybrid_positions, hybrid_control_dt);

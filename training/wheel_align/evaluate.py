@@ -1,6 +1,8 @@
 """PC audit: full sequences, interrupted sequences and physical clearance metrics."""
 import argparse
 import functools
+import hashlib
+from types import SimpleNamespace
 import json
 from pathlib import Path
 import jax
@@ -13,22 +15,19 @@ from brax.training.agents.ppo import networks
 from .env import AlignEnv
 from .train import network_factory,source_hashes
 from .randomize import domain_randomize_wheeled
-from . import configs as c,contract as ct,curriculum
+from . import configs as c,contract as ct,curriculum,schedule
 
 def load_policy(params,env):
     config=json.loads(Path(params).parent.joinpath('config.json').read_text())
     if config['motion_contract_version']!=c.MOTION_VERSION or config['source_hashes']!=source_hashes():
         raise ValueError('Training sources/geometry differ from this checkout. Evaluate in the exact training checkout.')
-    net=network_factory()(82,8,preprocess_observations_fn=running_statistics.normalize)
+    net=network_factory()(83,8,preprocess_observations_fn=running_statistics.normalize)
     return networks.make_inference_fn(net)(model.load_params(str(params)),deterministic=True)
 
-def main():
-    p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--params',type=Path,required=True);p.add_argument('--envs',type=int,default=64)
-    p.add_argument('--stage',choices=['foundation','single','sequence'],default='sequence')
-    p.add_argument('--seed',type=int,default=20260910);p.add_argument('--nominal',action='store_true')
-    p.add_argument('--interrupt',action='store_true');p.add_argument('--out',type=Path,required=True)
-    args=p.parse_args();env=AlignEnv(noise=False,automatic=True,stage=args.stage);policy=load_policy(args.params,env);n=args.envs
+def audit(params,*,stage='sequence',envs=64,seed=20260910,nominal=False,interrupt=False):
+    args=SimpleNamespace(params=Path(params),stage=stage,envs=envs,seed=seed,nominal=nominal,interrupt=interrupt)
+    if envs<1:raise ValueError('Audit environment count must be positive')
+    env=AlignEnv(noise=False,automatic=True,stage=stage);policy=load_policy(args.params,env);n=envs
     randomization=functools.partial(curriculum.randomization(args.stage) or domain_randomize_wheeled,rng=jax.random.split(jax.random.PRNGKey(args.seed+1),n))
     wrapped=training.VmapWrapper(env) if args.nominal else training.DomainRandomizationVmapWrapper(env,randomization)
     state=jax.jit(wrapped.reset)(jax.random.split(jax.random.PRNGKey(args.seed),n))
@@ -48,7 +47,7 @@ def main():
     for block in range(budget//104):
         state,record=chunk(state);history.append(jax.tree.map(np.asarray,record))
         if block%30==29:print('Audited',2*(block+1),'seconds',flush=True)
-        finished=(np.asarray(state.info['sequence']['index'])>=count)&(np.asarray(state.info['sequence']['age'])>=104)
+        finished=np.asarray(schedule.finished(state.info['sequence'],state.info['motion'],count))
         if np.all(finished|(np.asarray(state.done)>0)):break
     metrics,done,completed=jax.tree.map(lambda *x:np.concatenate(x,axis=0),*history)
     valid=np.concatenate([np.ones((1,n),bool),~np.maximum.accumulate(done.astype(bool),axis=0)[:-1]])
@@ -61,7 +60,10 @@ def main():
     result=dict(stage=args.stage,requested_completed=int((survived&requested_done).sum()),simulated_seconds=len(done)*c.CONTROL_DT,timeouts=int(np.asarray(state.info['sequence']['timeouts']).sum()),params=str(args.params),seed=args.seed,envs=n,nominal=args.nominal,interrupt=args.interrupt,
         survived=int(survived.sum()),all_four_completed=int((survived&completed[-1].all(axis=1)).sum()),
         final_aligned_and_settled=int((survived&settled).sum()),
-        max_final_angle_error_rad=float(final_error.max()),max_final_wheel_speed_rad_s=float(final_speed.max()),
+        max_final_angle_error_rad=float(final_error[requested].max()),max_final_wheel_speed_rad_s=float(final_speed[requested].max()),
+        max_all_wheel_angle_error_rad=float(final_error.max()),
+        lowering_and_settling_finished=int((survived&finished).sum()),
+        checkpoint_sha256=hashlib.sha256(args.params.read_bytes()).hexdigest(),
         falls=int(np.any((metrics['fall']>0)&valid,axis=0).sum()),
         unsafe_rotations=int(np.any((metrics['unsafe_rotation']>0)&valid,axis=0).sum()),
         min_wheel_gap_m=float(metrics['wheel_gap'][valid].min()),min_body_gap_m=float(metrics['body_gap'][valid].min()),
@@ -71,13 +73,14 @@ def main():
         max_command_accel_rad_s2=float(metrics['command_accel'][valid].max()),
         status='Simulation audit only; hardware validation still required')
     result['passes_simulation_gate']=(result['requested_completed']==n and result['final_aligned_and_settled']==n
-        and result['unsafe_rotations']==0 and result['min_wheel_gap_m']>.005
+        and result['lowering_and_settling_finished']==n and result['timeouts']==0 and result['unsafe_rotations']==0 and result['min_wheel_gap_m']>.005
         and result['min_body_gap_m']>0 and result['max_impact_speed_m_s']<.10)
     # Distinguish a gate stall from genuine rotation towards the wrong target.
     result['phase_seconds_mean']={name:float((metrics['phase_'+name]*valid).sum()/n*c.CONTROL_DT)
         for name in ('idle','lift','rotate','verify','lower','hold')}
     result['blocked_gate_seconds_mean']={name:float((metrics[name+'_gate_blocked']*valid).sum()/n*c.CONTROL_DT)
         for name in ('floor','wheel','body','stability')}
+    result['recovery_seconds_mean']=float((metrics['recovery_active']*valid).sum()/n*c.CONTROL_DT)
     result['rotation_enabled_seconds_mean']=float((metrics['rotation_enabled']*valid).sum()/n*c.CONTROL_DT)
     result['per_wheel']={name:dict(attempted=int(requested[:,i].sum()),completed=int(completed[-1,:,i].sum()),
         final_angle_error_median_rad=float(np.median(final_error[requested[:,i],i])) if requested[:,i].any() else None,
@@ -85,6 +88,18 @@ def main():
         for i,name in enumerate(c.LEGS)}
     result['max_impact_by_phase_m_s']={name:float(np.max(np.where(valid&(metrics['phase_'+name]>0),metrics['impact_speed'],0)))
         for name in ('idle','lift','rotate','verify','lower','hold')}
+    return result
+
+
+def main():
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--params',type=Path,required=True);p.add_argument('--envs',type=int,default=64)
+    p.add_argument('--stage',choices=['foundation','single','sequence'],default='sequence')
+    p.add_argument('--seed',type=int,default=20260910);p.add_argument('--nominal',action='store_true')
+    p.add_argument('--interrupt',action='store_true');p.add_argument('--out',type=Path,required=True)
+    args=p.parse_args()
+    if args.out.exists():raise SystemExit('Refusing to overwrite an existing audit')
+    result=audit(args.params,stage=args.stage,envs=args.envs,seed=args.seed,nominal=args.nominal,interrupt=args.interrupt)
     args.out.parent.mkdir(parents=True,exist_ok=True);args.out.write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result,indent=2))
     identity=args.params.parent/'wandb_run.json'

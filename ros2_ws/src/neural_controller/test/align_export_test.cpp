@@ -8,11 +8,11 @@ int main(int argc,char** argv) {
   try {
     if(argc!=3)throw std::runtime_error("usage: align_export_test POLICY_JSON FIXTURES_CSV");
     std::ifstream json(argv[1]);auto m=RTNeural::json_parser::parseJson<float>(json,false);
-    if(!m || m->getInSize()!=82 || m->getOutSize()!=8)throw std::runtime_error("motion network shape");
+    if(!m || m->getInSize()!=83 || m->getOutSize()!=8)throw std::runtime_error("motion network shape");
     std::ifstream input(argv[2]);std::string line;int count=0;double worst=0;
     while(std::getline(input,line)) {
       std::replace(line.begin(),line.end(),',',' ');std::istringstream row(line);
-      std::vector<float> obs(82),expected(8);
+      std::vector<float> obs(83),expected(8);
       for(auto&x:obs)if(!(row>>x))throw std::runtime_error("missing observation");
       for(auto&x:expected)if(!(row>>x))throw std::runtime_error("missing output");
       m->forward(obs.data());

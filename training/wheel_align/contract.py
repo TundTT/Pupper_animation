@@ -29,7 +29,7 @@ def reset(q,home,xp=np):
         step_pending=xp.asarray(False),home=wrap(home,xp),target=wrap(home+xp.pi,xp),
         hold=wrap(q[WHEEL],xp),reference=wrap(q[WHEEL],xp),
         previous_phase=xp.asarray(IDLE),elapsed=xp.asarray(0.),progress=xp.asarray(0.),
-        motion_reference=p,start=p,applied=p,velocity=xp.zeros(8),desired=p,last_action=xp.zeros(8))
+        motion_reference=p,start=p,applied=p,velocity=xp.zeros(8),desired=p,last_action=xp.zeros(8),residual_gain=xp.asarray(1.))
 
 def select(s,command,q,xp=np):
     s=dict(s); k=leg(s,xp)
@@ -51,6 +51,7 @@ def prepare(s,dt=c.CONTROL_DT,xp=np):
     previous_up=(s['previous_phase']>=LIFT)&(s['previous_phase']<=VERIFY)
     changed=(s['phase']!=s['previous_phase'])&~(up(s)&previous_up)
     s['start']=xp.where(changed,s['applied'],s['start'])
+    s['residual_gain']=xp.where(changed&(s['phase']==LIFT),1.,s['residual_gain'])
     s['elapsed']=xp.where(changed,0,s['elapsed'])+xp.clip(dt,0,.04)
     s['previous_phase']=s['phase']
     duration=xp.where(s['phase']==LOWER,c.LOWER_SECONDS,c.LIFT_SECONDS)
@@ -91,6 +92,11 @@ def finish(s,q,qd,xp=np):
 def begin(s,q,qd,angular,gravity,action,dt=c.CONTROL_DT,xp=np):
     s=dict(s);k=leg(s,xp)
     gate=(s['progress']>=1)&geometry.ready(q,angular,gravity,k,xp)
+    floor,gap,body=geometry.margins(q,gravity,k,xp)
+    comfortable=(floor>c.RECOVERY_FLOOR)&(gap>c.RECOVERY_WHEEL)&(body>c.RECOVERY_BODY)&geometry.ready(q,angular,gravity,k,xp)
+    old_gain=s['residual_gain']
+    recovering=up(s)&(s['progress']>=1)&((old_gain<1)|~comfortable)
+    s['residual_gain']=xp.where(recovering,xp.maximum(old_gain-xp.clip(dt,0,.04)/c.RECOVERY_SECONDS,0),old_gain)
     s['gate_steps']=xp.where(up(s)&gate,s['gate_steps']+1,0)
     rotating=((s['phase']==ROTATE)|(s['phase']==VERIFY))&gate
     pause=s['was_rotating']&~rotating&up(s)
@@ -106,7 +112,10 @@ def begin(s,q,qd,angular,gravity,action,dt=c.CONTROL_DT,xp=np):
     bounded=xp.where((xp.arange(8)==2*k+1)&up(s),sign*xp.maximum(sign*action,0),action)
     scales*=up(s).astype(float)*smooth(xp.minimum(s['elapsed']/c.SHIFT_SECONDS,1),xp)
     desired=xp.clip(s['motion_reference']+scales*bounded,xp.asarray(LOW),xp.asarray(HIGH))
-    s['desired']=xp.where(s['phase']==VERIFY,s['desired'],desired)
+    # Latch recovery for this lifted wheel: never reintroduce the correction
+    # that lost clearance. VERIFY can recover while retaining its hub target.
+    recovered=s['motion_reference']+(s['desired']-s['motion_reference'])*s['residual_gain']/xp.maximum(old_gain,1e-9)
+    s['desired']=xp.where(recovering,recovered,xp.where(s['phase']==VERIFY,s['desired'],desired))
     goal=xp.where((xp.arange(4)==k)&up(s),s['reference'],s['hold'])
     wheel=xp.clip(2*wrap(goal-q[WHEEL],xp)-.35*qd[WHEEL],-2,2)
     return s,wheel
@@ -129,4 +138,4 @@ def observation(s,q,qd,angular,gravity,xp=np):
     error=wrap(s['target']-q[WHEEL],xp)
     return xp.concatenate([angular,gravity,(xp.arange(5)==effective).astype(float),mixed,.1*qd,s['last_action'],
         xp.sin(error),xp.cos(error),(xp.arange(6)==xp.where(s['phase']==VERIFY,ROTATE,s['phase'])).astype(float),xp.reshape(s['progress'],(1,)),
-        s['motion_reference'],s['applied'],s['velocity']])
+        s['motion_reference'],s['applied'],s['velocity'],xp.reshape(s['residual_gain'],(1,))])

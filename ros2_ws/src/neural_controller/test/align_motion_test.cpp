@@ -39,10 +39,11 @@ int main(int argc,char**) {
       std::cout<<int(h.phase)<<' '<<h.active_command<<' '<<h.gate_steps<<' '<<h.settled_steps<<' '<<motion.progress<<' ';
       for(double x:motion.reference)std::cout<<x<<' ';
       const bool gate=motion.ready(h,q,angular,gravity);h.begin_step(q,gate,dt);
-      auto wheels=h.wheel_commands(q,qd);motion.targets(h,action);
+      auto wheels=h.wheel_commands(q,qd);motion.targets(h,action,motion.comfortable(h,q,angular,gravity),dt);
       for(int i=0;i<10;++i)motion.integrate(h,dt/10);
       for(double x:motion.applied)std::cout<<x<<' ';for(double x:motion.velocity)std::cout<<x<<' ';
       for(double x:wheels)std::cout<<x<<' ';for(bool x:h.completed)std::cout<<x<<' ';
+      std::cout<<motion.residual_gain<<' ';
       for(double x:M::margins(q,gravity,h.leg()))std::cout<<x<<' ';
       std::cout<<'\n';
     }

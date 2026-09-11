@@ -50,8 +50,8 @@ class AlignEnv(PipelineEnv):
         ang,g=self.imu(ps)
         obs=ct.observation(info['motion'],ps.q[7:],ps.qd[6:],ang,g,jp)
         if self.noise:
-            scale=jp.array([.03]*3+[.01]*3+[0.]*5+[.005]*12+[.002]*12+[0.]*47)
-            obs+=scale*jax.random.uniform(info['rng'],(82,),minval=-1.,maxval=1.)
+            scale=jp.array([.03]*3+[.01]*3+[0.]*5+[.005]*12+[.002]*12+[0.]*48)
+            obs+=scale*jax.random.uniform(info['rng'],(83,),minval=-1.,maxval=1.)
         return obs
 
     def clearance(self,ps):
@@ -73,7 +73,7 @@ class AlignEnv(PipelineEnv):
             'drift','tilt','fall','completed','unsafe_rotation','command_speed','command_accel',
             'floor_estimate','gate_quality','angle_progress','verified_event','completed_event','active_angle_error',
             'floor_gate_blocked','wheel_gate_blocked','body_gate_blocked','stability_gate_blocked',
-            'rotation_enabled','support_fraction','active_load','contact_peak_cost','timeouts','phase_idle','phase_lift','phase_rotate','phase_verify','phase_lower','phase_hold']}
+            'residual_gain','recovery_active','rotation_enabled','support_fraction','active_load','contact_peak_cost','timeouts','phase_idle','phase_lift','phase_rotate','phase_verify','phase_lower','phase_hold']}
         return State(ps,self.observe(ps,info),jp.asarray(0.),jp.asarray(0.),metrics,info)
 
     def select_command(self,state,command):
@@ -136,7 +136,7 @@ class AlignEnv(PipelineEnv):
         floor=jp.minimum(floor,clear[k]);angular_speed=jp.linalg.norm(angular)
         task=rewards.task_terms(before_finish,motion,ps.q[7:],new_ps.q[7:],
             floor,gap,bodygap,tilt,angular_speed,unsafe,self.dt,jp)
-        reward+=task['reward']-100*done-jp.sum(audit[6])
+        reward+=task['reward']-100*done-jp.sum(audit[6])-rewards.residual_cost(action,before_finish,self.dt,jp)
         reward-=self.dt*5*ct.up(before_finish)*(before_finish['progress']>=1)*jp.clip(active_load/.1,0,1)
         motion['last_action']=action
         step=info['step']+1
@@ -147,7 +147,7 @@ class AlignEnv(PipelineEnv):
                 info['early_interrupt'] if self.stage=='sequence' else False,
                 4 if self.stage=='sequence' else 1,jp)
             reward-=80*(jp.sum(info['sequence']['timeouts'])-old_timeouts)
-            if self.training:done=done|(info['sequence']['index']>=(4 if self.stage=='sequence' else 1))
+            if self.training:done=done|schedule.finished(info['sequence'],motion,4 if self.stage=='sequence' else 1)
         motion=ct.select(motion,command,new_ps.q[7:],jp)
         motion=ct.prepare(motion,xp=jp)
         info.update(motion=motion,step=step,action_buffer=buffer,contact_peak=contact_peak)
@@ -156,7 +156,7 @@ class AlignEnv(PipelineEnv):
             impact_speed=impact,torque=torque,drift=drift,tilt=tilt,fall=fall.astype(float),
             completed=jp.sum(motion['completed']).astype(float),unsafe_rotation=unsafe.astype(float),
             command_speed=jp.max(audit[4]),command_accel=jp.max(audit[5]))
-        metrics.update(floor_estimate=geometry.margins(new_ps.q[7:],g,k,jp)[0],support_fraction=contacts,active_load=active_load,contact_peak_cost=jp.sum(audit[6]),timeouts=jp.sum(info['sequence']['timeouts']).astype(float))
+        metrics.update(residual_gain=before_finish['residual_gain'],recovery_active=(ct.up(before_finish)&(before_finish['residual_gain']<1)).astype(float),floor_estimate=geometry.margins(new_ps.q[7:],g,k,jp)[0],support_fraction=contacts,active_load=active_load,contact_peak_cost=jp.sum(audit[6]),timeouts=jp.sum(info['sequence']['timeouts']).astype(float))
         metrics.update({key:value for key,value in task.items() if key!='reward'})
         apex=ct.up(before_finish)&(before_finish['progress']>=1)
         metrics.update(floor_gate_blocked=(apex&(floor<=.010)).astype(float),

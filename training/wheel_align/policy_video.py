@@ -48,17 +48,18 @@ def write_video(qposes, diagnostics, model_path, output, *, caption, fps=13):
             temporary.unlink()
 
 
-def record_policy(policy, output, *, seed=20260910, max_steps=None, training_step=0):
+def record_policy(policy, output, *, seed=20260910, max_steps=None, training_step=0, stage="sequence"):
     from training.wheel_align import configs as c
-    max_steps=c.SEQUENCE_STEPS if max_steps is None else max_steps
-    if max_steps < 4 or max_steps > c.SEQUENCE_STEPS or max_steps % 4:
+    budget=c.SEQUENCE_STEPS if stage=="sequence" else c.SINGLE_STEPS
+    max_steps=budget if max_steps is None else max_steps
+    if max_steps < 4 or max_steps > budget or max_steps % 4:
         raise ValueError('Video steps must be a multiple of four within the configured sequence budget')
     import jax
     from jax import numpy as jp
     import numpy as np
     from training.wheel_align.env import AlignEnv
-    from training.wheel_align import configs as c, contract as ct
-    env = AlignEnv(noise=False,automatic=True)
+    from training.wheel_align import configs as c, contract as ct, schedule
+    env = AlignEnv(noise=False,automatic=True,stage=stage)
     state = jax.jit(env.reset)(jax.random.PRNGKey(seed))
     state.info['order']=jp.arange(1,5)
     state.info['early_interrupt']=jp.asarray(False)
@@ -79,7 +80,7 @@ def record_policy(policy, output, *, seed=20260910, max_steps=None, training_ste
         row = dict(seconds=(step+4)*c.CONTROL_DT, phase=int(motion['phase']), command=command,
             active_command=int(motion['active_command']), progress=float(motion['progress']),
             completed=int(motion['completed'].sum()), rotating=bool(motion['was_rotating']),
-            gate_steps=int(motion['gate_steps']), done=bool(state.done))
+            gate_steps=int(motion['gate_steps']), residual_gain=float(motion['residual_gain']), done=bool(state.done))
         for k, leg in enumerate(('FR','FL','BR','BL')):
             target = float(motion['target'][k]); actual = float(q[9+3*k])
             row.update({leg+'_target': target, leg+'_actual': actual,
@@ -88,16 +89,17 @@ def record_policy(policy, output, *, seed=20260910, max_steps=None, training_ste
             row[key] = float(state.metrics[key])
         for i in range(8):row['action_'+str(i)]=float(motion['last_action'][i]);row['proximal_q_'+str(i)]=float(q[7+ct.POS[i]])
         qposes.append(q); rows.append(row)
-        if row['done'] or (int(state.info['sequence']['index'])>=4 and int(state.info['sequence']['age'])>=104):
+        if row['done'] or bool(schedule.finished(state.info['sequence'],state.info['motion'],4 if stage=='sequence' else 1)):
             break
     output = Path(output)
     write_video(qposes, rows, c.MODEL_PATH, output,
-                caption=f'Policy step {training_step} | nominal rollout | seed {seed}')
+                caption=f'Policy step {training_step} | {stage} nominal | seed {seed}')
     with output.with_suffix('.trace.csv').open('w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=list(rows[0])); writer.writeheader(); writer.writerows(rows)
     metadata = dict(seed=seed, training_step=int(training_step), fps=13, frames=len(rows),
         simulated_seconds=rows[-1]['seconds'], terminated=rows[-1]['done'],
-        completed_wheels=rows[-1]['completed'], scenario='single nominal four-wheel sequence',
+        completed_wheels=rows[-1]['completed'], stage=stage, scenario='nominal four-wheel sequence' if stage=='sequence' else 'nominal front-left '+stage,
+        lowering_and_settling_finished=bool(schedule.finished(state.info['sequence'],state.info['motion'],4 if stage=='sequence' else 1)),
         status='Diagnostic rollout; consult the full audit results')
     output.with_suffix('.json').write_text(json.dumps(metadata, indent=2)+'\n')
     return output
@@ -123,16 +125,19 @@ def main():
     config = json.loads(args.params.parent.joinpath('config.json').read_text())
     if config['source_hashes'] != source_hashes():
         raise ValueError('Video source checkout differs from the recorded training sources. Use the original checkout.')
-    net = network_factory()(82, 8, preprocess_observations_fn=running_statistics.normalize)
-    policy = networks.make_inference_fn(net)(model.load_params(str(args.params)), deterministic=True)
     from training.wheel_align import configs as original_config
+    net = network_factory()(original_config.OBSERVATION_SIZE, 8, preprocess_observations_fn=running_statistics.normalize)
+    policy = networks.make_inference_fn(net)(model.load_params(str(args.params)), deterministic=True)
     version=config.get('motion_contract_version',original_config.MOTION_VERSION)
     if version<4:
         import runpy
         legacy=runpy.run_path(str(Path(__file__).with_name('legacy_video.py')))['record_policy']
         legacy(policy,args.out,training_step=args.step,max_steps=args.max_steps or 6656,renderer=write_video)
+    elif version==4:
+        from training.wheel_align.policy_video import record_policy as historical_record
+        historical_record(policy,args.out,training_step=args.step,max_steps=args.max_steps)
     else:
-        record_policy(policy, args.out, training_step=args.step, max_steps=args.max_steps)
+        record_policy(policy, args.out, training_step=args.step, max_steps=args.max_steps,stage=config.get("curriculum_stage","sequence"))
 
 
 if __name__ == '__main__':

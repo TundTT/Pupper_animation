@@ -35,7 +35,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--steps',type=int,default=None)
     p.add_argument('--stage',choices=list(curriculum.STEPS),default='sequence')
-    p.add_argument('--init-from',type=Path,help='Transfer compatible v4 actor/normalizer; resets optimizer, critic and step count')
+    p.add_argument('--init-from',type=Path,help='Transfer compatible v5 actor/normalizer; resets optimizer, critic and step count')
     p.add_argument('--envs',type=int,default=2048)
     p.add_argument('--seed',type=int,default=0)
     p.add_argument('--out',type=Path,default=None)
@@ -52,17 +52,17 @@ def main():
         raise SystemExit('--envs must be 256, 512, 1024, 2048 or 4096 (divides the PPO batch); --steps must be positive.')
     if args.video_every_steps<0:
         raise SystemExit('--video-every-steps must be nonnegative')
-    out=args.out or ROOT/'runs'/datetime.now().strftime(f'align-motion-v4-{args.stage}_%Y%m%d_%H%M%S')
+    out=args.out or ROOT/'runs'/datetime.now().strftime(f'align-motion-v5-{args.stage}_%Y%m%d_%H%M%S')
     hashes=source_hashes()
     initial,parent=curriculum.initialization(args.init_from,args.stage,hashes)
     out.mkdir(parents=True,exist_ok=False)
     cfg=dict(num_timesteps=args.steps,num_envs=args.envs,episode_length=c.SEQUENCE_STEPS if args.stage=='sequence' else c.SINGLE_STEPS,num_evals=11,
-        num_eval_envs=16,unroll_length=20,num_minibatches=16,batch_size=256,num_updates_per_batch=4,
+        num_eval_envs=64,unroll_length=20,num_minibatches=16,batch_size=256,num_updates_per_batch=4,
         learning_rate=3e-4,discounting=.999,entropy_cost=.01,normalize_observations=True,
         seed=args.seed,deterministic_eval=True,action_repeat=1,max_devices_per_host=1)
     metadata=dict(motion_contract_version=c.MOTION_VERSION,motion_contract_id=c.MOTION_ID,
         source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
-        source_hashes=hashes,curriculum_stage=args.stage,parent_checkpoint=parent,ppo=cfg,observation_size=82,action_size=8,
+        source_hashes=hashes,curriculum_stage=args.stage,parent_checkpoint=parent,ppo=cfg,observation_size=83,action_size=8,
         ctrl_dt=c.CONTROL_DT,physics_dt=c.PHYSICS_DT,
         policy_layers=[128,128,128],activation='elu',devices=[str(d) for d in jax.devices()],
         status='training; not evaluated or approved for hardware')
@@ -85,7 +85,7 @@ def main():
     def video(step,make_policy,params):
         nonlocal last_video_step,last_video
         from .policy_video import record_policy
-        path=record_policy(make_policy(params,deterministic=True),out/'videos'/f'policy-{int(step)}.mp4',training_step=step)
+        path=record_policy(make_policy(params,deterministic=True),out/'videos'/f'policy-{int(step)}.mp4',training_step=step,stage=args.stage)
         if logger:logger.video(path,step)
         last_video_step=int(step);last_video=path
     def save(step,make_policy,params):
@@ -110,8 +110,12 @@ def main():
         model.save_params(str(out/'mjx_params'),params)
         if logger:logger.run.summary['training_status']='completed'
         if last_video is None or last_video_step!=last_step:video(last_step,make_policy,params)
+        if args.stage!='sequence':
+            from .policy_video import record_policy
+            diagnostic=record_policy(make_policy(params,deterministic=True),out/'videos'/f'full-sequence-{last_step}.mp4',training_step=last_step)
+            if logger:logger.video(diagnostic,last_step,key='policy/full_sequence_diagnostic',caption='Full-angle diagnostic; intermediate stage checkpoint')
         if logger:
-            logger.video(last_video,last_step,key='policy/final',caption='Final nominal simulation; full audits pending')
+            logger.video(last_video,last_step,key='policy/final',caption=f'Final {args.stage} nominal simulation; checkpoint selection pending')
             logger.audits();logger.artifacts()
             logger.run.summary['handoff_status']='training and video complete; audits pending'
         exit_code=0

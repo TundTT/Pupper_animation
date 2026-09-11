@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
     tick(2.0);
     auto obs = controller.obs();
     const bool motion_policy=controller.hybrid().motion_version==neural_controller::WheelAlignMotion::version;
-    require(obs.size() == (motion_policy ? 82 : 51) && controller.hybrid().leg() == 1, "observations and command 1 selects FL");
+    require(obs.size() == (motion_policy ? 83 : 51) && controller.hybrid().leg() == 1, "observations and command 1 selects FL");
     for (int i = 0; i < 3; ++i) near(obs[i], imu[i], "angular velocity frame");
     near(obs[5], -1, "gravity frame");
     for (int i = 0; i < 5; ++i) near(obs[6+i], i == 1 ? 1 : 0, "effective command one hot");

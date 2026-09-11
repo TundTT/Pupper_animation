@@ -43,7 +43,7 @@ The old report's maximum angle error near pi does **not** establish that each wh
 
 ## Future training
 
-The current retraining revision is motion contract v4 on branch `codex/align-motion-v2`. Follow [AGENT_TRAINING_HANDOFF.md](AGENT_TRAINING_HANDOFF.md) in a separate checkout, preserving the old v2/v3 runs for the upload command above. New audits include phase durations, blocked-gate durations, rotation time and per-wheel errors; these also appear in W&B summary fields.
+The current retraining revision is motion contract v5 on branch `codex/align-motion-v2`. Follow [AGENT_TRAINING_HANDOFF.md](AGENT_TRAINING_HANDOFF.md) in a separate checkout, preserving the old v2/v3 runs for the upload command above. New audits include phase durations, blocked-gate durations, rotation time and per-wheel errors; these also appear in W&B summary fields.
 
 New alignment runs log online by default to this project. Authenticate once with the training environment's `python -m wandb login`, then use the normal `train` command. Optional `--wandb-entity` and `--wandb-project` select an explicitly requested alternative destination.
 
@@ -54,10 +54,12 @@ New alignment runs log online by default to this project. Authenticate once with
 - `evaluate.py` updates the same online W&B run with audit summaries and artifacts when `wandb_run.json` is present. Offline SDK sessions cannot resume: their later audits stay local and need a separate upload after synchronization. A high training reward is never labeled as passing the task audit.
 - `--no-wandb` is an explicit local-only override. `--wandb-mode offline` records SDK data locally for later `wandb sync`; report it as **not uploaded** until synchronization is verified. Prefer online mode for the requested workflow.
 
-W&B run resumption is logging resumption. The v4 trainer's `--init-from` transfers compatible actor weights and normalization between curriculum stages; it starts a fresh optimizer, critic and step count. It does not resume an interrupted optimizer state.
+W&B run resumption is logging resumption. The v5 trainer's `--init-from` transfers compatible actor weights and normalization between curriculum stages; it starts a fresh optimizer, critic and step count. It does not resume an interrupted optimizer state.
 
 Future policy entry points should use `training/wandb_logging.py` and provide their own genuine checkpoint rollout through `ExperimentLogger.video(...)`. This standing preference is also recorded in the root `AGENTS.md`; do not apply the alignment robot geometry or 82-input observation format to unrelated policies just to reuse the logger.
 
 The SDK integration follows W&B's [media logging](https://docs.wandb.ai/models/track/log/media), [Video API](https://docs.wandb.ai/models/ref/python/data-types/video), and [explicit run-ID resumption](https://docs.wandb.ai/models/runs/resuming) documentation. Dependencies are locked in `training/wheel_align/uv.lock`.
 
 V4 uses three separate, linked curriculum runs (foundation/single/sequence), each with a final actual checkpoint video. The audit scope is stored in W&B: intermediate single-wheel passes are not full-sequence passes. Refer to AGENT_TRAINING_HANDOFF.md for the staged launch commands.
+
+V5 selects checkpoints by balanced task audits using `training.wheel_align.select_checkpoint`. Selected checkpoint videos have separate Media keys, scopes and steps; `policy/final` remains the final training weights. Follow the current handoff for selected-checkpoint transfer and audit summary fields.

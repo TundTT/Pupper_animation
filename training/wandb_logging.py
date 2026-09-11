@@ -97,12 +97,13 @@ class ExperimentLogger:
                       'simulation_audit_status': self.run.summary.get('simulation_audit_status', 'pending'),
                       'hardware_validated': False})
         files = [self.directory / name for name in ('config.json', 'metrics.jsonl', 'latest.json', 'mjx_params')]
-        for pattern in ('audit-*.json', 'policy*.json', 'policy*.reference.csv', 'videos/*.trace.csv', 'videos/*.json'):
+        for pattern in ('audit-*.json', 'policy*.json', 'policy*.reference.csv', 'videos/*.trace.csv', 'videos/*.json',
+                        'selected_checkpoint.json','selection/**/*.json','selected/mjx_params','selected/*.json','selected/*.csv'):
             files.extend(self.directory.glob(pattern))
         for path in sorted(set(files)):
             if path.is_file() and not path.is_symlink():
                 artifact.add_file(str(path), name=path.relative_to(self.directory).as_posix())
-                if path.name == 'mjx_params':
+                if path == self.directory/'mjx_params':
                     self.run.summary['checkpoint_sha256'] = hashlib.sha256(path.read_bytes()).hexdigest()
         self.run.log_artifact(artifact)
 
