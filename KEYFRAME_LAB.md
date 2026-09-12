@@ -1,5 +1,7 @@
 # Deterministic alignment: preparation and first trial
 
+Latest status: see [September 12 lab baseline](hardware_testing/keyframe_align/LAB_BASELINE_20260912.md). The operator reported successful supported and repeated floor trials with position PID. Earlier velocity-control and pending-test descriptions below are historical. New gap-trained walking/wheel exports are preserved alongside alignment; alignment geometry has not yet been adapted to that gap.
+
 **The earlier e6192ab physical release is withdrawn.** The corrected candidate
 is for a supported startup/stop verification first, not immediate full alignment.
 Read [the correction and staged test](hardware_testing/keyframe_align/STARTUP_FAULT_FIX.md)

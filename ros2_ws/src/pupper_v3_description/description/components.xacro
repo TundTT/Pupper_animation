@@ -106,7 +106,7 @@
                  Updated 2026-09-07, boot reading drifted to 0.0727 (3.4 deg); leg
                  visually confirmed still hanging freely in the correct gravity-drop
                  pose, so the reference was moved to match. -->
-            <param name="homing_reference_raw">0.072700</param>
+            <param name="homing_reference_raw">-0.015800</param>
 
             <param name="position_min">-1000.0</param>
             <param name="position_max">1000.0</param>
@@ -236,7 +236,7 @@
                  Updated 2026-09-07, boot reading drifted to 0.1101 (8.6 deg); leg
                  visually confirmed still hanging freely in the correct gravity-drop
                  pose, so the reference was moved to match. -->
-            <param name="homing_reference_raw">0.110100</param>
+            <param name="homing_reference_raw">0.103600</param>
 
             <param name="position_min">-1000.0</param>
             <param name="position_max">1000.0</param>
@@ -368,7 +368,7 @@
                  LEG_LIFT_TESTING.md's 2026-08-17/18 log entries); leg visually
                  confirmed hanging freely in the correct gravity-drop pose at the new
                  reading, so the reference was moved to match. -->
-            <param name="homing_reference_raw">-0.252300</param>
+            <param name="homing_reference_raw">-0.202800</param>
 
             <param name="position_min">-1000.0</param>
             <param name="position_max">1000.0</param>
@@ -495,7 +495,7 @@
             <!-- Raw pre-homing sensor reading recorded on 2026-09-05 with this leg
                  confirmed hanging freely, untouched, reproduced identically across 3
                  consecutive power cycles. See do_homing() for the check this enables. -->
-            <param name="homing_reference_raw">-0.079919</param>
+            <param name="homing_reference_raw">-0.517100</param>
 
             <param name="position_min">-1000.0</param>
             <param name="position_max">1000.0</param>

@@ -384,18 +384,18 @@ def generate_launch_description():
         joint_state_broadcaster_spawner,
         # Comment/uncomment as needed:
         imu_sensor_broadcaster_spawner,
-        foxglove_bridge,
+        # foxglove_bridge,  # disabled: package not available on this Pi image
         joy_util_node,
         # joy_node,
         joy_linux_node,
         teleop_twist_joy_node,
-        camera_node,
+        # camera_node,  # disabled: camera_ros not usable on this test image, out of scope
         cmd_vel_mux_node,
         bag_recorder_node,
         dpad_serial_bridge_node,
         imu_to_tf_node,
         animation_controller_py_node,
-        joint_state_throttler,
+        # joint_state_throttler,  # disabled: topic_tools not installed on this test image
         # Detection
         hailo_detection_node,
         # Person following
