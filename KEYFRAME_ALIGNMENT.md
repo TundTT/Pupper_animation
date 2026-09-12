@@ -7,6 +7,10 @@ is used by its controller or simulation runner. Existing training/controller cod
 is preserved for historical replay. Do not launch this branch's older hardware
 stack or merge it wholesale into robot-code.
 
+See [the frozen validation record](hardware_testing/keyframe_align/VALIDATION_8499fa5.md)
+for passing cases, unresolved failures, and the uploaded rollout. The complete
+audit suite does **not** pass; do not treat nominal completion as hardware readiness.
+
 ## What changed
 
 The portable C++ controller drives ENTRY → SHIFT → LIFT → ROTATE → LOWER →
