@@ -126,8 +126,8 @@ tests is not a Pi realtime timing measurement. Read the
 Motion settings are in `ros2_ws/src/neural_controller/launch/keyframe_config.json`.
 Wheel alignment now uses `wheel_control_mode: "position_pd"`. The controller sends
 absolute encoder-angle targets and zero desired wheel velocity; the motor's PD
-loop performs correction. `wheel_position_kp: 2.0` and `wheel_position_kd: 0.15`
-are initial lab gains, not yet physically validated. These JSON values supply the
+loop performs correction. `wheel_position_kp: 4.0` and `wheel_position_kd: 0.15`
+are the next lab gains: P was raised from 2 after the rear wheels settled slowly. P=4 has not yet been physically validated. These JSON values supply the
 actual wheel gains; the generic YAML wheel gain slots remain activation defaults.
 No outer wheel-speed PI loop or integral remains.
 

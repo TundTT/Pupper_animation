@@ -4,7 +4,7 @@
   "files": {
     "ros2_ws/src/neural_controller/include/neural_controller/keyframe_align/controller.hpp": "a59d0b8be5502d14bb87e8928d47ec45aa7b82ac631612fd6b27e35b7415f276",
     "ros2_ws/src/neural_controller/include/neural_controller/keyframe_align/geometry.hpp": "8d6004cfd9af00774003d991d4855d99ee63f93fa5a2f8f64dd3338c22630017",
-    "ros2_ws/src/neural_controller/launch/keyframe_config.json": "c728f12f16cc2cd751e41c682f3a9d646fb791198780ff411f991407504ac788",
+    "ros2_ws/src/neural_controller/launch/keyframe_config.json": "7d359906976f1f41e5befecf010714054313002bb68fd400eea52cfc5676265d",
     "ros2_ws/src/neural_controller/include/neural_controller/wheel_align_motion.hpp": "c7bb98b68d0f386e2a18efbb1b14a4c6886fa55d8ab258cc1acbd558bf89bbf2",
     "ros2_ws/src/neural_controller/include/neural_controller/wheel_align_hybrid.hpp": "f8258bde8fa74c2e10787760db8ae02957aacfb65e0433d991e523087babf974",
     "ros2_ws/src/neural_controller/include/neural_controller/wheel_align_geometry_data.hpp": "31221b0d6a9307c06019a7d2018189e29ddf02f30b85818d3e9f858733696075",
@@ -13,5 +13,5 @@
   "hash_format": "SHA256: LF-normalized C++ headers; raw JSON bytes",
   "robot_code_base": "e3e1d97",
   "dependency_note": "Geometry/reference dependencies remain from the source branch. The keyframe controller is now a hardware-integration derivative with position PD and quintic wheel angle trajectories; it is not an unchanged copy of a110b09.",
-  "hardware_trial_adjustment": "Position-PD angle commands replace the outer velocity PI loop at operator request. Configurable 5 mm floor clearance. Original simulation core a110b09 used velocity control and 10 mm; its physical-performance conclusions do not transfer to this revision."
+  "hardware_trial_adjustment": "Position-PD angle commands replace the outer velocity PI loop at operator request. Configurable 5 mm floor clearance. Original simulation core a110b09 used velocity control and 10 mm; its physical-performance conclusions do not transfer to this revision. Next trial raises wheel position P from 2 to 4; D remains 0.15 and trajectory/tolerances are unchanged."
 }
