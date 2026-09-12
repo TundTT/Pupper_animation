@@ -38,17 +38,35 @@ def conditions():
     return jobs
 
 
+
+def held_out_conditions():
+    """Predeclared interpolation/mixed corners, excluded from optimization."""
+    import numpy as np
+    rng=np.random.default_rng(314159)
+    jobs=[]
+    for i in range(12):
+        scenario=dict(dynamics=dict(mass_scale=float(rng.uniform(.92,1.08)),
+            base_com_offset_m=rng.uniform([-.003,-.003,-.002],[.003,.003,.002]).tolist(),
+            kp_scale=float(rng.uniform(.85,1.15)),kd_scale=float(rng.uniform(.85,1.15)),
+            torque_limit_Nm=float(rng.uniform(1.5,2.5)),delay_steps=int(rng.integers(1,10))),
+            initial_offset=dict(height_m=float(rng.uniform(-.002,.002)),
+                roll_rad=float(rng.uniform(-1,1)*math.pi/180),pitch_rad=float(rng.uniform(-1,1)*math.pi/180)))
+        jobs.append(dict(name=f'held-out-{i+1:02d}',friction=float(rng.uniform(.5,1.)),seed=101+i,scenario=scenario))
+    return jobs
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--plan',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
     p.add_argument('--workers',type=int,default=12)
+    p.add_argument('--held-out-only',action='store_true')
     a=p.parse_args()
     if a.workers<1:p.error('workers must be positive')
     root=a.output.resolve();root.mkdir(parents=True,exist_ok=False)
-    (root/'scenarios').mkdir();plan=a.plan.resolve();jobs=conditions()
+    (root/'scenarios').mkdir();plan=a.plan.resolve();jobs=held_out_conditions() if a.held_out_only else conditions()
     config=dict(plan=str(plan),plan_sha256=hashlib.sha256(plan.read_bytes()).hexdigest(),
                 source_hashes=provenance(),environment=versions(),simulation_only=True,
-                workers=a.workers,conditions=jobs,initial_joint_perturbation_rad=[-.01,.01],
+                workers=a.workers,held_out_only=a.held_out_only,held_out_definition_seed=314159 if a.held_out_only else None,conditions=jobs,initial_joint_perturbation_rad=[-.01,.01],
                 rationale={
                     'scope':'Sensitivity cases selected for simulation; these are not measured hardware uncertainty distributions.',
                     'mass':'Uniform +/-10% scales mass and inertia together to probe source-model and omitted payload/spacer mass uncertainty.',

@@ -134,3 +134,30 @@ def test_initial_offsets_are_not_reapplied_to_continuation(tmp_path):
         start_override=state,scenario=dict(initial_offset=dict(height_m=.002,roll_rad=.02)))
     actual=json.loads((tmp_path/'continued/start_state.json').read_text())
     np.testing.assert_allclose(actual['state'][1:20],state['state'][1:20],atol=1e-12)
+
+
+def test_touchdown_preserves_hubs_rates_and_landing_audit_scope():
+    import pytest
+    from .simulate import trajectory
+    from .core import duration,SPEED
+    r=Robot();home=r.initial[7:].copy();lift=home.copy();lift[4]=-1.2
+    touch=lift.copy();touch[5]-=np.pi;touch[4]=-.9
+    landed=touch.copy();landed[0]+=.3
+    phases=trajectory(home,lift,1,landing_pose=landed,touchdown_pose=touch)
+    assert [p[0] for p in phases][-4:]==['land','land','land','planted_hold']
+    previous=home
+    for _,target,seconds in phases:
+        assert np.all(1.875*np.abs(target-previous)/duration(previous,target,seconds)<=SPEED+1e-12)
+        np.testing.assert_array_equal(target[HUB[[0,2,3]]],home[HUB[[0,2,3]]])
+        previous=target
+    bad=touch.copy();bad[8]+=.1
+    with pytest.raises(ValueError,match='references'):
+        trajectory(home,lift,1,landing_pose=landed,touchdown_pose=bad)
+
+
+def test_held_out_cases_are_deterministic_and_separate():
+    from .robustness import conditions,held_out_conditions
+    assert held_out_conditions()==held_out_conditions()
+    assert len(conditions())==36 and len(held_out_conditions())==12
+    assert not ({c['seed'] for c in conditions()} & {c['seed'] for c in held_out_conditions()})
+    assert all(c['scenario']['dynamics']['torque_limit_Nm']<=3 for c in held_out_conditions())

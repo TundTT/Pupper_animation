@@ -10,7 +10,7 @@ import mujoco as mj
 from .core import Robot,LEGS,PROX,HUB,HERE,smooth,duration,provenance,SPEED,versions
 from .clearance import CADClearance
 
-def trajectory(home,lift,leg,landing_delta=.15,direction=-1,*,pre_shift_pose=None,landing_pose=None):
+def trajectory(home,lift,leg,landing_delta=.15,direction=-1,*,pre_shift_pose=None,landing_pose=None,touchdown_pose=None):
     home=np.asarray(home,dtype=float);lift=np.asarray(lift,dtype=float)
     if home.shape!=(12,) or lift.shape!=(12,) or not np.isfinite([home,lift]).all():
         raise ValueError('Invalid home/lift pose')
@@ -31,6 +31,13 @@ def trajectory(home,lift,leg,landing_delta=.15,direction=-1,*,pre_shift_pose=Non
         if landed.shape!=(12,) or not np.isfinite(landed).all() or not np.allclose(landed[HUB],turned[HUB],atol=1e-10,rtol=0):
             raise ValueError('Landing must preserve the turned hub references')
     phases.extend([('shift',shift,1.5),('lift',lift,2.),('clearance_hold',lift,1.),('rotate',turned,12.),('angle_hold',turned,1.),('land',landed,4. if landing_pose is not None else 3.),('planted_hold',landed,2.)])
+    if touchdown_pose is not None:
+        touchdown=np.asarray(touchdown_pose,dtype=float)
+        if touchdown.shape!=(12,) or not np.isfinite(touchdown).all() or not np.allclose(touchdown[HUB],turned[HUB],atol=1e-10,rtol=0):
+            raise ValueError('Touchdown must preserve the turned hub references')
+        # Both segments are audited as landing, including near-contact descent.
+        phases.insert(-2,('land',touchdown,4.))
+        phases.insert(-2,('land',touchdown,1.))
     return phases
 
 def run(candidate,output,video=False,friction=.8,landing_delta=.15,direction=-1,seed=0,cad=True,start_override=None,scenario=None):
@@ -42,7 +49,7 @@ def run(candidate,output,video=False,friction=.8,landing_delta=.15,direction=-1,
     if start_override is not None:home=r.restore(start_override)
     elif 'start_state' in source:home=r.restore(source['start_state'])
     if lift.shape!=(12,) or not np.all(np.isfinite(lift)) or direction not in [-1,1] or not np.isfinite(landing_delta):raise ValueError('Invalid trajectory')
-    phases=trajectory(home,lift,leg,landing_delta,direction,pre_shift_pose=source.get('pre_shift_pose'),landing_pose=source.get('landing_pose'))
+    phases=trajectory(home,lift,leg,landing_delta,direction,pre_shift_pose=source.get('pre_shift_pose'),landing_pose=source.get('landing_pose'),touchdown_pose=source.get('touchdown_pose'))
     limits=r.m.jnt_range[1:][PROX]
     if any(np.any((target[PROX]<limits[:,0])|(target[PROX]>limits[:,1])) for _,target,_ in phases):raise ValueError('Proximal target exceeds software limits')
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
@@ -91,8 +98,10 @@ def run(candidate,output,video=False,friction=.8,landing_delta=.15,direction=-1,
                 audit['minimum_rotation_floor_m']=min(audit['minimum_rotation_floor_m'],float(bottoms[leg]))
                 audit['minimum_support_force_N']=min(audit['minimum_support_force_N'],float(np.delete(forces,leg).min()))
                 audit['maximum_rotation_contact_N']=max(audit['maximum_rotation_contact_N'],float(forces[leg]))
+            descent=0.
             if phase=='land' and last_bottom is not None and bottoms[leg]<.008:
-                audit['peak_landing_descent_m_s']=max(audit['peak_landing_descent_m_s'],float((last_bottom-bottoms[leg])/(r.d.time-last_time)))
+                descent=float((last_bottom-bottoms[leg])/(r.d.time-last_time))
+                audit['peak_landing_descent_m_s']=max(audit['peak_landing_descent_m_s'],descent)
             last_bottom=float(bottoms[leg]);last_time=float(r.d.time)
             if cad_check and tick%52==0:
                 c=cad_check.measure()
@@ -102,6 +111,7 @@ def run(candidate,output,video=False,friction=.8,landing_delta=.15,direction=-1,
                 for pair in c['intersections']:
                     if pair not in audit['cad_intersections']:audit['cad_intersections'].append(pair)
             violations=[]
+            if descent>=.025:violations.append(dict(gate='gentle_landing',value=descent,threshold=.025))
             if phase in ['rotate','angle_hold']:
                 if bottoms[leg]<.005:violations.append(dict(gate='rotation_floor',value=float(bottoms[leg]),threshold=.005))
                 if np.delete(forces,leg).min()<1.:violations.append(dict(gate='three_supports',value=float(np.delete(forces,leg).min()),threshold=1.))
@@ -111,7 +121,7 @@ def run(candidate,output,video=False,friction=.8,landing_delta=.15,direction=-1,
             if cad_check and tick%52==0 and c['minimum_m']<.001:violations.append(dict(gate='collision_clear',value=c['minimum_m'],threshold=.001,pair=c['nearest_pair']))
             if violations and audit['first_sampled_gate_violation'] is None:
                 audit['first_sampled_gate_violation']=dict(time_s=float(r.d.time),phase=phase,violations=violations)
-            trace.append(dict(time=float(r.d.time),phase=phase,qpos=r.d.qpos.tolist(),qvel=r.d.qvel.tolist(),command=command.tolist(),force_N=forces.tolist(),bottom_m=bottoms.tolist(),tilt_deg=float(tilt)))
+            trace.append(dict(time=float(r.d.time),phase=phase,qpos=r.d.qpos.tolist(),qvel=r.d.qvel.tolist(),command=command.tolist(),force_N=forces.tolist(),bottom_m=bottoms.tolist(),tilt_deg=float(tilt),unintended_floor_force_N=r.unintended_floor_force(),landing_descent_m_s=descent,joint_tracking_error_rad=(command-r.d.qpos[7:]).tolist()))
             if writer and tick%26==0:
                 renderer.update_scene(r.d,camera=camera)
                 img=Image.fromarray(renderer.render());draw=ImageDraw.Draw(img);draw.rectangle((0,0,960,55),fill='black')

@@ -37,7 +37,7 @@ def review(directory, output):
             if gap<pair_min.get(side,{}).get('minimum_m',1.):pair_min[side]=dict(minimum_m=gap,time_s=t,phase=phase)
         return c
     previous=home.copy();tick=0;max_lift=None;half=None
-    phases=trajectory(home,np.asarray(candidate['full_pose']),leg,audit['landing_delta'],audit['direction'],pre_shift_pose=candidate.get('pre_shift_pose'),landing_pose=candidate.get('landing_pose'))
+    phases=trajectory(home,np.asarray(candidate['full_pose']),leg,audit['landing_delta'],audit['direction'],pre_shift_pose=candidate.get('pre_shift_pose'),landing_pose=candidate.get('landing_pose'),touchdown_pose=candidate.get('touchdown_pose'))
     for phase,target,seconds in phases:
         steps=int(np.ceil(duration(previous,target,seconds)/r.m.opt.timestep))
         for k in range(steps):
