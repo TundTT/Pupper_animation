@@ -1,5 +1,9 @@
 # Deterministic lift and alignment development
 
+**Current backpack/9 mm work:** see [BACKPACK_ALIGNMENT.md](BACKPACK_ALIGNMENT.md).
+It uses the successful hardware position PID, a 5 mm floor gate and newly audited
+support poses. The velocity-controller description and evidence below are historical.
+
 Work on `codex/align-motion-v2`; the branch name is retained. The new implementation
 is in `motion/keyframe_align/`. Core revision **a110b09** passes the 22-scenario
 simulation matrix. It is not deployed on hardware. No network, checkpoint, PPO, JAX, or optimizer

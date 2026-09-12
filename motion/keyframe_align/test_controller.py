@@ -16,7 +16,7 @@ def tick(c,q,qd,command,g=None,deadband=0):
         g=(0,y,-math.sqrt(1-y*y))
     o=c.step(DT,command,q,qd,[0,0,0],g)
     previous=q.copy();q[POS]=o[:8]
-    w=o[8:12].copy();w[np.abs(w)<deadband]=0;q[WHEEL]+=w*DT
+    q[WHEEL]=o[25:29]
     qd[:]=(q-previous)/DT
     return o
 
@@ -26,27 +26,27 @@ def init(config=None):
     assert o[12]==6
     return c,q,qd
 
-def test_full_sequence_with_synthetic_wheel_deadband():
+def test_full_sequence_with_position_output():
     c,q,qd=init()
     for command,leg in [(1,1),(2,0),(3,2),(4,3)]:
         for n in range(6000):
             o=tick(c,q,qd,command,deadband=.22)
             assert o[23] and o[16]<0
-            assert np.max(np.abs(o[8:12]))<=.500001
+            assert np.all(o[8:12]==0)
             if o[12]==6 and int(o[14])&(1<<leg):break
         else:pytest.fail(f'Wheel {leg} failed to finish')
         assert abs(math.atan2(math.sin(Q[WHEEL[leg]]+math.pi-q[WHEEL[leg]]),math.cos(Q[WHEEL[leg]]+math.pi-q[WHEEL[leg]])))<.025
     c.close()
 
-def test_gate_loss_resets_integral_and_rotation():
+def test_gate_loss_discards_position_demand():
     c,q,qd=init()
-    for _ in range(4000):
-        o=tick(c,q,qd,3,deadband=.22)
-        if abs(o[22])>.02:break
-    assert abs(o[22])>.02
-    o=tick(c,q,qd,3,g=(.2,0,-math.sqrt(.96)))
-    assert int(o[15])&16 and o[22]==0 and o[10]==0
+    for _ in range(700):o=tick(c,q,qd,3)
+    assert o[12]==3
+    o=c.step(DT,3,q,qd,[0,0,0],[.2,0,-math.sqrt(.96)])
+    assert int(o[15])&16 and o[22]==0
+    assert abs(o[27]-q[8])<1e-9
     c.close()
+
 
 def test_interruption_preserves_old_leg_until_lowered():
     c,q,qd=init()
@@ -128,9 +128,19 @@ def test_floor_bound_against_independent_mujoco_wheel_frames():
         for name in WHEEL_COLLISION_GEOM_NAMES:
             geom=model.geom(name).id;axis=data.geom_xmat[geom].reshape(3,3)[:,2]
             bottoms.append(data.geom_xpos[geom,2]-.048*np.sqrt(max(1-axis[2]**2,0))-.01675*abs(axis[2]))
+        centers=np.array([data.geom_xpos[model.geom(name).id] for name in WHEEL_COLLISION_GEOM_NAMES])
+        bound=math.hypot(.0505,.01675);expected_box=float('inf')
+        boxes=[i for i in range(model.ngeom) if model.geom_type[i]==mujoco.mjtGeom.mjGEOM_BOX and model.geom_bodyid[i]!=0]
+        assert len(boxes)==4
+        for geom in boxes:
+            local=(centers-data.geom_xpos[geom])@data.geom_xmat[geom].reshape(3,3)
+            expected_box=min(expected_box,float(np.linalg.norm(np.maximum(np.abs(local)-model.geom_size[geom],0),axis=1).min()-bound))
+        expected_wheel=min(np.linalg.norm(centers[a]-centers[b])-2*bound for a in range(4) for b in range(a+1,4))
         for leg in range(4):
             out=np.empty(3);c.lib.kf_margins(q.ctypes.data_as(D),g.ctypes.data_as(D),leg,out.ctypes.data_as(D))
             actual=bottoms[leg]-min(bottoms[k] for k in range(4) if k!=leg)
+            assert abs(out[1]-expected_wheel)<1e-6
+            assert abs(out[2]-expected_box)<1e-6
             assert out[0]<=actual+1e-6
             assert actual-out[0]<.0051
     c.close()
