@@ -11,6 +11,7 @@ inline constexpr std::array<int,5> legs{-1,1,0,2,3};
 enum Phase { ENTRY, SHIFT, LIFT, ROTATE, LOWER, RECENTER, HOLD, STOPPED };
 enum Block { TRAJECTORY=1, FLOOR=2, WHEEL=4, BODY=8, TILT=16, ANGULAR=32 };
 struct Config {
+  double rotation_floor_clearance_m = .010;
   // Public ordering is also used by the small simulation C ABI.
   std::array<double,15> values{2.,1.5,1.5,3.,1.5,48.,2.,.35,.8,.4,.5,1.2,.45,.65,2.};
   std::array<V8,4> poses{{
@@ -20,6 +21,8 @@ struct Config {
     {{1,0,-1,0,1,0,-1,-1.2}},
   }};
   void validate() const {
+    if(!std::isfinite(rotation_floor_clearance_m)||rotation_floor_clearance_m<=0||rotation_floor_clearance_m>.1)
+      throw std::invalid_argument("Rotation floor clearance must be finite and in (0, 0.1] metres");
     for(int i=0;i<15;++i) if(!std::isfinite(values[i])||values[i]<0 || (values[i]==0 && (i<6||i>9)))
       throw std::invalid_argument("Finite nonnegative gains and positive timing/limits required");
     if(values[5]<values[1]+values[2]+1 || values[9]>1 || values[10]>2 || values[11]>4 ||
@@ -117,7 +120,7 @@ class Controller {
     auto margins=Geometry::margins(q,gravity,leg);
     int blocked=0;
     if(phase!=ROTATE && !(phase==LIFT&&elapsed>=config.values[2]))blocked|=TRAJECTORY;
-    if(margins[0]<=.010)blocked|=FLOOR;
+    if(margins[0]<=config.rotation_floor_clearance_m)blocked|=FLOOR;
     if(margins[1]<=.010)blocked|=WHEEL;
     if(margins[2]<=.005)blocked|=BODY;
     if(-gravity[2]<=std::cos(.12))blocked|=TILT;

@@ -121,6 +121,22 @@ tests is not a Pi realtime timing measurement. Read the
 
 ## First physical session
 
+### Quick tuning between trials
+
+Motion settings are in `ros2_ws/src/neural_controller/launch/keyframe_config.json`.
+`rotation_floor_clearance_m` is **0.005** (5 mm), changed at the operator's request
+after the supported FL trial reported about 9 mm and was blocked by the old 10 mm
+threshold. This is a hardware trial adjustment; the earlier simulation audit used
+10 mm. Lift poses, wheel/body margins and all other settings are unchanged.
+
+For later numeric-only edits, with the controller unloaded/stopped, copy this JSON
+to `ros2_ws/install/neural_controller/share/neural_controller/launch/keyframe_config.json`.
+No C++ rebuild is needed. Reloading the controller reads the file. A fresh whole-stack
+startup still requires confirmed homing pose and fresh calibration. Keep the edited
+source JSON with the trial record; its changed hash is an intentional tuning change
+and must be recorded in the source manifest before running the strict preparation
+checker. Do not rerun the whole build/test suite for a numeric-only iteration.
+
 Read STARTUP_CALIBRATION.md first. Obtain the operator's explicit confirmation of
 the supported encoder-homing pose and marked rings **before** fresh startup. A
 request to test is not that confirmation. Then, from the reviewed target checkout:

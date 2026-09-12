@@ -6,7 +6,7 @@ namespace keyframe_align {
 // Ground cannot lie ABOVE the lowest support-wheel bottom without penetration.
 // The highest support bottom (legacy v5) instead follows an unloaded wheel and
 // unnecessarily underestimates clearance. Use the lowest support upper bound
-// and the active-wheel lower bound; keep the 10 mm rotation threshold unchanged.
+// and the active-wheel lower bound; the controller config sets the rotation threshold.
 struct Geometry : neural_controller::WheelAlignMotion {
   static std::array<double,3> margins(const std::array<double,12>& q,const Vec& gravity,int leg) {
     auto result=neural_controller::WheelAlignMotion::margins(q,gravity,leg);

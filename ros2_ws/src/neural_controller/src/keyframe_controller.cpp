@@ -28,6 +28,7 @@ controller_interface::CallbackReturn KeyframeController::on_init() {
       "attempt_timeout_seconds","wheel_kp","wheel_kd","wheel_ki","wheel_integral_limit","wheel_speed_limit",
       "wheel_acceleration_limit","abduction_speed_limit","hip_speed_limit","joint_acceleration_limit"};
     for(int i=0;i<15;++i)keyframes_.config.values[i]=j.at(fields[i]).get<double>();
+    keyframes_.config.rotation_floor_clearance_m=j.at("rotation_floor_clearance_m").get<double>();
     keyframes_.config.poses=j.at("poses").get<std::array<keyframe_align::V8,4>>();keyframes_.config.validate();
     behavior_="keyframe_align";single_observation_size_=6;params_.observation_history=1;
     command_states_={"stand","front_l","front_r","back_r","back_l"};num_commands_=5;

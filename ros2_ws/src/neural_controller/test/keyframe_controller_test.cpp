@@ -25,6 +25,8 @@ int main(int argc,char** argv){
       require(plugin->init("neural_controller_keyframe_align","",520,"",options)==controller_interface::return_type::OK,"Installed plugin discovery and initialization");
     }
     require(c.init("neural_controller_keyframe_align","",520,"",options)==controller_interface::return_type::OK,"init exact config");
+    {nlohmann::json configured;std::ifstream f(argv[2]);f>>configured;
+      require(c.core().config.rotation_floor_clearance_m==configured.at("rotation_floor_clearance_m").get<double>(),"Floor clearance loaded from editable JSON");}
     require(!c.network_loaded(),"No neural network in keyframe behavior");
     require(c.on_configure({})==controller_interface::CallbackReturn::SUCCESS,"configure");
     std::array<double,12> q{1,0,.3,-1,0,-.4,1,0,.5,-1,0,-.6},qd{};
