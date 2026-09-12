@@ -1,0 +1,5532 @@
+[
+  {
+    "directory": "audit-third-snapshot",
+    "id": "9d34a31606ca42d3",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9d34a31606ca42d3",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_PARTIAL_SEQUENCE",
+    "media": [
+      {
+        "name": "media/videos/trajectory/front_r/rollout_1_6541013a1994d2e23546.mp4",
+        "bytes": 888803,
+        "md5": "HwYZKRDAmYqWL6bo03y13w==",
+        "matching_local_videos": [
+          "01-front_r/replay/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-triangle-9d34a31606ca42d3:v0",
+        "digest": "01db46b68d9c8a95003af2712540798b",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "continue-back-l-positive",
+    "id": "e4c8ec7702d241c1",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e4c8ec7702d241c1",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_NOMINAL_SINGLE_FLIP",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_1_bd2d1f5074b446d8d2e8.mp4",
+        "bytes": 445134,
+        "md5": "TBKDVCGqHjgI+Xj/gqG//A==",
+        "matching_local_videos": [
+          "replay/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-continuation-e4c8ec7702d241c1:v0",
+        "digest": "87e40d10fab4aaaeb6336e4a86a73fef",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "continue-front-l",
+    "id": "b37e1b86513244f0",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/b37e1b86513244f0",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/front_l_1_8ff35daa8ccc86990219.mp4",
+        "bytes": 402310,
+        "md5": "cVxBAZfA18zty3JqKm+2nQ==",
+        "matching_local_videos": [
+          "replay/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-continuation-b37e1b86513244f0:v0",
+        "digest": "923768418fb75c77347da7d42414f953",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "critical-seed-v5",
+    "id": "0ca3427b8c714445",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/0ca3427b8c714445",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_a1c1126a00e59544170d.mp4",
+        "bytes": 448252,
+        "md5": "rwvGAEkdK+lmfbiMJLQwaw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_d27da473c391fe923d9f.mp4",
+        "bytes": 609632,
+        "md5": "p8yahteiV8wApzcQU/UpHQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_9b2c60a674ec89a64bc6.mp4",
+        "bytes": 2909430,
+        "md5": "AkHvrlnzWDiVAi780gum5w==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_e36869a7add54538a6e2.mp4",
+        "bytes": 934793,
+        "md5": "C6amLluO4cdYbsI/2j90gg==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_e8bd92f1c9b9e2be4c0d.mp4",
+        "bytes": 918832,
+        "md5": "xsupe/C8XFNAIjYYPJ+Q/Q==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-0ca3427b8c714445:v0",
+        "digest": "47e620c701b5587d59bff462c4a85ce0",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "extended-front-l",
+    "id": "e1ebb8c79c2c47af",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e1ebb8c79c2c47af",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_NOMINAL_SINGLE_FLIP",
+    "media": [
+      {
+        "name": "media/videos/trajectory/front_l_1_bd3afc0bcf268bd7c114.mp4",
+        "bytes": 859900,
+        "md5": "arqOdMr4CEGnzI6fjpNYDg==",
+        "matching_local_videos": [
+          "replay/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-extended-e1ebb8c79c2c47af:v0",
+        "digest": "19a31df4d955481f52cc94abc6d62e51",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "extended-front-r",
+    "id": "bc3fb42dbd1343c8",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/bc3fb42dbd1343c8",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/front_r_1_7aa481bbe8c55d5d009e.mp4",
+        "bytes": 945970,
+        "md5": "aXtBi1cPumje6/Wlv2Cfew==",
+        "matching_local_videos": [
+          "replay/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-extended-bc3fb42dbd1343c8:v0",
+        "digest": "14e8b711ecc513efebf87e2a68943b48",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-front-l-negative",
+    "id": "3e3e4c5d8bbc4daa",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3e3e4c5d8bbc4daa",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_NOMINAL_SINGLE_FLIP",
+    "media": [
+      {
+        "name": "media/videos/trajectory/front_l_1_eeebd0e3c0ddd61bf0be.mp4",
+        "bytes": 853957,
+        "md5": "TpaTiycf4avkrbTT2WY/pA==",
+        "matching_local_videos": [
+          "replay/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-extended-3e3e4c5d8bbc4daa:v0",
+        "digest": "9c5d6e64adc11ab641968712244ae4e9",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-nominal",
+    "id": "3f9a3b2f277042d4",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3f9a3b2f277042d4",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_3bd6ffb0e93e53174a4e.mp4",
+        "bytes": 443980,
+        "md5": "XzOHBUd312n/RtB32n1Dkw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_bdcdf4a70d310f2b1450.mp4",
+        "bytes": 612720,
+        "md5": "fN/dg2Jl587VujfVZAd1aw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_7528c778d1b237eaf7c5.mp4",
+        "bytes": 2847841,
+        "md5": "KhVfdn34ktsBCX/u59Ucdg==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_7e079c39be8ade613f3a.mp4",
+        "bytes": 898485,
+        "md5": "poMrXS6hPOv2MKQ3erXcvA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_3d11bb0e9fa575e6e937.mp4",
+        "bytes": 894735,
+        "md5": "LiX3DN//p2mqDpGHz4yDNA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-3f9a3b2f277042d4:v0",
+        "digest": "d3f43cac91ffa6bee6b6ee9ec20290a2",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-nominal-v5",
+    "id": "5d30198204624884",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/5d30198204624884",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_e761e74ac56a026e62f8.mp4",
+        "bytes": 444642,
+        "md5": "I7jf5lHtuGql47zs16GIkQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_48fb1a9be44ccb5db3e1.mp4",
+        "bytes": 612533,
+        "md5": "mmex+G/tdyztCnBhTHYVvw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_6ef114f1baa4c1aed55c.mp4",
+        "bytes": 2882884,
+        "md5": "g9hoqsDWNORMT3vxCJlAfw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_916080a7f7b799219dcb.mp4",
+        "bytes": 933579,
+        "md5": "dOsu58ShP0y/plj3Ykj42A==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_58f0c80cd8d6d760f575.mp4",
+        "bytes": 894209,
+        "md5": "gL23ZIjA7XZyXTe0MG/yRQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-5d30198204624884:v0",
+        "digest": "7b2f04546e73a1db5fac4282cf9c1cb3",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/com-front-right-high",
+    "id": "da0e18b201554dbe",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/da0e18b201554dbe",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_6670ea06acf926e8ed85.mp4",
+        "bytes": 436199,
+        "md5": "24+zU3dbFCgzIh6BzYzETQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_a4fdf59538a5f5684de8.mp4",
+        "bytes": 609314,
+        "md5": "NKO54yNAGoQgSppcRArypQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_52cad252ca2e2772e4a3.mp4",
+        "bytes": 2830615,
+        "md5": "lzlf41/jLm+Jh/wgUEs+PQ==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_81181217ed2a67a475fb.mp4",
+        "bytes": 889037,
+        "md5": "U7OJskQcqNxiNdpvlkUc6Q==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_e91d00d4d1f6bb7c69aa.mp4",
+        "bytes": 898144,
+        "md5": "Id5Z3jYheUqj8MpEbfOijA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-da0e18b201554dbe:v0",
+        "digest": "10f780e08298a51e5a61d7b22fda0eed",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/com-rear-left-low",
+    "id": "4f7449999f9b4204",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/4f7449999f9b4204",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_72a26ad310d1b36f3404.mp4",
+        "bytes": 451755,
+        "md5": "6iEPKXpWExGbuFzy0NC0oQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_387929e75905acf04e0a.mp4",
+        "bytes": 616706,
+        "md5": "7LIqT+C7UGMtjqLdTajOqQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_1529ab29b3a0c7fff49e.mp4",
+        "bytes": 2875563,
+        "md5": "Mj01cg0i6tVqAkvZmW/EKA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_dc2d8f2d06e96cd1c38a.mp4",
+        "bytes": 913047,
+        "md5": "I0+30SENkXiOI/9VOT90jg==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_833de8c822cd710caf2e.mp4",
+        "bytes": 896134,
+        "md5": "5UVQGlg71AfKHJERHRSdVg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-4f7449999f9b4204:v0",
+        "digest": "935bb477faf327471367fd31ede4169b",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/combined-seed-22",
+    "id": "41af9dcb271e481e",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/41af9dcb271e481e",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_r_1_8c1d22f8dd905de65c2b.mp4",
+        "bytes": 664272,
+        "md5": "HBWMRgKQQidGDARKZnHb1g==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_2_3744f2f863eab58bf112.mp4",
+        "bytes": 664386,
+        "md5": "k2f5eKVrheW6xYkpj+xvNw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-41af9dcb271e481e:v0",
+        "digest": "2ade404ed895f4c54c4908217127fa59",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/combined-seed-23",
+    "id": "6725b8cbc3a54a40",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/6725b8cbc3a54a40",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_r_1_d621b73a44fddd1c797f.mp4",
+        "bytes": 664403,
+        "md5": "l4Xa8Ash6dXQmX8KWTfs7w==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_2_3ecf8430e68c12495351.mp4",
+        "bytes": 664517,
+        "md5": "CDzeZDffTvWCSndxjHRhyw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-6725b8cbc3a54a40:v0",
+        "digest": "068415f898822ff379526ec2c58ac78d",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/combined-seed-24",
+    "id": "867850ed50a34679",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/867850ed50a34679",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_r_1_daff3859369b8fe83f93.mp4",
+        "bytes": 658931,
+        "md5": "Gk+6EsaG4wJ/Ii/PwIZPuw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_2_0d547205b4b19115e1da.mp4",
+        "bytes": 659045,
+        "md5": "6sjawbX/ShVrZe2zo4CS5w==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-867850ed50a34679:v0",
+        "digest": "ba6f23d6775ef5d4bd52ebfb11e1755a",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/combined-seed-25",
+    "id": "e92925a41c8f4589",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e92925a41c8f4589",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_r_1_7c890686beb1160e8c01.mp4",
+        "bytes": 665639,
+        "md5": "fidBfv4EDf6lg9UrI9St0w==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_2_06ea76a607668f67c3b1.mp4",
+        "bytes": 665753,
+        "md5": "NrpCaD9+8WvzCb3bgZj36g==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-e92925a41c8f4589:v0",
+        "digest": "07b437717d3158eb3159e3016a0b3115",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/combined-seed-26",
+    "id": "ad0bd016f55e4e2a",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ad0bd016f55e4e2a",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_r_1_2e62284def1e8afa9495.mp4",
+        "bytes": 665502,
+        "md5": "djh6eBO392IvkvTTi9my2w==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_2_d5df8a8b919fba187eea.mp4",
+        "bytes": 665616,
+        "md5": "l5v2ZD6/RCr0aiLF0pD6wA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-ad0bd016f55e4e2a:v0",
+        "digest": "612c5aa42996b1045c2258d7c60a3585",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/delay-10-steps",
+    "id": "c2bf2c4134d94e04",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c2bf2c4134d94e04",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_fcc7439c6ab434a8a995.mp4",
+        "bytes": 442264,
+        "md5": "bEk94eoE7S8NKGEUseaNpQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_0417ecd0214a51d7a939.mp4",
+        "bytes": 609369,
+        "md5": "bAS77HoUkXDX8Nx7lDXj1g==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_20afcb2ad99fb8a5303d.mp4",
+        "bytes": 2844754,
+        "md5": "48X6zZ+1iZ7uZcoXitJo9A==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_4b215c13b68a1e1a8d6b.mp4",
+        "bytes": 900466,
+        "md5": "MdNldF+i3xZ4+J1CZHJ4KA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_0c7809a9bf6041261eb6.mp4",
+        "bytes": 894734,
+        "md5": "nMnZ8WlHrru8mP+KNyUyOA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-c2bf2c4134d94e04:v0",
+        "digest": "4d19c9c4684fcc9e7ff86c2123024c89",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/delay-5-steps",
+    "id": "bd5d9e5afe864f82",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/bd5d9e5afe864f82",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_0403d8915bb7aadad2d6.mp4",
+        "bytes": 442603,
+        "md5": "yP0BcPZZ1KkIrSpMrYRm3A==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_170c96f6fb74e164d5b8.mp4",
+        "bytes": 605671,
+        "md5": "6Fn7vXUeuCtoYLQDFzfwVQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_1eac1351b8fccad00229.mp4",
+        "bytes": 2837930,
+        "md5": "h3R2L5s4gN+Y+DiqsMviZA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_bcedc8d963f9be39e82d.mp4",
+        "bytes": 899370,
+        "md5": "NhypgflVjZb1mJ/1Ud/dUw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_0de3fb2e91f1ca4848e0.mp4",
+        "bytes": 892365,
+        "md5": "Uq4NUVzaMzWIkcPYGTNPEw==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-bd5d9e5afe864f82:v0",
+        "digest": "d787709efc2dc824dbe284f5e03370b6",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/gains-high",
+    "id": "48ff30588b1f45b6",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/48ff30588b1f45b6",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_ca7ebc9de292a216f638.mp4",
+        "bytes": 404245,
+        "md5": "Zwyxy4hZaDlxSf1e1oNzMA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_124bb40cdb14c0eae744.mp4",
+        "bytes": 584258,
+        "md5": "eFZuG7JwiXmqNCFsB4ysxA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_a14d09f37444e50e263e.mp4",
+        "bytes": 2822200,
+        "md5": "Jaa/eQC1zH5iil27rM417g==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_ee8c8ab2c460eeef5c94.mp4",
+        "bytes": 965381,
+        "md5": "KLRHz/pAaaR0qB66f1uE8A==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_21d67198e2729bf3b1d1.mp4",
+        "bytes": 870395,
+        "md5": "OrmcSbEdu7HRPDSuvTEIRQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-48ff30588b1f45b6:v0",
+        "digest": "8c65397a957a092e574313893dded7d6",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/gains-low",
+    "id": "97165995a2ea4cdf",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/97165995a2ea4cdf",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_ead6179d1e88d8f80232.mp4",
+        "bytes": 491149,
+        "md5": "zOeGIxFtuhiUHUt/t84XUA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_63af1330a2350aa6cff7.mp4",
+        "bytes": 633644,
+        "md5": "Bx7itHXwJrgduSUv6V9l9Q==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_3_296bf1abfa2e60e58d10.mp4",
+        "bytes": 1124184,
+        "md5": "YF89ep/5L32hAbCWyPNQiQ==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-97165995a2ea4cdf:v0",
+        "digest": "1cd9d75c822e6f8ac70ed026007361a3",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/half-torque",
+    "id": "46136bfc50f148e3",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/46136bfc50f148e3",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_8f335c89f7a0e8ac3c38.mp4",
+        "bytes": 443854,
+        "md5": "0GUjgi2n7tZ9pPJlfhM7Ww==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_a2980fceabc93131c90e.mp4",
+        "bytes": 613779,
+        "md5": "ia0HYxQe9D3YZcMb1jY60w==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_6f29db3a9213350266be.mp4",
+        "bytes": 2847622,
+        "md5": "xLBmhNbB9+IIqdnlkfuEWA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_1f9c01a3d72c231998e5.mp4",
+        "bytes": 898204,
+        "md5": "Km6rrUKjIPAlCHzLBfwVlg==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_3781edf02b3c2a8b5ed7.mp4",
+        "bytes": 893864,
+        "md5": "yNRvvmSIGR4uXoH1vb2UWQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-46136bfc50f148e3:v0",
+        "digest": "3d5c9f7586937589989e749fb4228733",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mass-high",
+    "id": "25695961623346be",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/25695961623346be",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_9f72295257548ceb31c2.mp4",
+        "bytes": 473649,
+        "md5": "HzuAZU01myUNxVbJodw1JQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_ce47156c8b6461f74b58.mp4",
+        "bytes": 617130,
+        "md5": "ONrOxkzUOtYjJx+iaEVVcQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_3_70b3ac36b3e633cba542.mp4",
+        "bytes": 1090170,
+        "md5": "N2hefmne5/saFtyyS5nZGw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-25695961623346be:v0",
+        "digest": "6ed7e014c16a99e32e97b808440795b4",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mass-low",
+    "id": "1c99e57ed7094ef1",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/1c99e57ed7094ef1",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_f6bc4fdf61fefb562225.mp4",
+        "bytes": 421308,
+        "md5": "Ls3IqQVvDi+wbdJE9q+Ptg==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_e99ed39443e0673ed260.mp4",
+        "bytes": 595793,
+        "md5": "DTxq9xTKW3sxWUkpkyuCfw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_e015295c21bfd9b7385a.mp4",
+        "bytes": 2837065,
+        "md5": "bt1d/xGm2+znEgc5Qvhlsg==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_6346675e292dfb96fc1b.mp4",
+        "bytes": 942369,
+        "md5": "ojXABU7fjPEqPbVBU8TB2w==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_640728e971a1e577ebc2.mp4",
+        "bytes": 879674,
+        "md5": "XF9S/by35rgdQWOAcOSjUQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-1c99e57ed7094ef1:v0",
+        "digest": "67ce71a6b8990b0bd6051ebb0164d473",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.5-seed-1",
+    "id": "a33ba49c1c2c4d56",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/a33ba49c1c2c4d56",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_52f33bb5dfc00b2bed46.mp4",
+        "bytes": 436440,
+        "md5": "PlMMyIMgKmeZRrA8hTBE7A==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_95ff7e4ec9d1d89a1a4c.mp4",
+        "bytes": 611944,
+        "md5": "r5a5YKxOqZHcsHY4UUlp6w==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_91b1668259f3b645ab23.mp4",
+        "bytes": 2776592,
+        "md5": "WfaUXB/p3bLiBHoHHmNs0A==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_15216f49b37f1b27d90f.mp4",
+        "bytes": 867842,
+        "md5": "kW0TcUOsV6Xdyt2HoKquww==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_0d18edc7deda932a4be9.mp4",
+        "bytes": 862453,
+        "md5": "sVx5E2OtyRpp8fjyO8C0PA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-a33ba49c1c2c4d56:v0",
+        "digest": "e9370fedfd0e9e6d65f6e4d3c93859ae",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.5-seed-2",
+    "id": "3de14a3f75214547",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3de14a3f75214547",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_e5f8c466d47031ca1000.mp4",
+        "bytes": 436819,
+        "md5": "hds0RCE4IbmhZvXODZGmDA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_ada0df383ebbb55f3ba8.mp4",
+        "bytes": 619799,
+        "md5": "jdA1nD6LdYD2TGOYy3Loig==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_03ad6137b56af6da8b1c.mp4",
+        "bytes": 2784059,
+        "md5": "6exJ2lA7oi6F+DKD3kxk1A==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_55eeaddf615ce4840e07.mp4",
+        "bytes": 865403,
+        "md5": "5sGyb3zx6gduRyCdKkbHcA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_f1121da05cb38d677bb5.mp4",
+        "bytes": 864117,
+        "md5": "g/UvIk+R8tr5mubI7H0FBQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-3de14a3f75214547:v0",
+        "digest": "31747ca4bcf7486d51626dbcb114f342",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.5-seed-3",
+    "id": "c106c185591746ea",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c106c185591746ea",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_3b0b1c3c91161c3aa3c2.mp4",
+        "bytes": 440592,
+        "md5": "zOliMLJ4mZSOchDhKIRKgA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_d34720908dadbb7f24ec.mp4",
+        "bytes": 619961,
+        "md5": "6G76+OcEwMj5Dt9EvzwwJg==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_7470a6216a54c8afd80b.mp4",
+        "bytes": 2787953,
+        "md5": "mwa8drbXZyQK0O8bYTKRdg==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_204908f1f9f8dadab1da.mp4",
+        "bytes": 866858,
+        "md5": "1wexeJJ7jnlQCDaHvoxIoA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_1bc518cac76ae849aa7c.mp4",
+        "bytes": 862621,
+        "md5": "83pL9uG7jUeQE6zEn4UHbw==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-c106c185591746ea:v0",
+        "digest": "c8a32a17b911a52f325182bdd64883a7",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.5-seed-4",
+    "id": "86a6d811d6dd40fe",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/86a6d811d6dd40fe",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_85b3ae0ef5c7d455746c.mp4",
+        "bytes": 439117,
+        "md5": "nQf2V8L4pSIvPw1DPT1U0w==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_df671c794b7156119d38.mp4",
+        "bytes": 610303,
+        "md5": "pwNcXO4wZuMFOHYncL7JDQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_c9acfe2129670ead9837.mp4",
+        "bytes": 2777135,
+        "md5": "E3ALlBFybq9Dqw6J2w7hNg==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_1424487ed75217057ddf.mp4",
+        "bytes": 867467,
+        "md5": "cUB7Kphsehe72QlTn4mumQ==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_440ecfd1b8feac28dfc2.mp4",
+        "bytes": 862327,
+        "md5": "9HLqcUx6oCJx+UH8kta3HA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-86a6d811d6dd40fe:v0",
+        "digest": "e5362dcf94e5aa7118f48be90f2e058b",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.5-seed-5",
+    "id": "36afe03415734a04",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/36afe03415734a04",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_6fda365c9841f5577212.mp4",
+        "bytes": 436347,
+        "md5": "5gazA2W4+PK4N7fzuReDeQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_8d3a7625db0610335d0f.mp4",
+        "bytes": 616104,
+        "md5": "x/NgGhodMopysqfeAhtaGg==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_9e8dbf6365422c3ed4b6.mp4",
+        "bytes": 2779997,
+        "md5": "DNkYnF+MlBxJOYPiGPHWxw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_f5b7f19da960baed92ce.mp4",
+        "bytes": 866615,
+        "md5": "A3xxGC59VJGHRqXGPjGJLw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_a11ce6a15de0def0ba10.mp4",
+        "bytes": 863010,
+        "md5": "fyTkAJK1M55l3+AQZNc8CA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-36afe03415734a04:v0",
+        "digest": "311b72f8a84f1cc6cc990eb649bc0528",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.65-seed-1",
+    "id": "3eb844ee71534b43",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3eb844ee71534b43",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_8fb3da737c5661a52336.mp4",
+        "bytes": 441543,
+        "md5": "/iHQQAHXjRnRMXFnezJ9nA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_b35b5557d3a891de73bf.mp4",
+        "bytes": 609982,
+        "md5": "0pjhHvSzeK+R0BpA5gaeXA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_48db60ac65e56d82a028.mp4",
+        "bytes": 2821905,
+        "md5": "jS55POlNUD4i0UqKNQUC3Q==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_62f6e075f1300d06ac26.mp4",
+        "bytes": 888798,
+        "md5": "2le7q7FQd6s/qs0IQKwyyw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_ad8a7e21149f70b8a0c7.mp4",
+        "bytes": 883661,
+        "md5": "a9Db+6np27K3V6ccQ8ww0g==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-3eb844ee71534b43:v0",
+        "digest": "73eaa78763df5f03dae35d709d66dd74",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.65-seed-2",
+    "id": "3b65c6db528a472b",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3b65c6db528a472b",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_9d796508778ad982fdbe.mp4",
+        "bytes": 440707,
+        "md5": "JXo7ySqMbwOTSYXJYiWEvw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_c05f0cc7db6f076c0cff.mp4",
+        "bytes": 614002,
+        "md5": "Xhu+RB03iehsjNNcRUcoIA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_7aee778bb5450753612f.mp4",
+        "bytes": 2825852,
+        "md5": "B2ePkxJseKxPbIF196cbpw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_4165aaa88d9125b33878.mp4",
+        "bytes": 891966,
+        "md5": "oYGrPBQlqpwzMFR5dGUa4w==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_4d605843a011b6f160fb.mp4",
+        "bytes": 881256,
+        "md5": "+wpsxK0KhGNWpG/0rZmmug==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-3b65c6db528a472b:v0",
+        "digest": "9e50b98603026ab582604616516d8d4d",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.65-seed-3",
+    "id": "9afea6abcaaa4285",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9afea6abcaaa4285",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_0dbc36bcddfebd366f80.mp4",
+        "bytes": 440635,
+        "md5": "rhkNqZADgEZJPTXPESleOg==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_ffdc820219adf056d8f3.mp4",
+        "bytes": 616450,
+        "md5": "ai+qGL+vhd6Hyvz9ByXZAA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_d46ce5f3375c4b73bb26.mp4",
+        "bytes": 2828212,
+        "md5": "m5W7cNHzdbhLtAbIgvlCsw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_e795da9a635493d080f9.mp4",
+        "bytes": 890076,
+        "md5": "4UvONnFSxzIsYlrEelMxww==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_0aa28b2b9f2b99b3b750.mp4",
+        "bytes": 883130,
+        "md5": "Ay/UnNRT1PvvV4SV1BkM5Q==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-9afea6abcaaa4285:v0",
+        "digest": "0545848b7e1b3301cf3980a1c1d868c1",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.65-seed-4",
+    "id": "3b8da71adf054da7",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3b8da71adf054da7",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_79530cc90339f345570b.mp4",
+        "bytes": 440020,
+        "md5": "2VBltF1asj07q2BQFiL2zw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_95c80fa53d8b6a374fd2.mp4",
+        "bytes": 610033,
+        "md5": "7bORkmO2VNnjiSsRBoxzhg==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_e752f930b88ead8fed58.mp4",
+        "bytes": 2813061,
+        "md5": "Yq8LLQPj9TRSGS+9tlfEDw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_2fa2d6e3d893981e8da6.mp4",
+        "bytes": 887874,
+        "md5": "H3ISdSY/JD79HojuqIlTYg==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_0214dda8808907245781.mp4",
+        "bytes": 877213,
+        "md5": "t905NMAmIpkOHETNtB9ZYQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-3b8da71adf054da7:v0",
+        "digest": "16f3ddcef8c98e540767eb8637673df7",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.65-seed-5",
+    "id": "44b8e72a1b7d4da0",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/44b8e72a1b7d4da0",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_c06d82c1d48d1a05b51f.mp4",
+        "bytes": 438955,
+        "md5": "zDeTx8BMokAMRx4/ANeAGw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_3047fd10a570b7392194.mp4",
+        "bytes": 610142,
+        "md5": "YOs/jqWfa3rkTtbPM8n7Ng==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_669dafefa7f2a638ce4b.mp4",
+        "bytes": 2826336,
+        "md5": "Ph7KatAg9IMtlHJNnQjicg==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_25a3ae06a396c53f1147.mp4",
+        "bytes": 894249,
+        "md5": "yXv+7ac4YBgD4Mmh8bofTw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_53f36ec7b42497eb1dc4.mp4",
+        "bytes": 885069,
+        "md5": "9KYQRDDsDZmIHalZBwRBEA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-44b8e72a1b7d4da0:v0",
+        "digest": "93db97c2341e189895b787fe77c7f427",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.8-seed-1",
+    "id": "07e0a52fc4384a32",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/07e0a52fc4384a32",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_7f843fb850a3841d1dd2.mp4",
+        "bytes": 443972,
+        "md5": "v0zqbIIWkfchTaku51Irkg==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_727b99aa56a866850e9a.mp4",
+        "bytes": 609441,
+        "md5": "/738pOKUPcIx6WDVSqAGxw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_bf339174f708c370c2e1.mp4",
+        "bytes": 2844326,
+        "md5": "8rbdgMR/XkxwRuezKVfLrw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_1785b7c76386a75b1e30.mp4",
+        "bytes": 899697,
+        "md5": "7fFWpPMhIeVztz0F+tH7Dg==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_112d808aebd75f5a1e0d.mp4",
+        "bytes": 893295,
+        "md5": "5Gx1520+liDvx4D7Q262CQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-07e0a52fc4384a32:v0",
+        "digest": "58f4f50359489b4c9644c63f09904f97",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.8-seed-2",
+    "id": "0647e4dd836f4480",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/0647e4dd836f4480",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_c50d62b2bd194e283d3f.mp4",
+        "bytes": 445986,
+        "md5": "4R8Cb+i4qcADLQ0/SJSAsw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_8c600182cc78840ffb2f.mp4",
+        "bytes": 611625,
+        "md5": "iIGAWtnBNwCgZW+4jqlYDA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_51b4d95dde1a199e8d63.mp4",
+        "bytes": 2850474,
+        "md5": "8HGB68fRHDQMyDC8bEWZEQ==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_58e157a88114d10be4d4.mp4",
+        "bytes": 898533,
+        "md5": "MWoQa8YM6Feyf5F/t9pFJw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_10a612783e51e38d0fb2.mp4",
+        "bytes": 896409,
+        "md5": "R40LMchijhDVJTiJyBFKkQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-0647e4dd836f4480:v0",
+        "digest": "0cf7150e9705770521cb30bbcc6082b5",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.8-seed-3",
+    "id": "2227d01b32e34e4e",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/2227d01b32e34e4e",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_7e2f8e28128f6281fd8c.mp4",
+        "bytes": 443503,
+        "md5": "3LnjFHsIr1enVojo76IMlg==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_fa3400dbb04405905438.mp4",
+        "bytes": 610732,
+        "md5": "yNbc2ENTKyj6tDCwKt9Dzg==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_a82de7ec9cf4c5ba6659.mp4",
+        "bytes": 2846422,
+        "md5": "ZuCSgP/R1u2h5grCTLtHrQ==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_d253b4861a51fbb4ee93.mp4",
+        "bytes": 898115,
+        "md5": "Si72Nh/YSyaxI5jNZL3VSQ==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_acaf12ba8ba0bea8d3c5.mp4",
+        "bytes": 896151,
+        "md5": "PEUCiANtBbdMk/zR6dooXA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-2227d01b32e34e4e:v0",
+        "digest": "94aa63e7c5e0e57de7f6731835d1fd1c",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.8-seed-4",
+    "id": "700d7bd6f07149fa",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/700d7bd6f07149fa",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_1ca966cce45b6d2faaba.mp4",
+        "bytes": 443041,
+        "md5": "zrlEl41L9ffP9QCG8NDFXg==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_ee3853302ccdb27d8bc4.mp4",
+        "bytes": 608628,
+        "md5": "LVX0xmlKTsX5fSKeBBlAfA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_3456b03d24b7a632447f.mp4",
+        "bytes": 2846100,
+        "md5": "DqFInmQ1mTJDLn6ch49gNg==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_ab8f8c93f278a2d5e8d0.mp4",
+        "bytes": 899764,
+        "md5": "AizPdFtCIyPjF21HgVhUKw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_e9eaa58ae18328a96d06.mp4",
+        "bytes": 896746,
+        "md5": "Ii1QX0H+EZt3ZdIFgSd/oQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-700d7bd6f07149fa:v0",
+        "digest": "2eb9a0ec4fb7f4c138442c1345d6a3cc",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-0.8-seed-5",
+    "id": "3346faf6cfbe46cd",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3346faf6cfbe46cd",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_261349d3f07caddba969.mp4",
+        "bytes": 442453,
+        "md5": "Yb42n72mVDKnXY1whHuP8g==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_4feacef4166b5aab7949.mp4",
+        "bytes": 609459,
+        "md5": "RMjQ0eZG2YapMZHyG78N/g==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_6e4c99ccf03b86f907e1.mp4",
+        "bytes": 2844349,
+        "md5": "3ZM/c8iQKcE8Q37VvGWtkw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_aa774c517799fe8c9bd0.mp4",
+        "bytes": 900245,
+        "md5": "YL30iiuqfwBBvuf4o6qFPQ==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_a1a49107c760df0d592c.mp4",
+        "bytes": 894271,
+        "md5": "RYB46D7wrzzpR+9RiKw6cg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-3346faf6cfbe46cd:v0",
+        "digest": "125915e28253553508872688a9a55be0",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-1.0-seed-1",
+    "id": "40c2709458004e48",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/40c2709458004e48",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_00f115cf8eb277ad0f9e.mp4",
+        "bytes": 450091,
+        "md5": "v6XrrykJjPiq5u+I1fhrLg==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_f5f7602674b248f15e94.mp4",
+        "bytes": 605545,
+        "md5": "u9I7MaH95wwdzMaKAeOfcA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_1f94d6cf0ed7eacb5071.mp4",
+        "bytes": 2869548,
+        "md5": "WtVYlsMl1D3JKVb7q9Wlzw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_8f09ff0e683dd2ea86da.mp4",
+        "bytes": 899946,
+        "md5": "NEWGaDktwAA6BSvIf3WpUw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_3cb6a72e15979c1de089.mp4",
+        "bytes": 916045,
+        "md5": "b4+pxRjbxLlkAhwzJCpE2w==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-40c2709458004e48:v0",
+        "digest": "6d1094621024643da68c6895bc20162e",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-1.0-seed-2",
+    "id": "118596255a404373",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/118596255a404373",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_cb6c3fe77967e4c2043c.mp4",
+        "bytes": 449812,
+        "md5": "8c40Ger/JSGCI7C7T8TFCw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_8e9cf6a51c96575809fb.mp4",
+        "bytes": 611228,
+        "md5": "xNCCloZ2ZrV/9Wpaip22TA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_d43d55ae97e2262fff94.mp4",
+        "bytes": 2877900,
+        "md5": "ilo6vOhEPUb5JI33G+x1cA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_72fcf1dbba99a9454b28.mp4",
+        "bytes": 901094,
+        "md5": "upTlj7mu2UUq7EO4++HK3A==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_5240a41d1542c9cdc77a.mp4",
+        "bytes": 917845,
+        "md5": "zWhsAZzQuZh1ixcKuzz5dA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-118596255a404373:v0",
+        "digest": "404b2002e60528cb6300bc36da5f49f2",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-1.0-seed-3",
+    "id": "fa8691a5b4814aae",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/fa8691a5b4814aae",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_838876bf1f9d90cc5490.mp4",
+        "bytes": 447421,
+        "md5": "EmEKiPVBwNSZBQ31wpxAyQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_b2d308d2d61308d7b567.mp4",
+        "bytes": 612824,
+        "md5": "EbaCHbAih0OSGS2O7ktJhA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_9ca29dfff87014cb0358.mp4",
+        "bytes": 2877701,
+        "md5": "ETryDlCLVbjiMULZcWn2ww==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_efb196177f3be2e02a73.mp4",
+        "bytes": 902452,
+        "md5": "dswOiNYmnTVkqDmwINwrjw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_6a066662582250ac8df4.mp4",
+        "bytes": 917083,
+        "md5": "NTdGmpTJZZfp9DdAPInkog==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-fa8691a5b4814aae:v0",
+        "digest": "cb2913b5d85763908593fec4c447a7af",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-1.0-seed-4",
+    "id": "497765f019ca4592",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/497765f019ca4592",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_7eedef16f0a9acc9d573.mp4",
+        "bytes": 448424,
+        "md5": "Iw7Uf6XZA/jT6Lq/JOmSVg==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_06f57b8aebdad7bd12fd.mp4",
+        "bytes": 608680,
+        "md5": "E+JDY1ECEycrKTRRtxBZdQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_4c2a54e4a6cc47a5b710.mp4",
+        "bytes": 2874108,
+        "md5": "t+UNOHJIHMYvUXSnhr3OHQ==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_97c7f530b5106d629591.mp4",
+        "bytes": 903460,
+        "md5": "1NBadO19/vh6A/wR0Bl/Fw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_e1a7c37384b167c32da7.mp4",
+        "bytes": 915623,
+        "md5": "TwSejt16Rw+7GAgXqq023g==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-497765f019ca4592:v0",
+        "digest": "336f45ae01a527d7f20b67b3f004f4ec",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/mu-1.0-seed-5",
+    "id": "d1bedd7e63c1487e",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/d1bedd7e63c1487e",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_ba12c6e5117a2089bbbb.mp4",
+        "bytes": 449906,
+        "md5": "7LBHPEFxW7RCvdRuQX4iEQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_3935ae0487e4ed7c6d4f.mp4",
+        "bytes": 607145,
+        "md5": "F0M/cMuxhOyufSTicwuUEw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_d04a5af8c68c9066783b.mp4",
+        "bytes": 2877127,
+        "md5": "/L4OWyPqcs3aNGPcP0Trag==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_4f31b3fb1c31aa2fc365.mp4",
+        "bytes": 904083,
+        "md5": "d37r2o5moFHFijflh1TJfQ==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_f2eb344386b4ece76b2b.mp4",
+        "bytes": 918072,
+        "md5": "hOaI/2hu7CmL7Q1dRYtI1A==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-d1bedd7e63c1487e:v0",
+        "digest": "7f619ba34041bb7adc2487000a0d3626",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/start-high-tilted",
+    "id": "e39374dc5e414775",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e39374dc5e414775",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_3dee883a403dd44d61a3.mp4",
+        "bytes": 444797,
+        "md5": "3FenK7QOblQmdTLsDxRY7A==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_7af8f0b2f04b10fc7834.mp4",
+        "bytes": 615714,
+        "md5": "wo3g7jK40lUg1/7FJ3YWLA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_dce455736593705e72af.mp4",
+        "bytes": 2854247,
+        "md5": "Zp00gqbwEh5MaB7vo2WzFQ==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_87836103f1a25c2e0045.mp4",
+        "bytes": 900015,
+        "md5": "eWrDIYo02beSDk4dM2IHsA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_cbf2f6782c88070d858d.mp4",
+        "bytes": 895800,
+        "md5": "M7B28Budn0gsQAFDvUii6w==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-e39374dc5e414775:v0",
+        "digest": "4e028c201a54e751e33ee2938fdce060",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation/start-low-tilted",
+    "id": "72520eeeff234956",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/72520eeeff234956",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_ab16a525c6c7f2389be0.mp4",
+        "bytes": 442759,
+        "md5": "rQxbecL72Nvr5O2gex+XFQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_d6e0ff055ef5a980099b.mp4",
+        "bytes": 618952,
+        "md5": "MX82vPUhbT50he8fb6rwug==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_7ffffd9c1fc5401ceb2d.mp4",
+        "bytes": 2854831,
+        "md5": "24D+IWrgLNAgKmgX4AvQMw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_8eb725a5ba994f577e2e.mp4",
+        "bytes": 898889,
+        "md5": "Cwivt8+fMCwDMQ8Mkw1Zrg==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_5e0c2c9573e3d8fded33.mp4",
+        "bytes": 896310,
+        "md5": "aTIVLlWDHgYT78ujXXlf9A==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-72520eeeff234956:v0",
+        "digest": "183d1b06a76f8257b91e736a54d988cb",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/com-front-right-high",
+    "id": "913358fc3c1144e8",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/913358fc3c1144e8",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_695a4ff467b1b8714292.mp4",
+        "bytes": 435569,
+        "md5": "a0i75k+63QFoP+AN4/0aoQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_4a96d45170e8063593f0.mp4",
+        "bytes": 607293,
+        "md5": "8NbvvVuLOYkwOYAaGX3PUA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_f6f0f12d3dc29a896226.mp4",
+        "bytes": 2858954,
+        "md5": "APAEgmUr91+rtoOMGs2+pQ==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_21351c863d2f76fe8599.mp4",
+        "bytes": 922853,
+        "md5": "lbekMBSYX/r3sX+may8ekA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_95340263e99e8ca40f31.mp4",
+        "bytes": 895318,
+        "md5": "pQTybT0MbqDjFSjh7eXDQw==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-913358fc3c1144e8:v0",
+        "digest": "a6833f0833c091467fc0f6064c72cc45",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/com-rear-left-low",
+    "id": "b862c87cd6b04495",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/b862c87cd6b04495",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_6344bfc6d8fe4cb73067.mp4",
+        "bytes": 452210,
+        "md5": "zUNi21xjH2Xyi776z6EgZw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_97595bfa6fcd1fd834c9.mp4",
+        "bytes": 615507,
+        "md5": "kOE+oqOorUPvd6iimznN1w==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_30ad03600a25c6cedc66.mp4",
+        "bytes": 2907903,
+        "md5": "jx5kgomE23WShLZIrNOi6w==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_d7a0dd9b2765bd13fa16.mp4",
+        "bytes": 944981,
+        "md5": "m5ahiLJoMjFvCf2lERELzw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_6e2992536ffa1110b21d.mp4",
+        "bytes": 897284,
+        "md5": "BSGNeCj0cXeY4h83WfmU/A==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-b862c87cd6b04495:v0",
+        "digest": "957b8d5532eeecdc63b8e7e3fb32a51f",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/combined-seed-22",
+    "id": "ac0020bba7704ddf",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ac0020bba7704ddf",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_r_1_1c74bce3382c9778758c.mp4",
+        "bytes": 662924,
+        "md5": "lg89VyjaM6ingMBCwEY57g==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_2_075666975b893217d738.mp4",
+        "bytes": 663038,
+        "md5": "aUrDz/J2ko1eWk5cnSazhw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-ac0020bba7704ddf:v0",
+        "digest": "7a3e1f462a950ec527319bedb42c32b5",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/combined-seed-23",
+    "id": "bf52c2fcd4c34477",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/bf52c2fcd4c34477",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_r_1_582967e26144bb4ec4e9.mp4",
+        "bytes": 663712,
+        "md5": "pWVWdEDVYJaWVL5hGQ2bNQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_2_2ac3022a1928899a7e4d.mp4",
+        "bytes": 663826,
+        "md5": "JFs6rUsLxINynPI4VpjGrg==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-bf52c2fcd4c34477:v0",
+        "digest": "91ed6827f2d3f077bfd0abaa93f12495",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/combined-seed-24",
+    "id": "aa815c75e70a400b",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/aa815c75e70a400b",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_r_1_5a71c972f01ab48ee2cf.mp4",
+        "bytes": 660835,
+        "md5": "M+UBSLEeZDwcGXLclGkbyw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_2_45bc88fae4e8dd186e02.mp4",
+        "bytes": 660949,
+        "md5": "n3rA55e7a8SQ099OXIm6Ww==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-aa815c75e70a400b:v0",
+        "digest": "5ad255a21c963ab493b011ada84cd814",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/combined-seed-25",
+    "id": "6a4dcd1cbbe747a1",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/6a4dcd1cbbe747a1",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_r_1_12ea9dbca27c10ee27ce.mp4",
+        "bytes": 666056,
+        "md5": "PzYEO9f5aOSObe6cRxRuDw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_2_546dadc3f87a1d98f614.mp4",
+        "bytes": 666170,
+        "md5": "7Eql3/VKqVUzTELMIBHtmw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-6a4dcd1cbbe747a1:v0",
+        "digest": "8723926b466829e4f28fb84e0f875374",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/combined-seed-26",
+    "id": "4d05f55d98f04e37",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/4d05f55d98f04e37",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_r_1_4a943169db912293278e.mp4",
+        "bytes": 664777,
+        "md5": "kiUaPhg1B2fEtZue6hAPFg==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_2_16a52bda8889120ee19c.mp4",
+        "bytes": 664891,
+        "md5": "Jq10Qp4cJdIbkqyS+KMPew==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-4d05f55d98f04e37:v0",
+        "digest": "f0703307f9faaacdde0f01d04bdde4e9",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/delay-10-steps",
+    "id": "229d77197480493d",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/229d77197480493d",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_105ff7fb6f184ad1956f.mp4",
+        "bytes": 444199,
+        "md5": "NeXFnOk6F0LlBpJDuBkhEg==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_b2f129f5b3a010e259ef.mp4",
+        "bytes": 611519,
+        "md5": "HK92wwMQrd9chWWwHayPMA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_3ea1fbd7476dfda4056d.mp4",
+        "bytes": 2883435,
+        "md5": "8Ld2GYB3gMTNz3lu2jVg6w==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_0e031cc68570d28c923f.mp4",
+        "bytes": 934392,
+        "md5": "+5itZ3j7aJ7T849Wacjb3w==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_7c7fca67365f75c89d84.mp4",
+        "bytes": 895404,
+        "md5": "w8cWECpkcVfoNo/Ky75isA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-229d77197480493d:v0",
+        "digest": "47d97e6c0b85edd62f5f6190392a6993",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/delay-5-steps",
+    "id": "8e6d9fdcc19e42c1",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/8e6d9fdcc19e42c1",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_3195f2f4f974ee996d47.mp4",
+        "bytes": 442379,
+        "md5": "tnYBadk+ocjlrbIu3m/m5Q==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_b032fc0ea33c8dccc905.mp4",
+        "bytes": 606636,
+        "md5": "Ch7jxKEdCLhroQI91lfFUQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_493014a57b5798233877.mp4",
+        "bytes": 2874889,
+        "md5": "eEWHI9/zWk8GnsHW9KQX/Q==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_e3283ea9b6a530c198bd.mp4",
+        "bytes": 934496,
+        "md5": "KninbPhbNzimXZPjRc99QA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_af0b7340ec72e9b999d2.mp4",
+        "bytes": 893457,
+        "md5": "53gJH6frARi1gKiSpzfs+g==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-8e6d9fdcc19e42c1:v0",
+        "digest": "153208882b918e686c2dac5e72425ee5",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/gains-high",
+    "id": "e16b47bf1dd243dc",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e16b47bf1dd243dc",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_cdad531019bf94bf3828.mp4",
+        "bytes": 402646,
+        "md5": "TPRMC/hAHi6vMoiP9Y5xDA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_694b84c609d1a1607a1a.mp4",
+        "bytes": 584274,
+        "md5": "CSb6kVh18IXmnwen1akUDA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_06774b5f40ca4fba396b.mp4",
+        "bytes": 2850814,
+        "md5": "dhOqPaPjogBlYfyXDP1Ezw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_7295a0b88d00dbd612bf.mp4",
+        "bytes": 996301,
+        "md5": "C3wftKlo6qT4oi8tUZyXnQ==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_c308404adad78d0dbfd9.mp4",
+        "bytes": 869672,
+        "md5": "akJ/ojr7fpAs177NH3P64Q==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-e16b47bf1dd243dc:v0",
+        "digest": "134b5adb3b2b01fb04e7579a815419c4",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/gains-low",
+    "id": "b540387598f743dc",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/b540387598f743dc",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_d08b3bcd0022fd92e8ff.mp4",
+        "bytes": 491632,
+        "md5": "Lu2KqHKjA3BuQbvlMuQrbg==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_55051a895f907f987937.mp4",
+        "bytes": 635875,
+        "md5": "Yg2K0HFEgp2nqKMvani/oQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_3_3b9e738941df7082d369.mp4",
+        "bytes": 1126898,
+        "md5": "bk+GENbm2ewdrz+IPvPQdA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-b540387598f743dc:v0",
+        "digest": "f6cfbde01c94cc521e861831f51e3847",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/half-torque",
+    "id": "f5294c93cee9460c",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/f5294c93cee9460c",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_f1bee2b8387db4591bca.mp4",
+        "bytes": 445014,
+        "md5": "09+mCUHmtn7fog/IFWNT9w==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_10a8e3ddb0ea14dc234b.mp4",
+        "bytes": 613470,
+        "md5": "4WAoyXLbFTWKhC4Ldv4taQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_df4009d7cf80e952f7f6.mp4",
+        "bytes": 2882280,
+        "md5": "zE4oy87/PXAJUGKOw81ivA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_7847e95fab05e8f8a401.mp4",
+        "bytes": 933530,
+        "md5": "BehBpHO9DmHFqg+UsJJOfw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_8426bbff05b3b0d363c1.mp4",
+        "bytes": 892345,
+        "md5": "RRzHPhT8yAm4VWhMPk6kyw==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-f5294c93cee9460c:v0",
+        "digest": "062ce07eaa1c111996befc62bc2b30b3",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mass-high",
+    "id": "9d8ed647b27642c4",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9d8ed647b27642c4",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_42e0a297beb935a2e9b0.mp4",
+        "bytes": 472172,
+        "md5": "W5dYP8fQIVHXYQJ+XmgJzg==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_82c03acc5dfac0ec12e5.mp4",
+        "bytes": 617421,
+        "md5": "uNwf3izY14dyjapqoBP3BQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_3_4bc31ddf43a7ff9eccdf.mp4",
+        "bytes": 1088984,
+        "md5": "9LiJNSAbtRl0RcYYd3c6ag==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-9d8ed647b27642c4:v0",
+        "digest": "a67543d70f2f8165ef82a522cadbae6b",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mass-low",
+    "id": "d287bb93e0164137",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/d287bb93e0164137",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_db0cf8b3bc57e92ad0c5.mp4",
+        "bytes": 420606,
+        "md5": "rJ53GOLRuM1SphmFYeDOzQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_539f2d34de1d8ba7d6d7.mp4",
+        "bytes": 596039,
+        "md5": "lgVpr4YK1X0YYCBdKKjRag==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_1033381047e53da9432e.mp4",
+        "bytes": 2888485,
+        "md5": "QjIhA+5G+3JanK49JHYDQw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_6849cc733c3b825fb767.mp4",
+        "bytes": 991999,
+        "md5": "W9NY5A1uwR3Gv/UXV3AWUw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_677ffa37d5bc737510cd.mp4",
+        "bytes": 881920,
+        "md5": "BmaTPgpQeuQyoUT2GNXSnA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-d287bb93e0164137:v0",
+        "digest": "0b00efe035aaabb9b5fb97567b6681c4",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.5-seed-1",
+    "id": "97ccc3bdc0014c63",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/97ccc3bdc0014c63",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_170c4c0b17a22607bab4.mp4",
+        "bytes": 438946,
+        "md5": "dn+lM6vVW34k2CyL2/O6Aw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_841c685c6eec90b1b450.mp4",
+        "bytes": 612057,
+        "md5": "WavzTfpB0Ggs0U4UIoT4eQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_970b40000228a225921d.mp4",
+        "bytes": 2779385,
+        "md5": "IlmLmBHciFsqwAm+66+dWQ==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_20c87161f1a79c9f7435.mp4",
+        "bytes": 869120,
+        "md5": "wgOgCq5HWz8iQzguY/FRFA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_c4a11787a6b49d4a4b82.mp4",
+        "bytes": 861341,
+        "md5": "LV3DbpIWqelkbE4i4SBmCQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-97ccc3bdc0014c63:v0",
+        "digest": "16628361174b3871f093cac8a88363f1",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.5-seed-2",
+    "id": "c06e5bd4a290402c",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c06e5bd4a290402c",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_bd433bdbac8044aee8d9.mp4",
+        "bytes": 435924,
+        "md5": "PLg4k9HtC3QATV6cVzGDwA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_99ffb0fa2cdd9a528b7c.mp4",
+        "bytes": 620170,
+        "md5": "392+nEqN+FdWXiFIuoB3qw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_dacf4aaec9b4af744375.mp4",
+        "bytes": 2785421,
+        "md5": "nT5yJMVtTfZrgGrqk0G1+g==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_0b06cbb30bc7786dd68c.mp4",
+        "bytes": 868110,
+        "md5": "75t9EZfTtFWMBx5t3nOntg==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_fff94937a8451979207d.mp4",
+        "bytes": 863296,
+        "md5": "M6Dt0sDOyT6HrnHbeXuB+Q==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-c06e5bd4a290402c:v0",
+        "digest": "77206f63a12989a13fbefd297b615229",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.5-seed-3",
+    "id": "2f5a843099a242b8",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/2f5a843099a242b8",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_037d3ce34041a21cdd25.mp4",
+        "bytes": 437626,
+        "md5": "ld1eJEqM4z4kLDU9QI2YiQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_9fcdf2989ff7249b1a78.mp4",
+        "bytes": 620122,
+        "md5": "/grAM8p4yEcBvU/NeYWXtw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_d4b7c3394fae4c99b05b.mp4",
+        "bytes": 2785592,
+        "md5": "16tt3eb1Tt2LF6w9a8Uukw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_942612d8caa7b0fa5aa5.mp4",
+        "bytes": 869161,
+        "md5": "JUOUc2c8fl08V+9JHm+OzQ==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_0f997383c1c1cd86a173.mp4",
+        "bytes": 860762,
+        "md5": "P0wAX3wPAbCVKYyaOuWX1w==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-2f5a843099a242b8:v0",
+        "digest": "28451ab7a13ff1c1b60646cf88bb0134",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.5-seed-4",
+    "id": "049f20ef13b840b6",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/049f20ef13b840b6",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_6e49b33630bd51aa5c7d.mp4",
+        "bytes": 438189,
+        "md5": "IpoE+8PLrxDn9YPx0piuEA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_9a7bbefe4da6f70b7252.mp4",
+        "bytes": 608337,
+        "md5": "+TXIuJA4dp1dy+BhzaswEw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_6eb70803e0c02cc6ef3a.mp4",
+        "bytes": 2776738,
+        "md5": "IClybiJtMYaY6Qtq8D0skg==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_77936cc92517ce22a656.mp4",
+        "bytes": 866180,
+        "md5": "XzGMOltm98KonTmOzyNDJw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_d1ad5623d3ef31751226.mp4",
+        "bytes": 866111,
+        "md5": "cHurlgFlhe85CgQAYEaS2w==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-049f20ef13b840b6:v0",
+        "digest": "508580830a890b285031b57e0e8520e4",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.5-seed-5",
+    "id": "9a30efdca49f4814",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9a30efdca49f4814",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_237817ee09afd84517bc.mp4",
+        "bytes": 437719,
+        "md5": "R4oyoCvL+Fp4WO4nUqe8vw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_42c6638956e14f75779b.mp4",
+        "bytes": 612975,
+        "md5": "th4a4wGefBCUjWFJpO9iOw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_7fb158616b1dce40b10f.mp4",
+        "bytes": 2781257,
+        "md5": "PeGTtTHJbjWaOD/U3164wA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_6b33ce9f32af93de7317.mp4",
+        "bytes": 868678,
+        "md5": "USVfDweyrbCnfX7rKwyQxg==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_201bc85d6288bb39c0ab.mp4",
+        "bytes": 863964,
+        "md5": "KbYJrk1k/W/uwVHv+hbygA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-9a30efdca49f4814:v0",
+        "digest": "cb6ac0d31422108bfc8401193706e8b1",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.65-seed-1",
+    "id": "642853278c274837",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/642853278c274837",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_c3f3a03dbf60bc5a5468.mp4",
+        "bytes": 442644,
+        "md5": "2T0VbrBI/aJatsQ2aWT35A==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_f9c8dd6aa9889e313245.mp4",
+        "bytes": 609368,
+        "md5": "dbtxf+Wt9NBeywOGaNPMrQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_718553fd79a3c8bf46a4.mp4",
+        "bytes": 2838313,
+        "md5": "AOYESjEfYowE1tiRDQjaRA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_0a9ada6ae894fb41d0bc.mp4",
+        "bytes": 903854,
+        "md5": "brDmb5kbjj2D28x57/67eg==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_24b496dcc89ae3de0752.mp4",
+        "bytes": 884526,
+        "md5": "EJD8Dv12xs4DuEeolkTdyg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-642853278c274837:v0",
+        "digest": "b6c9589c7be802e7701d5fb63cb35d8f",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.65-seed-2",
+    "id": "52999847c3c54f72",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/52999847c3c54f72",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_f5fa9af4f61d9606bf9a.mp4",
+        "bytes": 441203,
+        "md5": "XUxeL4EJo7bS/sQ/roATvA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_5c523e20b63bc22619ac.mp4",
+        "bytes": 612117,
+        "md5": "FdRTFAdWYyR4BSu2EV78wA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_f4d7f25d55ed307b9502.mp4",
+        "bytes": 2833746,
+        "md5": "W1jj+FTdjgyUK8Js/URasg==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_3f4161a7b2a848df4ad2.mp4",
+        "bytes": 901415,
+        "md5": "4URgrUdYdi2pSQ9ETB899A==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_2271e2191a1d0f3e4dad.mp4",
+        "bytes": 881090,
+        "md5": "F20eLaX4XAu58O0/cnTilA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-52999847c3c54f72:v0",
+        "digest": "0986c599cff1d8c811f4a9e048d30e88",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.65-seed-3",
+    "id": "9f44f73d5bb6407e",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9f44f73d5bb6407e",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_14356e0851e1ec2a2457.mp4",
+        "bytes": 440648,
+        "md5": "x2TpCME/bVn7oQyIRjVpGg==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_677f972b082c9bb23d9a.mp4",
+        "bytes": 614886,
+        "md5": "tOGJeRpq5AW2+8JEcY6nUA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_e775daff5b7172b0ea02.mp4",
+        "bytes": 2834303,
+        "md5": "ZSGktilH+gGoD9OnenlcMQ==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_8a341938bf8f28100283.mp4",
+        "bytes": 899492,
+        "md5": "tZdiL/MjkKBy0GzVsdb/1A==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_1c52e2a520032c87e428.mp4",
+        "bytes": 881356,
+        "md5": "9R7EWqpHzE+yZxsgtuqbPA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-9f44f73d5bb6407e:v0",
+        "digest": "49d68fa3d13eaa33717da29c480ba6cc",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.65-seed-4",
+    "id": "95de24d2364a41db",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/95de24d2364a41db",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_e2b0572e58d235a69e04.mp4",
+        "bytes": 440329,
+        "md5": "ROOBzlywoL0INqCt4zcedA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_40ba89be39e5d7b2f8b6.mp4",
+        "bytes": 610746,
+        "md5": "nm/fqOAHzZgzuFC1XeYeVA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_18ed4a1ea10b2e2e2e1e.mp4",
+        "bytes": 2821365,
+        "md5": "rOCASvk43+VgzbyR5ffaog==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_7c3a7607ff38fe386fb0.mp4",
+        "bytes": 893077,
+        "md5": "1cnF8Wb3GX6PLjB2K6SRpQ==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_2acd105e71af48b64f06.mp4",
+        "bytes": 879292,
+        "md5": "xw9nsrf6TPcgsWrK7mpCDA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-95de24d2364a41db:v0",
+        "digest": "488d5e3e0da24fbf4795b621ac5794bd",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.65-seed-5",
+    "id": "72b98e3b98f14dfb",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/72b98e3b98f14dfb",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_aeff2634dffd7f72c443.mp4",
+        "bytes": 439239,
+        "md5": "d3VCE5EW78ppxZC5GYm+8A==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_39e29b6680b54466faba.mp4",
+        "bytes": 611588,
+        "md5": "w60t+afX5/7ixFPopFgd4g==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_8d2f72afcc1a62fc0240.mp4",
+        "bytes": 2826415,
+        "md5": "yDbttQOmHUOKZ5Hlfk55JA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_c2d2dbdd23e99312f429.mp4",
+        "bytes": 896399,
+        "md5": "rRubXV8yaV5H9JpyDy84cA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_144e77114f3ac1cf1185.mp4",
+        "bytes": 881268,
+        "md5": "snG673/v5oXsoO0xNZdapA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-72b98e3b98f14dfb:v0",
+        "digest": "cd62b50491c6f6567805b6b0865ba830",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.8-seed-1",
+    "id": "e782179d986b4168",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e782179d986b4168",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_35834bf3dd47f02fe68b.mp4",
+        "bytes": 445660,
+        "md5": "+sbTvqPGc6dh2yDDzqdnHw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_bc59c4735fedfa2cb013.mp4",
+        "bytes": 606788,
+        "md5": "GhF2SAtsIRzbCihiWi6LmQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_e97abcb101e7f1e965d2.mp4",
+        "bytes": 2881635,
+        "md5": "cEtMDI6DMv1hGDa8NNefGA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_4c8b16868beea384042a.mp4",
+        "bytes": 937398,
+        "md5": "sGSqvS37Xi9OwohxgjZh6Q==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_e957db42dd2870314791.mp4",
+        "bytes": 893868,
+        "md5": "DDezuUAypY2y3Axxcvhu8A==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-e782179d986b4168:v0",
+        "digest": "71c56bad698d2631fe6ea48cca614f57",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.8-seed-2",
+    "id": "e5026ff62def4cc8",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e5026ff62def4cc8",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_3a6555f005c45094ee27.mp4",
+        "bytes": 444080,
+        "md5": "+c1Bih33VTefsvudGbjjGQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_04e20d6b8b43aab78129.mp4",
+        "bytes": 611701,
+        "md5": "pSuB+VyKfmi56oHEUNO1WQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_6fa724bd6570186fe96d.mp4",
+        "bytes": 2885225,
+        "md5": "mhaglBTYN3lC7wbCvuzlPw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_7882d0206af47d2f8a28.mp4",
+        "bytes": 935274,
+        "md5": "P+RNFWPLuZ+a4e7XM1ednA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_468aab60ce95a94bbefc.mp4",
+        "bytes": 896249,
+        "md5": "jppVtX4YgyndMhO9txogYg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-e5026ff62def4cc8:v0",
+        "digest": "f1527e51f91a794eee68719c15bde1e5",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.8-seed-3",
+    "id": "39b68b2f1c6f4771",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/39b68b2f1c6f4771",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_5b1ac4482919d6475348.mp4",
+        "bytes": 442029,
+        "md5": "MI5uWQT60MEX0SNZP2lwYQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_9098e1eca7efee0fa57f.mp4",
+        "bytes": 613862,
+        "md5": "1VgOlnLyI350Yge7wW76rQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_8637578546ff018548e8.mp4",
+        "bytes": 2881994,
+        "md5": "NEap6PXSronFgZrGGeo24Q==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_fdd0a44cae865a60bd0a.mp4",
+        "bytes": 933723,
+        "md5": "X6DJEE1nvBiYUdMyvfT/fA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_03dde86dfaaae0d9c952.mp4",
+        "bytes": 894459,
+        "md5": "euGq6F7DHRSkSikKzEk/Lg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-39b68b2f1c6f4771:v0",
+        "digest": "bbaf1ddda82fee28472e0eb8f7400f8f",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.8-seed-4",
+    "id": "dc165c9091ca4da1",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/dc165c9091ca4da1",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_920ad0b2980a7a9ae3b9.mp4",
+        "bytes": 443821,
+        "md5": "iSrOavccOFweE0T+hgu+ow==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_591e89f51b87eacd59fc.mp4",
+        "bytes": 608048,
+        "md5": "uqpjAD2VkTSPsRLx8c2ksw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_0c58b78853caf6995bee.mp4",
+        "bytes": 2878373,
+        "md5": "PoaoSXgckiwiUGJqcC3gMg==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_ac29410b33c2836a5d61.mp4",
+        "bytes": 934452,
+        "md5": "v6ls+BGYyqSQInqCY+I+FA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_7c8eb04170c35cfd074c.mp4",
+        "bytes": 894131,
+        "md5": "CrAwVTN6GCF5ciym9ZK/DQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-dc165c9091ca4da1:v0",
+        "digest": "672496900904f6d9f7bca123a2bbc969",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-0.8-seed-5",
+    "id": "43f412d89f884dfc",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/43f412d89f884dfc",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_27b61b4d5b653327b344.mp4",
+        "bytes": 443980,
+        "md5": "r5kqpxRQas/2T7yqUFWvsA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_153f9681a9fb9e200e11.mp4",
+        "bytes": 609003,
+        "md5": "qh9aKPaD0exRBaPqEj9EgQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_300f79c58154a510ccc4.mp4",
+        "bytes": 2880637,
+        "md5": "C1kSo3udj8cSKInIARpTAA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_7e60ce320f25d51003f1.mp4",
+        "bytes": 934099,
+        "md5": "wy9sUeCPcnKujKlNHE5rkw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_df70acaad0a1db717c9e.mp4",
+        "bytes": 895634,
+        "md5": "n63MWKYGN9lRi/qCTo1neg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-43f412d89f884dfc:v0",
+        "digest": "7cd3b04958ce63d13044276359b4c16d",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-1.0-seed-1",
+    "id": "f135b87c0b8148ef",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/f135b87c0b8148ef",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_bd022d569de782c56c87.mp4",
+        "bytes": 450423,
+        "md5": "MkODnBTxiCL4eNcXyq/Yyw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_417c7e571f1a9f11e111.mp4",
+        "bytes": 606618,
+        "md5": "pO5g/d2Uxp8zltFVBKozCw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_e296e6006b310f3b60c7.mp4",
+        "bytes": 2907964,
+        "md5": "YdFqh5w/5tB5XM4zx8kodA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_d7822f14ba3e8ef2a9e3.mp4",
+        "bytes": 935179,
+        "md5": "882dqgm7T11rzZrAVjOirg==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_09df05d7af152028cf2f.mp4",
+        "bytes": 917823,
+        "md5": "mP0sFaVGGvbQqpcoKpANrQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-f135b87c0b8148ef:v0",
+        "digest": "2adc522d5d07621321ac522307c0c3a5",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-1.0-seed-2",
+    "id": "72e7dc8aae3444f8",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/72e7dc8aae3444f8",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_c6c731cf5625a6988f7a.mp4",
+        "bytes": 448495,
+        "md5": "JwiAyZR0HUR9bl6QM9qKdQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_b56191b249aa4a81984e.mp4",
+        "bytes": 611826,
+        "md5": "oVsvGN/FS5u4g3ZWv3+J7w==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_4344fd673057152493d4.mp4",
+        "bytes": 2911024,
+        "md5": "KGyuFHwWuSArTX1lcsLxRg==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_e1b23c94d4d6a5716330.mp4",
+        "bytes": 935752,
+        "md5": "dAw+WH5d8ik/KxlcBVsV4g==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_7c2c0aaf0530b2c501c2.mp4",
+        "bytes": 917030,
+        "md5": "4CSXClFAbbEbsbY+Vd7WpQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-72e7dc8aae3444f8:v0",
+        "digest": "c1d13fa3b48ef8a4262e5df926b8b8a7",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-1.0-seed-3",
+    "id": "42ac59bdaaa94793",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/42ac59bdaaa94793",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_60122fc2b90b35e1a700.mp4",
+        "bytes": 446678,
+        "md5": "gESZLgG/Ua/jHk/xdPE+uA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_340cc2825a42278d741f.mp4",
+        "bytes": 610809,
+        "md5": "KYkXB8RpkCi3qIv4CrXnnA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_27529a2ddf33271cbc01.mp4",
+        "bytes": 2908938,
+        "md5": "5YNWKKyQ5vh9lMCvMM4PXA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_5cd70a2496c73c7aa16e.mp4",
+        "bytes": 936176,
+        "md5": "b6ShLzGyS13CtQN4JcsvwQ==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_d0a67dd46fd780ac7ffe.mp4",
+        "bytes": 917354,
+        "md5": "ev+UC+keNlE9+DB6GkJNBg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-42ac59bdaaa94793:v0",
+        "digest": "4c16186b9b2748f658f5b30b0ad3cd28",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-1.0-seed-4",
+    "id": "fc1d3e41aa604b3c",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/fc1d3e41aa604b3c",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_93dcf06cd7ba08b6cf82.mp4",
+        "bytes": 447199,
+        "md5": "k8K+vTiMfZQfGXbLXS4yEA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_a3f7b3094593f42bbfdf.mp4",
+        "bytes": 608104,
+        "md5": "Gdt7mwpy1r6ZAhv6FTwglQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_a6564e7e0b53b0f87e67.mp4",
+        "bytes": 2906688,
+        "md5": "t7billrB/PBAlhs+xiU+CA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_03f2b6ed257df7c6b56d.mp4",
+        "bytes": 937690,
+        "md5": "/THUOo2Ma2KVGAyPf4DDTw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_653e9330060c03e9b479.mp4",
+        "bytes": 915774,
+        "md5": "NYNToMLYIxBCzD/xLf9EOw==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-fc1d3e41aa604b3c:v0",
+        "digest": "5373a3efd85807579f14a09bbe38bdff",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/mu-1.0-seed-5",
+    "id": "a5393083955a4a0d",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/a5393083955a4a0d",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_7bbf769a57a860ecb4bc.mp4",
+        "bytes": 449091,
+        "md5": "qD5krzK+xDRGZIwXgoyphA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_af9053f20b2455b15b5a.mp4",
+        "bytes": 606771,
+        "md5": "nIYD6cTu85PyzW9Sb0ktkA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_5a2c755a06212ca4d605.mp4",
+        "bytes": 2906951,
+        "md5": "EnwlMTM8kjcnaYj2bzfyTw==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_71f0bed75c87dfdfc500.mp4",
+        "bytes": 936951,
+        "md5": "CdUuSWIDtUDklf6V8h+++Q==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_3f135746e634038e3463.mp4",
+        "bytes": 916217,
+        "md5": "I3bT39KDrkCelnIDwby3KA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-a5393083955a4a0d:v0",
+        "digest": "6c0f6547fb090374e80a8631e41cc41a",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/start-high-tilted",
+    "id": "b2c8aff27a984f4d",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/b2c8aff27a984f4d",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_fd7dc48e6aaff7b16aa3.mp4",
+        "bytes": 446081,
+        "md5": "k87J6dpNJPS/6ecka5h4oQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_2c659442d4bb39016e76.mp4",
+        "bytes": 615461,
+        "md5": "bOp7tiJTlTlmrV93IBCarA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_7c3bc13be8a9603950b3.mp4",
+        "bytes": 2890123,
+        "md5": "9Jlx+c2cRnbGKSvZypcIUg==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_72d13a22ed589e834b36.mp4",
+        "bytes": 937448,
+        "md5": "loDHkB19ybReqJEPrFv5Sw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_767eada432a615d7c30d.mp4",
+        "bytes": 893212,
+        "md5": "hYMQyeUbgGVhe/yHRkvUgA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-b2c8aff27a984f4d:v0",
+        "digest": "15e9563a0b29c1faf75eed18523527a1",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "final-validation-v5/start-low-tilted",
+    "id": "c5714583b0cc4143",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c5714583b0cc4143",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_8cdb8e311c782d23d55e.mp4",
+        "bytes": 443774,
+        "md5": "GajrFg+v2WyyD2ZzjbGr/A==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_03a3a336a39a2fc99864.mp4",
+        "bytes": 619492,
+        "md5": "O7qZ/EhFTi9q73dCmtLFdw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_sequence_5_0888c7fd27e0e3fdb765.mp4",
+        "bytes": 2892804,
+        "md5": "UgQilHtJeKr1wV3VBs49bA==",
+        "matching_local_videos": [
+          "rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_cbf00f13afa4c668c6dc.mp4",
+        "bytes": 934810,
+        "md5": "ZP9Efuc55sjCWsfTAiPwlw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_f7adc6267a6fdec491d6.mp4",
+        "bytes": 896807,
+        "md5": "JtG7KBANr6j8Yx9KUdNWtg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-c5714583b0cc4143:v0",
+        "digest": "98aae0848191538c912819a1e5e9d5d7",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.5-seed-1",
+    "id": "d75b0d7ed2e94c46",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/d75b0d7ed2e94c46",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_0eea82e45d365b7b816b.mp4",
+        "bytes": 437672,
+        "md5": "zfe0NMaORuVcK9bjPAoG4w==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_fef8c1f14a69b3f9d6d7.mp4",
+        "bytes": 611226,
+        "md5": "gD68JQWHLt1iatFzlK2vwQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_a2f921d73c533a67c4aa.mp4",
+        "bytes": 866054,
+        "md5": "qwKA+ZNuB9h/Csx/VSyNZQ==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_67515b30a6fe1c8e15f6.mp4",
+        "bytes": 852281,
+        "md5": "nDsO0iwFefMYkjZtfrRo7w==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-d75b0d7ed2e94c46:v0",
+        "digest": "4a7b467b9d2217a7b2dc7e1e6495e3ca",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.5-seed-2",
+    "id": "8782ba33247e4d77",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/8782ba33247e4d77",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_afc4bef427ff07513620.mp4",
+        "bytes": 438093,
+        "md5": "m3SmTISUohGnMeBl+L2/kA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_32e82d1ee2d221c4484b.mp4",
+        "bytes": 617967,
+        "md5": "RPphNlYS7SQMnN+WfRaiyw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_8528518870c7acd70e76.mp4",
+        "bytes": 869018,
+        "md5": "BOp+rmNOYRCjaYVsFW+l2w==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_b1c3542af8ab185da131.mp4",
+        "bytes": 856386,
+        "md5": "59t/UK4mCf+GsoKdpUal5g==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-8782ba33247e4d77:v0",
+        "digest": "32c3eb99b665633950d7624e79316c36",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.5-seed-3",
+    "id": "4af6a25466a24ca7",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/4af6a25466a24ca7",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_51b1a8bf95fb9645d8b1.mp4",
+        "bytes": 437891,
+        "md5": "CyDjtn/mmU9pBVsSGOoRLQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_f98552020352f795b940.mp4",
+        "bytes": 619480,
+        "md5": "0np+wSx9N+g4lVpAYus5+g==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_bf8aeecd429fad05cea1.mp4",
+        "bytes": 864960,
+        "md5": "2XAkl9Ps1hX++SRyj9cdpQ==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_7086478d7ca85ae72968.mp4",
+        "bytes": 851154,
+        "md5": "uJGVwB75Zty6lzlUhSijOA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-4af6a25466a24ca7:v0",
+        "digest": "64a210b41e52656a41b46e85f631897c",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.5-seed-4",
+    "id": "24c2334036f24523",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/24c2334036f24523",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_e737f28733afccb18b4d.mp4",
+        "bytes": 437936,
+        "md5": "3ldXLAjEucjoYFRYLA0kig==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_30a092523199113ec8b5.mp4",
+        "bytes": 612032,
+        "md5": "ojpgVrxVAZT95JuC27vybA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_83978128dc8b1d27e33a.mp4",
+        "bytes": 868156,
+        "md5": "6eT5NF7ekwqDKTKPi6dhhA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_f753abddda39469cfd6f.mp4",
+        "bytes": 853589,
+        "md5": "PMbZ7gdDDWzzeeBQ8kUWzw==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-24c2334036f24523:v0",
+        "digest": "ed0bb7ed99342cc411653ce05b508b90",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.5-seed-5",
+    "id": "f1d9022a64cc48d6",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/f1d9022a64cc48d6",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_be0c6d98f766cf1ca306.mp4",
+        "bytes": 439564,
+        "md5": "e0tZZZpW5+d2eOgWA1tmjA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_ba2fb7893cc0ea02d895.mp4",
+        "bytes": 612496,
+        "md5": "eXN8FOlHelI9SjID1e9e8A==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_5c4b6fa9fb205402648b.mp4",
+        "bytes": 865641,
+        "md5": "gDlO3pBbl4C1htf4Sxu4xA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_52d1a1be0305ed167d4a.mp4",
+        "bytes": 855204,
+        "md5": "yMK9KqOihxZ3hABkp2c8kA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-f1d9022a64cc48d6:v0",
+        "digest": "214e54ec7309e4f9acf8338f569c87d4",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.65-seed-1",
+    "id": "56eaa75cd4114832",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/56eaa75cd4114832",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_7a6f04e5b0a8c43ed06e.mp4",
+        "bytes": 441433,
+        "md5": "FKQFxeWvowjt7ySK87SgDw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_f325f20bd076cedf2c76.mp4",
+        "bytes": 608569,
+        "md5": "8eekfaapcppLyljUnXAWdw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_c4ad0cd1863272b6a597.mp4",
+        "bytes": 889073,
+        "md5": "HAIFik93UwMt9qYfnkucyw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_dcf309affb4e0ad3aa8a.mp4",
+        "bytes": 876590,
+        "md5": "4fyPmoBKH2ZKw/LrtpEMIg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-56eaa75cd4114832:v0",
+        "digest": "a496a9bd2b8dbed3b39ac30b01bc870e",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.65-seed-2",
+    "id": "713ad50b2ad2428c",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/713ad50b2ad2428c",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_22cc09e2f8bee462c450.mp4",
+        "bytes": 440166,
+        "md5": "Dzy/JrSQWWJ+iTHrWzsgCg==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_7d5766642b4417b152aa.mp4",
+        "bytes": 614209,
+        "md5": "5AfZCMNUi7t3BZ1z7NoGiw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_55521ac14afe8a294e65.mp4",
+        "bytes": 891008,
+        "md5": "W5Gc64cnfHPbT1A8gsJLTA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_a26a5147dadbe62e267d.mp4",
+        "bytes": 871749,
+        "md5": "TwpK4Z/FhAwBJwDY7SQoXA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-713ad50b2ad2428c:v0",
+        "digest": "09438bb394d590a524447cc975c6009c",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.65-seed-3",
+    "id": "ca517c422dd74796",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ca517c422dd74796",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_0f36b1ed8ae27f893409.mp4",
+        "bytes": 440755,
+        "md5": "1sRsyP99utdKSldEuLvO3A==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_50043770d2efd1b6645e.mp4",
+        "bytes": 616225,
+        "md5": "n2BB8hGjvwgP5vxlC28X7A==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_746a6b3db61a1aa497cf.mp4",
+        "bytes": 887863,
+        "md5": "rtJQ8xOjVMeiLmglceGZhg==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_a195aa5b0d75f8bc7309.mp4",
+        "bytes": 875733,
+        "md5": "nb35psg0vasfEDgA0u707Q==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-ca517c422dd74796:v0",
+        "digest": "0e8378e44ec39f49990674dab1fe1e21",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.65-seed-4",
+    "id": "b2e9ec0ba1364b6b",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/b2e9ec0ba1364b6b",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_991181e65983b7d75be0.mp4",
+        "bytes": 440151,
+        "md5": "vt4GC3snyRRbgahe+qujlw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_a89ab7635647c0aaf0fa.mp4",
+        "bytes": 610261,
+        "md5": "IoHp5nRe/wpb+9nB7Mud1w==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_918d3858431764e1f5e1.mp4",
+        "bytes": 887033,
+        "md5": "roHm2Hy4e1GdOUwww2jqFQ==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_7f9bfd566c3eced15d15.mp4",
+        "bytes": 870651,
+        "md5": "mXNN9KKaPQjUtvJy18CPtw==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-b2e9ec0ba1364b6b:v0",
+        "digest": "a9014e7083a667cb17a7ce66751dd9a3",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.65-seed-5",
+    "id": "e493324dbd334bfc",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e493324dbd334bfc",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_a5a07fd5e25aaab308e9.mp4",
+        "bytes": 439193,
+        "md5": "w9MJIjOrDB4eLU0hhGSRKQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_15acab1d9c10e42e7a1d.mp4",
+        "bytes": 609522,
+        "md5": "o+CCNJa2uwRz8QlyeJ32rQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_d3ace3de738c9f008b3f.mp4",
+        "bytes": 888083,
+        "md5": "NTqQ8ufV+hmrfK2esCuOCg==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_d6aeacaba50544629862.mp4",
+        "bytes": 873869,
+        "md5": "quJdxqEJR7cWlj1EShckEA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-e493324dbd334bfc:v0",
+        "digest": "ebc050b133bc1f8495075f2bf2e3d3a2",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.8-seed-1",
+    "id": "1fca273f3ec44df5",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/1fca273f3ec44df5",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_10cce18a5e33feb5ba0e.mp4",
+        "bytes": 444334,
+        "md5": "SLVXmqWLiBG5xLsSil7WcA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_b7b1ef10014776b8008b.mp4",
+        "bytes": 607057,
+        "md5": "g7zRlAKKYTx3fv1jV8Qs8w==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_4bb3706c87e53636c6f4.mp4",
+        "bytes": 901749,
+        "md5": "hZoqkcGtA1XHogToOcQp9w==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_b138313a75096cc2c3a0.mp4",
+        "bytes": 888330,
+        "md5": "WBmltzB667Xr9MmBIBYGwg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-1fca273f3ec44df5:v0",
+        "digest": "af9a43cb3b57191ab784b3f9ed70504a",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.8-seed-2",
+    "id": "69b88e7cc9c64827",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/69b88e7cc9c64827",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_c1c56fbe1716401794a8.mp4",
+        "bytes": 443682,
+        "md5": "GdR8mH7RNLqfJ3jJ4wJA6g==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_f2174e5bff36becf2f8a.mp4",
+        "bytes": 611140,
+        "md5": "eiAT6m4M6MHpfdu1mE/UCA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_cf8c67fe2533b95638f2.mp4",
+        "bytes": 903763,
+        "md5": "qKNzYuRJbEvQTDDC/YDPfQ==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_e0d2be4ee19449bd3cc2.mp4",
+        "bytes": 889210,
+        "md5": "UelQ2QBTDmELB7eAkOMXzA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-69b88e7cc9c64827:v0",
+        "digest": "9a17ef89a99a689d13f0c16e22750d60",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.8-seed-3",
+    "id": "98582bd17a6d4e25",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/98582bd17a6d4e25",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_f9f939acf94a370a6040.mp4",
+        "bytes": 442057,
+        "md5": "5QYPR6250ouHnpcvAghOGQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_41856b5449f7aef0a770.mp4",
+        "bytes": 610019,
+        "md5": "WFFNLRZSAmOwDXJHteXHKg==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_02b33994e50464ddc4d0.mp4",
+        "bytes": 901741,
+        "md5": "1fk6xKqfHH0kkQMwpEEuBw==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_21f7db1de6e5b1dba0b2.mp4",
+        "bytes": 890042,
+        "md5": "ALRdYAsp07QqL/jtxXFkzw==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-98582bd17a6d4e25:v0",
+        "digest": "35eeb102ceb6b2bf9f626879c9b81e9f",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.8-seed-4",
+    "id": "8aa9ebf3d5584812",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/8aa9ebf3d5584812",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_5ae17dd4ce766ba6d433.mp4",
+        "bytes": 444908,
+        "md5": "y9kb9VG4a45xxyHR5b9I1A==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_2710e262329af2c31801.mp4",
+        "bytes": 608863,
+        "md5": "Qrp1bGKywjVLm3lNtesrkQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_46021b7a6bb9ca294459.mp4",
+        "bytes": 896318,
+        "md5": "5HZaEZJ7Jf5rESEnuagH4g==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_48625252272b5221988c.mp4",
+        "bytes": 888050,
+        "md5": "1gquD0lHMwN+RLmtJj0Asg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-8aa9ebf3d5584812:v0",
+        "digest": "45d5cd2d91381d0fcee10af93d418310",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-0.8-seed-5",
+    "id": "64a6312ea7c84692",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/64a6312ea7c84692",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_a57a22882a4c11b4120e.mp4",
+        "bytes": 445326,
+        "md5": "u6OfHV2wg0xANDghGgd2kQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_861f023f05e7b2200ec3.mp4",
+        "bytes": 608748,
+        "md5": "sCcvxGzTMSwOqFIOq638aA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_49956c31b75b638d25f8.mp4",
+        "bytes": 900229,
+        "md5": "0p0ebloNmkwTwYOsngYY/w==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_4b1501a2ecfc302d8d09.mp4",
+        "bytes": 888989,
+        "md5": "mFqggeu3JvLbBPncE6I0Cg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-64a6312ea7c84692:v0",
+        "digest": "c66a104e3e58e504cdb583ca52231394",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-1.0-seed-1",
+    "id": "75f303f29b934030",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/75f303f29b934030",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_ed0624d80f6b0610dcc4.mp4",
+        "bytes": 450414,
+        "md5": "a/rnwy70jMPdDIvMTATLcQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_6a31403aa66e281cb9e9.mp4",
+        "bytes": 605797,
+        "md5": "QLEMEp87T3jd9QULWYgxGg==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_6920e4e8302008e2ac2f.mp4",
+        "bytes": 913066,
+        "md5": "JnPl/Cx15qTwnqlEpM8rTw==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-75f303f29b934030:v0",
+        "digest": "25af241d7bbcf99257c3f063c81f7ca7",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-1.0-seed-2",
+    "id": "1dfaa1f33f47488c",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/1dfaa1f33f47488c",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_6c70d815988d52a80a35.mp4",
+        "bytes": 449775,
+        "md5": "XeutMi9nmtF5ldVRhm7XMQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_a049ac0ae37cb2fda2bb.mp4",
+        "bytes": 611300,
+        "md5": "I6SrJQS9LAlc4nJ+QTCnwg==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_d6bcd232ff127b4bb988.mp4",
+        "bytes": 913334,
+        "md5": "/bcA1sTcKLuHpV8EvWyKYw==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-1dfaa1f33f47488c:v0",
+        "digest": "00380cde7f6d13906d34469eccc0dad2",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-1.0-seed-3",
+    "id": "988b78f812364882",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/988b78f812364882",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_39561784c02c06b78c76.mp4",
+        "bytes": 449839,
+        "md5": "tkRwc78j5xxW9pnX0bfGQQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_e9b0cac61525ea02e2b9.mp4",
+        "bytes": 611210,
+        "md5": "cTGxFjr/bFS5YTE0FHiAPw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_b4b250a90c99fcac4777.mp4",
+        "bytes": 912382,
+        "md5": "L/fZUDIl3GxR3XkCz2QwOw==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-988b78f812364882:v0",
+        "digest": "f3739fa6c134fb6d1720eb8707b3aae0",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-1.0-seed-4",
+    "id": "e188cd7e5d8148ae",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e188cd7e5d8148ae",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_1275c5f362bbe0822357.mp4",
+        "bytes": 447794,
+        "md5": "46AfUBYyrhKxDbP/Ypk1tA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_7849c3dfeca54b030fca.mp4",
+        "bytes": 610812,
+        "md5": "1b48oaOgSUKSQ2B7jUJbHg==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_106ed6f0b10bf9778f47.mp4",
+        "bytes": 911690,
+        "md5": "iRDOa2I8M1feshHrl8OMTw==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-e188cd7e5d8148ae:v0",
+        "digest": "1ad871b7d35a454cf9fa4ffee128d280",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "friction-v1/mu-1.0-seed-5",
+    "id": "d1c8c9f26705494c",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/d1c8c9f26705494c",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_dbbd10de6837b899dae6.mp4",
+        "bytes": 448230,
+        "md5": "ZEezIJ+uZnobcCadXXplFw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_0328003dad604a86b974.mp4",
+        "bytes": 608000,
+        "md5": "y7yDaW4+Zz4Ziryn6d9JEA==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_c19107d68a72c5d39426.mp4",
+        "bytes": 914423,
+        "md5": "Qau+gxMwLwQZgEb7gpcexQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-d1c8c9f26705494c:v0",
+        "digest": "efc0f18082dfadddcfa3479c4fc48d54",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "high-friction-v2",
+    "id": "6b30ffb68e6846a4",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/6b30ffb68e6846a4",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_462322a8780948625521.mp4",
+        "bytes": 451121,
+        "md5": "L3ShQke96Wd1DC7VlZCyOQ==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_e560db331425a15dca8d.mp4",
+        "bytes": 607108,
+        "md5": "q4R29PRAJsxVXTX3MBjxVw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_6e03d74a0e224e13d758.mp4",
+        "bytes": 950761,
+        "md5": "0Kb+ki2jWO96q8Qvu5WS0Q==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-6b30ffb68e6846a4:v0",
+        "digest": "3061656277b5b623c0a4e812574d96ed",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "high-friction-v3",
+    "id": "b92db10ddfea4da2",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/b92db10ddfea4da2",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_fce620c95bb9e326532d.mp4",
+        "bytes": 452598,
+        "md5": "DtIgRo7ktGf4kShht4iuKA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_d79a002a293c31cf2eef.mp4",
+        "bytes": 605519,
+        "md5": "LiQmCfML8cY2tmQQibzaXQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_670381684878f573d5fd.mp4",
+        "bytes": 852482,
+        "md5": "1lXVJjxs8bkFoYwJHBfBhg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-b92db10ddfea4da2:v0",
+        "digest": "b28140508ef95f8ff946765ab8523b26",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "high-friction-v4",
+    "id": "04817fb853394e27",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/04817fb853394e27",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_70fbdc593fda5deb8b92.mp4",
+        "bytes": 450332,
+        "md5": "HA8/JgACkB6BCMhRkL0ulw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_bfb03bd2a0a3b2adc08b.mp4",
+        "bytes": 606340,
+        "md5": "tuiKNW+mXgBpP5O5G7uWKw==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_df95314309762d499d87.mp4",
+        "bytes": 902079,
+        "md5": "YiuT73SEBjxsXYXCaOyuvQ==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_efdc34cfb102200bf5d2.mp4",
+        "bytes": 918771,
+        "md5": "JY9HKte3m4V2eqkaNtVSeg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-04817fb853394e27:v0",
+        "digest": "3a112a1dc3bea2b19c717a17dc13d2c7",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "nominal-v1",
+    "id": "ef65332c82214121",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ef65332c82214121",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_61730ab0193c920acddb.mp4",
+        "bytes": 446012,
+        "md5": "BKX58nvh6rn5xEKJKUbPuw==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_d0431893afd00bf6a69e.mp4",
+        "bytes": 613952,
+        "md5": "vQLr/25c4rWywrSOJ4b0hg==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_32718aad97a4fc8784e0.mp4",
+        "bytes": 902922,
+        "md5": "kr4QeEj3ggGdjt0sGD9IkA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_a8f45ca5befcdfb609eb.mp4",
+        "bytes": 888697,
+        "md5": "Qc6EfVrg4Y/YX9O7HNl2tg==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-ef65332c82214121:v0",
+        "digest": "2353798dcc4ca0597b25773644a4b538",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "nominal-v2",
+    "id": "67e98b8f2e7c4099",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/67e98b8f2e7c4099",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_d55ce1fdf883a4ba86eb.mp4",
+        "bytes": 443373,
+        "md5": "Txw4I9XAlNR/hHxLgb9n5g==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_687b359e87fd47448559.mp4",
+        "bytes": 612429,
+        "md5": "1icfrIyovPg80+Fg0zUXcg==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_835aed8b0811b4510b1e.mp4",
+        "bytes": 943516,
+        "md5": "DVRuug0v0UtkN1ANTnUmxA==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-67e98b8f2e7c4099:v0",
+        "digest": "c4bf629d6dde57d218717d9cba3ea5f9",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "nominal-v3",
+    "id": "dd54125f626a4704",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/dd54125f626a4704",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_bed6d517c9af2c251799.mp4",
+        "bytes": 444678,
+        "md5": "4UYZyqKlcOFK8j0g7VQopA==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_233343a4b10536223ba9.mp4",
+        "bytes": 612685,
+        "md5": "PSSoduQTko+81Z4EmCBjqQ==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_cc8c861abe55114f3ed0.mp4",
+        "bytes": 841721,
+        "md5": "C+4zNONuYRf2BnLT2foXdQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-dd54125f626a4704:v0",
+        "digest": "0ee31c23d63a7974e2ec0bf7725fe0b0",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "nominal-v4",
+    "id": "82f6195ba8284167",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/82f6195ba8284167",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_l_2_067d4e232ff9ec2089a8.mp4",
+        "bytes": 444980,
+        "md5": "wZiw4V7JR1BkB9vZgeopEg==",
+        "matching_local_videos": [
+          "02-back_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/back_r_1_c3134f89ef9bd8a2a4dd.mp4",
+        "bytes": 613186,
+        "md5": "8WABssCFNIO3xakeZF8c1Q==",
+        "matching_local_videos": [
+          "01-back_r/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l_4_b2817ed6ae33b4490a05.mp4",
+        "bytes": 898636,
+        "md5": "8VkftKaOVcZEb7swJsEPQA==",
+        "matching_local_videos": [
+          "04-front_l/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_r_3_a7d2992783f3d2c1edf8.mp4",
+        "bytes": 894891,
+        "md5": "3YPjH2pXQ1LeFohXB+AnDQ==",
+        "matching_local_videos": [
+          "03-front_r/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-sequence-82f6195ba8284167:v0",
+        "digest": "b97d874765a1721ce0adeb29b8149197",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "pc-01",
+    "id": "9b01bb74a2254f42",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9b01bb74a2254f42",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_r/rollout_1_22ded2f3467183cebb4b.mp4",
+        "bytes": 574251,
+        "md5": "OBTe1AbhG3ExmkWcC1gnMA==",
+        "matching_local_videos": [
+          "01-back_r/replay/rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/front_l/rollout_3_c7b1a9c0455bbd8aa8d1.mp4",
+        "bytes": 475878,
+        "md5": "leUZa6iKBhPNNfygMmSPBw==",
+        "matching_local_videos": [
+          "02-front_l/replay/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-triangle-9b01bb74a2254f42:v0",
+        "digest": "22719bdb3146a5962e581ecf4894a65f",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "reproduce-rear",
+    "id": "c4fcba0b7cde44a4",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c4fcba0b7cde44a4",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_PARTIAL_SEQUENCE",
+    "media": [
+      {
+        "name": "media/videos/trajectory/back_r/rollout_1_ddb570344339f29e91be.mp4",
+        "bytes": 612016,
+        "md5": "WoPZIMZWgnUHHVdwSOl+1Q==",
+        "matching_local_videos": [
+          "01-back_r/replay/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-triangle-c4fcba0b7cde44a4:v0",
+        "digest": "7b4da07adc7a6e5eeb285bfe29ae8d09",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "robust-landing",
+    "id": "f3347ad789c34a8c",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/f3347ad789c34a8c",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_NOMINAL_SINGLE_FLIP",
+    "media": [
+      {
+        "name": "media/videos/trajectory/front_r_1_ce9c46c2f9d92e859f99.mp4",
+        "bytes": 894231,
+        "md5": "F8SMTj/MoM/foIPFQnPmWw==",
+        "matching_local_videos": [
+          "replay/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "robust-landing-f3347ad789c34a8c:v0",
+        "digest": "37a31471dab4743f75eb99e8b98d28e2",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "robust-last-landing",
+    "id": "7d709df6825c4835",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/7d709df6825c4835",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS_NOMINAL_SINGLE_FLIP",
+    "media": [
+      {
+        "name": "media/videos/trajectory/front_l_1_2ec3ade8fb64c397a738.mp4",
+        "bytes": 934672,
+        "md5": "zjuYkbJbDluA7EDGDA7zYA==",
+        "matching_local_videos": [
+          "replay/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "robust-landing-7d709df6825c4835:v0",
+        "digest": "f3b42136c17e1646af6fa222bb057615",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "two-rears-front-l",
+    "id": "255a892356734f9f",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/255a892356734f9f",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/front_l_1_ac8a63ac51477aad91f2.mp4",
+        "bytes": 704324,
+        "md5": "e6htkf005wMZCHRXViGWYg==",
+        "matching_local_videos": [
+          "replay/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-continuation-255a892356734f9f:v0",
+        "digest": "27f5058ef434b990fb0bc5ed8a5f79e8",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  },
+  {
+    "directory": "two-rears-front-r",
+    "id": "a12cf73959f344b5",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/a12cf73959f344b5",
+    "cloud_state": "finished",
+    "simulation_audit_status": "FAILED",
+    "media": [
+      {
+        "name": "media/videos/trajectory/front_r_1_d694d972b9b33d7a1e3b.mp4",
+        "bytes": 838257,
+        "md5": "IN/W7jfLTpOr8pQoTlo4PQ==",
+        "matching_local_videos": [
+          "replay/rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "inverted-continuation-a12cf73959f344b5:v0",
+        "digest": "0f0a0bffa0dbf44f3adff068bb4f87ce",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  }
+]

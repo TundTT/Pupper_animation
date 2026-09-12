@@ -1,0 +1,21 @@
+{
+  "status": "PASS_PARTIAL_SEQUENCE",
+  "environment_steps": 13911,
+  "simulation_only": true,
+  "hardware_validated": false,
+  "robustness_validated": false,
+  "wandb_mode": "online",
+  "wandb_upload_status": "SDK online finish completed; verify run Media/artifact in cloud",
+  "stages": [
+    {
+      "leg": "back_r",
+      "candidate": "01-back_r/candidate.json",
+      "candidate_sha256": "90bbe5d52caff1e70825a9c6da81c12b68df07e16e1daaa8e9dd8ecf5d2f7399",
+      "landing_delta": 0.33285868167986554,
+      "direction": -1,
+      "status": "PASS_NOMINAL_SINGLE_FLIP"
+    }
+  ],
+  "error": null,
+  "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c4fcba0b7cde44a4"
+}

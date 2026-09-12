@@ -1,0 +1,44 @@
+{
+  "source_commit": "7a923b7409300fa09a7033b2dcc7c6af2af596c1",
+  "scenario": {
+    "dynamics": {
+      "delay_steps": 10
+    }
+  },
+  "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+  "simulation_only": true,
+  "hardware_validated": false,
+  "seed": 16,
+  "friction": 0.8,
+  "completed_flips": 4,
+  "final_four_tips": true,
+  "plan_sha256": "ae132fcb1de919d548cbee61bfa36f09aeffd4f49dc0b424995b233a05d9295e",
+  "source_hashes": {
+    "review_replay.py": "06324bfc25bebc13a974f5299d7f59b1e7e43e4be0f5af15d61f4281f0599765",
+    "build_model.py": "e5610e3e6cef6d925126231ab47e8e9aaada2e90c5c0fa2c2ca7d0d4ce718875",
+    "search_flip.py": "1df8d059fec6d40185b27a108a2d12ba3b5e75922e63ee535600f4b0a02d8335",
+    "__init__.py": "3703e5fa655d1cbf26ee959451b519e5301d5cb0e6c397857b931288db202aa1",
+    "extended_search.py": "a163347e0d620e978d8cb82529ca9f516cee83e0d2d2ea1e06a956175c21920e",
+    "sequence.py": "0b58becca853b3c069460f3a059253fa711baecf3c072d7e73cad59a87a52a9f",
+    "core.py": "c9d9516b9c33e6a6c06ee3a3031c6a77c3eb5115caf0a9f92d580fb5031278ee",
+    "check_wheel_clearance.py": "d3ac6cfed37be76d523e79a65d50c17d6dd952d196c478cbd11344ed5e7c5116",
+    "simulate.py": "71812fb8deda351ff8ff688bd57e4b9da54e418b6902a8a78871a95d518239d9",
+    "experiment.py": "a5c348c0278541b7d81d6df4e61fdaa37158fea871207d35a385b6c745785bac",
+    "search_lift.py": "15d27e0443e65fc607c3c20cfe156c41befe9355b20d4983bf418be90d4dfe61",
+    "robustness.py": "68487b264163534ae976c9508d2655dbeaa2f97a85fc9a75b062d217c05856f0",
+    "clearance.py": "65ba712a9bf3261ee11eaaa3fae4444336731153c2bbe2927b8707e5c954de9a",
+    "test_model.py": "2a255ca516cbc5ebf80951c7b297a80fdf193111a5689f03f105e8d53f4d56c0",
+    "model.xml": "768cbeb0bfbaab0c898e6078d0b778ee2968718d98bdb2857e13538daeb607a8",
+    "source_manifest.json": "13e573f6f0e2e0237fd92dea41c4e9817d9e8a5f707b28dd30fe33d35568dd35",
+    "requirements.txt": "e5b7a57890d64abfb4f88737b8ee0b0b8dae458807dced6f43d009bfeeb7b147",
+    "requirements.lock.txt": "18504a2fd27ad085db0f51f0502d8df143ce8304147e7f5d94968c5601951b9c"
+  },
+  "stage_status": [
+    "PASS_NOMINAL_SINGLE_FLIP",
+    "PASS_NOMINAL_SINGLE_FLIP",
+    "PASS_NOMINAL_SINGLE_FLIP",
+    "PASS_NOMINAL_SINGLE_FLIP"
+  ],
+  "environment_steps": 63610,
+  "rollout_sha256": "3ea1fbd7476dfda4056d56f378cc1cd99c2f4c94aa900607ce21a8e802d1e150"
+}

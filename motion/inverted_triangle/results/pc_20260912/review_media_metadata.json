@@ -1,0 +1,20 @@
+[
+  {
+    "file": "failed_gains_rollout.mp4",
+    "case": "final-validation-v5/gains-low",
+    "environment_steps": 27275,
+    "seed": 18,
+    "friction": 0.8,
+    "plan_sha256": "ae132fcb1de919d548cbee61bfa36f09aeffd4f49dc0b424995b233a05d9295e",
+    "status": "FAILED"
+  },
+  {
+    "file": "earlier_tracking_failure.mp4",
+    "case": "final-validation/mu-1.0-seed-3",
+    "environment_steps": 63610,
+    "seed": 3,
+    "friction": 1.0,
+    "plan_sha256": "486139ff83fa380edbc2df606c62db25c5f1282d749a213af244b38f9cfe314d",
+    "status": "FAILED"
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "dynamics": {
+    "kp_scale": 1.2,
+    "kd_scale": 1.2
+  }
+}

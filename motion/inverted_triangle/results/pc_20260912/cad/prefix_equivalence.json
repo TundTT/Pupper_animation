@@ -1,0 +1,17 @@
+[
+  {
+    "stage": "01-back_r",
+    "end_state_max_absolute_difference": 0.0,
+    "reason": "Unchanged prefix; dense CAD review remains applicable to the identical integrated trajectory."
+  },
+  {
+    "stage": "02-back_l",
+    "end_state_max_absolute_difference": 0.0,
+    "reason": "Unchanged prefix; dense CAD review remains applicable to the identical integrated trajectory."
+  },
+  {
+    "stage": "03-front_r",
+    "end_state_max_absolute_difference": 0.0,
+    "reason": "Unchanged prefix; dense CAD review remains applicable to the identical integrated trajectory."
+  }
+]

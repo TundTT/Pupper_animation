@@ -1,0 +1,102 @@
+{
+  "status": "PASS_NOMINAL_SINGLE_FLIP",
+  "leg": "back_l",
+  "seed": 0,
+  "friction": 0.8,
+  "landing_delta": 0.2136521945764448,
+  "direction": 1,
+  "model_sha256": "768cbeb0bfbaab0c898e6078d0b778ee2968718d98bdb2857e13538daeb607a8",
+  "candidate_sha256": "885a8c57b0d1329c78d86343b03ba17927b3674675df91e986aa21a0e5010a2d",
+  "source_commit": "819d38f8ea611a567590b254dbcbe1a1ab84030c",
+  "source_dirty": false,
+  "source_hashes": {
+    "build_model.py": "e5610e3e6cef6d925126231ab47e8e9aaada2e90c5c0fa2c2ca7d0d4ce718875",
+    "search_flip.py": "1df8d059fec6d40185b27a108a2d12ba3b5e75922e63ee535600f4b0a02d8335",
+    "__init__.py": "3703e5fa655d1cbf26ee959451b519e5301d5cb0e6c397857b931288db202aa1",
+    "extended_search.py": "6776c295abb0019b4092a8685105a29f39bf4a824453399ade2a55ebe6ca38fa",
+    "sequence.py": "126665754b4c71dcb6fbe542051d98b1d62558b861332e03635ea340131e2ed8",
+    "core.py": "a6fe2aad132dc27c8bb07bfd85baa62eb8381bba6d9c66b422df5d36eb4958c1",
+    "check_wheel_clearance.py": "d3ac6cfed37be76d523e79a65d50c17d6dd952d196c478cbd11344ed5e7c5116",
+    "simulate.py": "c9a661a7ea7dfe9255872cd0c64cb6da043b01374f6689c03d3f2e65292f84e1",
+    "experiment.py": "a5c348c0278541b7d81d6df4e61fdaa37158fea871207d35a385b6c745785bac",
+    "search_lift.py": "15d27e0443e65fc607c3c20cfe156c41befe9355b20d4983bf418be90d4dfe61",
+    "clearance.py": "65ba712a9bf3261ee11eaaa3fae4444336731153c2bbe2927b8707e5c954de9a",
+    "test_model.py": "d8ab5a9fa7edd96ffe59eb70a25a3c38321cfe5a52ee9b93a9fb9feee98b01ad",
+    "model.xml": "768cbeb0bfbaab0c898e6078d0b778ee2968718d98bdb2857e13538daeb607a8",
+    "source_manifest.json": "13e573f6f0e2e0237fd92dea41c4e9817d9e8a5f707b28dd30fe33d35568dd35",
+    "requirements.txt": "e5b7a57890d64abfb4f88737b8ee0b0b8dae458807dced6f43d009bfeeb7b147"
+  },
+  "simulation_only": true,
+  "heating": false,
+  "minimum_rotation_floor_m": 0.007996507423630853,
+  "minimum_cad_gap_m": 0.0027790301934471026,
+  "cad_intersections": [],
+  "max_tilt_deg": 2.7267363437492778,
+  "peak_requested_torque_Nm": 0.5112983241754697,
+  "minimum_support_force_N": 5.000932729495876,
+  "maximum_rotation_contact_N": 0.0,
+  "peak_landing_descent_m_s": 0.00904270745136204,
+  "maximum_unintended_floor_force_N": 0.0,
+  "maximum_command_speed_ratio": 0.9997359712396126,
+  "early_termination": null,
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.16.2",
+      "mujoco": "3.3.7",
+      "trimesh": "4.8.3",
+      "python-fcl": "0.7.0.11",
+      "wandb": "0.30.0"
+    }
+  },
+  "continued_from_state": true,
+  "cad_sample_period_s": 0.1,
+  "physics_sample_period_s": 0.025,
+  "first_sampled_gate_violation": null,
+  "minimum_cad_sample": {
+    "time_s": 37.1519230769306,
+    "phase": "rotate",
+    "nearest_pair": [
+      "leg_back_l_1",
+      "leg_back_l_3"
+    ]
+  },
+  "simulation_start_time_s": 26.751923076928236,
+  "start_state_sha256": "644e76c825de4fa62a7ccd8c4708d460b5c146bc10cdcd89aabc87b539e1cf9c",
+  "final_normal_force_N": [
+    7.82181266721893,
+    12.889485606363202,
+    8.157479059307969,
+    2.4321316777354847
+  ],
+  "final_hub_error_rad": 0.006036209640972068,
+  "final_speed_rad_s": 0.0037107864750736534,
+  "final_tip_bottom_m": [
+    0.06663955805638921,
+    0.07109010880714721,
+    -2.5805591087058044e-05,
+    -7.67007862279706e-06
+  ],
+  "environment_steps": 13364,
+  "gates": {
+    "completed": true,
+    "rotation_floor": true,
+    "three_supports": true,
+    "no_rotation_contact": true,
+    "no_other_floor_support": true,
+    "command_speed": true,
+    "cad_checked": true,
+    "collision_clear": true,
+    "tilt": true,
+    "torque": true,
+    "planted": true,
+    "hub_angle": true,
+    "settled": true,
+    "gentle_landing": true,
+    "final_four_supports": true,
+    "planted_on_long_tip": true
+  },
+  "end_state_sha256": "e8a451527424c95352928676d8b743c9d4e0349cfc7de4df15a0d003470781c9"
+}

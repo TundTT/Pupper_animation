@@ -92,3 +92,7 @@ defaults to online logging under entity `QuadMorph`, project
 `wheel-leg lift and align triangle base`. Videos are actual simulated trajectory
 replays, labeled as trajectory candidates rather than trained policy checkpoints.
 Offline or disabled logging must be explicitly selected and reported.
+
+## PC follow-up
+
+See [the committed PC review](results/pc_20260912/README.md) for the continuous four-flip plan, 20/20 friction replays, 7/16 additional stress results, all failed audits, and verified W&B rollout videos. [VALIDATION.md](VALIDATION.md) documents replay and the explicit uncertainty model. This is simulation evidence; direct policy/hardware handoff remains unvalidated.

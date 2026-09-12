@@ -1,0 +1,13 @@
+{
+  "stages": [
+    {
+      "leg": "front_r",
+      "candidate": "01-front_r/candidate.json",
+      "candidate_sha256": "5900b7aa92f34919e50ef427dedac1d4c6d3dd24a9cb22a9a1e73c748ac96a0e",
+      "landing_delta": 0.0,
+      "direction": -1,
+      "status": "PASS_NOMINAL_SINGLE_FLIP"
+    }
+  ],
+  "simulation_only": true
+}

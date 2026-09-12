@@ -1,4 +1,8 @@
-# September 12 local result
+# Simulation results
+
+The [PC follow-up](pc_20260912/README.md) passed the continuous four-flip plan and all 20 friction/seed cases. Additional stress tests passed 7/16; failed audits and videos are preserved. Direct leg-policy/hardware handoff remains unvalidated.
+
+# Original laptop result — preserved
 
 **One nominal rear-right flip passed. The continuous four-flip task and physical
 robot are not yet validated.**

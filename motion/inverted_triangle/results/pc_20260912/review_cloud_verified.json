@@ -1,0 +1,70 @@
+{
+  "total_unique_verified_runs": 115,
+  "review": {
+    "directory": "review-upload",
+    "id": "79b7226026be45d4",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/79b7226026be45d4",
+    "cloud_state": "finished",
+    "simulation_audit_status": "PASS continuous nominal and 20/20 friction; 7/16 extended stress",
+    "media": [
+      {
+        "name": "media/videos/history/preserved_tracking_failure_10_9ca29dfff87014cb0358.mp4",
+        "bytes": 2877701,
+        "md5": "ETryDlCLVbjiMULZcWn2ww==",
+        "matching_local_videos": [
+          "earlier_tracking_failure.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/history/preserved_tracking_failure_3_9ca29dfff87014cb0358.mp4",
+        "bytes": 2877701,
+        "md5": "ETryDlCLVbjiMULZcWn2ww==",
+        "matching_local_videos": [
+          "earlier_tracking_failure.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/stress/lower_gains_failure_2_3b9e738941df7082d369.mp4",
+        "bytes": 1126898,
+        "md5": "bk+GENbm2ewdrz+IPvPQdA==",
+        "matching_local_videos": [
+          "failed_gains_rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/stress/lower_gains_failure_9_3b9e738941df7082d369.mp4",
+        "bytes": 1126898,
+        "md5": "bk+GENbm2ewdrz+IPvPQdA==",
+        "matching_local_videos": [
+          "failed_gains_rollout.mp4"
+        ]
+      },
+      {
+        "name": "media/videos/trajectory/continuous_nominal_1_6ef114f1baa4c1aed55c.mp4",
+        "bytes": 2882884,
+        "md5": "g9hoqsDWNORMT3vxCJlAfw==",
+        "matching_local_videos": [
+          "continuous_rollout.mp4"
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "run-79b7226026be45d4-validationcases-hIN5Ng:v0",
+        "digest": "10dc5b2192b4a77528f6890d90592b18",
+        "state": "COMMITTED"
+      },
+      {
+        "name": "inverted-triangle-pc-review-79b7226026be45d4:v0",
+        "digest": "b2e9751a446a21856d8de2f02c4fe651",
+        "state": "COMMITTED"
+      },
+      {
+        "name": "inverted-review-media-79b7226026be45d4:v0",
+        "digest": "bae25d067c975693e3c01b1b07f9dcc7",
+        "state": "COMMITTED"
+      }
+    ],
+    "verified": true
+  }
+}

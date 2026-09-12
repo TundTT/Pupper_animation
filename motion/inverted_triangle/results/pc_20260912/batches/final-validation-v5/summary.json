@@ -1,0 +1,8 @@
+{
+  "plan_sha256": "ae132fcb1de919d548cbee61bfa36f09aeffd4f49dc0b424995b233a05d9295e",
+  "conditions": 36,
+  "passed": 27,
+  "process_errors": 0,
+  "simulation_only": true,
+  "hardware_validated": false
+}

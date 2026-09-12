@@ -1,0 +1,12 @@
+{
+  "python": "3.12.3",
+  "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+  "packages": {
+    "numpy": "2.2.6",
+    "scipy": "1.16.2",
+    "mujoco": "3.3.7",
+    "trimesh": "4.8.3",
+    "python-fcl": "0.7.0.11",
+    "wandb": "0.30.0"
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "status": "PASS_NOMINAL_SINGLE_FLIP",
+  "leg": "front_r",
+  "seed": 0,
+  "friction": 0.8,
+  "landing_delta": 0.0,
+  "direction": -1,
+  "model_sha256": "768cbeb0bfbaab0c898e6078d0b778ee2968718d98bdb2857e13538daeb607a8",
+  "candidate_sha256": "b0ea87a3b196d46f456360c5e6dec891174751d25128752a31326eb70a8f4980",
+  "source_commit": "7a923b7409300fa09a7033b2dcc7c6af2af596c1",
+  "source_dirty": false,
+  "source_hashes": {
+    "review_replay.py": "06324bfc25bebc13a974f5299d7f59b1e7e43e4be0f5af15d61f4281f0599765",
+    "build_model.py": "e5610e3e6cef6d925126231ab47e8e9aaada2e90c5c0fa2c2ca7d0d4ce718875",
+    "search_flip.py": "1df8d059fec6d40185b27a108a2d12ba3b5e75922e63ee535600f4b0a02d8335",
+    "__init__.py": "3703e5fa655d1cbf26ee959451b519e5301d5cb0e6c397857b931288db202aa1",
+    "extended_search.py": "a163347e0d620e978d8cb82529ca9f516cee83e0d2d2ea1e06a956175c21920e",
+    "sequence.py": "0b58becca853b3c069460f3a059253fa711baecf3c072d7e73cad59a87a52a9f",
+    "core.py": "c9d9516b9c33e6a6c06ee3a3031c6a77c3eb5115caf0a9f92d580fb5031278ee",
+    "check_wheel_clearance.py": "d3ac6cfed37be76d523e79a65d50c17d6dd952d196c478cbd11344ed5e7c5116",
+    "simulate.py": "71812fb8deda351ff8ff688bd57e4b9da54e418b6902a8a78871a95d518239d9",
+    "experiment.py": "a5c348c0278541b7d81d6df4e61fdaa37158fea871207d35a385b6c745785bac",
+    "search_lift.py": "15d27e0443e65fc607c3c20cfe156c41befe9355b20d4983bf418be90d4dfe61",
+    "robustness.py": "68487b264163534ae976c9508d2655dbeaa2f97a85fc9a75b062d217c05856f0",
+    "clearance.py": "65ba712a9bf3261ee11eaaa3fae4444336731153c2bbe2927b8707e5c954de9a",
+    "test_model.py": "2a255ca516cbc5ebf80951c7b297a80fdf193111a5689f03f105e8d53f4d56c0",
+    "model.xml": "768cbeb0bfbaab0c898e6078d0b778ee2968718d98bdb2857e13538daeb607a8",
+    "source_manifest.json": "13e573f6f0e2e0237fd92dea41c4e9817d9e8a5f707b28dd30fe33d35568dd35",
+    "requirements.txt": "e5b7a57890d64abfb4f88737b8ee0b0b8dae458807dced6f43d009bfeeb7b147",
+    "requirements.lock.txt": "18504a2fd27ad085db0f51f0502d8df143ce8304147e7f5d94968c5601951b9c"
+  },
+  "simulation_only": true,
+  "heating": false,
+  "minimum_rotation_floor_m": 0.006785114086674808,
+  "minimum_cad_gap_m": 0.002432452698151068,
+  "cad_intersections": [],
+  "max_tilt_deg": 6.699579250644833,
+  "peak_requested_torque_Nm": 0.9520356269521524,
+  "minimum_support_force_N": 2.354360163292822,
+  "maximum_rotation_contact_N": 0.0,
+  "peak_landing_descent_m_s": 0.00981885395267944,
+  "maximum_unintended_floor_force_N": 0.0,
+  "maximum_command_speed_ratio": 0.9999670158613583,
+  "early_termination": null,
+  "scenario": {
+    "dynamics": {
+      "base_com_offset_m": [
+        0.003,
+        -0.003,
+        0.002
+      ]
+    }
+  },
+  "effective_dynamics": {
+    "mass_scale": 1.0,
+    "base_com_offset_m": [
+      0.003,
+      -0.003,
+      0.002
+    ],
+    "kp_scale": 1.0,
+    "kd_scale": 1.0,
+    "torque_limit_Nm": 3.0,
+    "delay_steps": 0
+  },
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.16.2",
+      "mujoco": "3.3.7",
+      "trimesh": "4.8.3",
+      "python-fcl": "0.7.0.11",
+      "wandb": "0.30.0"
+    }
+  },
+  "continued_from_state": true,
+  "cad_sample_period_s": 0.1,
+  "physics_sample_period_s": 0.025,
+  "first_sampled_gate_violation": null,
+  "minimum_cad_sample": {
+    "time_s": 67.55192307693751,
+    "phase": "rotate",
+    "nearest_pair": [
+      "leg_back_r_2",
+      "leg_front_r_3"
+    ]
+  },
+  "simulation_start_time_s": 52.45192307693408,
+  "start_state_sha256": "1a19549266cbce7b47bfe05dea5af74c6388df12187b245e276970612a1abf10",
+  "final_normal_force_N": [
+    3.2651618238153572,
+    11.877313502837591,
+    11.727943115149989,
+    4.4305857777023805
+  ],
+  "final_hub_error_rad": 0.0051571997843495865,
+  "final_speed_rad_s": 0.009408382567200476,
+  "final_tip_bottom_m": [
+    -1.0162878395066077e-05,
+    0.07379914688180533,
+    0.00030226965862870103,
+    -1.127156302191401e-05
+  ],
+  "environment_steps": 17466,
+  "final_gate_violations": {},
+  "gates": {
+    "completed": true,
+    "rotation_floor": true,
+    "three_supports": true,
+    "no_rotation_contact": true,
+    "no_other_floor_support": true,
+    "command_speed": true,
+    "cad_checked": true,
+    "collision_clear": true,
+    "tilt": true,
+    "torque": true,
+    "planted": true,
+    "hub_angle": true,
+    "settled": true,
+    "gentle_landing": true,
+    "final_four_supports": true,
+    "planted_on_long_tip": true
+  },
+  "end_state_sha256": "f13d8369ba3229b37c172b505e7fa40267d129a16bc9cc8b6d405a4c6efacbe8"
+}

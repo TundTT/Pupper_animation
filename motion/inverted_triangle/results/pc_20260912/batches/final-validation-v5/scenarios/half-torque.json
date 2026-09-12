@@ -1,0 +1,5 @@
+{
+  "dynamics": {
+    "torque_limit_Nm": 1.5
+  }
+}

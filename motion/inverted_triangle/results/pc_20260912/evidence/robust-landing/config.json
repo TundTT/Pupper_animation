@@ -1,0 +1,42 @@
+{
+  "simulation_only": true,
+  "source_hashes": {
+    "build_model.py": "e5610e3e6cef6d925126231ab47e8e9aaada2e90c5c0fa2c2ca7d0d4ce718875",
+    "search_flip.py": "1df8d059fec6d40185b27a108a2d12ba3b5e75922e63ee535600f4b0a02d8335",
+    "__init__.py": "3703e5fa655d1cbf26ee959451b519e5301d5cb0e6c397857b931288db202aa1",
+    "extended_search.py": "6776c295abb0019b4092a8685105a29f39bf4a824453399ade2a55ebe6ca38fa",
+    "sequence.py": "126665754b4c71dcb6fbe542051d98b1d62558b861332e03635ea340131e2ed8",
+    "core.py": "a6fe2aad132dc27c8bb07bfd85baa62eb8381bba6d9c66b422df5d36eb4958c1",
+    "check_wheel_clearance.py": "d3ac6cfed37be76d523e79a65d50c17d6dd952d196c478cbd11344ed5e7c5116",
+    "simulate.py": "c9a661a7ea7dfe9255872cd0c64cb6da043b01374f6689c03d3f2e65292f84e1",
+    "experiment.py": "a5c348c0278541b7d81d6df4e61fdaa37158fea871207d35a385b6c745785bac",
+    "search_lift.py": "15d27e0443e65fc607c3c20cfe156c41befe9355b20d4983bf418be90d4dfe61",
+    "clearance.py": "65ba712a9bf3261ee11eaaa3fae4444336731153c2bbe2927b8707e5c954de9a",
+    "test_model.py": "d8ab5a9fa7edd96ffe59eb70a25a3c38321cfe5a52ee9b93a9fb9feee98b01ad",
+    "model.xml": "768cbeb0bfbaab0c898e6078d0b778ee2968718d98bdb2857e13538daeb607a8",
+    "source_manifest.json": "13e573f6f0e2e0237fd92dea41c4e9817d9e8a5f707b28dd30fe33d35568dd35",
+    "requirements.txt": "e5b7a57890d64abfb4f88737b8ee0b0b8dae458807dced6f43d009bfeeb7b147"
+  },
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.16.2",
+      "mujoco": "3.3.7",
+      "trimesh": "4.8.3",
+      "python-fcl": "0.7.0.11",
+      "wandb": "0.30.0"
+    }
+  },
+  "driver_sha256": "f4d8b790c0ab7b09ef095236dd015d3c8f9b08a95d447fcd8164ec80c9becf86",
+  "parent_sha256": "5900b7aa92f34919e50ef427dedac1d4c6d3dd24a9cb22a9a1e73c748ac96a0e",
+  "frictions": [
+    0.5,
+    0.65,
+    0.8,
+    1.0
+  ],
+  "seed": 7,
+  "prefix_steps": 57384
+}

@@ -1,0 +1,163 @@
+{
+  "simulation_only": true,
+  "hardware_validated": false,
+  "source_hashes": {
+    "review_replay.py": "06324bfc25bebc13a974f5299d7f59b1e7e43e4be0f5af15d61f4281f0599765",
+    "build_model.py": "e5610e3e6cef6d925126231ab47e8e9aaada2e90c5c0fa2c2ca7d0d4ce718875",
+    "search_flip.py": "1df8d059fec6d40185b27a108a2d12ba3b5e75922e63ee535600f4b0a02d8335",
+    "__init__.py": "3703e5fa655d1cbf26ee959451b519e5301d5cb0e6c397857b931288db202aa1",
+    "extended_search.py": "a163347e0d620e978d8cb82529ca9f516cee83e0d2d2ea1e06a956175c21920e",
+    "sequence.py": "0b58becca853b3c069460f3a059253fa711baecf3c072d7e73cad59a87a52a9f",
+    "core.py": "c9d9516b9c33e6a6c06ee3a3031c6a77c3eb5115caf0a9f92d580fb5031278ee",
+    "check_wheel_clearance.py": "d3ac6cfed37be76d523e79a65d50c17d6dd952d196c478cbd11344ed5e7c5116",
+    "simulate.py": "71812fb8deda351ff8ff688bd57e4b9da54e418b6902a8a78871a95d518239d9",
+    "experiment.py": "a5c348c0278541b7d81d6df4e61fdaa37158fea871207d35a385b6c745785bac",
+    "search_lift.py": "15d27e0443e65fc607c3c20cfe156c41befe9355b20d4983bf418be90d4dfe61",
+    "robustness.py": "68487b264163534ae976c9508d2655dbeaa2f97a85fc9a75b062d217c05856f0",
+    "clearance.py": "65ba712a9bf3261ee11eaaa3fae4444336731153c2bbe2927b8707e5c954de9a",
+    "test_model.py": "2a255ca516cbc5ebf80951c7b297a80fdf193111a5689f03f105e8d53f4d56c0",
+    "model.xml": "768cbeb0bfbaab0c898e6078d0b778ee2968718d98bdb2857e13538daeb607a8",
+    "source_manifest.json": "13e573f6f0e2e0237fd92dea41c4e9817d9e8a5f707b28dd30fe33d35568dd35",
+    "requirements.txt": "e5b7a57890d64abfb4f88737b8ee0b0b8dae458807dced6f43d009bfeeb7b147",
+    "requirements.lock.txt": "18504a2fd27ad085db0f51f0502d8df143ce8304147e7f5d94968c5601951b9c"
+  },
+  "model_sha256": "768cbeb0bfbaab0c898e6078d0b778ee2968718d98bdb2857e13538daeb607a8",
+  "candidate_sha256": "885a8c57b0d1329c78d86343b03ba17927b3674675df91e986aa21a0e5010a2d",
+  "replay_audit_sha256": "3501e58afa6e9928f2ba288d63da1a8d5ed7ea8f5adca2c3ba2bf5ebe2273ca2",
+  "integrated_steps": 13364,
+  "end_state_max_absolute_error": 0.0,
+  "coarse_sample_period_s": 0.1,
+  "refined_sample_period_s": 0.0019230769230769232,
+  "refinement_half_window_s": 0.125,
+  "refinement_centers_s": [
+    28.75192307692869,
+    28.851923076928713,
+    31.451923076929305,
+    33.55192307692978,
+    37.1519230769306,
+    46.55192307693274,
+    50.451923076933625,
+    52.45192307693408,
+    31.151923076929236,
+    31.351923076929282
+  ],
+  "coarse_samples": 257,
+  "refined_samples": 1047,
+  "minimum": {
+    "minimum_m": 0.0027757791157883333,
+    "nearest_pair": [
+      "leg_back_l_1",
+      "leg_back_l_3"
+    ],
+    "intersections": [],
+    "time_s": 37.140384615392136,
+    "phase": "rotate"
+  },
+  "nearest_points_world_m": [
+    [
+      -0.042739900320579324,
+      0.1001724129035208,
+      0.11395546040233918
+    ],
+    [
+      -0.04422243628859916,
+      0.10248219195908741,
+      0.11437013800920992
+    ]
+  ],
+  "same_side_front_rear": {
+    "r": {
+      "minimum_m": 0.07870504014917656,
+      "time_s": 31.15000000000616,
+      "phase": "lift"
+    },
+    "l": {
+      "minimum_m": 0.06495569770886465,
+      "time_s": 31.328846153852353,
+      "phase": "lift"
+    }
+  },
+  "phase_coarse_minima": {
+    "initial_hold": {
+      "minimum_m": 0.0039012191603920504,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "time_s": 28.75192307692869,
+      "phase": "initial_hold"
+    },
+    "shift": {
+      "minimum_m": 0.003901239550099859,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "time_s": 28.851923076928713,
+      "phase": "shift"
+    },
+    "lift": {
+      "minimum_m": 0.003865176315572439,
+      "nearest_pair": [
+        "leg_back_l_1",
+        "leg_back_l_3"
+      ],
+      "intersections": [],
+      "time_s": 31.451923076929305,
+      "phase": "lift"
+    },
+    "clearance_hold": {
+      "minimum_m": 0.0039003071404079223,
+      "nearest_pair": [
+        "leg_back_l_1",
+        "leg_back_l_3"
+      ],
+      "intersections": [],
+      "time_s": 33.55192307692978,
+      "phase": "clearance_hold"
+    },
+    "rotate": {
+      "minimum_m": 0.0027806186520608037,
+      "nearest_pair": [
+        "leg_back_l_1",
+        "leg_back_l_3"
+      ],
+      "intersections": [],
+      "time_s": 37.1519230769306,
+      "phase": "rotate"
+    },
+    "angle_hold": {
+      "minimum_m": 0.0040042429276964985,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "time_s": 46.55192307693274,
+      "phase": "angle_hold"
+    },
+    "land": {
+      "minimum_m": 0.003977922697952202,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "time_s": 50.451923076933625,
+      "phase": "land"
+    },
+    "planted_hold": {
+      "minimum_m": 0.003974855163785324,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "time_s": 52.45192307693408,
+      "phase": "planted_hold"
+    }
+  },
+  "limitations": "Discrete CAD samples around phase minima and front/rear minima; no continuous-time collision proof. Rigid nominal CAD omits polymer compliance and spacer mass."
+}

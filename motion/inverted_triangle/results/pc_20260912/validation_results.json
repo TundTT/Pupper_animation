@@ -1,0 +1,486 @@
+[
+  {
+    "name": "com-front-right-high",
+    "friction": 0.8,
+    "seed": 13,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/913358fc3c1144e8"
+  },
+  {
+    "name": "com-rear-left-low",
+    "friction": 0.8,
+    "seed": 14,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/b862c87cd6b04495"
+  },
+  {
+    "name": "combined-seed-22",
+    "friction": 0.8,
+    "seed": 22,
+    "status": "FAILED",
+    "completed_flips": 0,
+    "failures": [
+      {
+        "leg": "back_r",
+        "gates": [
+          "rotation_floor"
+        ],
+        "first": {
+          "time_s": 20.875000000003823,
+          "phase": "angle_hold",
+          "violations": [
+            {
+              "gate": "rotation_floor",
+              "value": 0.004994931161253741,
+              "threshold": 0.005
+            }
+          ]
+        },
+        "minimum_rotation_floor_m": 0.00490879323181171,
+        "maximum_unintended_floor_force_N": 0.0
+      }
+    ],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ac0020bba7704ddf"
+  },
+  {
+    "name": "combined-seed-23",
+    "friction": 0.8,
+    "seed": 23,
+    "status": "FAILED",
+    "completed_flips": 0,
+    "failures": [
+      {
+        "leg": "back_r",
+        "gates": [
+          "rotation_floor"
+        ],
+        "first": {
+          "time_s": 20.65000000000377,
+          "phase": "rotate",
+          "violations": [
+            {
+              "gate": "rotation_floor",
+              "value": 0.004999995596701182,
+              "threshold": 0.005
+            }
+          ]
+        },
+        "minimum_rotation_floor_m": 0.0048919466599220834,
+        "maximum_unintended_floor_force_N": 0.0
+      }
+    ],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/bf52c2fcd4c34477"
+  },
+  {
+    "name": "combined-seed-24",
+    "friction": 0.8,
+    "seed": 24,
+    "status": "FAILED",
+    "completed_flips": 0,
+    "failures": [
+      {
+        "leg": "back_r",
+        "gates": [
+          "rotation_floor"
+        ],
+        "first": {
+          "time_s": 20.450000000003726,
+          "phase": "rotate",
+          "violations": [
+            {
+              "gate": "rotation_floor",
+              "value": 0.0049998642650417036,
+              "threshold": 0.005
+            }
+          ]
+        },
+        "minimum_rotation_floor_m": 0.004873539436441893,
+        "maximum_unintended_floor_force_N": 0.0
+      }
+    ],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/aa815c75e70a400b"
+  },
+  {
+    "name": "combined-seed-25",
+    "friction": 0.8,
+    "seed": 25,
+    "status": "FAILED",
+    "completed_flips": 0,
+    "failures": [
+      {
+        "leg": "back_r",
+        "gates": [
+          "rotation_floor"
+        ],
+        "first": {
+          "time_s": 20.90000000000383,
+          "phase": "angle_hold",
+          "violations": [
+            {
+              "gate": "rotation_floor",
+              "value": 0.004998946165871057,
+              "threshold": 0.005
+            }
+          ]
+        },
+        "minimum_rotation_floor_m": 0.004913380249106522,
+        "maximum_unintended_floor_force_N": 0.0
+      }
+    ],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/6a4dcd1cbbe747a1"
+  },
+  {
+    "name": "combined-seed-26",
+    "friction": 0.8,
+    "seed": 26,
+    "status": "FAILED",
+    "completed_flips": 0,
+    "failures": [
+      {
+        "leg": "back_r",
+        "gates": [
+          "rotation_floor"
+        ],
+        "first": {
+          "time_s": 20.60000000000376,
+          "phase": "rotate",
+          "violations": [
+            {
+              "gate": "rotation_floor",
+              "value": 0.004997519023430673,
+              "threshold": 0.005
+            }
+          ]
+        },
+        "minimum_rotation_floor_m": 0.004886423274019905,
+        "maximum_unintended_floor_force_N": 0.0
+      }
+    ],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/4d05f55d98f04e37"
+  },
+  {
+    "name": "delay-10-steps",
+    "friction": 0.8,
+    "seed": 16,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/229d77197480493d"
+  },
+  {
+    "name": "delay-5-steps",
+    "friction": 0.8,
+    "seed": 15,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/8e6d9fdcc19e42c1"
+  },
+  {
+    "name": "gains-high",
+    "friction": 0.8,
+    "seed": 19,
+    "status": "FAILED",
+    "completed_flips": 3,
+    "failures": [
+      {
+        "leg": "front_l",
+        "gates": [
+          "gentle_landing"
+        ],
+        "first": null,
+        "minimum_rotation_floor_m": 0.01285753569842981,
+        "maximum_unintended_floor_force_N": 0.0
+      }
+    ],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e16b47bf1dd243dc"
+  },
+  {
+    "name": "gains-low",
+    "friction": 0.8,
+    "seed": 18,
+    "status": "FAILED",
+    "completed_flips": 1,
+    "failures": [
+      {
+        "leg": "back_l",
+        "gates": [
+          "no_other_floor_support"
+        ],
+        "first": {
+          "time_s": 31.151923076929236,
+          "phase": "lift",
+          "violations": [
+            {
+              "gate": "no_other_floor_support",
+              "value": 1.649291104146428,
+              "threshold": 0.2
+            }
+          ]
+        },
+        "minimum_rotation_floor_m": 0.005831315930948648,
+        "maximum_unintended_floor_force_N": 4.946590884662561
+      }
+    ],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/b540387598f743dc"
+  },
+  {
+    "name": "half-torque",
+    "friction": 0.8,
+    "seed": 17,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/f5294c93cee9460c"
+  },
+  {
+    "name": "mass-high",
+    "friction": 0.8,
+    "seed": 12,
+    "status": "FAILED",
+    "completed_flips": 1,
+    "failures": [
+      {
+        "leg": "back_l",
+        "gates": [
+          "no_other_floor_support"
+        ],
+        "first": {
+          "time_s": 34.401923076929975,
+          "phase": "clearance_hold",
+          "violations": [
+            {
+              "gate": "no_other_floor_support",
+              "value": 0.22033818976992886,
+              "threshold": 0.2
+            }
+          ]
+        },
+        "minimum_rotation_floor_m": 0.006991189413596263,
+        "maximum_unintended_floor_force_N": 1.5663213996634204
+      }
+    ],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9d8ed647b27642c4"
+  },
+  {
+    "name": "mass-low",
+    "friction": 0.8,
+    "seed": 11,
+    "status": "FAILED",
+    "completed_flips": 3,
+    "failures": [
+      {
+        "leg": "front_l",
+        "gates": [
+          "gentle_landing"
+        ],
+        "first": null,
+        "minimum_rotation_floor_m": 0.011776914437932301,
+        "maximum_unintended_floor_force_N": 0.0
+      }
+    ],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/d287bb93e0164137"
+  },
+  {
+    "name": "mu-0.5-seed-1",
+    "friction": 0.5,
+    "seed": 1,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/97ccc3bdc0014c63"
+  },
+  {
+    "name": "mu-0.5-seed-2",
+    "friction": 0.5,
+    "seed": 2,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c06e5bd4a290402c"
+  },
+  {
+    "name": "mu-0.5-seed-3",
+    "friction": 0.5,
+    "seed": 3,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/2f5a843099a242b8"
+  },
+  {
+    "name": "mu-0.5-seed-4",
+    "friction": 0.5,
+    "seed": 4,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/049f20ef13b840b6"
+  },
+  {
+    "name": "mu-0.5-seed-5",
+    "friction": 0.5,
+    "seed": 5,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9a30efdca49f4814"
+  },
+  {
+    "name": "mu-0.65-seed-1",
+    "friction": 0.65,
+    "seed": 1,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/642853278c274837"
+  },
+  {
+    "name": "mu-0.65-seed-2",
+    "friction": 0.65,
+    "seed": 2,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/52999847c3c54f72"
+  },
+  {
+    "name": "mu-0.65-seed-3",
+    "friction": 0.65,
+    "seed": 3,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9f44f73d5bb6407e"
+  },
+  {
+    "name": "mu-0.65-seed-4",
+    "friction": 0.65,
+    "seed": 4,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/95de24d2364a41db"
+  },
+  {
+    "name": "mu-0.65-seed-5",
+    "friction": 0.65,
+    "seed": 5,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/72b98e3b98f14dfb"
+  },
+  {
+    "name": "mu-0.8-seed-1",
+    "friction": 0.8,
+    "seed": 1,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e782179d986b4168"
+  },
+  {
+    "name": "mu-0.8-seed-2",
+    "friction": 0.8,
+    "seed": 2,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e5026ff62def4cc8"
+  },
+  {
+    "name": "mu-0.8-seed-3",
+    "friction": 0.8,
+    "seed": 3,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/39b68b2f1c6f4771"
+  },
+  {
+    "name": "mu-0.8-seed-4",
+    "friction": 0.8,
+    "seed": 4,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/dc165c9091ca4da1"
+  },
+  {
+    "name": "mu-0.8-seed-5",
+    "friction": 0.8,
+    "seed": 5,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/43f412d89f884dfc"
+  },
+  {
+    "name": "mu-1.0-seed-1",
+    "friction": 1.0,
+    "seed": 1,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/f135b87c0b8148ef"
+  },
+  {
+    "name": "mu-1.0-seed-2",
+    "friction": 1.0,
+    "seed": 2,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/72e7dc8aae3444f8"
+  },
+  {
+    "name": "mu-1.0-seed-3",
+    "friction": 1.0,
+    "seed": 3,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/42ac59bdaaa94793"
+  },
+  {
+    "name": "mu-1.0-seed-4",
+    "friction": 1.0,
+    "seed": 4,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/fc1d3e41aa604b3c"
+  },
+  {
+    "name": "mu-1.0-seed-5",
+    "friction": 1.0,
+    "seed": 5,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/a5393083955a4a0d"
+  },
+  {
+    "name": "start-high-tilted",
+    "friction": 0.8,
+    "seed": 21,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/b2c8aff27a984f4d"
+  },
+  {
+    "name": "start-low-tilted",
+    "friction": 0.8,
+    "seed": 20,
+    "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+    "completed_flips": 4,
+    "failures": [],
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c5714583b0cc4143"
+  }
+]

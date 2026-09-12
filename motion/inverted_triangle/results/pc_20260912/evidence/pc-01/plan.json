@@ -1,0 +1,21 @@
+{
+  "stages": [
+    {
+      "leg": "back_r",
+      "candidate": "01-back_r/search/best_flip.json",
+      "candidate_sha256": "14e532ae60a78ec9227c633fba34a4eb3135ec1d54b630606da4da46d2ffc2f4",
+      "landing_delta": 0.33285868167986554,
+      "direction": -1,
+      "status": "PASS_NOMINAL_SINGLE_FLIP"
+    },
+    {
+      "leg": "front_l",
+      "candidate": "02-front_l/search/best_flip.json",
+      "candidate_sha256": "c79f029185da2b87343c5cbee3ac429c14294c8ac07dc74851d9bca3fc696de0",
+      "landing_delta": 0.8,
+      "direction": -1,
+      "status": "FAILED"
+    }
+  ],
+  "simulation_only": true
+}
