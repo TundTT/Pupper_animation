@@ -45,7 +45,41 @@ software-only build/test command in [arm64_check.sh](arm64_check.sh). It uses an
 ARM64 ROS Jazzy Noble container under QEMU, with source mounted read-only and a
 private source/build copy. The base image digest is
 `sha256:386d06ec6d4188f731bae5678e07b4cb64a4e4d4152090c0bd1f881dcf7706f5`.
-Final ARM64 ROS build/test outcome is recorded below after completion.
+The full four-package ARM64 build passed for robot_calibration, neural_controller,
+joy_utils and pupper_v3_description (22 minutes under emulation). Seven selected
+controller/regression CTests passed, including the actual keyframe controller
+fixture. The launch-parser CTest initially timed out at 60 seconds; a direct run
+with pytest plugin autoload disabled passed all three identical assertions in
+22.18 seconds. Calibration storage and Python tests also passed.
+
+**The ARM64 suite is not fully passing.** The calibration ROS test hit its
+60-second harness timeout and the joystick integration test hit 45 seconds. A
+direct calibration rerun completed in 40.24 seconds but failed all three cases:
+the child CLI rejected the fixture's synthetic encoder session as not live/homed,
+before it could exercise the expected capture/controller/stationarity behaviors.
+The cause of this emulated cross-process session rejection is unresolved; it is
+not evidence that physical encoders or wheel feedback failed. Both integration
+test groups pass on native x86-64. They must pass on native ARM64 before this
+candidate is cleared for a physical trial. No production session checks,
+freshness thresholds or safety gates were relaxed to obtain a pass.
+
+ARM64 package versions: controller-manager/controller-interface 4.48.0,
+realtime-tools 3.12.0, ROS Jazzy on Ubuntu Noble. These differ from the local x86
+versions and have not been matched to the Pi. Do not deploy these container
+binaries to a different target distribution. The preserved built image is
+`quadmorph-keyframe-arm64:build-aa62561`, image ID
+`sha256:6c050b006e2e4ad273dd0ff260b94f89ed5e1a3cf22f4683c739550673f4a98f`.
+Runtime controller sources match integration aa62561. The additional pluginlib
+discovery assertion was added to the x86 fixture after the ARM snapshot; that
+assertion passed against the explicitly selected installed x86 library.
+
+Local evidence is retained in WSL `/tmp/keyframe-arm-check` (build, install and
+test logs), `/tmp/keyframe-arm-check.log`, `/tmp/keyframe-arm-final-tests.log`,
+and `/tmp/keyframe-arm-capture-direct.log`. Copies of the summary logs are saved
+under `C:/Users/tundt/Desktop/quadmorph-lab-recordings/keyframes-a110b09/robot-integration/`.
+The ARM script now gathers build metadata before testing and runs every test
+group, returning failure if any group fails; it does not silently skip the
+unresolved graph tests. No further neural training is needed for this controller.
 
 ## Still requires the actual target
 

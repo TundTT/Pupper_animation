@@ -67,6 +67,10 @@ whose adequacy for physical reshaping still needs verification.
 include failed development cases. Nine core tests and the standalone x86/ARM64
 full-sequence tests pass. See [software validation](hardware_testing/keyframe_align/SOFTWARE_VALIDATION.md)
 for the ROS/installed-overlay checks and exact environment evidence.
+The native x86 ROS checks pass and the ARM64 controller build/tests pass, but
+calibration and joystick integration checks remain unresolved under ARM64
+emulation. Run them successfully on the actual target with the motor stack
+stopped before declaring this candidate ready for a physical trial.
 
 The Pi's last recorded address, `10.140.55.163`, was unreachable during this work.
 Package-version parity with that Pi, its gamepad/device access, scheduling
