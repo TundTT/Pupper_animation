@@ -81,13 +81,46 @@ The ARM script now gathers build metadata before testing and runs every test
 group, returning failure if any group fails; it does not silently skip the
 unresolved graph tests. No further neural training is needed for this controller.
 
-## Still requires the actual target
+## Native Pi verification — September 11, 2026
 
-The last Pi address timed out. No Pi code, calibration, services or motor commands
-were changed. The container and local ROS versions are not claimed to match the
-Pi. Before deployment, compare exact versions and local modifications using
-`scripts/keyframe_target_inventory.sh`, run the preparation checks in the selected
-target checkout, verify device access and scheduling, and preserve rollback.
-After authorized startup, perform fresh confirmed calibration and a supervised
-single-wheel trial. Physical geometry, ring marks, encoder zeros, load response,
-transport freshness and timing are not established by these software tests.
+The Pi subsequently became reachable at its recorded address. Integration
+`14948015f23c0e474867cb13f4ecdf026185c3e6` was checked out separately at
+`/home/pi/keyframe-software-test` and built natively with its motor stack stopped.
+Target: host `pupper`, AArch64, Debian 12 Bookworm, ROS Jazzy; controller-manager,
+controller-interface and hardware-interface 4.25.0, realtime-tools 3.3.0,
+generate-parameter-library 0.4.0. This directly tests the target's older packages.
+
+**All 12 selected CTests passed natively:** three calibration tests (including
+the ROS capture fixture), the joystick test (both legacy and keyframe cases),
+and eight controller/launch/regression tests. The actual plugin discovery and
+lifecycle fixture passed. The emulated calibration/joystick failures did not
+reproduce; no production gate or test assertion was relaxed. These tests use
+synthetic calibration/encoder fixtures, not physical motor data.
+
+All six preparation packages built in 3 minutes 21 seconds. A subsequent
+incremental build/install passed in 3.99 seconds, and the installed overlay,
+geometry/configuration and source-manifest checks passed. Installed plugin SHA256
+was unchanged across both builds:
+`baec07d3872e0c328763385c6715995c6a12176d7330924fa0ccbcaf42363ede`.
+Existing compiler/vendor warnings remain.
+
+Evidence is saved on the Pi in `/home/pi/keyframe-validation-1494801` and copied
+locally to `C:/Users/tundt/Desktop/quadmorph-lab-recordings/keyframes-a110b09/robot-integration/pi-1494801/`.
+It includes inventory, complete preparation/test output, incremental build output,
+plugin hashes, and the preserved original checkout patch. The original
+`/home/pi/robot-code-leglift` remains at e3e1d97 with its three local modifications
+unchanged (before/after patch SHA256 matched). The isolated candidate does not
+incorporate those local homing/optional-node changes; review them before selecting
+the eventual physical-trial checkout. No hardware stack, homing, motor command,
+calibration capture, service or scheduling change was performed.
+
+## Still requires physical-session preparation
+
+Inventory found no gamepad device and realtime-priority limit 0 for the SSH user;
+the legacy D-pad launch service was active. Resolve device access and scheduling,
+select the physical-trial checkout/overlay, and preserve the existing robot's
+local edits before deployment. Follow KEYFRAME_LAB.md and STARTUP_CALIBRATION.md
+for explicit physical-pose confirmation, fresh startup calibration and a
+supervised single-wheel trial. Physical geometry, ring marks, encoder zeros,
+load response, transport freshness and realtime timing are not established by
+the passing software tests.

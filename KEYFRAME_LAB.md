@@ -3,7 +3,8 @@
 This candidate is on **codex/keyframe-robot-integration**, based on robot-code
 e3e1d97. The controller is a separate plugin; existing walking, wheeled and v5
 policies remain available. Do not merge the older alignment development hardware
-stack into this checkout. Nothing has been deployed or started on the Pi.
+stack into this checkout. The candidate has passed software checks in an isolated
+Pi checkout; it has not replaced the original robot checkout or started hardware.
 
 The motion core/configuration comes from alignment source **a110b09**.
 [source_manifest.json](hardware_testing/keyframe_align/source_manifest.json)
@@ -67,15 +68,16 @@ whose adequacy for physical reshaping still needs verification.
 include failed development cases. Nine core tests and the standalone x86/ARM64
 full-sequence tests pass. See [software validation](hardware_testing/keyframe_align/SOFTWARE_VALIDATION.md)
 for the ROS/installed-overlay checks and exact environment evidence.
-The native x86 ROS checks pass and the ARM64 controller build/tests pass, but
-calibration and joystick integration checks remain unresolved under ARM64
-emulation. Run them successfully on the actual target with the motor stack
-stopped before declaring this candidate ready for a physical trial.
+Native x86 ROS checks and all 12 selected native Pi CTests pass, including the
+calibration and joystick integration tests that failed under ARM64 emulation.
+The Pi build used commit 1494801 in `/home/pi/keyframe-software-test`; clean and
+incremental installation checks passed without activating the hardware.
 
-The Pi's last recorded address, `10.140.55.163`, was unreachable during this work.
-Package-version parity with that Pi, its gamepad/device access, scheduling
-permissions, physical pose and motion remain pending. An emulated architecture
-check is not a Pi realtime timing measurement. Read the
+The Pi at `10.140.55.163` was subsequently reached and tested with its actual
+Debian 12 / ROS Jazzy packages. Gamepad/device access, scheduling permissions,
+selection of the physical-trial checkout, physical pose and motion remain pending.
+The inventory found no gamepad and a realtime-priority limit of 0. Passing software
+tests is not a Pi realtime timing measurement. Read the
 [robot-info pre-lab checklist](https://github.com/TundTT/Pupper_animation/blob/e9b0417/robot_info/PRE_LAB.md).
 
 ## Before deployment, while the motor stack is stopped
