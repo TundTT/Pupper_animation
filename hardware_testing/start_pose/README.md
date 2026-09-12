@@ -1,10 +1,18 @@
 # Saved start reference
 
-The user selected the calibration from the successful repeat floor trial on
-September 12, 2026 as the desired permanent startup reference. This means the
-captured pre-test home, not the robot's later aligned pose or an arbitrary live
-encoder sample. Original evidence is `successful_floor_calibration.json`, from
-Pi trial `/home/pi/keyframe-floor-repeat-IzzTlX/calibration.json`.
+The current reference is the operator-confirmed hanging pose after minor repairs,
+captured September 12, 2026 at 08:01:11 UTC. Calibration ID:
+`535afed263c24d7fa65a3c44dc7083d0`. The robot was supported on its stand; after
+homing, the operator reconfirmed it was hanging and still. Source evidence is
+`repaired_stand_calibration_20260912.json`. The unchanged stationary-data checks
+passed after earlier attempts rejected reported-velocity outliers. Both walking
+and wheel policies remained inactive throughout capture and replacement.
+
+The earlier successful repeat-floor-trial reference is preserved in
+`successful_floor_calibration.json` and the previous preset under `history/`.
+The replacement was saved on the Pi and mirrored to this workspace. Live-session
+calibration remains at `/home/pi/.local/state/quadmorph/calibration.json` on the Pi;
+this repository copy is evidence, not a substitute for a valid live session.
 
 `start_pose.json` is the editable desired reference, with all 12 named joint
 angles in radians. It is not a live calibration or a hardware encoder offset.

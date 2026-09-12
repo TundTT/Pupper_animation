@@ -1,8 +1,10 @@
 # Robot startup and calibration
 
-Latest user request (September 12): retain the successful repeat-floor-test home
-as a permanent, easily replaceable start pose and eliminate routine manual
-recapture. See `hardware_testing/start_pose/README.md` and `start_pose.json` there.
+Latest user request (September 12): replace the saved start pose with the
+operator-confirmed hanging pose after minor repairs. This was captured and saved
+as calibration 535afed263c24d7fa65a3c44dc7083d0; the prior floor-test reference is
+preserved. Retain an easily replaceable permanent reference and eliminate routine
+manual recapture once persistent physical homing is established. See `hardware_testing/start_pose/README.md` and `start_pose.json` there.
 The preset is saved, but automatic physical homing is not implemented: verify
 motor feedback across power loss before replacing the current offset workflow.
 The following instructions describe the currently installed startup procedure.
