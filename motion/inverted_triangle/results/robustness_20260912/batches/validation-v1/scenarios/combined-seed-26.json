@@ -1,0 +1,19 @@
+{
+  "dynamics": {
+    "mass_scale": 1.1,
+    "base_com_offset_m": [
+      0.003,
+      0.003,
+      0.002
+    ],
+    "delay_steps": 5,
+    "torque_limit_Nm": 1.5,
+    "kp_scale": 0.8,
+    "kd_scale": 0.8
+  },
+  "initial_offset": {
+    "height_m": -0.002,
+    "roll_rad": 0.017453292519943295,
+    "pitch_rad": -0.017453292519943295
+  }
+}

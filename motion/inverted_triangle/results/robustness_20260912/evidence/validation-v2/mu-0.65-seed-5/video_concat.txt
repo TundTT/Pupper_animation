@@ -1,0 +1,4 @@
+file '/tmp/pupper-triangle-robustness-20260912/runs/inverted_triangle/validation-v2/mu-0.65-seed-5/01-back_r/rollout.mp4'
+file '/tmp/pupper-triangle-robustness-20260912/runs/inverted_triangle/validation-v2/mu-0.65-seed-5/02-back_l/rollout.mp4'
+file '/tmp/pupper-triangle-robustness-20260912/runs/inverted_triangle/validation-v2/mu-0.65-seed-5/03-front_r/rollout.mp4'
+file '/tmp/pupper-triangle-robustness-20260912/runs/inverted_triangle/validation-v2/mu-0.65-seed-5/04-front_l/rollout.mp4'

@@ -1,0 +1,26 @@
+[
+  {
+    "stage": "01-back_r",
+    "status": "PASS_NOMINAL_SINGLE_FLIP",
+    "identical_complete_end_state": true,
+    "end_state_sha256": "2593072145b5e1dae4604f2c7fa0b8772f2cb8e9732c5b34f5b716dfa20b4444"
+  },
+  {
+    "stage": "02-back_l",
+    "status": "PASS_NOMINAL_SINGLE_FLIP",
+    "identical_complete_end_state": true,
+    "end_state_sha256": "457ea0f92cc29f1b9e5a7b4ca96ccd60506ea5283869c00dec349edd9acc35b9"
+  },
+  {
+    "stage": "03-front_r",
+    "status": "PASS_NOMINAL_SINGLE_FLIP",
+    "identical_complete_end_state": true,
+    "end_state_sha256": "877aabe220330756059d13931a594809f431e26d43c500823ce0c1ed2e073a77"
+  },
+  {
+    "stage": "04-front_l",
+    "status": "PASS_NOMINAL_SINGLE_FLIP",
+    "identical_complete_end_state": true,
+    "end_state_sha256": "d35a03e128155f4ba66fd3d2f420177246a046a77996f84a3f67b07e3e763801"
+  }
+]

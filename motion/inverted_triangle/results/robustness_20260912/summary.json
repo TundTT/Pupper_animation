@@ -1,0 +1,115 @@
+{
+  "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+  "parent_commit": "1139981cac240986e1deb8d53b2a63441b79373f",
+  "source_commit": "fc348333dd70b3cceeaaaf55f30395578f9264a1",
+  "plan_sha256": "204c0a54172874749b6702e2802872b265489bffc18ce9b20bb08b2bde41e369",
+  "parent_plan_sha256": "ae132fcb1de919d548cbee61bfa36f09aeffd4f49dc0b424995b233a05d9295e",
+  "model_sha256": "768cbeb0bfbaab0c898e6078d0b778ee2968718d98bdb2857e13538daeb607a8",
+  "environment_steps": 67278,
+  "duration_s": 129.38076923076923,
+  "simulation_only": true,
+  "hardware_validated": false,
+  "direct_policy_handoff_validated": false,
+  "tests_passed": 16,
+  "source_hashes": {
+    "robust_search.py": "ff7a87892233162f8f37d7414c5ecb96d6488fb0fd720db856f52e59259306ef",
+    "review_replay.py": "f77914ea6e010455a3409127843598b735e3250b8cc17e5da9dc49d136f0aa25",
+    "build_model.py": "e5610e3e6cef6d925126231ab47e8e9aaada2e90c5c0fa2c2ca7d0d4ce718875",
+    "search_flip.py": "1df8d059fec6d40185b27a108a2d12ba3b5e75922e63ee535600f4b0a02d8335",
+    "__init__.py": "3703e5fa655d1cbf26ee959451b519e5301d5cb0e6c397857b931288db202aa1",
+    "extended_search.py": "a163347e0d620e978d8cb82529ca9f516cee83e0d2d2ea1e06a956175c21920e",
+    "sequence.py": "0b58becca853b3c069460f3a059253fa711baecf3c072d7e73cad59a87a52a9f",
+    "core.py": "c9d9516b9c33e6a6c06ee3a3031c6a77c3eb5115caf0a9f92d580fb5031278ee",
+    "check_wheel_clearance.py": "d3ac6cfed37be76d523e79a65d50c17d6dd952d196c478cbd11344ed5e7c5116",
+    "simulate.py": "39115651afe57846e373bc863335b98602e88b89774d7c59200ec2ced7f15237",
+    "experiment.py": "a5c348c0278541b7d81d6df4e61fdaa37158fea871207d35a385b6c745785bac",
+    "search_lift.py": "15d27e0443e65fc607c3c20cfe156c41befe9355b20d4983bf418be90d4dfe61",
+    "robustness.py": "af3d891d40c94e4c301917da443eefc64a520bdf8c3c9a75f9b8b0107a1a66e6",
+    "clearance.py": "65ba712a9bf3261ee11eaaa3fae4444336731153c2bbe2927b8707e5c954de9a",
+    "test_model.py": "e45004e256eed70201a23576dae42204ecb560e2ddd7fa3b1bde1e176f1dea50",
+    "model.xml": "768cbeb0bfbaab0c898e6078d0b778ee2968718d98bdb2857e13538daeb607a8",
+    "source_manifest.json": "13e573f6f0e2e0237fd92dea41c4e9817d9e8a5f707b28dd30fe33d35568dd35",
+    "requirements.txt": "e5b7a57890d64abfb4f88737b8ee0b0b8dae458807dced6f43d009bfeeb7b147",
+    "requirements.lock.txt": "18504a2fd27ad085db0f51f0502d8df143ce8304147e7f5d94968c5601951b9c"
+  },
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "packages": {
+      "numpy": "2.2.6",
+      "scipy": "1.16.2",
+      "mujoco": "3.3.7",
+      "trimesh": "4.8.3",
+      "python-fcl": "0.7.0.11",
+      "wandb": "0.30.0"
+    }
+  },
+  "cloud_verified_runs": 121,
+  "nominal_wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/29dace359e5a45b4",
+  "friction_passed": 20,
+  "friction_cases": 20,
+  "stress_passed": 16,
+  "stress_cases": 16,
+  "held_out_passed": 12,
+  "held_out_cases": 12,
+  "former_held_out_regression_passed": 12,
+  "former_held_out_regression_cases": 12,
+  "all_60_worst_metrics": {
+    "rotation_floor_m": 0.005827048027050884,
+    "cad_gap_m": 0.002435206474665716,
+    "support_N": 1.469665437905608,
+    "floor_N": 0.0,
+    "landing_descent_m_s": 0.021019869913934335,
+    "tilt_deg": 6.98006355980358,
+    "requested_torque_Nm": 1.117993097294527,
+    "hub_error_rad": 0.01801249359340007
+  },
+  "targeted_comparison": [
+    {
+      "case": "mass-low",
+      "stage": "04-front_l",
+      "metric": "peak_landing_descent_m_s",
+      "before": 0.1140820481697412,
+      "after": 0.01360950063517076,
+      "old_status": "FAILED",
+      "new_status": "PASS_NOMINAL_SINGLE_FLIP"
+    },
+    {
+      "case": "gains-high",
+      "stage": "04-front_l",
+      "metric": "peak_landing_descent_m_s",
+      "before": 0.1027337046949683,
+      "after": 0.01330435980386932,
+      "old_status": "FAILED",
+      "new_status": "PASS_NOMINAL_SINGLE_FLIP"
+    },
+    {
+      "case": "mass-high",
+      "stage": "02-back_l",
+      "metric": "maximum_unintended_floor_force_N",
+      "before": 1.5663213996634204,
+      "after": 0.0,
+      "old_status": "FAILED",
+      "new_status": "PASS_NOMINAL_SINGLE_FLIP"
+    },
+    {
+      "case": "gains-low",
+      "stage": "02-back_l",
+      "metric": "maximum_unintended_floor_force_N",
+      "before": 4.946590884662561,
+      "after": 0.0,
+      "old_status": "FAILED",
+      "new_status": "PASS_NOMINAL_SINGLE_FLIP"
+    },
+    {
+      "case": "combined-seed-22",
+      "stage": "01-back_r",
+      "metric": "minimum_rotation_floor_m",
+      "before": 0.00490879323181171,
+      "after": 0.009497847910237174,
+      "old_status": "FAILED",
+      "new_status": "PASS_NOMINAL_SINGLE_FLIP"
+    }
+  ],
+  "review_wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/f715e149f36d49a4"
+}

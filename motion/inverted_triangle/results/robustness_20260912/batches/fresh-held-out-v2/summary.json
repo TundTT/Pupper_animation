@@ -1,0 +1,7 @@
+{
+  "plan_sha256": "204c0a54172874749b6702e2802872b265489bffc18ce9b20bb08b2bde41e369",
+  "conditions": 12,
+  "passed": 12,
+  "process_errors": 0,
+  "simulation_only": true
+}

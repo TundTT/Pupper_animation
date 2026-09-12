@@ -1,0 +1,40 @@
+{
+  "stages": [
+    {
+      "leg": "back_r",
+      "candidate": "01-back_r.json",
+      "candidate_sha256": "d592aa59f2d35b1e5b1e08aa83ce81ae1bdf0c7f5e2e728d9903e9c60515ab8b",
+      "landing_delta": 0.33285868167986554,
+      "direction": -1
+    },
+    {
+      "leg": "back_l",
+      "candidate": "02-back_l.json",
+      "candidate_sha256": "eb95774f1051692e3deeff69d8d324a7dc43646bcd1ec8b8035b6e0a0d8ce06b",
+      "landing_delta": 0.2136521945764448,
+      "direction": 1
+    },
+    {
+      "leg": "front_r",
+      "candidate": "03-front_r.json",
+      "candidate_sha256": "4493f67bb9086d827ba7b479ef3862c6ef4056870d7084ae30d7fb839f99fcf8",
+      "landing_delta": 0.0,
+      "direction": -1
+    },
+    {
+      "leg": "front_l",
+      "candidate": "04-front_l.json",
+      "candidate_sha256": "249b6cbae0b785640f0d35c80d50e8d926e8eba933ecb2c281fcda02a09f754c",
+      "landing_delta": 0.0,
+      "direction": -1
+    }
+  ],
+  "simulation_only": true,
+  "parent_plan_sha256": "ae132fcb1de919d548cbee61bfa36f09aeffd4f49dc0b424995b233a05d9295e",
+  "selection_sources": [
+    "base",
+    "base",
+    "base",
+    "landing-v1"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "parent_pid": 2242916,
+  "worker_pids": [
+    2243263,
+    2243264,
+    2243265,
+    2243266,
+    2243267,
+    2243268,
+    2243269,
+    2243270,
+    2243271,
+    2243272,
+    2243273,
+    2243274
+  ],
+  "reason": "Frozen combined candidate passed nominal and combined-case audits; prioritize complete independent validation before further optimization.",
+  "unix_time": 1789237067.8090675
+}

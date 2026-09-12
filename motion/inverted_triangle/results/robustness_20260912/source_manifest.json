@@ -1,0 +1,42 @@
+{
+  "source_commit": "27bc66823478758bd9dc701a5aec27cceaa0710a",
+  "source_xml_sha256": "d946c5f3d20369e3faa0c38a22617b6c25ef89ec97115ce5757f9962d4b7c103",
+  "asset_sha256": {
+    "BodyV4v70_001.stl": "703137e327683555c1f6d12d39b99fd721479af0e0785e61805ad755a8f782a8",
+    "LegAssemblyForFlangedv26_001.stl": "ef36b14858126b237f15c43d9176ffb9da25d98bdb903c49cf3623234bb79a0a",
+    "LegAssemblyForFlangedv26_002.stl": "83d9b19ac0fb616cf2619228f851b01f3adac08b52344cf47080687f451fc474",
+    "LegAssemblyForFlangedv26_003.stl": "175081bce9491118bedde36677989dee7c274a1c37022ffad33a70488cbcd835",
+    "LegAssemblyForFlangedv26_010.stl": "ef36b14858126b237f15c43d9176ffb9da25d98bdb903c49cf3623234bb79a0a",
+    "LegAssemblyForFlangedv26_011.stl": "83d9b19ac0fb616cf2619228f851b01f3adac08b52344cf47080687f451fc474",
+    "LegAssemblyForFlangedv26_012.stl": "175081bce9491118bedde36677989dee7c274a1c37022ffad33a70488cbcd835",
+    "LegAssemblyForFlangedv26_005.stl": "ef36b14858126b237f15c43d9176ffb9da25d98bdb903c49cf3623234bb79a0a",
+    "LegAssemblyForFlangedv26_006.stl": "83d9b19ac0fb616cf2619228f851b01f3adac08b52344cf47080687f451fc474",
+    "LegAssemblyForFlangedv26_007.stl": "175081bce9491118bedde36677989dee7c274a1c37022ffad33a70488cbcd835",
+    "LegAssemblyForFlangedv26_013.stl": "ef36b14858126b237f15c43d9176ffb9da25d98bdb903c49cf3623234bb79a0a",
+    "LegAssemblyForFlangedv26_014.stl": "83d9b19ac0fb616cf2619228f851b01f3adac08b52344cf47080687f451fc474",
+    "LegAssemblyForFlangedv26_015.stl": "175081bce9491118bedde36677989dee7c274a1c37022ffad33a70488cbcd835",
+    "CustomLegFoot.stl": "5d46e3d9b53c579b81c743f5a23f9e03d13582443e1cf94db4dc2bd06a2615ae",
+    "BodyV4v70_001_FloorHull.stl": "96d703d4eda9876e4f8eb101221df33b705acbcbdf3da757d798db7b67f5ac2e",
+    "LegAssemblyForFlangedv26_001_FloorHull.stl": "e2e024de8fef6ebbdca711bb0cb835d48bcb9d0a4c7025372f898bdab5bcb0d1",
+    "LegAssemblyForFlangedv26_002_FloorHull.stl": "6cffdbd32e20359d926d23fec029863814e739c38f4353b765340eebf8a4a67b",
+    "LegAssemblyForFlangedv26_010_FloorHull.stl": "e2e024de8fef6ebbdca711bb0cb835d48bcb9d0a4c7025372f898bdab5bcb0d1",
+    "LegAssemblyForFlangedv26_011_FloorHull.stl": "6cffdbd32e20359d926d23fec029863814e739c38f4353b765340eebf8a4a67b",
+    "LegAssemblyForFlangedv26_005_FloorHull.stl": "e2e024de8fef6ebbdca711bb0cb835d48bcb9d0a4c7025372f898bdab5bcb0d1",
+    "LegAssemblyForFlangedv26_006_FloorHull.stl": "6cffdbd32e20359d926d23fec029863814e739c38f4353b765340eebf8a4a67b",
+    "LegAssemblyForFlangedv26_013_FloorHull.stl": "e2e024de8fef6ebbdca711bb0cb835d48bcb9d0a4c7025372f898bdab5bcb0d1",
+    "LegAssemblyForFlangedv26_014_FloorHull.stl": "6cffdbd32e20359d926d23fec029863814e739c38f4353b765340eebf8a4a67b",
+    "ShinFloorHull.stl": "a8e4a3e59d2297da97abd0d871cb1659a1b081c07c423ae7a5304dd324c5e0c7"
+  },
+  "model_sha256": "768cbeb0bfbaab0c898e6078d0b778ee2968718d98bdb2857e13538daeb607a8",
+  "gap_m": 0.009,
+  "initial_joint2_rad": [
+    -0.29,
+    0.29,
+    -0.29,
+    0.29
+  ],
+  "initial_pose_status": "Model candidate for user-reported approximately 5 mm lower housing floor clearance; not a captured hardware pose",
+  "components_sha256": "a869de2a23d0ceaf9997575bdca9a202781c557366138be69c714ed7e9a4683e",
+  "floor_collision": "Convex hull of original CAD, floor-only mask; detailed self-collision audit required",
+  "modeling": "rigid locked post-morph; no heating; original mass and COM inertia; explicit total torque saturation 3 Nm; 520 Hz"
+}

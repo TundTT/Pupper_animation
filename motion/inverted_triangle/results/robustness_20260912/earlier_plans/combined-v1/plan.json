@@ -1,0 +1,40 @@
+{
+  "stages": [
+    {
+      "leg": "back_r",
+      "candidate": "01-back_r.json",
+      "candidate_sha256": "a1c7dbe205e6aeee143379c998b748dac613e343555d8d68bb4d6bb4ba57cb46",
+      "landing_delta": 0.33285868167986554,
+      "direction": -1
+    },
+    {
+      "leg": "back_l",
+      "candidate": "02-back_l.json",
+      "candidate_sha256": "d5910e69a464dee00337921c6541de24c84878bc48cea08495aa25bee7c37b54",
+      "landing_delta": 0.2136521945764448,
+      "direction": 1
+    },
+    {
+      "leg": "front_r",
+      "candidate": "03-front_r.json",
+      "candidate_sha256": "7ddbeade3412d505419924d2c53faae5db59d58119164973b086568fc16ef00f",
+      "landing_delta": 0.0,
+      "direction": -1
+    },
+    {
+      "leg": "front_l",
+      "candidate": "04-front_l.json",
+      "candidate_sha256": "249b6cbae0b785640f0d35c80d50e8d926e8eba933ecb2c281fcda02a09f754c",
+      "landing_delta": 0.0,
+      "direction": -1
+    }
+  ],
+  "simulation_only": true,
+  "parent_plan_sha256": "ae132fcb1de919d548cbee61bfa36f09aeffd4f49dc0b424995b233a05d9295e",
+  "selection_sources": [
+    "rear-right-v1",
+    "rear-left-v1",
+    "front-right-v1",
+    "landing-v1"
+  ]
+}

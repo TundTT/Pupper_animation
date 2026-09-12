@@ -1,0 +1,59 @@
+{
+  "source_commit": "fc348333dd70b3cceeaaaf55f30395578f9264a1",
+  "scenario": {
+    "dynamics": {
+      "mass_scale": 0.9213427323173725,
+      "base_com_offset_m": [
+        0.000251963829073503,
+        0.0016635157871460662,
+        0.0010025205025601812
+      ],
+      "kp_scale": 0.957107808268211,
+      "kd_scale": 1.0793482588289574,
+      "torque_limit_Nm": 1.501026271930742,
+      "delay_steps": 8
+    },
+    "initial_offset": {
+      "height_m": 0.0018183665321288072,
+      "roll_rad": -0.01301047129277729,
+      "pitch_rad": 0.011589275052770463
+    }
+  },
+  "status": "PASS_CONTINUOUS_FOUR_FLIPS",
+  "simulation_only": true,
+  "hardware_validated": false,
+  "seed": 107,
+  "friction": 0.5711280541647652,
+  "completed_flips": 4,
+  "final_four_tips": true,
+  "plan_sha256": "204c0a54172874749b6702e2802872b265489bffc18ce9b20bb08b2bde41e369",
+  "source_hashes": {
+    "robust_search.py": "ff7a87892233162f8f37d7414c5ecb96d6488fb0fd720db856f52e59259306ef",
+    "review_replay.py": "f77914ea6e010455a3409127843598b735e3250b8cc17e5da9dc49d136f0aa25",
+    "build_model.py": "e5610e3e6cef6d925126231ab47e8e9aaada2e90c5c0fa2c2ca7d0d4ce718875",
+    "search_flip.py": "1df8d059fec6d40185b27a108a2d12ba3b5e75922e63ee535600f4b0a02d8335",
+    "__init__.py": "3703e5fa655d1cbf26ee959451b519e5301d5cb0e6c397857b931288db202aa1",
+    "extended_search.py": "a163347e0d620e978d8cb82529ca9f516cee83e0d2d2ea1e06a956175c21920e",
+    "sequence.py": "0b58becca853b3c069460f3a059253fa711baecf3c072d7e73cad59a87a52a9f",
+    "core.py": "c9d9516b9c33e6a6c06ee3a3031c6a77c3eb5115caf0a9f92d580fb5031278ee",
+    "check_wheel_clearance.py": "d3ac6cfed37be76d523e79a65d50c17d6dd952d196c478cbd11344ed5e7c5116",
+    "simulate.py": "39115651afe57846e373bc863335b98602e88b89774d7c59200ec2ced7f15237",
+    "experiment.py": "a5c348c0278541b7d81d6df4e61fdaa37158fea871207d35a385b6c745785bac",
+    "search_lift.py": "15d27e0443e65fc607c3c20cfe156c41befe9355b20d4983bf418be90d4dfe61",
+    "robustness.py": "af3d891d40c94e4c301917da443eefc64a520bdf8c3c9a75f9b8b0107a1a66e6",
+    "clearance.py": "65ba712a9bf3261ee11eaaa3fae4444336731153c2bbe2927b8707e5c954de9a",
+    "test_model.py": "e45004e256eed70201a23576dae42204ecb560e2ddd7fa3b1bde1e176f1dea50",
+    "model.xml": "768cbeb0bfbaab0c898e6078d0b778ee2968718d98bdb2857e13538daeb607a8",
+    "source_manifest.json": "13e573f6f0e2e0237fd92dea41c4e9817d9e8a5f707b28dd30fe33d35568dd35",
+    "requirements.txt": "e5b7a57890d64abfb4f88737b8ee0b0b8dae458807dced6f43d009bfeeb7b147",
+    "requirements.lock.txt": "18504a2fd27ad085db0f51f0502d8df143ce8304147e7f5d94968c5601951b9c"
+  },
+  "stage_status": [
+    "PASS_NOMINAL_SINGLE_FLIP",
+    "PASS_NOMINAL_SINGLE_FLIP",
+    "PASS_NOMINAL_SINGLE_FLIP",
+    "PASS_NOMINAL_SINGLE_FLIP"
+  ],
+  "environment_steps": 67278,
+  "rollout_sha256": "5a78154e10398f2cdbc0e47791c34e9c1bc62c6cc3d8d511b25a19d3c4c40e8b"
+}

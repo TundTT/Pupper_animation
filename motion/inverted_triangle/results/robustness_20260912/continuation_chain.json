@@ -1,0 +1,20 @@
+[
+  {
+    "previous_leg": "back_r",
+    "next_leg": "back_l",
+    "identical": true,
+    "state_sha256": "ef811a7a8d5afcef1e72115f76a7c2ecece74b47ec38e5db25169160150ad720"
+  },
+  {
+    "previous_leg": "back_l",
+    "next_leg": "front_r",
+    "identical": true,
+    "state_sha256": "963862a59ddfd07e19b8c5dacea49d1fefec583586eff5bb4510772d6e82e882"
+  },
+  {
+    "previous_leg": "front_r",
+    "next_leg": "front_l",
+    "identical": true,
+    "state_sha256": "d5471de16b2236536c5222806049f7a7e98607dc0fb0b5b6ff236f1ad1cfdd5e"
+  }
+]

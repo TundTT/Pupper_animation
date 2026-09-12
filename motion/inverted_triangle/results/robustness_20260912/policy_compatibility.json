@@ -1,0 +1,49 @@
+{
+  "policy_source": "ros2_ws/src/neural_controller/launch/policy_walk_v2.json",
+  "policy_sha256": "854ac8ba4ffc305079b7f6f7b52187a211413c3cdb18f0de016dd819ff2450a8",
+  "final_command": [
+    2.2596410191742056,
+    0.941404774639115,
+    -0.999999999999793,
+    -0.9461313064212069,
+    -0.4235866116235174,
+    1.000000000000207,
+    2.1616518590010885,
+    0.858162197933493,
+    -0.999999999999793,
+    -1.2549284339946487,
+    -0.49058039465355496,
+    7.283185307179793
+  ],
+  "policy_default_joint_pos": [
+    1.0,
+    0.0,
+    -1.0,
+    -1.0,
+    0.0,
+    1.0,
+    1.0,
+    0.0,
+    -1.0,
+    -1.0,
+    0.0,
+    1.0
+  ],
+  "difference_rad": [
+    1.2596410191742056,
+    0.941404774639115,
+    2.0694557179012918e-13,
+    0.05386869357879309,
+    -0.4235866116235174,
+    2.0694557179012918e-13,
+    1.1616518590010885,
+    0.858162197933493,
+    2.0694557179012918e-13,
+    -0.2549284339946487,
+    -0.49058039465355496,
+    6.283185307179793
+  ],
+  "direct_policy_handoff_validated": false,
+  "geometric_four_tip_stance": true,
+  "reason": "Posture differs from walking default; rear-left hub preserves its extra unwrapped revolution. A measured-state reference-preserving entry transition remains unvalidated. No hardware or policy activation."
+}

@@ -96,3 +96,5 @@ Offline or disabled logging must be explicitly selected and reported.
 ## PC follow-up
 
 See [the committed PC review](results/pc_20260912/README.md) for the continuous four-flip plan, 20/20 friction replays, 7/16 additional stress results, all failed audits, and verified W&B rollout videos. [VALIDATION.md](VALIDATION.md) documents replay and the explicit uncertainty model. This is simulation evidence; direct policy/hardware handoff remains unvalidated.
+
+The [mass/gain robustness follow-up](results/robustness_20260912/README.md), based on `1139981`, preserves that parent and passes 20/20 friction cases, 16/16 original stress cases, 12/12 former held-out regression cases and 12/12 fresh held-out cases. It retains the intermediate held-out failure and actual W&B videos. Geometry, spacing and acceptance gates are unchanged; no hardware or walking policy was activated.

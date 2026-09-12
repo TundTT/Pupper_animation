@@ -1,0 +1,20 @@
+[
+  {
+    "stage": "01-back_r",
+    "identical_start_and_end_state": true,
+    "identical_full_trace": true,
+    "review_reused_from": "cad-v1"
+  },
+  {
+    "stage": "02-back_l",
+    "identical_start_and_end_state": true,
+    "identical_full_trace": true,
+    "review_reused_from": "cad-v1"
+  },
+  {
+    "stage": "03-front_r",
+    "identical_start_and_end_state": true,
+    "identical_full_trace": true,
+    "review_reused_from": "cad-v1"
+  }
+]

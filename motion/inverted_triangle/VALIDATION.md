@@ -47,3 +47,5 @@ Four-tip standing does not establish direct policy-entry compatibility. The fina
 joint posture and unwrapped hub coordinates must be compared with the selected
 leg-policy export. No calibration changes, hardware executor, deployment or
 policy activation are part of this simulation work.
+
+The current [robustness follow-up](results/robustness_20260912/README.md) provides the final derivative plan and exact scenario manifests. The first held-out set had one preserved failure; after that case informed diagnosis, it became a regression set. A fresh, predeclared seed-271828 set remained excluded from selection and passed all 12 continuous replays. Use the replay commands in that report; the parent plan remains available unchanged.

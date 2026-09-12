@@ -1,0 +1,192 @@
+{
+  "status": "INTENTIONALLY_STOPPED_FOR_INDEPENDENT_VALIDATION",
+  "completed_evaluations": 72,
+  "environment_steps_lower_bound": 8313040,
+  "unrecorded_inflight_steps": "Unknown; excluded from the lower bound, not reported as zero.",
+  "best": {
+    "x": [
+      0.668746768319664,
+      -0.289397650935326,
+      -0.9294710893158281,
+      0.05089447176807911,
+      0.9587288740030828,
+      1.1202892327294258,
+      -0.597241556147253,
+      0.27723506903862327
+    ],
+    "cost": 0.08759514466629098,
+    "conditions": [
+      {
+        "name": "mu-0.5-seed-1",
+        "cost": 0.04244400725502828,
+        "rotation_floor_m": 0.011713396070041848,
+        "support_N": 1.731290581711007,
+        "floor_N": 0.0,
+        "cad_gap_m": 0.003881054624224635,
+        "descent_m_s": 0.007642541446253243,
+        "pre_touchdown_support_deficit": 0.0,
+        "tilt_deg": 2.2714680099798232,
+        "hub_error_rad": 0.0002813600001549954,
+        "final_force_N": [
+          12.474440291754426,
+          5.767953917934138,
+          2.6996726736832004,
+          10.35887833555307
+        ],
+        "tip_m": 2.4750818375593453e-06,
+        "speed_rad_s": 0.0025374128632787516,
+        "early_termination": false
+      },
+      {
+        "name": "mu-0.8-seed-1",
+        "cost": 0.040875577598229074,
+        "rotation_floor_m": 0.011491049196029703,
+        "support_N": 1.7975879359678129,
+        "floor_N": 0.0,
+        "cad_gap_m": 0.003883272999983967,
+        "descent_m_s": 0.007620869579957267,
+        "pre_touchdown_support_deficit": 0.0,
+        "tilt_deg": 2.128352537805247,
+        "hub_error_rad": 5.9189575395190985e-05,
+        "final_force_N": [
+          12.549895269170475,
+          5.6629147245654305,
+          2.619735684088428,
+          10.468396824699663
+        ],
+        "tip_m": 8.29598532924719e-06,
+        "speed_rad_s": 0.0033366889871742694,
+        "early_termination": false
+      },
+      {
+        "name": "mu-1.0-seed-1",
+        "cost": 0.04062569389013752,
+        "rotation_floor_m": 0.011321856980286434,
+        "support_N": 2.084385374437163,
+        "floor_N": 0.0,
+        "cad_gap_m": 0.003883630339162739,
+        "descent_m_s": 0.0076068531707595335,
+        "pre_touchdown_support_deficit": 0.0,
+        "tilt_deg": 2.128887201231723,
+        "hub_error_rad": 0.0006887990624528939,
+        "final_force_N": [
+          12.525793087602075,
+          5.706328858604403,
+          2.643303261546756,
+          10.425505775180843
+        ],
+        "tip_m": 1.5945941717339374e-05,
+        "speed_rad_s": 0.003843371125159955,
+        "early_termination": false
+      },
+      {
+        "name": "mass-low",
+        "cost": 0.04091414382732248,
+        "rotation_floor_m": 0.012406410683191024,
+        "support_N": 1.6753596486315572,
+        "floor_N": 0.0,
+        "cad_gap_m": 0.0038832179468306846,
+        "descent_m_s": 0.007706467959576382,
+        "pre_touchdown_support_deficit": 0.0,
+        "tilt_deg": 2.2599819394934175,
+        "hub_error_rad": 0.0010277358153347738,
+        "final_force_N": [
+          11.552112667638728,
+          4.767865885554404,
+          2.078973203472772,
+          9.771899861622707
+        ],
+        "tip_m": 7.046282904439594e-06,
+        "speed_rad_s": 0.002838000667966073,
+        "early_termination": false
+      },
+      {
+        "name": "mass-high",
+        "cost": 0.040704665435508686,
+        "rotation_floor_m": 0.010485194038394242,
+        "support_N": 2.1620436063152697,
+        "floor_N": 0.0,
+        "cad_gap_m": 0.003883517289644187,
+        "descent_m_s": 0.007528837802932795,
+        "pre_touchdown_support_deficit": 0.0,
+        "tilt_deg": 2.0722081984269427,
+        "hub_error_rad": 0.000563477817176361,
+        "final_force_N": [
+          13.495521435835816,
+          6.611552318031468,
+          3.2033780414705615,
+          11.113590378116285
+        ],
+        "tip_m": 9.2997217532656e-06,
+        "speed_rad_s": 0.009927504956947466,
+        "early_termination": false
+      },
+      {
+        "name": "gains-low",
+        "cost": 0.04093902813511236,
+        "rotation_floor_m": 0.009187323286396015,
+        "support_N": 2.0407420278946367,
+        "floor_N": 0.0,
+        "cad_gap_m": 0.0038831824383420708,
+        "descent_m_s": 0.007586222385126069,
+        "pre_touchdown_support_deficit": 0.0,
+        "tilt_deg": 1.9637870412288039,
+        "hub_error_rad": 0.0003759769280717862,
+        "final_force_N": [
+          11.842561199488967,
+          6.440333770734517,
+          3.26244366711777,
+          9.684692040228512
+        ],
+        "tip_m": 9.035644707715285e-06,
+        "speed_rad_s": 0.013266551514101419,
+        "early_termination": false
+      },
+      {
+        "name": "gains-high",
+        "cost": 0.04086153862333834,
+        "rotation_floor_m": 0.012934859037503119,
+        "support_N": 1.9235025060070212,
+        "floor_N": 0.0,
+        "cad_gap_m": 0.0038832930470175573,
+        "descent_m_s": 0.007680605276659455,
+        "pre_touchdown_support_deficit": 0.0,
+        "tilt_deg": 2.278397430677916,
+        "hub_error_rad": 0.0016658090163368389,
+        "final_force_N": [
+          13.019220410877884,
+          5.080122183459356,
+          2.1108965153156736,
+          11.090709253606205
+        ],
+        "tip_m": 6.684175246574053e-06,
+        "speed_rad_s": 0.002639564060644608,
+        "early_termination": false
+      },
+      {
+        "name": "combined-seed-22",
+        "cost": 0.045932944729516784,
+        "rotation_floor_m": 0.008553159412340507,
+        "support_N": 3.0031307893707795,
+        "floor_N": 0.0,
+        "cad_gap_m": 0.0038762624488018873,
+        "descent_m_s": 0.0076525098794385325,
+        "pre_touchdown_support_deficit": 0.0,
+        "tilt_deg": 1.9340374207273092,
+        "hub_error_rad": 0.0010753330038741904,
+        "final_force_N": [
+          13.509593281425655,
+          7.19301243626187,
+          3.0684860451855607,
+          10.659939436135454
+        ],
+        "tip_m": 9.162154088547536e-06,
+        "speed_rad_s": 0.004263697584184726,
+        "early_termination": false
+      }
+    ],
+    "environment_steps": 115432,
+    "evaluation": 56
+  },
+  "reason": "An immutable combined candidate passed nominal and combined-case audits. Stop further candidate selection and retain all recorded evaluations and the interrupted process log."
+}

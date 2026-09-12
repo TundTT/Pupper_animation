@@ -1,0 +1,47 @@
+{
+  "directory": "review-upload",
+  "id": "f715e149f36d49a4",
+  "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/f715e149f36d49a4",
+  "cloud_state": "finished",
+  "simulation_audit_status": "Final: 20/20 friction, 16/16 stress, 12/12 regression, 12/12 fresh held-out",
+  "media": [
+    {
+      "name": "media/videos/trajectory/corrected_regression_3_f2eba840e452f62c355d.mp4",
+      "bytes": 3028735,
+      "md5": "8Paq0f5bXC60VI3tuONNWg==",
+      "matching_local_videos": [
+        "corrected_regression.mp4"
+      ]
+    },
+    {
+      "name": "media/videos/trajectory/nominal_1_057e9291d36d128960d1.mp4",
+      "bytes": 3028853,
+      "md5": "CGKVl39jlb+ikFlLY8vY5Q==",
+      "matching_local_videos": [
+        "nominal.mp4"
+      ]
+    },
+    {
+      "name": "media/videos/trajectory/preserved_held_out_failure_2_d39fc610bc0ec29272d2.mp4",
+      "bytes": 3141523,
+      "md5": "JvTeG69IthlsLRSjGte1YA==",
+      "matching_local_videos": [
+        "preserved_held_out_failure.mp4"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "run-f715e149f36d49a4-validationcases--5lmbA:v0",
+      "digest": "505475349ed8964cd3c9699b698703bc",
+      "state": "COMMITTED"
+    },
+    {
+      "name": "inverted-triangle-robustness-review-f715e149f36d49a4:v0",
+      "digest": "abfb3b9d81e827bce96b312a5cebad88",
+      "state": "COMMITTED"
+    }
+  ],
+  "verified": true,
+  "note": "Post-upload cloud attestation; the pre-upload evidence manifest covers the immutable review bundle."
+}

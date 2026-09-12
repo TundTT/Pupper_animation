@@ -1,0 +1,2490 @@
+{
+  "selection_only": true,
+  "wandb_mode": "disabled local diagnostic; full acceptance audits online",
+  "results": [
+    {
+      "x": [
+        -1.08,
+        -0.75,
+        2.2192545985472245,
+        0.9878280855906367,
+        -1.08,
+        -0.75,
+        2.1676126968899645,
+        0.8422949833487217,
+        -1.2913804928378338,
+        -0.4733040245499583
+      ],
+      "cost": 198.38503013569107,
+      "conditions": [
+        {
+          "name": "mu-0.5-seed-1",
+          "cost": 90.16143598107574,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827774381566,
+          "descent_m_s": 0.007034620667855995,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.09014636882146,
+          "hub_error_rad": 0.0006507268158223445,
+          "final_force_N": [
+            12.947220856134257,
+            0.2667871438470378,
+            2.8897544952434746,
+            15.197198069621058
+          ],
+          "tip_m": 2.480023659143238e-07,
+          "speed_rad_s": 0.00042513482372398255,
+          "early_termination": false
+        },
+        {
+          "name": "mu-0.8-seed-1",
+          "cost": 97.31156899934723,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827791154543,
+          "descent_m_s": 0.007030984166358845,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.08259165593162,
+          "hub_error_rad": 0.00039091433363747097,
+          "final_force_N": [
+            12.973114389399413,
+            0.19928290125665388,
+            2.8623567299403154,
+            15.266205837529325
+          ],
+          "tip_m": 6.227192364607892e-07,
+          "speed_rad_s": 0.0003950799410309253,
+          "early_termination": false
+        },
+        {
+          "name": "mu-1.0-seed-1",
+          "cost": 102.61431365432571,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114829515744534,
+          "descent_m_s": 0.007024670051300543,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.068049680434026,
+          "hub_error_rad": 0.00016282866241679184,
+          "final_force_N": [
+            12.986582921527688,
+            0.15075547083599697,
+            2.8487375415976954,
+            15.314884076435407
+          ],
+          "tip_m": 8.978914130264304e-07,
+          "speed_rad_s": 0.00032727233431088966,
+          "early_termination": false
+        },
+        {
+          "name": "mass-low",
+          "cost": 120.15228566052994,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114895296037638,
+          "descent_m_s": 0.006851588089429424,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.769424155568011,
+          "hub_error_rad": 0.00020614752355907484,
+          "final_force_N": [
+            11.527000495843389,
+            0.0,
+            2.687837462868946,
+            13.936720192759312
+          ],
+          "tip_m": 0.0018725985919365792,
+          "speed_rad_s": 0.005428674251560249,
+          "early_termination": false
+        },
+        {
+          "name": "mass-high",
+          "cost": 28.39453451439715,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827775369975,
+          "descent_m_s": 0.007163224803161153,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.374741708900776,
+          "hub_error_rad": 2.5882376603503232e-05,
+          "final_force_N": [
+            13.623315660796077,
+            1.0392298614748725,
+            3.8693170790855556,
+            15.899192248416224
+          ],
+          "tip_m": 3.0397798784151386e-06,
+          "speed_rad_s": 0.0006063480253324953,
+          "early_termination": false
+        },
+        {
+          "name": "gains-low",
+          "cost": 6.559997678624209,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827774939774,
+          "descent_m_s": 0.007354134207359635,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.629003519754593,
+          "hub_error_rad": 0.0030398157553944705,
+          "final_force_N": [
+            11.863178513671919,
+            1.6091986634573403,
+            4.218153421170447,
+            13.578997727115368
+          ],
+          "tip_m": 5.322498762061478e-06,
+          "speed_rad_s": 0.008662197008627682,
+          "early_termination": false
+        },
+        {
+          "name": "gains-high",
+          "cost": 120.7527958727157,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114850824479927,
+          "descent_m_s": 0.006636461030411645,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.607205082791907,
+          "hub_error_rad": 0.00019990249209445032,
+          "final_force_N": [
+            12.81176890855346,
+            0.0,
+            2.984770983195876,
+            15.504421922720077
+          ],
+          "tip_m": 0.0029400977716544305,
+          "speed_rad_s": 0.00022002084107450914,
+          "early_termination": false
+        },
+        {
+          "name": "combined-seed-22",
+          "cost": 3.9061673883822845,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114828743873228,
+          "descent_m_s": 0.007466758169971911,
+          "pre_touchdown_support_deficit": 0.00998868425193387,
+          "tilt_deg": 6.872499919296609,
+          "hub_error_rad": 0.0020745769446312012,
+          "final_force_N": [
+            12.840784805363226,
+            2.81200801350363,
+            4.697844975445287,
+            14.080410557674854
+          ],
+          "tip_m": 8.182046167135026e-06,
+          "speed_rad_s": 0.0019730317562802768,
+          "early_termination": false
+        },
+        {
+          "name": "former-held-out-08-now-diagnostic",
+          "cost": 121.56121714718216,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114884416897535,
+          "descent_m_s": 0.006311983198884993,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.57515732577694,
+          "hub_error_rad": 0.00020736504549034862,
+          "final_force_N": [
+            11.499955811131159,
+            0.0,
+            3.2202031847401837,
+            14.07904207879157
+          ],
+          "tip_m": 0.003793937317820649,
+          "speed_rad_s": 0.00023778623395322247,
+          "early_termination": false
+        }
+      ],
+      "environment_steps": 51480
+    },
+    {
+      "x": [
+        -1.08,
+        -0.6,
+        2.2192545985472245,
+        0.9878280855906367,
+        -1.08,
+        -0.6,
+        2.1676126968899645,
+        0.8422949833487217,
+        -1.2913804928378338,
+        -0.4733040245499583
+      ],
+      "cost": 80.56962178101308,
+      "conditions": [
+        {
+          "name": "mu-0.5-seed-1",
+          "cost": 0.1862761614577945,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827774430396,
+          "descent_m_s": 0.009917906918067952,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.090225989644142,
+          "hub_error_rad": 0.0008861593958222613,
+          "final_force_N": [
+            10.830304821984353,
+            1.9303407064296825,
+            5.39720953450392,
+            13.140293387716651
+          ],
+          "tip_m": 1.9437971439939528e-06,
+          "speed_rad_s": 0.0023981486056966037,
+          "early_termination": false
+        },
+        {
+          "name": "mu-0.8-seed-1",
+          "cost": 0.08608270012064934,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827870699249,
+          "descent_m_s": 0.009914806530584262,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.083046725985489,
+          "hub_error_rad": 0.0002827535620973931,
+          "final_force_N": [
+            10.775887060001015,
+            1.9585275566847475,
+            5.466717892284697,
+            13.099817776993183
+          ],
+          "tip_m": 6.106630846658412e-06,
+          "speed_rad_s": 0.0023593085370893227,
+          "early_termination": false
+        },
+        {
+          "name": "mu-1.0-seed-1",
+          "cost": 2.1515043254321595,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827887690973,
+          "descent_m_s": 0.009904753352035747,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.0687986547474635,
+          "hub_error_rad": 0.00046485454486333566,
+          "final_force_N": [
+            10.911633323196536,
+            1.7336770099448882,
+            5.32463473792229,
+            13.331004249218672
+          ],
+          "tip_m": 1.0298712378474517e-05,
+          "speed_rad_s": 0.002031953941388676,
+          "early_termination": false
+        },
+        {
+          "name": "mass-low",
+          "cost": 16.693404327688405,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114828986355018,
+          "descent_m_s": 0.009652675049139107,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.794218423277282,
+          "hub_error_rad": 0.0006119957483812222,
+          "final_force_N": [
+            10.113140575633027,
+            1.2540463748174777,
+            4.37965873739592,
+            12.42401746596531
+          ],
+          "tip_m": 4.191727486731189e-06,
+          "speed_rad_s": 0.0014572853309296455,
+          "early_termination": false
+        },
+        {
+          "name": "mass-high",
+          "cost": 0.699790862179931,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827968009334,
+          "descent_m_s": 0.010021372092984756,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.374109840068376,
+          "hub_error_rad": 0.00040605100104584846,
+          "final_force_N": [
+            11.46440872835468,
+            2.4936995656515926,
+            6.4567501871692325,
+            14.016190073314663
+          ],
+          "tip_m": 7.299384304146339e-06,
+          "speed_rad_s": 0.00261480275748251,
+          "early_termination": false
+        },
+        {
+          "name": "gains-low",
+          "cost": 1.9686075377947179,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827778188914,
+          "descent_m_s": 0.010112655343313603,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.627472316169362,
+          "hub_error_rad": 0.0030310772304414924,
+          "final_force_N": [
+            10.045120778778806,
+            2.8581562642686897,
+            6.40668635576346,
+            11.990901470552437
+          ],
+          "tip_m": 8.893208136934172e-06,
+          "speed_rad_s": 0.003360241398611635,
+          "early_termination": false
+        },
+        {
+          "name": "gains-high",
+          "cost": 34.25902026004888,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114831823072273,
+          "descent_m_s": 0.009525240809034663,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.656188378326162,
+          "hub_error_rad": 0.0005341995728864735,
+          "final_force_N": [
+            11.659630485678349,
+            0.9313712796290617,
+            4.3969786151419665,
+            14.312975974445514
+          ],
+          "tip_m": 2.904695311868599e-06,
+          "speed_rad_s": 0.0009310892231353486,
+          "early_termination": false
+        },
+        {
+          "name": "combined-seed-22",
+          "cost": 3.9020651324086955,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.00811482781270401,
+          "descent_m_s": 0.009643560701102255,
+          "pre_touchdown_support_deficit": 0.011691595519608555,
+          "tilt_deg": 6.870074614870772,
+          "hub_error_rad": 0.003718439549277086,
+          "final_force_N": [
+            10.78782533009947,
+            3.9909138705315903,
+            7.195234790693394,
+            12.45705100610482
+          ],
+          "tip_m": 1.160576813950126e-05,
+          "speed_rad_s": 0.0037599843953749308,
+          "early_termination": false
+        },
+        {
+          "name": "former-held-out-08-now-diagnostic",
+          "cost": 66.51798447219865,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114864478169576,
+          "descent_m_s": 0.009390268940088571,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.631542518473818,
+          "hub_error_rad": 0.0004017052532316878,
+          "final_force_N": [
+            10.865486308947368,
+            0.5109512603432728,
+            4.024105106858896,
+            13.398655084349375
+          ],
+          "tip_m": 3.1646448188579757e-06,
+          "speed_rad_s": 0.0006102861984643087,
+          "early_termination": false
+        }
+      ],
+      "environment_steps": 51480
+    },
+    {
+      "x": [
+        -1.08,
+        -0.45,
+        2.2192545985472245,
+        0.9878280855906367,
+        -1.08,
+        -0.45,
+        2.1676126968899645,
+        0.8422949833487217,
+        -1.2913804928378338,
+        -0.4733040245499583
+      ],
+      "cost": 10.189384062565278,
+      "conditions": [
+        {
+          "name": "mu-0.5-seed-1",
+          "cost": 1.1694611052483224,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827774551253,
+          "descent_m_s": 0.012594621501749914,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.483624049287941,
+          "hub_error_rad": 0.0026432155060749363,
+          "final_force_N": [
+            9.345867404341195,
+            2.5312887928018073,
+            7.1115629834136165,
+            12.312245053594392
+          ],
+          "tip_m": 2.3457712274230214e-06,
+          "speed_rad_s": 0.0014710913937857702,
+          "early_termination": false
+        },
+        {
+          "name": "mu-0.8-seed-1",
+          "cost": 1.2603741848712322,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827821471724,
+          "descent_m_s": 0.012582506481035786,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.502070549797781,
+          "hub_error_rad": 0.0027299921207466493,
+          "final_force_N": [
+            9.32386663312645,
+            2.5664473489136554,
+            7.137811685773251,
+            12.272834195527476
+          ],
+          "tip_m": 7.990030066545861e-06,
+          "speed_rad_s": 0.0020303762163925592,
+          "early_termination": false
+        },
+        {
+          "name": "mu-1.0-seed-1",
+          "cost": 1.325569896031973,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.0081148288339994,
+          "descent_m_s": 0.012543548184274146,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.514892201539696,
+          "hub_error_rad": 0.0032937038246332317,
+          "final_force_N": [
+            9.371529397130825,
+            2.4924547026159947,
+            7.090131352176023,
+            12.34684228791015
+          ],
+          "tip_m": 1.4783388215589e-05,
+          "speed_rad_s": 0.0019750778105987734,
+          "early_termination": false
+        },
+        {
+          "name": "mass-low",
+          "cost": 0.4061182988456958,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114854205055767,
+          "descent_m_s": 0.012354882807252244,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.284997648708089,
+          "hub_error_rad": 0.0029802044854436716,
+          "final_force_N": [
+            8.594126892690117,
+            2.2307848072800764,
+            6.183436333366048,
+            11.162513850863448
+          ],
+          "tip_m": 7.441489545248481e-06,
+          "speed_rad_s": 0.0016690197662111695,
+          "early_termination": false
+        },
+        {
+          "name": "mass-high",
+          "cost": 2.4507402051372407,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.00811483604738676,
+          "descent_m_s": 0.012569810672207943,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.700105735605307,
+          "hub_error_rad": 0.003197205239271028,
+          "final_force_N": [
+            10.052280509528838,
+            2.9478263271473213,
+            8.1457135136066,
+            13.285228378441445
+          ],
+          "tip_m": 8.616360990379435e-06,
+          "speed_rad_s": 0.002227465829091023,
+          "early_termination": false
+        },
+        {
+          "name": "gains-low",
+          "cost": 5.314006465244285,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114832434679888,
+          "descent_m_s": 0.01194477734443761,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 7.0309225446408945,
+          "hub_error_rad": 0.001470635673642473,
+          "final_force_N": [
+            8.975444042654063,
+            2.7401013749288143,
+            7.6786837335908675,
+            11.906733486637476
+          ],
+          "tip_m": 8.530972103550083e-06,
+          "speed_rad_s": 0.0027350171195830867,
+          "early_termination": false
+        },
+        {
+          "name": "gains-high",
+          "cost": 0.15261512841854566,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114846482050509,
+          "descent_m_s": 0.012181668297252818,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.174708401869255,
+          "hub_error_rad": 0.0025348162670983942,
+          "final_force_N": [
+            9.655904952615305,
+            2.3718812861423113,
+            6.679642903723712,
+            12.593528869952612
+          ],
+          "tip_m": 7.380990763826423e-06,
+          "speed_rad_s": 0.0011586850622860758,
+          "early_termination": false
+        },
+        {
+          "name": "combined-seed-22",
+          "cost": 7.937294289768802,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114828158579088,
+          "descent_m_s": 0.011440066433257465,
+          "pre_touchdown_support_deficit": 0.013728649988057664,
+          "tilt_deg": 7.249000223369734,
+          "hub_error_rad": 0.0010092440912305989,
+          "final_force_N": [
+            9.637915561205322,
+            3.568663090072133,
+            8.57491223470611,
+            12.649572316593083
+          ],
+          "tip_m": 1.0381827345917749e-05,
+          "speed_rad_s": 0.0034910710356673633,
+          "early_termination": false
+        },
+        {
+          "name": "former-held-out-08-now-diagnostic",
+          "cost": 0.25262838160217505,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114853752883957,
+          "descent_m_s": 0.01208674867835216,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.194230181098772,
+          "hub_error_rad": 0.002634924707880515,
+          "final_force_N": [
+            8.963057720942238,
+            1.953811413619861,
+            6.188680659973933,
+            11.693646232498457
+          ],
+          "tip_m": 1.2071267114339979e-05,
+          "speed_rad_s": 0.0010528820607059498,
+          "early_termination": false
+        }
+      ],
+      "environment_steps": 51480
+    },
+    {
+      "x": [
+        -1.18,
+        -0.75,
+        2.2192545985472245,
+        0.9878280855906367,
+        -1.18,
+        -0.75,
+        2.1676126968899645,
+        0.8422949833487217,
+        -1.2913804928378338,
+        -0.4733040245499583
+      ],
+      "cost": 159.29151654144175,
+      "conditions": [
+        {
+          "name": "mu-0.5-seed-1",
+          "cost": 11.217935411682587,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827774426358,
+          "descent_m_s": 0.008314942595751048,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.095076918382829,
+          "hub_error_rad": 0.003331699871166105,
+          "final_force_N": [
+            11.699731762386714,
+            1.3897340112804168,
+            4.308554343642989,
+            13.9029313358893
+          ],
+          "tip_m": 1.2892538922143482e-06,
+          "speed_rad_s": 0.0015228917504265952,
+          "early_termination": false
+        },
+        {
+          "name": "mu-0.8-seed-1",
+          "cost": 17.405163885099313,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827975325664,
+          "descent_m_s": 0.008312331366973954,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.083598133104227,
+          "hub_error_rad": 0.003247161854819769,
+          "final_force_N": [
+            11.789062749657852,
+            1.239074671955109,
+            4.215550682610638,
+            14.057260741465708
+          ],
+          "tip_m": 3.861456013838638e-06,
+          "speed_rad_s": 0.0014829349629967403,
+          "early_termination": false
+        },
+        {
+          "name": "mu-1.0-seed-1",
+          "cost": 23.04288023807282,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.00811482994728299,
+          "descent_m_s": 0.008302422208554039,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.072457674676316,
+          "hub_error_rad": 0.0031806338217619246,
+          "final_force_N": [
+            11.88418895662253,
+            1.1240884811623317,
+            4.135583104078007,
+            14.168073027894751
+          ],
+          "tip_m": 6.6491990030267956e-06,
+          "speed_rad_s": 0.0014913351747221312,
+          "early_termination": false
+        },
+        {
+          "name": "mass-low",
+          "cost": 66.04255093425257,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114867653576946,
+          "descent_m_s": 0.007957550638248568,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.787330317689883,
+          "hub_error_rad": 0.0016280607623979648,
+          "final_force_N": [
+            11.065253761827808,
+            0.5162822490530464,
+            3.216702615935776,
+            13.372623721176902
+          ],
+          "tip_m": 1.723758775919182e-06,
+          "speed_rad_s": 0.0005467597801169135,
+          "early_termination": false
+        },
+        {
+          "name": "mass-high",
+          "cost": 0.7026085471731887,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114831811606502,
+          "descent_m_s": 0.008460560385954182,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.37486225394755,
+          "hub_error_rad": 0.00497022222339738,
+          "final_force_N": [
+            12.407553540786552,
+            2.016831090060483,
+            5.287975624650616,
+            14.718679280853664
+          ],
+          "tip_m": 5.899163541038532e-06,
+          "speed_rad_s": 0.0017841293425123078,
+          "early_termination": false
+        },
+        {
+          "name": "gains-low",
+          "cost": 1.966805026693392,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.00811482784952644,
+          "descent_m_s": 0.008659971628323633,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.62718498494358,
+          "hub_error_rad": 0.004689461721268939,
+          "final_force_N": [
+            10.813888173820983,
+            2.4339975147996915,
+            5.4049091390100035,
+            12.637036958664883
+          ],
+          "tip_m": 7.654498757454775e-06,
+          "speed_rad_s": 0.004426487814103486,
+          "early_termination": false
+        },
+        {
+          "name": "gains-high",
+          "cost": 109.34363280351761,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114850390510653,
+          "descent_m_s": 0.007867137040362836,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.621081898388351,
+          "hub_error_rad": 0.00042867218109043925,
+          "final_force_N": [
+            12.76825630776305,
+            0.09086727540559579,
+            3.047651294179547,
+            15.394185201051537
+          ],
+          "tip_m": 2.8433994948839914e-07,
+          "speed_rad_s": 0.0002528796927809918,
+          "early_termination": false
+        },
+        {
+          "name": "combined-seed-22",
+          "cost": 3.9020720264843085,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114828000676942,
+          "descent_m_s": 0.008669849330633056,
+          "pre_touchdown_support_deficit": 0.011520963197132012,
+          "tilt_deg": 6.870271497236694,
+          "hub_error_rad": 0.0052673348293448274,
+          "final_force_N": [
+            11.46555299318198,
+            3.7024152628939624,
+            6.2891946957199645,
+            12.973876045159358
+          ],
+          "tip_m": 1.0773658428907262e-05,
+          "speed_rad_s": 0.0032753969001543272,
+          "early_termination": false
+        },
+        {
+          "name": "former-held-out-08-now-diagnostic",
+          "cost": 120.0,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114884445079056,
+          "descent_m_s": 0.007745055979289832,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.577373458067928,
+          "hub_error_rad": 0.00031141337730034024,
+          "final_force_N": [
+            11.609211610294484,
+            0.0,
+            3.0997575343397648,
+            14.0902321703508
+          ],
+          "tip_m": 0.0004893513627254528,
+          "speed_rad_s": 0.00018922732195915157,
+          "early_termination": false
+        }
+      ],
+      "environment_steps": 51480
+    },
+    {
+      "x": [
+        -1.18,
+        -0.6,
+        2.2192545985472245,
+        0.9878280855906367,
+        -1.18,
+        -0.6,
+        2.1676126968899645,
+        0.8422949833487217,
+        -1.2913804928378338,
+        -0.4733040245499583
+      ],
+      "cost": 25.942962901600573,
+      "conditions": [
+        {
+          "name": "mu-0.5-seed-1",
+          "cost": 0.041060451646487,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827774545473,
+          "descent_m_s": 0.010592345762907941,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.090620584467865,
+          "hub_error_rad": 0.005433820591051575,
+          "final_force_N": [
+            10.304622752162047,
+            2.06439153565025,
+            5.965173564255323,
+            12.969347246977723
+          ],
+          "tip_m": 1.912506292715832e-06,
+          "speed_rad_s": 0.0012428201397425233,
+          "early_termination": false
+        },
+        {
+          "name": "mu-0.8-seed-1",
+          "cost": 0.050162637092077335,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827977485063,
+          "descent_m_s": 0.010590715064187718,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.100162505052617,
+          "hub_error_rad": 0.007007816099514619,
+          "final_force_N": [
+            10.267996292248508,
+            2.0642948469245734,
+            5.997806233750609,
+            12.976711863880702
+          ],
+          "tip_m": 6.426592269410947e-06,
+          "speed_rad_s": 0.0020740764931253164,
+          "early_termination": false
+        },
+        {
+          "name": "mu-1.0-seed-1",
+          "cost": 0.0760381372526628,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114829954371459,
+          "descent_m_s": 0.01058622626240744,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.123319209576337,
+          "hub_error_rad": 0.007415752242950102,
+          "final_force_N": [
+            10.278805814565192,
+            2.0422084036244073,
+            5.990402759140685,
+            12.989490145023817
+          ],
+          "tip_m": 1.2103832629700717e-05,
+          "speed_rad_s": 0.0019450880643985741,
+          "early_termination": false
+        },
+        {
+          "name": "mass-low",
+          "cost": 4.201524834846802,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114861048733015,
+          "descent_m_s": 0.010268632880061242,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.906604655002324,
+          "hub_error_rad": 0.006251557619403103,
+          "final_force_N": [
+            9.523575784611943,
+            1.6257663459438385,
+            5.04291953875653,
+            11.978594751193096
+          ],
+          "tip_m": 5.426270498827546e-06,
+          "speed_rad_s": 0.0015813940020497725,
+          "early_termination": false
+        },
+        {
+          "name": "mass-high",
+          "cost": 0.7005476215497579,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114836563766728,
+          "descent_m_s": 0.010664999262613512,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.374312068079499,
+          "hub_error_rad": 0.008473242406475956,
+          "final_force_N": [
+            10.968894483811157,
+            2.577551008132801,
+            7.053093725070191,
+            13.831504560593324
+          ],
+          "tip_m": 7.539104236814476e-06,
+          "speed_rad_s": 0.0022950771091531604,
+          "early_termination": false
+        },
+        {
+          "name": "gains-low",
+          "cost": 1.9602122656028789,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114829533813001,
+          "descent_m_s": 0.010692127848051304,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.626132935661889,
+          "hub_error_rad": 0.008193645286981077,
+          "final_force_N": [
+            9.526070977497627,
+            2.6542498011978912,
+            6.929356107419058,
+            12.191286853850377
+          ],
+          "tip_m": 8.268571772052091e-06,
+          "speed_rad_s": 0.0025446230175536853,
+          "early_termination": false
+        },
+        {
+          "name": "gains-high",
+          "cost": 6.46812219756197,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114850410268173,
+          "descent_m_s": 0.010177727718078861,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.787197310456712,
+          "hub_error_rad": 0.0050126240030787805,
+          "final_force_N": [
+            10.917126931206298,
+            1.5356681431862922,
+            5.229705436803334,
+            13.618451056487181
+          ],
+          "tip_m": 4.782549868243002e-06,
+          "speed_rad_s": 0.0012711000496849602,
+          "early_termination": false
+        },
+        {
+          "name": "combined-seed-22",
+          "cost": 3.8703220640047014,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827789739595,
+          "descent_m_s": 0.010370886829928346,
+          "pre_touchdown_support_deficit": 0.009995806241716023,
+          "tilt_deg": 6.868373652477727,
+          "hub_error_rad": 0.009724464379550879,
+          "final_force_N": [
+            10.294423706955442,
+            3.6262237198496834,
+            7.755611111447898,
+            12.75479196372014
+          ],
+          "tip_m": 1.0551520728548092e-05,
+          "speed_rad_s": 0.003146605372776154,
+          "early_termination": false
+        },
+        {
+          "name": "former-held-out-08-now-diagnostic",
+          "cost": 21.61186759048478,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114884475265266,
+          "descent_m_s": 0.010056053760855655,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.793968806116466,
+          "hub_error_rad": 0.004236647177477959,
+          "final_force_N": [
+            10.156390851286702,
+            1.1512387930934327,
+            4.819955592793167,
+            12.671604976735722
+          ],
+          "tip_m": 7.117995630800955e-06,
+          "speed_rad_s": 0.00110147966729141,
+          "early_termination": false
+        }
+      ],
+      "environment_steps": 51480
+    },
+    {
+      "x": [
+        -1.18,
+        -0.45,
+        2.2192545985472245,
+        0.9878280855906367,
+        -1.18,
+        -0.45,
+        2.1676126968899645,
+        0.8422949833487217,
+        -1.2913804928378338,
+        -0.4733040245499583
+      ],
+      "cost": 15.886104850738924,
+      "conditions": [
+        {
+          "name": "mu-0.5-seed-1",
+          "cost": 2.4765367753078547,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827774737553,
+          "descent_m_s": 0.012940796897377538,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.703780757808546,
+          "hub_error_rad": 0.007196755136056554,
+          "final_force_N": [
+            9.139443642760078,
+            2.4369745576914243,
+            7.3972918162622925,
+            12.327250352974517
+          ],
+          "tip_m": 2.257290942421497e-06,
+          "speed_rad_s": 0.0010363884433354541,
+          "early_termination": false
+        },
+        {
+          "name": "mu-0.8-seed-1",
+          "cost": 2.6067337501371144,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.00811482777444353,
+          "descent_m_s": 0.012938732303632128,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.722043454389985,
+          "hub_error_rad": 0.010649802191642133,
+          "final_force_N": [
+            9.068365321551122,
+            2.446270477663015,
+            7.471770991340906,
+            12.314546946245759
+          ],
+          "tip_m": 7.612865346708075e-06,
+          "speed_rad_s": 0.0015753101476688389,
+          "early_termination": false
+        },
+        {
+          "name": "mu-1.0-seed-1",
+          "cost": 2.6565070402895543,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827774906921,
+          "descent_m_s": 0.01293259019491966,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.728904251639343,
+          "hub_error_rad": 0.010790825396701509,
+          "final_force_N": [
+            9.098844869549119,
+            2.4019003518018227,
+            7.441681613559831,
+            12.358522937161212
+          ],
+          "tip_m": 1.4240544883775685e-05,
+          "speed_rad_s": 0.0017883096199144384,
+          "early_termination": false
+        },
+        {
+          "name": "mass-low",
+          "cost": 1.301276790971809,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114829273248641,
+          "descent_m_s": 0.012598411108745622,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.510152289217996,
+          "hub_error_rad": 0.009557769740774269,
+          "final_force_N": [
+            8.343294105214856,
+            2.1119848587612715,
+            6.457677931861577,
+            11.254245667807492
+          ],
+          "tip_m": 7.04413066839743e-06,
+          "speed_rad_s": 0.00254911006249951,
+          "early_termination": false
+        },
+        {
+          "name": "mass-high",
+          "cost": 4.418889720172751,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827795000721,
+          "descent_m_s": 0.012732903080710392,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.940094646317354,
+          "hub_error_rad": 0.012975639410504058,
+          "final_force_N": [
+            9.838780052158437,
+            2.762970108631121,
+            8.356542815427957,
+            13.455760707523037
+          ],
+          "tip_m": 8.100988856993285e-06,
+          "speed_rad_s": 0.003798968868924691,
+          "early_termination": false
+        },
+        {
+          "name": "gains-low",
+          "cost": 8.58200506770891,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827905514953,
+          "descent_m_s": 0.01242668887593607,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 7.310114885627128,
+          "hub_error_rad": 0.013872386345886278,
+          "final_force_N": [
+            8.860507278185553,
+            2.4928912393312075,
+            7.777194852984974,
+            12.170364556805664
+          ],
+          "tip_m": 7.759278681351844e-06,
+          "speed_rad_s": 0.002174732271479603,
+          "early_termination": false
+        },
+        {
+          "name": "gains-high",
+          "cost": 0.7260815957468564,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114835293923364,
+          "descent_m_s": 0.012459990636872696,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.381072590393709,
+          "hub_error_rad": 0.00814026353111208,
+          "final_force_N": [
+            9.344748512431206,
+            2.340648862857415,
+            7.028824488416476,
+            12.586735268277424
+          ],
+          "tip_m": 7.282893483000208e-06,
+          "speed_rad_s": 0.0012113695494989315,
+          "early_termination": false
+        },
+        {
+          "name": "combined-seed-22",
+          "cost": 11.93104736722626,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114828035654541,
+          "descent_m_s": 0.011680135765662744,
+          "pre_touchdown_support_deficit": 0.013510329045239425,
+          "tilt_deg": 7.535965108768677,
+          "hub_error_rad": 0.01596533347779161,
+          "final_force_N": [
+            9.512700287073532,
+            3.312128536031835,
+            8.735455022502208,
+            12.870768113643543
+          ],
+          "tip_m": 9.631073116744826e-06,
+          "speed_rad_s": 0.002491669567308161,
+          "early_termination": false
+        },
+        {
+          "name": "former-held-out-08-now-diagnostic",
+          "cost": 0.896439244052872,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114835544657608,
+          "descent_m_s": 0.01227482271617118,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.397252179497337,
+          "hub_error_rad": 0.007619219441261649,
+          "final_force_N": [
+            8.68452875891487,
+            1.9401689117944108,
+            6.503957904664489,
+            11.670537793086247
+          ],
+          "tip_m": 1.1984350161760304e-05,
+          "speed_rad_s": 0.001341019544490605,
+          "early_termination": false
+        }
+      ],
+      "environment_steps": 51480
+    },
+    {
+      "x": [
+        -1.28,
+        -0.75,
+        2.2192545985472245,
+        0.9878280855906367,
+        -1.28,
+        -0.75,
+        2.1676126968899645,
+        0.8422949833487217,
+        -1.2913804928378338,
+        -0.4733040245499583
+      ],
+      "cost": 73.09872128841543,
+      "conditions": [
+        {
+          "name": "mu-0.5-seed-1",
+          "cost": 2.7690611135909413,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.0081148277745381,
+          "descent_m_s": 0.009348005443384584,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.101004221096998,
+          "hub_error_rad": 0.005997382698087028,
+          "final_force_N": [
+            11.060415671593958,
+            1.6989987901356605,
+            5.078597145470715,
+            13.454329069919174
+          ],
+          "tip_m": 1.053105192848347e-06,
+          "speed_rad_s": 0.0019920310638628373,
+          "early_termination": false
+        },
+        {
+          "name": "mu-0.8-seed-1",
+          "cost": 2.309381259449056,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827977339053,
+          "descent_m_s": 0.009346139436919683,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.158521859357283,
+          "hub_error_rad": 0.008662490932568767,
+          "final_force_N": [
+            11.001914479813053,
+            1.7302015962501751,
+            5.127582990995066,
+            13.441236546963454
+          ],
+          "tip_m": 4.739340104795153e-06,
+          "speed_rad_s": 0.0023129875587971824,
+          "early_termination": false
+        },
+        {
+          "name": "mu-1.0-seed-1",
+          "cost": 4.397923779408665,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.00811482934057839,
+          "descent_m_s": 0.009340107221206637,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.173887686369997,
+          "hub_error_rad": 0.008868225625062287,
+          "final_force_N": [
+            11.078414226199598,
+            1.6237580945697696,
+            5.048117321706639,
+            13.55064432600593
+          ],
+          "tip_m": 9.633931188551825e-06,
+          "speed_rad_s": 0.0023141905523478496,
+          "early_termination": false
+        },
+        {
+          "name": "mass-low",
+          "cost": 19.867370868176362,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114845260765302,
+          "descent_m_s": 0.009065622880456863,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.919988952816993,
+          "hub_error_rad": 0.006192896945033999,
+          "final_force_N": [
+            10.265991475692847,
+            1.1862152031366777,
+            4.138842199390447,
+            12.579798825837537
+          ],
+          "tip_m": 3.42058209330115e-06,
+          "speed_rad_s": 0.0015740400931264103,
+          "early_termination": false
+        },
+        {
+          "name": "mass-high",
+          "cost": 0.7825802379823139,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827935338366,
+          "descent_m_s": 0.009628779936877472,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.3956210909398825,
+          "hub_error_rad": 0.011127307799834396,
+          "final_force_N": [
+            11.643117856307313,
+            2.233179174066648,
+            6.155035384334678,
+            14.399696803727243
+          ],
+          "tip_m": 5.899940176461171e-06,
+          "speed_rad_s": 0.0027700865433793365,
+          "early_termination": false
+        },
+        {
+          "name": "gains-low",
+          "cost": 1.96808074333878,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827775407467,
+          "descent_m_s": 0.009840485201606224,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.627388355540455,
+          "hub_error_rad": 0.012840806233099133,
+          "final_force_N": [
+            10.181957795948462,
+            2.5151415880682135,
+            6.16319380242148,
+            12.440642020082725
+          ],
+          "tip_m": 7.830362567795568e-06,
+          "speed_rad_s": 0.003032504235649248,
+          "early_termination": false
+        },
+        {
+          "name": "gains-high",
+          "cost": 33.0333539096366,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114850408977959,
+          "descent_m_s": 0.008962256607055368,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.748186431381505,
+          "hub_error_rad": 0.0038125099700452303,
+          "final_force_N": [
+            11.807711398596295,
+            0.9506612572729973,
+            4.18012001885659,
+            14.426234655006063
+          ],
+          "tip_m": 2.416593902307418e-06,
+          "speed_rad_s": 0.00243372058137,
+          "early_termination": false
+        },
+        {
+          "name": "combined-seed-22",
+          "cost": 3.86918709985248,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827898682796,
+          "descent_m_s": 0.009565883565340928,
+          "pre_touchdown_support_deficit": 0.010138008882300858,
+          "tilt_deg": 6.868079145127847,
+          "hub_error_rad": 0.013885416095646752,
+          "final_force_N": [
+            10.913944838945543,
+            3.5120132308405,
+            6.949446364530178,
+            13.055618856474133
+          ],
+          "tip_m": 1.0209366206152815e-05,
+          "speed_rad_s": 0.0036405518147585095,
+          "early_termination": false
+        },
+        {
+          "name": "former-held-out-08-now-diagnostic",
+          "cost": 58.88915525843037,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.00811488447326889,
+          "descent_m_s": 0.0088414978063011,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.695137743175773,
+          "hub_error_rad": 0.0027652596199261303,
+          "final_force_N": [
+            10.95923809782527,
+            0.5989390298963864,
+            3.8745055557145838,
+            13.39984843109335
+          ],
+          "tip_m": 3.373557387768844e-06,
+          "speed_rad_s": 0.003449577468396536,
+          "early_termination": false
+        }
+      ],
+      "environment_steps": 51480
+    },
+    {
+      "x": [
+        -1.28,
+        -0.6,
+        2.2192545985472245,
+        0.9878280855906367,
+        -1.28,
+        -0.6,
+        2.1676126968899645,
+        0.8422949833487217,
+        -1.2913804928378338,
+        -0.4733040245499583
+      ],
+      "cost": 15.424506160367958,
+      "conditions": [
+        {
+          "name": "mu-0.5-seed-1",
+          "cost": 0.26562582731897205,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827774729131,
+          "descent_m_s": 0.01127714127934908,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.230488970373409,
+          "hub_error_rad": 0.007677945295027078,
+          "final_force_N": [
+            9.980454202576883,
+            2.1498179958054875,
+            6.321203527294805,
+            12.843287783148122
+          ],
+          "tip_m": 1.822502412138216e-06,
+          "speed_rad_s": 0.005180138659257916,
+          "early_termination": false
+        },
+        {
+          "name": "mu-0.8-seed-1",
+          "cost": 0.4196544153943876,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827819053178,
+          "descent_m_s": 0.011274831094005778,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.289708272368736,
+          "hub_error_rad": 0.011708651882423204,
+          "final_force_N": [
+            9.940479928388323,
+            2.1179092348165725,
+            6.348048980908391,
+            12.894496857598309
+          ],
+          "tip_m": 6.2844427346567255e-06,
+          "speed_rad_s": 0.0019459853840031764,
+          "early_termination": false
+        },
+        {
+          "name": "mu-1.0-seed-1",
+          "cost": 0.49005000445971447,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.00811482790382419,
+          "descent_m_s": 0.01126724348392665,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.3130654897812,
+          "hub_error_rad": 0.012748240804794309,
+          "final_force_N": [
+            9.96998333643025,
+            2.003858960462646,
+            6.322563275014971,
+            13.004532886238891
+          ],
+          "tip_m": 1.1880115638851496e-05,
+          "speed_rad_s": 0.0024676312352165906,
+          "early_termination": false
+        },
+        {
+          "name": "mass-low",
+          "cost": 1.619324950020331,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827860477104,
+          "descent_m_s": 0.010950640727918912,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.093308426987537,
+          "hub_error_rad": 0.009875516371364634,
+          "final_force_N": [
+            9.253975110147959,
+            1.7708135666256335,
+            5.358150588918971,
+            11.79450321118269
+          ],
+          "tip_m": 5.698105291142286e-06,
+          "speed_rad_s": 0.0016609043613823858,
+          "early_termination": false
+        },
+        {
+          "name": "mass-high",
+          "cost": 1.2772003264990226,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114828017305379,
+          "descent_m_s": 0.011456059003665423,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.505410788665818,
+          "hub_error_rad": 0.01337832086749935,
+          "final_force_N": [
+            10.7597796790272,
+            2.3366047263761565,
+            7.275253276244797,
+            14.05939573714763
+          ],
+          "tip_m": 5.788293356720486e-06,
+          "speed_rad_s": 0.002576477788784745,
+          "early_termination": false
+        },
+        {
+          "name": "gains-low",
+          "cost": 3.545881254524513,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114828158265456,
+          "descent_m_s": 0.011465598022657899,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.842126030297664,
+          "hub_error_rad": 0.0154793431271949,
+          "final_force_N": [
+            9.408016847570114,
+            2.2949496742614484,
+            7.098936436273811,
+            12.499040463854003
+          ],
+          "tip_m": 6.557149385633121e-06,
+          "speed_rad_s": 0.0025840539527009336,
+          "early_termination": false
+        },
+        {
+          "name": "gains-high",
+          "cost": 3.5747119933087754,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114828985373666,
+          "descent_m_s": 0.010775454768701169,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.9694646650668695,
+          "hub_error_rad": 0.00797854194120573,
+          "final_force_N": [
+            10.534501954948158,
+            1.6548086524206815,
+            5.6496710684046185,
+            13.442355717311392
+          ],
+          "tip_m": 4.95273307851013e-06,
+          "speed_rad_s": 0.009075318863984152,
+          "early_termination": false
+        },
+        {
+          "name": "combined-seed-22",
+          "cost": 5.66557057555233,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114828050501123,
+          "descent_m_s": 0.011156343856026058,
+          "pre_touchdown_support_deficit": 0.014574536676391452,
+          "tilt_deg": 7.050697407324146,
+          "hub_error_rad": 0.018948337839412632,
+          "final_force_N": [
+            10.099867603801574,
+            3.086463337646159,
+            8.018382995591223,
+            13.225260224679165
+          ],
+          "tip_m": 8.978371409840147e-06,
+          "speed_rad_s": 0.003068973332296196,
+          "early_termination": false
+        },
+        {
+          "name": "former-held-out-08-now-diagnostic",
+          "cost": 12.196253609623358,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.00811482867153034,
+          "descent_m_s": 0.010581520504165757,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.986009103938398,
+          "hub_error_rad": 0.007686699797626373,
+          "final_force_N": [
+            9.771147642123461,
+            1.3623937053420463,
+            5.25246414902845,
+            12.448360003561145
+          ],
+          "tip_m": 8.168956167696473e-06,
+          "speed_rad_s": 0.0026245666373075523,
+          "early_termination": false
+        }
+      ],
+      "environment_steps": 51480
+    },
+    {
+      "x": [
+        -1.28,
+        -0.45,
+        2.2192545985472245,
+        0.9878280855906367,
+        -1.28,
+        -0.45,
+        2.1676126968899645,
+        0.8422949833487217,
+        -1.2913804928378338,
+        -0.4733040245499583
+      ],
+      "cost": 19.884620147181856,
+      "conditions": [
+        {
+          "name": "mu-0.5-seed-1",
+          "cost": 2.806893199377117,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827774993614,
+          "descent_m_s": 0.013244279638392795,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.7492520536344385,
+          "hub_error_rad": 0.008137065396322862,
+          "final_force_N": [
+            9.138963412206717,
+            2.3227545891053127,
+            7.3835953073223415,
+            12.460897053998494
+          ],
+          "tip_m": 2.1537631795798262e-06,
+          "speed_rad_s": 0.0015509299466330375,
+          "early_termination": false
+        },
+        {
+          "name": "mu-0.8-seed-1",
+          "cost": 3.261851462283855,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827785781183,
+          "descent_m_s": 0.013235652154165488,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.807694430126128,
+          "hub_error_rad": 0.013775654127325287,
+          "final_force_N": [
+            9.11325670696846,
+            2.3577150374538522,
+            7.3771189053508825,
+            12.452856892186745
+          ],
+          "tip_m": 7.203258230253917e-06,
+          "speed_rad_s": 0.0017775324571847229,
+          "early_termination": false
+        },
+        {
+          "name": "mu-1.0-seed-1",
+          "cost": 3.5003318028166848,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114828401308555,
+          "descent_m_s": 0.01319645704069233,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.836699683616133,
+          "hub_error_rad": 0.01607509327266521,
+          "final_force_N": [
+            9.12213073404228,
+            2.2622287917610064,
+            7.367826455049846,
+            12.548756029640384
+          ],
+          "tip_m": 1.3405644004205186e-05,
+          "speed_rad_s": 0.0024290311460925204,
+          "early_termination": false
+        },
+        {
+          "name": "mass-low",
+          "cost": 1.6515900371520276,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827787984218,
+          "descent_m_s": 0.012726554624421675,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.57473298794345,
+          "hub_error_rad": 0.011051195821671467,
+          "final_force_N": [
+            8.292131343713981,
+            2.0111317822778068,
+            6.437427453784688,
+            11.410602651096138
+          ],
+          "tip_m": 6.734014153818302e-06,
+          "speed_rad_s": 0.001795684154069363,
+          "early_termination": false
+        },
+        {
+          "name": "mass-high",
+          "cost": 5.574674917706997,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827972993876,
+          "descent_m_s": 0.013194777372843634,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 7.055904817462919,
+          "hub_error_rad": 0.014364813049998482,
+          "final_force_N": [
+            9.915184931439903,
+            2.4370932166193744,
+            8.268230411796829,
+            13.81053634884664
+          ],
+          "tip_m": 6.950801932817385e-06,
+          "speed_rad_s": 0.0016953235170820806,
+          "early_termination": false
+        },
+        {
+          "name": "gains-low",
+          "cost": 10.704904818136349,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114828140065347,
+          "descent_m_s": 0.012954735989111728,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 7.463209131883501,
+          "hub_error_rad": 0.016093484545132153,
+          "final_force_N": [
+            8.876737080574728,
+            2.1641873015035813,
+            7.813005733123708,
+            12.4546371719928
+          ],
+          "tip_m": 6.439674597132072e-06,
+          "speed_rad_s": 0.002442386486547905,
+          "early_termination": false
+        },
+        {
+          "name": "gains-high",
+          "cost": 0.9744785060807459,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827783949825,
+          "descent_m_s": 0.012527285218318567,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.441469932403272,
+          "hub_error_rad": 0.009545503406527267,
+          "final_force_N": [
+            9.344547842599853,
+            2.1368990705072193,
+            7.023994168681478,
+            12.79551582620304
+          ],
+          "tip_m": 6.647866527709212e-06,
+          "speed_rad_s": 0.001418575377131323,
+          "early_termination": false
+        },
+        {
+          "name": "combined-seed-22",
+          "cost": 14.815856199477484,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114829355711211,
+          "descent_m_s": 0.012372646020534468,
+          "pre_touchdown_support_deficit": 0.01275125746227054,
+          "tilt_deg": 7.71396287152638,
+          "hub_error_rad": 0.02168035047987038,
+          "final_force_N": [
+            9.49732465667773,
+            2.847098521580949,
+            8.72661124021922,
+            13.34708676708398
+          ],
+          "tip_m": 7.958493551327162e-06,
+          "speed_rad_s": 0.0056221006256522675,
+          "early_termination": false
+        },
+        {
+          "name": "former-held-out-08-now-diagnostic",
+          "cost": 2.3282945863080737,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827799513629,
+          "descent_m_s": 0.012375048728599475,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.462549436703046,
+          "hub_error_rad": 0.010098300687742201,
+          "final_force_N": [
+            8.635448848043477,
+            1.7951801865592958,
+            6.5511706910233345,
+            11.81775807877252
+          ],
+          "tip_m": 1.1091008103515654e-05,
+          "speed_rad_s": 0.0022119616267872273,
+          "early_termination": false
+        }
+      ],
+      "environment_steps": 51480
+    },
+    {
+      "x": [
+        -1.38,
+        -0.75,
+        2.2192545985472245,
+        0.9878280855906367,
+        -1.38,
+        -0.75,
+        2.1676126968899645,
+        0.8422949833487217,
+        -1.2913804928378338,
+        -0.4733040245499583
+      ],
+      "cost": 54.75102705910098,
+      "conditions": [
+        {
+          "name": "mu-0.5-seed-1",
+          "cost": 3.439463928744979,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827774717948,
+          "descent_m_s": 0.010531051752831026,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.154856398847639,
+          "hub_error_rad": 0.005606141552417343,
+          "final_force_N": [
+            10.641102028218356,
+            1.667355975682478,
+            5.508513522668643,
+            13.483982903127352
+          ],
+          "tip_m": 1.0335349873297206e-06,
+          "speed_rad_s": 0.0011570930666853097,
+          "early_termination": false
+        },
+        {
+          "name": "mu-0.8-seed-1",
+          "cost": 7.067569209168102,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827774385016,
+          "descent_m_s": 0.010528474956674576,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.274471256531538,
+          "hub_error_rad": 0.009078240747272703,
+          "final_force_N": [
+            10.622652506053644,
+            1.5277395896380157,
+            5.52015448841003,
+            13.630395529199298
+          ],
+          "tip_m": 3.1680026864877586e-06,
+          "speed_rad_s": 0.002169447579136466,
+          "early_termination": false
+        },
+        {
+          "name": "mu-1.0-seed-1",
+          "cost": 4.04347072391926,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827810719967,
+          "descent_m_s": 0.010519914166034311,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.317364927087398,
+          "hub_error_rad": 0.010957967127948942,
+          "final_force_N": [
+            10.558312961633078,
+            1.6564951121554303,
+            5.572687199864963,
+            13.544758066671594
+          ],
+          "tip_m": 7.935806805664525e-06,
+          "speed_rad_s": 0.0031426092960359156,
+          "early_termination": false
+        },
+        {
+          "name": "mass-low",
+          "cost": 19.613682562937953,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827786222715,
+          "descent_m_s": 0.010130164298314731,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.062386760420267,
+          "hub_error_rad": 0.007038544196469099,
+          "final_force_N": [
+            9.929103178061778,
+            1.191828771782463,
+            4.546395248312799,
+            12.50351870550641
+          ],
+          "tip_m": 2.519971270549537e-06,
+          "speed_rad_s": 0.0018795737934403632,
+          "early_termination": false
+        },
+        {
+          "name": "mass-high",
+          "cost": 1.1784267998253584,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827894903686,
+          "descent_m_s": 0.010754508456769004,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.485474365919635,
+          "hub_error_rad": 0.011570212023247928,
+          "final_force_N": [
+            11.311964330433405,
+            2.2188876497994077,
+            6.593329449957056,
+            14.34719729602001
+          ],
+          "tip_m": 4.862886432824287e-06,
+          "speed_rad_s": 0.003643603662802125,
+          "early_termination": false
+        },
+        {
+          "name": "gains-low",
+          "cost": 3.0821584304834437,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114828114374296,
+          "descent_m_s": 0.010951935161697688,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.785131636158351,
+          "hub_error_rad": 0.016216339160541438,
+          "final_force_N": [
+            9.859619536429712,
+            2.2164796968264042,
+            6.456929264826604,
+            12.767927413244827
+          ],
+          "tip_m": 4.695097551001004e-06,
+          "speed_rad_s": 0.0034149386115061102,
+          "early_termination": false
+        },
+        {
+          "name": "gains-high",
+          "cost": 23.440541078726877,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114835987394719,
+          "descent_m_s": 0.009995736545402815,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.908468154380052,
+          "hub_error_rad": 0.005292081653659464,
+          "final_force_N": [
+            11.393304430115313,
+            1.116059182246404,
+            4.647061025329599,
+            14.144517437518203
+          ],
+          "tip_m": 2.44520836174128e-06,
+          "speed_rad_s": 0.001482353657937718,
+          "early_termination": false
+        },
+        {
+          "name": "combined-seed-22",
+          "cost": 3.9882011195559954,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827792476567,
+          "descent_m_s": 0.010830461399473391,
+          "pre_touchdown_support_deficit": 0.012994907972447031,
+          "tilt_deg": 6.878436342580557,
+          "hub_error_rad": 0.018725699094394477,
+          "final_force_N": [
+            10.527710688937512,
+            2.9801217071054333,
+            7.39830734109972,
+            13.524894348135414
+          ],
+          "tip_m": 6.528948232928378e-06,
+          "speed_rad_s": 0.004282641156467877,
+          "early_termination": false
+        },
+        {
+          "name": "former-held-out-08-now-diagnostic",
+          "cost": 42.690572967854685,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114835585757676,
+          "descent_m_s": 0.009849082358201736,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 5.880752561960188,
+          "hub_error_rad": 0.004860843960389438,
+          "final_force_N": [
+            10.590753604659428,
+            0.8070963580705734,
+            4.28480083150602,
+            13.116529413436012
+          ],
+          "tip_m": 4.100883368163277e-06,
+          "speed_rad_s": 0.0013698687935052565,
+          "early_termination": false
+        }
+      ],
+      "environment_steps": 51480
+    },
+    {
+      "x": [
+        -1.38,
+        -0.6,
+        2.2192545985472245,
+        0.9878280855906367,
+        -1.38,
+        -0.6,
+        2.1676126968899645,
+        0.8422949833487217,
+        -1.2913804928378338,
+        -0.4733040245499583
+      ],
+      "cost": 19.476717383469527,
+      "conditions": [
+        {
+          "name": "mu-0.5-seed-1",
+          "cost": 0.5547929642125475,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.0081148277749821,
+          "descent_m_s": 0.012013393547125372,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.3331044773678515,
+          "hub_error_rad": 0.007261266700824276,
+          "final_force_N": [
+            10.023038369157511,
+            2.004647210050818,
+            6.267398393817672,
+            13.00587217350426
+          ],
+          "tip_m": 1.4886716464268535e-06,
+          "speed_rad_s": 0.0009530820173076924,
+          "early_termination": false
+        },
+        {
+          "name": "mu-0.8-seed-1",
+          "cost": 1.3040971991372177,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827779426246,
+          "descent_m_s": 0.01201062790950479,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.4290993980768425,
+          "hub_error_rad": 0.010592333322439584,
+          "final_force_N": [
+            10.00446116784542,
+            1.8869416475166216,
+            6.285759037042445,
+            13.123782164069054
+          ],
+          "tip_m": 5.295392432852486e-06,
+          "speed_rad_s": 0.0016600801292495117,
+          "early_termination": false
+        },
+        {
+          "name": "mu-1.0-seed-1",
+          "cost": 2.7094106739851354,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114828091023766,
+          "descent_m_s": 0.012001068188814181,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.497354489212819,
+          "hub_error_rad": 0.012538703788733896,
+          "final_force_N": [
+            9.996049761652078,
+            1.778444646925092,
+            6.291518730311401,
+            13.23491365129398
+          ],
+          "tip_m": 9.486325565973008e-06,
+          "speed_rad_s": 0.002327397099065865,
+          "early_termination": false
+        },
+        {
+          "name": "mass-low",
+          "cost": 4.1776688493044665,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827774836268,
+          "descent_m_s": 0.011638568613811648,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.2013544508551615,
+          "hub_error_rad": 0.00915410840606512,
+          "final_force_N": [
+            9.27157942040818,
+            1.6359967594050593,
+            5.343440102935958,
+            11.919834270269387
+          ],
+          "tip_m": 4.949566208313494e-06,
+          "speed_rad_s": 0.001530532233724936,
+          "early_termination": false
+        },
+        {
+          "name": "mass-high",
+          "cost": 2.247342500942475,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.00811482867339574,
+          "descent_m_s": 0.012227929416422085,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.670424119635097,
+          "hub_error_rad": 0.011911502277942798,
+          "final_force_N": [
+            10.755850213533957,
+            2.051727358053925,
+            7.2160687883806,
+            14.40739322116492
+          ],
+          "tip_m": 5.229848456765607e-06,
+          "speed_rad_s": 0.0017469047786693624,
+          "early_termination": false
+        },
+        {
+          "name": "gains-low",
+          "cost": 5.380844395246242,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827949276399,
+          "descent_m_s": 0.012314038904906708,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 7.0373855980537074,
+          "hub_error_rad": 0.01471485610918033,
+          "final_force_N": [
+            9.465078684783565,
+            2.07773435721769,
+            7.03184275014406,
+            12.744432495839186
+          ],
+          "tip_m": 5.169116227207726e-06,
+          "speed_rad_s": 0.006432061617310976,
+          "early_termination": false
+        },
+        {
+          "name": "gains-high",
+          "cost": 4.582713406353436,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827784081922,
+          "descent_m_s": 0.011472713911069465,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.086408500728957,
+          "hub_error_rad": 0.007647148332173392,
+          "final_force_N": [
+            10.543337221616177,
+            1.6107536657692498,
+            5.579797124289588,
+            13.557307019902566
+          ],
+          "tip_m": 4.815647233834264e-06,
+          "speed_rad_s": 0.0020875390945972786,
+          "early_termination": false
+        },
+        {
+          "name": "combined-seed-22",
+          "cost": 8.44835142962246,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.00811483165582271,
+          "descent_m_s": 0.011985257247950404,
+          "pre_touchdown_support_deficit": 0.01404779574267071,
+          "tilt_deg": 7.289020827775545,
+          "hub_error_rad": 0.019799062165495318,
+          "final_force_N": [
+            10.17088556142675,
+            2.6260355589666067,
+            7.848762778615834,
+            13.78536180020227
+          ],
+          "tip_m": 5.949985615039122e-06,
+          "speed_rad_s": 0.0028579637311505687,
+          "early_termination": false
+        },
+        {
+          "name": "former-held-out-08-now-diagnostic",
+          "cost": 14.588523503242177,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827790058992,
+          "descent_m_s": 0.011217951215614311,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.126621180420505,
+          "hub_error_rad": 0.007838343501689105,
+          "final_force_N": [
+            9.748031607279941,
+            1.3045778527496945,
+            5.197798645324957,
+            12.549536229964193
+          ],
+          "tip_m": 8.011506427915704e-06,
+          "speed_rad_s": 0.0020999786285487636,
+          "early_termination": false
+        }
+      ],
+      "environment_steps": 51480
+    },
+    {
+      "x": [
+        -1.38,
+        -0.45,
+        2.2192545985472245,
+        0.9878280855906367,
+        -1.38,
+        -0.45,
+        2.1676126968899645,
+        0.8422949833487217,
+        -1.2913804928378338,
+        -0.4733040245499583
+      ],
+      "cost": 21.271805564125906,
+      "conditions": [
+        {
+          "name": "mu-0.5-seed-1",
+          "cost": 2.358396562328255,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827775320422,
+          "descent_m_s": 0.013595343977489644,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.680086196411633,
+          "hub_error_rad": 0.0075692880685580555,
+          "final_force_N": [
+            9.49359997894542,
+            1.9609229864754039,
+            6.928810713669966,
+            12.91762713895405
+          ],
+          "tip_m": 1.607934708477976e-06,
+          "speed_rad_s": 0.0009243701217325214,
+          "early_termination": false
+        },
+        {
+          "name": "mu-0.8-seed-1",
+          "cost": 2.9487416920220024,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827983736216,
+          "descent_m_s": 0.013593825826597145,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.767950739568887,
+          "hub_error_rad": 0.011590632659919331,
+          "final_force_N": [
+            9.533722070531763,
+            2.022713630569324,
+            6.888455115941793,
+            12.918083162940125
+          ],
+          "tip_m": 6.0889382868731246e-06,
+          "speed_rad_s": 0.009297154822451612,
+          "early_termination": false
+        },
+        {
+          "name": "mu-1.0-seed-1",
+          "cost": 3.68512587117832,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114829701294082,
+          "descent_m_s": 0.013584066709459962,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.858501703105861,
+          "hub_error_rad": 0.014402641762504054,
+          "final_force_N": [
+            9.414085530689544,
+            2.0444104087854713,
+            7.010349902375463,
+            12.845841397781887
+          ],
+          "tip_m": 1.1955214885062126e-05,
+          "speed_rad_s": 0.0021679178071123033,
+          "early_termination": false
+        },
+        {
+          "name": "mass-low",
+          "cost": 3.6956384731762215,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827778573584,
+          "descent_m_s": 0.013054659940938214,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.523516342753019,
+          "hub_error_rad": 0.009068746123566562,
+          "final_force_N": [
+            8.592025579088236,
+            1.7215943207279025,
+            6.107124485956602,
+            11.750119387372585
+          ],
+          "tip_m": 5.736351098642456e-06,
+          "speed_rad_s": 0.0013057052231398207,
+          "early_termination": false
+        },
+        {
+          "name": "mass-high",
+          "cost": 5.434587379394299,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827775663195,
+          "descent_m_s": 0.013680062512582912,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 7.042553344380449,
+          "hub_error_rad": 0.013073257713817732,
+          "final_force_N": [
+            10.185906313610475,
+            2.271175978001993,
+            7.934767487779871,
+            14.039192754482244
+          ],
+          "tip_m": 6.224903153807804e-06,
+          "speed_rad_s": 0.001667802461863207,
+          "early_termination": false
+        },
+        {
+          "name": "gains-low",
+          "cost": 11.262455252881125,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.00811482867864201,
+          "descent_m_s": 0.013434695350877655,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 7.458717852125467,
+          "hub_error_rad": 0.014358139539739634,
+          "final_force_N": [
+            9.178985640316709,
+            1.8558743149963148,
+            7.417182562019734,
+            12.848906969609427
+          ],
+          "tip_m": 4.960055450760337e-06,
+          "speed_rad_s": 0.0016317877076703854,
+          "early_termination": false
+        },
+        {
+          "name": "gains-high",
+          "cost": 0.9737774944305242,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827775325366,
+          "descent_m_s": 0.012869801655104167,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.385477815505767,
+          "hub_error_rad": 0.008354271116925993,
+          "final_force_N": [
+            9.708575007645447,
+            1.9122861160372289,
+            6.590809982888349,
+            13.089284010031877
+          ],
+          "tip_m": 5.945411041055615e-06,
+          "speed_rad_s": 0.0013154030287306643,
+          "early_termination": false
+        },
+        {
+          "name": "combined-seed-22",
+          "cost": 15.443657033057894,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.00811482788089409,
+          "descent_m_s": 0.013083416208357146,
+          "pre_touchdown_support_deficit": 0.012230983935715934,
+          "tilt_deg": 7.750505480922624,
+          "hub_error_rad": 0.019723731968558367,
+          "final_force_N": [
+            9.763424094641302,
+            2.5761188419390573,
+            8.40386667933663,
+            13.67881697087818
+          ],
+          "tip_m": 6.599932662380847e-06,
+          "speed_rad_s": 0.0036415226477257067,
+          "early_termination": false
+        },
+        {
+          "name": "former-held-out-08-now-diagnostic",
+          "cost": 6.650957021143465,
+          "rotation_floor_m": 1.0,
+          "support_N": 1000000.0,
+          "floor_N": 0.0,
+          "cad_gap_m": 0.008114827774712787,
+          "descent_m_s": 0.012689334907644735,
+          "pre_touchdown_support_deficit": 0.0,
+          "tilt_deg": 6.459906172497516,
+          "hub_error_rad": 0.009077907931018148,
+          "final_force_N": [
+            8.99304104426066,
+            1.568205736349787,
+            6.129681682112836,
+            12.108263102674357
+          ],
+          "tip_m": 9.680176983939415e-06,
+          "speed_rad_s": 0.0016186896089392508,
+          "early_termination": false
+        }
+      ],
+      "environment_steps": 51480
+    }
+  ]
+}
