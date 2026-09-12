@@ -59,3 +59,17 @@ def test_cases_use_ten_mm_total_spread_and_labelled_angle_scope():
         assert np.ptp(length)<=10
         assert np.max(abs(bend))<=5
     with pytest.raises(ValueError):validate(dict(length_mm=[0,0,0,float('nan')],bend_deg=[0]*4))
+
+
+def test_variant_continuation_checks_mesh_identity_and_preserves_dynamics():
+    spec=dict(length_mm=[-5,5,5,-5],bend_deg=[3,-3,-3,3])
+    a=Robot(formation=spec);b=Robot(formation=spec);command=a.initial[7:].copy()
+    for _ in range(100):a.tick(command)
+    snapshot=a.snapshot(command);b.restore(snapshot)
+    for _ in range(20):a.tick(command);b.tick(command)
+    np.testing.assert_allclose(a.d.qpos,b.d.qpos,atol=1e-10,rtol=0)
+    np.testing.assert_allclose(a.d.qvel,b.d.qvel,atol=1e-10,rtol=0)
+    # Identical XML text does not guarantee identical external STL asset bytes.
+    snapshot['generated_asset_sha256']=dict(snapshot['generated_asset_sha256'])
+    snapshot['generated_asset_sha256']['formation_front_r_visual.stl']='wrong'
+    with pytest.raises(ValueError,match='generated geometry'):b.restore(snapshot)

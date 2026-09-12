@@ -1,0 +1,67 @@
+{
+  "run_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ce3662820cae47f8",
+  "run_state": "finished",
+  "videos": [
+    {
+      "case": "angle_only_assumed_5deg",
+      "cloud_path": "media/videos/trajectory/angle_only_assumed_5deg_11_ff47f0cbc9dfb7e055f5.mp4",
+      "bytes": 874592,
+      "sha256": "ff47f0cbc9dfb7e055f53cfe0d815215fcbee68848247dad00eaa4a45097ee37",
+      "bytes_verified": true
+    },
+    {
+      "case": "combined_length_and_angle",
+      "cloud_path": "media/videos/trajectory/combined_length_and_angle_13_38cd7f8fad455ff8fcd1.mp4",
+      "bytes": 1034031,
+      "sha256": "38cd7f8fad455ff8fcd135e46f8d71245421149292d8a7d45d825dfc162fdead",
+      "bytes_verified": true
+    },
+    {
+      "case": "diagonal_length_mismatch",
+      "cloud_path": "media/videos/trajectory/diagonal_length_mismatch_7_e49c9a28aec77cf54f59.mp4",
+      "bytes": 1004227,
+      "sha256": "e49c9a28aec77cf54f59afa66698b3e1af112ccad85b9caff330be449f861f67",
+      "bytes_verified": true
+    },
+    {
+      "case": "front_short_rear_long",
+      "cloud_path": "media/videos/trajectory/front_short_rear_long_3_0649c731589661f8b2ad.mp4",
+      "bytes": 975021,
+      "sha256": "0649c731589661f8b2adee376d8bb40a512815756940e1197d88517d6d550715",
+      "bytes_verified": true
+    },
+    {
+      "case": "nominal_regression",
+      "cloud_path": "media/videos/trajectory/nominal_regression_1_e23fc405bfe6dc940348.mp4",
+      "bytes": 878101,
+      "sha256": "e23fc405bfe6dc94034839c54b98e32907baae2e97f51cf294dff83a85380d08",
+      "bytes_verified": true
+    },
+    {
+      "case": "one_front_leg_10mm_short",
+      "cloud_path": "media/videos/trajectory/one_front_leg_10mm_short_9_2683ad38d9a313228d83.mp4",
+      "bytes": 953501,
+      "sha256": "2683ad38d9a313228d83dc479a503b4bf391ccb9cd86a83fec074652ae96f9bc",
+      "bytes_verified": true
+    },
+    {
+      "case": "right_short_left_long",
+      "cloud_path": "media/videos/trajectory/right_short_left_long_5_4de8df8f2e429677519e.mp4",
+      "bytes": 883442,
+      "sha256": "4de8df8f2e429677519e182f4fab4d517f63d036bc2d9a1d6a68ab37ae789990",
+      "bytes_verified": true
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "roll-to-stand-ce3662820cae47f8:v0",
+      "state": "COMMITTED"
+    },
+    {
+      "name": "formation-local-diagnostics-ce3662820cae47f8:v0",
+      "state": "COMMITTED"
+    }
+  ],
+  "simulation_only": true,
+  "robustness_validated": false
+}

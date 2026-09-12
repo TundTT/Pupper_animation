@@ -61,6 +61,17 @@ oscillated; the second uses gradual error tracking. The third increased reach
 rate and subtracted a common extension, but also failed. Longer holds did not
 establish success. Do not deploy any of them.
 
+Hardware compatibility evidence is implementation evidence from `robot-info`
+commit `e9b04173b034d595a85e6147d73a45cdfe9393e3`:
+[state-interface exports](https://github.com/TundTT/Pupper_animation/blob/e9b04173b034d595a85e6147d73a45cdfe9393e3/ros2_ws/src/control_board_hardware_interface/src/control_board_hardware_interface.cpp#L161)
+expose joint position/velocity and IMU orientation/angular velocity;
+[actuator-state copying](https://github.com/TundTT/Pupper_animation/blob/e9b04173b034d595a85e6147d73a45cdfe9393e3/ros2_ws/src/control_board_hardware_interface/src/control_board_hardware_interface.cpp#L795)
+computes effort from PD position/velocity errors. It does not read a foot force.
+The prototype consumes MuJoCo quaternion **wxyz**; the hardware interface exposes
+**xyzw**, so an explicit conversion and verified mounting/frame transform would
+be required in a future executor. The current probes use ideal sensors and do
+not establish robustness to bias, stale packets or real actuator friction.
+
 Unlogged short diagnostics explicitly used `--wandb disabled`, no video or CAD.
 Their `sampled_cad: null` means incomplete validation even when other gates pass.
 They are preserved along with source hashes and failures. A separate online

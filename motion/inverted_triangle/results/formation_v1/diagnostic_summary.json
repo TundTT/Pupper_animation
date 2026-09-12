@@ -1,0 +1,1871 @@
+[
+  {
+    "run": "formation-diagnostic-v1",
+    "name": "nominal_regression",
+    "duration_s": 19.000000000003396,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 18.976923076926468,
+      "tilt_deg": 0.012185792119087163,
+      "base_height_m": 0.14671726976099808,
+      "policy_pose_error_rad": 0.03015772666785299,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -1.6303445770186886e-05,
+        -3.923091383865873e-05,
+        -4.0886283217460295e-05,
+        -1.5342812257387872e-05
+      ],
+      "forces_N": [
+        5.409368539689865,
+        13.095243499763406,
+        13.568910929073715,
+        5.132267589854941
+      ],
+      "joint_speed": 0.0033048313940408536,
+      "base_speed": 8.561672553644667e-05
+    },
+    "feedback": null
+  },
+  {
+    "run": "formation-diagnostic-v1",
+    "name": "front_short_rear_long",
+    "duration_s": 19.000000000003396,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 18.976923076926468,
+      "tilt_deg": 3.86269137382013,
+      "base_height_m": 0.14723318798224838,
+      "policy_pose_error_rad": 0.071423438922803,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -1.0693416202037231e-06,
+        -5.6055216975318956e-05,
+        -3.168043224449635e-05,
+        -2.2483297734687824e-07
+      ],
+      "forces_N": [
+        0.372563799312982,
+        18.746807489306498,
+        17.99299293047448,
+        0.09336844710148773
+      ],
+      "joint_speed": 0.0076281804923663205,
+      "base_speed": 0.0003702346226251316
+    },
+    "feedback": null
+  },
+  {
+    "run": "formation-diagnostic-v1",
+    "name": "right_short_left_long",
+    "duration_s": 19.000000000003396,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 18.976923076926468,
+      "tilt_deg": 2.48897699563278,
+      "base_height_m": 0.1468418172918054,
+      "policy_pose_error_rad": 0.03256722303227,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -3.0288883636646335e-05,
+        -2.5663419854653202e-05,
+        -2.338517548058916e-05,
+        -3.339147406224846e-05
+      ],
+      "forces_N": [
+        9.657341252527223,
+        8.620520726970756,
+        7.81631428663789,
+        11.108556475556776
+      ],
+      "joint_speed": 0.00533136333494182,
+      "base_speed": 0.00034550633203225313
+    },
+    "feedback": null
+  },
+  {
+    "run": "formation-diagnostic-v1",
+    "name": "diagonal_length_mismatch",
+    "duration_s": 19.000000000003396,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 18.976923076926468,
+      "tilt_deg": 4.734737786263462,
+      "base_height_m": 0.1517299989937128,
+      "policy_pose_error_rad": 0.13694108924739412,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        0.020002052430443826,
+        -4.944436603928487e-05,
+        -6.109868194601603e-05,
+        -3.922628920211002e-06
+      ],
+      "forces_N": [
+        0.0,
+        15.850567494854332,
+        20.333537649955563,
+        1.0413294782755222
+      ],
+      "joint_speed": 0.021049548159829023,
+      "base_speed": 0.002125924092312574
+    },
+    "feedback": null
+  },
+  {
+    "run": "formation-diagnostic-v1",
+    "name": "one_front_leg_10mm_short",
+    "duration_s": 19.000000000003396,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 18.976923076926468,
+      "tilt_deg": 0.19286379379509203,
+      "base_height_m": 0.14711074778073538,
+      "policy_pose_error_rad": 0.08447702046809757,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        0.010309915974484406,
+        -5.503478262908201e-05,
+        -3.160536004717662e-05,
+        -1.4727320541627065e-06
+      ],
+      "forces_N": [
+        0.0,
+        17.90459615348587,
+        18.618274651456833,
+        0.7492646192105106
+      ],
+      "joint_speed": 0.013583244553232458,
+      "base_speed": 0.0011585595835238282
+    },
+    "feedback": null
+  },
+  {
+    "run": "formation-diagnostic-v1",
+    "name": "angle_only_assumed_5deg",
+    "duration_s": 19.000000000003396,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 18.976923076926468,
+      "tilt_deg": 0.13352604220138353,
+      "base_height_m": 0.14667386077954087,
+      "policy_pose_error_rad": 0.04034442952074002,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -3.420400346176161e-05,
+        -1.969528723383407e-05,
+        -2.1857609287530277e-05,
+        -3.7136080565901286e-05
+      ],
+      "forces_N": [
+        11.270714324152323,
+        6.62270143826815,
+        6.947605090569679,
+        12.3633614902632
+      ],
+      "joint_speed": 0.011881126645337836,
+      "base_speed": 0.0001637248713100006
+    },
+    "feedback": null
+  },
+  {
+    "run": "formation-diagnostic-v1",
+    "name": "combined_length_and_angle",
+    "duration_s": 19.000000000003396,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 18.976923076926468,
+      "tilt_deg": 0.7975589321319159,
+      "base_height_m": 0.15163138763085054,
+      "policy_pose_error_rad": 0.10192108887330065,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        0.010768939911677572,
+        -4.300696570284923e-05,
+        -4.037426677335615e-05,
+        0.00761509492868833
+      ],
+      "forces_N": [
+        0.0,
+        17.881074575188187,
+        19.3048480118779,
+        0.0
+      ],
+      "joint_speed": 0.02885981274974084,
+      "base_speed": 0.0041098827991060995
+    },
+    "feedback": null
+  },
+  {
+    "run": "formation-feedback-diagnostic-v1",
+    "name": "nominal_regression",
+    "duration_s": 22.00000000000408,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 21.97692307692715,
+      "tilt_deg": 0.021767160252193014,
+      "base_height_m": 0.14674940436267242,
+      "policy_pose_error_rad": 0.019580330893566256,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -2.292714084760339e-05,
+        -3.265679620134687e-05,
+        -3.339709018342768e-05,
+        -2.282931645399694e-05
+      ],
+      "forces_N": [
+        7.604171709820647,
+        10.893539882208891,
+        11.07496754874306,
+        7.63310210366653
+      ],
+      "joint_speed": 0.002503782142741411,
+      "base_speed": 2.5943208520750043e-05,
+      "commanded_offset_rad": [
+        -0.0016015004389343668,
+        -0.014598467112331422,
+        0.0,
+        0.0018472702837846189,
+        0.011770361460316436,
+        0.0,
+        -0.0005021552636255144,
+        -0.0015043420762194486,
+        0.0,
+        0.005427671629438358,
+        0.019027492602712248,
+        0.0
+      ],
+      "estimated_load_N": [
+        6.156776656474518,
+        6.103322899787629,
+        5.727145883559945,
+        6.8001822767387665
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        6.16006291234924,
+        6.1051748097938505,
+        5.7254684885197085,
+        6.804249175180018
+      ],
+      "max_command_offset_rad": 0.02019219024945795,
+      "extension_m": [
+        -0.00030907639653572215,
+        -0.00029939592530247813,
+        0.0,
+        -0.00044063708395401666
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v1",
+    "name": "front_short_rear_long",
+    "duration_s": 22.00000000000408,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 21.97692307692715,
+      "tilt_deg": 3.5142133152701827,
+      "base_height_m": 0.14752441899094976,
+      "policy_pose_error_rad": 0.05250973775762062,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -1.79992338014065e-05,
+        -3.713459848862094e-05,
+        -3.7433182117761754e-05,
+        -1.872644417439534e-05
+      ],
+      "forces_N": [
+        6.4263768175113265,
+        11.946039967894158,
+        11.941252064372879,
+        6.893426448721121
+      ],
+      "joint_speed": 0.1594404236282829,
+      "base_speed": 0.008667862111351747,
+      "commanded_offset_rad": [
+        -0.032235672666792836,
+        -0.07999999999999892,
+        0.0,
+        0.008230401844355306,
+        0.07999999999999892,
+        0.0,
+        -0.0025443786365614285,
+        -0.10746298548451944,
+        0.0,
+        -0.008175899068593617,
+        0.02916418439120061,
+        0.0
+      ],
+      "estimated_load_N": [
+        7.350754349528943,
+        15.673815041010382,
+        21.48237449785246,
+        11.04500591533092
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        8.073959548807924,
+        14.897871291686023,
+        20.350434732714675,
+        12.031818512253487
+      ],
+      "max_command_offset_rad": 0.079999999999999,
+      "extension_m": [
+        -0.0029719079839085174,
+        -0.0019664443108427434,
+        -0.0035834311741309187,
+        -0.005778750943510312
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v1",
+    "name": "right_short_left_long",
+    "duration_s": 22.00000000000408,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 21.97692307692715,
+      "tilt_deg": 2.1454971005691097,
+      "base_height_m": 0.14847973625526056,
+      "policy_pose_error_rad": 0.11963660523780173,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -3.3363838032735016e-05,
+        -2.304126998680517e-05,
+        -1.598711222037391e-05,
+        -3.560420212589399e-05
+      ],
+      "forces_N": [
+        10.023131906248633,
+        8.475018636354434,
+        7.769894463216163,
+        10.913390113592325
+      ],
+      "joint_speed": 0.16909680193774582,
+      "base_speed": 0.009613140607611408,
+      "commanded_offset_rad": [
+        -0.10153377165554867,
+        -0.07999999999999892,
+        0.0,
+        0.01803831298383196,
+        -0.009548831088764273,
+        0.0,
+        -0.0912278106400507,
+        -0.07999999999999892,
+        0.0,
+        -5.917190751381085e-05,
+        0.024393472614335568,
+        0.0
+      ],
+      "estimated_load_N": [
+        8.355531682654272,
+        -0.9426694582438451,
+        -3.751315794846076,
+        0.6242656021905206
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        7.839825162177942,
+        -0.3013235587540879,
+        -3.3843272563458053,
+        -0.7147313659997644
+      ],
+      "max_command_offset_rad": 0.079999999999999,
+      "extension_m": [
+        -0.007807587146491312,
+        -0.008098414743173937,
+        -0.00649024100956211,
+        -0.005491021349803864
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v1",
+    "name": "diagonal_length_mismatch",
+    "duration_s": 22.00000000000408,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 21.97692307692715,
+      "tilt_deg": 0.5797563967860231,
+      "base_height_m": 0.15257178344614986,
+      "policy_pose_error_rad": 0.08147426577214625,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        0.0072672895773866555,
+        -5.580081962016509e-05,
+        -5.6690287871606626e-05,
+        0.010517931738884642
+      ],
+      "forces_N": [
+        0.0,
+        18.146901309713485,
+        19.0606423822229,
+        0.0
+      ],
+      "joint_speed": 0.14381212557772213,
+      "base_speed": 0.016403473955551556,
+      "commanded_offset_rad": [
+        0.05439276874029364,
+        -0.06991472939088604,
+        0.0,
+        0.00031618576934933085,
+        0.07999999999996893,
+        0.0,
+        -0.011189122572623611,
+        -0.01371837226101076,
+        0.0,
+        -0.045525147943767275,
+        0.07999999999999892,
+        0.0
+      ],
+      "estimated_load_N": [
+        0.2963092725105083,
+        11.559080579679154,
+        12.700443176308625,
+        0.2640403594456471
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        0.2704493025567342,
+        11.309773531011135,
+        12.624273657015683,
+        0.16997318108628579
+      ],
+      "max_command_offset_rad": 0.079999999999999,
+      "extension_m": [
+        -0.011845442752481047,
+        -0.003814183747729404,
+        0.0,
+        -0.009959511675011553
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v1",
+    "name": "one_front_leg_10mm_short",
+    "duration_s": 22.00000000000408,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 21.97692307692715,
+      "tilt_deg": 0.7331911953368428,
+      "base_height_m": 0.14687182688965011,
+      "policy_pose_error_rad": 0.08147262886589766,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        0.00585540583839092,
+        -5.470791996350921e-05,
+        -3.1400997784827855e-05,
+        -4.354437511899789e-06
+      ],
+      "forces_N": [
+        0.0,
+        18.289218024979483,
+        18.545418122504763,
+        0.3723573968246347
+      ],
+      "joint_speed": 0.010051274914573739,
+      "base_speed": 0.0006392404164715483,
+      "commanded_offset_rad": [
+        -0.04076908229368714,
+        -0.07999999999996531,
+        0.0,
+        -0.00023372097286089577,
+        0.00232579681239837,
+        0.0,
+        -0.004852596641956808,
+        -0.00819727153100401,
+        0.0,
+        0.00926472289526803,
+        0.05748442871753772,
+        0.0
+      ],
+      "estimated_load_N": [
+        0.0028582341941402857,
+        5.530195995477428,
+        12.248693684617214,
+        1.821930226779194
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        0.004091104569849909,
+        5.555437627124387,
+        12.250832780032843,
+        1.8117232641608914
+      ],
+      "max_command_offset_rad": 0.07999999999996787,
+      "extension_m": [
+        -0.011999530142125387,
+        -0.00025845316084464686,
+        0.0,
+        -0.002367302234567857
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v1",
+    "name": "angle_only_assumed_5deg",
+    "duration_s": 22.00000000000408,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 21.97692307692715,
+      "tilt_deg": 0.14111342932827323,
+      "base_height_m": 0.1468063520651813,
+      "policy_pose_error_rad": 0.035731655244223504,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -3.213730839785739e-05,
+        -1.2139997562596316e-05,
+        -1.2968983450399596e-05,
+        -3.482788014998878e-05
+      ],
+      "forces_N": [
+        10.651720764400077,
+        7.252911946995011,
+        7.667094670837072,
+        11.634094348843005
+      ],
+      "joint_speed": 0.001021205113071105,
+      "base_speed": 0.00017243868570815884,
+      "commanded_offset_rad": [
+        -0.0010097375828959088,
+        -0.015349014493840735,
+        0.0,
+        0.00497546204516075,
+        0.02345628574726098,
+        0.0,
+        -0.00907827616038237,
+        -0.0302734721534292,
+        0.0,
+        0.004002333511886169,
+        0.008393714638629835,
+        0.0
+      ],
+      "estimated_load_N": [
+        6.869713659918859,
+        7.029866126782139,
+        7.422615402829542,
+        9.860390962199823
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        6.870860404236503,
+        7.028326509102268,
+        7.423302218865654,
+        9.861634952866405
+      ],
+      "max_command_offset_rad": 0.030274616470798675,
+      "extension_m": [
+        -0.0005775627341215715,
+        -0.0004796760670351395,
+        -0.0007197872202788916,
+        0.0
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v1",
+    "name": "combined_length_and_angle",
+    "duration_s": 22.00000000000408,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 21.97692307692715,
+      "tilt_deg": 0.25409158996017484,
+      "base_height_m": 0.15174331519907605,
+      "policy_pose_error_rad": 0.08882596492961824,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        0.007469564072395553,
+        -2.7159395174385093e-05,
+        -3.1216598175232146e-05,
+        0.006827862689514214
+      ],
+      "forces_N": [
+        0.0,
+        17.7277248145829,
+        19.388023547253166,
+        0.0
+      ],
+      "joint_speed": 0.43558214738770745,
+      "base_speed": 0.0003489882965138545,
+      "commanded_offset_rad": [
+        -0.05308155683933913,
+        -0.08770705109377175,
+        0.0,
+        -0.003559496966043074,
+        0.031635795912044025,
+        0.0,
+        -0.005239689791694091,
+        -0.005192777578692394,
+        0.0,
+        -0.012862426051885478,
+        0.07999999999999892,
+        0.0
+      ],
+      "estimated_load_N": [
+        -0.1290185034468989,
+        8.576453482724633,
+        13.999046493461663,
+        -0.001648369526720864
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        -0.16843480920422135,
+        8.606675369816818,
+        14.041186951982397,
+        6.85814415612262e-05
+      ],
+      "max_command_offset_rad": 0.079999999999999,
+      "extension_m": [
+        -0.012,
+        -0.0009488430330709016,
+        0.0,
+        -0.011139430702352338
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v2",
+    "name": "nominal_regression",
+    "duration_s": 22.00000000000408,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 21.97692307692715,
+      "tilt_deg": 0.033175085573612005,
+      "base_height_m": 0.1467975291083537,
+      "policy_pose_error_rad": 0.019135791320996853,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -2.4764878202764018e-05,
+        -3.080303521216243e-05,
+        -3.1340933746321076e-05,
+        -2.483514187957142e-05
+      ],
+      "forces_N": [
+        8.226670331533187,
+        10.259564305453143,
+        10.387879246578184,
+        8.33254387817334
+      ],
+      "joint_speed": 0.0024785939391516916,
+      "base_speed": 2.03490876376902e-05,
+      "commanded_offset_rad": [
+        -0.002386518348809763,
+        -0.021089967566401597,
+        0.0,
+        0.0022091178529265454,
+        0.014497012378909917,
+        0.0,
+        -0.0007688961849826592,
+        -0.002258335386344544,
+        0.0,
+        0.007573243499224502,
+        0.026545556203785077,
+        0.0
+      ],
+      "estimated_load_N": [
+        6.848432447317328,
+        5.83218967842071,
+        5.697796135716914,
+        7.908847205718254
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        6.850660033023379,
+        5.8331957821673095,
+        5.694138293009989,
+        7.911206530478183
+      ],
+      "max_command_offset_rad": 0.02753369866582995,
+      "extension_m": [
+        -0.0004495126052955765,
+        -0.0003775854480952887,
+        0.0,
+        -0.0006081847122324599
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v2",
+    "name": "front_short_rear_long",
+    "duration_s": 22.00000000000408,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 21.97692307692715,
+      "tilt_deg": 3.228255718440351,
+      "base_height_m": 0.14709177472734092,
+      "policy_pose_error_rad": 0.10164550202812106,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -2.4273136513479343e-05,
+        -3.284474985181668e-05,
+        -3.272535062420756e-05,
+        -2.197223573549567e-05
+      ],
+      "forces_N": [
+        8.053932106826274,
+        10.955583173396231,
+        10.84668845400865,
+        7.349586971727211
+      ],
+      "joint_speed": 0.007188608941120289,
+      "base_speed": 0.0002991686754900002,
+      "commanded_offset_rad": [
+        0.029805321547372143,
+        -0.07999999999999473,
+        0.0,
+        -0.01100389092251608,
+        0.07999999999999473,
+        0.0,
+        0.03470777186035723,
+        0.07691165578897767,
+        0.0,
+        0.005265610178998847,
+        -0.025624066807434794,
+        0.0
+      ],
+      "estimated_load_N": [
+        15.212373077028257,
+        11.929002604786284,
+        5.440560626170542,
+        4.339174907032358
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        15.224340396975155,
+        11.928407730747256,
+        5.4278838909494125,
+        4.344516541605362
+      ],
+      "max_command_offset_rad": 0.079999999999999,
+      "extension_m": [
+        -0.000351781521285997,
+        0.0,
+        0.0,
+        -0.002450535838161507
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v2",
+    "name": "right_short_left_long",
+    "duration_s": 22.00000000000408,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 21.97692307692715,
+      "tilt_deg": 1.9019966723433046,
+      "base_height_m": 0.1472252914249078,
+      "policy_pose_error_rad": 0.05141777858670203,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -2.7910487511266513e-05,
+        -2.6728592849446786e-05,
+        -2.6044835553601375e-05,
+        -3.112094644817931e-05
+      ],
+      "forces_N": [
+        9.252972693533803,
+        8.91545272929411,
+        8.635682074193745,
+        10.401679776879584
+      ],
+      "joint_speed": 0.0018043067398305324,
+      "base_speed": 3.1041420892714395e-05,
+      "commanded_offset_rad": [
+        -0.01972042343597291,
+        -0.07999999999999473,
+        0.0,
+        -0.0026936085839812662,
+        -0.01648538988966386,
+        0.0,
+        -0.03815593122514216,
+        -0.07999999999999473,
+        0.0,
+        -0.007783008010636472,
+        -0.02442721199728383,
+        0.0
+      ],
+      "estimated_load_N": [
+        12.286588109796096,
+        6.742988865973412,
+        9.489696763881287,
+        7.472009544309501
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        12.291969389953755,
+        6.744837569700707,
+        9.4926894491572,
+        7.477794279307469
+      ],
+      "max_command_offset_rad": 0.079999999999999,
+      "extension_m": [
+        -0.0018110738538394658,
+        -0.0025025462102108496,
+        -0.0012337808387247434,
+        -0.002024992782821671
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v2",
+    "name": "diagonal_length_mismatch",
+    "duration_s": 22.00000000000408,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 21.97692307692715,
+      "tilt_deg": 1.9942633526189073,
+      "base_height_m": 0.15275294956392022,
+      "policy_pose_error_rad": 0.08122487958652144,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        0.0037639821166300033,
+        -4.533431423337647e-05,
+        -5.814839860648208e-05,
+        0.013163831997428127
+      ],
+      "forces_N": [
+        0.0,
+        18.010190686464714,
+        19.206521497908163,
+        0.0
+      ],
+      "joint_speed": 0.044908372901552404,
+      "base_speed": 0.0008846168525983016,
+      "commanded_offset_rad": [
+        -0.027253307147788952,
+        -0.07999960234131634,
+        0.0,
+        -0.015145118008417224,
+        0.07999999999995233,
+        0.0,
+        -0.013105388720358047,
+        -0.020827424161234297,
+        0.0,
+        0.00627473095299258,
+        0.06898715746208561,
+        0.0
+      ],
+      "estimated_load_N": [
+        0.003898629275801437,
+        10.009452000321065,
+        13.578174562700694,
+        -0.013028622327207586
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        -0.008786760062680286,
+        10.056847250686234,
+        13.612958044834885,
+        -0.015744980384818252
+      ],
+      "max_command_offset_rad": 0.07999999999999079,
+      "extension_m": [
+        -0.011841616636296497,
+        -0.005314319286125723,
+        0.0,
+        -0.0065475488689346936
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v2",
+    "name": "one_front_leg_10mm_short",
+    "duration_s": 22.00000000000408,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 21.97692307692715,
+      "tilt_deg": 0.7316743157185325,
+      "base_height_m": 0.1468828784505788,
+      "policy_pose_error_rad": 0.08146721746494603,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        0.005864820513797699,
+        -5.462381887180734e-05,
+        -3.1194583219540384e-05,
+        -3.833339005596126e-07
+      ],
+      "forces_N": [
+        0.0,
+        18.276013933605256,
+        18.539236358445162,
+        0.39069183758528586
+      ],
+      "joint_speed": 0.008628913918309758,
+      "base_speed": 0.0006288760689686867,
+      "commanded_offset_rad": [
+        -0.0409304104179995,
+        -0.07999999999982386,
+        0.0,
+        -0.0003706728692405292,
+        0.0038533535713013134,
+        0.0,
+        -0.0049580211463607915,
+        -0.008260785744451342,
+        0.0,
+        0.009670450663860186,
+        0.0582083371414486,
+        0.0
+      ],
+      "estimated_load_N": [
+        0.004003070691244946,
+        5.453081309820257,
+        12.257351597896553,
+        1.8904963277759617
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        -0.012297643204779071,
+        5.496038436685265,
+        12.239441790736533,
+        1.602045389068976
+      ],
+      "max_command_offset_rad": 0.079999999999966,
+      "extension_m": [
+        -0.012,
+        -0.0002996799957355963,
+        0.0,
+        -0.0024376816936312667
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v2",
+    "name": "angle_only_assumed_5deg",
+    "duration_s": 22.00000000000408,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 21.97692307692715,
+      "tilt_deg": 0.14882627577671748,
+      "base_height_m": 0.14687513557153425,
+      "policy_pose_error_rad": 0.03398337207225954,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -3.251641322004478e-05,
+        -2.1492810822698605e-05,
+        -2.2690546380196852e-05,
+        -3.5101741261950314e-05
+      ],
+      "forces_N": [
+        10.779155879587574,
+        7.169816967597246,
+        7.5255215880713635,
+        11.731282875412429
+      ],
+      "joint_speed": 0.0008597648003014793,
+      "base_speed": 1.3531484471031502e-05,
+      "commanded_offset_rad": [
+        -0.0015129151736605895,
+        -0.021621761860512807,
+        0.0,
+        0.006755490968385014,
+        0.033831596263281666,
+        0.0,
+        -0.012374154133468873,
+        -0.04206909237922136,
+        0.0,
+        0.004234003413907339,
+        0.009113319784152389,
+        0.0
+      ],
+      "estimated_load_N": [
+        6.843908801396175,
+        8.997432595737536,
+        9.407618827900114,
+        9.728878654312554
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        6.845694588997225,
+        8.998063967225969,
+        9.409857199061157,
+        9.732703860974718
+      ],
+      "max_command_offset_rad": 0.04208301740086814,
+      "extension_m": [
+        -0.0007293266188902166,
+        -0.0006848754491140005,
+        -0.0009967647444542429,
+        0.0
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v2",
+    "name": "combined_length_and_angle",
+    "duration_s": 22.00000000000408,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 21.97692307692715,
+      "tilt_deg": 1.5494262461999582,
+      "base_height_m": 0.15219197300094292,
+      "policy_pose_error_rad": 0.08148169270835583,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        0.004031290775218632,
+        -4.4428081685136955e-05,
+        -6.0379300805400715e-05,
+        0.01069716887009993
+      ],
+      "forces_N": [
+        0.0,
+        18.024337262126885,
+        19.15658903190955,
+        0.0
+      ],
+      "joint_speed": 0.02445066787101766,
+      "base_speed": 0.00035519258284723467,
+      "commanded_offset_rad": [
+        -0.03636683173556121,
+        -0.07999982815132901,
+        0.0,
+        -0.01186532665276574,
+        0.07999999999994747,
+        0.0,
+        -0.012939397286065413,
+        -0.02015300880429385,
+        0.0,
+        0.01804002488031009,
+        0.07963492589245152,
+        0.0
+      ],
+      "estimated_load_N": [
+        -0.010991751482870083,
+        11.765473931365207,
+        14.895029002186243,
+        0.011660057249916977
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        -0.031189169705538904,
+        11.80653149730101,
+        14.896211772287442,
+        -0.020199335221775326
+      ],
+      "max_command_offset_rad": 0.07999999999998984,
+      "extension_m": [
+        -0.011876361097929472,
+        -0.003194960240178218,
+        0.0,
+        -0.00904393538416218
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v3",
+    "name": "nominal_regression",
+    "duration_s": 26.000000000004988,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 25.97692307692806,
+      "tilt_deg": 0.11687663905684052,
+      "base_height_m": 0.14651128268741287,
+      "policy_pose_error_rad": 0.043794624912560684,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -2.576064213929974e-05,
+        -2.9660567822401007e-05,
+        -2.9977353603785617e-05,
+        -2.7295013828677883e-05
+      ],
+      "forces_N": [
+        8.731361680190437,
+        9.660828190282984,
+        9.773031333184775,
+        9.048834663601273
+      ],
+      "joint_speed": 0.006358471791740823,
+      "base_speed": 0.00010466927922053329,
+      "commanded_offset_rad": [
+        -5.0831099427384174e-05,
+        -0.0005118581196802698,
+        0.0,
+        0.002894867692768477,
+        0.013546189092766479,
+        0.0,
+        0.006840757880297588,
+        0.02459322159109255,
+        0.0,
+        0.003402386456133555,
+        0.010795373359889286,
+        0.0
+      ],
+      "estimated_load_N": [
+        6.455450149187755,
+        6.068024072826589,
+        5.386789955542452,
+        7.307514358775833
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        6.459345460458129,
+        6.070240453869134,
+        5.371771811790431,
+        7.306270049544076
+      ],
+      "max_command_offset_rad": 0.029428644908203797,
+      "extension_m": [
+        -0.0010702888065612813,
+        -0.0015874742046113656,
+        -0.00032706321503650406,
+        -0.001362701712302152
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v3",
+    "name": "front_short_rear_long",
+    "duration_s": 26.000000000004988,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 25.97692307692806,
+      "tilt_deg": 3.1496997549935397,
+      "base_height_m": 0.14687120980257945,
+      "policy_pose_error_rad": 0.09308009495668723,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -2.6463520545270958e-05,
+        -3.0377677581669427e-05,
+        -3.1455091079705955e-05,
+        -2.5098688595764918e-05
+      ],
+      "forces_N": [
+        8.737845090857245,
+        10.14001296571904,
+        9.85645494055878,
+        8.428080131914468
+      ],
+      "joint_speed": 0.002842193846138051,
+      "base_speed": 0.00013892795017194094,
+      "commanded_offset_rad": [
+        0.024430572804841733,
+        -0.07999999999999921,
+        0.0,
+        -0.00396507870039442,
+        0.07999999999999921,
+        0.0,
+        0.04090162322050972,
+        0.07999999999999921,
+        0.0,
+        0.006328916495956793,
+        -0.029850357839756116,
+        0.0
+      ],
+      "estimated_load_N": [
+        15.753820760395977,
+        12.307301234734016,
+        6.066299611201643,
+        6.319678567787524
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        15.747260448767669,
+        12.31361108222093,
+        6.063989862802702,
+        6.313942081771229
+      ],
+      "max_command_offset_rad": 0.07999999999999992,
+      "extension_m": [
+        -0.0006990863612761404,
+        0.0,
+        0.0,
+        -0.0032641231638341635
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v3",
+    "name": "right_short_left_long",
+    "duration_s": 26.000000000004988,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 25.97692307692806,
+      "tilt_deg": 1.774441212809129,
+      "base_height_m": 0.1466419583012636,
+      "policy_pose_error_rad": 0.09091812378626024,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -3.059501644342433e-05,
+        -2.5871559674359168e-05,
+        -2.524071482352258e-05,
+        -3.214421527012595e-05
+      ],
+      "forces_N": [
+        9.826035088819811,
+        8.326151253547886,
+        8.175080566318748,
+        10.887061097555527
+      ],
+      "joint_speed": 0.01918888424069911,
+      "base_speed": 7.106186613719612e-05,
+      "commanded_offset_rad": [
+        -0.011449112481879409,
+        -0.07151009372717534,
+        0.0,
+        -0.008195837730229139,
+        -0.05106583172830844,
+        0.0,
+        -0.018057354609436693,
+        -0.06590658603335807,
+        0.0,
+        -0.01853516613977013,
+        -0.058709120497421254,
+        0.0
+      ],
+      "estimated_load_N": [
+        11.771664084988549,
+        6.510749205451431,
+        9.674468571167385,
+        8.246311988521795
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        11.767234523498733,
+        6.501100993968242,
+        9.670776776814153,
+        8.259360251583837
+      ],
+      "max_command_offset_rad": 0.0798016998258667,
+      "extension_m": [
+        -0.006308886386710913,
+        -0.009024475552464453,
+        -0.0063634328293815205,
+        -0.00843152645515459
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v3",
+    "name": "diagonal_length_mismatch",
+    "duration_s": 26.000000000004988,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 25.97692307692806,
+      "tilt_deg": 3.474427291502966,
+      "base_height_m": 0.1505335536667143,
+      "policy_pose_error_rad": 0.1840065692407591,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        0.014143895485520967,
+        -4.740966014311204e-05,
+        -6.092325074782967e-05,
+        -3.6688309338894776e-06
+      ],
+      "forces_N": [
+        0.0,
+        15.865341490545827,
+        20.28791291952699,
+        1.051576041211386
+      ],
+      "joint_speed": 0.008875561393016044,
+      "base_speed": 0.0013922410191964418,
+      "commanded_offset_rad": [
+        -0.04338638087676072,
+        -0.07999999999999907,
+        0.0,
+        0.009911696540605863,
+        0.018188060173464974,
+        0.0,
+        0.07999999999998852,
+        0.05800035128895585,
+        0.0,
+        0.026657732913865084,
+        0.061828377336921585,
+        0.0
+      ],
+      "estimated_load_N": [
+        0.00037281711738002286,
+        11.236373338127404,
+        14.516121829983456,
+        2.4798771697450004
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        -0.0003386158060386857,
+        11.245637896990994,
+        14.507165377198705,
+        2.4676007500471635
+      ],
+      "max_command_offset_rad": 0.07999999999999992,
+      "extension_m": [
+        -0.012,
+        -0.005416748603010403,
+        0.0,
+        -0.0008667726104996563
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v3",
+    "name": "one_front_leg_10mm_short",
+    "duration_s": 26.000000000004988,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 25.97692307692806,
+      "tilt_deg": 2.621632775899051,
+      "base_height_m": 0.1444540029849921,
+      "policy_pose_error_rad": 0.15746063689972112,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -7.766949105425525e-06,
+        -5.2693153358158995e-05,
+        -5.301257896429823e-05,
+        0.00034251883433755737
+      ],
+      "forces_N": [
+        2.572598863811847,
+        17.020365236490548,
+        17.65600643065111,
+        0.0
+      ],
+      "joint_speed": 0.004315506056670497,
+      "base_speed": 0.00030090036412328485,
+      "commanded_offset_rad": [
+        0.01233863911002464,
+        -0.07999999999999921,
+        0.0,
+        0.05517511786224394,
+        -0.07999999999999921,
+        0.0,
+        0.07999999999998852,
+        0.07999999999999921,
+        0.0,
+        0.003220761398275873,
+        0.0799999999998807,
+        0.0
+      ],
+      "estimated_load_N": [
+        5.195984751975856,
+        11.708048932594268,
+        10.946100535678312,
+        -0.008091854605932671
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        5.201823962482179,
+        11.714083938136586,
+        10.94941845691573,
+        -0.00830038613346748
+      ],
+      "max_command_offset_rad": 0.07999999999999992,
+      "extension_m": [
+        -0.012,
+        -0.002103966363672382,
+        0.0,
+        -0.012
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v3",
+    "name": "angle_only_assumed_5deg",
+    "duration_s": 26.000000000004988,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 25.97692307692806,
+      "tilt_deg": 0.27027344145989196,
+      "base_height_m": 0.14654529568429245,
+      "policy_pose_error_rad": 0.046678576544783676,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        -2.8234613441313616e-05,
+        -2.7176060583243566e-05,
+        -3.054143655725067e-05,
+        -2.8551830833167813e-05
+      ],
+      "forces_N": [
+        8.819800465399812,
+        9.220454364704977,
+        9.749006262070683,
+        9.383107441425352
+      ],
+      "joint_speed": 0.010789443604525044,
+      "base_speed": 2.0914684443350043e-05,
+      "commanded_offset_rad": [
+        -0.0008921550040827952,
+        -0.00903856766164091,
+        0.0,
+        0.0004382278719090582,
+        0.0020838712146064604,
+        0.0,
+        -0.004193717628237725,
+        -0.013990310293232574,
+        0.0,
+        -0.011384382243372348,
+        -0.024166916025282842,
+        0.0
+      ],
+      "estimated_load_N": [
+        5.6164575758457564,
+        6.195151777725214,
+        6.340722807576636,
+        8.054816404388026
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        5.619109859082823,
+        6.2023522621925755,
+        6.3434064568657345,
+        8.04862456347524
+      ],
+      "max_command_offset_rad": 0.03483039133594224,
+      "extension_m": [
+        -0.0037970189326757705,
+        -0.003106554556561061,
+        -0.003533221997776781,
+        -0.0021047298675258043
+      ]
+    }
+  },
+  {
+    "run": "formation-feedback-diagnostic-v3",
+    "name": "combined_length_and_angle",
+    "duration_s": 26.000000000004988,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "sampled_cad": null
+    },
+    "final": {
+      "time": 25.97692307692806,
+      "tilt_deg": 2.921202582830514,
+      "base_height_m": 0.15001424492980894,
+      "policy_pose_error_rad": 0.17324875595146727,
+      "floor_force_N": 0.0,
+      "tip_bottom_m": [
+        0.01182773306644505,
+        -2.8776704104518935e-05,
+        -5.890387974493566e-05,
+        -9.9548610412864e-06
+      ],
+      "forces_N": [
+        0.0,
+        16.75070853735083,
+        19.55604428958486,
+        0.9174587612257068
+      ],
+      "joint_speed": 0.014889308239687638,
+      "base_speed": 0.0005905947078577001,
+      "commanded_offset_rad": [
+        -0.049612342675298016,
+        -0.07999999999999921,
+        0.0,
+        -0.005164452177199408,
+        -0.017077401671512792,
+        0.0,
+        0.07999999999998852,
+        0.06731447943964558,
+        0.0,
+        0.032653697914830526,
+        0.07671543155716377,
+        0.0
+      ],
+      "estimated_load_N": [
+        9.231559000032326e-05,
+        5.59599702986079,
+        13.32026689564668,
+        3.021978913794274
+      ]
+    },
+    "feedback": {
+      "type": "nominal_kinematics_imu_pd_estimate",
+      "ideal_sensor_inputs": true,
+      "contact_oracle": false,
+      "estimated_load_N": [
+        0.00824330101163982,
+        5.607550826015522,
+        13.282338029227505,
+        2.864092677142934
+      ],
+      "max_command_offset_rad": 0.07999999999999992,
+      "extension_m": [
+        -0.012,
+        -0.0047945887572231425,
+        0.0,
+        -0.0021804167691644692
+      ]
+    }
+  }
+]

@@ -90,10 +90,12 @@ class Robot:
     def snapshot(self,command):
         spec=mj.mjtState.mjSTATE_INTEGRATION
         state=np.empty(mj.mj_stateSize(self.m,spec));mj.mj_getState(self.m,self.d,state,spec)
-        return dict(model_sha256=self.manifest['model_sha256'],friction=self.friction,state_spec=int(spec),state=state.tolist(),command=np.asarray(command).tolist(),dynamics=self.dynamics,command_history=[q.tolist() for q in self.command_history])
+        return dict(model_sha256=self.manifest['model_sha256'],generated_asset_sha256=self.manifest.get('generated_asset_sha256'),friction=self.friction,state_spec=int(spec),state=state.tolist(),command=np.asarray(command).tolist(),dynamics=self.dynamics,command_history=[q.tolist() for q in self.command_history])
     def restore(self,snapshot):
         if snapshot['model_sha256']!=self.manifest['model_sha256'] or snapshot['friction']!=self.friction:
             raise ValueError('Continuation model/friction mismatch')
+        if snapshot.get('generated_asset_sha256')!=self.manifest.get('generated_asset_sha256'):
+            raise ValueError('Continuation generated geometry mismatch')
         expected=dict(mass_scale=1.,base_com_offset_m=[0.,0.,0.],kp_scale=1.,kd_scale=1.,torque_limit_Nm=3.,delay_steps=0)
         if snapshot.get('dynamics',expected)!=self.dynamics:raise ValueError('Continuation dynamics mismatch')
         history=np.asarray(snapshot.get('command_history',[]),dtype=float)

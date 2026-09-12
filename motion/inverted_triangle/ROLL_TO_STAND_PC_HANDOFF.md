@@ -15,6 +15,8 @@ errors. Do not claim robustness by testing only symmetric/equal-length shapes.
 Do not change the final-pose gates just to pass; report any demonstrated
 geometric infeasibility and the required stance adjustment. Validate continuous
 walking handoff on the imperfect geometry, not only the nominal robot.
+The completed seven-case online screen and all 28 local diagnostics are preserved
+in `results/formation_v1/README.md`; start there for the exact failures and videos.
 
 Continue on `codex/triangle-roll-to-stand` in an isolated checkout. Read
 `AGENTS.md`, `motion/inverted_triangle/ROLL_TO_STAND.md` and
