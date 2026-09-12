@@ -19,8 +19,8 @@ ROOT = HERE.parents[1]
 POLICY = ROOT/'ros2_ws/src/neural_controller/launch/policy_walk_v2.json'
 
 
-def initialize(direction='forward'):
-    r = Robot()
+def initialize(direction='forward',formation=None):
+    r = Robot(formation=formation)
     goal = np.array(json.loads(POLICY.read_text())['default_joint_pos'])
     # World hub axes are mirrored. Choose a fixed initial winding that reaches
     # the policy's UNWRAPPED default; never wrap/teleport any running trajectory.
@@ -36,7 +36,7 @@ def initialize(direction='forward'):
     return r, home, goal
 
 
-def commands(home, goal, seconds, shoulder_bump=0., splay_power=1.):
+def commands(home, goal, seconds, shoulder_bump=0., splay_power=1.,hold_seconds=5.):
     count = int(np.ceil(seconds*520))
     u = np.arange(1,count+1)/count
     s = smooth(u)
@@ -45,7 +45,7 @@ def commands(home, goal, seconds, shoulder_bump=0., splay_power=1.):
         side = 1 if leg%2 == 0 else -1
         out[:,leg*3] += side*shoulder_bump*64*u**3*(1-u)**3
         out[:,leg*3+1] = home[leg*3+1] + smooth(u**splay_power)*(goal[leg*3+1]-home[leg*3+1])
-    return np.concatenate([np.tile(home,(1040,1)),out,np.tile(goal,(2600,1))])
+    return np.concatenate([np.tile(home,(1040,1)),out,np.tile(goal,(int(round(hold_seconds*520)),1))])
 
 
 def render_states(r, states, output, title):
@@ -67,20 +67,21 @@ def render_states(r, states, output, title):
                 im=Image.fromarray(renderer.render());draw=ImageDraw.Draw(im)
                 draw.rectangle((0,0,960,43),fill='black')
                 draw.text((8,5),f'SIMULATION ONLY | {title} | t={t:.2f}s',fill='white')
-                draw.text((8,23),'9 mm gap + backpack | exact CAD highlighted | no hardware or walking handoff',fill='white')
+                draw.text((8,23),'9 mm + backpack | '+('SYNTHETIC uneven rigid tips' if 'formation' in r.manifest else 'nominal CAD')+' | no hardware',fill='white')
                 writer.append_data(np.asarray(im))
     finally: renderer.close()
 
 
 def probe(config, output, video=False, cad=False):
     output=Path(output); output.mkdir(parents=True,exist_ok=False)
-    r,home,goal=initialize(config['direction'])
-    targets=commands(home,goal,config['seconds'],config['shoulder_bump'],config['splay_power'])
+    r,home,goal=initialize(config['direction'],config.get('formation'))
+    targets=commands(home,goal,config['seconds'],config['shoulder_bump'],config['splay_power'],config.get('hold_seconds',5.))
     velocity=np.diff(np.vstack([home,targets]),axis=0)*520
     acceleration=np.diff(np.vstack([np.zeros(12),velocity]),axis=0)*520
     limits=r.m.jnt_range[1:][PROX]
     assert np.all((targets[:,PROX]>=limits[:,0])&(targets[:,PROX]<=limits[:,1])), 'command limits'
     report=dict(config=config,simulation_only=True,hardware_validated=False,walking_handoff_validated=False,
+        model_manifest=r.manifest,
         model_sha256=r.manifest['model_sha256'],policy_sha256=hashlib.sha256(POLICY.read_bytes()).hexdigest(),
         goal_joint_positions=goal.tolist(),initial_joint_positions=home.tolist(),
         initial_winding='Constant whole turns selected before simulation, same physical point-up pose; no runtime wrapping',
@@ -88,10 +89,29 @@ def probe(config, output, video=False, cad=False):
         max_command_acceleration_ratio=float(np.max(abs(acceleration)/ACCEL)),
         max_tilt_deg=0.,peak_requested_torque_Nm=0.,max_unintended_floor_force_N=0.,
         max_measured_joint_speed=0.,minimum_cad_gap_m=None,first_cad_intersections=None,
+        minimum_front_rear_gap_m=None,minimum_front_rear_details=None,
         cad_sample_period_s=.1 if cad else None,early_termination=None)
     checker=CADClearance(r) if cad else None
+    feedback=None
+    if config.get('settling_feedback',False):
+        from .settling_feedback import SettlingFeedback
+        feedback=SettlingFeedback()
     trace=[];states=[];hold=[]
+    last_command=home.copy();last_velocity=np.zeros(12);correction=np.zeros(12)
+    actual_speed_ratio=0.;actual_acceleration_ratio=0.
     for step,target in enumerate(targets):
+        target=target.copy()
+        if feedback and step>=(2+config['seconds'])*520:
+            if step%10==0:
+                correction=feedback.update(r.d.qpos[3:7].copy(),r.d.qpos[7:].copy(),r.d.qvel[6:].copy(),last_command,10/520)
+            desired_velocity=np.clip(5.*(target+correction-last_command),-SPEED,SPEED)
+            next_velocity=last_velocity+np.clip(desired_velocity-last_velocity,-ACCEL/520,ACCEL/520)
+            target=last_command+next_velocity/520
+            target[PROX]=np.clip(target[PROX],limits[:,0],limits[:,1])
+        cmd_velocity=(target-last_command)*520
+        actual_speed_ratio=max(actual_speed_ratio,float(np.max(abs(cmd_velocity)/SPEED)))
+        actual_acceleration_ratio=max(actual_acceleration_ratio,float(np.max(abs(cmd_velocity-last_velocity)*520/ACCEL)))
+        last_velocity=cmd_velocity;last_command=target.copy()
         tau=r.tick(target)
         report['peak_requested_torque_Nm']=max(report['peak_requested_torque_Nm'],float(abs(tau).max()))
         report['max_measured_joint_speed']=max(report['max_measured_joint_speed'],float(abs(r.d.qvel[6:]).max()))
@@ -102,13 +122,18 @@ def probe(config, output, video=False, cad=False):
             row=dict(time=float(r.d.time),tilt_deg=tilt,base_height_m=float(r.d.qpos[2]),
                 policy_pose_error_rad=float(abs(r.d.qpos[7:]-goal).max()),
                 floor_force_N=floor,tip_bottom_m=r.tip_bottoms().tolist(),forces_N=r.contacts_precise().tolist(),
-                joint_speed=float(abs(r.d.qvel[6:]).max()),base_speed=float(np.linalg.norm(r.d.qvel[:3])))
+                joint_speed=float(abs(r.d.qvel[6:]).max()),base_speed=float(np.linalg.norm(r.d.qvel[:3])),
+                commanded_offset_rad=(target-goal).tolist() if feedback else None,
+                estimated_load_N=feedback.estimated_load_N.tolist() if feedback else None)
             trace.append(row)
             if step>len(targets)-1560:hold.append(row)
             if cad and step%52==0:
                 c=checker.measure()
                 previous_gap=report['minimum_cad_gap_m']
                 report['minimum_cad_gap_m']=c['minimum_m'] if previous_gap is None else min(previous_gap,c['minimum_m'])
+                if report['minimum_front_rear_gap_m'] is None or c['front_rear_minimum_m']<report['minimum_front_rear_gap_m']:
+                    report['minimum_front_rear_gap_m']=c['front_rear_minimum_m']
+                    report['minimum_front_rear_details']=dict(time=float(r.d.time),pair=c['front_rear_nearest_pair'])
                 if c['intersections'] and report['first_cad_intersections'] is None:
                     report['first_cad_intersections']={'time':float(r.d.time),'pairs':c['intersections']}
             if tilt>35 or r.d.qpos[2]<.045 or not np.isfinite(r.d.qpos).all():
@@ -119,6 +144,11 @@ def probe(config, output, video=False, cad=False):
     report['simulated_seconds']=float(r.d.time)
     report['final']=trace[-1]
     report['final_joint_positions']=r.d.qpos[7:].tolist()
+    report['max_command_speed_ratio']=actual_speed_ratio
+    report['max_command_acceleration_ratio']=actual_acceleration_ratio
+    report['feedback']=None if feedback is None else dict(type='nominal_kinematics_imu_pd_estimate',
+        ideal_sensor_inputs=True,contact_oracle=False,estimated_load_N=feedback.estimated_load_N.tolist(),
+        max_command_offset_rad=feedback.max_offset_rad,extension_m=feedback.extension.tolist())
     gates={'completed':step+1==len(targets),
         'command_rate':report['max_command_speed_ratio']<=1.000001 and report['max_command_acceleration_ratio']<=1.000001,
         'tilt':report['max_tilt_deg']<=8.,'torque':report['peak_requested_torque_Nm']<=3.,
@@ -132,6 +162,7 @@ def probe(config, output, video=False, cad=False):
     report['status']='PROBE_PASS_REQUIRES_DENSE_AUDIT_AND_POLICY_HANDOFF' if all(v is True for v in gates.values()) else 'FAILED_OR_INCOMPLETE'
     (output/'audit.json').write_text(json.dumps(report,indent=2)+'\n')
     (output/'trace.json').write_text(json.dumps(trace)+'\n')
+    (output/'final_state.json').write_text(json.dumps(r.snapshot(last_command))+'\n')
     np.savez_compressed(output/'states.npz',times=[s[0] for s in states],qpos=[s[1] for s in states])
     if video:render_states(r,states,output/'rollout.mp4',config['name']+' | '+report['status'])
     print(json.dumps({k:report[k] for k in ['config','status','max_tilt_deg','max_unintended_floor_force_N','simulated_seconds','gates']}),flush=True)

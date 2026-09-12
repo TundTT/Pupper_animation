@@ -36,7 +36,7 @@ def verify_sources():
     return manifest
 
 class Robot:
-    def __init__(self,friction=.8,dynamics=None):
+    def __init__(self,friction=.8,dynamics=None,formation=None):
         if not np.isfinite(friction) or friction<=0:raise ValueError('Friction must be positive')
         self.friction=float(friction)
         self.dynamics=dict(mass_scale=1.,base_com_offset_m=[0.,0.,0.],kp_scale=1.,kd_scale=1.,torque_limit_Nm=3.,delay_steps=0)
@@ -52,7 +52,14 @@ class Robot:
         if offset.shape!=(3,) or not np.isfinite(offset).all():raise ValueError('Invalid COM offset')
         self.command_history=[]
         self.manifest=verify_sources()
-        self.m=mj.MjModel.from_xml_path(str(HERE/'model.xml'));self.d=mj.MjData(self.m)
+        self.model_xml=(HERE/'model.xml').read_bytes();self.model_assets=None
+        if formation is None:
+            self.m=mj.MjModel.from_xml_path(str(HERE/'model.xml'))
+        else:
+            from .formation import build
+            self.model_xml,self.model_assets,self.manifest=build(formation,self.manifest)
+            self.m=mj.MjModel.from_xml_string(self.model_xml.decode(),assets=self.model_assets)
+        self.d=mj.MjData(self.m)
         self.geoms=np.array([self.m.geom(f'{leg}_floor_contact').id for leg in LEGS])
         self.bodies=np.array([self.m.body('leg_'+leg+'_3').id for leg in LEGS])
         self.floor=self.m.geom('floor').id;self.base=self.m.body('base_link').id

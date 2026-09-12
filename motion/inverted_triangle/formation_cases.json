@@ -1,0 +1,9 @@
+[
+  {"name":"nominal_regression","direction":"forward","seconds":12.0,"shoulder_bump":0.0,"splay_power":1.0},
+  {"name":"front_short_rear_long","direction":"forward","seconds":12.0,"shoulder_bump":0.0,"splay_power":1.0,"formation":{"length_mm":[-5,-5,5,5],"bend_deg":[0,0,0,0]}},
+  {"name":"right_short_left_long","direction":"forward","seconds":12.0,"shoulder_bump":0.0,"splay_power":1.0,"formation":{"length_mm":[-5,5,-5,5],"bend_deg":[0,0,0,0]}},
+  {"name":"diagonal_length_mismatch","direction":"forward","seconds":12.0,"shoulder_bump":0.0,"splay_power":1.0,"formation":{"length_mm":[-5,5,5,-5],"bend_deg":[0,0,0,0]}},
+  {"name":"one_front_leg_10mm_short","direction":"forward","seconds":12.0,"shoulder_bump":0.0,"splay_power":1.0,"formation":{"length_mm":[-10,0,0,0],"bend_deg":[0,0,0,0]}},
+  {"name":"angle_only_assumed_5deg","direction":"forward","seconds":12.0,"shoulder_bump":0.0,"splay_power":1.0,"formation":{"length_mm":[0,0,0,0],"bend_deg":[5,-5,-5,5]}},
+  {"name":"combined_length_and_angle","direction":"forward","seconds":12.0,"shoulder_bump":0.0,"splay_power":1.0,"formation":{"length_mm":[-5,5,5,-5],"bend_deg":[3,-3,-3,3]}}
+]

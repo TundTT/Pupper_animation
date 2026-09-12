@@ -1,5 +1,21 @@
 # PC agent prompt: validate the simultaneous roll into walking
 
+**Formation update:** read `FORMATION_ROBUSTNESS.md` and reproduce
+`formation_cases.json` before proceeding. The user reports rigid legs with about
+10 mm total longest-to-shortest variation and slight angle errors. Use -5/+5 mm
+as the centered length trial and label +/-5 degrees as an assumed angle range.
+The direct motion fails four of seven development cases' non-CAD checks; the
+optional settling prototype is also rejected. Keep all failures. Use the new
+derived geometry mechanism, preserving the pinned nominal model and 9 mm gap.
+Optimize bounded joint/IMU feedback or, if necessary, train a bounded residual
+policy over independent per-leg geometry variations. No true lengths or contact
+forces in deployed actor observations. Cover leg permutations, common length
+offsets separately from spread, fresh held-out combinations and sensor/dynamics
+errors. Do not claim robustness by testing only symmetric/equal-length shapes.
+Do not change the final-pose gates just to pass; report any demonstrated
+geometric infeasibility and the required stance adjustment. Validate continuous
+walking handoff on the imperfect geometry, not only the nominal robot.
+
 Continue on `codex/triangle-roll-to-stand` in an isolated checkout. Read
 `AGENTS.md`, `motion/inverted_triangle/ROLL_TO_STAND.md` and
 `motion/inverted_triangle/results/roll_to_stand_v1/README.md` first. Do not use
