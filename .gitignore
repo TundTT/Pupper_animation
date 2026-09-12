@@ -10,3 +10,6 @@ ros2_ws/install/
 untracked_bags
 
 *.wav
+
+# Local MuJoCo runtime warnings; analysis reports are committed separately.
+/MUJOCO_LOG.TXT
