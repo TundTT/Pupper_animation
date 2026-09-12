@@ -1,0 +1,56 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0 -- /usr/bin/python3
+cachedir: /tmp/triangle-joy-cache
+rootdir: /triangle-workspace/src/joy_utils/test
+collecting ... collected 2 items
+
+triangle-workspace/src/joy_utils/test/alignment_joystick_test.py::test_alignment_activation_failure_pending_press_and_estop[neural_controller_wheel_align_hybrid-/wheel_align_hybrid_command_index] FAILED
+triangle-workspace/src/joy_utils/test/alignment_joystick_test.py::test_alignment_activation_failure_pending_press_and_estop[neural_controller_keyframe_align-/keyframe_align_command_index] FAILED
+
+=================================== FAILURES ===================================
+_ test_alignment_activation_failure_pending_press_and_estop[neural_controller_wheel_align_hybrid-/wheel_align_hybrid_command_index] _
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_alignment_activation_fail0')
+controller = 'neural_controller_wheel_align_hybrid'
+topic = '/wheel_align_hybrid_command_index'
+
+>   ???
+
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/joy_utils/test/alignment_joystick_test.py:80: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+predicate = <function test_alignment_activation_failure_pending_press_and_estop.<locals>.<lambda> at 0x40002da4eb60>
+
+>   ???
+E   AssertionError: [INFO] [1789246109.216268285] [estop_controller]: EStopController node has been started.
+E     
+E   assert 168642.018373857 < 168642.004310701
+E    +  where 168642.018373857 = <built-in function monotonic>()
+E    +    where <built-in function monotonic> = time.monotonic
+
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/joy_utils/test/alignment_joystick_test.py:67: AssertionError
+_ test_alignment_activation_failure_pending_press_and_estop[neural_controller_keyframe_align-/keyframe_align_command_index] _
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-0/test_alignment_activation_fail1')
+controller = 'neural_controller_keyframe_align'
+topic = '/keyframe_align_command_index'
+
+>   ???
+
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/joy_utils/test/alignment_joystick_test.py:80: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+predicate = <function test_alignment_activation_failure_pending_press_and_estop.<locals>.<lambda> at 0x40002da4f380>
+
+>   ???
+E   AssertionError: [INFO] [1789246119.713590138] [estop_controller]: EStopController node has been started.
+E     
+E   assert 168652.580412414 < 168652.571674459
+E    +  where 168652.580412414 = <built-in function monotonic>()
+E    +    where <built-in function monotonic> = time.monotonic
+
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/joy_utils/test/alignment_joystick_test.py:67: AssertionError
+=========================== short test summary info ============================
+FAILED triangle-workspace/src/joy_utils/test/alignment_joystick_test.py::test_alignment_activation_failure_pending_press_and_estop[neural_controller_wheel_align_hybrid-/wheel_align_hybrid_command_index]
+FAILED triangle-workspace/src/joy_utils/test/alignment_joystick_test.py::test_alignment_activation_failure_pending_press_and_estop[neural_controller_keyframe_align-/keyframe_align_command_index]
+============================== 2 failed in 42.78s ==============================

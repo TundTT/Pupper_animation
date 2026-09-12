@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "software_only": true,
+  "supported_arming_not_simulated": true,
+  "library_sha256": "176ea675ae6f116fcf3ad2cba75dbff2868634eea0f4f0ba09cbda114d797de0",
+  "pause_seconds": 60.0,
+  "source_hashes": {
+    "ros2_ws/src/neural_controller/include/neural_controller/inverted_triangle.hpp": "e2f07b1433c84c703a977c02d6dbc9047460da4299771a57b8b5a79e8185eb20",
+    "ros2_ws/src/neural_controller/test/inverted_triangle_test.cpp": "68881789578a7d62255e6995d8faa2717e91597590fa09f2790936c10430987f"
+  },
+  "trajectory_steps": 67278,
+  "maximum_target_error_rad": 3.490541189421492e-13,
+  "stage_audits": [
+    "PASS_NOMINAL_SINGLE_FLIP",
+    "PASS_NOMINAL_SINGLE_FLIP",
+    "PASS_NOMINAL_SINGLE_FLIP",
+    "PASS_NOMINAL_SINGLE_FLIP"
+  ],
+  "pauses": [
+    {
+      "stage": 0,
+      "passed": true,
+      "support_N": 2.4985386734063546,
+      "tilt_deg": 2.274814308543115,
+      "motor_floor_N": 0.0,
+      "cad_m": 0.0038982696201068107
+    },
+    {
+      "stage": 1,
+      "passed": true,
+      "support_N": 2.2064223517996924,
+      "tilt_deg": 2.4101656880397697,
+      "motor_floor_N": 0.0,
+      "cad_m": 0.00393936170222628
+    },
+    {
+      "stage": 2,
+      "passed": true,
+      "support_N": 2.984526104978094,
+      "tilt_deg": 5.26809172947353,
+      "motor_floor_N": 0.0,
+      "cad_m": 0.003836591613433989
+    },
+    {
+      "stage": 3,
+      "passed": true,
+      "support_N": 3.9861480409902668,
+      "tilt_deg": 6.610491551441043,
+      "motor_floor_N": 0.0,
+      "cad_m": 0.008115028057641816
+    }
+  ]
+}

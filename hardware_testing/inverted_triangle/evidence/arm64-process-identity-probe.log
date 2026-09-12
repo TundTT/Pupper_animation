@@ -1,0 +1,4 @@
+{"parent_before": {"pid": 15, "start": "16829728", "boot": "d4f33684-f924-4665-937d-f39e8a10246d"}, "parent_after": {"pid": 15, "start": "16829728", "boot": "d4f33684-f924-4665-937d-f39e8a10246d"}, "child_stdout": "{\"pid\": 15, \"start\": \"16829727\", \"boot\": \"d4f33684-f924-4665-937d-f39e8a10246d\"}\n", "child_stderr": "", "child_returncode": 0}
+Taking first lock
+Trying second NONBLOCKING lock
+PASS: second lock rejected without waiting

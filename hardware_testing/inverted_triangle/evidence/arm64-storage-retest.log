@@ -1,0 +1,44 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /triangle-workspace/src/robot_calibration/test
+collecting ... collected 18 items
+
+triangle-workspace/src/robot_calibration/test/test_calibration.py::CalibrationTest::test_boost_session_serialization PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::CalibrationTest::test_capture_lock_excludes_other_capture_or_activation PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::CalibrationTest::test_cli_rejects_stack_restart_after_confirmation CALIBRATION NOT READY: Stack restarted after confirmation; confirm the new startup before capturing
+Position the marked wheel rings in the agreed home pose, with the robot supported and motion controllers inactive.
+Keep all joints stationary. This records angles; it does not move or physically home the wheels.
+PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::CalibrationTest::test_cli_requires_explicit_confirmation_before_ros_sampling CALIBRATION NOT READY: User confirmation required: run interactively or obtain the user's confirmation before --operator-confirmed
+VALID calibration 1db907b3bbe444209daec7ed0812bc14 for encoder session test-session
+Wheel home FR/FL/BR/BL (rad): 0.30000000, -0.40000000, 0.50000000, -0.60000000
+Saved record: /tmp/tmpa32o3bsf/calibration.json
+No controller was activated.
+PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::CalibrationTest::test_failed_atomic_write_keeps_previous_record PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::CalibrationTest::test_incompatible_record_rejected_without_overwriting_history PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::CalibrationTest::test_invalid_values_and_manual_entry PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::CalibrationTest::test_restart_rehome_reboot_dead_owner_and_pending_homing_rejected PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::CalibrationTest::test_save_load_and_reuse_without_recalibrating PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::StationaryTest::test_backward_receipt_clock_resets_capture PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::StationaryTest::test_brief_quantized_velocity_outliers_with_tight_positions PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::StationaryTest::test_dropped_or_repeated_messages_restart_stationary_dwell PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::StationaryTest::test_large_speed_spike_and_bad_data_require_a_new_full_window PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::StationaryTest::test_low_reported_velocity_does_not_hide_position_drift PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::StationaryTest::test_moving_stale_missing_duplicate_future_or_nonfinite_cannot_capture PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::StationaryTest::test_stationary_named_samples_and_wrap_boundary PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::StationaryTest::test_sustained_bursty_or_frequent_speed_is_not_a_glitch PASSED
+triangle-workspace/src/robot_calibration/test/test_calibration.py::StationaryTest::test_tight_position_excursion_catches_drift_and_oscillation PASSED
+
+=============================== warnings summary ===============================
+usr/lib/python3/dist-packages/_pytest/cacheprovider.py:451
+  /usr/lib/python3/dist-packages/_pytest/cacheprovider.py:451: PytestCacheWarning: could not create cache path /triangle-workspace/src/robot_calibration/test/.pytest_cache/v/cache/nodeids: [Errno 30] Read-only file system: '/triangle-workspace/src/robot_calibration/test/.pytest_cache'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+usr/lib/python3/dist-packages/_pytest/stepwise.py:56
+  /usr/lib/python3/dist-packages/_pytest/stepwise.py:56: PytestCacheWarning: could not create cache path /triangle-workspace/src/robot_calibration/test/.pytest_cache/v/cache/stepwise: [Errno 30] Read-only file system: '/triangle-workspace/src/robot_calibration/test/.pytest_cache'
+    session.config.cache.set(STEPWISE_CACHE_DIR, [])
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================== 18 passed, 2 warnings in 91.14s (0:01:31) ===================

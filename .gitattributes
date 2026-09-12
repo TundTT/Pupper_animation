@@ -22,3 +22,8 @@ scripts/check_keyframes.py text eol=lf
 hardware_testing/keyframe_align/arm64_check.sh text eol=lf
 
 scripts/prepare_locomotion.sh text eol=lf
+ros2_ws/src/neural_controller/launch/inverted_triangle_plan.json -filter diff merge text eol=lf
+hardware_testing/inverted_triangle/source/*.json -filter diff merge -text whitespace=cr-at-eol
+hardware_testing/inverted_triangle/evidence/*.log -whitespace
+scripts/prepare_inverted_triangle.sh text eol=lf
+hardware_testing/inverted_triangle/*.sh text eol=lf

@@ -5,7 +5,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-add_library(neural_controller SHARED src/neural_controller.cpp src/keyframe_controller.cpp)
+add_library(neural_controller SHARED src/neural_controller.cpp src/keyframe_controller.cpp src/inverted_triangle_controller.cpp)
 target_compile_features(neural_controller PUBLIC cxx_std_17)
 
 # find dependencies
@@ -44,6 +44,7 @@ ament_target_dependencies(
   rclcpp
   rclcpp_lifecycle
   geometry_msgs
+  sensor_msgs
   tf2
 )
 
@@ -63,6 +64,18 @@ install(
 )
 
 if(BUILD_TESTING)
+  add_executable(inverted_triangle_test test/inverted_triangle_test.cpp)
+  target_compile_features(inverted_triangle_test PRIVATE cxx_std_17)
+  target_include_directories(inverted_triangle_test PRIVATE include)
+  target_link_libraries(inverted_triangle_test RTNeural)
+  add_test(NAME inverted_triangle_core COMMAND inverted_triangle_test ${CMAKE_CURRENT_SOURCE_DIR}/launch/inverted_triangle_plan.json)
+  add_executable(inverted_triangle_controller_test test/inverted_triangle_controller_test.cpp)
+  target_compile_features(inverted_triangle_controller_test PRIVATE cxx_std_17)
+  target_include_directories(inverted_triangle_controller_test PRIVATE include)
+  target_link_libraries(inverted_triangle_controller_test neural_controller neural_controller_parameters RTNeural)
+  ament_target_dependencies(inverted_triangle_controller_test controller_interface hardware_interface rclcpp rclcpp_lifecycle robot_calibration realtime_tools geometry_msgs tf2 sensor_msgs)
+  add_test(NAME inverted_triangle_lifecycle COMMAND inverted_triangle_controller_test
+    ${CMAKE_CURRENT_SOURCE_DIR}/launch/inverted_triangle_config.yaml ${CMAKE_CURRENT_SOURCE_DIR}/launch/inverted_triangle_plan.json)
   add_executable(keyframe_position_test test/keyframe_position_test.cpp)
   target_compile_features(keyframe_position_test PRIVATE cxx_std_17)
   target_include_directories(keyframe_position_test PRIVATE include)

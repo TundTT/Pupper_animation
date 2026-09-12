@@ -133,3 +133,27 @@ def test_locomotion_trial_has_only_requested_policies_and_command_path():
     assert sorted(executables) == sorted([
         'robot_state_publisher', 'ros2_control_node', 'joy_linux_node',
         'estop_controller', 'teleop_node', 'cmd_vel_mux_node', *(['spawner'] * 4)])
+
+
+def test_inverted_triangle_trial_starts_only_triangle_inactive():
+    import yaml
+    from launch_ros.parameter_descriptions import ParameterFile
+    context = LaunchContext()
+    path = Path(__file__).parents[1] / 'launch' / 'inverted_triangle_trial.launch.py'
+    description = runpy.run_path(str(path))['generate_launch_description']()
+    names = []
+    for node in description.entities:
+        executable = perform_substitutions(context, normalize_to_list_of_substitutions(node.node_executable))
+        if executable != 'spawner':
+            continue
+        args = [perform_substitutions(context, normalize_to_list_of_substitutions(word)) for word in node.cmd][1:]
+        names.append(args[0])
+        if args[0] == 'neural_controller_inverted_triangle':
+            assert_calibration_gate(args, True)
+            assert not any('inverted_triangle_config.yaml' in word for word in args)
+    assert names == ['joint_state_broadcaster', 'imu_sensor_broadcaster', 'neural_controller_inverted_triangle']
+    parameter_file = ParameterFile(path.with_name('inverted_triangle_config.yaml'), allow_substs=True)
+    resolved = parameter_file.evaluate(context)
+    params = yaml.safe_load(Path(resolved).read_text())['neural_controller_inverted_triangle']['ros__parameters']
+    assert '$(' not in params['model_path']
+    assert Path(params['model_path']).is_file()

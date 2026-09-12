@@ -1,0 +1,76 @@
+PASS: exact v5 checkpoint/export, 83/8 contract, 52 Hz inference, CAN order, modes, gains and limits: /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/launch/policy_wheel_align_motion_v5.json
+PASS: description joint axes and mounting transforms match training geometry within source rounding
+PASS: original 9 mm plan/candidates, exported phase hashes, current CAN/axes/origins, continuous hub profile, PD gains and limits
+Mapping, physical clearances, target timing and loaded motion require the documented lab checks.
+Starting >>> pupper_v3_description
+Finished <<< pupper_v3_description [1.15s]
+Starting >>> robot_calibration
+Finished <<< robot_calibration [0.71s]
+Starting >>> animation_controller_py
+Finished <<< animation_controller_py [2.65s]
+Starting >>> control_board_hardware_interface
+Finished <<< control_board_hardware_interface [0.56s]
+Starting >>> joy_utils
+Finished <<< joy_utils [0.41s]
+Starting >>> neural_controller
+Finished <<< neural_controller [3.21s]
+
+Summary: 6 packages finished [9.36s]
+Internal ctest changing into directory: /tmp/quadmorph-inverted/build/robot_calibration
+Test project /tmp/quadmorph-inverted/build/robot_calibration
+    Start 1: calibration_storage
+1/3 Test #1: calibration_storage ..............   Passed    0.01 sec
+    Start 2: calibration_python
+2/3 Test #2: calibration_python ...............   Passed    1.41 sec
+    Start 3: calibration_ros
+3/3 Test #3: calibration_ros ..................   Passed   12.43 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Label Time Summary:
+pytest    =  13.85 sec*proc (2 tests)
+
+Total Test time (real) =  13.85 sec
+Internal ctest changing into directory: /tmp/quadmorph-inverted/build/neural_controller
+Test project /tmp/quadmorph-inverted/build/neural_controller
+    Start  1: inverted_triangle_core
+1/8 Test  #1: inverted_triangle_core ................   Passed    0.01 sec
+    Start  2: inverted_triangle_lifecycle
+2/8 Test  #2: inverted_triangle_lifecycle ...........   Passed    0.34 sec
+    Start  3: keyframe_position
+3/8 Test  #3: keyframe_position .....................   Passed    0.10 sec
+    Start  4: keyframe_controller_lifecycle
+4/8 Test  #4: keyframe_controller_lifecycle .........   Passed    0.56 sec
+    Start  5: startup_launch
+5/8 Test  #5: startup_launch ........................   Passed    1.22 sec
+    Start 10: hybrid_controller_lifecycle
+6/8 Test #10: hybrid_controller_lifecycle ...........   Passed    0.33 sec
+    Start 13: wheel_policy_contract_and_inference
+7/8 Test #13: wheel_policy_contract_and_inference ...   Passed    0.13 sec
+    Start 14: walk_policy_contract_and_inference
+8/8 Test #14: walk_policy_contract_and_inference ....   Passed    0.13 sec
+
+100% tests passed, 0 tests failed out of 8
+
+Label Time Summary:
+pytest    =   1.22 sec*proc (1 test)
+
+Total Test time (real) =   2.83 sec
+Internal ctest changing into directory: /tmp/quadmorph-inverted/build/joy_utils
+Test project /tmp/quadmorph-inverted/build/joy_utils
+    Start 1: alignment_joystick
+1/1 Test #1: alignment_joystick ...............   Passed    7.04 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Label Time Summary:
+pytest    =   7.04 sec*proc (1 test)
+
+Total Test time (real) =   7.04 sec
+PASS: exact v5 checkpoint/export, 83/8 contract, 52 Hz inference, CAN order, modes, gains and limits: /tmp/quadmorph-inverted/install/neural_controller/share/neural_controller/launch/policy_wheel_align_motion_v5.json
+PASS: description joint axes and mounting transforms match training geometry within source rounding
+PASS: original 9 mm plan/candidates, exported phase hashes, current CAN/axes/origins, continuous hub profile, PD gains and limits
+Mapping, physical clearances, target timing and loaded motion require the documented lab checks.
+....                                                                     [100%]
+4 passed in 0.09s
+Software preparation passed. Follow INVERTED_TRIANGLE_LAB.md; hardware has not been started.

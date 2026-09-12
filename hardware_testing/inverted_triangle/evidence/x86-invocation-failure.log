@@ -1,0 +1,107 @@
+Internal ctest changing into directory: /tmp/quadmorph-inverted/build/neural_controller
+Test project /tmp/quadmorph-inverted/build/neural_controller
+    Start  1: inverted_triangle_core
+1/8 Test  #1: inverted_triangle_core ................   Passed    0.01 sec
+    Start  2: inverted_triangle_lifecycle
+2/8 Test  #2: inverted_triangle_lifecycle ...........***Failed    0.00 sec
+/tmp/quadmorph-inverted/build/neural_controller/inverted_triangle_controller_test: error while loading shared libraries: libthread_priority.so: cannot open shared object file: No such file or directory
+
+    Start  3: keyframe_position
+3/8 Test  #3: keyframe_position .....................   Passed    0.08 sec
+    Start  4: keyframe_controller_lifecycle
+4/8 Test  #4: keyframe_controller_lifecycle .........***Failed    0.00 sec
+/tmp/quadmorph-inverted/build/neural_controller/keyframe_controller_test: error while loading shared libraries: libthread_priority.so: cannot open shared object file: No such file or directory
+
+    Start  5: startup_launch
+5/8 Test  #5: startup_launch ........................***Failed    1.04 sec
+-- run_test.py: invoking following command in '/tmp/quadmorph-inverted/build/neural_controller':
+ - /usr/bin/python3 -u -m pytest /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/startup_launch_test.py -o cache_dir=/tmp/quadmorph-inverted/build/neural_controller/ament_cmake_pytest/startup_launch/.cache --junit-xml=/tmp/quadmorph-inverted/build/neural_controller/test_results/neural_controller/startup_launch.xunit.xml --junit-prefix=neural_controller
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-7.4.4, pluggy-1.4.0
+cachedir: /tmp/quadmorph-inverted/build/neural_controller/ament_cmake_pytest/startup_launch/.cache
+rootdir: /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test
+plugins: ament-copyright-0.17.5, ament-lint-0.17.5, launch-testing-3.4.10, ament-flake8-0.17.5, ament-pep257-0.17.5, ament-xmllint-0.17.5, launch-testing-ros-0.26.11, typeguard-4.1.5, colcon-core-0.20.1, cov-4.1.0
+collected 0 items / 1 error
+
+==================================== ERRORS ====================================
+________________________ ERROR collecting test session _________________________
+/usr/lib/python3/dist-packages/pluggy/_hooks.py:501: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+/usr/lib/python3/dist-packages/pluggy/_manager.py:119: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+/usr/lib/python3/dist-packages/_pytest/python.py:215: in pytest_collect_file
+    module: Module = ihook.pytest_pycollect_makemodule(
+/usr/lib/python3/dist-packages/_pytest/config/compat.py:66: in fixed_hook
+    return hook(**kw)
+/usr/lib/python3/dist-packages/pluggy/_hooks.py:501: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+/usr/lib/python3/dist-packages/pluggy/_manager.py:119: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+/opt/ros/jazzy/lib/python3.12/site-packages/launch_testing/pytest/hooks.py:193: in pytest_pycollect_makemodule
+    entrypoint = find_launch_test_entrypoint(path)
+/opt/ros/jazzy/lib/python3.12/site-packages/launch_testing/pytest/hooks.py:183: in find_launch_test_entrypoint
+    module = import_path(path, root=None)
+/usr/lib/python3/dist-packages/_pytest/pathlib.py:567: in import_path
+    importlib.import_module(module_name)
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+/usr/lib/python3/dist-packages/_pytest/assertion/rewrite.py:186: in exec_module
+    exec(co, module.__dict__)
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/startup_launch_test.py:8: in <module>
+    from controller_manager import spawner
+/opt/ros/jazzy/lib/python3.12/site-packages/controller_manager/__init__.py:15: in <module>
+    from .controller_manager_services import (
+/opt/ros/jazzy/lib/python3.12/site-packages/controller_manager/controller_manager_services.py:29: in <module>
+    import rclpy
+/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/__init__.py:49: in <module>
+    from rclpy.signals import install_signal_handlers
+/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/signals.py:15: in <module>
+    from rclpy.exceptions import InvalidHandle
+/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/exceptions.py:16: in <module>
+    from rclpy.impl.implementation_singleton import rclpy_implementation as _rclpy
+/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/impl/implementation_singleton.py:32: in <module>
+    rclpy_implementation = import_c_library('._rclpy_pybind11', package)
+/opt/ros/jazzy/lib/python3.12/site-packages/rpyutils/import_c_library.py:39: in import_c_library
+    return importlib.import_module(name, package=package)
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ImportError: librcl_action.so: cannot open shared object file: No such file or directory
+E   The C extension '/opt/ros/jazzy/lib/python3.12/site-packages/rclpy/_rclpy_pybind11.cpython-312-x86_64-linux-gnu.so' failed to be imported while being present on the system. Please refer to 'https://docs.ros.org/en/jazzy/How-To-Guides/Installation-Troubleshooting.html#import-failing-even-with-library-present-on-the-system' for possible solutions
+- generated xml file: /tmp/quadmorph-inverted/build/neural_controller/test_results/neural_controller/startup_launch.xunit.xml -
+=========================== short test summary info ============================
+ERROR ../../../../mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+=============================== 1 error in 0.31s ===============================
+-- run_test.py: return code 2
+-- run_test.py: verify result file '/tmp/quadmorph-inverted/build/neural_controller/test_results/neural_controller/startup_launch.xunit.xml'
+
+    Start 10: hybrid_controller_lifecycle
+6/8 Test #10: hybrid_controller_lifecycle ...........***Failed    0.00 sec
+/tmp/quadmorph-inverted/build/neural_controller/hybrid_controller_test: error while loading shared libraries: libthread_priority.so: cannot open shared object file: No such file or directory
+
+    Start 13: wheel_policy_contract_and_inference
+7/8 Test #13: wheel_policy_contract_and_inference ...   Passed    0.15 sec
+    Start 14: walk_policy_contract_and_inference
+8/8 Test #14: walk_policy_contract_and_inference ....   Passed    0.13 sec
+
+50% tests passed, 4 tests failed out of 8
+
+Label Time Summary:
+pytest    =   1.04 sec*proc (1 test)
+
+Total Test time (real) =   1.44 sec
+
+The following tests FAILED:
+	  2 - inverted_triangle_lifecycle (Failed)
+	  4 - keyframe_controller_lifecycle (Failed)
+	  5 - startup_launch (Failed)
+	 10 - hybrid_controller_lifecycle (Failed)
+Errors while running CTest
