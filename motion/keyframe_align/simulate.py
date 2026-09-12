@@ -133,6 +133,8 @@ def main():
     dependencies=['training/wheel_align/model.xml','training/wheel_align/geometry.json','training/wheel_align/geometry.py','training/wheel_align/configs.py']
     dependencies += ['ros2_ws/src/neural_controller/include/neural_controller/'+name for name in
                      ('wheel_align_motion.hpp','wheel_align_hybrid.hpp','wheel_align_geometry_data.hpp','wheel_align_reference_data.hpp')]
+    dependencies += ['models/heating_module/'+name for name in ('spec.json','apply.py','gap.py','Heating_module.stl')]
+    dependencies += ['training/wheel_align/meshes/Heating_module.stl']
     report['dependency_sha256']={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in dependencies}
     import os
     library=Path(os.environ['KEYFRAME_ALIGN_LIBRARY'])

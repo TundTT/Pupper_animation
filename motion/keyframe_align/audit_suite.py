@@ -10,6 +10,8 @@ def provenance():
     paths=list((root/'motion/keyframe_align').glob('*'))
     paths += list((root/'ros2_ws/src/neural_controller/include/neural_controller').glob('wheel_align*.hpp'))
     paths += [root/'training/wheel_align'/f for f in ('model.xml','geometry.json','geometry.py','configs.py')]
+    paths += [root/'models/heating_module'/f for f in ('spec.json','apply.py','gap.py','Heating_module.stl')]
+    paths += [root/'training/wheel_align/meshes/Heating_module.stl']
     files={str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths if p.is_file()}
     git='git.exe' if os.name!='nt' and str(root).startswith('/mnt/c/') else 'git'
     return dict(source_commit=subprocess.check_output([git,'rev-parse','HEAD'],text=True).strip(),

@@ -18,7 +18,7 @@ struct Geometry : neural_controller::WheelAlignMotion {
       auto r=mul(mul(mul(a,rz(q[3*k])),b),rz(q[3*k+1]));
       auto p=mv(r,{p3[3*k],p3[3*k+1],p3[3*k+2]});auto orientation=mul(r,c);
       double z=0,dot=0;
-      for(int i=0;i<3;++i){z-=(p[i]+p1[3*k+i]+.03035*orientation[3*i+2])*gravity[i];dot-=orientation[3*i+2]*gravity[i];}
+      for(int i=0;i<3;++i){z-=(p[i]+p1[3*k+i]+wheel_center_z[k]*orientation[3*i+2])*gravity[i];dot-=orientation[3*i+2]*gravity[i];}
       const double radial=std::sqrt(std::max(1-dot*dot,0.));
       // 48 mm nominal +/- 2.5 mm, matching modeled manufacturing variation.
       if(k==leg)active=z-.0505*radial-.01675*std::abs(dot);

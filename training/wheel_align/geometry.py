@@ -22,7 +22,7 @@ def wheel_frames(q, xp=np):
     centers=xp.asarray(PARAMS['p1'])+xp.einsum('bij,bj->bi',r,xp.asarray(PARAMS['p3']))
     r=r @ xp.asarray(PARAMS['r3'])
     axes=r[:,:,2]
-    return centers + .03035*axes, axes
+    return centers + xp.asarray(PARAMS['wheel_center_z'])[:, None]*axes, axes
 
 def margins(q, gravity, leg, xp=np):
     centers,axes=wheel_frames(q,xp)

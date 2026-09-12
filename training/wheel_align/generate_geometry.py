@@ -18,6 +18,9 @@ def generated():
     data={}
     for key,j in [('p1',0),('p3',2)]:data[key]=[m.body_pos[row[j]].tolist() for row in ids]
     for key,j in [('r1',0),('r2',1),('r3',2)]:data[key]=[rotation(m.body_quat[row[j]]) for row in ids]
+    centers = np.array([m.geom(f'leg_{leg}_3_wheel_collision').pos for leg in legs])
+    assert np.allclose(centers[:, :2], 0), 'Wheel center must lie on the hub axis'
+    data['wheel_center_z'] = centers[:, 2].tolist()
     for row in ids:
         assert np.allclose(m.body_pos[row[1]],0), 'FK needs extension for a nonzero second joint offset'
     boxes=np.where((m.geom_bodyid==m.body('base_link').id)&(m.geom_type==mujoco.mjtGeom.mjGEOM_BOX))[0]
