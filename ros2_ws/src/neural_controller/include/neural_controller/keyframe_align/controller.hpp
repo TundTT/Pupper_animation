@@ -16,6 +16,7 @@ struct Config {
   double alignment_angle_tolerance_rad=.025, landing_angle_tolerance_rad=.035;
   double alignment_speed_tolerance_rad_s=.08, alignment_settle_seconds=.5;
   double hold_error_limit_rad=.10;
+  double wheel_integral_ki=.5, wheel_integral_limit_nm=.10, wheel_integral_window_rad=.10;
   // Keep timing/trajectory indices stable; slots 6..9 are retired outer-loop gains.
   std::array<double,15> values{2.,1.5,1.5,3.,1.5,48.,0.,0.,0.,0.,.5,1.2,.45,.65,2.};
   std::array<V8,4> poses{{
@@ -25,6 +26,11 @@ struct Config {
     {{1,0,-1,0,1,0,-1,-1.2}},
   }};
   void validate() const {
+    if(!std::isfinite(wheel_integral_ki)||wheel_integral_ki<0||wheel_integral_ki>5||
+       !std::isfinite(wheel_integral_limit_nm)||wheel_integral_limit_nm<=0||wheel_integral_limit_nm>.25||
+       !std::isfinite(wheel_integral_window_rad)||wheel_integral_window_rad<alignment_angle_tolerance_rad||
+       wheel_integral_window_rad>hold_error_limit_rad)
+      throw std::invalid_argument("Invalid bounded wheel integral settings");
     if(!std::isfinite(rotation_floor_clearance_m)||rotation_floor_clearance_m<=0||rotation_floor_clearance_m>.1)
       throw std::invalid_argument("Rotation floor clearance must be finite and in (0, 0.1] metres");
     for(double x:{wheel_position_kp,wheel_position_kd,alignment_angle_tolerance_rad,
@@ -44,7 +50,7 @@ struct Config {
 };
 struct Output {
   V8 position{};
-  std::array<double,4> wheel{}, wheel_position{};
+  std::array<double,4> wheel{}, wheel_position{}, wheel_effort{};
   V3 margins{};
   int phase=ENTRY,active=0,completed=0,blocked=TRAJECTORY,timeout=-1,failed=0;
   double error=0,up_seconds=0,integral=0;
@@ -66,7 +72,7 @@ class Controller {
     for(int a=0;a<8;++a) if(q[rows[a]]<Geometry::low[a]||q[rows[a]]>Geometry::high[a])
       throw std::invalid_argument("Initial proximal encoder outside limits");
     phase=ENTRY;active=completed=0;timeout=-1;elapsed=up_time=gate_time=settled=0;rotating=false;
-    verified=false;failed=0;landing_settled=0;velocity.fill(0);
+    verified=false;failed=0;landing_settled=0;velocity.fill(0);torque_bias.fill(0);
     for(int a=0;a<8;++a) applied[a]=q[rows[a]];
     for(int k=0;k<4;++k){hold[k]=q[3*k+2];home[k]=calibrated_home[k];target[k]=q[3*k+2]+wrap(home[k]+std::acos(-1.)-q[3*k+2]);}
     start=applied;endpoint=Geometry::neutral;output={};
@@ -79,7 +85,7 @@ class Controller {
     for(double x:gravity)finite=finite&&std::isfinite(x);
     finite=finite&&std::abs(norm(gravity)-1)<.02;
     if(stop||!finite||-gravity[2]<std::cos(.6))phase=STOPPED;
-    if(phase==STOPPED){output.authority=false;output.phase=STOPPED;output.wheel.fill(0);return output;}
+    if(phase==STOPPED){output.authority=false;output.phase=STOPPED;output.wheel.fill(0);torque_bias.fill(0);output.wheel_effort.fill(0);output.integral=0;return output;}
     // Timeout commands cannot silently retry. A stand/different request clears the latch.
     if(timeout>=0 && requested!=timeout) timeout=-1;
     auto is_up=[&](){return phase==SHIFT||phase==LIFT||phase==ROTATE;};
@@ -93,7 +99,7 @@ class Controller {
     if(phase==HOLD && requested!=0 && requested!=timeout && !(completed&(1<<legs[requested]))) {
       active=requested;up_time=0;verified=false;gate_time=settled=0;rotating=false;
       failed&=~(1<<legs[active]);
-      const int k=legs[active];target[k]=q[3*k+2]+wrap(home[k]+std::acos(-1.)-q[3*k+2]);
+      const int k=legs[active];torque_bias[k]=0;target[k]=q[3*k+2]+wrap(home[k]+std::acos(-1.)-q[3*k+2]);
       V8 shift=config.poses[legs[active]];shift[2*legs[active]+1]=(legs[active]%2==0 ? .5:-.5);
       enter(SHIFT,shift);
     }
@@ -125,7 +131,7 @@ class Controller {
       if(!verified || landing_settled>=config.alignment_settle_seconds || elapsed>=config.values[4]+4){
         phase=HOLD;
         if(verified && landing_settled>=config.alignment_settle_seconds)completed|=1<<leg;
-        else if(verified){failed|=1<<leg;timeout=active;}
+        else if(verified){failed|=1<<leg;timeout=active;torque_bias[leg]=0;}
       }
     }
     auto margins=Geometry::margins(q,gravity,leg);
@@ -140,16 +146,18 @@ class Controller {
     std::array<double,4> wheel_position=hold;
     for(int j=0;j<4;++j)if(completed&(1<<j)){
       const double e=target[j]-q[3*j+2];
+      if(e*torque_bias[j]<0)torque_bias[j]=0;
       wheel_position[j]=target[j];
       if(std::abs(e)>=config.hold_error_limit_rad){
-        completed&=~(1<<j);failed|=1<<j;hold[j]=q[3*j+2];wheel_position[j]=hold[j];
+        completed&=~(1<<j);failed|=1<<j;torque_bias[j]=0;hold[j]=q[3*j+2];wheel_position[j]=hold[j];
       }
     }
     // Preserve the aligned absolute angle through lowering. A large disturbance
     // releases that target instead of attempting another rotation on the ground.
     if(verified && (phase==LOWER||phase==RECENTER||phase==HOLD)) {
+      if((hold[leg]-q[3*leg+2])*torque_bias[leg]<0)torque_bias[leg]=0;
       if(std::abs(hold[leg]-q[3*leg+2])>=config.hold_error_limit_rad){
-        failed|=1<<leg;verified=false;timeout=active;hold[leg]=q[3*leg+2];
+        failed|=1<<leg;verified=false;timeout=active;torque_bias[leg]=0;hold[leg]=q[3*leg+2];
       }
       wheel_position[leg]=hold[leg];
     }
@@ -166,24 +174,35 @@ class Controller {
       }
       rotation_elapsed+=dt;
       wheel_position[leg]=rotation_start+smooth(rotation_elapsed/rotation_duration)*rotation_delta;
+      const double final_error=target[leg]-q[3*leg+2];
+      // A small torque bias supplements the motor position PD. Accumulate only
+      // after the angle ramp, near target, and at low measured speed. Discard
+      // opposing bias immediately after crossing the target; clamp at all times.
+      if(final_error*torque_bias[leg]<0 || std::abs(final_error)>config.wheel_integral_window_rad)
+        torque_bias[leg]=0;
+      if(rotation_elapsed>=rotation_duration&&std::abs(final_error)<=config.wheel_integral_window_rad&&
+         std::abs(final_error)>config.alignment_angle_tolerance_rad&&
+         std::abs(qd[3*leg+2])<config.alignment_speed_tolerance_rad_s)
+        torque_bias[leg]=std::clamp(torque_bias[leg]+config.wheel_integral_ki*final_error*dt,
+          -config.wheel_integral_limit_nm,config.wheel_integral_limit_nm);
       const bool at_target=rotation_elapsed>=rotation_duration&&
         std::abs(target[leg]-q[3*leg+2])<config.alignment_angle_tolerance_rad&&
         std::abs(qd[3*leg+2])<config.alignment_speed_tolerance_rad_s;
       settled=at_target ? settled+dt:0;
       if(settled>=config.alignment_settle_seconds){verified=true;begin_lower(q);wheel_position[leg]=hold[leg];}
     }else if(is_up()){
-      settled=0;rotating=false;
+      settled=0;rotating=false;torque_bias[leg]=0;
       // No accumulated position demand behind a closed rotation gate.
       hold[leg]=q[3*leg+2];wheel_position[leg]=hold[leg];
     }
-    output.position=applied;output.wheel.fill(0);output.wheel_position=wheel_position;output.margins=margins;
+    output.position=applied;output.wheel.fill(0);output.wheel_position=wheel_position;output.wheel_effort=torque_bias;output.margins=margins;
     output.phase=phase;output.active=active;output.completed=completed;output.blocked=blocked;
-    output.timeout=timeout;output.failed=failed;output.error=error;output.up_seconds=up_time;output.integral=0;output.authority=true;
+    output.timeout=timeout;output.failed=failed;output.error=error;output.up_seconds=up_time;output.integral=torque_bias[leg];output.authority=true;
     return output;
   }
  private:
   V8 applied{},velocity{},start{},endpoint{};
-  std::array<double,4> hold{},target{},home{};
+  std::array<double,4> hold{},target{},home{},torque_bias{};
   double elapsed=0,up_time=0,gate_time=0,settled=0;
   double rotation_start=0,rotation_delta=0,rotation_elapsed=0,rotation_duration=1;
   bool rotating=false;
@@ -193,6 +212,7 @@ class Controller {
   void enter(Phase next,const V8 &end){phase=next;elapsed=0;start=applied;endpoint=end;}
   void begin_lower(const V12 &q){
     const int k=std::max(legs[active],0);hold[k]=verified ? target[k]:q[3*k+2];landing_settled=0;
+    if(!verified)torque_bias[k]=0; // Cancel/timeout must not carry a nudging torque into descent.
     V8 landing=applied;const double sign=k%2==0 ? 1.:-1.;
     landing[2*k+1]=sign*std::clamp(sign*applied[2*k+1],0.,.5);
     settled=0;rotating=false;enter(LOWER,landing);

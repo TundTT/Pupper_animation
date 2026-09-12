@@ -24,7 +24,7 @@ controller_interface::CallbackReturn KeyframeController::on_init() {
         throw std::runtime_error("Continuous wheel profile required");
     }
     nlohmann::json j;std::ifstream input(params_.model_path);input>>j;
-    if(j.at("wheel_control_mode")!="position_pd")throw std::runtime_error("Position-PD keyframe config required");
+    if(j.at("wheel_control_mode")!="position_pid")throw std::runtime_error("Position-PID keyframe config required");
     const std::array<std::string,15> fields{"entry_seconds","shift_seconds","lift_seconds","land_seconds","recenter_seconds",
       "attempt_timeout_seconds","","","","","wheel_speed_limit",
       "wheel_acceleration_limit","abduction_speed_limit","hip_speed_limit","joint_acceleration_limit"};
@@ -37,6 +37,9 @@ controller_interface::CallbackReturn KeyframeController::on_init() {
     keyframes_.config.alignment_speed_tolerance_rad_s=j.at("alignment_speed_tolerance_rad_s").get<double>();
     keyframes_.config.alignment_settle_seconds=j.at("alignment_settle_seconds").get<double>();
     keyframes_.config.hold_error_limit_rad=j.at("hold_error_limit_rad").get<double>();
+    keyframes_.config.wheel_integral_ki=j.at("wheel_integral_ki").get<double>();
+    keyframes_.config.wheel_integral_limit_nm=j.at("wheel_integral_limit_nm").get<double>();
+    keyframes_.config.wheel_integral_window_rad=j.at("wheel_integral_window_rad").get<double>();
     keyframes_.config.poses=j.at("poses").get<std::array<keyframe_align::V8,4>>();keyframes_.config.validate();
     behavior_="keyframe_align";single_observation_size_=6;params_.observation_history=1;
     command_states_={"stand","front_l","front_r","back_r","back_l"};num_commands_=5;
@@ -128,7 +131,7 @@ controller_interface::return_type KeyframeController::update(const rclcpp::Time&
   for(int i=0;i<12;++i){auto& joint=command_interfaces_map_.at(params_.joint_names[i]);const bool wheel=i%3==2;
     joint.at("position").get().set_value(wheel ? o.wheel_position[i/3]:o.position[2*(i/3)+i%3]);
     joint.at("velocity").get().set_value(0.);
-    joint.at("effort").get().set_value(0.);joint.at("kp").get().set_value(wheel ? keyframes_.config.wheel_position_kp:params_.kps[i]);joint.at("kd").get().set_value(wheel ? keyframes_.config.wheel_position_kd:params_.kds[i]);
+    joint.at("effort").get().set_value(wheel ? o.wheel_effort[i/3]:0.);joint.at("kp").get().set_value(wheel ? keyframes_.config.wheel_position_kp:params_.kps[i]);joint.at("kd").get().set_value(wheel ? keyframes_.config.wheel_position_kd:params_.kds[i]);
   }
   publish_status(o);
   return controller_interface::return_type::OK;

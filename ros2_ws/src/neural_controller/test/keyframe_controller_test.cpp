@@ -66,6 +66,13 @@ int main(int argc,char** argv){
       require(std::abs(robot_calibration::wrap(target[leg]-q[3*leg+2]))<.035,"Calibrated final target");
       for(int i=0;i<12;++i)require(outputs[i][3]==(i%3==2 ? c.core().config.wheel_position_kp:5.),"Correct hardware gain routing");
     }
+    // Exercise the actual effort interface with a frozen near-target rear wheel.
+    for(int a=0;a<8;++a)q[keyframe_align::rows[a]]=c.core().config.poses[2][a];
+    q[8]=target[2]+.028;qd.fill(0);c.core().reset(q,home);c.core().active=3;c.core().phase=keyframe_align::ROTATE;c.command(3);
+    for(int n=0;n<6000;++n){now+=1./520;c.update(rclcpp::Time(int64_t(now*1e9),RCL_ROS_TIME),rclcpp::Duration::from_seconds(1./520));}
+    require(outputs[8][2]<-.099&&outputs[8][2]>=-.100001,"Bounded integral reaches the rear motor effort interface");
+    require(outputs[8][1]==0&&std::abs(outputs[8][0]-target[2])<1e-8,"Integral supplements angle command, never speed command");
+    for(int i=0;i<12;++i)if(i!=8)require(outputs[i][2]==0,"Integral effort isolated to selected wheel");
     auto check_brake=[&]{for(const auto& x:outputs)require(x[0]==0&&x[1]==0&&x[2]==0&&x[3]==0&&x[4]==0,"Stop removes both gains and all feed-forward commands");};
     c.stop();tick();check_brake();c.on_deactivate({});
     for(int k=0;k<4;++k)q[3*k+2]=home[k]+16*M_PI+.2;qd.fill(0);

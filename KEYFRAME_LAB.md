@@ -124,12 +124,12 @@ tests is not a Pi realtime timing measurement. Read the
 ### Quick tuning between trials
 
 Motion settings are in `ros2_ws/src/neural_controller/launch/keyframe_config.json`.
-Wheel alignment now uses `wheel_control_mode: "position_pd"`. The controller sends
+Wheel alignment now uses `wheel_control_mode: "position_pid"`. The controller sends
 absolute encoder-angle targets and zero desired wheel velocity; the motor's PD
 loop performs correction. `wheel_position_kp: 4.0` and `wheel_position_kd: 0.15`
 are the next lab gains: P was raised from 2 after the rear wheels settled slowly. P=4 has not yet been physically validated. These JSON values supply the
 actual wheel gains; the generic YAML wheel gain slots remain activation defaults.
-No outer wheel-speed PI loop or integral remains.
+No outer wheel-speed PI loop remains. A near-target integral now supplies bounded feed-forward torque: `wheel_integral_ki: 0.5` Nm/(rad�s), `wheel_integral_limit_nm: 0.10`, and `wheel_integral_window_rad: 0.10`. It accumulates only after the angle ramp finishes, outside the alignment tolerance, inside that window, and below the alignment speed threshold. It resets on target crossing, closed rotation gates, cancellation/timeout, large disturbances, stop and reactivation. Accepted bias is frozen through lowering/holding to avoid dropping the correction abruptly; it does not accumulate there. All three settings are in the JSON, and Ki=0 disables further integral accumulation after reload.
 
 The angle target follows a quintic ramp bounded by `wheel_speed_limit` (0.5 rad/s)
 and `wheel_acceleration_limit` (1.2 rad/s²). These limit the angle trajectory;
@@ -141,8 +141,8 @@ Completion tolerances are configurable too: `alignment_angle_tolerance_rad`
 (0.025), `landing_angle_tolerance_rad` (0.035),
 `alignment_speed_tolerance_rad_s` (0.08), and `alignment_settle_seconds` (0.5).
 `hold_error_limit_rad` (0.10) releases an aligned target after a large disturbance.
-The first 28 status fields retain their indices; wheel velocity fields 8–11 and
-the old integral field 22 now stay zero. Read `motor_commands` for actual wheel
+The first 28 status fields retain their indices; wheel velocity fields 8–11 stay zero.
+Field 22 now reports the active wheel integral torque in Nm. Read `motor_commands` for actual wheel
 angle targets and gains. Previous velocity-controller simulation results do not
 validate this new control law. The focused position test exercises ramp limits,
 angle wrapping, gate pause/resume, reverse correction after 0.051 rad overshoot,

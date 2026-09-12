@@ -57,7 +57,7 @@ def main():
         require('hard_limit_min' not in hw and 'hard_limit_max' not in hw,f'Zero-torque fault requires review of hard-limit gain overrides: {name}')
     motion=json.loads((controller/'launch/keyframe_config.json').read_text())
     require(len(motion['poses'])==4 and all(len(p)==8 for p in motion['poses']),'Wrong pose dimensions')
-    require(motion['wheel_control_mode']=='position_pd','Wrong wheel control mode')
+    require(motion['wheel_control_mode']=='position_pid','Wrong wheel control mode')
     require(0<motion['wheel_position_kp']<=10 and 0<motion['wheel_position_kd']<=1,'Invalid wheel position gains')
     require('layers' not in motion,'Keyframe config must not contain a network')
     print('PASS: deterministic controller assets, unchanged hardware geometry, modes/gains, config and selected overlay')

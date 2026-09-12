@@ -15,7 +15,7 @@ int main(){
       auto advance=[&](int request,const V3& gravity=V3{0,0,-1}){
         const auto o=c.step(dt,request,q,qd,{0,0,0},gravity);
         require(o.authority,"Unexpected core fault");
-        require(o.integral==0,"Position control has no outer integral");
+        require(std::abs(o.integral)<=c.config.wheel_integral_limit_nm,"Integral torque remains bounded");
         for(int k=0;k<4;++k){require(o.wheel[k]==0,"No speed request in position mode");
           qd[3*k+2]=(o.wheel_position[k]-q[3*k+2])/dt;q[3*k+2]=o.wheel_position[k];}
         for(int a=0;a<8;++a){qd[rows[a]]=(o.position[a]-q[rows[a]])/dt;q[rows[a]]=o.position[a];}
@@ -59,7 +59,37 @@ int main(){
       }
       require(!c.step(dt,0,q,qd,{0,0,0},{0,0,-1},true).authority,"Stop removes authority");
     }
-    std::cout<<"PASS: angle wrapping, bounded ramps, gate pause/resume, overshoot reversal, all four auto-lower, stop\n";
+    // Frozen near-target encoder models a wheel that the P correction cannot
+    // dislodge. The bias must build, remain capped, and clear on unsafe/stale use.
+    Controller c;c.config.wheel_position_kp=4;
+    V12 q{},qd{};for(int a=0;a<8;++a)q[rows[a]]=c.config.poses[2][a];
+    q[8]=M_PI+.028;const std::array<double,4> home{};
+    c.reset(q,home);c.phase=ROTATE;c.active=3;
+    Output o;
+    for(int n=0;n<6000;++n){
+      o=c.step(dt,3,q,qd,{0,0,0},{0,0,-1});
+      if(std::abs(o.wheel_position[2]-M_PI)>1e-9)
+        require(o.wheel_effort[2]==0,"No integral accumulation during angle ramp");
+      require(std::abs(o.wheel_effort[2])<=.10,"Integral torque cap");
+      for(int k:{0,1,3})require(o.wheel_effort[k]==0,"Nudge only the requested wheel");
+    }
+    require(o.phase==ROTATE&&o.wheel_effort[2]<-.099,"Persistent small error builds reverse torque");
+    auto crossing=c;auto opposite=q;opposite[8]=M_PI-.028;
+    require(crossing.step(dt,3,opposite,qd,{0,0,0},{0,0,-1}).wheel_effort[2]>0,"Crossing discards opposing integral");
+    auto blocked=c;
+    require(blocked.step(dt,3,q,qd,{0,0,0},{std::sin(.2),0,-std::cos(.2)}).wheel_effort[2]==0,"Gate closure clears integral");
+    auto distant=c;auto far=q;far[8]=M_PI+.2;
+    require(distant.step(dt,3,far,qd,{0,0,0},{0,0,-1}).wheel_effort[2]==0,"Large error clears nudge");
+    auto cancelled=c;
+    require(cancelled.step(dt,0,q,qd,{0,0,0},{0,0,-1}).wheel_effort[2]==0,"Cancelled descent clears integral");
+    auto stopped=c;
+    require(stopped.step(dt,3,q,qd,{0,0,0},{0,0,-1},true).wheel_effort[2]==0,"Stop clears integral");
+    auto accepted=c;auto near=q;near[8]=M_PI+.01;
+    for(int n=0;n<280;++n)o=accepted.step(dt,3,near,qd,{0,0,0},{0,0,-1});
+    require(o.phase==LOWER&&o.wheel_effort[2]<-.099,"Successful lowering retains bounded holding bias");
+    accepted.reset(near,home);
+    require(accepted.step(dt,0,near,qd,{0,0,0},{0,0,-1}).wheel_effort[2]==0,"Reactivation clears integral");
+    std::cout<<"PASS: angle trajectories, all-wheel lowering, bounded near-target integral, crossing/gate/cancel/stop resets\n";
   }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}
 }
 
