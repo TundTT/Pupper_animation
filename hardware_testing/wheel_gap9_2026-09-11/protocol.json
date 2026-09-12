@@ -1,0 +1,72 @@
+{
+  "commands": {
+    "stand": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "forward40": [
+      0.4,
+      0.0,
+      0.0
+    ],
+    "forward80": [
+      0.8,
+      0.0,
+      0.0
+    ],
+    "reverse40": [
+      -0.4,
+      0.0,
+      0.0
+    ],
+    "reverse60": [
+      -0.6,
+      0.0,
+      0.0
+    ],
+    "turn_left": [
+      0.0,
+      0.0,
+      1.0
+    ],
+    "turn_right": [
+      0.0,
+      0.0,
+      -1.0
+    ],
+    "turn_fast_left": [
+      0.0,
+      0.0,
+      2.0
+    ],
+    "turn_fast_right": [
+      0.0,
+      0.0,
+      -2.0
+    ],
+    "arc_left": [
+      0.4,
+      0.0,
+      1.0
+    ],
+    "arc_right": [
+      0.4,
+      0.0,
+      -1.0
+    ]
+  },
+  "steps": 400,
+  "seeds": 3,
+  "discard_steps": 50,
+  "dt": 0.02,
+  "physics_randomization": false,
+  "sensor_noise": false,
+  "latency": false,
+  "pushes": false,
+  "leg_floor_friction": 1.0,
+  "wheel_start_randomization": "same configured drop-height and joint-jitter distributions; same seeds",
+  "comparison": "old selected policy on original XML vs final retrained policy on modified XML; old policy on modified XML is an explicit transfer check; leg best-reward checkpoint also checked if different",
+  "error_aggregation": "Mean instantaneous XY error norm and absolute yaw error after first second, only before first fall. Short failed trials have no steady-state error and are judged by survival.",
+  "evaluation_code_sha256": "821c14a8e7be0a7ae8b15b401e3e4869670cdf4174a2f322586d6b0332b8265d"
+}

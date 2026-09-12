@@ -98,6 +98,13 @@ if(BUILD_TESTING)
     COMMAND hybrid_policy_test
       ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_wheel_align_hybrid.json
       ${CMAKE_CURRENT_SOURCE_DIR}/test/hybrid_policy_reference.csv)
+  add_executable(wheel_policy_test test/wheel_policy_test.cpp)
+  target_compile_features(wheel_policy_test PRIVATE cxx_std_17)
+  target_link_libraries(wheel_policy_test RTNeural)
+  add_test(NAME wheel_policy_contract_and_inference
+    COMMAND wheel_policy_test
+      ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_wheel.json
+      ${CMAKE_CURRENT_SOURCE_DIR}/test/wheel_policy_reference.csv)
   add_executable(walk_policy_test test/walk_policy_test.cpp)
   target_compile_features(walk_policy_test PRIVATE cxx_std_17)
   target_include_directories(walk_policy_test PRIVATE include)

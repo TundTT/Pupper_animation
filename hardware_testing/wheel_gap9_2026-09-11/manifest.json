@@ -1,0 +1,29 @@
+{
+  "policy_run": "wheel_2026-09-11_21-58-55",
+  "training_source_commit": "88f6a8888644c8072df36d4878d77684972c9231",
+  "training_model_sha256": "8e4fd02487b7e5046bc80a2ad541d695bfc6fa22d253e176921a2b7673eaa983",
+  "params_sha256": "4f16ddc334e6852912612ca430eda403215a9d0f46eae79fa3c5b5d0061dcbe3",
+  "export_sha256": "87a54417a534974e9aa02428e691747f2855012f4b9383f096097d11b9b853e9",
+  "inference_fixtures_sha256": "bb6a69a3411f775bbf13b75361a881d4c75f9376271a05798e5956824d38c878",
+  "training_steps": 201850880,
+  "requested_steps": 200000000,
+  "num_envs": 8192,
+  "seed": 0,
+  "assembly_outward_gap_m": 0.009,
+  "policy_path": "ros2_ws/src/neural_controller/launch/policy_wheel.json",
+  "robot_code_base_commit": "e3e1d9737c51f904ff7d0f4cae5692ac4703f659",
+  "controller_metadata": "Identical to previous wheel export; gain arrays checked against config.yaml",
+  "fixture_generation": "128 observations: trained normalization mean/std with NumPy seed 20260912 and uniform [-2,2] deviations, plus mean and zero observations; expected actions computed directly from the Brax checkpoint with JAX deterministic inference.",
+  "hardware_validation": "Not performed for this checkpoint",
+  "training_logging": "Local logs and rollout videos; W&B disabled for this run",
+  "comparison": "33/33 nominal fixed-command trials completed, matching old run 3; XY error +6.9%, yaw error +2.5%, tilt -13.9% versus old policy on original XML. See comparison.json and protocol.json.",
+  "physical_deployment": "Branch artifact only; no robot connection, pull, startup, calibration, or motion performed",
+  "cpp_validation": {
+    "fixtures": 128,
+    "max_abs_action_error": 4.17233e-07,
+    "tolerance": 3e-05,
+    "status": "passed",
+    "backend": "RTNeural Eigen float32",
+    "yaml_actuator_contract": "passed"
+  }
+}

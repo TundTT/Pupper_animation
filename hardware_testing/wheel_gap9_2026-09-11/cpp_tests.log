@@ -1,0 +1,4 @@
+PASS: RTNeural wheel export, max error 4.17233e-07
+PASS: deployed YAML gains, initialization, default pose, and actuator types match the new export; estop_kd=1.0.
+Compiler: /tmp/pupper-hardware-toolchain/ziglang/zig c++ (existing isolated toolchain).
+Command: CXX=/tmp/pupper-hardware-toolchain/cxx bash scripts/test_wheel_policy.sh
