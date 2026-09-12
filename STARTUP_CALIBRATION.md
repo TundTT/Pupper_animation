@@ -1,5 +1,15 @@
 # Startup calibration: every robot session
 
+September 12 update: the user now wants the successful repeat-test home retained
+permanently, with automatic return at startup and an easy way to replace it.
+The exact desired reference is saved in
+[start_pose.json](hardware_testing/start_pose/start_pose.json); see the
+[implementation status](hardware_testing/start_pose/README.md). Automatic return
+is not implemented yet: current startup redefines encoder offsets from the
+physical pose, and a persistent angle mapping across power loss has not been
+established. The procedure below describes the still-installed runtime, rather
+than a renewed user preference for repeated manual calibration.
+
 This workflow applies whenever an agent starts the robot stack: ordinary use, a fresh boot, a restart, a new branch, or a new policy test. It is the user's standing requirement, not just a testing checklist. Heating remains manual and is outside this workflow.
 
 For the current v5 alignment trial, follow [ALIGN_V5_LAB.md](ALIGN_V5_LAB.md) for the selected checkpoint, preparation checks and minimal launch. The physical-confirmation and live-session capture requirements below still apply.

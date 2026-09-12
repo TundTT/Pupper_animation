@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "calibration_id": "190621cde1094ae3ba05300aead1906c",
+  "encoder_session_id": "b21b2238a9f992e19d99c9bbce8cb110",
+  "operator_confirmed": true,
+  "captured_at_utc": "2026-09-12T05:44:00.256737+00:00",
+  "angle_units": "radians",
+  "reference_convention": "marked_point_ring_home",
+  "joint_names": [
+    "leg_front_r_1",
+    "leg_front_r_2",
+    "leg_front_r_3",
+    "leg_front_l_1",
+    "leg_front_l_2",
+    "leg_front_l_3",
+    "leg_back_r_1",
+    "leg_back_r_2",
+    "leg_back_r_3",
+    "leg_back_l_1",
+    "leg_back_l_2",
+    "leg_back_l_3"
+  ],
+  "reference_joint_positions": [
+    0.990537,
+    -0.179972,
+    -1.0447595302734376,
+    -0.9909204697265624,
+    0.179973,
+    0.9504545302734375,
+    0.990537,
+    -0.1719611357421875,
+    -1.0447595302734376,
+    -0.9897760605468751,
+    0.1803544697265625,
+    0.9512174697265625
+  ],
+  "wheel_home": [
+    -1.0447595302734376,
+    0.9504545302734375,
+    -1.0447595302734376,
+    0.9512174697265625
+  ],
+  "wheel_base_target": [
+    2.0968331233163555,
+    -2.1911381233163563,
+    2.0968331233163555,
+    -2.1903751838632313
+  ],
+  "source": "joint_states",
+  "pose_note": "Operator confirmed robot back in supported calibration pose with marked wheel reference after battery change and power cycle",
+  "source_commit": "c11f5ced198961c4f49af8b0833417077f9dbb9b",
+  "stationarity_check": "bounded_velocity_outliers_v1"
+}

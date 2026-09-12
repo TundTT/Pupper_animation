@@ -1,5 +1,12 @@
 # Robot startup and calibration
 
+Latest user request (September 12): retain the successful repeat-floor-test home
+as a permanent, easily replaceable start pose and eliminate routine manual
+recapture. See `hardware_testing/start_pose/README.md` and `start_pose.json` there.
+The preset is saved, but automatic physical homing is not implemented: verify
+motor feedback across power loss before replacing the current offset workflow.
+The following instructions describe the currently installed startup procedure.
+
 Read [STARTUP_CALIBRATION.md](STARTUP_CALIBRATION.md) before any hardware-stack startup, restart, ordinary use, branch test or policy test. This is the user's standing requirement.
 
 - Before a fresh startup, prompt the user to support the robot in the documented encoder-homing pose and position the marked wheel rings for the agreed calibration reference. **Wait for their explicit confirmation before starting the hardware stack.** A request to start/test is not evidence that physical positioning is complete.

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "purpose": "desired_start_pose",
+  "angle_units": "radians",
+  "coordinate_frame": "source_calibration_joint_frame",
+  "joint_positions": {
+    "leg_front_r_1": 0.990537,
+    "leg_front_r_2": -0.179972,
+    "leg_front_r_3": -1.0447595302734376,
+    "leg_front_l_1": -0.9909204697265624,
+    "leg_front_l_2": 0.179973,
+    "leg_front_l_3": 0.9504545302734375,
+    "leg_back_r_1": 0.990537,
+    "leg_back_r_2": -0.1719611357421875,
+    "leg_back_r_3": -1.0447595302734376,
+    "leg_back_l_1": -0.9897760605468751,
+    "leg_back_l_2": 0.1803544697265625,
+    "leg_back_l_3": 0.9512174697265625
+  },
+  "source_calibration_id": "190621cde1094ae3ba05300aead1906c",
+  "source_calibration_sha256": "e8a78c796ce03371c5895e6b0f86f0a0ea9079ac4469985e3e60d35631b569e3",
+  "source_captured_at_utc": "2026-09-12T05:44:00.256737+00:00",
+  "source_commit": "c11f5ced198961c4f49af8b0833417077f9dbb9b",
+  "note": "Desired physical reference. Cross-boot encoder mapping is not yet established; this file does not enable automatic homing."
+}
