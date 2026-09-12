@@ -159,10 +159,10 @@ WHEEL_DIAMETER_JITTER = 0.005
 # Wheel centre offset along the wheel body's own local z (= the spin axis), in m.
 # The `_3` body's origin sits at the knee joint / motor output; the wheel's
 # collision cylinder is centred WHEEL_CENTER_LOCAL_Z further out along that axis
-# (0.0136 mount standoff + 0.01675 half-width). Used to find the wheel centre in
+# (0.0136 original mount + 0.009 outward gap + 0.01675 half-width). Used to find the wheel centre in
 # world coordinates for ground-contact checks -- its lowest point is
 # (centre z - WHEEL_RADIUS) while the spin axis is horizontal.
-WHEEL_CENTER_LOCAL_Z = 0.03035
+WHEEL_CENTER_LOCAL_Z = 0.03935
 
 FOOT_SITE_NAMES = [
     "leg_front_r_3_foot_site",

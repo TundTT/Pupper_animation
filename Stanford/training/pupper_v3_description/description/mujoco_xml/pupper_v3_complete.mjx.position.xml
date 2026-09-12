@@ -127,13 +127,13 @@
                         joint, and the wheel's mass/geometry attach directly to this body rather
                         than a separate child body+joint. Old shin visual mesh removed (see
                         leg_front_l_3 for the fuller history/derivation of these numbers). -->
-                        <inertial pos="1.6e-05 -1.9e-05 0.02998" mass="0.062"
+                        <inertial pos="1.6e-05 -1.9e-05 0.03898" mass="0.062"
                             fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
                         <joint name="leg_front_r_3" pos="0 0 0" axis="0 0 1" limited="false" />
-                        <site name="leg_front_r_3_foot_site" pos="0.06231 -0.06216 0.018" />
-                        <geom name="leg_front_r_3_wheel_collision" size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
+                        <site name="leg_front_r_3_foot_site" pos="0.06231 -0.06216 0.027" />
+                        <geom name="leg_front_r_3_wheel_collision" size="0.048 0.01675" pos="0 0 0.03935" type="cylinder"
                             class="collision" />
-                        <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
+                        <geom pos="0 0 0.0226" quat="0.7071068 -0.7071068 0 0" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
                             mesh="AdaptiveWheel" />
                     </body>
@@ -169,18 +169,21 @@
                         Wheel offset along the joint axis: 0.0185m (knee motor extrusion,
                         modeled as part of leg_front_l_2's mesh) + 0.0069m (real 6.9mm metal
                         mounting plate, not included in either mesh), empirically corrected to
-                        0.0136m by eye against the physical assembly to sit flush; folded into
-                        the numbers below (offsets are relative to this body's own origin, since
-                        the wheel is no longer a separate child body). Orientation (mesh geom
+                        0.0136m by eye against the physical assembly to sit flush (legacy baseline).
+                        The user-selected 9 mm outward gap makes the mesh offset 0.0226m.
+                        Visual, collision cylinder, foot site and CoM move together; the hub
+                        joint stays fixed. Existing mass and inertia about the CoM are retained;
+                        no added mass. These offsets are relative to this body's own origin, since
+                        the wheel is no longer a separate child body. Orientation (mesh geom
                         quat) confirmed correct: spin axis lands on world Y (lateral) at the
                         home pose. -->
-                        <inertial pos="1.6e-05 -1.9e-05 0.02998" mass="0.062"
+                        <inertial pos="1.6e-05 -1.9e-05 0.03898" mass="0.062"
                             fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
                         <joint name="leg_front_l_3" pos="0 0 0" axis="0 0 1" limited="false" />
-                        <site name="leg_front_l_3_foot_site" pos="0.06231 0.06216 0.018" />
-                        <geom name="leg_front_l_3_wheel_collision" size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
+                        <site name="leg_front_l_3_foot_site" pos="0.06231 0.06216 0.027" />
+                        <geom name="leg_front_l_3_wheel_collision" size="0.048 0.01675" pos="0 0 0.03935" type="cylinder"
                             class="collision" />
-                        <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
+                        <geom pos="0 0 0.0226" quat="0.7071068 -0.7071068 0 0" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
                             mesh="AdaptiveWheel" />
                     </body>
@@ -205,13 +208,13 @@
                     <body name="leg_back_r_3" pos="0 -0.0494 0.0685" quat="0.707105 0 0.707108 0"
                         gravcomp="0">
                         <!-- This joint IS the wheel now; see leg_front_l_3 for the derivation. -->
-                        <inertial pos="1.6e-05 -1.9e-05 0.02998" mass="0.062"
+                        <inertial pos="1.6e-05 -1.9e-05 0.03898" mass="0.062"
                             fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
                         <joint name="leg_back_r_3" pos="0 0 0" axis="0 0 1" limited="false" />
-                        <site name="leg_back_r_3_foot_site" pos="0.06231 -0.06216 0.018" />
-                        <geom name="leg_back_r_3_wheel_collision" size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
+                        <site name="leg_back_r_3_foot_site" pos="0.06231 -0.06216 0.027" />
+                        <geom name="leg_back_r_3_wheel_collision" size="0.048 0.01675" pos="0 0 0.03935" type="cylinder"
                             class="collision" />
-                        <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
+                        <geom pos="0 0 0.0226" quat="0.7071068 -0.7071068 0 0" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
                             mesh="AdaptiveWheel" />
                     </body>
@@ -236,13 +239,13 @@
                     <body name="leg_back_l_3" pos="0 -0.0494 0.0685"
                         quat="9.38184e-07 -0.707108 9.38187e-07 0.707105" gravcomp="0">
                         <!-- This joint IS the wheel now; see leg_front_l_3 for the derivation. -->
-                        <inertial pos="1.6e-05 -1.9e-05 0.02998" mass="0.062"
+                        <inertial pos="1.6e-05 -1.9e-05 0.03898" mass="0.062"
                             fullinertia="4.279231e-05 4.279839e-05 7.779838e-05 -9.384091e-09 1.185e-08 -1.388295e-08" />
                         <joint name="leg_back_l_3" pos="0 0 0" axis="0 0 1" limited="false" />
-                        <site name="leg_back_l_3_foot_site" pos="0.06231 0.06216 0.018" />
-                        <geom name="leg_back_l_3_wheel_collision" size="0.048 0.01675" pos="0 0 0.03035" type="cylinder"
+                        <site name="leg_back_l_3_foot_site" pos="0.06231 0.06216 0.027" />
+                        <geom name="leg_back_l_3_wheel_collision" size="0.048 0.01675" pos="0 0 0.03935" type="cylinder"
                             class="collision" />
-                        <geom pos="0 0 0.0136" quat="0.7071068 -0.7071068 0 0" type="mesh"
+                        <geom pos="0 0 0.0226" quat="0.7071068 -0.7071068 0 0" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
                             mesh="AdaptiveWheel" />
                     </body>
