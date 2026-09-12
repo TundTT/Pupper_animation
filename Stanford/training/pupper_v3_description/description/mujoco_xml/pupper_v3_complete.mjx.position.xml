@@ -16,6 +16,10 @@
         <texture name="grid" type="2d" builtin="checker" width="512" height="512" rgb1=".2 .4 .6"
             rgb2=".4 .6 .8" />
         <material name="grid" texture="grid" texrepeat="1 1" texuniform="true" reflectance="0" />
+
+<!-- HEATING_MODULE_BEGIN -->
+<mesh name="heating_module_mesh" file="Heating_module.stl" scale="0.001 0.001 0.001" />
+<!-- HEATING_MODULE_END -->
     </asset>
     <sensor>
         <framequat name="body_quat" objtype="site" objname="body_imu_site" />
@@ -97,6 +101,16 @@
     </asset>
     <worldbody>
         <body name="base_link" pos="0 0 0.13" gravcomp="0">
+<!-- HEATING_MODULE_BEGIN -->
+<body name="heating_module" pos="-0.036349545 3.1565e-05 0.032506671263" quat="0.5 -0.5 -0.5 0.5">
+  <inertial mass="0.60191707499" pos="0.003048 -0.043688 0.0062992" fullinertia="0.00042315693885862 0.0011088116468432 0.0012522050770235 4.6822344548672e-06 2.3411172274336e-06 2.8386046382632e-05" />
+  <geom name="heating_module_visual" type="mesh" mesh="heating_module_mesh" group="1" density="0" contype="0" conaffinity="0" rgba="0.96 0.49 0.08 1" />
+  <geom name="heating_module_mount_plate_collision" type="box" pos="-3.1566499999997e-05 -0.0729689255 0.009196205" size="0.0870712015 0.0079756015 0.03175" density="0" group="3" contype="1" conaffinity="1" rgba="0.9 0.35 0.08 0.25" friction="0.8 0.02 0.01" />
+  <geom name="heating_module_electronics_collision" type="box" pos="0.0022393245 -0.035668326 0.0050547045" size="0.0655292535 0.029324998 0.0267500005" density="0" group="3" contype="1" conaffinity="1" rgba="0.9 0.35 0.08 0.25" friction="0.8 0.02 0.01" />
+  <geom name="heating_module_end_bracket_collision" type="box" pos="-3.15645e-05 -0.0031683285 -0.006349545" size="0.0275000005 0.0031750005 0.01620425" density="0" group="3" contype="1" conaffinity="1" rgba="0.9 0.35 0.08 0.25" friction="0.8 0.02 0.01" />
+</body>
+<!-- HEATING_MODULE_END -->
+
             <inertial pos="0.025 0 0.015" quat="0 0.677807 0 0.73524" mass="1.506"
                 diaginertia="0.00854071 0.0085 0.00235929" />
             <freejoint name="world_to_body" />
@@ -264,5 +278,6 @@
     <custom>
         <numeric data="5" name="max_contact_points" />
         <numeric data="4" name="max_geom_pairs" />
+    <numeric name="quadmorph_additional_hub_gap_m" data="0.009" />
     </custom>
 </mujoco>
