@@ -1,0 +1,4 @@
+[INFO] [1789247452.206821683] [joy_node]: Opened joystick: /dev/input/js0. deadzone_: 0.050000.
+[INFO] [1789247463.851426536] [rclcpp]: signal_handler(signum=2)
+terminate called after throwing an instance of 'rclcpp::exceptions::RCLError'
+  what():  failed to create guard condition: the given context is not valid, either rcl_init() was not called or rcl_shutdown() was called., at /ros2_ws/src/ros2/rcl/rcl/src/rcl/guard_condition.c:67

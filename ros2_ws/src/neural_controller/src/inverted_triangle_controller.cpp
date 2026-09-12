@@ -2,6 +2,13 @@
 #include "pluginlib/class_list_macros.hpp"
 
 namespace neural_controller {
+void InvertedTriangleController::receive_joy(const sensor_msgs::msg::Joy& msg) {
+  // DualSense /dev/input/js0: PS is index 10, R3 is 12. Match joy_utils.
+  if(msg.buttons.size()<=10) { joy_receipt_ns_=0; return; }
+  joy_stop_held_=msg.buttons[10]!=0;
+  joy_receipt_ns_=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+  if(joy_stop_held_) estop_active_=true;
+}
 bool InvertedTriangleController::joy_ready() const {
   const auto now=std::chrono::steady_clock::now().time_since_epoch();
   const auto age=std::chrono::duration_cast<std::chrono::nanoseconds>(now).count()-joy_receipt_ns_.load();
@@ -34,10 +41,7 @@ controller_interface::CallbackReturn InvertedTriangleController::on_init() {
     behavior_="inverted_triangle"; single_observation_size_=6; params_.observation_history=1;
     triangle_joy_=get_node()->create_subscription<sensor_msgs::msg::Joy>("/joy",rclcpp::QoS(1),
       [this](sensor_msgs::msg::Joy::SharedPtr msg) {
-        if(msg->buttons.size()<=12) return;
-        joy_stop_held_=msg->buttons[12]!=0;
-        joy_receipt_ns_=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
-        if(joy_stop_held_) estop_active_=true;
+        receive_joy(*msg);
       });
     motor_commands_publisher_=get_node()->create_publisher<std_msgs::msg::Float64MultiArray>("~/motor_commands",1);
     rt_motor_commands_publisher_=std::make_shared<realtime_tools::RealtimePublisher<std_msgs::msg::Float64MultiArray>>(motor_commands_publisher_);

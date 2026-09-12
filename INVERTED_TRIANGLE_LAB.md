@@ -68,6 +68,11 @@ motor effort: that hardware field is a PD estimate.
 
 ## Software preparation (no motors)
 
+The September 12 native Pi preparation is complete in the separate
+`ros2_ws/install-triangle` overlay. Use the exact launch/source commands in
+[the native Pi record](hardware_testing/inverted_triangle/native_pi/README.md)
+for that installation; its previous default `install` was preserved for rollback.
+
 The target checkout is `/home/pi/robot-code-leglift`. Do not use the separate
 `/home/pi/pupperv3-monorepo` checkout. Inspect running processes, local changes and
 the installed overlay before updating or building; never replace the library
@@ -85,8 +90,8 @@ isolated preparation build. No MuJoCo, FCL, Python training environment or GPU i
 needed on the Pi. Runtime uses the existing C++ ROS controller library.
 
 Before a lab launch, check package prefixes, source/artifact hashes, joystick
-device selection and the actual stop button. This launch uses button index 12
-(the existing right-stick stop binding) and requires fresh `/joy` messages.
+device selection and the actual stop button. This launch uses button index 10
+(PS on the Pi's DualSense `/dev/input/js0`) and requires fresh `/joy` messages.
 Verify the device mapping for this session. Every activation/motion face-button
 binding and stop-release binding is disabled in this trial. D-pad heater/legacy
 startup services are not part of the minimal launch.

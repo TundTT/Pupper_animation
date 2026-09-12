@@ -1,0 +1,50 @@
+=== Host and source ===
+pupper
+aarch64
+PRETTY_NAME="Debian GNU/Linux 12 (bookworm)"
+NAME="Debian GNU/Linux"
+VERSION_ID="12"
+VERSION="12 (bookworm)"
+VERSION_CODENAME=bookworm
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
+ac3d824072e801dbb0a115c20b04c2a84ebbca8f
+ M INVERTED_TRIANGLE_LAB.md
+ M ros2_ws/src/neural_controller/include/neural_controller/inverted_triangle_controller.hpp
+ M ros2_ws/src/neural_controller/launch/inverted_triangle_trial.launch.py
+ M ros2_ws/src/neural_controller/src/inverted_triangle_controller.cpp
+ M ros2_ws/src/neural_controller/test/inverted_triangle_controller_test.cpp
+ M ros2_ws/src/neural_controller/test/startup_launch_test.py
+?? ros2_ws/build-triangle/
+?? ros2_ws/install-triangle/
+=== Installed ROS packages ===
+controller_manager /opt/ros/jazzy
+version=4.25.0
+controller_interface /opt/ros/jazzy
+version=4.25.0
+hardware_interface /opt/ros/jazzy
+version=4.25.0
+realtime_tools /opt/ros/jazzy
+version=3.3.0
+generate_parameter_library /opt/ros/jazzy
+version=0.4.0
+robot_calibration /home/pi/robot-code-leglift/ros2_ws/install/robot_calibration
+version=0.1.0
+neural_controller /home/pi/robot-code-leglift/ros2_ws/install/neural_controller
+version=0.0.0
+joy_utils /home/pi/robot-code-leglift/ros2_ws/install/joy_utils
+version=0.0.0
+=== Gamepad device names ===
+DualSense Wireless Controller
+DualSense Wireless Controller Motion Sensors
+=== Existing controller managers ===
+=== Launch-user scheduling limits ===
+60
+unlimited
+=== Legacy launch service status ===
+inactive
+inactive
+disabled
+Inventory only; no readiness or physical-calibration assertion.

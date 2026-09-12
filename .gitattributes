@@ -27,3 +27,4 @@ hardware_testing/inverted_triangle/source/*.json -filter diff merge -text whites
 hardware_testing/inverted_triangle/evidence/*.log -whitespace
 scripts/prepare_inverted_triangle.sh text eol=lf
 hardware_testing/inverted_triangle/*.sh text eol=lf
+/hardware_testing/inverted_triangle/native_pi/*.log -whitespace

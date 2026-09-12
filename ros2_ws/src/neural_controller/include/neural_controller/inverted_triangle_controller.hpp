@@ -21,6 +21,7 @@ class InvertedTriangleController : public KeyframeController {
   std::atomic<bool> joy_stop_held_{false};
   rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr triangle_joy_;
   bool joy_ready() const;
+  void receive_joy(const sensor_msgs::msg::Joy& msg);
   void publish_triangle();
 };
 }

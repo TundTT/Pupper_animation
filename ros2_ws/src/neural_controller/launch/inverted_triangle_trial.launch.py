@@ -21,7 +21,7 @@ def generate_launch_description():
              parameters=[common, {'autorepeat_rate': 20.0}], output='both'),
         # Only stop is bound. No face button or stop-release can enable a policy.
         Node(package='joy_utils', executable='estop_controller', name='joy_util_node',
-             parameters=[common, {'calibration_required': True, 'estop_release_index': -1,
+             parameters=[common, {'calibration_required': True, 'estop_index': 10, 'estop_release_index': -1,
                 'controller_names': ['neural_controller_inverted_triangle'], 'switch_button_indices': [-1],
                 'default_controller_name': 'neural_controller_inverted_triangle',
                 'leg_lift_button_index': -1, 'wheel_align_hybrid_button_index': -1}], output='both'),

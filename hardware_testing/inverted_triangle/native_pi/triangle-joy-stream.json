@@ -1,0 +1,13 @@
+{
+  "message_count": 1582,
+  "dimensions": [
+    [
+      8,
+      13
+    ]
+  ],
+  "max_receipt_gap_seconds": 0.05062522299999728,
+  "mean_hz": 135.92845474479543,
+  "motor_stack_started": false,
+  "dds_domain": 96
+}

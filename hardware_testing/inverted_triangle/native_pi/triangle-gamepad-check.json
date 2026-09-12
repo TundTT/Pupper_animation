@@ -1,0 +1,36 @@
+{
+  "device": "/dev/input/js0",
+  "name": "DualSense Wireless Controller",
+  "axes": 8,
+  "buttons": 13,
+  "button_map": [
+    304,
+    305,
+    307,
+    308,
+    310,
+    311,
+    312,
+    313,
+    314,
+    315,
+    316,
+    317,
+    318
+  ],
+  "events": [
+    {
+      "device_ms": 202304,
+      "index": 10,
+      "value": 1
+    },
+    {
+      "device_ms": 202504,
+      "index": 10,
+      "value": 0
+    }
+  ],
+  "motor_stack_started": false,
+  "ros_published": false,
+  "ps_press_release_verified": true
+}

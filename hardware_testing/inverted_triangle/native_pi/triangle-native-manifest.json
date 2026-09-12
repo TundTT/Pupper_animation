@@ -1,0 +1,142 @@
+{
+  "base_commit": "ac3d824072e801dbb0a115c20b04c2a84ebbca8f",
+  "source_state": "base commit plus reviewed PS-stop correction; hashes below",
+  "platform": "Linux-6.12.47+rpt-rpi-2712-aarch64-with-glibc2.36",
+  "python": "3.11.2 (main, Apr 28 2025, 14:11:48) [GCC 12.2.0]",
+  "compiler": "12.2.0",
+  "cmake": "cmake version 3.25.1",
+  "install_base": "/home/pi/robot-code-leglift/ros2_ws/install-triangle",
+  "packages": {
+    "controller_manager": {
+      "prefix": "/opt/ros/jazzy",
+      "version": "4.25.0"
+    },
+    "generate_parameter_library": {
+      "prefix": "/opt/ros/jazzy",
+      "version": "0.4.0"
+    },
+    "joy_linux": {
+      "prefix": "/opt/ros/jazzy",
+      "version": "3.3.0"
+    },
+    "robot_calibration": {
+      "prefix": "/home/pi/robot-code-leglift/ros2_ws/install-triangle/robot_calibration",
+      "version": "0.1.0"
+    },
+    "control_board_hardware_interface": {
+      "prefix": "/home/pi/robot-code-leglift/ros2_ws/install-triangle/control_board_hardware_interface",
+      "version": "0.0.0"
+    },
+    "neural_controller": {
+      "prefix": "/home/pi/robot-code-leglift/ros2_ws/install-triangle/neural_controller",
+      "version": "0.0.0"
+    },
+    "joy_utils": {
+      "prefix": "/home/pi/robot-code-leglift/ros2_ws/install-triangle/joy_utils",
+      "version": "0.0.0"
+    },
+    "pupper_v3_description": {
+      "prefix": "/home/pi/robot-code-leglift/ros2_ws/install-triangle/pupper_v3_description",
+      "version": "0.0.0"
+    }
+  },
+  "binaries": {
+    "neural_controller/lib/libneural_controller.so": {
+      "sha256": "b7295e702c5e7cf6e70508c811f722cc5a15d0dc16fbc4670cdb5a62887c01ed",
+      "missing_dependencies": false
+    },
+    "control_board_hardware_interface/lib/libcontrol_board_hardware_interface.so": {
+      "sha256": "5f4cff86fa22094a9935c771e42054e681c459f7328cc97198fbba3c3aa77b13",
+      "missing_dependencies": false
+    },
+    "joy_utils/lib/joy_utils/estop_controller": {
+      "sha256": "c094b2f856c33dfa167747c9c9974e4c7d7ac395e318ac94105593504add3782",
+      "missing_dependencies": false
+    }
+  },
+  "source_hash_convention": "SHA256 with CRLF normalized to LF",
+  "source_files": {
+    "ros2_ws/src/neural_controller/CMakeLists.txt": "05896e40b3620a52eceb1d65618e601dd24333f8984c75f8fff7487b427a61c5",
+    "ros2_ws/src/neural_controller/include/neural_controller/inverted_triangle.hpp": "e2f07b1433c84c703a977c02d6dbc9047460da4299771a57b8b5a79e8185eb20",
+    "ros2_ws/src/neural_controller/include/neural_controller/inverted_triangle_controller.hpp": "c1df0723f7f1084889f504ef43c2fb9ebf4b7d650379e6d35d990c0c766e0b20",
+    "ros2_ws/src/neural_controller/launch/inverted_triangle_config.yaml": "8df7dfeb4b738ac3d267834c9d07e8792571f83678f6644194e59bb6c8027794",
+    "ros2_ws/src/neural_controller/launch/inverted_triangle_plan.json": "6f9249761d59b92e5e1072badf4e458629f42447b2ccf8624d550e4a55d5f8f5",
+    "ros2_ws/src/neural_controller/launch/inverted_triangle_trial.launch.py": "04ba547584c0b7dc544ec6e6fa5935bb56e063aeea721aebf80108e81ff775e0",
+    "ros2_ws/src/neural_controller/neural_controller.xml": "b01ceefe3869ab6ae8c73ed3524e502c7f1ba99eb28a49d758c2de3741d75e85",
+    "ros2_ws/src/neural_controller/package.xml": "ef60b43d41b356ffa34b8d310a2e3112569b46b2dfcd345e9f772f0bb07e107d",
+    "ros2_ws/src/neural_controller/src/inverted_triangle_controller.cpp": "5c905b40fa60610dfa6ec33c267a29aec6908eaa5815c539d2907d59cf15bd85",
+    "ros2_ws/src/neural_controller/test/inverted_triangle_controller_test.cpp": "7e451c88aa18e968ffca8d2a1d2171febcdc12c8a1ef605afd11d81ca3637706",
+    "ros2_ws/src/neural_controller/test/inverted_triangle_test.cpp": "68881789578a7d62255e6995d8faa2717e91597590fa09f2790936c10430987f",
+    "ros2_ws/src/neural_controller/test/startup_launch_test.py": "29e37c3d264a33ede83d96530735e926bdb6c888d4cf3cb92733650bee67b942",
+    "scripts/check_inverted_triangle.py": "0ecfc15ffa0d72e6a72149907b4a1f775563288f22a1f9f4a12e97c12c7cedca",
+    "scripts/export_inverted_triangle.py": "3ad2b92ff0ab4d13a3f6c572fdc73a64b566d11112ac89ebcacd2e483310f3c6",
+    "scripts/inverted_triangle_reference.py": "3fde06111fd5050a1f8ae316412b0f73c889f54bea9b22564e845b4e071ae8f8",
+    "scripts/prepare_inverted_triangle.sh": "c3342a97b42cb48a798386ff87d44a208f14f0fb1755d9c7064df657ced8bb0f",
+    "hardware_testing/inverted_triangle/arm64_check.sh": "248649a5656eda020b9101daa8cd8f2bfd4903f1a2acb90161fa228346284aa9",
+    "hardware_testing/inverted_triangle/arm_environment_probe.py": "a63500ad36dfb5f53a0837c1a7decea6ebae887564f574e35822bff4daa8ae83",
+    "hardware_testing/inverted_triangle/arm_retest.sh": "ef4f65011f035e3363f6506682cd2ffac785948c7cf2569de14bb34ff348348e",
+    "hardware_testing/inverted_triangle/audit_runtime.py": "77b3521a7d9e5bd259e9d8cb2e49643999653c3ef349d69f7d8a4a61f90f1962",
+    "hardware_testing/inverted_triangle/local_check.sh": "5c5697a255850fe481ccfba02154a831a06aba34a3485c477d40932c0e216f23",
+    "hardware_testing/inverted_triangle/test_reference.py": "ec787a833de8b86056d0cb9c6f173b3f810072bf7eda3c8fe65272015a2875b6",
+    "ros2_ws/src/neural_controller/launch/config.yaml": "b3a057d3a65ded8dc1fb13627ea73102ee6ae93e8b1a7eea31cb5aa3ba9eea8d",
+    "ros2_ws/src/pupper_v3_description/description/components.xacro": "891acf155450c02503d2bebf5d0b84d250cfaea79c9a84a24a8e75eeb8d8e583",
+    "ros2_ws/src/control_board_hardware_interface/src/control_board_hardware_interface.cpp": "63db31f104e20392ce9acfd685d6da547d5f0688dad660041c91939cb1616f69",
+    "hardware_testing/start_pose/start_pose.json": "aece4eaa62436b594b00dc7f904e7c6a468c0e33d2e041afca87aa5331a0fb5b"
+  },
+  "rtprio": [
+    60,
+    60
+  ],
+  "backup": "/home/pi/robot-code-leglift-backup-before-triangle-ac3d824",
+  "motor_stack_started": false,
+  "physical_motion_tested": false,
+  "gamepad": {
+    "device": "/dev/input/js0",
+    "name": "DualSense Wireless Controller",
+    "axes": 8,
+    "buttons": 13,
+    "button_map": [
+      304,
+      305,
+      307,
+      308,
+      310,
+      311,
+      312,
+      313,
+      314,
+      315,
+      316,
+      317,
+      318
+    ],
+    "events": [
+      {
+        "device_ms": 202304,
+        "index": 10,
+        "value": 1
+      },
+      {
+        "device_ms": 202504,
+        "index": 10,
+        "value": 0
+      }
+    ],
+    "motor_stack_started": false,
+    "ros_published": false,
+    "ps_press_release_verified": true
+  },
+  "joy_stream": {
+    "message_count": 1582,
+    "dimensions": [
+      [
+        8,
+        13
+      ]
+    ],
+    "max_receipt_gap_seconds": 0.05062522299999728,
+    "mean_hz": 135.92845474479543,
+    "motor_stack_started": false,
+    "dds_domain": 96
+  }
+}

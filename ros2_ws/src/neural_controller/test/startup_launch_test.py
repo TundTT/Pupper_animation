@@ -138,12 +138,27 @@ def test_locomotion_trial_has_only_requested_policies_and_command_path():
 def test_inverted_triangle_trial_starts_only_triangle_inactive():
     import yaml
     from launch_ros.parameter_descriptions import ParameterFile
+    from launch_ros.utilities import evaluate_parameters
     context = LaunchContext()
     path = Path(__file__).parents[1] / 'launch' / 'inverted_triangle_trial.launch.py'
     description = runpy.run_path(str(path))['generate_launch_description']()
     names = []
+    stop_checked = False
     for node in description.entities:
         executable = perform_substitutions(context, normalize_to_list_of_substitutions(node.node_executable))
+        if executable == 'estop_controller':
+            settings = {}
+            for item in evaluate_parameters(context, node._Node__parameters):
+                if isinstance(item, dict):
+                    settings.update(item)
+                else:
+                    settings.update(yaml.safe_load(Path(item).read_text())['joy_util_node']['ros__parameters'])
+            assert settings['estop_index'] == 10
+            assert settings['estop_release_index'] == -1
+            assert list(settings['switch_button_indices']) == [-1]
+            assert settings['leg_lift_button_index'] == -1
+            assert settings['wheel_align_hybrid_button_index'] == -1
+            stop_checked = True
         if executable != 'spawner':
             continue
         args = [perform_substitutions(context, normalize_to_list_of_substitutions(word)) for word in node.cmd][1:]
@@ -152,6 +167,7 @@ def test_inverted_triangle_trial_starts_only_triangle_inactive():
             assert_calibration_gate(args, True)
             assert not any('inverted_triangle_config.yaml' in word for word in args)
     assert names == ['joint_state_broadcaster', 'imu_sensor_broadcaster', 'neural_controller_inverted_triangle']
+    assert stop_checked
     parameter_file = ParameterFile(path.with_name('inverted_triangle_config.yaml'), allow_substs=True)
     resolved = parameter_file.evaluate(context)
     params = yaml.safe_load(Path(resolved).read_text())['neural_controller_inverted_triangle']['ros__parameters']

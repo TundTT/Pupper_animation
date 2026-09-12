@@ -10,6 +10,8 @@ class Harness:public neural_controller::InvertedTriangleController {
   void joy(){joy_receipt_ns_=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();}
   void stale_joy(){joy_receipt_ns_=1;}
   void stop(){estop_active_=true;}
+  void input(const sensor_msgs::msg::Joy& msg){receive_joy(msg);}
+  bool ready(){return joy_ready();}
 };
 int main(int argc,char** argv){
   rclcpp::init(argc,argv);int result=0;
@@ -47,6 +49,11 @@ int main(int argc,char** argv){
       {"wheel_home",home},{"model_to_encoder_offset",std::array<double,12>{}},{"captured_q",q}};
     {std::ofstream f(dir/"inverted-triangle-map.json");f<<map;}
     c.stale_joy();require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"Missing gamepad rejects");zero();
+    sensor_msgs::msg::Joy pad;pad.buttons.resize(13);
+    pad.buttons[10]=1;c.input(pad);
+    require(!c.ready() && c.on_activate({})==controller_interface::CallbackReturn::ERROR,"Held PS rejects activation");zero();
+    pad.buttons[10]=0;c.input(pad);require(c.ready(),"Released PS provides fresh input");
+    sensor_msgs::msg::Joy malformed;c.input(malformed);require(!c.ready(),"Short message invalidates input");
     c.joy();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Confirmed fixtures activate");
     c.update(rclcpp::Time(int64_t(0),RCL_ROS_TIME),rclcpp::Duration::from_seconds(0));zero();
     double now=0;auto tick=[&]{c.joy();now+=1./520;c.update(rclcpp::Time(int64_t(now*1e9),RCL_ROS_TIME),rclcpp::Duration::from_seconds(1./520));};
@@ -63,7 +70,10 @@ int main(int argc,char** argv){
     require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Reactivation from correct initial pose");
     c.stale_joy();now+=.002;c.update(rclcpp::Time(int64_t(now*1e9),RCL_ROS_TIME),rclcpp::Duration::from_seconds(.002));zero();
     c.on_deactivate({});assign();c.joy();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Fresh lifecycle resets fault");
-    c.stop();tick();zero();c.on_deactivate({});assign();
+    pad.buttons[10]=1;c.input(pad);tick();zero();
+    pad.buttons[10]=0;c.input(pad);tick();zero();
+    require(c.core().state==inverted_triangle::FAULT,"Releasing PS cannot resume motion");
+    c.on_deactivate({});assign();
     auto next=robot_calibration::begin_session();robot_calibration::finish_session(next);
     require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"New encoder session invalidates old reference");zero();
     std::cout<<"PASS: installed triangle plugin, calibration/map/gamepad gates, rear-right motion, sensor/stop/reentry\n";
