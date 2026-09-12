@@ -1,0 +1,165 @@
+<mujoco model="pupper_v3">
+  <!-- POST-COOLED RIGID SHINS. Additional axial gap 9 mm; no heating or deformation. Floor-only hulls; exact self-clearance audited separately. -->
+  <keyframe>
+    <key name="inverted" qpos="0 0 0.116868429259 1 0 0 0 1 -0.29 2.14159265359 -1 0.29 4.14159265359 1 -0.29 2.14159265359 -1 0.29 4.14159265359" ctrl="0 0 0 0 0 0 0 0 0 0 0 0" />
+  </keyframe>
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1=".3 .5 .7" rgb2="0 0 0" width="512" height="512" />
+    <texture name="grid" type="2d" builtin="checker" width="512" height="512" rgb1=".2 .4 .6" rgb2=".4 .6 .8" />
+    <material name="grid" texture="grid" texrepeat="1 1" texuniform="true" reflectance="0" />
+  </asset>
+  <sensor>
+    <framequat name="body_quat" objtype="site" objname="body_imu_site" />
+    <gyro name="body_gyro" site="body_imu_site" />
+    <accelerometer name="body_acc" site="body_imu_site" />
+    <framequat objtype="site" objname="body_imu_site" name="orientation" />
+    <framepos objtype="site" objname="body_imu_site" name="global_position" />
+    <framelinvel objtype="site" objname="body_imu_site" name="global_linvel" />
+    <frameangvel objtype="site" objname="body_imu_site" name="global_angvel" />
+  </sensor>
+  <actuator>
+    <motor name="leg_front_r_1" joint="leg_front_r_1" ctrlrange="-3 3" ctrllimited="true" />
+    <motor name="leg_front_r_2" joint="leg_front_r_2" ctrlrange="-3 3" ctrllimited="true" />
+    <motor name="leg_front_r_3" joint="leg_front_r_3" ctrlrange="-3 3" ctrllimited="true" />
+    <motor name="leg_front_l_1" joint="leg_front_l_1" ctrlrange="-3 3" ctrllimited="true" />
+    <motor name="leg_front_l_2" joint="leg_front_l_2" ctrlrange="-3 3" ctrllimited="true" />
+    <motor name="leg_front_l_3" joint="leg_front_l_3" ctrlrange="-3 3" ctrllimited="true" />
+    <motor name="leg_back_r_1" joint="leg_back_r_1" ctrlrange="-3 3" ctrllimited="true" />
+    <motor name="leg_back_r_2" joint="leg_back_r_2" ctrlrange="-3 3" ctrllimited="true" />
+    <motor name="leg_back_r_3" joint="leg_back_r_3" ctrlrange="-3 3" ctrllimited="true" />
+    <motor name="leg_back_l_1" joint="leg_back_l_1" ctrlrange="-3 3" ctrllimited="true" />
+    <motor name="leg_back_l_2" joint="leg_back_l_2" ctrlrange="-3 3" ctrllimited="true" />
+    <motor name="leg_back_l_3" joint="leg_back_l_3" ctrlrange="-3 3" ctrllimited="true" />
+  </actuator>
+  <default>
+    <general forcerange="-3 3" forcelimited="true" biastype="affine" gainprm="5.0 0 0" biasprm="0 -5.0 -0.1" />
+    <geom condim="3" contype="0" conaffinity="0" />
+    <default class="collision">
+      <geom group="3" contype="0" conaffinity="1" solimp="0.015 1 0.015" friction="0.8 0.02 0.01" />
+    </default>
+    <joint armature="0.0016" type="hinge" damping="0.01" limited="true" />
+  </default>
+  <option cone="pyramidal" impratio="10" iterations="30" ls_iterations="10" timestep="0.0019230769230769232" integrator="implicitfast">
+    <flag eulerdamp="disable" />
+  </option>
+  <compiler angle="radian" meshdir="assets" autolimits="true" />
+  <asset>
+    <mesh name="BodyV4v70_001" file="BodyV4v70_001.stl" />
+    <mesh name="LegAssemblyForFlangedv26_001" file="LegAssemblyForFlangedv26_001.stl" />
+    <mesh name="LegAssemblyForFlangedv26_002" file="LegAssemblyForFlangedv26_002.stl" />
+    <mesh name="LegAssemblyForFlangedv26_003" file="LegAssemblyForFlangedv26_003.stl" />
+    <mesh name="LegAssemblyForFlangedv26_010" file="LegAssemblyForFlangedv26_010.stl" scale="1 -1 1" />
+    <mesh name="LegAssemblyForFlangedv26_011" file="LegAssemblyForFlangedv26_011.stl" scale="1 1 -1" />
+    <mesh name="LegAssemblyForFlangedv26_012" file="LegAssemblyForFlangedv26_012.stl" scale="1 1 -1" />
+    <mesh name="LegAssemblyForFlangedv26_005" file="LegAssemblyForFlangedv26_005.stl" />
+    <mesh name="LegAssemblyForFlangedv26_006" file="LegAssemblyForFlangedv26_006.stl" />
+    <mesh name="LegAssemblyForFlangedv26_007" file="LegAssemblyForFlangedv26_007.stl" />
+    <mesh name="LegAssemblyForFlangedv26_013" file="LegAssemblyForFlangedv26_013.stl" scale="1 -1 1" />
+    <mesh name="LegAssemblyForFlangedv26_014" file="LegAssemblyForFlangedv26_014.stl" scale="1 1 -1" />
+    <mesh name="LegAssemblyForFlangedv26_015" file="LegAssemblyForFlangedv26_015.stl" scale="1 1 -1" />
+    <mesh name="CustomLegFoot" file="CustomLegFoot.stl" scale="0.001 0.001 0.001" />
+    <mesh name="ShinFloorHull" file="ShinFloorHull.stl" scale="0.001 0.001 0.001" />
+    <mesh name="BodyV4v70_001_FloorHull" file="BodyV4v70_001_FloorHull.stl" scale="1 1 1" />
+    <mesh name="LegAssemblyForFlangedv26_001_FloorHull" file="LegAssemblyForFlangedv26_001_FloorHull.stl" scale="1 1 1" />
+    <mesh name="LegAssemblyForFlangedv26_002_FloorHull" file="LegAssemblyForFlangedv26_002_FloorHull.stl" scale="1 1 1" />
+    <mesh name="LegAssemblyForFlangedv26_010_FloorHull" file="LegAssemblyForFlangedv26_010_FloorHull.stl" scale="1 -1 1" />
+    <mesh name="LegAssemblyForFlangedv26_011_FloorHull" file="LegAssemblyForFlangedv26_011_FloorHull.stl" scale="1 1 -1" />
+    <mesh name="LegAssemblyForFlangedv26_005_FloorHull" file="LegAssemblyForFlangedv26_005_FloorHull.stl" scale="1 1 1" />
+    <mesh name="LegAssemblyForFlangedv26_006_FloorHull" file="LegAssemblyForFlangedv26_006_FloorHull.stl" scale="1 1 1" />
+    <mesh name="LegAssemblyForFlangedv26_013_FloorHull" file="LegAssemblyForFlangedv26_013_FloorHull.stl" scale="1 -1 1" />
+    <mesh name="LegAssemblyForFlangedv26_014_FloorHull" file="LegAssemblyForFlangedv26_014_FloorHull.stl" scale="1 1 -1" />
+  </asset>
+  <worldbody>
+    <body name="base_link" pos="0 0 0.1448" gravcomp="0" quat="1 0 0 0">
+      <inertial pos="0.025 0 0.015" quat="0 0.677807 0 0.73524" mass="1.506" diaginertia="0.00854071 0.0085 0.00235929" />
+      <freejoint name="world_to_body" />
+      <geom quat="0.499998 -0.5 -0.500002 0.5" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="BodyV4v70_001" />
+      <body name="leg_front_r_1" pos="0.075 -0.0835 0" quat="0.620543264188 0.620545896937 -0.339005768559 0.339004330282" gravcomp="0">
+        <inertial pos="0 0 0" mass="0.18" diaginertia="7.4e-05 5.8e-05 4.8e-05" />
+        <joint name="leg_front_r_1" pos="0 0 0" axis="0 0 1" range="-1.12 2.41" ref="1" />
+        <geom pos="0 0 -0.028" quat="1.32679e-06 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="LegAssemblyForFlangedv26_001" />
+        <body name="leg_front_r_2" pos="0 0 0" quat="0.707106781177 2.24088930653e-06 -0.707106781177 4.83017850524e-06" gravcomp="0">
+          <inertial pos="0 -0.0334 0.05419" quat="0.903877 0.427791 0 0" mass="0.186" diaginertia="0.000113 9.74951e-05 4.65049e-05" />
+          <joint name="leg_front_r_2" pos="0 0 0" axis="0 0 1" range="-0.32 3.04" ref="0" />
+          <geom pos="-0.028 0 0" quat="-2.93388e-06 0.707108 2.26082e-06 0.707106" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="LegAssemblyForFlangedv26_002" />
+          <body name="leg_front_r_3" pos="0 -0.0494 0.0685" quat="0.620543264188 -0.339005768559 0.620545896937 -0.339004330282" gravcomp="0">
+            <inertial pos="0.000573 -0.012143 0.039671" mass="0.05518" fullinertia="3.854067e-05 4.223493e-05 7.346430e-05 5.978470e-07 1.8696e-08 -3.21278e-07" />
+            <joint name="leg_front_r_3" pos="0 0 0" axis="0 0 1" ref="-1" limited="false" />
+            <geom pos="0 0 0.0226" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="CustomLegFoot" name="front_r_shin_visual" />
+            <site name="leg_front_r_3_foot_site" pos="0.00063 -0.048 0.038884" />
+            <geom pos="0 0 0.0226" name="front_r_floor_contact" type="mesh" mesh="ShinFloorHull" density="0" group="3" contype="0" conaffinity="1" friction="0.8 0.02 0.001" condim="3" solref="0.01 1" />
+          </body>
+          <geom pos="-0.028 0 0" quat="-2.93388e-06 0.707108 2.26082e-06 0.707106" name="leg_front_r_2_floor_envelope" type="mesh" mesh="LegAssemblyForFlangedv26_002_FloorHull" density="0" group="3" contype="0" conaffinity="1" friction="0.8 0.02 0.001" condim="3" solref="0.01 1" />
+        </body>
+        <geom pos="0 0 -0.028" quat="1.32679e-06 0 0 1" name="leg_front_r_1_floor_envelope" type="mesh" mesh="LegAssemblyForFlangedv26_001_FloorHull" density="0" group="3" contype="0" conaffinity="1" friction="0.8 0.02 0.001" condim="3" solref="0.01 1" />
+      </body>
+      <body name="leg_front_l_1" pos="0.075 0.0835 0" quat="0.620543264188 -0.620545896937 -0.339005768559 -0.339004330282" gravcomp="0">
+        <inertial pos="0 0 0" mass="0.18" diaginertia="7.4e-05 5.8e-05 4.8e-05" />
+        <joint name="leg_front_l_1" pos="0 0 0" axis="0 0 1" range="-2.41 1.12" ref="-1" />
+        <geom pos="0 0 -0.028" quat="1.32679e-06 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="LegAssemblyForFlangedv26_010" />
+        <body name="leg_front_l_2" pos="0 0 0" quat="-3.89601879435e-06 0.707106781181 -1.29866959812e-06 -0.707106781181" gravcomp="0">
+          <inertial pos="0 -0.0334 0.05419" quat="0.903877 0.427791 0 0" mass="0.186" diaginertia="0.000113 9.74951e-05 4.65049e-05" />
+          <joint name="leg_front_l_2" pos="0 0 0" axis="0 0 1" range="-3.04 0.32" ref="0" />
+          <geom pos="0.028 0 0" quat="-2.93388e-06 0.707108 2.26082e-06 0.707106" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="LegAssemblyForFlangedv26_011" />
+          <body name="leg_front_l_3" pos="0 -0.0494 0.0685" quat="-0.339003506947 -0.620545447145 0.339006591895 0.620543713977" gravcomp="0">
+            <inertial pos="-0.000573 0.012143 0.039671" mass="0.05518" fullinertia="3.854067e-05 4.223493e-05 7.346430e-05 5.978470e-07 -1.8696e-08 3.21278e-07" />
+            <joint name="leg_front_l_3" pos="0 0 0" axis="0 0 1" ref="1" limited="false" />
+            <geom pos="0 0 0.0226" quat="0 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="CustomLegFoot" name="front_l_shin_visual" />
+            <site name="leg_front_l_3_foot_site" pos="-0.00063 0.048 0.038884" />
+            <geom pos="0 0 0.0226" quat="0 0 0 1" name="front_l_floor_contact" type="mesh" mesh="ShinFloorHull" density="0" group="3" contype="0" conaffinity="1" friction="0.8 0.02 0.001" condim="3" solref="0.01 1" />
+          </body>
+          <geom pos="0.028 0 0" quat="-2.93388e-06 0.707108 2.26082e-06 0.707106" name="leg_front_l_2_floor_envelope" type="mesh" mesh="LegAssemblyForFlangedv26_011_FloorHull" density="0" group="3" contype="0" conaffinity="1" friction="0.8 0.02 0.001" condim="3" solref="0.01 1" />
+        </body>
+        <geom pos="0 0 -0.028" quat="1.32679e-06 0 0 1" name="leg_front_l_1_floor_envelope" type="mesh" mesh="LegAssemblyForFlangedv26_010_FloorHull" density="0" group="3" contype="0" conaffinity="1" friction="0.8 0.02 0.001" condim="3" solref="0.01 1" />
+      </body>
+      <body name="leg_back_r_1" pos="-0.075 -0.0725 0" quat="0.620543264188 0.620545896937 -0.339005768559 0.339004330282" gravcomp="0">
+        <inertial pos="0 0 0" mass="0.18" diaginertia="7.4e-05 5.8e-05 4.8e-05" />
+        <joint name="leg_back_r_1" pos="0 0 0" axis="0 0 1" range="-1.12 2.41" ref="1" />
+        <geom pos="0 0 -0.028" quat="1.32679e-06 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="LegAssemblyForFlangedv26_005" />
+        <body name="leg_back_r_2" pos="0 0 0" quat="0.707106781177 2.24088930653e-06 -0.707106781177 4.83017850524e-06" gravcomp="0">
+          <inertial pos="0 -0.0334 0.05419" quat="0.903877 0.427791 0 0" mass="0.186" diaginertia="0.000113 9.74951e-05 4.65049e-05" />
+          <joint name="leg_back_r_2" pos="0 0 0" axis="0 0 1" range="-0.32 3.04" ref="0" />
+          <geom pos="-0.028 0 0" quat="-2.93388e-06 0.707108 2.26082e-06 0.707106" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="LegAssemblyForFlangedv26_006" />
+          <body name="leg_back_r_3" pos="0 -0.0494 0.0685" quat="0.620543264188 -0.339005768559 0.620545896937 -0.339004330282" gravcomp="0">
+            <inertial pos="0.000573 -0.012143 0.039671" mass="0.05518" fullinertia="3.854067e-05 4.223493e-05 7.346430e-05 5.978470e-07 1.8696e-08 -3.21278e-07" />
+            <joint name="leg_back_r_3" pos="0 0 0" axis="0 0 1" ref="-1" limited="false" />
+            <geom pos="0 0 0.0226" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="CustomLegFoot" name="back_r_shin_visual" />
+            <site name="leg_back_r_3_foot_site" pos="0.00063 -0.048 0.038884" />
+            <geom pos="0 0 0.0226" name="back_r_floor_contact" type="mesh" mesh="ShinFloorHull" density="0" group="3" contype="0" conaffinity="1" friction="0.8 0.02 0.001" condim="3" solref="0.01 1" />
+          </body>
+          <geom pos="-0.028 0 0" quat="-2.93388e-06 0.707108 2.26082e-06 0.707106" name="leg_back_r_2_floor_envelope" type="mesh" mesh="LegAssemblyForFlangedv26_006_FloorHull" density="0" group="3" contype="0" conaffinity="1" friction="0.8 0.02 0.001" condim="3" solref="0.01 1" />
+        </body>
+        <geom pos="0 0 -0.028" quat="1.32679e-06 0 0 1" name="leg_back_r_1_floor_envelope" type="mesh" mesh="LegAssemblyForFlangedv26_005_FloorHull" density="0" group="3" contype="0" conaffinity="1" friction="0.8 0.02 0.001" condim="3" solref="0.01 1" />
+      </body>
+      <body name="leg_back_l_1" pos="-0.075 0.0725 0" quat="0.620543264188 -0.620545896937 -0.339005768559 -0.339004330282" gravcomp="0">
+        <inertial pos="0 0 0" mass="0.18" diaginertia="7.4e-05 5.8e-05 4.8e-05" />
+        <joint name="leg_back_l_1" pos="0 0 0" axis="0 0 1" range="-2.41 1.12" ref="-1" />
+        <geom pos="0 0 -0.028" quat="1.32679e-06 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="LegAssemblyForFlangedv26_013" />
+        <body name="leg_back_l_2" pos="0 0 0" quat="-3.89601879435e-06 0.707106781181 -1.29866959812e-06 -0.707106781181" gravcomp="0">
+          <inertial pos="0 -0.0334 0.05419" quat="0.903877 0.427791 0 0" mass="0.186" diaginertia="0.000113 9.74951e-05 4.65049e-05" />
+          <joint name="leg_back_l_2" pos="0 0 0" axis="0 0 1" range="-3.04 0.32" ref="0" />
+          <geom pos="0.028 0 0" quat="-2.93388e-06 0.707108 2.26082e-06 0.707106" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="LegAssemblyForFlangedv26_014" />
+          <body name="leg_back_l_3" pos="0 -0.0494 0.0685" quat="-0.339003506947 -0.620545447145 0.339006591895 0.620543713977" gravcomp="0">
+            <inertial pos="-0.000573 0.012143 0.039671" mass="0.05518" fullinertia="3.854067e-05 4.223493e-05 7.346430e-05 5.978470e-07 -1.8696e-08 3.21278e-07" />
+            <joint name="leg_back_l_3" pos="0 0 0" axis="0 0 1" ref="1" limited="false" />
+            <geom pos="0 0 0.0226" quat="0 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" density="0" mesh="CustomLegFoot" name="back_l_shin_visual" />
+            <site name="leg_back_l_3_foot_site" pos="-0.00063 0.048 0.038884" />
+            <geom pos="0 0 0.0226" quat="0 0 0 1" name="back_l_floor_contact" type="mesh" mesh="ShinFloorHull" density="0" group="3" contype="0" conaffinity="1" friction="0.8 0.02 0.001" condim="3" solref="0.01 1" />
+          </body>
+          <geom pos="0.028 0 0" quat="-2.93388e-06 0.707108 2.26082e-06 0.707106" name="leg_back_l_2_floor_envelope" type="mesh" mesh="LegAssemblyForFlangedv26_014_FloorHull" density="0" group="3" contype="0" conaffinity="1" friction="0.8 0.02 0.001" condim="3" solref="0.01 1" />
+        </body>
+        <geom pos="0 0 -0.028" quat="1.32679e-06 0 0 1" name="leg_back_l_1_floor_envelope" type="mesh" mesh="LegAssemblyForFlangedv26_013_FloorHull" density="0" group="3" contype="0" conaffinity="1" friction="0.8 0.02 0.001" condim="3" solref="0.01 1" />
+      </body>
+      <site name="body_imu_site" pos="0.09 0 0.032" />
+      <geom quat="0.499998 -0.5 -0.500002 0.5" name="base_link_floor_envelope" type="mesh" mesh="BodyV4v70_001_FloorHull" density="0" group="3" contype="0" conaffinity="1" friction="0.8 0.02 0.001" condim="3" solref="0.01 1" />
+    </body>
+    <geom name="floor" size="0 0 .05" type="plane" material="grid" condim="3" contype="1" conaffinity="0" />
+    <geom name="floor_visual" size="0 0 .05" pos="0 0 -0.001" type="plane" material="grid" condim="3" contype="0" conaffinity="0" group="1" />
+    <light name="spotlight" mode="targetbodycom" target="base_link" diffuse="0.9 0.9 0.9" specular="0.3 0.3 0.3" pos="0 -4 4" cutoff="100" />
+    <camera name="tracking_cam" mode="targetbody" target="base_link" pos="0.5 -0.5 0.5" />
+  </worldbody>
+  <custom>
+    <numeric data="5" name="max_contact_points" />
+    <numeric data="4" name="max_geom_pairs" />
+  </custom>
+</mujoco>

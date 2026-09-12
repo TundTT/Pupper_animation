@@ -13,3 +13,6 @@ untracked_bags
 
 # Local MuJoCo runtime warnings; analysis reports are committed separately.
 /MUJOCO_LOG.TXT
+/runs/
+/.venv/
+/.pytest_cache/

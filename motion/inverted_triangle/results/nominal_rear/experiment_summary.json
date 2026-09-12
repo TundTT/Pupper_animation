@@ -1,0 +1,20 @@
+{
+  "status": "PASS_PARTIAL_SEQUENCE",
+  "environment_steps": 13911,
+  "simulation_only": true,
+  "hardware_validated": false,
+  "robustness_validated": false,
+  "wandb_mode": "disabled",
+  "wandb_upload_status": "not attempted",
+  "stages": [
+    {
+      "leg": "back_r",
+      "candidate": "01-back_r/candidate.json",
+      "candidate_sha256": "90bbe5d52caff1e70825a9c6da81c12b68df07e16e1daaa8e9dd8ecf5d2f7399",
+      "landing_delta": 0.33285868167986554,
+      "direction": -1,
+      "status": "PASS_NOMINAL_SINGLE_FLIP"
+    }
+  ],
+  "error": null
+}

@@ -20,3 +20,10 @@ scripts/prepare_keyframes.sh text eol=lf
 scripts/keyframe_target_inventory.sh text eol=lf
 scripts/check_keyframes.py text eol=lf
 hardware_testing/keyframe_align/arm64_check.sh text eol=lf
+# Self-contained transition model: preserve hashed bytes across Windows/Linux.
+# These small records and the 9 MB CAD bundle do not need LFS indirection.
+motion/inverted_triangle/** -filter diff merge -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+motion/inverted_triangle/assets/* -filter -diff -merge -text
+motion/inverted_triangle/**/*.mp4 -filter -diff -merge -text
+motion/inverted_triangle/**/*.png -filter -diff -merge -text
+training/wandb_logging.py -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

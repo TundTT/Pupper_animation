@@ -1,0 +1,9 @@
+numpy==2.2.6
+scipy==1.16.2
+mujoco==3.3.7
+trimesh==4.8.3
+python-fcl==0.7.0.11
+pytest>=8,<10
+pillow>=11,<13
+imageio[ffmpeg]>=2.37,<3
+wandb>=0.20,<1
