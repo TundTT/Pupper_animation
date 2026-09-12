@@ -47,9 +47,36 @@ zero outputs, ignored requests while faulted, deliberate reactivation, and
 operator stop. It checks both mock hardware state and requested command telemetry.
 The preparation script includes this test; a fixture-only pass is insufficient.
 
-Native Pi results and final source revision are recorded in Git history and the
-validation report after the final candidate is tested. Passing mock tests is not
-clearance for an unsupported all-joint trial.
+Final runtime source: **b9e2214**. All **13 selected CTests passed** on the native
+Pi in both `/home/pi/keyframe-software-test` and the selected physical-trial
+checkout `/home/pi/robot-code-leglift`. Each includes the actual manager test,
+actual plugin fixture, calibration, joystick and legacy regressions. All six
+packages built and the installed overlay/source/configuration checks passed.
+The selected checkout retained its three local hardware/launch edits exactly
+(before/after patch SHA256 b48b4fae72fb3d56899fc24ed0870a9b605fce6690d5d6b24c5b371d3490434c).
+
+Selected Pi installed plugin SHA256:
+`ef6d5d298c4ecbe8154166fe9fe4bffdba82d24c1623ee1e9972d7bcf9631243`.
+The separate Pi test checkout's library SHA256 is
+`8ee48a0f998d686ca9d00404d17374729f317734e5b2e5944f5e37a76f490209`;
+separate installation/build paths produce distinct binaries, both tested against
+their own installed overlay. Pi versions remain controller-manager 4.25.0 and
+realtime-tools 3.3.0 on Debian 12 ARM64.
+
+The two new/revised tests also passed locally on native x86-64 after rebuilding
+the final source. An earlier local run used an outdated installed library during
+ongoing edits and failed (fixture crash and missing new telemetry); its output
+is preserved and is not counted as a pass. The frozen native Pi builds and final
+local rebuild resolved that build-state mismatch. No production threshold was
+relaxed to obtain the passing results.
+
+Evidence: `/home/pi/keyframe-incident-evidence/final-fix-prepare.log`,
+`robot-final-fix-prepare.log`, `final-plugin-hashes.txt`; copied locally under
+`C:/Users/tundt/Desktop/quadmorph-lab-recordings/keyframe-incident-20260911/`.
+The motor stack is stopped and the automatic D-pad launch service is disabled.
+This revision is prepared for the supported check below; physical stop behavior
+remains unverified. Passing mock tests is not clearance for an unsupported
+all-joint trial.
 
 ## First physical check
 

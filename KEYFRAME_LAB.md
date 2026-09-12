@@ -9,8 +9,10 @@ and its missing physical evidence remain documented.
 This candidate is on **codex/keyframe-robot-integration**, based on robot-code
 e3e1d97. The controller is a separate plugin; existing walking, wheeled and v5
 policies remain available. Do not merge the older alignment development hardware
-stack into this checkout. The candidate has passed software checks in an isolated
-Pi checkout; it has not replaced the original robot checkout or started hardware.
+stack into this checkout. Runtime revision b9e2214 has passed all 13 selected
+software checks in both the isolated Pi checkout and `/home/pi/robot-code-leglift`.
+It is installed in the latter with the three local hardware/launch edits preserved.
+The correction has not started hardware or performed motion.
 
 The motion core/configuration comes from alignment source **a110b09**.
 [source_manifest.json](hardware_testing/keyframe_align/source_manifest.json)
@@ -175,3 +177,7 @@ Phases are ENTRY=0, SHIFT=1, LIFT=2, ROTATE=3, LOWER=4, RECENTER=5, HOLD=6, STOP
 Wheel masks use FR/FL/BR/BL bits 0/1/2/3. Gate bits are trajectory=1, floor=2,
 wheel=4, body=8, tilt=16, angular speed=32. Stop status remains published, so a
 stale previous motion status cannot be mistaken for continuing authority.
+
+Indices 25–27 add fault code, supplied update period and IMU age. The separate
+`~/motor_commands` topic reports position/velocity/effort/kp/kd for all twelve
+joints in canonical order. See STARTUP_FAULT_FIX.md for codes and interpretation.
