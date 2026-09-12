@@ -1,0 +1,103 @@
+{
+  "config": {
+    "name": "all_forward_raise_early",
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": -0.3,
+    "splay_power": 0.7
+  },
+  "simulation_only": true,
+  "hardware_validated": false,
+  "walking_handoff_validated": false,
+  "model_sha256": "c274c1b3ddba73b58c89e8dded10d2d2d8e0fda37af77f631d4bedefa2d177e2",
+  "policy_sha256": "854ac8ba4ffc305079b7f6f7b52187a211413c3cdb18f0de016dd819ff2450a8",
+  "goal_joint_positions": [
+    1.0,
+    0.0,
+    -1.0,
+    -1.0,
+    0.0,
+    1.0,
+    1.0,
+    0.0,
+    -1.0,
+    -1.0,
+    0.0,
+    1.0
+  ],
+  "initial_joint_positions": [
+    1.0,
+    -0.29,
+    2.141592653589793,
+    -1.0,
+    0.29,
+    -2.141592653589793,
+    1.0,
+    -0.29,
+    2.141592653589793,
+    -1.0,
+    0.29,
+    -2.141592653589793
+  ],
+  "initial_winding": "Constant whole turns selected before simulation, same physical point-up pose; no runtime wrapping",
+  "max_command_speed_ratio": 0.9817476370117362,
+  "max_command_acceleration_ratio": 0.10496522752134751,
+  "max_tilt_deg": 0.970114885922629,
+  "peak_requested_torque_Nm": 0.7469439995193625,
+  "max_unintended_floor_force_N": 0.0,
+  "max_measured_joint_speed": 1.3683730128080998,
+  "minimum_cad_gap_m": 0.002809588542076386,
+  "first_cad_intersections": null,
+  "cad_sample_period_s": 0.1,
+  "early_termination": null,
+  "environment_steps": 9880,
+  "simulated_seconds": 19.000000000003396,
+  "final": {
+    "time": 18.976923076926468,
+    "tilt_deg": 0.05485837938296728,
+    "base_height_m": 0.14655083187234433,
+    "policy_pose_error_rad": 0.04595999226770586,
+    "floor_force_N": 0.0,
+    "tip_bottom_m": [
+      -1.8268077566850616e-05,
+      -3.886059909014722e-05,
+      -4.0593680956553524e-05,
+      -1.610316725716293e-05
+    ],
+    "forces_N": [
+      5.968957102135519,
+      12.404291674141525,
+      13.540888478517727,
+      5.263571335228126
+    ],
+    "joint_speed": 0.005149584845671129,
+    "base_speed": 0.00022848674297385477
+  },
+  "final_joint_positions": [
+    0.962452422595872,
+    0.011546094102058665,
+    -1.0248966424268247,
+    -0.9887137647037693,
+    -0.03803668587704633,
+    0.9999757280464633,
+    1.0340159241180846,
+    0.023455644473459776,
+    -1.003877584409995,
+    -1.045895896901222,
+    2.5048405168157242e-05,
+    0.9761370021308069
+  ],
+  "gates": {
+    "completed": true,
+    "command_rate": true,
+    "tilt": true,
+    "torque": true,
+    "motor_body_floor": true,
+    "measured_speed": true,
+    "three_second_walk_pose": true,
+    "three_second_tip_support": true,
+    "three_second_settled": true,
+    "sampled_cad": true
+  },
+  "status": "PROBE_PASS_REQUIRES_DENSE_AUDIT_AND_POLICY_HANDOFF"
+}

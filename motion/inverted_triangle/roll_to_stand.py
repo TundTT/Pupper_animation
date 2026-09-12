@@ -107,7 +107,8 @@ def probe(config, output, video=False, cad=False):
             if step>len(targets)-1560:hold.append(row)
             if cad and step%52==0:
                 c=checker.measure()
-                report['minimum_cad_gap_m']=min(report['minimum_cad_gap_m'] or 1.,c['minimum_m'])
+                previous_gap=report['minimum_cad_gap_m']
+                report['minimum_cad_gap_m']=c['minimum_m'] if previous_gap is None else min(previous_gap,c['minimum_m'])
                 if c['intersections'] and report['first_cad_intersections'] is None:
                     report['first_cad_intersections']={'time':float(r.d.time),'pairs':c['intersections']}
             if tilt>35 or r.d.qpos[2]<.045 or not np.isfinite(r.d.qpos).all():

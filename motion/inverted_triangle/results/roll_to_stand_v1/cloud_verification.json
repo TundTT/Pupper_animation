@@ -1,0 +1,31 @@
+{
+  "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/1012efb07cfc4537",
+  "videos": [
+    {
+      "name": "media/videos/trajectory/all_backward_direct_3_4bfb3123b38dc344cfe0.mp4",
+      "bytes": 835084,
+      "sha256": "4bfb3123b38dc344cfe099a77697c2262e6669bb71e280f852f8b370dcf1c83d"
+    },
+    {
+      "name": "media/videos/trajectory/all_forward_direct_1_08d68970ee9a262713bf.mp4",
+      "bytes": 882116,
+      "sha256": "08d68970ee9a262713bf2fba227cae8b48021e61a90f6485055aee6425bb76ae"
+    },
+    {
+      "name": "media/videos/trajectory/all_forward_raise_early_5_8d3d747a6337fd7c1865.mp4",
+      "bytes": 922949,
+      "sha256": "8d3d747a6337fd7c1865d05a3be579156f8102f5143c0537004387ad1af08d6c"
+    },
+    {
+      "name": "media/videos/trajectory/all_forward_raise_late_7_232ae24b5f26a0508e8b.mp4",
+      "bytes": 478097,
+      "sha256": "232ae24b5f26a0508e8b88c6d6561c68e7083f6d490ba0f2310396f49796c099"
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "roll-to-stand-1012efb07cfc4537:v0",
+      "state": "COMMITTED"
+    }
+  ]
+}
