@@ -57,7 +57,9 @@ def sample_robot(timeout, expected_session):
                 if current_session() != expected_session:
                     raise ValueError("Hardware encoder session changed during capture")
                 return sampler.positions
-        raise ValueError("No continuous stationary sample: need fresh positions/velocities for all 12 joints for 1 second")
+        raise ValueError("No stationary sample: need 1 second of fresh data for all 12 joints, "
+                         "<=0.002 rad position excursion, and bounded velocity outliers "
+                         "(<=20 ms consecutive, <=50 ms total, <=0.2 rad/s)")
     finally:
         node.destroy_node()
         rclpy.shutdown()
@@ -107,6 +109,7 @@ def main(argv=None):
                 except (OSError, subprocess.CalledProcessError):
                     commit = "unknown"
                 record = make_record(session, positions, args.wheel_home, args.pose_note, commit)
+                record["stationarity_check"] = StationarySample.POLICY
                 save_record(record, replace=args.replace)
         if getattr(args, "json", False):
             print(json.dumps(record, indent=2))

@@ -1,5 +1,6 @@
 """Versioned, local calibration storage. No ROS or motor operations in this module."""
 from contextlib import contextmanager
+from collections import deque
 from datetime import datetime, timezone
 import json
 import math
@@ -140,14 +141,23 @@ def save_record(record, replace=False):
 
 
 class StationarySample:
-    """Require fresh, increasing ROS timestamps and a continuous stationary interval."""
-    def __init__(self, duration=1.0, max_velocity=0.02, max_drift=0.01):
+    """Bound encoder outliers within a fresh, tightly position-stable window.
+
+    Operator-confirmed stationary hardware recordings contain quantized velocity
+    spikes. Tolerate at most 50 ms total / 20 ms consecutive overspeed in a
+    one-second window, only with <= 0.002 rad peak-to-peak position excursion.
+    These are capture tolerances, not proof that the robot is physically still.
+    """
+    POLICY = "bounded_velocity_outliers_v1"
+
+    def __init__(self, duration=1.0, max_velocity=0.02, max_drift=0.002):
         self.duration, self.max_velocity, self.max_drift = duration, max_velocity, max_drift
         self.reset()
 
     def reset(self):
         self.start = self.last_receipt = self.last_stamp = self.anchor = self.positions = None
         self.count = 0
+        self.samples = deque()
 
     def observe(self, names, positions, velocities, stamp, ros_now, monotonic_now):
         if (len(names) != len(set(names)) or len(positions) != len(names) or
@@ -163,13 +173,42 @@ class StationarySample:
         except ValueError:
             self.reset()
             return False
-        if (max(abs(x) for x in v) > self.max_velocity or
-                (self.last_stamp is not None and stamp <= self.last_stamp)):
+        speed = max(abs(x) for x in v)
+        if (speed > 0.2 or
+                (self.last_stamp is not None and stamp <= self.last_stamp) or
+                (self.last_receipt is not None and monotonic_now <= self.last_receipt)):
             self.reset()
             return False
-        if (self.last_receipt is None or monotonic_now - self.last_receipt > 0.2 or
-                any(abs(wrap(a-b)) > self.max_drift for a, b in zip(q, self.anchor))):
-            self.start, self.anchor, self.count = monotonic_now, q, 0
+        if (self.last_receipt is not None and
+                (monotonic_now - self.last_receipt > 0.2 or stamp - self.last_stamp > 0.2)):
+            self.reset()
         self.last_receipt, self.last_stamp, self.positions = monotonic_now, stamp, q
+        self.samples.append((stamp, q, speed > self.max_velocity, monotonic_now))
+        cutoff = stamp - self.duration
+        # Retain the sample bracketing the start of the full window.
+        while len(self.samples) > 1 and self.samples[1][0] <= cutoff:
+            self.samples.popleft()
         self.count += 1
-        return self.count >= 10 and monotonic_now - self.start >= self.duration
+        if (len(self.samples) < 10 or self.samples[0][0] > cutoff or
+                monotonic_now - self.samples[0][3] < self.duration or speed > self.max_velocity):
+            return False
+        anchor = self.samples[0][1]
+        for joint in range(12):
+            offsets = [wrap(row[1][joint] - anchor[joint]) for row in self.samples]
+            if max(offsets) - min(offsets) > self.max_drift + 1e-12:
+                return False
+        total = burst = 0.0
+        previous = self.samples[0]
+        for row in list(self.samples)[1:]:
+            dt = row[0] - max(previous[0], cutoff)
+            # Charge both edges of an outlier: never assume an unseen interval
+            # between a high and low speed sample was stationary.
+            if row[2] or previous[2]:
+                total += dt
+                burst += dt
+                if total > 0.05 + 1e-9 or burst > 0.02 + 1e-9:
+                    return False
+            else:
+                burst = 0.0
+            previous = row
+        return True

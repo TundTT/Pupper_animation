@@ -168,6 +168,51 @@ class StationaryTest(unittest.TestCase):
             else:
                 self.assertFalse(self.sample(sampler, 1.1))
 
+    def test_brief_quantized_velocity_outliers_with_tight_positions(self):
+        sampler = StationarySample()
+        accepted = []
+        for n in range(601):
+            q = [0.0]*12
+            q[5] = 0.00114 if n % 2 else 0.0
+            v = [0.015877]*12
+            if n % 100 == 40:
+                v[5] = 0.14286  # Isolated 5 ms report, conservatively charged 10 ms.
+            if self.sample(sampler, n*0.005, q=q, v=v):
+                accepted.append(n)
+        self.assertTrue(accepted)
+        self.assertGreaterEqual(min(accepted), 200)
+        self.assertFalse(self.sample(sampler, 3.005, v=[0.1]*12))
+
+    def test_sustained_bursty_or_frequent_speed_is_not_a_glitch(self):
+        patterns = [lambda n: True, lambda n: n % 100 < 8,
+                    lambda n: n % 10 == 0]
+        for pattern in patterns:
+            sampler = StationarySample()
+            for n in range(601):
+                v = [0.1 if pattern(n) else 0.015877]*12
+                self.assertFalse(self.sample(sampler, n*0.005, v=v))
+
+    def test_tight_position_excursion_catches_drift_and_oscillation(self):
+        for position in [lambda n: n*0.000015, lambda n: 0.003 if n % 2 else 0.0]:
+            sampler = StationarySample()
+            for n in range(601):
+                self.assertFalse(self.sample(sampler, n*0.005, q=[position(n)]*12))
+
+    def test_large_speed_spike_and_bad_data_require_a_new_full_window(self):
+        for bad in [dict(v=[0.21]*12), dict(v=[float('nan')]*12), dict(age=0.3)]:
+            sampler = StationarySample()
+            for n in range(220):
+                self.sample(sampler, n*0.005)
+            self.assertFalse(self.sample(sampler, 1.1, **bad))
+            for n in range(221, 420):
+                self.assertFalse(self.sample(sampler, n*0.005))
+
+    def test_backward_receipt_clock_resets_capture(self):
+        sampler = StationarySample()
+        for n in range(220):
+            self.sample(sampler, n*0.005)
+        self.assertFalse(self.sample(sampler, 1.0, stamp=101.1))
+
 
 if __name__ == "__main__":
     unittest.main()
