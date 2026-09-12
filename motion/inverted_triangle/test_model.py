@@ -97,3 +97,40 @@ def test_extended_trajectory_rejects_silent_support_hub_rotation():
     with pytest.raises(ValueError,match='references'):trajectory(home,bad,2)
     with pytest.raises(ValueError,match='references'):trajectory(home,home,2,pre_shift_pose=bad)
     with pytest.raises(ValueError,match='references'):trajectory(home,home,2,landing_pose=bad)
+
+
+def test_delay_and_dynamics_continue_without_resetting_controller_history():
+    settings=dict(mass_scale=1.1,base_com_offset_m=[.003,-.002,0.],kp_scale=.9,kd_scale=1.1,torque_limit_Nm=1.5,delay_steps=5)
+    a=Robot(dynamics=settings);home=a.initial[7:].copy()
+    for i in range(137):a.tick(home+np.sin(i*.03)*.01)
+    snapshot=a.snapshot(home);b=Robot(dynamics=settings);b.restore(snapshot)
+    assert len(snapshot['command_history'])==5
+    for i in range(50):
+        q=home+np.cos(i*.1)*.015;a.tick(q);b.tick(q)
+        np.testing.assert_allclose(a.d.qpos,b.d.qpos,atol=1e-10)
+        np.testing.assert_allclose(a.d.qvel,b.d.qvel,atol=1e-10)
+        assert np.max(np.abs(a.d.ctrl))<=1.5
+
+
+def test_runtime_uncertainty_is_explicit_and_cannot_increase_torque():
+    import pytest
+    a=Robot();b=Robot(dynamics=dict(mass_scale=1.1,base_com_offset_m=[.003,0.,0.]))
+    np.testing.assert_allclose(b.m.body_mass,1.1*a.m.body_mass)
+    np.testing.assert_allclose(b.m.body_inertia,1.1*a.m.body_inertia)
+    np.testing.assert_allclose(b.m.body_ipos[b.base]-a.m.body_ipos[a.base],[.003,0.,0.])
+    with pytest.raises(ValueError,match='dynamics mismatch'):b.restore(a.snapshot(a.initial[7:]))
+    with pytest.raises(ValueError,match='increase'):Robot(dynamics=dict(torque_limit_Nm=3.1))
+    with pytest.raises(ValueError,match='integer'):Robot(dynamics=dict(delay_steps=.5))
+
+
+def test_initial_offsets_are_not_reapplied_to_continuation(tmp_path):
+    import json
+    from .core import HERE
+    from .simulate import run
+    r=Robot();home=r.initial[7:].copy()
+    for _ in range(50):r.tick(home)
+    state=r.snapshot(home)
+    run(HERE/'results/nominal_rear/candidate.json',tmp_path/'continued',cad=False,
+        start_override=state,scenario=dict(initial_offset=dict(height_m=.002,roll_rad=.02)))
+    actual=json.loads((tmp_path/'continued/start_state.json').read_text())
+    np.testing.assert_allclose(actual['state'][1:20],state['state'][1:20],atol=1e-12)

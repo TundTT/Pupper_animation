@@ -16,6 +16,7 @@ def duration(start,end,minimum):
 
 def provenance():
     files=list(HERE.glob('*.py'))+[HERE/'model.xml',HERE/'source_manifest.json',HERE/'requirements.txt']
+    if (HERE/'requirements.lock.txt').exists():files.append(HERE/'requirements.lock.txt')
     return {str(p.relative_to(HERE)):hashlib.sha256(p.read_bytes()).hexdigest() for p in files}
 
 def versions():
@@ -35,14 +36,31 @@ def verify_sources():
     return manifest
 
 class Robot:
-    def __init__(self,friction=.8):
+    def __init__(self,friction=.8,dynamics=None):
         if not np.isfinite(friction) or friction<=0:raise ValueError('Friction must be positive')
         self.friction=float(friction)
+        self.dynamics=dict(mass_scale=1.,base_com_offset_m=[0.,0.,0.],kp_scale=1.,kd_scale=1.,torque_limit_Nm=3.,delay_steps=0)
+        if dynamics:
+            if set(dynamics)-set(self.dynamics):raise ValueError('Unknown dynamics parameter')
+            self.dynamics.update(dynamics)
+        for key in ['mass_scale','kp_scale','kd_scale','torque_limit_Nm']:
+            if not np.isfinite(self.dynamics[key]) or self.dynamics[key]<=0:raise ValueError('Invalid dynamics factor')
+        if self.dynamics['torque_limit_Nm']>3:raise ValueError('Cannot increase available torque beyond 3 Nm')
+        delay=self.dynamics['delay_steps']
+        if isinstance(delay,bool) or not isinstance(delay,int) or delay<0:raise ValueError('Delay must be nonnegative integer steps')
+        offset=np.asarray(self.dynamics['base_com_offset_m'],dtype=float)
+        if offset.shape!=(3,) or not np.isfinite(offset).all():raise ValueError('Invalid COM offset')
+        self.command_history=[]
         self.manifest=verify_sources()
         self.m=mj.MjModel.from_xml_path(str(HERE/'model.xml'));self.d=mj.MjData(self.m)
         self.geoms=np.array([self.m.geom(f'{leg}_floor_contact').id for leg in LEGS])
         self.bodies=np.array([self.m.body('leg_'+leg+'_3').id for leg in LEGS])
         self.floor=self.m.geom('floor').id;self.base=self.m.body('base_link').id
+        self.m.body_mass[1:]*=self.dynamics['mass_scale']
+        self.m.body_inertia[1:]*=self.dynamics['mass_scale']
+        self.m.body_ipos[self.base]+=offset
+        self.m.actuator_ctrlrange[:]=[-self.dynamics['torque_limit_Nm'],self.dynamics['torque_limit_Nm']]
+        mj.mj_setConst(self.m,self.d)
         self.vertices=[];self.tip_masks=[]
         for leg,g in enumerate(self.geoms):
             mid=self.m.geom_dataid[g]
@@ -57,6 +75,7 @@ class Robot:
     def reset(self):
         mj.mj_resetDataKeyframe(self.m,self.d,0);mj.mj_forward(self.m,self.d)
         self.initial=self.d.qpos.copy()
+        self.command_history=[self.initial[7:].copy() for _ in range(self.dynamics['delay_steps'])]
         return self.initial.copy()
     def points(self,leg):
         g=self.geoms[leg]
@@ -64,10 +83,16 @@ class Robot:
     def snapshot(self,command):
         spec=mj.mjtState.mjSTATE_INTEGRATION
         state=np.empty(mj.mj_stateSize(self.m,spec));mj.mj_getState(self.m,self.d,state,spec)
-        return dict(model_sha256=self.manifest['model_sha256'],friction=self.friction,state_spec=int(spec),state=state.tolist(),command=np.asarray(command).tolist())
+        return dict(model_sha256=self.manifest['model_sha256'],friction=self.friction,state_spec=int(spec),state=state.tolist(),command=np.asarray(command).tolist(),dynamics=self.dynamics,command_history=[q.tolist() for q in self.command_history])
     def restore(self,snapshot):
         if snapshot['model_sha256']!=self.manifest['model_sha256'] or snapshot['friction']!=self.friction:
             raise ValueError('Continuation model/friction mismatch')
+        expected=dict(mass_scale=1.,base_com_offset_m=[0.,0.,0.],kp_scale=1.,kd_scale=1.,torque_limit_Nm=3.,delay_steps=0)
+        if snapshot.get('dynamics',expected)!=self.dynamics:raise ValueError('Continuation dynamics mismatch')
+        history=np.asarray(snapshot.get('command_history',[]),dtype=float)
+        if history.size==0:history=history.reshape(0,12)
+        if history.shape!=(self.dynamics['delay_steps'],12) or not np.isfinite(history).all():raise ValueError('Invalid delayed command history')
+        self.command_history=[q.copy() for q in history]
         spec=mj.mjtState.mjSTATE_INTEGRATION
         state=np.asarray(snapshot['state'],dtype=float)
         if snapshot['state_spec']!=int(spec) or state.shape!=(mj.mj_stateSize(self.m,spec),) or not np.all(np.isfinite(state)):
@@ -98,8 +123,11 @@ class Robot:
     def tilt(self):return float(np.arccos(np.clip(self.d.xmat[self.base].reshape(3,3)[2,2],-1,1)))
     def tick(self,target,kp=KP,kd=KD,feedforward=None):
         ff=np.zeros(12) if feedforward is None else np.asarray(feedforward)
-        tau=kp*(np.asarray(target)-self.d.qpos[7:])-kd*self.d.qvel[6:]+ff
-        self.d.ctrl[:]=np.clip(tau,-3,3);mj.mj_step(self.m,self.d)
+        target=np.asarray(target)
+        if self.dynamics['delay_steps']:
+            self.command_history.append(target.copy());target=self.command_history.pop(0)
+        tau=self.dynamics['kp_scale']*kp*(target-self.d.qpos[7:])-self.dynamics['kd_scale']*kd*self.d.qvel[6:]+ff
+        limit=self.dynamics['torque_limit_Nm'];self.d.ctrl[:]=np.clip(tau,-limit,limit);mj.mj_step(self.m,self.d)
         return tau
 
 if __name__=='__main__':

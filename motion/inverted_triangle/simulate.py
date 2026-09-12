@@ -33,9 +33,11 @@ def trajectory(home,lift,leg,landing_delta=.15,direction=-1,*,pre_shift_pose=Non
     phases.extend([('shift',shift,1.5),('lift',lift,2.),('clearance_hold',lift,1.),('rotate',turned,12.),('angle_hold',turned,1.),('land',landed,4. if landing_pose is not None else 3.),('planted_hold',landed,2.)])
     return phases
 
-def run(candidate,output,video=False,friction=.8,landing_delta=.15,direction=-1,seed=0,cad=True,start_override=None):
+def run(candidate,output,video=False,friction=.8,landing_delta=.15,direction=-1,seed=0,cad=True,start_override=None,scenario=None):
     source=json.loads(Path(candidate).read_text());leg=LEGS.index(source['leg'])
-    r=Robot(friction=friction);home=r.initial[7:].copy();lift=np.array(source['full_pose'])
+    scenario=scenario or {}
+    if set(scenario)-{'dynamics','initial_offset'}:raise ValueError('Unknown scenario field')
+    r=Robot(friction=friction,dynamics=scenario.get('dynamics'));home=r.initial[7:].copy();lift=np.array(source['full_pose'])
     if source.get('model_sha256')!=r.manifest['model_sha256']:raise ValueError('Candidate model hash mismatch')
     if start_override is not None:home=r.restore(start_override)
     elif 'start_state' in source:home=r.restore(source['start_state'])
@@ -46,10 +48,20 @@ def run(candidate,output,video=False,friction=.8,landing_delta=.15,direction=-1,
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
     rng=np.random.default_rng(seed)
     if seed:r.d.qpos[7:][PROX]+=rng.uniform(-.01,.01,8);mj.mj_forward(r.m,r.d)
+    if start_override is None and 'start_state' not in source:
+        offsets=scenario.get('initial_offset',{})
+        if set(offsets)-{'height_m','roll_rad','pitch_rad'}:raise ValueError('Unknown initial offset')
+        r.d.qpos[2]+=float(offsets.get('height_m',0.))
+        roll=float(offsets.get('roll_rad',0.));pitch=float(offsets.get('pitch_rad',0.))
+        if not np.isfinite([r.d.qpos[2],roll,pitch]).all():raise ValueError('Invalid initial offset')
+        quat=np.array([np.cos(roll/2)*np.cos(pitch/2),np.sin(roll/2)*np.cos(pitch/2),np.cos(roll/2)*np.sin(pitch/2),-np.sin(roll/2)*np.sin(pitch/2)])
+        combined=np.empty(4);mj.mju_mulQuat(combined,r.d.qpos[3:7].copy(),quat);r.d.qpos[3:7]=combined
+        mj.mj_forward(r.m,r.d)
     (output/'start_state.json').write_text(json.dumps(r.snapshot(home),indent=2))
     cad_check=CADClearance(r) if cad else None
     trace=[];audit=dict(status='FAILED',leg=LEGS[leg],seed=seed,friction=friction,landing_delta=landing_delta,direction=direction,model_sha256=r.manifest['model_sha256'],candidate_sha256=hashlib.sha256(Path(candidate).read_bytes()).hexdigest(),source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=HERE.parents[1]).decode().strip(),source_dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=HERE.parents[1]).strip()),source_hashes=provenance(),simulation_only=True,heating=False,minimum_rotation_floor_m=1.,minimum_cad_gap_m=1.,cad_intersections=[],max_tilt_deg=0.,peak_requested_torque_Nm=0.,minimum_support_force_N=1e9,maximum_rotation_contact_N=0.,peak_landing_descent_m_s=0.,maximum_unintended_floor_force_N=0.,maximum_command_speed_ratio=0.,early_termination=None)
     renderer=None;writer=None
+    audit['scenario']=scenario;audit['effective_dynamics']=r.dynamics
     audit['environment']=versions();audit['continued_from_state']=start_override is not None or 'start_state' in source
     audit['cad_sample_period_s']=.1;audit['physics_sample_period_s']=.025
     audit['first_sampled_gate_violation']=None
@@ -117,6 +129,10 @@ def run(candidate,output,video=False,friction=.8,landing_delta=.15,direction=-1,
     gates=dict(completed=not bool(audit['early_termination']),rotation_floor=audit['minimum_rotation_floor_m']>=.005,three_supports=audit['minimum_support_force_N']>=1.,no_rotation_contact=audit['maximum_rotation_contact_N']<.2,no_other_floor_support=audit['maximum_unintended_floor_force_N']<.2,command_speed=audit['maximum_command_speed_ratio']<=1.0001,cad_checked=cad,collision_clear=bool(cad and not audit['cad_intersections'] and audit['minimum_cad_gap_m']>=.001),tilt=audit['max_tilt_deg']<8.,torque=audit['peak_requested_torque_Nm']<=3.,planted=audit['final_normal_force_N'][leg]>=2.,hub_angle=audit['final_hub_error_rad']<.035,settled=audit['final_speed_rad_s']<.1,gentle_landing=audit['peak_landing_descent_m_s']<.025)
     gates['final_four_supports']=min(audit['final_normal_force_N'])>=1.
     gates['planted_on_long_tip']=abs(audit['final_tip_bottom_m'][leg])<.003
+    final_values=dict(planted=(audit['final_normal_force_N'][leg],2.),hub_angle=(audit['final_hub_error_rad'],.035),settled=(audit['final_speed_rad_s'],.1),final_four_supports=(min(audit['final_normal_force_N']),1.),planted_on_long_tip=(abs(audit['final_tip_bottom_m'][leg]),.003))
+    audit['final_gate_violations']={key:dict(value=value,threshold=threshold) for key,(value,threshold) in final_values.items() if not gates[key]}
+    if audit['first_sampled_gate_violation'] is None and audit['final_gate_violations']:
+        audit['first_sampled_gate_violation']=dict(time_s=float(r.d.time),phase='planted_hold_end',violations=audit['final_gate_violations'])
     audit['gates']=gates;audit['status']='PASS_NOMINAL_SINGLE_FLIP' if all(gates.values()) else 'FAILED'
     if not cad:audit['minimum_cad_gap_m']=None
     (output/'end_state.json').write_text(json.dumps(r.snapshot(last_command),indent=2))

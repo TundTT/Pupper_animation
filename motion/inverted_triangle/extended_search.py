@@ -26,9 +26,7 @@ def initialize(start, leg, direction):
     r = Robot()
     home = r.restore(start)
     cad = CADClearance(r)
-    # All six exact nonconvex shin pairs guide search. The independent replay
-    # additionally checks every shin against motor assemblies and body.
-    cad.pairs = [(a, b) for a, b in cad.pairs if a.endswith('_3') and b.endswith('_3')]
+    # Include motor/body pairs: a shin-only cost missed a third-flip motor collision.
     _WORKER = (r, home, start, leg, direction, cad)
 
 
@@ -77,7 +75,7 @@ def evaluate(x):
             if steps_total % 130 == 0:
                 clearance = cad.measure()['minimum_m']
                 cad_min = min(cad_min, clearance)
-                cad_penalty += max(.004 - clearance, 0.) ** 2 * 1e7
+                cad_penalty += max(.0025 - clearance, 0.) ** 2 * 1e7
                 samples += 1
             if tilt > .6 or r.d.qpos[2] < .045 or not np.isfinite(r.d.qpos).all():
                 terminated = phase
@@ -101,7 +99,7 @@ def evaluate(x):
                 minimum_rotation_floor_m=gap, minimum_support_force_N=support,
                 maximum_rotation_contact_N=contact, maximum_unintended_floor_force_N=floor,
                 max_tilt_deg=float(np.rad2deg(tilt)), peak_requested_torque_Nm=torque,
-                minimum_search_shin_cad_gap_m=cad_min, final_normal_force_N=f.tolist(),
+                minimum_search_cad_gap_m=cad_min, final_normal_force_N=f.tolist(),
                 final_tip_error_m=tip, final_hub_error_rad=float(tracking),
                 peak_landing_descent_m_s=descent, final_speed_rad_s=speed,
                 early_termination=terminated)
@@ -143,7 +141,7 @@ def optimize(output, start, leg, direction=-1, seed=0, candidate=None,
                   direction=direction, seed=seed, generations=generations,
                   population=population, workers=workers, bounds=bounds.tolist(),
                   start_state_sha256=hashlib.sha256(json.dumps(start,sort_keys=True).encode()).hexdigest(),
-                  search_cad_period_s=.25, search_cad_scope='six nonconvex shin pairs',
+                  search_cad_period_s=.25, search_cad_scope='all detailed shin/motor/body pairs',
                   simulation_only=True, hardware_validated=False)
     (output/'config.json').write_text(json.dumps(config,indent=2))
     def record(items):
