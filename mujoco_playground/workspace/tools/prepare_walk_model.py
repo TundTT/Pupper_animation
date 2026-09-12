@@ -37,10 +37,10 @@ def main():
             # Position actuator length is the joint angle, so bias adds the home target.
             text = re.sub(rf'<general\b[^>]*\bname="{name}"[^>]*/>', lambda m: m[0][:-2].rstrip() + f' biasprm="{5*reference:g} -5 -0.25" />' if 'biasprm=' not in m[0] else re.sub(r'biasprm="[^"]*"', f'biasprm="{5*reference:g} -5 -0.25"', m[0]), text)
     text = re.sub(r'<body name="base_link"[^>]*>', lambda m: attr(attr(m[0], 'pos', '0 0 0.1448'), 'quat', '1 0 0 0'), text)
-    # Mark the centers of the lower hemispheres; radius is taken from the actual capsule.
+    # Mark the lower cap centers, including the 9 mm outward mounting gap.
     for leg in LEGS:
         x, y = (.00063, -.048) if leg.endswith('r') else (-.00063, .048)
-        text = re.sub(rf'<site name="leg_{leg}_3_foot_site"[^>]*/>', f'<site name="leg_{leg}_3_foot_site" pos="{x} {y} 0.029884" />', text)
+        text = re.sub(rf'<site name="leg_{leg}_3_foot_site"[^>]*/>', f'<site name="leg_{leg}_3_foot_site" pos="{x} {y} 0.038884" />', text)
     header = ('    <!-- Walking reference stance: body frames and joint refs are rebased together,\n'
               '         preserving the physical pose for every absolute joint angle. Zero ctrl\n'
               '         holds the home targets; ctrl is a joint-angle OFFSET from home in radians.\n'

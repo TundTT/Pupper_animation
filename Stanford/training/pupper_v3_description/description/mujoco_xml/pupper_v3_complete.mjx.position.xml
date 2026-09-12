@@ -114,7 +114,11 @@
                         mesh="LegAssemblyForFlangedv26_002" />
                     <body name="leg_front_r_3" pos="0 -0.0494 0.0685" quat="0.620543264188 -0.339005768559 0.620545896937 -0.339004330282"
                         gravcomp="0">
-                        <!-- CustomLegFoot mounted at the wheel's Z offset (pos 0 0 0.0136),
+                        <!-- CustomLegFoot uses a 22.6 mm local-Z mount offset: the original
+                             13.6 mm plus the user-selected 9 mm outward gap. Visual,
+                             capsule, foot site and CoM move together; hub joint stays fixed.
+                             Existing mass and inertia about the CoM are retained; no added mass.
+                             Mounted at pos 0 0 0.0226,
                              no added rotation -- this orientation was confirmed correct.
                              Mass/CoM/inertia are provisional, taken from a mixed multi-part
                              Onshape measurement, not a clean single-part one -- shifted into
@@ -122,18 +126,18 @@
                              with a 12 mm-radius capsule, 60 mm overall from the hub to its tip.
                              The cap centers are 36 mm apart, leaving 12 mm for each round end.
                              Its axis is local -Y, centered across the petal's X/Z thickness;
-                             fromto includes the 13.6 mm mesh mount offset. The outer rim and
+                             fromto includes the 22.6 mm mesh mount offset. The outer rim and
                              other petals remain visual only. This is a rigid approximation,
                              not the petal's exact tapered outline. -->
-                        <inertial pos="0.000573 -0.012143 0.030671" mass="0.05518"
+                        <inertial pos="0.000573 -0.012143 0.039671" mass="0.05518"
                             fullinertia="3.854067e-05 4.223493e-05 7.346430e-05 5.978470e-07 1.8696e-08 -3.21278e-07" />
                         <joint name="leg_front_r_3" pos="0 0 0" axis="0 0 1" range="-2.79 0.71" ref="-1" />
                         <geom name="leg_front_r_3_foot_collision" type="capsule" size="0.012"
-                            fromto="0.00063 -0.012 0.029884 0.00063 -0.048 0.029884" class="collision" />
-                        <geom pos="0 0 0.0136" type="mesh"
+                            fromto="0.00063 -0.012 0.038884 0.00063 -0.048 0.038884" class="collision" />
+                        <geom pos="0 0 0.0226" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
                             mesh="CustomLegFoot" />
-                        <site name="leg_front_r_3_foot_site" pos="0.00063 -0.048 0.029884" />
+                        <site name="leg_front_r_3_foot_site" pos="0.00063 -0.048 0.038884" />
                     </body>
                 </body>
             </body>
@@ -163,17 +167,17 @@
                              standing-pose render. Inertial rotated 180 about Z from the
                              r-side/Onshape values to match (X and Z of fullinertia's off-diagonal
                              terms flip sign, CoM X/Y flip sign, Z unchanged). -->
-                        <inertial pos="-0.000573 0.012143 0.030671" mass="0.05518"
+                        <inertial pos="-0.000573 0.012143 0.039671" mass="0.05518"
                             fullinertia="3.854067e-05 4.223493e-05 7.346430e-05 5.978470e-07 -1.8696e-08 3.21278e-07" />
                         <joint name="leg_front_l_3" pos="0 0 0" axis="0 0 1" range="-0.71 2.79" ref="1" />
                         <!-- Lower-petal capsule checked in this mount: local +Y points
                              toward the petal tip; X changes sign with the hub clocking. -->
                         <geom name="leg_front_l_3_foot_collision" type="capsule" size="0.012"
-                            fromto="-0.00063 0.012 0.029884 -0.00063 0.048 0.029884" class="collision" />
-                        <geom pos="0 0 0.0136" quat="0 0 0 1" type="mesh"
+                            fromto="-0.00063 0.012 0.038884 -0.00063 0.048 0.038884" class="collision" />
+                        <geom pos="0 0 0.0226" quat="0 0 0 1" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
                             mesh="CustomLegFoot" />
-                        <site name="leg_front_l_3_foot_site" pos="-0.00063 0.048 0.029884" />
+                        <site name="leg_front_l_3_foot_site" pos="-0.00063 0.048 0.038884" />
                     </body>
                 </body>
             </body>
@@ -196,15 +200,15 @@
                     <body name="leg_back_r_3" pos="0 -0.0494 0.0685" quat="0.620543264188 -0.339005768559 0.620545896937 -0.339004330282"
                         gravcomp="0">
                         <!-- CustomLegFoot placeholder; see leg_front_r_3 for caveats. -->
-                        <inertial pos="0.000573 -0.012143 0.030671" mass="0.05518"
+                        <inertial pos="0.000573 -0.012143 0.039671" mass="0.05518"
                             fullinertia="3.854067e-05 4.223493e-05 7.346430e-05 5.978470e-07 1.8696e-08 -3.21278e-07" />
                         <joint name="leg_back_r_3" pos="0 0 0" axis="0 0 1" range="-2.79 0.71" ref="-1" />
                         <geom name="leg_back_r_3_foot_collision" type="capsule" size="0.012"
-                            fromto="0.00063 -0.012 0.029884 0.00063 -0.048 0.029884" class="collision" />
-                        <geom pos="0 0 0.0136" type="mesh"
+                            fromto="0.00063 -0.012 0.038884 0.00063 -0.048 0.038884" class="collision" />
+                        <geom pos="0 0 0.0226" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
                             mesh="CustomLegFoot" />
-                        <site name="leg_back_r_3_foot_site" pos="0.00063 -0.048 0.029884" />
+                        <site name="leg_back_r_3_foot_site" pos="0.00063 -0.048 0.038884" />
                     </body>
                 </body>
             </body>
@@ -228,15 +232,15 @@
                         quat="-0.339003506947 -0.620545447145 0.339006591895 0.620543713977" gravcomp="0">
                         <!-- CustomLegFoot placeholder; see leg_front_l_3 for the 180-about-Z
                              hub-clocking rationale (tip toward the ground) and inertial rotation. -->
-                        <inertial pos="-0.000573 0.012143 0.030671" mass="0.05518"
+                        <inertial pos="-0.000573 0.012143 0.039671" mass="0.05518"
                             fullinertia="3.854067e-05 4.223493e-05 7.346430e-05 5.978470e-07 -1.8696e-08 3.21278e-07" />
                         <joint name="leg_back_l_3" pos="0 0 0" axis="0 0 1" range="-0.71 2.79" ref="1" />
                         <geom name="leg_back_l_3_foot_collision" type="capsule" size="0.012"
-                            fromto="-0.00063 0.012 0.029884 -0.00063 0.048 0.029884" class="collision" />
-                        <geom pos="0 0 0.0136" quat="0 0 0 1" type="mesh"
+                            fromto="-0.00063 0.012 0.038884 -0.00063 0.048 0.038884" class="collision" />
+                        <geom pos="0 0 0.0226" quat="0 0 0 1" type="mesh"
                             contype="0" conaffinity="0" group="1" density="0"
                             mesh="CustomLegFoot" />
-                        <site name="leg_back_l_3_foot_site" pos="-0.00063 0.048 0.029884" />
+                        <site name="leg_back_l_3_foot_site" pos="-0.00063 0.048 0.038884" />
                     </body>
                 </body>
             </body>
