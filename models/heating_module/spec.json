@@ -1,0 +1,95 @@
+{
+  "source_screenshot": "C:/Users/tundt/AppData/Local/Temp/codex-clipboard-33290f0e-6ddb-42bf-b764-6944bb699341.png",
+  "mass_lb": 1.327,
+  "com_in": [
+    0.12,
+    -1.72,
+    0.248
+  ],
+  "inertia_lb_in2": [
+    [
+      1.446,
+      0.016,
+      0.008
+    ],
+    [
+      0.016,
+      3.789,
+      0.097
+    ],
+    [
+      0.008,
+      0.097,
+      4.279
+    ]
+  ],
+  "inertia_reference": "Center of mass, CAD axes; screenshot has no mate connector selected.",
+  "stl_to_m": 0.001,
+  "frame_status": "Millimeters and shared CAD origin inferred from mesh volume/COM; operator confirmation pending.",
+  "body_pos_m": [
+    -0.036349545,
+    3.1565e-05,
+    0.032506671263
+  ],
+  "body_quat_wxyz": [
+    0.5,
+    -0.5,
+    -0.5,
+    0.5
+  ],
+  "placement_revision": 3,
+  "placement_markups": [
+    "C:/Users/tundt/AppData/Local/Temp/codex-clipboard-f3ff5503-2ffc-49f6-a31e-c579a7429edf.png",
+    "C:/Users/tundt/AppData/Local/Temp/codex-clipboard-7a2df86a-ff85-44b2-b150-31b2ab2ab9f5.png"
+  ],
+  "rotation_markup": "C:/Users/tundt/AppData/Local/Temp/codex-clipboard-4ff4b01c-b5b0-49fe-a3e7-958860e534ae.png",
+  "placement_status": "Revision 3 visually approved by user on 2026-09-12; fixed mounting pose shared across configurations.",
+  "collision_boxes_cad_mm": [
+    {
+      "name": "mount_plate_collision",
+      "bounds": [
+        [
+          -87.102768,
+          -80.944527,
+          -22.553795
+        ],
+        [
+          87.039635,
+          -64.993324,
+          40.946205
+        ]
+      ]
+    },
+    {
+      "name": "electronics_collision",
+      "bounds": [
+        [
+          -63.289929,
+          -64.993324,
+          -21.695296
+        ],
+        [
+          67.768578,
+          -6.343328,
+          31.804705
+        ]
+      ]
+    },
+    {
+      "name": "end_bracket_collision",
+      "bounds": [
+        [
+          -27.531565,
+          -6.343329,
+          -22.553795
+        ],
+        [
+          27.468436,
+          0.006672,
+          9.854705
+        ]
+      ]
+    }
+  ],
+  "placement_approved": true
+}
