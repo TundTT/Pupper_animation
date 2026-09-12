@@ -58,13 +58,13 @@ int main(int argc,char** argv){
     for(const auto& x:outputs)for(double value:x)require(value==0,"Bootstrap requests no torque");
     double now=0;
     auto tick=[&]{now+=1./520;require(c.update(rclcpp::Time(int64_t(now*1e9),RCL_ROS_TIME),rclcpp::Duration::from_seconds(1./520))==controller_interface::return_type::OK,"update");
-      for(int i=0;i<12;++i){const double previous=q[i];if(i%3==2)q[i]+=outputs[i][1]/520;else q[i]=outputs[i][0];qd[i]=(q[i]-previous)*520;}};
+      for(int i=0;i<12;++i){const double previous=q[i];q[i]=outputs[i][0];qd[i]=(q[i]-previous)*520;}};
     for(int n=0;n<2200;++n)tick();
     for(int command=1;command<=4;++command){c.command(command);const int leg=keyframe_align::legs[command];
       for(int n=0;n<30000;++n){tick();if(c.core().completed&(1<<leg))break;}
       require(c.core().completed&(1<<leg),"Every mapped wheel completes via actual plugin");
       require(std::abs(robot_calibration::wrap(target[leg]-q[3*leg+2]))<.035,"Calibrated final target");
-      for(int i=0;i<12;++i)require(outputs[i][3]==(i%3==2 ? 0.:5.),"Correct hardware gain routing");
+      for(int i=0;i<12;++i)require(outputs[i][3]==(i%3==2 ? c.core().config.wheel_position_kp:5.),"Correct hardware gain routing");
     }
     auto check_brake=[&]{for(const auto& x:outputs)require(x[0]==0&&x[1]==0&&x[2]==0&&x[3]==0&&x[4]==0,"Stop removes both gains and all feed-forward commands");};
     c.stop();tick();check_brake();c.on_deactivate({});
@@ -72,7 +72,7 @@ int main(int argc,char** argv){
     for(int a=0;a<8;++a)q[keyframe_align::rows[a]]=keyframe_align::Geometry::neutral[a];
     assign();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Reentry shares live homes");
     require(c.core().completed==0&&c.core().active==0,"Reentry clears commands and completion");
-    tick();for(int k=0;k<4;++k)require(std::abs(outputs[3*k+2][1])<1e-8,"Reentry holds current angles");
+    const auto reentry_q=q;tick();for(int k=0;k<4;++k){require(outputs[3*k+2][1]==0,"No wheel velocity request");require(std::abs(outputs[3*k+2][0]-reentry_q[3*k+2])<1e-8,"Reentry holds unwrapped current angles");}
     imu[7]=.2;tick();check_brake();imu[7]=0;tick();check_brake();
     c.on_deactivate({});for(int a=0;a<8;++a)q[keyframe_align::rows[a]]=keyframe_align::Geometry::neutral[a];qd.fill(0);
     assign();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Explicit lifecycle reset clears stop");

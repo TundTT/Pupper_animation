@@ -124,6 +124,30 @@ tests is not a Pi realtime timing measurement. Read the
 ### Quick tuning between trials
 
 Motion settings are in `ros2_ws/src/neural_controller/launch/keyframe_config.json`.
+Wheel alignment now uses `wheel_control_mode: "position_pd"`. The controller sends
+absolute encoder-angle targets and zero desired wheel velocity; the motor's PD
+loop performs correction. `wheel_position_kp: 2.0` and `wheel_position_kd: 0.15`
+are initial lab gains, not yet physically validated. These JSON values supply the
+actual wheel gains; the generic YAML wheel gain slots remain activation defaults.
+No outer wheel-speed PI loop or integral remains.
+
+The angle target follows a quintic ramp bounded by `wheel_speed_limit` (0.5 rad/s)
+and `wheel_acceleration_limit` (1.2 rad/s²). These limit the angle trajectory;
+they are not velocity commands. Targets use the nearest equivalent calibrated
+angle in the current encoder revolution. Closed rotation gates discard pending
+angle demand; reopening starts a fresh ramp from the measured angle.
+
+Completion tolerances are configurable too: `alignment_angle_tolerance_rad`
+(0.025), `landing_angle_tolerance_rad` (0.035),
+`alignment_speed_tolerance_rad_s` (0.08), and `alignment_settle_seconds` (0.5).
+`hold_error_limit_rad` (0.10) releases an aligned target after a large disturbance.
+The first 28 status fields retain their indices; wheel velocity fields 8–11 and
+the old integral field 22 now stay zero. Read `motor_commands` for actual wheel
+angle targets and gains. Previous velocity-controller simulation results do not
+validate this new control law. The focused position test exercises ramp limits,
+angle wrapping, gate pause/resume, reverse correction after 0.051 rad overshoot,
+and automatic lowering on all four wheels using idealized feedback.
+
 `rotation_floor_clearance_m` is **0.005** (5 mm), changed at the operator's request
 after the supported FL trial reported about 9 mm and was blocked by the old 10 mm
 threshold. This is a hardware trial adjustment; the earlier simulation audit used

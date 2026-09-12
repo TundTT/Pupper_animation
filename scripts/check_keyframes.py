@@ -44,8 +44,9 @@ def main():
     require(cfg['controller_manager']['ros__parameters'][NAME]['type']=='neural_controller/KeyframeController','Wrong plugin')
     params=cfg[NAME]['ros__parameters'];old=cfg['neural_controller_wheel_align_hybrid']['ros__parameters']
     require(cfg['controller_manager']['ros__parameters']['update_rate']==520 and params['repeat_action']==1,'Wrong deterministic update cadence')
-    for name in ('joint_names','action_types','kps','kds','init_kps','init_kds'):
+    for name in ('joint_names','kps','kds','init_kps','init_kds'):
         require(params[name]==old[name],f'Hardware mapping/gain mismatch: {name}')
+    require(params['action_types']==['position']*12,'Keyframe alignment requires all angle commands')
     require(params['model_path'].endswith('/keyframe_config.json'),'Wrong keyframe config path')
     require(params['use_imu'] and params['estop_kd']==0 and params['gain_multiplier']==1,'Sensor/stop/gain mismatch')
     # The hardware writer can synthesize gains at opted-in hard limits. This
@@ -56,6 +57,8 @@ def main():
         require('hard_limit_min' not in hw and 'hard_limit_max' not in hw,f'Zero-torque fault requires review of hard-limit gain overrides: {name}')
     motion=json.loads((controller/'launch/keyframe_config.json').read_text())
     require(len(motion['poses'])==4 and all(len(p)==8 for p in motion['poses']),'Wrong pose dimensions')
+    require(motion['wheel_control_mode']=='position_pd','Wrong wheel control mode')
+    require(0<motion['wheel_position_kp']<=10 and 0<motion['wheel_position_kd']<=1,'Invalid wheel position gains')
     require('layers' not in motion,'Keyframe config must not contain a network')
     print('PASS: deterministic controller assets, unchanged hardware geometry, modes/gains, config and selected overlay')
     print('PENDING: Pi package-version parity, device/gamepad access, scheduling and physical motion. No hardware started.')

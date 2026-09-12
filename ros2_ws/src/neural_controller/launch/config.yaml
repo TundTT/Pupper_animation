@@ -618,8 +618,10 @@ neural_controller_keyframe_align:
     fade_in_duration: 0.0  # keyframe core owns the entry trajectory
     max_body_angle: 0.6  # core stop threshold; rotation gate is stricter at 0.12
     joint_names: ["leg_front_r_1", "leg_front_r_2", "leg_front_r_3", "leg_front_l_1", "leg_front_l_2", "leg_front_l_3", "leg_back_r_1", "leg_back_r_2", "leg_back_r_3", "leg_back_l_1", "leg_back_l_2", "leg_back_l_3"]
-    action_types: ["position", "position", "velocity", "position", "position", "velocity", "position", "position", "velocity", "position", "position", "velocity"]
+    action_types: ["position", "position", "position", "position", "position", "position", "position", "position", "position", "position", "position", "position"]
     default_joint_pos: [1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0]
+    # Wheel runtime position gains come from keyframe_config.json; generic wheel slots below
+    # retain zero-P activation defaults. motor_commands reports the actual applied gains.
     kps: [5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0]
     kds: [0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35]
     init_kps: [5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0]

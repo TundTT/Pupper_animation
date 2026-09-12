@@ -19,7 +19,7 @@ export LD_LIBRARY_PATH="$repo_dir/ros2_ws/install/neural_controller/lib:${LD_LIB
 ctest --test-dir build/robot_calibration --output-on-failure
 ctest --test-dir build/joy_utils -R alignment_joystick --output-on-failure
 ctest --test-dir build/neural_controller \
-  -R 'keyframe_controller|keyframe_manager|startup_launch|hybrid_controller_lifecycle|hybrid_policy_contract|walk_policy_contract|align_v5' --output-on-failure
+  -R 'keyframe_position|keyframe_controller|keyframe_manager|startup_launch|hybrid_controller_lifecycle|hybrid_policy_contract|walk_policy_contract|align_v5' --output-on-failure
 cd "$repo_dir"
 python3 scripts/check_keyframes.py --install-base "$repo_dir/ros2_ws/install"
 printf '%s\n' 'Software checks complete. Read KEYFRAME_LAB.md for pending target and physical checks.'

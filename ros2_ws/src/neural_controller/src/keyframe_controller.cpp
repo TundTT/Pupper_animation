@@ -12,7 +12,7 @@ controller_interface::CallbackReturn KeyframeController::on_init() {
     for(int i=0;i<12;++i){
       const bool wheel=i%3==2;
       if(params_.joint_names[i]!="leg_"+names[i/3]+"_"+std::to_string(i%3+1)||
-         params_.action_types[i]!=(wheel ? "velocity":"position")||
+         params_.action_types[i]!="position"||
          !std::isfinite(params_.kps[i])||!std::isfinite(params_.kds[i])||
          std::abs(params_.kps[i]-(wheel ? 0.:5.))>1e-6||
          std::abs(params_.kds[i]-(wheel ? .35:.25))>1e-6)
@@ -24,11 +24,19 @@ controller_interface::CallbackReturn KeyframeController::on_init() {
         throw std::runtime_error("Continuous wheel profile required");
     }
     nlohmann::json j;std::ifstream input(params_.model_path);input>>j;
+    if(j.at("wheel_control_mode")!="position_pd")throw std::runtime_error("Position-PD keyframe config required");
     const std::array<std::string,15> fields{"entry_seconds","shift_seconds","lift_seconds","land_seconds","recenter_seconds",
-      "attempt_timeout_seconds","wheel_kp","wheel_kd","wheel_ki","wheel_integral_limit","wheel_speed_limit",
+      "attempt_timeout_seconds","","","","","wheel_speed_limit",
       "wheel_acceleration_limit","abduction_speed_limit","hip_speed_limit","joint_acceleration_limit"};
-    for(int i=0;i<15;++i)keyframes_.config.values[i]=j.at(fields[i]).get<double>();
+    for(int i=0;i<15;++i)if(!fields[i].empty())keyframes_.config.values[i]=j.at(fields[i]).get<double>();
     keyframes_.config.rotation_floor_clearance_m=j.at("rotation_floor_clearance_m").get<double>();
+    keyframes_.config.wheel_position_kp=j.at("wheel_position_kp").get<double>();
+    keyframes_.config.wheel_position_kd=j.at("wheel_position_kd").get<double>();
+    keyframes_.config.alignment_angle_tolerance_rad=j.at("alignment_angle_tolerance_rad").get<double>();
+    keyframes_.config.landing_angle_tolerance_rad=j.at("landing_angle_tolerance_rad").get<double>();
+    keyframes_.config.alignment_speed_tolerance_rad_s=j.at("alignment_speed_tolerance_rad_s").get<double>();
+    keyframes_.config.alignment_settle_seconds=j.at("alignment_settle_seconds").get<double>();
+    keyframes_.config.hold_error_limit_rad=j.at("hold_error_limit_rad").get<double>();
     keyframes_.config.poses=j.at("poses").get<std::array<keyframe_align::V8,4>>();keyframes_.config.validate();
     behavior_="keyframe_align";single_observation_size_=6;params_.observation_history=1;
     command_states_={"stand","front_l","front_r","back_r","back_l"};num_commands_=5;
@@ -118,9 +126,9 @@ controller_interface::return_type KeyframeController::update(const rclcpp::Time&
   const auto o=keyframes_.step(period.seconds(),command_index_,q,qd,w,g);
   if(!o.authority){latch_fault(COMMAND);publish_status(o);return controller_interface::return_type::OK;}
   for(int i=0;i<12;++i){auto& joint=command_interfaces_map_.at(params_.joint_names[i]);const bool wheel=i%3==2;
-    joint.at("position").get().set_value(wheel ? 0.:o.position[2*(i/3)+i%3]);
-    joint.at("velocity").get().set_value(wheel ? o.wheel[i/3]:0.);
-    joint.at("effort").get().set_value(0.);joint.at("kp").get().set_value(params_.kps[i]);joint.at("kd").get().set_value(params_.kds[i]);
+    joint.at("position").get().set_value(wheel ? o.wheel_position[i/3]:o.position[2*(i/3)+i%3]);
+    joint.at("velocity").get().set_value(0.);
+    joint.at("effort").get().set_value(0.);joint.at("kp").get().set_value(wheel ? keyframes_.config.wheel_position_kp:params_.kps[i]);joint.at("kd").get().set_value(wheel ? keyframes_.config.wheel_position_kd:params_.kds[i]);
   }
   publish_status(o);
   return controller_interface::return_type::OK;

@@ -63,6 +63,10 @@ install(
 )
 
 if(BUILD_TESTING)
+  add_executable(keyframe_position_test test/keyframe_position_test.cpp)
+  target_compile_features(keyframe_position_test PRIVATE cxx_std_17)
+  target_include_directories(keyframe_position_test PRIVATE include)
+  add_test(NAME keyframe_position COMMAND keyframe_position_test)
   add_executable(keyframe_controller_test test/keyframe_controller_test.cpp)
   target_compile_features(keyframe_controller_test PRIVATE cxx_std_17)
   target_include_directories(keyframe_controller_test PRIVATE include)
