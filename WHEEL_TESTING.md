@@ -19,9 +19,9 @@ Before a fresh hardware startup, follow [STARTUP_CALIBRATION.md](STARTUP_CALIBRA
 |---|---|
 | Policy | `ros2_ws/src/neural_controller/launch/policy_wheel.json` (`wheel_2026-09-11_21-58-55`, 9 mm outward-gap retrain) |
 | Controller instance | `neural_controller_wheel` in `config.yaml`, spawned inactive by `launch.py` |
-| Activated by | **Triangle** (joy button 2) |
+| Activated by | **Circle** (joy button 1) |
 | Commanded by | `/cmd_vel` (`geometry_msgs/Twist`) — the same topic locomotion uses |
-| Exit | **X** returns to `neural_controller` (locomotion). See the warning below. |
+| Exit | **PS** requests emergency stop and deactivation; Options reactivates the last selected policy. |
 
 The robot is a **four-wheeled** machine on this branch. Each leg's `_3` joint — the old
 knee — *is* the wheel: a continuous joint driven in **velocity** mode. The `_1`
@@ -37,6 +37,8 @@ Historical run-3 measured envelope: 0.958 m/s and 4.65 rad/s; not re-measured fo
 
 ## Test procedure
 
+Use [LOCOMOTION_LAB.md](LOCOMOTION_LAB.md) for the current combined walking/wheel preparation, reduced stick limits and calibration handoff.
+
 ```sh
 # first time on this robot:
 git clone -b robot-code https://github.com/TundTT/Pupper_animation.git
@@ -44,7 +46,7 @@ git clone -b robot-code https://github.com/TundTT/Pupper_animation.git
 git checkout robot-code && git pull
 
 cd ros2_ws && source build.sh          # the wheel C++ must be compiled at least once
-ros2 launch neural_controller launch.py
+ros2 launch neural_controller locomotion_trial.launch.py
 ```
 
 **Git LFS is required.** The policy `.json` files are stored in LFS (`*.json filter=lfs`
@@ -73,7 +75,7 @@ eyeballing:
 
 Do these in order. Steps 1–2 are the cheap places to catch the failure modes that matter.
 
-1. **Wheels off the ground, on a stand.** Press **Triangle**. Push the left stick
+1. **Wheels off the ground, on a stand.** Press **Circle**. Push the left stick
    forward a little. **All four wheels must turn the same direction.** If one side spins
    opposite the other, stop — the wheel direction convention is wrong somewhere and the
    robot will fight itself and not move (this is a real failure mode that was caught in
@@ -101,10 +103,7 @@ divergence from this is worth investigating rather than tuning around.
 
 ## Known issues
 
-- **X exits into the LOCOMOTION policy, which was trained for feet.** On a wheeled robot
-  that policy is running far outside anything it ever saw. On a stand it just looks odd;
-  on the ground it could be violent. For now, prefer the **e-stop** as the way out of
-  wheel mode, not X. This is a wiring choice that can be changed if it proves annoying.
+- **X is unbound in the focused locomotion trial.** In the full launch it enters alignment; it is never the emergency stop.
 - **E-stop on wheels needed a stronger gain.** `estop_kd` for this controller is 1.0
   (the joint's `kd_max`), raised from the leg-derived 0.3 after a hardware session found
   it too weak to arrest a spinning wheel. If e-stop still feels slow to stop the robot,

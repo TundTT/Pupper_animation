@@ -20,3 +20,5 @@ scripts/prepare_keyframes.sh text eol=lf
 scripts/keyframe_target_inventory.sh text eol=lf
 scripts/check_keyframes.py text eol=lf
 hardware_testing/keyframe_align/arm64_check.sh text eol=lf
+
+scripts/prepare_locomotion.sh text eol=lf

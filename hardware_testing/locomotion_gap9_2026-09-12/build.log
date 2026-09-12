@@ -1,0 +1,915 @@
+Starting >>> cmd_vel_mux
+Finished <<< cmd_vel_mux [23.7s]
+Starting >>> pupper_v3_description
+Finished <<< pupper_v3_description [22.2s]
+Starting >>> robot_calibration
+Finished <<< robot_calibration [13.6s]
+Starting >>> animation_controller_py
+Finished <<< animation_controller_py [2.92s]
+Starting >>> control_board_hardware_interface
+--- stderr: control_board_hardware_interface
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/control_board_hardware_interface/src/rt/rt_bno055.cpp: In member function ‘void BNO055::parseInputReport()’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/control_board_hardware_interface/src/rt/rt_bno055.cpp:341:11: warning: unused variable ‘sequence_number’ [-Wunused-variable]
+  341 |   uint8_t sequence_number = shtpData[5 + 1];  // Sequence number
+      |           ^~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/control_board_hardware_interface/src/control_board_hardware_interface.cpp: In member function ‘virtual hardware_interface::CallbackReturn control_board_hardware_interface::ControlBoardHardwareInterface::on_init(const hardware_interface::HardwareInfo&)’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/control_board_hardware_interface/src/control_board_hardware_interface.cpp:56:51: warning: ‘virtual rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn hardware_interface::HardwareComponentInterface::on_init(const hardware_interface::HardwareInfo&)’ is deprecated: Use on_init(const HardwareComponentInterfaceParams & params) instead. [-Wdeprecated-declarations]
+   56 |   if (hardware_interface::SystemInterface::on_init(info) !=
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+In file included from /opt/ros/jazzy/include/hardware_interface/hardware_interface/system_interface.hpp:18,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/control_board_hardware_interface/include/control_board_hardware_interface/control_board_hardware_interface.hpp:15,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/control_board_hardware_interface/src/control_board_hardware_interface.cpp:1:
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/hardware_component_interface.hpp:140:26: note: declared here
+  140 |   virtual CallbackReturn on_init(const HardwareInfo & hardware_info);
+      |                          ^~~~~~~
+---
+Finished <<< control_board_hardware_interface [24.9s]
+Starting >>> joy_utils
+Finished <<< joy_utils [25.9s]
+Starting >>> neural_controller
+--- stderr: neural_controller
+CMake Deprecation Warning at modules/RTNeural/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.5 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/align_motion_test.cpp: In function ‘int main(int, char**)’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/align_motion_test.cpp:28:7: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   28 |       for(auto&x:q)std::cin>>x;for(auto&x:qd)std::cin>>x;
+      |       ^~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/align_motion_test.cpp:28:32: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   28 |       for(auto&x:q)std::cin>>x;for(auto&x:qd)std::cin>>x;
+      |                                ^~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/align_motion_test.cpp:29:7: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   29 |       for(auto&x:angular)std::cin>>x;for(auto&x:gravity)std::cin>>x;for(auto&x:action)std::cin>>x;
+      |       ^~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/align_motion_test.cpp:29:38: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   29 |       for(auto&x:angular)std::cin>>x;for(auto&x:gravity)std::cin>>x;for(auto&x:action)std::cin>>x;
+      |                                      ^~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/align_motion_test.cpp:38:7: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   38 |       for(double x:motion.applied)std::cout<<x<<' ';for(double x:motion.velocity)std::cout<<x<<' ';
+      |       ^~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/align_motion_test.cpp:38:53: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   38 |       for(double x:motion.applied)std::cout<<x<<' ';for(double x:motion.velocity)std::cout<<x<<' ';
+      |                                                     ^~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/align_motion_test.cpp:39:7: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   39 |       for(double x:wheels)std::cout<<x<<' ';for(bool x:h.completed)std::cout<<x<<' ';
+      |       ^~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/align_motion_test.cpp:39:45: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   39 |       for(double x:wheels)std::cout<<x<<' ';for(bool x:h.completed)std::cout<<x<<' ';
+      |                                             ^~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:18,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/include/neural_controller/keyframe_controller.hpp:2,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:1:
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_buffer.h:25:2: warning: #warning "This header include is deprecated. Please update your code to use 'realtime_buffer.hpp' header." [-Wcpp]
+   25 | #warning \
+      |  ^~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:18,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:1:
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_buffer.h:25:2: warning: #warning "This header include is deprecated. Please update your code to use 'realtime_buffer.hpp' header." [-Wcpp]
+   25 | #warning \
+      |  ^~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:19:
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_publisher.h:25:2: warning: #warning "This header include is deprecated. Please update your code to use 'realtime_publisher.hpp' header." [-Wcpp]
+   25 | #warning \
+      |  ^~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:19:
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_publisher.h:25:2: warning: #warning "This header include is deprecated. Please update your code to use 'realtime_publisher.hpp' header." [-Wcpp]
+   25 | #warning \
+      |  ^~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d.h:5,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/Model.h:14,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/RTNeural.h:19,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/align_export_test.cpp:1:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp: In instantiation of ‘RTNeural::Conv2D<T>::Conv2D(int, int, int, int, int, int, int, bool) [with T = float]’:
+/usr/include/c++/13/bits/unique_ptr.h:1070:30:   required from ‘std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = RTNeural::Conv2D<float>; _Args = {int&, int&, int&, int&, int&, int&, int&, bool&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<RTNeural::Conv2D<float> >]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:215:48:   required from ‘std::unique_ptr<RTNeural::Conv2D<T> > RTNeural::json_parser::createConv2D(int, int, int, int, int, int, int, bool, const nlohmann::json_v3_11_1::json&) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:668:44:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(const nlohmann::json_v3_11_1::json&, bool) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:717:28:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(std::ifstream&, bool) [with T = float; std::ifstream = std::basic_ifstream<char>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/align_export_test.cpp:10:79:   required from here
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:103:15: warning: ‘RTNeural::Conv2D<float>::num_filters_out’ will be initialized after [-Wreorder]
+  103 |     const int num_filters_out;
+      |               ^~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:102:15: warning:   ‘const int RTNeural::Conv2D<float>::num_features_in’ [-Wreorder]
+  102 |     const int num_features_in;
+      |               ^~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv2D<T>::Conv2D(int in_num_filters_in, int in_num_filters_out, int in_num_features_in, int in_kernel_size_time, int in_kernel_size_feature,
+      | ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:110:16: warning: ‘RTNeural::Conv2D<float>::valid_pad’ will be initialized after [-Wreorder]
+  110 |     const bool valid_pad;
+      |                ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:18:187: warning:   base ‘RTNeural::Layer<float>’ [-Wreorder]
+   18 |     , Layer<T>(in_num_features_in * in_num_filters_in, Conv1DStateless<T>::computeNumFeaturesOut(in_num_features_in, in_kernel_size_feature, in_stride, in_valid_pad) * in_num_filters_out)
+      |                                                                                                                                                                                           ^
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv2D<T>::Conv2D(int in_num_filters_in, int in_num_filters_out, int in_num_features_in, int in_kernel_size_time, int in_kernel_size_feature,
+      | ^~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless.h:5,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp: In instantiation of ‘RTNeural::Conv1DStateless<T>::Conv1DStateless(int, int, int, int, int, bool) [with T = float]’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:20:43:   required from ‘RTNeural::Conv2D<T>::Conv2D(int, int, int, int, int, int, int, bool) [with T = float]’
+/usr/include/c++/13/bits/unique_ptr.h:1070:30:   required from ‘std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = RTNeural::Conv2D<float>; _Args = {int&, int&, int&, int&, int&, int&, int&, bool&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<RTNeural::Conv2D<float> >]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:215:48:   required from ‘std::unique_ptr<RTNeural::Conv2D<T> > RTNeural::json_parser::createConv2D(int, int, int, int, int, int, int, bool, const nlohmann::json_v3_11_1::json&) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:668:44:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(const nlohmann::json_v3_11_1::json&, bool) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:717:28:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(std::ifstream&, bool) [with T = float; std::ifstream = std::basic_ifstream<char>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/align_export_test.cpp:10:79:   required from here
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:130:16: warning: ‘RTNeural::Conv1DStateless<float>::valid_pad’ will be initialized after [-Wreorder]
+  130 |     const bool valid_pad;
+      |                ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:129:15: warning:   ‘const int RTNeural::Conv1DStateless<float>::num_features_out’ [-Wreorder]
+  129 |     const int num_features_out;
+      |               ^~~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv1DStateless<T>::Conv1DStateless(int in_num_filters_in, int in_num_features_in, int in_num_filters_out, int in_kernel_size, int in_stride, bool in_valid_pad)
+      | ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:132:15: warning: ‘RTNeural::Conv1DStateless<float>::pad_right’ will be initialized after [-Wreorder]
+  132 |     const int pad_right;
+      |               ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:16:159: warning:   base ‘RTNeural::Layer<float>’ [-Wreorder]
+   16 |     , Layer<T>(in_num_filters_in * in_num_features_in, in_num_filters_out * computeNumFeaturesOut(in_num_features_in, in_kernel_size, in_stride, in_valid_pad))
+      |                                                                                                                                                               ^
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv1DStateless<T>::Conv1DStateless(int in_num_filters_in, int in_num_features_in, int in_num_filters_out, int in_kernel_size, int in_stride, bool in_valid_pad)
+      | ^~~~~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d.h:5,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/Model.h:14,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/RTNeural.h:19,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/hybrid_policy_test.cpp:1:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp: In instantiation of ‘RTNeural::Conv2D<T>::Conv2D(int, int, int, int, int, int, int, bool) [with T = float]’:
+/usr/include/c++/13/bits/unique_ptr.h:1070:30:   required from ‘std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = RTNeural::Conv2D<float>; _Args = {int&, int&, int&, int&, int&, int&, int&, bool&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<RTNeural::Conv2D<float> >]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:215:48:   required from ‘std::unique_ptr<RTNeural::Conv2D<T> > RTNeural::json_parser::createConv2D(int, int, int, int, int, int, int, bool, const nlohmann::json_v3_11_1::json&) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:668:44:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(const nlohmann::json_v3_11_1::json&, bool) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:717:28:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(std::ifstream&, bool) [with T = float; std::ifstream = std::basic_ifstream<char>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/hybrid_policy_test.cpp:18:57:   required from here
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:103:15: warning: ‘RTNeural::Conv2D<float>::num_filters_out’ will be initialized after [-Wreorder]
+  103 |     const int num_filters_out;
+      |               ^~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:102:15: warning:   ‘const int RTNeural::Conv2D<float>::num_features_in’ [-Wreorder]
+  102 |     const int num_features_in;
+      |               ^~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv2D<T>::Conv2D(int in_num_filters_in, int in_num_filters_out, int in_num_features_in, int in_kernel_size_time, int in_kernel_size_feature,
+      | ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:110:16: warning: ‘RTNeural::Conv2D<float>::valid_pad’ will be initialized after [-Wreorder]
+  110 |     const bool valid_pad;
+      |                ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:18:187: warning:   base ‘RTNeural::Layer<float>’ [-Wreorder]
+   18 |     , Layer<T>(in_num_features_in * in_num_filters_in, Conv1DStateless<T>::computeNumFeaturesOut(in_num_features_in, in_kernel_size_feature, in_stride, in_valid_pad) * in_num_filters_out)
+      |                                                                                                                                                                                           ^
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv2D<T>::Conv2D(int in_num_filters_in, int in_num_filters_out, int in_num_features_in, int in_kernel_size_time, int in_kernel_size_feature,
+      | ^~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d.h:5,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/Model.h:14,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/RTNeural.h:19,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/wheel_policy_test.cpp:1:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp: In instantiation of ‘RTNeural::Conv2D<T>::Conv2D(int, int, int, int, int, int, int, bool) [with T = float]’:
+/usr/include/c++/13/bits/unique_ptr.h:1070:30:   required from ‘std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = RTNeural::Conv2D<float>; _Args = {int&, int&, int&, int&, int&, int&, int&, bool&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<RTNeural::Conv2D<float> >]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:215:48:   required from ‘std::unique_ptr<RTNeural::Conv2D<T> > RTNeural::json_parser::createConv2D(int, int, int, int, int, int, int, bool, const nlohmann::json_v3_11_1::json&) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:668:44:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(const nlohmann::json_v3_11_1::json&, bool) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:717:28:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(std::ifstream&, bool) [with T = float; std::ifstream = std::basic_ifstream<char>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/wheel_policy_test.cpp:35:79:   required from here
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:103:15: warning: ‘RTNeural::Conv2D<float>::num_filters_out’ will be initialized after [-Wreorder]
+  103 |     const int num_filters_out;
+      |               ^~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:102:15: warning:   ‘const int RTNeural::Conv2D<float>::num_features_in’ [-Wreorder]
+  102 |     const int num_features_in;
+      |               ^~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv2D<T>::Conv2D(int in_num_filters_in, int in_num_filters_out, int in_num_features_in, int in_kernel_size_time, int in_kernel_size_feature,
+      | ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:110:16: warning: ‘RTNeural::Conv2D<float>::valid_pad’ will be initialized after [-Wreorder]
+  110 |     const bool valid_pad;
+      |                ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:18:187: warning:   base ‘RTNeural::Layer<float>’ [-Wreorder]
+   18 |     , Layer<T>(in_num_features_in * in_num_filters_in, Conv1DStateless<T>::computeNumFeaturesOut(in_num_features_in, in_kernel_size_feature, in_stride, in_valid_pad) * in_num_filters_out)
+      |                                                                                                                                                                                           ^
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv2D<T>::Conv2D(int in_num_filters_in, int in_num_filters_out, int in_num_features_in, int in_kernel_size_time, int in_kernel_size_feature,
+      | ^~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless.h:5,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp: In instantiation of ‘RTNeural::Conv1DStateless<T>::Conv1DStateless(int, int, int, int, int, bool) [with T = float]’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:20:43:   required from ‘RTNeural::Conv2D<T>::Conv2D(int, int, int, int, int, int, int, bool) [with T = float]’
+/usr/include/c++/13/bits/unique_ptr.h:1070:30:   required from ‘std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = RTNeural::Conv2D<float>; _Args = {int&, int&, int&, int&, int&, int&, int&, bool&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<RTNeural::Conv2D<float> >]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:215:48:   required from ‘std::unique_ptr<RTNeural::Conv2D<T> > RTNeural::json_parser::createConv2D(int, int, int, int, int, int, int, bool, const nlohmann::json_v3_11_1::json&) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:668:44:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(const nlohmann::json_v3_11_1::json&, bool) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:717:28:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(std::ifstream&, bool) [with T = float; std::ifstream = std::basic_ifstream<char>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/hybrid_policy_test.cpp:18:57:   required from here
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:130:16: warning: ‘RTNeural::Conv1DStateless<float>::valid_pad’ will be initialized after [-Wreorder]
+  130 |     const bool valid_pad;
+      |                ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:129:15: warning:   ‘const int RTNeural::Conv1DStateless<float>::num_features_out’ [-Wreorder]
+  129 |     const int num_features_out;
+      |               ^~~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv1DStateless<T>::Conv1DStateless(int in_num_filters_in, int in_num_features_in, int in_num_filters_out, int in_kernel_size, int in_stride, bool in_valid_pad)
+      | ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:132:15: warning: ‘RTNeural::Conv1DStateless<float>::pad_right’ will be initialized after [-Wreorder]
+  132 |     const int pad_right;
+      |               ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:16:159: warning:   base ‘RTNeural::Layer<float>’ [-Wreorder]
+   16 |     , Layer<T>(in_num_filters_in * in_num_features_in, in_num_filters_out * computeNumFeaturesOut(in_num_features_in, in_kernel_size, in_stride, in_valid_pad))
+      |                                                                                                                                                               ^
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv1DStateless<T>::Conv1DStateless(int in_num_filters_in, int in_num_features_in, int in_num_filters_out, int in_kernel_size, int in_stride, bool in_valid_pad)
+      | ^~~~~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless.h:5,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp: In instantiation of ‘RTNeural::Conv1DStateless<T>::Conv1DStateless(int, int, int, int, int, bool) [with T = float]’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:20:43:   required from ‘RTNeural::Conv2D<T>::Conv2D(int, int, int, int, int, int, int, bool) [with T = float]’
+/usr/include/c++/13/bits/unique_ptr.h:1070:30:   required from ‘std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = RTNeural::Conv2D<float>; _Args = {int&, int&, int&, int&, int&, int&, int&, bool&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<RTNeural::Conv2D<float> >]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:215:48:   required from ‘std::unique_ptr<RTNeural::Conv2D<T> > RTNeural::json_parser::createConv2D(int, int, int, int, int, int, int, bool, const nlohmann::json_v3_11_1::json&) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:668:44:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(const nlohmann::json_v3_11_1::json&, bool) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:717:28:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(std::ifstream&, bool) [with T = float; std::ifstream = std::basic_ifstream<char>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/wheel_policy_test.cpp:35:79:   required from here
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:130:16: warning: ‘RTNeural::Conv1DStateless<float>::valid_pad’ will be initialized after [-Wreorder]
+  130 |     const bool valid_pad;
+      |                ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:129:15: warning:   ‘const int RTNeural::Conv1DStateless<float>::num_features_out’ [-Wreorder]
+  129 |     const int num_features_out;
+      |               ^~~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv1DStateless<T>::Conv1DStateless(int in_num_filters_in, int in_num_features_in, int in_num_filters_out, int in_kernel_size, int in_stride, bool in_valid_pad)
+      | ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:132:15: warning: ‘RTNeural::Conv1DStateless<float>::pad_right’ will be initialized after [-Wreorder]
+  132 |     const int pad_right;
+      |               ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:16:159: warning:   base ‘RTNeural::Layer<float>’ [-Wreorder]
+   16 |     , Layer<T>(in_num_filters_in * in_num_features_in, in_num_filters_out * computeNumFeaturesOut(in_num_features_in, in_kernel_size, in_stride, in_valid_pad))
+      |                                                                                                                                                               ^
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv1DStateless<T>::Conv1DStateless(int in_num_filters_in, int in_num_features_in, int in_num_filters_out, int in_kernel_size, int in_stride, bool in_valid_pad)
+      | ^~~~~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d.h:5,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/Model.h:14,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/RTNeural.h:19,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/walk_policy_test.cpp:2:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp: In instantiation of ‘RTNeural::Conv2D<T>::Conv2D(int, int, int, int, int, int, int, bool) [with T = float]’:
+/usr/include/c++/13/bits/unique_ptr.h:1070:30:   required from ‘std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = RTNeural::Conv2D<float>; _Args = {int&, int&, int&, int&, int&, int&, int&, bool&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<RTNeural::Conv2D<float> >]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:215:48:   required from ‘std::unique_ptr<RTNeural::Conv2D<T> > RTNeural::json_parser::createConv2D(int, int, int, int, int, int, int, bool, const nlohmann::json_v3_11_1::json&) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:668:44:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(const nlohmann::json_v3_11_1::json&, bool) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:717:28:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(std::ifstream&, bool) [with T = float; std::ifstream = std::basic_ifstream<char>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/walk_policy_test.cpp:51:57:   required from here
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:103:15: warning: ‘RTNeural::Conv2D<float>::num_filters_out’ will be initialized after [-Wreorder]
+  103 |     const int num_filters_out;
+      |               ^~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:102:15: warning:   ‘const int RTNeural::Conv2D<float>::num_features_in’ [-Wreorder]
+  102 |     const int num_features_in;
+      |               ^~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv2D<T>::Conv2D(int in_num_filters_in, int in_num_filters_out, int in_num_features_in, int in_kernel_size_time, int in_kernel_size_feature,
+      | ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:110:16: warning: ‘RTNeural::Conv2D<float>::valid_pad’ will be initialized after [-Wreorder]
+  110 |     const bool valid_pad;
+      |                ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:18:187: warning:   base ‘RTNeural::Layer<float>’ [-Wreorder]
+   18 |     , Layer<T>(in_num_features_in * in_num_filters_in, Conv1DStateless<T>::computeNumFeaturesOut(in_num_features_in, in_kernel_size_feature, in_stride, in_valid_pad) * in_num_filters_out)
+      |                                                                                                                                                                                           ^
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv2D<T>::Conv2D(int in_num_filters_in, int in_num_filters_out, int in_num_features_in, int in_kernel_size_time, int in_kernel_size_feature,
+      | ^~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless.h:5,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp: In instantiation of ‘RTNeural::Conv1DStateless<T>::Conv1DStateless(int, int, int, int, int, bool) [with T = float]’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:20:43:   required from ‘RTNeural::Conv2D<T>::Conv2D(int, int, int, int, int, int, int, bool) [with T = float]’
+/usr/include/c++/13/bits/unique_ptr.h:1070:30:   required from ‘std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = RTNeural::Conv2D<float>; _Args = {int&, int&, int&, int&, int&, int&, int&, bool&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<RTNeural::Conv2D<float> >]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:215:48:   required from ‘std::unique_ptr<RTNeural::Conv2D<T> > RTNeural::json_parser::createConv2D(int, int, int, int, int, int, int, bool, const nlohmann::json_v3_11_1::json&) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:668:44:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(const nlohmann::json_v3_11_1::json&, bool) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:717:28:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(std::ifstream&, bool) [with T = float; std::ifstream = std::basic_ifstream<char>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/walk_policy_test.cpp:51:57:   required from here
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:130:16: warning: ‘RTNeural::Conv1DStateless<float>::valid_pad’ will be initialized after [-Wreorder]
+  130 |     const bool valid_pad;
+      |                ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:129:15: warning:   ‘const int RTNeural::Conv1DStateless<float>::num_features_out’ [-Wreorder]
+  129 |     const int num_features_out;
+      |               ^~~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv1DStateless<T>::Conv1DStateless(int in_num_filters_in, int in_num_features_in, int in_num_filters_out, int in_kernel_size, int in_stride, bool in_valid_pad)
+      | ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:132:15: warning: ‘RTNeural::Conv1DStateless<float>::pad_right’ will be initialized after [-Wreorder]
+  132 |     const int pad_right;
+      |               ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:16:159: warning:   base ‘RTNeural::Layer<float>’ [-Wreorder]
+   16 |     , Layer<T>(in_num_filters_in * in_num_features_in, in_num_filters_out * computeNumFeaturesOut(in_num_features_in, in_kernel_size, in_stride, in_valid_pad))
+      |                                                                                                                                                               ^
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv1DStateless<T>::Conv1DStateless(int in_num_filters_in, int in_num_features_in, int in_num_filters_out, int in_kernel_size, int in_stride, bool in_valid_pad)
+      | ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp: In member function ‘RTNeural::Conv1DStateless<T>& RTNeural::Conv1DStateless<T>::operator=(const RTNeural::Conv1DStateless<T>&) [with T = float]’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:34:21: warning: infinite recursion detected [-Winfinite-recursion]
+   34 | Conv1DStateless<T>& Conv1DStateless<T>::operator=(const Conv1DStateless<T>& other)
+      |                     ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:36:18: note: recursive call
+   36 |     return *this = Conv1DStateless<T>(other);
+      |            ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp: In member function ‘RTNeural::Conv1DStateless<T>& RTNeural::Conv1DStateless<T>::operator=(const RTNeural::Conv1DStateless<T>&) [with T = float]’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:34:21: warning: infinite recursion detected [-Winfinite-recursion]
+   34 | Conv1DStateless<T>& Conv1DStateless<T>::operator=(const Conv1DStateless<T>& other)
+      |                     ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:36:18: note: recursive call
+   36 |     return *this = Conv1DStateless<T>(other);
+      |            ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp: In member function ‘RTNeural::Conv1DStateless<T>& RTNeural::Conv1DStateless<T>::operator=(const RTNeural::Conv1DStateless<T>&) [with T = float]’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:34:21: warning: infinite recursion detected [-Winfinite-recursion]
+   34 | Conv1DStateless<T>& Conv1DStateless<T>::operator=(const Conv1DStateless<T>& other)
+      |                     ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:36:18: note: recursive call
+   36 |     return *this = Conv1DStateless<T>(other);
+      |            ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp: In member function ‘RTNeural::Conv1DStateless<T>& RTNeural::Conv1DStateless<T>::operator=(const RTNeural::Conv1DStateless<T>&) [with T = float]’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:34:21: warning: infinite recursion detected [-Winfinite-recursion]
+   34 | Conv1DStateless<T>& Conv1DStateless<T>::operator=(const Conv1DStateless<T>& other)
+      |                     ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:36:18: note: recursive call
+   36 |     return *this = Conv1DStateless<T>(other);
+      |            ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp: In instantiation of ‘neural_controller::NeuralController::on_init()::<lambda(const std::string&, auto:49&)> [with auto:49 = std::vector<double, std::allocator<double> >; std::string = std::__cxx11::basic_string<char>]’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:120:37:   required from ‘neural_controller::NeuralController::on_init()::<lambda(const std::string&, auto:51&, int)> [with auto:51 = std::vector<double, std::allocator<double> >; std::string = std::__cxx11::basic_string<char>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:129:30:   required from here
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:100:27: warning: comparison of integer expressions of different signedness: ‘int’ and ‘std::vector<double, std::allocator<double> >::size_type’ {aka ‘long unsigned int’} [-Wsign-compare]
+  100 |         for (int i = 0; i < param.size(); i++) {
+      |                         ~~^~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp: In member function ‘virtual controller_interface::CallbackReturn neural_controller::NeuralController::on_activate(const rclcpp_lifecycle::State&)’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:367:91: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  367 |         state_interfaces_map_.at(params_.joint_names.at(i)).at("position").get().get_value();
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+In file included from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface_base.hpp:30,
+                 from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface.hpp:21,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:12:
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:385:68: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  385 |     for (auto &interface : command_interfaces_) interface.set_value(0.0);
+      |                                                 ~~~~~~~~~~~~~~~~~~~^~~~~
+In file included from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface_base.hpp:29:
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp: In member function ‘virtual controller_interface::CallbackReturn neural_controller::NeuralController::on_deactivate(const rclcpp_lifecycle::State&)’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:509:32: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  509 |     command_interface.set_value(0.0);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:515:19: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  512 |     command_interfaces_map_.at(params_.joint_names.at(i))
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  513 |         .at("kd")
+      |         ~~~~~~~~~  
+  514 |         .get()
+      |         ~~~~~~     
+  515 |         .set_value(params_.estop_kd);
+      |         ~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp: In member function ‘void neural_controller::NeuralController::integrate_alignment_motion(double)’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:538:88: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  538 |     command_interfaces_map_.at(params_.joint_names[row]).at("position").get().set_value(motion_.applied[a]);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp: In member function ‘virtual controller_interface::return_type neural_controller::NeuralController::update(const rclcpp::Time&, const rclcpp::Duration&)’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:547:84: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  547 |     for (auto &command_interface : command_interfaces_) command_interface.set_value(0.0);
+      |                                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:550:36: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  549 |       command_interfaces_map_.at(params_.joint_names.at(i))
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  550 |           .at("kd").get().set_value(params_.estop_kd);
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:559:103: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  559 |         hybrid_q_[i] = state_interfaces_map_.at(params_.joint_names[i]).at("position").get().get_value();
+      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:560:104: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  560 |         hybrid_qd_[i] = state_interfaces_map_.at(params_.joint_names[i]).at("velocity").get().get_value();
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:567:90: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  567 |         command_interfaces_map_.at(params_.joint_names[i]).at("velocity").get().set_value(
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+  568 |             WheelAlignHybrid::wheel_pd(hybrid_.hold[i / 3], hybrid_q_[i], hybrid_qd_[i]));
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:569:84: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  569 |         command_interfaces_map_.at(params_.joint_names[i]).at("kp").get().set_value(0.0);
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:570:84: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  570 |         command_interfaces_map_.at(params_.joint_names[i]).at("kd").get().set_value(
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+  571 |             params_.kds[i] * params_.gain_multiplier);
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                               
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:589:21: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  586 |       command_interfaces_map_.at(params_.joint_names.at(i))
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  587 |           .at("position")
+      |           ~~~~~~~~~~~~~~~
+  588 |           .get()
+      |           ~~~~~~     
+  589 |           .set_value(interpolated_joint_pos);
+      |           ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:593:21: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  590 |       command_interfaces_map_.at(params_.joint_names.at(i))
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  591 |           .at("kp")
+      |           ~~~~~~~~~  
+  592 |           .get()
+      |           ~~~~~~     
+  593 |           .set_value(params_.init_kps.at(i));
+      |           ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:597:21: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  594 |       command_interfaces_map_.at(params_.joint_names.at(i))
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  595 |           .at("kd")
+      |           ~~~~~~~~~  
+  596 |           .get()
+      |           ~~~~~~     
+  597 |           .set_value(params_.init_kds.at(i));
+      |           ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:675:31: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  672 |     ang_vel_x = state_interfaces_map_.at(params_.imu_sensor_name)
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  673 |                     .at("angular_velocity.x")
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~
+  674 |                     .get()
+      |                     ~~~~~~     
+  675 |                     .get_value();
+      |                     ~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:679:31: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  676 |     ang_vel_y = state_interfaces_map_.at(params_.imu_sensor_name)
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  677 |                     .at("angular_velocity.y")
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~
+  678 |                     .get()
+      |                     ~~~~~~     
+  679 |                     .get_value();
+      |                     ~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:683:31: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  680 |     ang_vel_z = state_interfaces_map_.at(params_.imu_sensor_name)
+      |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  681 |                     .at("angular_velocity.z")
+      |                     ~~~~~~~~~~~~~~~~~~~~~~~~~
+  682 |                     .get()
+      |                     ~~~~~~     
+  683 |                     .get_value();
+      |                     ~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:685:94: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  685 |         state_interfaces_map_.at(params_.imu_sensor_name).at("orientation.w").get().get_value();
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:687:94: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  687 |         state_interfaces_map_.at(params_.imu_sensor_name).at("orientation.x").get().get_value();
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:689:94: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  689 |         state_interfaces_map_.at(params_.imu_sensor_name).at("orientation.y").get().get_value();
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:691:94: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  691 |         state_interfaces_map_.at(params_.imu_sensor_name).at("orientation.z").get().get_value();
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:696:107: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  696 |       time_since_measurement_seconds = imu_interfaces.at("time_since_measurement_seconds").get().get_value();
+      |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:754:103: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  754 |         hybrid_q_[i] = state_interfaces_map_.at(params_.joint_names[i]).at("position").get().get_value();
+      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:755:104: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  755 |         hybrid_qd_[i] = state_interfaces_map_.at(params_.joint_names[i]).at("velocity").get().get_value();
+      |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:835:95: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  835 |             state_interfaces_map_.at(params_.joint_names.at(i)).at("position").get().get_value();
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:848:95: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  848 |             state_interfaces_map_.at(params_.joint_names.at(i)).at("velocity").get().get_value();
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp: In member function ‘void neural_controller::KeyframeController::release_torque()’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:63:62: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   63 |   for(auto& interface:command_interfaces_)interface.set_value(0.);
+      |                                           ~~~~~~~~~~~~~~~~~~~^~~~
+In file included from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface_base.hpp:29,
+                 from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface.hpp:21,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:12:
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp: In member function ‘bool neural_controller::KeyframeController::read_sensors(keyframe_align::V12&, keyframe_align::V12&, keyframe_align::V3&, keyframe_align::V3&)’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:71:89: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+   71 |     q[i]=state_interfaces_map_.at(params_.joint_names[i]).at("position").get().get_value();
+      |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+In file included from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface_base.hpp:30:
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:72:90: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+   72 |     qd[i]=state_interfaces_map_.at(params_.joint_names[i]).at("velocity").get().get_value();
+      |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:78:80: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+   78 |   for(int i=0;i<3;++i){w[i]=imu.at("angular_velocity."+axes[i]).get().get_value();if(!std::isfinite(w[i]))return false;}
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:79:63: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+   79 |   tf2::Quaternion quat(imu.at("orientation.x").get().get_value(),imu.at("orientation.y").get().get_value(),
+      |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:1027:19: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+ 1024 |     command_interfaces_map_.at(params_.joint_names.at(i))
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1025 |         .at(params_.action_types.at(i))
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1026 |         .get()
+      |         ~~~~~~     
+ 1027 |         .set_value((double)action_.at(i));
+      |         ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:79:105: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+   79 |   tf2::Quaternion quat(imu.at("orientation.x").get().get_value(),imu.at("orientation.y").get().get_value(),
+      |                                                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:1031:19: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+ 1028 |     command_interfaces_map_.at(params_.joint_names.at(i))
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1029 |         .at("kp")
+      |         ~~~~~~~~~  
+ 1030 |         .get()
+      |         ~~~~~~     
+ 1031 |         .set_value(params_.kps.at(i) * params_.gain_multiplier);
+      |         ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:80:44: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+   80 |     imu.at("orientation.z").get().get_value(),imu.at("orientation.w").get().get_value());
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:80:86: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+   80 |     imu.at("orientation.z").get().get_value(),imu.at("orientation.w").get().get_value());
+      |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:1035:19: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+ 1032 |     command_interfaces_map_.at(params_.joint_names.at(i))
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1033 |         .at("kd")
+      |         ~~~~~~~~~  
+ 1034 |         .get()
+      |         ~~~~~~     
+ 1035 |         .set_value(params_.kds.at(i) * params_.gain_multiplier);
+      |         ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:87:45: warning: ‘double hardware_interface::LoanedStateInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+   87 |   double seconds=age->second.get().get_value();
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:98:10: note: declared here
+   98 |   double get_value() const
+      |          ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp: In member function ‘virtual controller_interface::return_type neural_controller::KeyframeController::update(const rclcpp::Time&, const rclcpp::Duration&)’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:132:41: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  132 |     joint.at("position").get().set_value(wheel ? o.wheel_position[i/3]:o.position[2*(i/3)+i%3]);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:133:41: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  133 |     joint.at("velocity").get().set_value(0.);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:134:39: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  134 |     joint.at("effort").get().set_value(wheel ? o.wheel_effort[i/3]:0.);joint.at("kp").get().set_value(wheel ? keyframes_.config.wheel_position_kp:params_.kps[i]);joint.at("kd").get().set_value(wheel ? keyframes_.config.wheel_position_kd:params_.kds[i]);
+      |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:134:102: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  134 |     joint.at("effort").get().set_value(wheel ? o.wheel_effort[i/3]:0.);joint.at("kp").get().set_value(wheel ? keyframes_.config.wheel_position_kp:params_.kps[i]);joint.at("kd").get().set_value(wheel ? keyframes_.config.wheel_position_kd:params_.kds[i]);
+      |                                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:134:193: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  134 |     joint.at("effort").get().set_value(wheel ? o.wheel_effort[i/3]:0.);joint.at("kp").get().set_value(wheel ? keyframes_.config.wheel_position_kp:params_.kps[i]);joint.at("kd").get().set_value(wheel ? keyframes_.config.wheel_position_kd:params_.kds[i]);
+      |                                                                                                                                                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp: In member function ‘void neural_controller::KeyframeController::publish_status(const keyframe_align::Output&)’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/keyframe_controller.cpp:145:140: warning: ‘double hardware_interface::LoanedCommandInterface::get_value() const’ is deprecated: Use std::optional<T> get_optional() instead to retrieve the value. This method will be removed by the ROS 2 Kilted Kaiju release. [-Wdeprecated-declarations]
+  145 |     for(int i=0;i<12;++i)for(int j=0;j<5;++j)values[5*i+j]=command_interfaces_map_.at(params_.joint_names[i]).at(fields[j]).get().get_value();
+      |                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:138:10: note: declared here
+  138 |   double get_value() const
+      |          ^~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d.h:5,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/Model.h:14,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/RTNeural.h:19,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:3:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp: In instantiation of ‘RTNeural::Conv2D<T>::Conv2D(int, int, int, int, int, int, int, bool) [with T = float]’:
+/usr/include/c++/13/bits/unique_ptr.h:1070:30:   required from ‘std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = RTNeural::Conv2D<float>; _Args = {int&, int&, int&, int&, int&, int&, int&, bool&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<RTNeural::Conv2D<float> >]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:215:48:   required from ‘std::unique_ptr<RTNeural::Conv2D<T> > RTNeural::json_parser::createConv2D(int, int, int, int, int, int, int, bool, const nlohmann::json_v3_11_1::json&) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:668:44:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(const nlohmann::json_v3_11_1::json&, bool) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:717:28:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(std::ifstream&, bool) [with T = float; std::ifstream = std::basic_ifstream<char>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:60:53:   required from here
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:103:15: warning: ‘RTNeural::Conv2D<float>::num_filters_out’ will be initialized after [-Wreorder]
+  103 |     const int num_filters_out;
+      |               ^~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:102:15: warning:   ‘const int RTNeural::Conv2D<float>::num_features_in’ [-Wreorder]
+  102 |     const int num_features_in;
+      |               ^~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv2D<T>::Conv2D(int in_num_filters_in, int in_num_filters_out, int in_num_features_in, int in_kernel_size_time, int in_kernel_size_feature,
+      | ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:110:16: warning: ‘RTNeural::Conv2D<float>::valid_pad’ will be initialized after [-Wreorder]
+  110 |     const bool valid_pad;
+      |                ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:18:187: warning:   base ‘RTNeural::Layer<float>’ [-Wreorder]
+   18 |     , Layer<T>(in_num_features_in * in_num_filters_in, Conv1DStateless<T>::computeNumFeaturesOut(in_num_features_in, in_kernel_size_feature, in_stride, in_valid_pad) * in_num_filters_out)
+      |                                                                                                                                                                                           ^
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv2D<T>::Conv2D(int in_num_filters_in, int in_num_filters_out, int in_num_features_in, int in_kernel_size_time, int in_kernel_size_feature,
+      | ^~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless.h:5,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp: In instantiation of ‘RTNeural::Conv1DStateless<T>::Conv1DStateless(int, int, int, int, int, bool) [with T = float]’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:20:43:   required from ‘RTNeural::Conv2D<T>::Conv2D(int, int, int, int, int, int, int, bool) [with T = float]’
+/usr/include/c++/13/bits/unique_ptr.h:1070:30:   required from ‘std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = RTNeural::Conv2D<float>; _Args = {int&, int&, int&, int&, int&, int&, int&, bool&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<RTNeural::Conv2D<float> >]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:215:48:   required from ‘std::unique_ptr<RTNeural::Conv2D<T> > RTNeural::json_parser::createConv2D(int, int, int, int, int, int, int, bool, const nlohmann::json_v3_11_1::json&) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:668:44:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(const nlohmann::json_v3_11_1::json&, bool) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:717:28:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(std::ifstream&, bool) [with T = float; std::ifstream = std::basic_ifstream<char>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/src/neural_controller.cpp:60:53:   required from here
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:130:16: warning: ‘RTNeural::Conv1DStateless<float>::valid_pad’ will be initialized after [-Wreorder]
+  130 |     const bool valid_pad;
+      |                ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:129:15: warning:   ‘const int RTNeural::Conv1DStateless<float>::num_features_out’ [-Wreorder]
+  129 |     const int num_features_out;
+      |               ^~~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv1DStateless<T>::Conv1DStateless(int in_num_filters_in, int in_num_features_in, int in_num_filters_out, int in_kernel_size, int in_stride, bool in_valid_pad)
+      | ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:132:15: warning: ‘RTNeural::Conv1DStateless<float>::pad_right’ will be initialized after [-Wreorder]
+  132 |     const int pad_right;
+      |               ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:16:159: warning:   base ‘RTNeural::Layer<float>’ [-Wreorder]
+   16 |     , Layer<T>(in_num_filters_in * in_num_features_in, in_num_filters_out * computeNumFeaturesOut(in_num_features_in, in_kernel_size, in_stride, in_valid_pad))
+      |                                                                                                                                                               ^
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv1DStateless<T>::Conv1DStateless(int in_num_filters_in, int in_num_features_in, int in_num_filters_out, int in_kernel_size, int in_stride, bool in_valid_pad)
+      | ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp: In member function ‘RTNeural::Conv1DStateless<T>& RTNeural::Conv1DStateless<T>::operator=(const RTNeural::Conv1DStateless<T>&) [with T = float]’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:34:21: warning: infinite recursion detected [-Winfinite-recursion]
+   34 | Conv1DStateless<T>& Conv1DStateless<T>::operator=(const Conv1DStateless<T>& other)
+      |                     ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:36:18: note: recursive call
+   36 |     return *this = Conv1DStateless<T>(other);
+      |            ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:18,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/include/neural_controller/keyframe_controller.hpp:2,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:2:
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_buffer.h:25:2: warning: #warning "This header include is deprecated. Please update your code to use 'realtime_buffer.hpp' header." [-Wcpp]
+   25 | #warning \
+      |  ^~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:18,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/hybrid_controller_test.cpp:2:
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_buffer.h:25:2: warning: #warning "This header include is deprecated. Please update your code to use 'realtime_buffer.hpp' header." [-Wcpp]
+   25 | #warning \
+      |  ^~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:19:
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_publisher.h:25:2: warning: #warning "This header include is deprecated. Please update your code to use 'realtime_publisher.hpp' header." [-Wcpp]
+   25 | #warning \
+      |  ^~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:19:
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_publisher.h:25:2: warning: #warning "This header include is deprecated. Please update your code to use 'realtime_publisher.hpp' header." [-Wcpp]
+   25 | #warning \
+      |  ^~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp: In function ‘int main(int, char**)’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:31:27: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   31 |     require(c.on_configure({})==controller_interface::CallbackReturn::SUCCESS,"configure");
+      |             ~~~~~~~~~~~~~~^~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:31:27: note: in C++11 and above a default constructor can be explicit
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp: In lambda function:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:45:7: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   45 |       for(auto& x:commands)ci.emplace_back(x);for(auto& x:states)si.emplace_back(x);c.assign_interfaces(std::move(ci),std::move(si));};
+      |       ^~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:45:47: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   45 |       for(auto& x:commands)ci.emplace_back(x);for(auto& x:states)si.emplace_back(x);c.assign_interfaces(std::move(ci),std::move(si));};
+      |                                               ^~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp: In function ‘int main(int, char**)’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:46:35: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   46 |     assign();require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"Missing calibration rejects direct activation");
+      |                      ~~~~~~~~~~~~~^~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:46:35: note: in C++11 and above a default constructor can be explicit
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:54:26: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   54 |     require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Confirmed fixture activates");
+      |             ~~~~~~~~~~~~~^~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:54:26: note: in C++11 and above a default constructor can be explicit
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:77:50: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   77 |     c.stop();tick();check_brake();c.on_deactivate({});
+      |                                   ~~~~~~~~~~~~~~~^~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:77:50: note: in C++11 and above a default constructor can be explicit
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:78:5: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   78 |     for(int k=0;k<4;++k)q[3*k+2]=home[k]+16*M_PI+.2;qd.fill(0);
+      |     ^~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:78:53: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   78 |     for(int k=0;k<4;++k)q[3*k+2]=home[k]+16*M_PI+.2;qd.fill(0);
+      |                                                     ^~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:80:35: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   80 |     assign();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Reentry shares live homes");
+      |                      ~~~~~~~~~~~~~^~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:80:35: note: in C++11 and above a default constructor can be explicit
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:84:20: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   84 |     c.on_deactivate({});for(int a=0;a<8;++a)q[keyframe_align::rows[a]]=keyframe_align::Geometry::neutral[a];qd.fill(0);
+      |     ~~~~~~~~~~~~~~~^~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:84:20: note: in C++11 and above a default constructor can be explicit
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:85:35: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   85 |     assign();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Explicit lifecycle reset clears stop");
+      |                      ~~~~~~~~~~~~~^~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:85:35: note: in C++11 and above a default constructor can be explicit
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:86:54: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   86 |     c.command(9);tick();check_brake();c.on_deactivate({});
+      |                                       ~~~~~~~~~~~~~~~^~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:86:54: note: in C++11 and above a default constructor can be explicit
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:89:37: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   89 |       assign();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Timing test activation");
+      |                        ~~~~~~~~~~~~~^~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:89:37: note: in C++11 and above a default constructor can be explicit
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:92:22: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   92 |       c.on_deactivate({});
+      |       ~~~~~~~~~~~~~~~^~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:92:22: note: in C++11 and above a default constructor can be explicit
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:94:35: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   94 |     assign();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Gap test activation");
+      |                      ~~~~~~~~~~~~~^~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:94:35: note: in C++11 and above a default constructor can be explicit
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:96:34: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   96 |     check_brake();c.on_deactivate({});
+      |                   ~~~~~~~~~~~~~~~^~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:96:34: note: in C++11 and above a default constructor can be explicit
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:99:26: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   99 |     require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"New encoder session invalidates fixture");
+      |             ~~~~~~~~~~~~~^~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/keyframe_controller_test.cpp:99:26: note: in C++11 and above a default constructor can be explicit
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d.h:5,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/Model.h:14,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/RTNeural.h:19,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:3:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp: In instantiation of ‘RTNeural::Conv2D<T>::Conv2D(int, int, int, int, int, int, int, bool) [with T = float]’:
+/usr/include/c++/13/bits/unique_ptr.h:1070:30:   required from ‘std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = RTNeural::Conv2D<float>; _Args = {int&, int&, int&, int&, int&, int&, int&, bool&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<RTNeural::Conv2D<float> >]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:215:48:   required from ‘std::unique_ptr<RTNeural::Conv2D<T> > RTNeural::json_parser::createConv2D(int, int, int, int, int, int, int, bool, const nlohmann::json_v3_11_1::json&) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:668:44:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(const nlohmann::json_v3_11_1::json&, bool) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:717:28:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(std::ifstream&, bool) [with T = float; std::ifstream = std::basic_ifstream<char>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/hybrid_controller_test.cpp:117:59:   required from here
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:103:15: warning: ‘RTNeural::Conv2D<float>::num_filters_out’ will be initialized after [-Wreorder]
+  103 |     const int num_filters_out;
+      |               ^~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:102:15: warning:   ‘const int RTNeural::Conv2D<float>::num_features_in’ [-Wreorder]
+  102 |     const int num_features_in;
+      |               ^~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv2D<T>::Conv2D(int in_num_filters_in, int in_num_filters_out, int in_num_features_in, int in_kernel_size_time, int in_kernel_size_feature,
+      | ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:110:16: warning: ‘RTNeural::Conv2D<float>::valid_pad’ will be initialized after [-Wreorder]
+  110 |     const bool valid_pad;
+      |                ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:18:187: warning:   base ‘RTNeural::Layer<float>’ [-Wreorder]
+   18 |     , Layer<T>(in_num_features_in * in_num_filters_in, Conv1DStateless<T>::computeNumFeaturesOut(in_num_features_in, in_kernel_size_feature, in_stride, in_valid_pad) * in_num_filters_out)
+      |                                                                                                                                                                                           ^
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv2D<T>::Conv2D(int in_num_filters_in, int in_num_filters_out, int in_num_features_in, int in_kernel_size_time, int in_kernel_size_feature,
+      | ^~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless.h:5,
+                 from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp: In instantiation of ‘RTNeural::Conv1DStateless<T>::Conv1DStateless(int, int, int, int, int, bool) [with T = float]’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/conv2d_eigen.tpp:20:43:   required from ‘RTNeural::Conv2D<T>::Conv2D(int, int, int, int, int, int, int, bool) [with T = float]’
+/usr/include/c++/13/bits/unique_ptr.h:1070:30:   required from ‘std::__detail::__unique_ptr_t<_Tp> std::make_unique(_Args&& ...) [with _Tp = RTNeural::Conv2D<float>; _Args = {int&, int&, int&, int&, int&, int&, int&, bool&}; __detail::__unique_ptr_t<_Tp> = __detail::__unique_ptr_t<RTNeural::Conv2D<float> >]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:215:48:   required from ‘std::unique_ptr<RTNeural::Conv2D<T> > RTNeural::json_parser::createConv2D(int, int, int, int, int, int, int, bool, const nlohmann::json_v3_11_1::json&) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:668:44:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(const nlohmann::json_v3_11_1::json&, bool) [with T = float; nlohmann::json_v3_11_1::json = nlohmann::json_v3_11_1::basic_json<>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/model_loader.h:717:28:   required from ‘std::unique_ptr<RTNeural::Model<T> > RTNeural::json_parser::parseJson(std::ifstream&, bool) [with T = float; std::ifstream = std::basic_ifstream<char>]’
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/test/hybrid_controller_test.cpp:117:59:   required from here
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:130:16: warning: ‘RTNeural::Conv1DStateless<float>::valid_pad’ will be initialized after [-Wreorder]
+  130 |     const bool valid_pad;
+      |                ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:129:15: warning:   ‘const int RTNeural::Conv1DStateless<float>::num_features_out’ [-Wreorder]
+  129 |     const int num_features_out;
+      |               ^~~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless.h:6:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv1DStateless<T>::Conv1DStateless(int in_num_filters_in, int in_num_features_in, int in_num_filters_out, int in_kernel_size, int in_stride, bool in_valid_pad)
+      | ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.h:132:15: warning: ‘RTNeural::Conv1DStateless<float>::pad_right’ will be initialized after [-Wreorder]
+  132 |     const int pad_right;
+      |               ^~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:16:159: warning:   base ‘RTNeural::Layer<float>’ [-Wreorder]
+   16 |     , Layer<T>(in_num_filters_in * in_num_features_in, in_num_filters_out * computeNumFeaturesOut(in_num_features_in, in_kernel_size, in_stride, in_valid_pad))
+      |                                                                                                                                                               ^
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:6:1: warning:   when initialized here [-Wreorder]
+    6 | Conv1DStateless<T>::Conv1DStateless(int in_num_filters_in, int in_num_features_in, int in_num_filters_out, int in_kernel_size, int in_stride, bool in_valid_pad)
+      | ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp: In member function ‘RTNeural::Conv1DStateless<T>& RTNeural::Conv1DStateless<T>::operator=(const RTNeural::Conv1DStateless<T>&) [with T = float]’:
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:34:21: warning: infinite recursion detected [-Winfinite-recursion]
+   34 | Conv1DStateless<T>& Conv1DStateless<T>::operator=(const Conv1DStateless<T>& other)
+      |                     ^~~~~~~~~~~~~~~~~~
+/mnt/c/Users/tundt/Desktop/Pupper_animation/ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/../RTNeural/conv2d/../conv1d_stateless/conv1d_stateless_eigen.tpp:36:18: note: recursive call
+   36 |     return *this = Conv1DStateless<T>(other);
+      |            ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+---
+Finished <<< neural_controller [4min 56s]
+
+Summary: 7 packages finished [6min 50s]
+  2 packages had stderr output: control_board_hardware_interface neural_controller

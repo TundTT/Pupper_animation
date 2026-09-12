@@ -2,9 +2,9 @@
 
 # Selected walking policy for the 9 mm assembly gap
 
-The active `policy_walk_v2.json` now contains the selected **12,779,520-step** checkpoint from `walk_2026-09-11_23-02-17` (W&B `j3xez9z5`). This replaces the old walking weights in the same file. **Square (button 3)** still activates `neural_controller_walk_v2`.
+The active `policy_walk_v2.json` now contains the selected **12,779,520-step** checkpoint from `walk_2026-09-11_23-02-17` (W&B `j3xez9z5`). This replaces the old walking weights in the same file. **Triangle (button 2)** activates `neural_controller_walk_v2`.
 
-The active `policy_wheel.json` is the September 11 wheel gap retrain. **Triangle (button 2)** still activates `neural_controller_wheel`. X retains the existing alignment binding. Controller launch/configuration, calibration, gains, timing, and emergency-stop behavior are unchanged.
+The active `policy_wheel.json` is the September 11 wheel gap retrain. **Circle (button 1)** activates `neural_controller_wheel`. The full launch retains X alignment; the focused locomotion trial leaves X unbound. Policy gains, timing, and calibration remain unchanged. See [LOCOMOTION_LAB.md](LOCOMOTION_LAB.md) for the focused launch, reduced stick limits, current controls, and preparation command.
 
 ## Exact walking policy
 
@@ -72,19 +72,19 @@ colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo -D
 source install/local_setup.bash
 cd ..
 python3 scripts/check_walk_policy.py --package-share "$(ros2 pkg prefix neural_controller)/share/neural_controller"
-ros2 launch neural_controller launch.py
+ros2 launch neural_controller locomotion_trial.launch.py
 ```
 
 Launch starts walk mode **inactive**. With zero stick commands and the torso
-supported, press **Square** to activate. Confirm the two-second move to home is
-smooth. Use the existing emergency-stop button (configured `/joy` index 12),
+supported, press **Triangle** to activate. Confirm the two-second move to home is
+smooth. Use the existing emergency-stop button (configured `/joy` index 10, verified as PS on the connected DualSense),
 verifying the actual device mapping before relying on it. A terminal stop is:
 
 ```sh
 ros2 topic pub --once /emergency_stop std_msgs/msg/Empty '{}'
 ```
 
-**X retains the existing alignment binding; it is not an emergency stop.**
+**X is unbound in the focused trial and enters alignment in the full launch; it is not an emergency stop.**
 Verify the stop during a supported startup as well as after startup before floor
 walking. Reactivation clears the controller's stop latch and starts the init ramp
 again, so keep the robot supported for this check.
@@ -103,7 +103,7 @@ This controller does not add a new timeout for direct commands in this port.
 
 ## Record and assess
 
-Use the existing bag recorder (L1 start / R1 stop), or run
+The focused trial uses the separate recording command in LOCOMOTION_LAB.md; L1/R1 recording is available only in the full launch. Alternatively, run
 `bash scripts/record_all_except_raw_camera.sh` in a separate terminal. Capture
 `/cmd_vel`, `/joint_states`, `/neural_controller_walk_v2/observation`,
 `/neural_controller_walk_v2/policy_output`,

@@ -40,8 +40,13 @@ def check(repo, package_share=None):
     assert policy['orientation_command'] == [0, 0, 1]
     buttons = config['joy_util_node']['ros__parameters']
     mapping = dict(zip(buttons['switch_button_indices'], buttons['controller_names']))
-    assert mapping[3] == 'neural_controller_walk_v2', 'Square must select walking'
-    assert mapping[2] == 'neural_controller_wheel', 'Triangle must preserve wheel mode'
+    assert mapping[2] == 'neural_controller_walk_v2', 'Triangle must select walking'
+    assert mapping[1] == 'neural_controller_wheel', 'Circle must select wheel mode'
+    assert buttons['leg_lift_button_index'] == -1, 'Legacy circle cycle must be disabled'
+    indices = buttons['switch_button_indices']
+    assert len(indices) == len(set(indices)), 'Duplicate policy bindings'
+    assert not set(indices) & {buttons['estop_index'], buttons['estop_release_index'],
+                               buttons['wheel_align_hybrid_button_index']}
     # X is handled by the existing dedicated alignment path, not the generic map.
     assert 0 not in mapping, 'X must not also bind a generic controller switch'
     assert buttons['wheel_align_hybrid_button_index'] == 0

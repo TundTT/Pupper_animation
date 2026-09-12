@@ -1,0 +1,20 @@
+{
+  "device": "/dev/input/js0",
+  "axes": 8,
+  "buttons": 13,
+  "button_map": {
+    "0": "BTN_SOUTH / X",
+    "1": "BTN_EAST / Circle",
+    "2": "BTN_NORTH / Triangle",
+    "3": "BTN_WEST / Square",
+    "4": "310",
+    "5": "311",
+    "6": "312",
+    "7": "313",
+    "8": "314",
+    "9": "BTN_START / Options",
+    "10": "BTN_MODE / PS",
+    "11": "317",
+    "12": "318"
+  }
+}

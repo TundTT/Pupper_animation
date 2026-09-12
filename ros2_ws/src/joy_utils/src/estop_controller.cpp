@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <atomic>
 #include <mutex>
+#include <set>
 #include <thread>
 
 class EStopController : public rclcpp::Node {
@@ -76,6 +77,20 @@ public:
     this->get_parameter("wheel_align_hybrid_command_states", wheel_align_hybrid_command_states_);
     this->get_parameter("wheel_align_hybrid_cycle_states", wheel_align_hybrid_cycle_states_);
     this->get_parameter("wheel_align_hybrid_command_topic", wheel_align_hybrid_command_topic_);
+
+    // A face button must never dispatch both a policy and a legacy leg cycle.
+    if (switch_button_indices_.size() > controller_names_.size())
+      throw std::runtime_error("More switch buttons than controller names");
+    std::set<long> bound_buttons;
+    auto reserve_button = [&bound_buttons](long index) {
+      if (index >= 0 && !bound_buttons.insert(index).second)
+        throw std::runtime_error("Conflicting joystick binding at button " + std::to_string(index));
+    };
+    reserve_button(estop_index_);
+    reserve_button(estop_release_index_);
+    reserve_button(leg_lift_button_index_);
+    reserve_button(wheel_align_hybrid_button_index_);
+    for (auto index : switch_button_indices_) reserve_button(index);
 
     // Every name in leg_lift_cycle_states must resolve in leg_lift_command_states, or we'd
     // silently command the wrong leg -- fail loudly at startup instead.

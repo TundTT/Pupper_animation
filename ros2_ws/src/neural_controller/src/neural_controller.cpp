@@ -428,7 +428,7 @@ controller_interface::CallbackReturn NeuralController::on_activate(
 
   // Initialize the command subscriber
   cmd_vel_subscriber_ = get_node()->create_subscription<geometry_msgs::msg::Twist>(
-      "/cmd_vel", rclcpp::SystemDefaultsQoS(),
+      params_.cmd_vel_topic, rclcpp::SystemDefaultsQoS(),
       [this](const geometry_msgs::msg::Twist::SharedPtr msg) {
         rt_cmd_vel_ptr_.writeFromNonRT(msg);
       });

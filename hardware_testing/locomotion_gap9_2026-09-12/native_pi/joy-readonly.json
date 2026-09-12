@@ -1,0 +1,30 @@
+{
+  "read_only_domain": 96,
+  "messages_received": 5,
+  "buttons": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "axes": [
+    -0.0,
+    0.0,
+    0.0,
+    0.0,
+    -0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "scope": "Physical joystick publisher only; no controller manager or hardware stack."
+}

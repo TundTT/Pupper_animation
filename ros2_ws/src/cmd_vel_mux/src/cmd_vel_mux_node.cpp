@@ -5,6 +5,8 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <cmath>
+#include <stdexcept>
 
 class CmdVelMux : public rclcpp::Node
 {
@@ -14,6 +16,10 @@ public:
         // Declare parameters
         this->declare_parameter("deadband", 0.05);
         this->declare_parameter("timeout_ms", 500);
+        const auto wheel_topic = this->declare_parameter<std::string>("wheel_output_topic", "");
+        wheel_forward_multiplier_ = this->declare_parameter("wheel_forward_multiplier", 1.0);
+        if (!std::isfinite(wheel_forward_multiplier_) || wheel_forward_multiplier_ <= 0.0)
+            throw std::invalid_argument("wheel_forward_multiplier must be finite and positive");
 
         // Declare input sources as a list in priority order
         // First in list = highest priority
@@ -60,6 +66,8 @@ public:
 
         // Publishers
         cmd_vel_pub_ = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10);
+        if (!wheel_topic.empty())
+            wheel_cmd_vel_pub_ = this->create_publisher<geometry_msgs::msg::Twist>(wheel_topic, 10);
         status_pub_ = this->create_publisher<std_msgs::msg::String>("/cmd_vel_mux/active_source", 10);
 
         // Initialize state
@@ -187,6 +195,14 @@ private:
         if (should_publish)
         {
             cmd_vel_pub_->publish(output_cmd_vel);
+            // Separate command streams keep walking unchanged, including during
+            // controller switches. The same source timeout zeros both outputs.
+            if (wheel_cmd_vel_pub_)
+            {
+                auto wheel_command = output_cmd_vel;
+                wheel_command.linear.x *= wheel_forward_multiplier_;
+                wheel_cmd_vel_pub_->publish(wheel_command);
+            }
         }
 
         // Update status if the active source changed
@@ -207,6 +223,8 @@ private:
 
     // Publishers
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_pub_;
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr wheel_cmd_vel_pub_;
+    double wheel_forward_multiplier_ = 1.0;
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr status_pub_;
 
     // Timer

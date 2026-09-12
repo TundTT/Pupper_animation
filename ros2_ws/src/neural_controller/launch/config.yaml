@@ -431,61 +431,31 @@ cmd_vel_mux:
 
 joy_util_node:
   ros__parameters:
-    estop_index: 12
+    estop_index: 10  # Live DualSense /dev/input/js0: BTN_MODE (PS); 12 is R3
     estop_release_index: 9
-    # NOTE: switch_button_indices maps POSITIONALLY onto the first N entries of
-    # controller_names (estop_controller.cpp: switch_button_indices_[i] ->
-    # controller_names_[i]), so the order of the first four entries here is
-    # load-bearing and must stay in this order. The remaining entries are not
-    # button-mapped through this array; they are listed so this node deactivates
-    # them when switching (order-independent for that purpose).
+    # Generic button indices pair positionally with the first controller names.
+    # Remaining names are included so switching/stop deactivates all motion.
     controller_names: ["neural_controller_walk_v2", "neural_controller_wheel", "neural_controller_three_legged", "neural_controller", "neural_controller_leg_lift", "neural_controller_wheel_align_hybrid", "forward_kp_controller", "forward_kd_controller", "forward_position_controller"]
-    # Seeds latest_active_controller_ at boot -- NOT read positionally from controller_names
-    # above (see estop_controller.cpp). This is genuinely the controller launch.py spawns
-    # active by default.
-    default_controller_name: "neural_controller"
-    # Square (3) -> neural_controller_walk_v2, the new sim-validated-only walking
-    #   policy -- moved here from L2 at the user's request, replacing
-    #   neural_controller_three_legged's old binding on this button.
-    # Triangle (2) -> neural_controller_wheel (the wheeled velocity policy; drive it
-    #   with /cmd_vel from the sticks, same as locomotion).
-    # L2 (6) -> neural_controller_three_legged (moved here to free up Square for
-    #   walk_v2 above). Button 6 was previously walk_v2's own guessed, unverified
-    #   slot; three_legged has been hardware-tested before, so reusing its slot for
-    #   the still-unverified button is lower-risk than leaving walk_v2 on it.
-    # X (0) is NOT here anymore: it's the wheel-align-hybrid button below (2026-09-09,
-    # at the user's request, replacing its old "back to locomotion" job). There is
-    # currently NO button bound to plain neural_controller (locomotion) -- PS (estop)
-    # + Options (release) reactivates whatever was latest_active_controller_, not
-    # locomotion specifically. "neural_controller" stays in this list (moved to index 3,
-    # after the three positionally-mapped entries above) purely so estop_controller.cpp's
-    # deactivate-everything-else logic still includes it; it is intentionally NOT
-    # positionally paired with any entry in switch_button_indices below.
-    # O (1) is NOT here either: it's the leg-lift button, handled separately since it
-    # enters leg-lift mode on first press and cycles legs on repeated presses, rather
-    # than switching once.
-    switch_button_indices: [3, 2, 6]
+    # All policies start inactive. Options selects this before the first selection.
+    default_controller_name: "neural_controller_walk_v2"
+    # Triangle (2): selected 9 mm gap walking; Circle (1): gap wheel policy.
+    # L2 (6): legacy three-legged mode in the full launch only. Square is unbound.
+    switch_button_indices: [2, 1, 6]
 
-    # O-button leg-lift cycle. First press (from any other controller) activates
-    # neural_controller_leg_lift and immediately commands front_l; each subsequent press while
-    # it's active advances to the next state in leg_lift_cycle_states. Press X to leave leg-lift
-    # mode and enter alignment.
-    # X enters alignment using the shared startup calibration and fresh current holds.
-    # Subsequent presses select FL/FR/BR/BL. X never captures or replaces home.
-    # See STARTUP_CALIBRATION.md before launching any policy on hardware.
+    # X retains alignment in the full launch. The locomotion trial disables it.
+    # Follow STARTUP_CALIBRATION.md before any hardware launch.
     wheel_align_hybrid_button_index: 0
     wheel_align_hybrid_controller_name: "neural_controller_wheel_align_hybrid"
     wheel_align_hybrid_command_states: ["stand", "front_l", "front_r", "back_r", "back_l"]
     wheel_align_hybrid_cycle_states: ["front_l", "front_r", "back_r", "back_l"]
     wheel_align_hybrid_command_topic: "/wheel_align_hybrid_command_index"
 
-    leg_lift_button_index: 1
+    leg_lift_button_index: -1  # Circle is exclusively wheeled locomotion
     leg_lift_controller_name: "neural_controller_leg_lift"
     # Must match configs.COMMAND_STATES / policy_leg_lift.json's command_states (index 0 = stand)
     # so button presses map to the command indices the policy was trained on.
     leg_lift_command_states: ["stand", "front_l", "front_r", "back_r", "back_l"]
-    # The order O steps through: front_l -> front_r -> back_r -> back_l -> repeat. "stand" is
-    # reachable via the X button (switches back to locomotion), not part of this repeating cycle.
+    # Retained for dedicated leg-lift launches; unbound in the normal configuration.
     leg_lift_cycle_states: ["front_l", "front_r", "back_r", "back_l"]
 
 # Forward command controllers for animation system

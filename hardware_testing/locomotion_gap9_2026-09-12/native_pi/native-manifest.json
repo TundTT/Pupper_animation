@@ -1,0 +1,67 @@
+{
+  "base_commit": "c11f5ced198961c4f49af8b0833417077f9dbb9b",
+  "platform": "Linux-6.12.47+rpt-rpi-2712-aarch64-with-glibc2.36",
+  "source_state": "reviewed working-tree overlay",
+  "package_prefixes": {
+    "robot_calibration": "/home/pi/robot-code-leglift/ros2_ws/install/robot_calibration",
+    "control_board_hardware_interface": "/home/pi/robot-code-leglift/ros2_ws/install/control_board_hardware_interface",
+    "neural_controller": "/home/pi/robot-code-leglift/ros2_ws/install/neural_controller",
+    "joy_utils": "/home/pi/robot-code-leglift/ros2_ws/install/joy_utils",
+    "pupper_v3_description": "/home/pi/robot-code-leglift/ros2_ws/install/pupper_v3_description",
+    "cmd_vel_mux": "/home/pi/robot-code-leglift/ros2_ws/install/cmd_vel_mux",
+    "animation_controller_py": "/home/pi/robot-code-leglift/ros2_ws/install/animation_controller_py"
+  },
+  "installed_binaries": {
+    "neural_controller/lib/libneural_controller.so": {
+      "sha256": "c3af6613437c1ca8b3f726fe9a0d3134af0347452c7a3e863780df528860dcf4",
+      "missing_dependencies": false
+    },
+    "control_board_hardware_interface/lib/libcontrol_board_hardware_interface.so": {
+      "sha256": "ca99888a417e801306d9aa33417a25bdd3a8a151338c2b2b56d1e6bee663a07e",
+      "missing_dependencies": false
+    },
+    "joy_utils/lib/joy_utils/estop_controller": {
+      "sha256": "bd8a7034f869392376ef6436c1c95957d611e9ebab908d6d26bf3dd83dcf6eb1",
+      "missing_dependencies": false
+    },
+    "cmd_vel_mux/lib/cmd_vel_mux/cmd_vel_mux_node": {
+      "sha256": "897c26ae0f56924c18c677036c398347cffd6c62be7fadc0b8196766b0d54660",
+      "missing_dependencies": false
+    }
+  },
+  "source_sha256": {
+    "AGENTS.md": "1381a049b9b5d7f458af92281b36018716140b4141faf9982fa227fcfe1d1f8d",
+    "LOCOMOTION_LAB.md": "de19e384df10377060c1103d23f3e6cfbcfba8a0809a52844fcb0a03cb851961",
+    "STARTUP_CALIBRATION.md": "7dc2d88a7f96f1488ffe4d044dd0701a85b930186815237a9095d13f31e7a887",
+    "WALK_V2_TESTING.md": "f5cdb2deb5ba925a36ca117acc35744731deecc26decbd6475cd404dbc204f55",
+    "WHEEL_TESTING.md": "ab1e446aa7e9ec737d6113078ecdd7f4e09531413a81371a5c3ec53e1cefc8b8",
+    "hardware_testing/walk_gap9_2026-09-11/selection.json": "b6f1e6e809dccb0a6e9352eca1cee0a67bd203b773e0d585cd485a386fccae70",
+    "hardware_testing/wheel_gap9_2026-09-11/manifest.json": "32aa4d3596ebe8352c60e38922965ec08ba614377432c37b9dbf6a028aa0c640",
+    "ros2_ws/src/joy_utils/CMakeLists.txt": "6a0b7fd92277b2c6d9377f75c3f9ebaf4e9a93d6573a25ef708892bafe7edf0b",
+    "ros2_ws/src/joy_utils/src/estop_controller.cpp": "5d4f73e0a4942e7a5a265e660e137ebff4b2a9005ab40bf6dc64fc2dba79bd1b",
+    "ros2_ws/src/joy_utils/test/locomotion_joystick_test.py": "6a5cf7fd2e6f551d0cc1d4d4cf28e861d0e8467bb0396badd1050cd899728506",
+    "ros2_ws/src/neural_controller/CMakeLists.txt": "6ff99640e3490fd3e7292e5512108412d6317c848056526d6681fca02d795a27",
+    "ros2_ws/src/neural_controller/launch/config.yaml": "c362c207c9297353396b451f9f51cfe8aec313c4b5d916d6d884d549d43d7589",
+    "ros2_ws/src/neural_controller/launch/launch.py": "fe9e87701781c412e1371727a5f8bf60b2c562f28e386161dd19c7a4008214f1",
+    "ros2_ws/src/neural_controller/launch/locomotion_trial.launch.py": "76721bc311c80a2850def4f5e58b88c610d9036ffc4a7e163541912402fe8b7f",
+    "ros2_ws/src/neural_controller/launch/policy_walk_v2.json": "854ac8ba4ffc305079b7f6f7b52187a211413c3cdb18f0de016dd819ff2450a8",
+    "ros2_ws/src/neural_controller/launch/policy_wheel.json": "87a54417a534974e9aa02428e691747f2855012f4b9383f096097d11b9b853e9",
+    "ros2_ws/src/neural_controller/test/locomotion_manager_test.py": "ef38add2e75d0fca5cd6f1c7860f0ccb49c1306b58b48554cfdba5ca46844e32",
+    "ros2_ws/src/neural_controller/test/startup_launch_test.py": "2452ce2d0fab9918d309ab38bb8fdf32a1ddf82bd81c68c08e888ef6603754d7",
+    "ros2_ws/src/neural_controller/test/walk_policy_reference.csv": "4e21cbb42fd6b6081ce3b16154f01e0665d177ea29321f8c2e7c454f91b36274",
+    "ros2_ws/src/neural_controller/test/wheel_policy_reference.csv": "a5127a93ee38ef778d3f31fbc82c74e56d2f3ebc129dcc62da8bcd410b2eba8e",
+    "ros2_ws/src/neural_controller/test/wheel_policy_test.cpp": "db93e834e033ce820b6973f06c35b7e68f390635872e9562d9b11b832cb4bb97",
+    "scripts/calibrate_robot.py": "3e5296d79c04374eaf1fd42f66aa2d05ca69f26c61637a06f24ed7abbd146914",
+    "scripts/check_locomotion_policies.py": "801c5951a0371f7b73a8c0b8fcfbf8e3c0a3cee8b7b1ef885c9776f2e9c0df07",
+    "scripts/check_walk_policy.py": "8d11b924b253dd7e2d8740396ec01c9c115d9d5cb431e0560906fd974cb89a71",
+    "scripts/prepare_locomotion.sh": "bf071665f9423ed999497afb940436098ac8fc38572143c5d69dd4d86b1a14cf",
+    "scripts/test_walk_policy.sh": "78a5681393337500b42a3f16022f831b91317371e2182985a461738043729ba6",
+    "scripts/test_wheel_policy.sh": "73b1da34ad691f6567cb9dd5f9d783e9d97fbe471abed9ec096e2889c1ade05c"
+  },
+  "config_sha256": "c362c207c9297353396b451f9f51cfe8aec313c4b5d916d6d884d549d43d7589",
+  "triangle": 2,
+  "circle": 1,
+  "ps_stop": 10,
+  "options_resume": 9,
+  "hardware_started": false
+}

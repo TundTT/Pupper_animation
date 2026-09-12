@@ -183,7 +183,7 @@ def generate_launch_description():
         ],
     )
 
-    # Wheeled locomotion policy (Triangle button). Inactive by default, like the
+    # Wheeled locomotion policy (Circle button). Inactive by default, like the
     # other neural controllers -- joy_util_node activates it on demand.
     wheel_robot_controller_spawner = Node(
         package="controller_manager",
@@ -201,7 +201,7 @@ def generate_launch_description():
 
     # New leg-walking policy (branch `leg`). SIM-VALIDATED ONLY -- see
     # WALK_V2_TESTING.md. Inactive by default, like the other neural
-    # controllers; joy_util_node activates it on Square (button 3).
+    # controllers; joy_util_node activates it on Triangle (button 2).
     walk_v2_robot_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",

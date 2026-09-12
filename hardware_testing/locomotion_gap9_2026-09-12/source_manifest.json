@@ -1,0 +1,25 @@
+{
+  "base_commit": "bb393e4bbce8a8414fffaa71bac8702477831f39",
+  "state": "Working tree preparation; not installed on Pi",
+  "platform": "WSL Ubuntu, x86_64, ROS Jazzy",
+  "build_base": "/tmp/quadmorph-locomotion/build",
+  "install_base": "/tmp/quadmorph-locomotion/install",
+  "files_sha256": {
+    "scripts/prepare_locomotion.sh": "bf071665f9423ed999497afb940436098ac8fc38572143c5d69dd4d86b1a14cf",
+    "scripts/check_locomotion_policies.py": "801c5951a0371f7b73a8c0b8fcfbf8e3c0a3cee8b7b1ef885c9776f2e9c0df07",
+    "scripts/check_walk_policy.py": "8d11b924b253dd7e2d8740396ec01c9c115d9d5cb431e0560906fd974cb89a71",
+    "ros2_ws/src/neural_controller/launch/locomotion_trial.launch.py": "76721bc311c80a2850def4f5e58b88c610d9036ffc4a7e163541912402fe8b7f",
+    "ros2_ws/src/neural_controller/launch/config.yaml": "5791004598bbe95ce875a0d06452bf4ae431e23cd552f1c3d5115477553b9d39",
+    "ros2_ws/src/neural_controller/launch/policy_walk_v2.json": "854ac8ba4ffc305079b7f6f7b52187a211413c3cdb18f0de016dd819ff2450a8",
+    "ros2_ws/src/neural_controller/launch/policy_wheel.json": "87a54417a534974e9aa02428e691747f2855012f4b9383f096097d11b9b853e9",
+    "ros2_ws/src/neural_controller/launch/calibration_hardware.yaml": "850172afa2869bae03a13af89f0ad2aa16c0cc6f94d1b103ff08b4a62a429c13",
+    "ros2_ws/src/neural_controller/src/neural_controller.cpp": "32d11217175011c18c0b272e00db95fe94c7930f933e8e09402d2d6f07b2662e",
+    "ros2_ws/src/neural_controller/test/locomotion_manager_test.py": "ef38add2e75d0fca5cd6f1c7860f0ccb49c1306b58b48554cfdba5ca46844e32",
+    "ros2_ws/src/joy_utils/src/estop_controller.cpp": "5d4f73e0a4942e7a5a265e660e137ebff4b2a9005ab40bf6dc64fc2dba79bd1b",
+    "ros2_ws/src/joy_utils/test/locomotion_joystick_test.py": "f5a17fd7c45701eeacea2d705f47c7e24e0aaf2d291878945e4c572e5a2bb984",
+    "ros2_ws/src/cmd_vel_mux/src/cmd_vel_mux_node.cpp": "adca5944fc545ee49146122521060e1e59d062de7f3b48be1c5834f5d5f7fc16",
+    "ros2_ws/src/pupper_v3_description/description/components.xacro": "a869de2a23d0ceaf9997575bdca9a202781c557366138be69c714ed7e9a4683e",
+    "ros2_ws/src/control_board_hardware_interface/src/control_board_hardware_interface.cpp": "0e5f61260026c78216e95a9389bca2dfff6b68eff338b8cc149186c43fee77c9",
+    "LOCOMOTION_LAB.md": "e326d0974ff7eb09d0f4e22e4065744c82c18187272194739b65455774cba98b"
+  }
+}

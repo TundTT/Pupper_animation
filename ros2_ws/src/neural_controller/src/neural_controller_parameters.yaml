@@ -1,4 +1,8 @@
 neural_controller:
+  cmd_vel_topic:
+    type: string
+    default_value: "/cmd_vel"
+    description: "Velocity command input; dedicated wheel trial uses /wheel_cmd_vel."
   calibration_required:
     type: bool
     default_value: true

@@ -14,6 +14,7 @@ from launch.utilities import normalize_to_list_of_substitutions, perform_substit
 
 def parse_controllers(args):
     """Exercise the installed spawner parser without creating a ROS node."""
+    args = args[:args.index("--ros-args")] if "--ros-args" in args else args
     if hasattr(spawner, "parse_native_args"):
         return spawner.parse_native_args(args)[1]
 
@@ -44,7 +45,6 @@ def parse_controllers(args):
 
 
 def assert_calibration_gate(args, expected):
-    args = args[:args.index("--ros-args")] if "--ros-args" in args else args
     controllers = parse_controllers(args)
     assert len(controllers) == 1
     controller = controllers[0]
@@ -108,3 +108,28 @@ def test_keyframe_trial_spawner_uses_calibration_and_starts_inactive():
         if args[0] == 'neural_controller_keyframe_align':
             assert_calibration_gate(args, True)
     assert names == ['joint_state_broadcaster', 'imu_sensor_broadcaster', 'neural_controller_keyframe_align']
+
+
+def test_locomotion_trial_has_only_requested_policies_and_command_path():
+    context = LaunchContext()
+    path = Path(__file__).parents[1] / 'launch' / 'locomotion_trial.launch.py'
+    description = runpy.run_path(str(path))['generate_launch_description']()
+    names, executables = [], []
+    for node in description.entities:
+        executable = perform_substitutions(context, normalize_to_list_of_substitutions(node.node_executable))
+        executables.append(executable)
+        if executable != 'spawner':
+            continue
+        args = [perform_substitutions(context, normalize_to_list_of_substitutions(word)) for word in node.cmd][1:]
+        names.append(args[0])
+        if args[0].startswith('neural_controller'):
+            assert_calibration_gate(args, True)
+            if args[0] == 'neural_controller_wheel':
+                controller = parse_controllers(args)[0]
+                assert get_parameter_from_param_files(Mock(), controller['name'], '/',
+                    controller['param_files'], 'cmd_vel_topic') == '/wheel_cmd_vel'
+    assert names == ['joint_state_broadcaster', 'imu_sensor_broadcaster',
+                     'neural_controller_walk_v2', 'neural_controller_wheel']
+    assert sorted(executables) == sorted([
+        'robot_state_publisher', 'ros2_control_node', 'joy_linux_node',
+        'estop_controller', 'teleop_node', 'cmd_vel_mux_node', *(['spawner'] * 4)])
