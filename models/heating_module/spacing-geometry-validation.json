@@ -1,0 +1,26 @@
+{
+  "poses": 300,
+  "limbs_per_pose": 4,
+  "seed": 20260912,
+  "wheel_center_z_m": [
+    0.03935,
+    0.03935,
+    0.03935,
+    0.03935
+  ],
+  "mujoco_center_max_error_m": 1.3877787807814457e-16,
+  "mujoco_axis_max_error": 1.4432899320127035e-15,
+  "cpp": {
+    "robot": {
+      "python_cpp_max_error": 1.1102230246251565e-16,
+      "floor_bound_slack_min_m": 0.00012308831090726557,
+      "floor_bound_slack_max_m": 0.004999509484898718
+    },
+    "align": {
+      "python_cpp_max_error": 1.1102230246251565e-16,
+      "floor_bound_slack_min_m": 0.00012308831090726557,
+      "floor_bound_slack_max_m": 0.004999509484898718
+    }
+  },
+  "status": "geometry consistency only; no motion or policy validation"
+}

@@ -25,9 +25,10 @@
     "LegAssemblyForFlangedv26_006_FloorHull.stl": "6cffdbd32e20359d926d23fec029863814e739c38f4353b765340eebf8a4a67b",
     "LegAssemblyForFlangedv26_013_FloorHull.stl": "e2e024de8fef6ebbdca711bb0cb835d48bcb9d0a4c7025372f898bdab5bcb0d1",
     "LegAssemblyForFlangedv26_014_FloorHull.stl": "6cffdbd32e20359d926d23fec029863814e739c38f4353b765340eebf8a4a67b",
+    "Heating_module.stl": "40d4b45c2943272e69801393df76551f3829fc41205d79f156bd49957b84a9b1",
     "ShinFloorHull.stl": "a8e4a3e59d2297da97abd0d871cb1659a1b081c07c423ae7a5304dd324c5e0c7"
   },
-  "model_sha256": "768cbeb0bfbaab0c898e6078d0b778ee2968718d98bdb2857e13538daeb607a8",
+  "model_sha256": "c274c1b3ddba73b58c89e8dded10d2d2d8e0fda37af77f631d4bedefa2d177e2",
   "gap_m": 0.009,
   "initial_joint2_rad": [
     -0.29,
@@ -38,5 +39,16 @@
   "initial_pose_status": "Model candidate for user-reported approximately 5 mm lower housing floor clearance; not a captured hardware pose",
   "components_sha256": "a869de2a23d0ceaf9997575bdca9a202781c557366138be69c714ed7e9a4683e",
   "floor_collision": "Convex hull of original CAD, floor-only mask; detailed self-collision audit required",
-  "modeling": "rigid locked post-morph; no heating; original mass and COM inertia; explicit total torque saturation 3 Nm; 520 Hz"
+  "modeling": "rigid locked post-morph; no heating; original mass and COM inertia; explicit total torque saturation 3 Nm; 520 Hz; approved fixed 0.60191707499 kg heating backpack",
+  "heating_module": {
+    "spec_sha256": "e16e7091c14b3e91fd0933e4b21885c8526fab7d961177af26750058c4884f1a",
+    "mesh_sha256": "40d4b45c2943272e69801393df76551f3829fc41205d79f156bd49957b84a9b1",
+    "generator_sha256": "9def9156a6758a7d70e494baa848c3ece29dc2acb5398f4ff8d8d4d975367479",
+    "gap_generator_sha256": "37f2789c295f88070964ce02ce9d93e9a53191576a3984ef8b14dfa69a08f7bf",
+    "additional_hub_gap_m": 0.009,
+    "placement_revision": 3,
+    "placement_approved": true,
+    "collision_mode": "floor-only proxies",
+    "added_mass_kg": 0.60191707499
+  }
 }

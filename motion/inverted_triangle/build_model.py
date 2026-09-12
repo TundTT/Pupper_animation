@@ -79,9 +79,14 @@ def build():
             ET.SubElement(actuator,'motor',name=f'leg_{leg}_{j}',joint=f'leg_{leg}_{j}',ctrlrange='-3 3',ctrllimited='true')
     root.find('keyframe').clear()
     root.find('worldbody/geom[@name="floor"]').set('conaffinity','0')
+    # Approved heating backpack: floor-only proxies preserve this model's mask contract.
+    import runpy
+    backpack = runpy.run_path(str(REPO/'models/heating_module/apply.py'))
+    backpack_manifest = backpack['add_to_tree'](root, assets, floor_only=True)
+    hashes['Heating_module.stl'] = backpack_manifest['mesh_sha256']
     root.insert(0,ET.Comment(' POST-COOLED RIGID SHINS. Additional axial gap 9 mm; no heating or deformation. Floor-only hulls; exact self-clearance audited separately. '))
     ET.indent(root)
-    (HERE/'model.xml').write_text(ET.tostring(root,encoding='unicode'))
+    (HERE/'model.xml').write_bytes(ET.tostring(root,encoding='utf-8'))
     model=mujoco.MjModel.from_xml_path(str(HERE/'model.xml'))
     q=model.qpos0.copy();q[2]=.2;q[3:7]=[1,0,0,0];q[9::3]+=np.pi
     # Candidate post-cooled stance: a small lateral joint-2 splay gives the
@@ -96,10 +101,12 @@ def build():
         lowest=min(lowest,points[:,2].min())
     q[2]-=lowest-.0005
     root.find('keyframe').append(ET.Element('key',name='inverted',qpos=' '.join(f'{v:.12g}' for v in q),ctrl=' '.join(['0']*12)))
-    ET.indent(root);(HERE/'model.xml').write_text(ET.tostring(root,encoding='unicode'))
+    ET.indent(root);(HERE/'model.xml').write_bytes(ET.tostring(root,encoding='utf-8'))
     hashes['ShinFloorHull.stl']=hashlib.sha256((assets/'ShinFloorHull.stl').read_bytes()).hexdigest()
     manifest=dict(source_commit=SOURCE,source_xml_sha256=hashlib.sha256(raw).hexdigest(),asset_sha256=hashes,model_sha256=hashlib.sha256((HERE/'model.xml').read_bytes()).hexdigest(),gap_m=.009,initial_joint2_rad=[-.29,.29,-.29,.29],initial_pose_status='Model candidate for user-reported approximately 5 mm lower housing floor clearance; not a captured hardware pose',components_sha256=hashlib.sha256((REPO/'ros2_ws/src/pupper_v3_description/description/components.xacro').read_bytes()).hexdigest(),floor_collision='Convex hull of original CAD, floor-only mask; detailed self-collision audit required',modeling='rigid locked post-morph; no heating; original mass and COM inertia; explicit total torque saturation 3 Nm; 520 Hz')
-    (HERE/'source_manifest.json').write_text(json.dumps(manifest,indent=2))
+    manifest['heating_module'] = backpack_manifest
+    manifest['modeling'] += '; approved fixed 0.60191707499 kg heating backpack'
+    (HERE/'source_manifest.json').write_bytes(json.dumps(manifest,indent=2).encode('utf-8'))
     print('Built',HERE/'model.xml')
 
 if __name__=='__main__':build()
