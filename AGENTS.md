@@ -1,5 +1,10 @@
 # Policy training and experiment logging
 
+Current alignment development is the standalone deterministic controller described
+in `KEYFRAME_ALIGNMENT.md`. Read it first. This is simulation-only; do not deploy
+the training branch's older hardware stack or bypass robot-code's shared startup
+calibration. Keep v5 training sources intact for historical replay.
+
 The user's standing preference is to log future policy training to Weights & Biases and include a real policy rollout video in the run's Media tab.
 
 - Default destination: entity `QuadMorph`, project `wheel-leg lift and align triangle base`, unless the user names another destination.

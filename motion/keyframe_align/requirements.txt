@@ -1,0 +1,8 @@
+numpy==2.4.6
+mujoco==3.6.0
+pytest==9.1.1
+pillow==12.3.0
+imageio[ffmpeg]>=2.37,<3
+wandb>=0.20,<1
+# Only needed for optional offline keyframe fitting:
+scipy>=1.15,<2

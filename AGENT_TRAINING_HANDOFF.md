@@ -1,5 +1,10 @@
 # PC agent handoff: alignment v5
 
+> Current development has moved to deterministic keyframes in
+> [KEYFRAME_ALIGNMENT.md](KEYFRAME_ALIGNMENT.md). This historical training handoff
+> is retained for v5 replay and explicitly requested training only. Do not start
+> another training run to test the new keyframe controller; use its CPU simulation.
+
 Use the latest `origin/codex/align-motion-v2`. The branch name is unchanged; the motion contract is now **v5, 83 observations / 8 actions**. Read [ALIGN_MOTION_V5.md](ALIGN_MOTION_V5.md). Start a fresh foundation run: v2/v3/v4 weights are incompatible with v5. Preserve the failed v4 run `align-motion-v4-seed0-20260911T005825Z-foundation`, W&B `5c2f3adfb8704f65`, source `0b55cf1`, and its original checkout for replay.
 
 The user will send this handoff to start training on the NVIDIA PC. No laptop training, robot deployment, controller selection, heater automation, merge into robot-code, or changes to another agent's calibration work are authorized. Inspect running jobs first; do not duplicate an existing job. Use Linux/WSL2, a Linux-filesystem checkout and a persistent tmux session. Preserve existing dependencies/drivers and use the locked environment.
