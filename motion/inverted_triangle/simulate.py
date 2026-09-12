@@ -10,11 +10,28 @@ import mujoco as mj
 from .core import Robot,LEGS,PROX,HUB,HERE,smooth,duration,provenance,SPEED,versions
 from .clearance import CADClearance
 
-def trajectory(home,lift,leg,landing_delta=.15,direction=-1):
-    shift=lift.copy();shift[3*leg:3*leg+2]=home[3*leg:3*leg+2]
+def trajectory(home,lift,leg,landing_delta=.15,direction=-1,*,pre_shift_pose=None,landing_pose=None):
+    home=np.asarray(home,dtype=float);lift=np.asarray(lift,dtype=float)
+    if home.shape!=(12,) or lift.shape!=(12,) or not np.isfinite([home,lift]).all():
+        raise ValueError('Invalid home/lift pose')
+    if direction not in [-1,1] or not np.allclose(lift[HUB],home[HUB],atol=1e-10,rtol=0):
+        raise ValueError('Lift must preserve all commanded hub references')
+    phases=[('initial_hold',home,2.)]
+    shift_home=home
+    if pre_shift_pose is not None:
+        shift_home=np.asarray(pre_shift_pose,dtype=float)
+        if shift_home.shape!=(12,) or not np.isfinite(shift_home).all() or not np.allclose(shift_home[HUB],home[HUB],atol=1e-10,rtol=0):
+            raise ValueError('Body shift must preserve all commanded hub references')
+        phases.extend([('body_shift',shift_home,4.),('body_shift_hold',shift_home,1.)])
+    shift=lift.copy();shift[3*leg:3*leg+2]=shift_home[3*leg:3*leg+2]
     turned=lift.copy();turned[HUB[leg]]+=direction*np.pi
     landed=turned.copy();landed[3*leg+1]-=(1 if leg%2==0 else -1)*landing_delta
-    return [('initial_hold',home,2.),('shift',shift,1.5),('lift',lift,2.),('clearance_hold',lift,1.),('rotate',turned,12.),('angle_hold',turned,1.),('land',landed,3.),('planted_hold',landed,2.)]
+    if landing_pose is not None:
+        landed=np.asarray(landing_pose,dtype=float)
+        if landed.shape!=(12,) or not np.isfinite(landed).all() or not np.allclose(landed[HUB],turned[HUB],atol=1e-10,rtol=0):
+            raise ValueError('Landing must preserve the turned hub references')
+    phases.extend([('shift',shift,1.5),('lift',lift,2.),('clearance_hold',lift,1.),('rotate',turned,12.),('angle_hold',turned,1.),('land',landed,4. if landing_pose is not None else 3.),('planted_hold',landed,2.)])
+    return phases
 
 def run(candidate,output,video=False,friction=.8,landing_delta=.15,direction=-1,seed=0,cad=True,start_override=None):
     source=json.loads(Path(candidate).read_text());leg=LEGS.index(source['leg'])
@@ -23,7 +40,7 @@ def run(candidate,output,video=False,friction=.8,landing_delta=.15,direction=-1,
     if start_override is not None:home=r.restore(start_override)
     elif 'start_state' in source:home=r.restore(source['start_state'])
     if lift.shape!=(12,) or not np.all(np.isfinite(lift)) or direction not in [-1,1] or not np.isfinite(landing_delta):raise ValueError('Invalid trajectory')
-    phases=trajectory(home,lift,leg,landing_delta,direction)
+    phases=trajectory(home,lift,leg,landing_delta,direction,pre_shift_pose=source.get('pre_shift_pose'),landing_pose=source.get('landing_pose'))
     limits=r.m.jnt_range[1:][PROX]
     if any(np.any((target[PROX]<limits[:,0])|(target[PROX]>limits[:,1])) for _,target,_ in phases):raise ValueError('Proximal target exceeds software limits')
     output=Path(output);output.mkdir(parents=True,exist_ok=False)
@@ -35,6 +52,8 @@ def run(candidate,output,video=False,friction=.8,landing_delta=.15,direction=-1,
     renderer=None;writer=None
     audit['environment']=versions();audit['continued_from_state']=start_override is not None or 'start_state' in source
     audit['cad_sample_period_s']=.1;audit['physics_sample_period_s']=.025
+    audit['first_sampled_gate_violation']=None
+    audit['minimum_cad_sample']=None
     audit['simulation_start_time_s']=float(r.d.time)
     audit['start_state_sha256']=hashlib.sha256((output/'start_state.json').read_bytes()).hexdigest()
     if video:
@@ -64,9 +83,22 @@ def run(candidate,output,video=False,friction=.8,landing_delta=.15,direction=-1,
                 audit['peak_landing_descent_m_s']=max(audit['peak_landing_descent_m_s'],float((last_bottom-bottoms[leg])/(r.d.time-last_time)))
             last_bottom=float(bottoms[leg]);last_time=float(r.d.time)
             if cad_check and tick%52==0:
-                c=cad_check.measure();audit['minimum_cad_gap_m']=min(audit['minimum_cad_gap_m'],c['minimum_m'])
+                c=cad_check.measure()
+                if c['minimum_m']<audit['minimum_cad_gap_m']:
+                    audit['minimum_cad_sample']=dict(time_s=float(r.d.time),phase=phase,nearest_pair=c['nearest_pair'])
+                audit['minimum_cad_gap_m']=min(audit['minimum_cad_gap_m'],c['minimum_m'])
                 for pair in c['intersections']:
                     if pair not in audit['cad_intersections']:audit['cad_intersections'].append(pair)
+            violations=[]
+            if phase in ['rotate','angle_hold']:
+                if bottoms[leg]<.005:violations.append(dict(gate='rotation_floor',value=float(bottoms[leg]),threshold=.005))
+                if np.delete(forces,leg).min()<1.:violations.append(dict(gate='three_supports',value=float(np.delete(forces,leg).min()),threshold=1.))
+                if forces[leg]>=.2:violations.append(dict(gate='no_rotation_contact',value=float(forces[leg]),threshold=.2))
+            if r.unintended_floor_force()>=.2:violations.append(dict(gate='no_other_floor_support',value=r.unintended_floor_force(),threshold=.2))
+            if tilt>=8.:violations.append(dict(gate='tilt',value=float(tilt),threshold=8.))
+            if cad_check and tick%52==0 and c['minimum_m']<.001:violations.append(dict(gate='collision_clear',value=c['minimum_m'],threshold=.001,pair=c['nearest_pair']))
+            if violations and audit['first_sampled_gate_violation'] is None:
+                audit['first_sampled_gate_violation']=dict(time_s=float(r.d.time),phase=phase,violations=violations)
             trace.append(dict(time=float(r.d.time),phase=phase,qpos=r.d.qpos.tolist(),qvel=r.d.qvel.tolist(),command=command.tolist(),force_N=forces.tolist(),bottom_m=bottoms.tolist(),tilt_deg=float(tilt)))
             if writer and tick%26==0:
                 renderer.update_scene(r.d,camera=camera)

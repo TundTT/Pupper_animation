@@ -53,7 +53,7 @@ def run(candidate,output):
 
     check('initial')
     previous=home.copy()
-    for phase,target,seconds in trajectory(home,lift,leg,source.get('landing_delta',.3),source.get('direction',-1)):
+    for phase,target,seconds in trajectory(home,lift,leg,source.get('landing_delta',.3),source.get('direction',-1),pre_shift_pose=source.get('pre_shift_pose'),landing_pose=source.get('landing_pose')):
         steps=int(np.ceil(duration(previous,target,seconds)/r.m.opt.timestep))
         for k in range(steps):
             r.tick(previous+smooth((k+1)/steps)*(target-previous));tick+=1

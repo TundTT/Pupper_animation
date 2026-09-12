@@ -72,3 +72,28 @@ def test_candidate_hash_mismatch_is_rejected(tmp_path):
     candidate.write_text(json.dumps(dict(leg='back_r',full_pose=Robot().initial[7:].tolist(),model_sha256='wrong')))
     with pytest.raises(ValueError,match='hash mismatch'):run(candidate,tmp_path/'invalid')
     assert not (tmp_path/'invalid').exists()
+
+
+def test_extended_trajectory_preserves_hubs_and_obeys_command_rates():
+    from .simulate import trajectory
+    from .core import duration,SPEED
+    r=Robot();home=r.initial[7:].copy();pre=home.copy();pre[PROX]+=.02
+    lift=home.copy();lift[7]=1.1;landing=lift.copy();landing[8]-=np.pi;landing[7]=.7
+    phases=trajectory(home,lift,2,pre_shift_pose=pre,landing_pose=landing)
+    assert [p[0] for p in phases][:3]==['initial_hold','body_shift','body_shift_hold']
+    previous=home
+    for phase,target,seconds in phases:
+        dt=duration(previous,target,seconds)
+        assert np.all(1.875*np.abs(target-previous)/dt <= SPEED+1e-12)
+        np.testing.assert_allclose(target[HUB[[0,1,3]]],home[HUB[[0,1,3]]])
+        previous=target
+    np.testing.assert_array_equal(phases[-1][1],landing)
+
+
+def test_extended_trajectory_rejects_silent_support_hub_rotation():
+    import pytest
+    from .simulate import trajectory
+    r=Robot();home=r.initial[7:].copy();bad=home.copy();bad[2]+=.1
+    with pytest.raises(ValueError,match='references'):trajectory(home,bad,2)
+    with pytest.raises(ValueError,match='references'):trajectory(home,home,2,pre_shift_pose=bad)
+    with pytest.raises(ValueError,match='references'):trajectory(home,home,2,landing_pose=bad)
