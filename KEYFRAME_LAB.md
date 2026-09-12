@@ -1,5 +1,11 @@
 # Deterministic alignment: preparation and first trial
 
+**Physical trial withdrawn:** the September 11 trial produced operator-reported
+uncontrolled motor oscillation. Do not repeat the launch/button procedure below
+until the [incident](hardware_testing/keyframe_align/INCIDENT_20260911.md) is
+investigated and a corrective release is validated. Software passes below are
+historical evidence, not current clearance for hardware use.
+
 This candidate is on **codex/keyframe-robot-integration**, based on robot-code
 e3e1d97. The controller is a separate plugin; existing walking, wheeled and v5
 policies remain available. Do not merge the older alignment development hardware
