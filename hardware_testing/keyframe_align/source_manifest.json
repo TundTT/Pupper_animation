@@ -1,0 +1,16 @@
+{
+  "source_branch": "codex/align-motion-v2",
+  "source_commit": "a110b09",
+  "files": {
+    "ros2_ws/src/neural_controller/include/neural_controller/keyframe_align/controller.hpp": "196af10740d6914160a84ea2abd9f956873c2817ba33f9b5ebfcdbd8d40ab362",
+    "ros2_ws/src/neural_controller/include/neural_controller/keyframe_align/geometry.hpp": "8f0e92ff562fc01854ae89a61133f859c11205e2f5078224e81bceb43d059466",
+    "ros2_ws/src/neural_controller/launch/keyframe_config.json": "8fe07e8b4be335dd2912c767d270f1fb9f7234a3b55c6f8aafb174b1d62cf001",
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_align_motion.hpp": "c7bb98b68d0f386e2a18efbb1b14a4c6886fa55d8ab258cc1acbd558bf89bbf2",
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_align_hybrid.hpp": "f8258bde8fa74c2e10787760db8ae02957aacfb65e0433d991e523087babf974",
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_align_geometry_data.hpp": "31221b0d6a9307c06019a7d2018189e29ddf02f30b85818d3e9f858733696075",
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_align_reference_data.hpp": "d23fac163a95b8cfc5bcb5f5744607a92c6b74e07490d4aba56b84b2a0762d0f"
+  },
+  "hash_format": "SHA256: LF-normalized C++ headers; raw JSON bytes",
+  "robot_code_base": "e3e1d97",
+  "dependency_note": "Geometry/motion/reference headers match the simulated source. The retained robot-code hybrid header adds only its shared-calibration reset overload and a comment; the keyframe core does not call hybrid reset."
+}

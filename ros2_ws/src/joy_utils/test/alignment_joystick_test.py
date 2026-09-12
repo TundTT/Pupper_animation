@@ -4,6 +4,7 @@ from pathlib import Path
 import subprocess
 import threading
 import time
+import pytest
 
 import rclpy
 from rclpy.executors import MultiThreadedExecutor
@@ -12,7 +13,11 @@ from sensor_msgs.msg import Joy
 from std_msgs.msg import Empty, Int32
 
 
-def test_alignment_activation_failure_pending_press_and_estop(tmp_path):
+@pytest.mark.parametrize('controller,topic', [
+    ('neural_controller_wheel_align_hybrid', '/wheel_align_hybrid_command_index'),
+    ('neural_controller_keyframe_align', '/keyframe_align_command_index'),
+])
+def test_alignment_activation_failure_pending_press_and_estop(tmp_path, controller, topic):
     executable = os.environ["ALIGN_JOY_TEST_EXE"]
     domain = 93
     context = rclpy.context.Context()
@@ -29,7 +34,7 @@ def test_alignment_activation_failure_pending_press_and_estop(tmp_path):
         return response
 
     node.create_service(SwitchController, "/controller_manager/switch_controller", switch)
-    node.create_subscription(Int32, "/wheel_align_hybrid_command_index", lambda m: commands.append(m.data), 10)
+    node.create_subscription(Int32, topic, lambda m: commands.append(m.data), 10)
     node.create_subscription(Empty, "/emergency_stop", lambda m: stops.append(True), 10)
     pub = node.create_publisher(Joy, "/joy", 10)
     executor = MultiThreadedExecutor(context=context)
@@ -48,7 +53,8 @@ def test_alignment_activation_failure_pending_press_and_estop(tmp_path):
     wheel_align_hybrid_controller_name: neural_controller_wheel_align_hybrid
     estop_index: 12
     estop_release_index: 9
-''')
+'''.replace('neural_controller_wheel_align_hybrid', controller) +
+        '    wheel_align_hybrid_command_topic: '+topic+'\n')
     log = (tmp_path / "joy.log").open("w")
     process = subprocess.Popen([executable, "--ros-args", "--params-file", str(config)],
                                env={**os.environ, "ROS_DOMAIN_ID": str(domain)},
@@ -74,6 +80,7 @@ def test_alignment_activation_failure_pending_press_and_estop(tmp_path):
         wait(lambda: pub.get_subscription_count() > 0)
         press(0)
         wait(lambda: len(requests) == 1)
+        assert requests[0] == [controller]
         assert commands == []  # Failed activation did not dispatch a leg.
         allow[0] = True
         delay[0] = .8

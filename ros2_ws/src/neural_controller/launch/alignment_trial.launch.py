@@ -10,7 +10,10 @@ from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
-    controller = "neural_controller_wheel_align_hybrid"
+    return make_trial("neural_controller_wheel_align_hybrid", "/wheel_align_hybrid_command_index")
+
+
+def make_trial(controller, command_topic):
     config = ParameterFile(PathJoinSubstitution([
         FindPackageShare("neural_controller"), "launch", "config.yaml"
     ]), allow_substs=True)
@@ -30,6 +33,8 @@ def generate_launch_description():
              parameters=[config, {
                  "calibration_required": True,
                  "default_controller_name": controller,
+                 "wheel_align_hybrid_controller_name": controller,
+                 "wheel_align_hybrid_command_topic": command_topic,
                  "controller_names": [controller],
                  "switch_button_indices": [-1],
                  "leg_lift_button_index": -1,

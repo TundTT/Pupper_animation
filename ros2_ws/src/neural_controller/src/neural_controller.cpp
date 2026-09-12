@@ -399,7 +399,7 @@ controller_interface::CallbackReturn NeuralController::on_activate(
   // Initialize the observation vector
   observation_.assign(params_.observation_history * single_observation_size_, 0.0);
   seed_history_ = true;
-  model_->reset();
+  if(model_)model_->reset(); // Standalone keyframes use the shared lifecycle without a network.
   desired_world_z_in_body_frame_ = tf2::Vector3(0, 0, 1);
 
   // Set the gravity z-component in the initial observation vector
@@ -413,13 +413,14 @@ controller_interface::CallbackReturn NeuralController::on_activate(
   // published, instead of momentarily commanding "stand" until the next button press.
   // Hybrid uses its own volatile topic: publish after activation. It must not replay
   // a retained leg command against newly acquired provisional calibration.
-  if (behavior_ == "leg_lift" || behavior_ == "wheel_align_hybrid") {
+  if (behavior_ == "leg_lift" || behavior_ == "wheel_align_hybrid" || behavior_ == "keyframe_align") {
     command_index_ = 0;
     rt_leg_lift_command_ptr_ =
         realtime_tools::RealtimeBuffer<std::shared_ptr<std_msgs::msg::Int32>>(nullptr);
     leg_lift_command_subscriber_ = get_node()->create_subscription<std_msgs::msg::Int32>(
-        behavior_ == "wheel_align_hybrid" ? "/wheel_align_hybrid_command_index" : "/leg_lift_command_index",
-        behavior_ == "wheel_align_hybrid" ? rclcpp::QoS(1).durability_volatile() : rclcpp::QoS(1).transient_local(),
+        behavior_ == "keyframe_align" ? "/keyframe_align_command_index" :
+          behavior_ == "wheel_align_hybrid" ? "/wheel_align_hybrid_command_index" : "/leg_lift_command_index",
+        behavior_ != "leg_lift" ? rclcpp::QoS(1).durability_volatile() : rclcpp::QoS(1).transient_local(),
         [this](const std_msgs::msg::Int32::SharedPtr msg) {
           rt_leg_lift_command_ptr_.writeFromNonRT(msg);
         });

@@ -16,3 +16,7 @@ ros2_ws/src/robot_calibration/scripts/calibrate text eol=lf
 scripts/calibrate_robot.py text eol=lf
 scripts/prepare_align_v5.sh text eol=lf
 scripts/check_align_v5.py text eol=lf
+scripts/prepare_keyframes.sh text eol=lf
+scripts/keyframe_target_inventory.sh text eol=lf
+scripts/check_keyframes.py text eol=lf
+hardware_testing/keyframe_align/arm64_check.sh text eol=lf

@@ -16,6 +16,9 @@ controller_manager:
     neural_controller_wheel_align_hybrid:
       type: neural_controller/NeuralController
 
+    neural_controller_keyframe_align:
+      type: neural_controller/KeyframeController
+
     neural_controller_wheel:
       type: neural_controller/NeuralController
 
@@ -605,3 +608,24 @@ dpad_serial_bridge:
     dpad_axis_vertical: 7
     dpad_axis_horizontal_sign: -1
     dpad_axis_vertical_sign: 1
+
+neural_controller_keyframe_align:
+  ros__parameters:
+    repeat_action: 1  # deterministic control on every 520 Hz manager update
+    gain_multiplier: 1.0
+    estop_kd: 1.0
+    init_duration: 2.0
+    fade_in_duration: 0.0  # keyframe core owns the entry trajectory
+    max_body_angle: 0.6  # core stop threshold; rotation gate is stricter at 0.12
+    joint_names: ["leg_front_r_1", "leg_front_r_2", "leg_front_r_3", "leg_front_l_1", "leg_front_l_2", "leg_front_l_3", "leg_back_r_1", "leg_back_r_2", "leg_back_r_3", "leg_back_l_1", "leg_back_l_2", "leg_back_l_3"]
+    action_types: ["position", "position", "velocity", "position", "position", "velocity", "position", "position", "velocity", "position", "position", "velocity"]
+    default_joint_pos: [1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0]
+    kps: [5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0]
+    kds: [0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35]
+    init_kps: [5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0]
+    init_kds: [0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35]
+    model_path: "$(find-pkg-share neural_controller)/launch/keyframe_config.json"
+    action_scales: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+    use_imu: true
+    joint_lower_limits: [-1.12, -0.32, -1000.0, -2.41, -3.04, -1000.0, -1.12, -0.32, -1000.0, -2.41, -3.04, -1000.0]
+    joint_upper_limits: [2.41, 3.04, 1000.0, 1.12, 0.32, 1000.0, 2.41, 3.04, 1000.0, 1.12, 0.32, 1000.0]

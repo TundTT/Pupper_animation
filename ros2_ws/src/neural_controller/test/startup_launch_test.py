@@ -92,3 +92,19 @@ def test_alignment_trial_has_only_core_nodes_and_inactive_motion():
             motion_spawners += 1
     assert motion_spawners == 1
     assert set(packages) == {"robot_state_publisher", "controller_manager", "joy_linux", "joy_utils"}
+
+
+def test_keyframe_trial_spawner_uses_calibration_and_starts_inactive():
+    context = LaunchContext()
+    path = Path(__file__).parents[1] / 'launch' / 'keyframe_trial.launch.py'
+    description = runpy.run_path(str(path))['generate_launch_description']()
+    names = []
+    for node in description.entities:
+        executable = perform_substitutions(context, normalize_to_list_of_substitutions(node.node_executable))
+        if executable != 'spawner':
+            continue
+        args = [perform_substitutions(context, normalize_to_list_of_substitutions(word)) for word in node.cmd][1:]
+        names.append(args[0])
+        if args[0] == 'neural_controller_keyframe_align':
+            assert_calibration_gate(args, True)
+    assert names == ['joint_state_broadcaster', 'imu_sensor_broadcaster', 'neural_controller_keyframe_align']

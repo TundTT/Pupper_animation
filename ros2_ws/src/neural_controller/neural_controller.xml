@@ -4,4 +4,7 @@
       Neural controller
     </description>
   </class>
+  <class name="neural_controller/KeyframeController" type="neural_controller::KeyframeController" base_class_type="controller_interface::ControllerInterface">
+    <description>Deterministic lift and encoder-based wheel alignment with shared startup calibration.</description>
+  </class>
 </library>
