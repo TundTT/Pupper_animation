@@ -50,6 +50,18 @@ int main(int argc,char** argv){
       {"joint_names",c.params().joint_names},{"reference_joint_positions",q},{"wheel_home",home},{"wheel_base_target",target}};
     {std::ofstream f(directory/"calibration.json");f<<record;}
     require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Confirmed fixture activates");
+    // Incident reproduction only. The deployed Jazzy manager supplies period=0
+    // on the first update after activation. No hardware interfaces are used here.
+    if(std::getenv("KEYFRAME_REPRO_ZERO_PERIOD")){
+      require(c.update(rclcpp::Time(int64_t(1000000000),RCL_ROS_TIME),rclcpp::Duration::from_seconds(0))==controller_interface::return_type::OK,"First zero-period update returned OK");
+      require(c.core().phase==keyframe_align::STOPPED,"Zero first period latches STOPPED");
+      for(const auto& x:outputs)require(x[0]==0&&x[1]==0&&x[2]==0&&x[3]==0&&x[4]==1,"All twelve motors retain kd=1");
+      c.command(1);
+      c.update(rclcpp::Time(int64_t(1001923077),RCL_ROS_TIME),rclcpp::Duration::from_seconds(1./520));
+      require(c.core().phase==keyframe_align::STOPPED,"Later positive period and leg request cannot clear latch");
+      std::cout<<"REPRODUCED: first period=0 -> STOPPED, all 12 kp=0/kd=1, later leg request ignored. Fake interfaces only.\n";
+      c.on_deactivate({});std::filesystem::remove_all(directory);rclcpp::shutdown();return 0;
+    }
     double now=0;
     auto tick=[&]{now+=1./520;require(c.update(rclcpp::Time(int64_t(now*1e9),RCL_ROS_TIME),rclcpp::Duration::from_seconds(1./520))==controller_interface::return_type::OK,"update");
       for(int i=0;i<12;++i){const double previous=q[i];if(i%3==2)q[i]+=outputs[i][1]/520;else q[i]=outputs[i][0];qd[i]=(q[i]-previous)*520;}};
