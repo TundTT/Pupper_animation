@@ -95,3 +95,42 @@ def test_calibration_target_survives_arbitrary_entry_revolutions():
         if int(o[14])&4:break
     assert int(o[14])&4 and abs(o[20])<.025
     c.close()
+
+
+def test_touchdown_disturbance_never_reports_success_or_retries_on_ground():
+    c,q,qd=init()
+    for _ in range(6000):
+        o=tick(c,q,qd,3)
+        if o[12]==4:break
+    assert o[12]==4
+    q[8]+=.2
+    for _ in range(1800):o=tick(c,q,qd,3)
+    assert o[12]==6 and not int(o[14])&4 and int(o[24])&4
+    assert o[16]==3
+    c.close()
+
+
+def test_floor_bound_against_independent_mujoco_wheel_frames():
+    import ctypes as C
+    import mujoco
+    from training.wheel_align.configs import MODEL_PATH,WHEEL_COLLISION_GEOM_NAMES
+    c=Controller();D=C.POINTER(C.c_double)
+    c.lib.kf_margins.argtypes=[D,D,C.c_int,D]
+    model=mujoco.MjModel.from_xml_path(str(MODEL_PATH));data=mujoco.MjData(model)
+    rng=np.random.default_rng(9)
+    for _ in range(150):
+        mujoco.mj_resetDataKeyframe(model,data,0)
+        q=Q.copy();q[POS]+=rng.uniform(-.25,.25,8);data.qpos[7:]=q
+        quat=rng.normal(size=4);quat/=np.linalg.norm(quat);data.qpos[3:7]=quat
+        mujoco.mj_forward(model,data)
+        r=np.empty(9);mujoco.mju_quat2Mat(r,quat);g=np.ascontiguousarray(r.reshape(3,3).T@np.array([0.,0.,-1.]))
+        bottoms=[]
+        for name in WHEEL_COLLISION_GEOM_NAMES:
+            geom=model.geom(name).id;axis=data.geom_xmat[geom].reshape(3,3)[:,2]
+            bottoms.append(data.geom_xpos[geom,2]-.048*np.sqrt(max(1-axis[2]**2,0))-.01675*abs(axis[2]))
+        for leg in range(4):
+            out=np.empty(3);c.lib.kf_margins(q.ctypes.data_as(D),g.ctypes.data_as(D),leg,out.ctypes.data_as(D))
+            actual=bottoms[leg]-min(bottoms[k] for k in range(4) if k!=leg)
+            assert out[0]<=actual+1e-6
+            assert actual-out[0]<.0051
+    c.close()

@@ -1,9 +1,8 @@
 #pragma once
-#include "neural_controller/wheel_align_motion.hpp"
+#include "geometry.hpp"
 #include <stdexcept>
 
 namespace keyframe_align {
-using Geometry = neural_controller::WheelAlignMotion;
 using V8 = std::array<double,8>;
 using V12 = std::array<double,12>;
 using V3 = std::array<double,3>;
@@ -13,12 +12,12 @@ enum Phase { ENTRY, SHIFT, LIFT, ROTATE, LOWER, RECENTER, HOLD, STOPPED };
 enum Block { TRAJECTORY=1, FLOOR=2, WHEEL=4, BODY=8, TILT=16, ANGULAR=32 };
 struct Config {
   // Public ordering is also used by the small simulation C ABI.
-  std::array<double,15> values{2.,2.,2.,3.,2.,48.,2.,.35,.8,.4,.5,1.2,.45,.65,2.};
+  std::array<double,15> values{2.,1.5,1.5,3.,1.5,48.,2.,.35,.8,.4,.5,1.2,.45,.65,2.};
   std::array<V8,4> poses{{
     {{1.16890458,1.0021502200000001,-1.2625986899999999,0.28754656000000001,1.0167859299999999,-0.16507621,-0.60319067999999998,-0.19620607000000001}},
     {{1.2625986899999999,-0.28754656000000001,-1.16890458,-1.0021502200000001,0.60319067999999998,0.19620607000000001,-1.0167859299999999,0.16507621}},
-    {{1,0,-1,0,1,1.05,-1,0}},
-    {{1,0,-1,0,1,0,-1,-1.05}},
+    {{1,0,-1,0,1,1.2,-1,0}},
+    {{1,0,-1,0,1,0,-1,-1.2}},
   }};
   void validate() const {
     for(int i=0;i<15;++i) if(!std::isfinite(values[i])||values[i]<0 || (values[i]==0 && (i<6||i>9)))
@@ -33,7 +32,7 @@ struct Output {
   V8 position{};
   std::array<double,4> wheel{};
   V3 margins{};
-  int phase=ENTRY,active=0,completed=0,blocked=TRAJECTORY,timeout=-1;
+  int phase=ENTRY,active=0,completed=0,blocked=TRAJECTORY,timeout=-1,failed=0;
   double error=0,up_seconds=0,integral=0;
   bool authority=false;
 };
@@ -53,7 +52,7 @@ class Controller {
     for(int a=0;a<8;++a) if(q[rows[a]]<Geometry::low[a]||q[rows[a]]>Geometry::high[a])
       throw std::invalid_argument("Initial proximal encoder outside limits");
     phase=ENTRY;active=completed=0;timeout=-1;elapsed=up_time=gate_time=settled=integral=wheel_speed=0;
-    verified=false;velocity.fill(0);
+    verified=false;failed=0;landing_settled=0;velocity.fill(0);
     for(int a=0;a<8;++a) applied[a]=q[rows[a]];
     for(int k=0;k<4;++k){hold[k]=wrap(q[3*k+2]);target[k]=wrap(calibrated_home[k]+std::acos(-1.));}
     start=applied;endpoint=Geometry::neutral;output={};
@@ -79,6 +78,7 @@ class Controller {
     }
     if(phase==HOLD && requested!=0 && requested!=timeout && !(completed&(1<<legs[requested]))) {
       active=requested;up_time=0;verified=false;integral=0;gate_time=settled=0;wheel_speed=0;
+      failed&=~(1<<legs[active]);
       wheel_reference=wrap(q[3*legs[active]+2]);
       V8 shift=config.poses[legs[active]];shift[2*legs[active]+1]=(legs[active]%2==0 ? .5:-.5);
       enter(SHIFT,shift);
@@ -106,7 +106,13 @@ class Controller {
     else if(phase==SHIFT&&arrived)enter(LIFT,config.poses[leg]);
     else if(phase==LOWER&&arrived)enter(RECENTER,Geometry::neutral);
     else if(phase==RECENTER&&arrived&&std::abs(q[3*leg+1])<.25&&std::abs(qd[3*leg+1])<.2){
-      phase=HOLD;if(verified)completed|=1<<leg;
+      const bool aligned=std::abs(wrap(target[leg]-q[3*leg+2]))<.035&&std::abs(qd[3*leg+2])<.08;
+      landing_settled=aligned ? landing_settled+dt:0;
+      if(!verified || landing_settled>=.5 || elapsed>=config.values[4]+4){
+        phase=HOLD;
+        if(verified && landing_settled>=.5)completed|=1<<leg;
+        else if(verified){failed|=1<<leg;timeout=active;}
+      }
     }
     auto margins=Geometry::margins(q,gravity,leg);
     int blocked=0;
@@ -119,6 +125,18 @@ class Controller {
     if(phase==LIFT){gate_time=blocked==0 ? gate_time+dt:0;if(gate_time>=.2)phase=ROTATE;}
     std::array<double,4> wheel{};
     for(int j=0;j<4;++j)wheel[j]=std::clamp(2*wrap(hold[j]-q[3*j+2])-.35*qd[3*j+2],-.5,.5);
+    for(int j=0;j<4;++j)if(completed&(1<<j)){
+      const double e=wrap(target[j]-q[3*j+2]);
+      wheel[j]=std::abs(e)<.10 ? std::clamp(6*e-.5*qd[3*j+2],-.25,.25):0;
+      if(std::abs(e)>=.10){completed&=~(1<<j);failed|=1<<j;hold[j]=wrap(q[3*j+2]);}
+    }
+    // Bounded holding correction follows the calibrated target through touchdown.
+    // A large disturbance is a failed alignment, never a grounded rotation retry.
+    if(verified && (phase==LOWER||phase==RECENTER||phase==HOLD)) {
+      const double e=wrap(hold[leg]-q[3*leg+2]);
+      wheel[leg]=std::abs(e)<.10 ? std::clamp(6*e-.5*qd[3*leg+2],-.25,.25):0;
+      if(std::abs(e)>=.10){failed|=1<<leg;verified=false;timeout=active;hold[leg]=wrap(q[3*leg+2]);}
+    }
     const double error=wrap(target[leg]-q[3*leg+2]);
     if(phase==ROTATE&&blocked==0){
       const double reference_step=config.values[10]*dt;
@@ -140,7 +158,7 @@ class Controller {
     }
     output.position=applied;output.wheel=wheel;output.margins=margins;
     output.phase=phase;output.active=active;output.completed=completed;output.blocked=blocked;
-    output.timeout=timeout;output.error=error;output.up_seconds=up_time;output.integral=integral;output.authority=true;
+    output.timeout=timeout;output.failed=failed;output.error=error;output.up_seconds=up_time;output.integral=integral;output.authority=true;
     return output;
   }
  private:
@@ -148,9 +166,11 @@ class Controller {
   std::array<double,4> hold{},target{};
   double elapsed=0,up_time=0,gate_time=0,settled=0,integral=0,wheel_speed=0,wheel_reference=0;
   bool verified=false;
+  int failed=0;
+  double landing_settled=0;
   void enter(Phase next,const V8 &end){phase=next;elapsed=0;start=applied;endpoint=end;}
   void begin_lower(const V12 &q){
-    const int k=std::max(legs[active],0);hold[k]=wrap(q[3*k+2]);
+    const int k=std::max(legs[active],0);hold[k]=verified ? target[k]:wrap(q[3*k+2]);landing_settled=0;
     V8 landing=applied;const double sign=k%2==0 ? 1.:-1.;
     landing[2*k+1]=sign*std::clamp(sign*applied[2*k+1],0.,.5);
     integral=settled=wheel_speed=0;enter(LOWER,landing);

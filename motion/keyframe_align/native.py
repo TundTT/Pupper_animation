@@ -21,6 +21,8 @@ class Controller:
         if not library:
             raise ValueError('Set KEYFRAME_ALIGN_LIBRARY to the CMake-built library')
         self.lib = C.CDLL(str(library))
+        self.lib.kf_abi_version.restype = C.c_int
+        if self.lib.kf_abi_version()!=2: raise ValueError('Rebuild the keyframe library: ABI version mismatch')
         self.lib.kf_create.argtypes = [D, D]; self.lib.kf_create.restype = C.c_void_p
         self.lib.kf_destroy.argtypes = [C.c_void_p]
         self.lib.kf_reset.argtypes = [C.c_void_p, D, D]; self.lib.kf_reset.restype = C.c_int
@@ -47,7 +49,7 @@ class Controller:
     def step(self, dt, command, q, qd, angular, gravity, stop=False):
         if not self.handle: raise ValueError('Controller is closed')
         arrays = [self.array(v, n) for v,n in zip((q,qd,angular,gravity), (12,12,3,3))]
-        out = np.zeros(24, dtype=np.float64)
+        out = np.zeros(25, dtype=np.float64)
         self.lib.kf_step(self.handle, dt, command, *(a.ctypes.data_as(D) for a in arrays),
                          int(stop), out.ctypes.data_as(D))
         return out

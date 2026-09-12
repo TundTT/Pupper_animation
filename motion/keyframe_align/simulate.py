@@ -14,7 +14,7 @@ from training.wheel_align import configs as model_config, geometry
 POS=np.array([0,1,3,4,6,7,9,10]); WHEEL=np.array([2,5,8,11])
 DT=1/520
 
-def run(config=None, *, friction=0., tilt=(0.,0.), interrupt=False, seed=0, video=None):
+def run(config=None, *, friction=0., tilt=(0.,0.), interrupt=False, seed=0, video=None, interrupt_phase=None):
     model=mujoco.MjModel.from_xml_path(str(model_config.MODEL_PATH));data=mujoco.MjData(model)
     model.actuator_gainprm[POS,0]=5;model.actuator_biasprm[POS,1]=-5;model.actuator_biasprm[POS,2]=-.25
     # Synthetic joint friction is a stress test, not a measurement of the hardware.
@@ -22,7 +22,9 @@ def run(config=None, *, friction=0., tilt=(0.,0.), interrupt=False, seed=0, vide
     mujoco.mj_resetDataKeyframe(model,data,0)
     rng=np.random.default_rng(seed);data.qpos[7+WHEEL]=rng.uniform(-math.pi,math.pi,4)
     for _ in range(1560):mujoco.mj_step(model,data)
-    controller=Controller(config=config);home=data.qpos[7+WHEEL].copy();controller.reset(data.qpos[7:],home)
+    controller=Controller(config=config);home=data.qpos[7+WHEEL].copy()
+    if seed:home-=rng.uniform(-math.pi,math.pi,4) # Driving after calibration: varied target errors.
+    controller.reset(data.qpos[7:],home)
     reports=[];trace=[];renderer=None;writer=None
     if video:
         import imageio.v2 as imageio
@@ -31,12 +33,16 @@ def run(config=None, *, friction=0., tilt=(0.,0.), interrupt=False, seed=0, vide
         camera=mujoco.MjvCamera();camera.lookat[:]=[0,0,.12];camera.distance=.75;camera.azimuth=130;camera.elevation=-22
     wheel_geoms=[model.geom(n).id for n in model_config.WHEEL_COLLISION_GEOM_NAMES]
     def state():
-        r=np.empty(9);mujoco.mju_quat2Mat(r,data.qpos[3:7]);r=r.reshape(3,3)
+        base_body=int(model.jnt_bodyid[0]);r=data.xmat[base_body].reshape(3,3)
         gravity=r.T@np.array([0.,0.,-1.])
         # Bias the IMU input only: exposes estimator sensitivity without teleporting the body.
         rx,ry=tilt;cx,sx,cy,sy=np.cos(rx),np.sin(rx),np.cos(ry),np.sin(ry)
         bias=np.array([[cy,sy*sx,sy*cx],[0,cx,-sx],[-sy,cy*sx,cy*cx]])
-        return r.T@data.qvel[3:6],bias.T@gravity
+        velocity=np.empty(6)
+        # XBODY uses the regular body frame, not the principal inertia frame.
+        # https://mujoco.readthedocs.io/en/stable/APIreference/APIfunctions.html#mj-objectvelocity
+        mujoco.mj_objectVelocity(model,data,mujoco.mjtObj.mjOBJ_XBODY,base_body,velocity,1)
+        return velocity[:3],bias.T@gravity
     def tick(request):
         nonlocal renderer
         angular,gravity=state();o=controller.step(DT,request,data.qpos[7:],data.qvel[6:],angular,gravity)
@@ -54,11 +60,12 @@ def run(config=None, *, friction=0., tilt=(0.,0.), interrupt=False, seed=0, vide
     for _ in range(2080):tick(0)
     for request,leg in [(1,1),(2,0),(3,2),(4,3)]:
         start=data.time;phase_times=np.zeros(8);min_gaps=np.full(3,np.inf);actual_rotation_clearance=np.inf
-        timeout=False;interrupted=False;rotating=False;peak_approach=0.
+        timeout=False;interrupted=False;rotating=False;peak_approach=0.;phase=-1
         for n in range(65*520):
             command=request
             if interrupt and not interrupted and data.time-start>=3:interrupted=True
-            if interrupt and interrupted:command=0
+            if interrupt_phase is not None and phase==interrupt_phase:interrupted=True
+            if interrupted:command=0
             axis=data.geom_xmat[wheel_geoms[leg]].reshape(3,3)[:,2]
             previous_bottom=data.geom_xpos[wheel_geoms[leg],2]-.048*np.sqrt(max(1-axis[2]**2,0))-.01675*abs(axis[2])
             o,g=tick(command);phase=int(o[12]);phase_times[phase]+=DT
@@ -67,7 +74,7 @@ def run(config=None, *, friction=0., tilt=(0.,0.), interrupt=False, seed=0, vide
             current_bottom=data.geom_xpos[wheel_geoms[leg],2]-.048*np.sqrt(max(1-axis[2]**2,0))-.01675*abs(axis[2])
             if phase in (4,5) and current_bottom<.008:
                 peak_approach=max(peak_approach,(previous_bottom-current_bottom)/DT)
-            margin=np.array(geometry.margins(data.qpos[7:],g,leg));min_gaps=np.minimum(min_gaps,margin)
+            min_gaps=np.minimum(min_gaps,o[17:20])
             if phase==3 and o[15]==0:
                 rotating=True
                 axes=data.geom_xmat[wheel_geoms[leg]].reshape(3,3)[:,2]
@@ -79,19 +86,27 @@ def run(config=None, *, friction=0., tilt=(0.,0.), interrupt=False, seed=0, vide
         completed=bool(int(o[14])&(1<<leg));ended=phase==6
         reports.append(dict(leg=model_config.LEGS[leg],completed=completed,returned_to_hold=ended,
             timed_out=bool(timeout),interrupted=interrupted,rotated=rotating,seconds=float(data.time-start),
-            final_error_deg=math.degrees(o[20]),phase_seconds=phase_times.tolist(),
+            failed_alignment=bool(int(o[24])&(1<<leg)),
+            final_error_deg=math.degrees(math.atan2(math.sin(home[leg]+math.pi-data.qpos[7+WHEEL[leg]]),math.cos(home[leg]+math.pi-data.qpos[7+WHEEL[leg]]))),phase_seconds=phase_times.tolist(),
             min_wheel_gap=float(min_gaps[1]),min_body_gap=float(min_gaps[2]),
             peak_near_ground_descent_m_s=float(peak_approach),
             min_actual_rotation_clearance=None if not np.isfinite(actual_rotation_clearance) else actual_rotation_clearance))
-        for _ in range(520):tick(0)
+        for _ in range(520):o,g=tick(0)
     if renderer:
         writer.close();renderer.close()
+    final_errors=np.arctan2(np.sin(home+math.pi-data.qpos[7+WHEEL]),np.cos(home+math.pi-data.qpos[7+WHEEL]))
+    final_mask=int(o[14]);failed_mask=int(o[24])
     controller.close()
-    passed=all(x['returned_to_hold'] and not x['timed_out'] and (x['completed'] or interrupt)
+    cancelled=interrupt or interrupt_phase is not None
+    passed=all(x['returned_to_hold'] and not x['timed_out'] and not x['failed_alignment']
+               and (x['completed'] or cancelled) and (cancelled or abs(x['final_error_deg'])<math.degrees(.035))
+               and x['peak_near_ground_descent_m_s']<.030
                and x['min_wheel_gap']>0 and x['min_body_gap']>0
                and (x['min_actual_rotation_clearance'] is None or x['min_actual_rotation_clearance']>.005) for x in reports)
+    if not cancelled:passed=passed and final_mask==15 and failed_mask==0 and bool(np.all(np.abs(final_errors)<.035))
     return dict(passed=passed,simulation_only=True,optimizer_updates=0,seed=seed,synthetic_friction_nm=friction,
-                imu_bias_rad=list(tilt),interrupt=interrupt,legs=reports),trace
+                imu_bias_rad=list(tilt),interrupt=interrupt,interrupt_phase=interrupt_phase,legs=reports,
+                sequence_final_errors_deg=np.degrees(final_errors).tolist(),completed_mask=final_mask,failed_mask=failed_mask),trace
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--config',type=Path,default=CONFIG)

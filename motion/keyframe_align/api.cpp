@@ -1,5 +1,11 @@
 #include "controller.hpp"
 extern "C" {
+int kf_abi_version(){return 2;}
+void kf_margins(const double* q,const double* gravity,int leg,double* out){
+  keyframe_align::V12 a{};keyframe_align::V3 g{};
+  std::copy_n(q,12,a.begin());std::copy_n(gravity,3,g.begin());
+  auto m=keyframe_align::Geometry::margins(a,g,leg);std::copy(m.begin(),m.end(),out);
+}
 void* kf_create(const double* values,const double* poses){
   try {auto c=new keyframe_align::Controller;
     if(values)std::copy_n(values,15,c->config.values.begin());
@@ -19,6 +25,6 @@ void kf_step(void* ptr,double dt,int command,const double* q,const double* qd,co
   std::copy(o.position.begin(),o.position.end(),out);std::copy(o.wheel.begin(),o.wheel.end(),out+8);
   out[12]=o.phase;out[13]=o.active;out[14]=o.completed;out[15]=o.blocked;out[16]=o.timeout;
   std::copy(o.margins.begin(),o.margins.end(),out+17);out[20]=o.error;out[21]=o.up_seconds;
-  out[22]=o.integral;out[23]=o.authority;
+  out[22]=o.integral;out[23]=o.authority;out[24]=o.failed;
 }
 }
