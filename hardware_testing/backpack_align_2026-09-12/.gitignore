@@ -1,0 +1,5 @@
+# Bulky evidence is preserved locally and uploaded as the W&B motion-audit artifact.
+evidence.tar.gz
+rollout.mp4
+preview.png
+wandb-upload/

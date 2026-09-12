@@ -1,0 +1,20 @@
+{
+  "controller.hpp": "identical after LF normalization",
+  "geometry.hpp": "identical after LF normalization",
+  "model_geometry.hpp": "identical after LF normalization",
+  "configuration": "identical raw bytes",
+  "wheel_align_motion.hpp": "identical after LF normalization",
+  "wheel_align_geometry_data.hpp": "identical after LF normalization",
+  "wheel_align_reference_data.hpp": "identical after LF normalization",
+  "legacy_hybrid_dependency": "Robot copy additionally has reset(q,startup_home) overload and a calibration comment; the keyframe core never calls this legacy reset overload. Shared geometry and reference arrays are identical.",
+  "ros_build": "WSL Ubuntu x86_64 / ROS Jazzy, isolated neural_controller build, passed with vendor warnings; unchanged dependency packages from /tmp/keyframe-robot/install",
+  "ctest": {
+    "keyframe_position": "passed",
+    "keyframe_controller_lifecycle": "passed",
+    "startup_launch": "passed",
+    "keyframe_manager": "passed"
+  },
+  "hardware_validated": false,
+  "pi_validation": "pending",
+  "full_overlay_install_check": "pending Pi: local build intentionally overlays only neural_controller on existing x86 dependencies"
+}
