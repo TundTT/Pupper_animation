@@ -1,0 +1,83 @@
+{
+  "status": "PASS",
+  "policy": "ros2_ws/src/neural_controller/launch/policy_walk_v2.json",
+  "export_sha256": "854ac8ba4ffc305079b7f6f7b52187a211413c3cdb18f0de016dd819ff2450a8",
+  "checkpoint_step": 12779520,
+  "joint_target_ranges": [
+    {
+      "joint": "leg_front_r_1",
+      "minimum": 0.5,
+      "maximum": 1.5,
+      "hard_limit_margin": null
+    },
+    {
+      "joint": "leg_front_r_2",
+      "minimum": -0.25,
+      "maximum": 0.25,
+      "hard_limit_margin": null
+    },
+    {
+      "joint": "leg_front_r_3",
+      "minimum": -2.1,
+      "maximum": 0.10000000000000009,
+      "hard_limit_margin": null
+    },
+    {
+      "joint": "leg_front_l_1",
+      "minimum": -1.5,
+      "maximum": -0.5,
+      "hard_limit_margin": null
+    },
+    {
+      "joint": "leg_front_l_2",
+      "minimum": -0.25,
+      "maximum": 0.25,
+      "hard_limit_margin": null
+    },
+    {
+      "joint": "leg_front_l_3",
+      "minimum": -0.10000000000000009,
+      "maximum": 2.1,
+      "hard_limit_margin": null
+    },
+    {
+      "joint": "leg_back_r_1",
+      "minimum": 0.5,
+      "maximum": 1.5,
+      "hard_limit_margin": null
+    },
+    {
+      "joint": "leg_back_r_2",
+      "minimum": -0.25,
+      "maximum": 0.25,
+      "hard_limit_margin": null
+    },
+    {
+      "joint": "leg_back_r_3",
+      "minimum": -2.1,
+      "maximum": 0.10000000000000009,
+      "hard_limit_margin": null
+    },
+    {
+      "joint": "leg_back_l_1",
+      "minimum": -1.5,
+      "maximum": -0.5,
+      "hard_limit_margin": null
+    },
+    {
+      "joint": "leg_back_l_2",
+      "minimum": -0.25,
+      "maximum": 0.25,
+      "hard_limit_margin": null
+    },
+    {
+      "joint": "leg_back_l_3",
+      "minimum": -0.10000000000000009,
+      "maximum": 2.1,
+      "hard_limit_margin": null
+    }
+  ],
+  "nominal_policy_hz": 52.0,
+  "timing_note": "520/10 is 52 Hz nominal; existing hardware scheduling aims for 50 Hz. Measure observation topic rate on the robot.",
+  "scope": "Files and target envelopes only; no ROS build, motor activation, measured-state overshoot, or hardware validation."
+}

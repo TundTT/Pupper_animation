@@ -12,7 +12,7 @@ import yaml
 
 def check(repo, package_share=None):
     controller = package_share or repo / 'ros2_ws/src/neural_controller'
-    manifest = json.loads((repo / 'hardware_testing/walk_2026-09-07_long_stride/selection.json').read_text())
+    manifest = json.loads((repo / 'hardware_testing/walk_gap9_2026-09-11/selection.json').read_text())
     policy_path = controller / 'launch/policy_walk_v2.json'
     data = policy_path.read_bytes()
     assert not data.startswith(b'version https://git-lfs'), 'Fetch the actual policy with git lfs pull'
@@ -41,7 +41,11 @@ def check(repo, package_share=None):
     buttons = config['joy_util_node']['ros__parameters']
     mapping = dict(zip(buttons['switch_button_indices'], buttons['controller_names']))
     assert mapping[3] == 'neural_controller_walk_v2', 'Square must select walking'
-    assert mapping[0] == 'neural_controller', 'X must preserve the existing exit binding'
+    assert mapping[2] == 'neural_controller_wheel', 'Triangle must preserve wheel mode'
+    # X is handled by the existing dedicated alignment path, not the generic map.
+    assert 0 not in mapping, 'X must not also bind a generic controller switch'
+    assert buttons['wheel_align_hybrid_button_index'] == 0
+    assert buttons['wheel_align_hybrid_controller_name'] == 'neural_controller_wheel_align_hybrid'
     root = ET.parse(repo / 'ros2_ws/src/pupper_v3_description/description/components.xacro')
     hardware = {j.attrib['name']: {p.attrib['name']: float(p.text) for p in j.findall('param')}
                 for j in root.findall('.//joint')}

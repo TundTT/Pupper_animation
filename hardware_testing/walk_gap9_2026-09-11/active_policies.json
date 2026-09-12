@@ -1,0 +1,21 @@
+{
+  "runtime_files_unchanged": [
+    "ros2_ws/src/neural_controller/launch/config.yaml",
+    "ros2_ws/src/neural_controller/launch/launch.py",
+    "ros2_ws/src/neural_controller/src/neural_controller.cpp",
+    "ros2_ws/src/joy_utils/src/estop_controller.cpp"
+  ],
+  "square": "neural_controller_walk_v2",
+  "triangle": "neural_controller_wheel",
+  "x_alignment_controller": "neural_controller_wheel_align_hybrid",
+  "policies": {
+    "neural_controller_walk_v2": {
+      "path": "ros2_ws/src/neural_controller/launch/policy_walk_v2.json",
+      "sha256": "854ac8ba4ffc305079b7f6f7b52187a211413c3cdb18f0de016dd819ff2450a8"
+    },
+    "neural_controller_wheel": {
+      "path": "ros2_ws/src/neural_controller/launch/policy_wheel.json",
+      "sha256": "87a54417a534974e9aa02428e691747f2855012f4b9383f096097d11b9b853e9"
+    }
+  }
+}

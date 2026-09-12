@@ -1,0 +1,7 @@
+{
+  "cases": 128,
+  "max_abs_action_error": 4.254281520843506e-06,
+  "tolerance": 3e-05,
+  "comparison": "Brax/JAX deterministic policy versus exported JSON evaluated with float32 NumPy; not a robot controller or hardware test",
+  "export_sha256": "854ac8ba4ffc305079b7f6f7b52187a211413c3cdb18f0de016dd819ff2450a8"
+}

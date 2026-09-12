@@ -11,11 +11,13 @@ lives on the `wheel` branch in `mujoco_playground/workspace/README.md`.
 > Wheels carry rotational momentum that legs never did — this is exactly why the
 > e-stop gain had to be raised (see Known issues).
 
+Before a fresh hardware startup, follow [STARTUP_CALIBRATION.md](STARTUP_CALIBRATION.md), including operator-confirmed physical positioning and live-session calibration. Local source/export tests do not start hardware.
+
 ## What's deployed
 
 | | |
 |---|---|
-| Policy | `ros2_ws/src/neural_controller/launch/policy_wheel.json` (run 3, `wheel_2026-09-02_00-21-44`) |
+| Policy | `ros2_ws/src/neural_controller/launch/policy_wheel.json` (`wheel_2026-09-11_21-58-55`, 9 mm outward-gap retrain) |
 | Controller instance | `neural_controller_wheel` in `config.yaml`, spawned inactive by `launch.py` |
 | Activated by | **Triangle** (joy button 2) |
 | Commanded by | `/cmd_vel` (`geometry_msgs/Twist`) — the same topic locomotion uses |
@@ -31,7 +33,7 @@ these are fixed, non-steerable wheels. `linear.y` is deliberately ignored by the
 behavior (see Known issues).
 
 Trained envelope: `vx` −0.6…0.8 m/s, `yaw` ±2.0 rad/s, wheel speed capped at 1.0 m/s.
-Measured achievable in sim: 0.958 m/s and 4.65 rad/s.
+Historical run-3 measured envelope: 0.958 m/s and 4.65 rad/s; not re-measured for the current checkpoint.
 
 ## Test procedure
 
@@ -125,6 +127,15 @@ divergence from this is worth investigating rather than tuning around.
 
 ## Test log
 
+### 2026-09-11 — `wheel_2026-09-11_21-58-55`, 9 mm outward-gap retrain
+
+- Branch artifact updated after 201,850,880 training steps on wheel commit `88f6a88`.
+- Matched nominal simulation: 33/33 trials completed for both old and new policies. New XY tracking error is 0.03410 m/s (+6.9%); yaw error is 0.06565 rad/s (+2.5%). Body tilt is slightly lower.
+- Export metadata and YAML gain arrays match the preceding deployment. The wheel position gains remain zero, direction signs remain folded into the exported action scale, and `estop_kd` remains 1.0.
+- C++ inference/metadata check: `bash scripts/test_wheel_policy.sh` (also registered in CTest).
+- **Hardware testing pending.** No robot was connected or started for this branch update.
+- [Provenance and detailed validation](hardware_testing/wheel_gap9_2026-09-11/README.md).
+
 ### 2026-09-03 — `wheel_2026-09-02_00-21-44` (run 3), first test of the new policy
 
 - **Result: clean pass. Policy is stable, drives well, no issues found. Shippable.**
@@ -135,8 +146,7 @@ divergence from this is worth investigating rather than tuning around.
   slot to zero for the wheel behavior) — both appear to have resolved what they were
   meant to.
 
-**Status: `wheel_2026-09-02_00-21-44` (run 3) is the recommended, hardware-validated
-wheeled policy going forward.**
+**Historical status:** run 3 passed hardware testing. The current branch artifact is the September 11 retrain below; its hardware validation is pending.
 
 ## Reporting back
 

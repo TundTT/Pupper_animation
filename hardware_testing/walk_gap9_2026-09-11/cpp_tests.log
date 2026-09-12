@@ -1,0 +1,4 @@
+PASS: command contract, reset history, and 128 JAX/RTNeural observations; max action error=1.73599e-06
+PASS: RTNeural wheel export, max error 4.17233e-07
+Commands: CXX=/tmp/pupper-hardware-toolchain/cxx bash scripts/test_walk_policy.sh
+          CXX=/tmp/pupper-hardware-toolchain/cxx bash scripts/test_wheel_policy.sh
