@@ -17,7 +17,7 @@ sha256sum /result/install/neural_controller/lib/libneural_controller.so > /resul
 # successful preparation merely because a later independent test passed.
 test_status=0
 ctest --test-dir /result/build/neural_controller \
-  -R 'keyframe_controller|hybrid_controller_lifecycle|hybrid_policy_contract|walk_policy_contract|align_v5' --output-on-failure || test_status=1
+  -R 'keyframe_controller|keyframe_manager|hybrid_controller_lifecycle|hybrid_policy_contract|walk_policy_contract|align_v5' --output-on-failure || test_status=1
 # QEMU startup/import time is not a motor deadline. Run the same pure launch
 # assertions with a bounded emulation allowance; hardware timing gates are unchanged.
 timeout 180 python3 -m pytest /workspace/src/neural_controller/test/startup_launch_test.py -q || test_status=1

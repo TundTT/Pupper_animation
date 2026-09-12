@@ -613,7 +613,7 @@ neural_controller_keyframe_align:
   ros__parameters:
     repeat_action: 1  # deterministic control on every 520 Hz manager update
     gain_multiplier: 1.0
-    estop_kd: 1.0
+    estop_kd: 0.0
     init_duration: 2.0
     fade_in_duration: 0.0  # keyframe core owns the entry trajectory
     max_body_angle: 0.6  # core stop threshold; rotation gate is stricter at 0.12

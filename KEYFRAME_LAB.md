@@ -1,10 +1,10 @@
 # Deterministic alignment: preparation and first trial
 
-**Physical trial withdrawn:** the September 11 trial produced operator-reported
-uncontrolled motor oscillation. Do not repeat the launch/button procedure below
-until the [incident](hardware_testing/keyframe_align/INCIDENT_20260911.md) is
-investigated and a corrective release is validated. Software passes below are
-historical evidence, not current clearance for hardware use.
+**The earlier e6192ab physical release is withdrawn.** The corrected candidate
+is for a supported startup/stop verification first, not immediate full alignment.
+Read [the correction and staged test](hardware_testing/keyframe_align/STARTUP_FAULT_FIX.md)
+before following the launch procedure below. The [incident](hardware_testing/keyframe_align/INCIDENT_20260911.md)
+and its missing physical evidence remain documented.
 
 This candidate is on **codex/keyframe-robot-integration**, based on robot-code
 e3e1d97. The controller is a separate plugin; existing walking, wheeled and v5
@@ -21,7 +21,7 @@ training. Its legacy `model_path` parameter names the keyframe configuration JSO
 
 The eight proximal joints receive absolute position references; the four hubs
 receive velocity commands from encoder-angle feedback. Proximal gains are 5/0.25;
-hub gains are 0/0.35; stop sets command/gain values to zero except damping 1.
+hub gains are 0/0.35; fault/stop requests zero position, velocity, effort, kp and kd. This removes holding torque; it is not an electrical power disconnect.
 Canonical joint order is FR, FL, BR, BL, each with joints 1, 2, 3. Commands are
 stand=0, FL=1, FR=2, BR=3, BL=4. The deterministic update runs at 520 Hz, without
 policy decimation. It uses the same coordinates as the audited C++ simulator.
@@ -57,7 +57,7 @@ the old wheel. The 48-second attempt watchdog also lowers and latches a retry bl
 
 Invalid encoders/quaternions, missing hardware IMU age, IMU age over 0.1 seconds,
 invalid commands, excessive tilt, or update gaps over 0.04 seconds latch the
-reviewed damping stop until lifecycle reactivation. The hardware interface does
+zero-torque request until lifecycle reactivation. Fault reasons are logged and appended to status. The hardware interface does
 not expose a separate per-joint sample timestamp; finite encoder checks and manager
 cadence are not proof of fresh motor feedback after a lower-level transport fault.
 
@@ -146,7 +146,8 @@ Record a bag before the first authorized motion:
 ```bash
 ros2 bag record -o keyframe-first-trial \
   /joint_states /imu_sensor_broadcaster/imu /joy /rosout \
-  /keyframe_align_command_index /neural_controller_keyframe_align/alignment_status
+  /keyframe_align_command_index /neural_controller_keyframe_align/alignment_status \
+  /neural_controller_keyframe_align/motor_commands
 ```
 
 X first activates the controller into its entry/stand sequence. Allow all four
@@ -161,12 +162,12 @@ A normal soft return to stand is:
 ros2 topic pub --once /keyframe_align_command_index std_msgs/msg/Int32 '{data: 0}'
 ```
 
-PS requests the established damping emergency stop; Options reactivates after the
+PS requests zero torque and controller deactivation; Options reactivates after the
 cause is resolved and the operator is ready. Do not substitute a controller switch
 or shutdown for normal lowering. Reentry can retry a completed sequence using the
 same valid calibration; restarting hardware is unnecessary.
 
-`alignment_status` is a 25-value array at 20 Hz, matching C ABI v2: eight proximal
+`alignment_status` is a 28-value array at 20 Hz. Its first 25 values preserve C ABI v2: eight proximal
 commands; four wheel velocities; phase; active command; completed mask; gate mask;
 timeout/failure retry command (-1 otherwise); floor/wheel/body margins; active target
 error; attempt seconds; integral contribution; authority; failed-wheel mask.

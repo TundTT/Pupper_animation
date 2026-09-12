@@ -72,6 +72,8 @@ if(BUILD_TESTING)
     ${CMAKE_CURRENT_SOURCE_DIR}/launch/config.yaml ${CMAKE_CURRENT_SOURCE_DIR}/launch/keyframe_config.json)
   find_package(ament_cmake_pytest REQUIRED)
   ament_add_pytest_test(startup_launch test/startup_launch_test.py)
+  ament_add_pytest_test(keyframe_manager test/keyframe_manager_test.py TIMEOUT 90
+    ENV ROS_DOMAIN_ID=181 ROS_LOCALHOST_ONLY=1)
   add_executable(align_motion_test test/align_motion_test.cpp)
   target_compile_features(align_motion_test PRIVATE cxx_std_17)
   target_include_directories(align_motion_test PRIVATE include)

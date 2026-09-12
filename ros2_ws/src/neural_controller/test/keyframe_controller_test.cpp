@@ -50,18 +50,10 @@ int main(int argc,char** argv){
       {"joint_names",c.params().joint_names},{"reference_joint_positions",q},{"wheel_home",home},{"wheel_base_target",target}};
     {std::ofstream f(directory/"calibration.json");f<<record;}
     require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Confirmed fixture activates");
-    // Incident reproduction only. The deployed Jazzy manager supplies period=0
-    // on the first update after activation. No hardware interfaces are used here.
-    if(std::getenv("KEYFRAME_REPRO_ZERO_PERIOD")){
-      require(c.update(rclcpp::Time(int64_t(1000000000),RCL_ROS_TIME),rclcpp::Duration::from_seconds(0))==controller_interface::return_type::OK,"First zero-period update returned OK");
-      require(c.core().phase==keyframe_align::STOPPED,"Zero first period latches STOPPED");
-      for(const auto& x:outputs)require(x[0]==0&&x[1]==0&&x[2]==0&&x[3]==0&&x[4]==1,"All twelve motors retain kd=1");
-      c.command(1);
-      c.update(rclcpp::Time(int64_t(1001923077),RCL_ROS_TIME),rclcpp::Duration::from_seconds(1./520));
-      require(c.core().phase==keyframe_align::STOPPED,"Later positive period and leg request cannot clear latch");
-      std::cout<<"REPRODUCED: first period=0 -> STOPPED, all 12 kp=0/kd=1, later leg request ignored. Fake interfaces only.\n";
-      c.on_deactivate({});std::filesystem::remove_all(directory);rclcpp::shutdown();return 0;
-    }
+    // Exercise the actual Jazzy first-update contract; no invented positive dt.
+    c.update(rclcpp::Time(int64_t(0),RCL_ROS_TIME),rclcpp::Duration::from_seconds(0));
+    require(c.core().phase==keyframe_align::ENTRY,"First zero period establishes clock without fault");
+    for(const auto& x:outputs)for(double value:x)require(value==0,"Bootstrap requests no torque");
     double now=0;
     auto tick=[&]{now+=1./520;require(c.update(rclcpp::Time(int64_t(now*1e9),RCL_ROS_TIME),rclcpp::Duration::from_seconds(1./520))==controller_interface::return_type::OK,"update");
       for(int i=0;i<12;++i){const double previous=q[i];if(i%3==2)q[i]+=outputs[i][1]/520;else q[i]=outputs[i][0];qd[i]=(q[i]-previous)*520;}};
@@ -72,7 +64,7 @@ int main(int argc,char** argv){
       require(std::abs(robot_calibration::wrap(target[leg]-q[3*leg+2]))<.035,"Calibrated final target");
       for(int i=0;i<12;++i)require(outputs[i][3]==(i%3==2 ? 0.:5.),"Correct hardware gain routing");
     }
-    auto check_brake=[&]{for(const auto& x:outputs)require(x[0]==0&&x[1]==0&&x[2]==0&&x[3]==0&&x[4]==1,"Stop disables position and velocity, keeps damping");};
+    auto check_brake=[&]{for(const auto& x:outputs)require(x[0]==0&&x[1]==0&&x[2]==0&&x[3]==0&&x[4]==0,"Stop removes both gains and all feed-forward commands");};
     c.stop();tick();check_brake();c.on_deactivate({});
     for(int k=0;k<4;++k)q[3*k+2]=home[k]+16*M_PI+.2;qd.fill(0);
     for(int a=0;a<8;++a)q[keyframe_align::rows[a]]=keyframe_align::Geometry::neutral[a];
@@ -83,8 +75,20 @@ int main(int argc,char** argv){
     c.on_deactivate({});for(int a=0;a<8;++a)q[keyframe_align::rows[a]]=keyframe_align::Geometry::neutral[a];qd.fill(0);
     assign();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Explicit lifecycle reset clears stop");
     c.command(9);tick();check_brake();c.on_deactivate({});
+    // Zero is accepted only at bootstrap. Real pauses and malformed inputs still fault.
+    for(double dt:{0.,-.001,.041}){
+      assign();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Timing test activation");
+      tick();c.update(rclcpp::Time(int64_t((now+.002)*1e9),RCL_ROS_TIME),rclcpp::Duration::from_seconds(dt));
+      check_brake();require(c.core().phase==keyframe_align::STOPPED,"Later invalid period faults");
+      c.on_deactivate({});
+    }
+    assign();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Gap test activation");
+    tick();c.update(rclcpp::Time(int64_t((now+.05)*1e9),RCL_ROS_TIME),rclcpp::Duration::from_seconds(.002));
+    check_brake();c.on_deactivate({});
+    for(const auto& x:outputs)for(double value:x)require(value==0,"Deactivation never restores damping");
     auto next=robot_calibration::begin_session();robot_calibration::finish_session(next);assign();
     require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"New encoder session invalidates fixture");
+    for(const auto& x:outputs)for(double value:x)require(value==0,"Failed activation never restores damping");
     std::cout<<"PASS: keyframe plugin, calibration, all-wheel mapping, stop, stale IMU, reentry, invalid commands\n";
   }catch(const std::exception& e){std::cerr<<"FAIL: "<<e.what()<<'\n';result=1;}
   std::filesystem::remove_all(directory);rclcpp::shutdown();return result;

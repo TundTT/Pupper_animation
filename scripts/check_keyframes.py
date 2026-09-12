@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Read-only source/installed compatibility check; never starts hardware."""
 import argparse,hashlib,json,subprocess
+import xml.etree.ElementTree as ET
 from pathlib import Path
 import yaml
 from check_align_v5 import check as check_unchanged_hardware_geometry
@@ -46,7 +47,13 @@ def main():
     for name in ('joint_names','action_types','kps','kds','init_kps','init_kds'):
         require(params[name]==old[name],f'Hardware mapping/gain mismatch: {name}')
     require(params['model_path'].endswith('/keyframe_config.json'),'Wrong keyframe config path')
-    require(params['use_imu'] and params['estop_kd']==1 and params['gain_multiplier']==1,'Sensor/stop/gain mismatch')
+    require(params['use_imu'] and params['estop_kd']==0 and params['gain_multiplier']==1,'Sensor/stop/gain mismatch')
+    # The hardware writer can synthesize gains at opted-in hard limits. This
+    # zero-torque fault contract is restricted to the reviewed wheel profile.
+    joints={j.attrib['name']:j for j in ET.parse(description/'description/components.xacro').findall('.//joint')}
+    for name in params['joint_names']:
+        hw={p.attrib['name']:p.text for p in joints[name].findall('param')}
+        require('hard_limit_min' not in hw and 'hard_limit_max' not in hw,f'Zero-torque fault requires review of hard-limit gain overrides: {name}')
     motion=json.loads((controller/'launch/keyframe_config.json').read_text())
     require(len(motion['poses'])==4 and all(len(p)==8 for p in motion['poses']),'Wrong pose dimensions')
     require('layers' not in motion,'Keyframe config must not contain a network')
