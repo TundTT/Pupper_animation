@@ -72,6 +72,10 @@ simulation status, environment steps and early termination accurately.
    floor collision is included in physics. Account for finite CAD sampling and
    unmodeled polymer/spacer mass. Render several views of the initial stance,
    maximum lift, halfway through rotation and final stance.
+   Report front/rear wheel clearances separately. The focused audit in
+   `results/wheel_clearance/` found 21.80 mm right and 50.37 mm left minima for
+   the saved rear flip; these numbers do not validate subsequent mixed-stance
+   flips. `check_wheel_clearance.py` provides a reproducible focused check.
 7. Before calling any result hardware-ready, implement/review a measured-state
    executor using available encoder/IMU data: wait for lift/angle tracking and
    low speed before progressing, bound landing descent, handle lost tracking and
