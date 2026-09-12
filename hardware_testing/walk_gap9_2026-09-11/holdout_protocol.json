@@ -1,0 +1,84 @@
+{
+  "commands": {
+    "stand": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "forward15": [
+      0.15,
+      0.0,
+      0.0
+    ],
+    "forward20": [
+      0.2,
+      0.0,
+      0.0
+    ],
+    "forward35": [
+      0.35,
+      0.0,
+      0.0
+    ],
+    "reverse15": [
+      -0.15,
+      0.0,
+      0.0
+    ],
+    "reverse20": [
+      -0.2,
+      0.0,
+      0.0
+    ],
+    "reverse35": [
+      -0.35,
+      0.0,
+      0.0
+    ],
+    "turn_left": [
+      0.0,
+      0.0,
+      0.5
+    ],
+    "turn_right": [
+      0.0,
+      0.0,
+      -0.5
+    ],
+    "forward_turn": [
+      0.2,
+      0.0,
+      0.4
+    ],
+    "reverse_turn": [
+      -0.2,
+      0.0,
+      0.4
+    ],
+    "left": [
+      0.0,
+      0.1,
+      0.0
+    ],
+    "right": [
+      0.0,
+      -0.1,
+      0.0
+    ]
+  },
+  "seeds": [
+    10,
+    11,
+    12
+  ],
+  "steps": 600,
+  "dt": 0.02,
+  "discard_steps": 50,
+  "floor_friction": 2.0,
+  "sensor_noise": false,
+  "latency": false,
+  "pushes": false,
+  "model_sha256": "d946c5f3d20369e3faa0c38a22617b6c25ef89ec97115ce5757f9962d4b7c103",
+  "purpose": "Post-selection check using fresh reset seeds, longer episodes, and different floor friction than checkpoint selection. All checkpoints were trained with friction randomization.",
+  "evaluator_sha256": "4126763a80f5ffe9088465fff78514d1ce9b58f0a767b300395ea42fcacf4aa1"
+}

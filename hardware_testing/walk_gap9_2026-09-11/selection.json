@@ -1,0 +1,53 @@
+{
+  "checkpoint_step": 12779520,
+  "checkpoint_sha256": "878376a33dfcfaf4f312410c38482f9afe6b21621f5b442051eba4c1c72dafa3",
+  "export_sha256": "854ac8ba4ffc305079b7f6f7b52187a211413c3cdb18f0de016dd819ff2450a8",
+  "training_run": "walk_2026-09-11_23-02-17",
+  "checkpoint_file": "params_000012779520",
+  "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/j3xez9z5",
+  "video_key": "eval/video_selected",
+  "training_source_commit": "27bc66823478758bd9dc701a5aec27cceaa0710a",
+  "training_model_sha256": "d946c5f3d20369e3faa0c38a22617b6c25ef89ec97115ce5757f9962d4b7c103",
+  "effective_model_sha256": "9185dd0fb7cbd4dc1178c7bd279f66576289f0d1697e153a8becf39118a0d94f",
+  "foot_model": "rigid_flush",
+  "robot_branch_base": "25b510ae8431e745bb3827684a8e89255e8a99f7",
+  "hardware_status": "Branch artifact replacement; physical hardware testing not performed for this checkpoint",
+  "action_scale": [
+    0.5,
+    0.25,
+    1.1,
+    0.5,
+    0.25,
+    1.1,
+    0.5,
+    0.25,
+    1.1,
+    0.5,
+    0.25,
+    1.1
+  ],
+  "selection_reason": "Require all 39 eight-second trials to complete; neither XY nor yaw error may worsen by >5%; normalized action changes may not worsen by >10%. Rank passing candidates by equal-weight normalized XY/yaw error. Retain baseline if no improvement. Improvement label requires at least 1% lower combined score. Selection from these tests is not an independent validation.",
+  "warm_start_checkpoint_sha256": "f9b30170c1d927c039204a92b4015fff59ebbdc9ede2137aca4878812290ea5e",
+  "learning_rate": 5e-05,
+  "completed_training_steps": 21299200,
+  "reference_sha256": "35185f6a69786a2bbfb1f7eff9ed809c4ccaa24ea67fff7daf8a2f00890e64f7",
+  "interface": "Same active file, controller, Square binding, joint order, home, gains, action scales, command limits, and timing as previous walking deployment",
+  "active_wheel": {
+    "controller": "neural_controller_wheel",
+    "button": "Triangle",
+    "button_index": 2,
+    "policy": "ros2_ws/src/neural_controller/launch/policy_wheel.json",
+    "training_run": "wheel_2026-09-11_21-58-55",
+    "export_sha256": "87a54417a534974e9aa02428e691747f2855012f4b9383f096097d11b9b853e9"
+  },
+  "inference_fixtures": "128 JAX deterministic actions from selected checkpoint; normalization-distribution samples with mean and zero/home-oriented cases, all upright orientation inputs fixed to [0,0,1].",
+  "cpp_validation": {
+    "leg_fixtures": 128,
+    "leg_max_abs_action_error": 1.73599e-06,
+    "wheel_fixtures": 128,
+    "wheel_max_abs_action_error": 4.17233e-07,
+    "status": "PASS",
+    "backend": "RTNeural Eigen float32",
+    "tolerance": 3e-05
+  }
+}
