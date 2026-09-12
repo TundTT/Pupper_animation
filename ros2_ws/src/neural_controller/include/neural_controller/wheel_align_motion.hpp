@@ -110,7 +110,7 @@ struct WheelAlignMotion {
       const auto r=mul(mul(mul(a,rz(q[3*k])),b),rz(q[3*k+1]));
       auto p=mv(r,{p3[3*k],p3[3*k+1],p3[3*k+2]}); const auto orientation=mul(r,c);
       double z=0,dot=0;
-      for(int i=0;i<3;++i) {centers[k][i]=p[i]+p1[3*k+i]+.03035*orientation[3*i+2]; z-=centers[k][i]*gravity[i]; dot-=orientation[3*i+2]*gravity[i];}
+      for(int i=0;i<3;++i) {centers[k][i]=p[i]+p1[3*k+i]+wheel_center_z[k]*orientation[3*i+2]; z-=centers[k][i]*gravity[i]; dot-=orientation[3*i+2]*gravity[i];}
       bottom[k]=z-radius*std::sqrt(std::max(1-dot*dot,0.))-half*std::abs(dot);
       if(k!=leg) support_bottom=std::max(support_bottom,bottom[k]);
       Vec local{};

@@ -1,0 +1,3 @@
+*.json -filter diff merge text eol=lf
+*.py text eol=lf
+*.md text eol=lf

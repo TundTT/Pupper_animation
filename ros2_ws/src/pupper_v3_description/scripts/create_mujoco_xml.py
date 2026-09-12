@@ -193,6 +193,14 @@ def compose_robot_xml(
             base_inertia = base_link.find("inertial")
             base_link.remove(base_inertia)
 
+    # Approved heating backpack: insert after other geometry processing.
+    import runpy
+    repository = next(p for p in pathlib.Path(__file__).resolve().parents
+                      if (p / 'models/heating_module/apply.py').exists())
+    backpack = runpy.run_path(str(repository / 'models/heating_module/apply.py'))
+    compiler = root.find('compiler')
+    backpack['add_to_tree'](root, output_path.parent / compiler.get('meshdir', '.'))
+
     print("Writing to:", output_path)
     tree.write(output_path)
 
