@@ -1,0 +1,1362 @@
+diff --git a/models/heating_module/check.py b/models/heating_module/check.py
+index d912b5d..ca0d8bd 100644
+--- a/models/heating_module/check.py
++++ b/models/heating_module/check.py
+@@ -50,7 +50,8 @@ def check(path):
+     data=mj.MjData(model)
+     if model.nkey:mj.mj_resetDataKeyframe(model,data,0)
+     mj.mj_forward(model,data)
+-    assert np.isfinite(data.qM).all() and np.isfinite(data.qacc).all()
++    mass_matrix = data.qM if hasattr(data, 'qM') else data.M
++    assert np.isfinite(mass_matrix).all() and np.isfinite(data.qacc).all()
+     return dict(path=str(path),mass_kg=float(model.body_mass.sum()),status='PASS')
+ 
+ 
+diff --git a/mujoco_playground/workspace/WALKING.md b/mujoco_playground/workspace/WALKING.md
+index 2fb7f9d..0f03a40 100644
+--- a/mujoco_playground/workspace/WALKING.md
++++ b/mujoco_playground/workspace/WALKING.md
+@@ -7,7 +7,17 @@ velocity actuators and wheel reward are not used here.
+ 
+ ## Model and starting pose
+ 
+-Drag the existing `pupper_v3_complete.mjx.position.xml` into MuJoCo as usual.
++New walking runs use `foot_model=rigid_flush`. The trainer compiles a 62.649961 mm
++capsule from the source XML: the distal cap extends 2.649961 mm to the outer ring's
++axial bottom, with the 12 mm radius and proximal endpoint unchanged. Floor and
++foot contacts use solref `[.008,1]`, solimp `[.99,.99,.001,.5,2]`; contact softness
++is no longer randomized. The home keyframe is re-settled at about 146.72 mm torso
++height. Each run saves `effective_model.xml` for direct viewing, plus the original
++source `model.xml`. Open the effective model to inspect the new physics.
++Existing checkpoints without a `foot_model` field explicitly retain `legacy_soft`
++when evaluated; `--foot_model rigid_flush` requests a deliberate transfer test.
++
++The source `pupper_v3_complete.mjx.position.xml` remains the legacy model.
+ Its default state now stands with zero actuator inputs; the `home` keyframe
+ contains the settled pose. Nominal joint targets in FR/FL/BR/BL order are
+ `[1, 0, -1, -1, 0, 1, 1, 0, -1, -1, 0, 1]` radians. All four feet support the
+@@ -32,18 +42,21 @@ The capsule is the physical supporting foot. The mesh ring remains visual only.
+ both axial edges. `walk_geometry.py` transforms these points with each actual
+ mesh mount, including the left-side clocking. The STL hash is checked before use.
+ This is an undeformed-outline **ground clearance proxy**, not contact force or a
+-rubber deformation simulation. It currently supports only flat ground at world Z=0;
++rubber deformation simulation. It supports a plane through the world origin,
++including the randomized floor tilt;
+ obstacles/heightfields need a corresponding terrain-distance implementation.
+ 
+ - `ring_side`: side penetration/clearance violation, measured per foot.
+-- `ring_rub`: tangential speed squared where a side point is touching the floor.
+-- `ring_bottom`: bottom compression beyond a 6 mm allowance.
++- `ring_rub`: world-XY speed squared, weighted by side-point proximity to the floor.
++- `ring_bottom`: disabled (weight zero); retained only for legacy diagnostics.
++- `ring_side_contact`: fraction of feet with any side probe below the floor,
++  averaged over substeps, with weight -6. This charges frequent shallow side
++  brushing in addition to the depth and rubbing costs.
+ - `ring_side_fraction` and `ring_penetration_m`: diagnostics, not policy inputs.
+ 
+-The lower arc of the ring permits incidental compression. This includes the
+-flattened bottom next to the leg tip; ordinary standing penetrates the undeformed
+-outline by about 4.4 mm and incurs zero ring penalty. Side and bottom costs use the
+-maximum violation per foot so weights do not depend on point count. Ring costs
++The lower arc has no compression reward or penalty. The capsule is a rigid shape
++with stiff numerical contacts; the visual ring has no load-bearing collision.
++Side costs use the maximum violation per foot so weights do not depend on point count. Ring costs
+ are averaged over the simulation substeps. These weights/allowances are starting
+ values for hardware calibration, not measurements of rubber stiffness or wear.
+ 
+@@ -51,7 +64,7 @@ Foot support uses actual capsule-floor contacts. Slip uses the velocity of the
+ lowest capsule surface point; the foot sites now mark the lower cap centers.
+ Other rewards track XY velocity/yaw, discourage slipping, penalize body/knee
+ contact and abrupt actions, and reward bounded swing time at touchdown. Commands
+-start conservatively at vx [-0.2,0.4], vy [-0.1,0.1] m/s, yaw [-0.6,0.6] rad/s.
++span vx [-0.35,0.35], vy [-0.15,0.15] m/s, yaw [-0.8,0.8] rad/s.
+ No imposed gait phase: PPO must discover a gait. Rewards do not guarantee success.
+ 
+ The actor uses four 36-value history frames (144 inputs), matching the existing
+@@ -100,6 +113,129 @@ required before a long run. No SSH credentials or remote paths are hardcoded.
+ 
+ ## Outputs, evaluation, and export
+ 
++The current selected candidate is **21,626,880 steps** from
++`output/stride_trials/preferred_long/walk_2026-09-07_16-48-35` (W&B `zw331stu`).
++Use `selected_params` and the W&B **`eval/video_selected`** panel. It warm-starts
++directly from the user's preferred `walk_2026-09-07_15-29-41` ring6 policy.
++The later highest-reward checkpoints shorten the stride again, so `best_params`
++is not the selected policy. See [stride and clearance results](validation_stride_2026-09-07/RESULTS.md).
++
++Defaults now use a **16 mm / 320 ms** swing curve, shape weight **-6**, per-foot
++error weights **3/3/1/1** (FR/FL/BR/BL), and a **12 mm** touchdown peak threshold
++with shortfall weight **-.5**. Front weighting changes the error cost only; the
++swing bonus, action bounds, ring-side penalties and rigid contacts are unchanged.
++Action-acceleration weight is **-1.6** to discourage abrupt reversals. Saved old
++policies explicitly retain equal foot weighting when their metadata lacks it.
++
++At forward .20 m/s and friction2, the selected policy has roughly **98 mm** strides,
++**2.17 Hz** cadence, **224 ms** major swings and **9.2/11.3 mm** front peaks.
++All39 flat direction/seed trials survive and three10mm obstacle courses complete,
++versus one of three for the preferred policy under the same rigid physics.
++Some side strikes and ring-side overlap remain; this is not hardware validation.
++
++The earlier front3 candidate reached13--14mm front peaks, but its3.57Hz/48mm
++strides were rejected by the user as too tap-like. It is superseded. Its
++[clearance-only results](validation_clearance_2026-09-07/RESULTS.md) remain available.
++
++`evaluate_walk_obstacles.py` adds real stiff transverse bars for an independent
++native MuJoCo stress test, without terrain observations. It reports course
++completion, capsule side/top contacts and ring-side overlap. Compare both
++policies with this evaluator; it is not bit-identical MJX evaluation.
++
++The reverse-walking follow-up uses 20% stand, 20% forward, 20% reverse, 10%
++lateral, 10% yaw, and 20% mixed commands. It adds a stronger signed air-time
++incentive, a soft 4 mm swing-peak goal, contact-only tip-lean and touchdown
++approach-speed penalties, and speed-dependent tracking tolerances. See
++[the ring explanation and trial protocol](validation_reverse_2026-09-07/RING_AND_TRAINING.md)
++for the intended tip support, unchanged ring settings, and exact new penalties.
++The soft-contact front-drag experiment produced **43,253,760 steps** in
++`output/front_drag_trials/ring6/walk_2026-09-07_15-29-41`. It is now superseded by
++the requested flush rigid-capsule physics and is only a warm-start candidate.
++That experiment raised the training friction range to **0.8–2.5**, swing reference
++to **8 mm**, swing-shape weight to **-3**, linear tracking to **6**, and side-contact
++weight to **-6**. Action scales/home/gains are unchanged. Nominal XML friction stays
++1; `--floor_friction 2` produces the high-friction review used in this run. The
++trainer passes `--friction_range MIN MAX` explicitly into domain randomization.
++
++Front lift improves, with some tracking and fast-motion tradeoffs. Higher friction
++also changes penetration under the current contact model, so it is a stress test
++with a compliance confound. See [full front-drag results and videos](validation_front_drag_2026-09-07/RESULTS.md).
++This candidate has not been tested on hardware or copied into `robot-code`.
++
++The earlier jitter follow-up selected the **129,761,280-step checkpoint** from
++`output/jitter_trials/tip_credit3/walk_2026-09-07_04-04-36`. Use `selected_params`
++and `policy_walk_selected.json`; `best_params` still denotes the checkpoint with
++the highest training evaluation reward. See [measured results, limitations, and
++video](validation_jitter_2026-09-07/RESULTS.md). W&B run `61am09cq` contains the
++chosen video under **`eval/video_selected`**.
++
++That recipe introduced a second action-difference penalty (-0.8), a 160 ms,
++6 mm swing reference triggered by each foot's liftoff, and a small credit for
++following that reference. Early contact cannot cancel the remaining curve cost.
++The old height-area reward is disabled. Knee action scale is now **1.1 radians**
++(hip 0.5, abduction 0.25), with a 3 mm lower moving height reference. The height
++weight is -12, linear/yaw tracking weights are 4/3, and side-depth/side-contact
++weights are both -3. These changes make longer swings feasible and discourage
++shallow ring-side brushing. The 144-input/12-output layout is unchanged, but
++deployment **must use the new exported action scales**. No external gait clock
++or runtime action filter was added.
++
++The previous reverse follow-up completed 86.5M steps; its 57.7M-step checkpoint improved
++slow reverse tracking and clearance, but retains short reverse swings and has
++more ring-side overlap than the previous policy. It is an experimental candidate;
++[measured results and the review video](validation_reverse_2026-09-07/RESULTS.md)
++include the regressions. The latest checkpoint supersedes that candidate.
++`evaluate_gait_suite.py` evaluates 13 fixed commands over three seeds and records
++250 Hz foot traces. Showcases now append faster reverse and lateral segments to
++the original 16-second command sequence; the current 32-second review also includes
++both spin directions and a final stop.
++
++The earlier September 7 audit follow-up raised only the action-rate reward weight to
++`-0.30`; torque (`-0.0002`), air time (`0.3`), foot slip (`-0.6`), the 28 mm
++clearance cap, joint action bounds, and 9 mm bottom allowance retain their values.
++The observed gait had short rounded swings below the cap; this is a roughness
++experiment, not a claim that the old policy dwelled at maximum clearance.
++
++Length DR uses configurable `leg_length_common_range=(.90,.98)` times
++`leg_length_per_leg_range=(.96,1.04)`, giving `0.864–1.0192` upstream-offset scale.
++It acts around the extended foot assembly, moving the ring and capsule together
++and preserving the flush tip at every sampled length. The 2.65 mm extension is
++present at both length endpoints; capsule length is not randomized independently
++of the ring. New four-second flat standing heights at friction 1 span roughly
++135.38–148.33 mm, with nominal 146.71 mm. Mount perturbations remain parent-frame X/Y
++rotations of ±0.07 rad. Brax holds these physical parameters fixed per environment
++slot across episodes. At reset, the torso-height reference is adjusted using the
++change in neutral capsule-bottom projections for that slot's actual geometry.
++Torso-height reward and low-height termination use distance along the floor normal.
++The geometry and reward updates together constitute a combined training run;
++comparison with the old checkpoint cannot isolate action-rate causality.
++
++Training evaluation and showcases disable pushes; showcases render every control
++step at 50 fps. Standalone evaluation also disables pushes by default; pass
++`--with_pushes` to test the saved training disturbance probability. Evaluation
++rewards therefore are not directly comparable with older disturbed evaluations.
++Run folders include source snapshots, warm-start provenance, evaluation settings,
++and `best_checkpoint.json`. Best parameters are saved at each improvement so an
++interruption does not lose selection of the strongest evaluated checkpoint.
++Warm starts default to learning rate `5e-5`; `--learning_rate` overrides it.
++Videos are enabled by default, including W&B panels `eval/video`,
++`eval/video_final`, and `eval/video_best`. For shorter trials, use
++`--final_videos_only` to skip intermediate rendering while retaining final and
++best videos. `--no_eval_videos` explicitly disables **all** videos. The chosen
++mode and W&B run path are saved in `run.json`.
++
++To attach a locally rendered video to its original finished W&B run:
++
++```bash
++.venv-walk/bin/python -m workspace.upload_walk_video \
++  --params workspace/output/<run>/best_params \
++  --video workspace/output/<run>/rollout_best.mp4 \
++  --run QuadMorph/pupper-leg/<run_id>
++```
++
++This appends `eval/video_best` with checkpoint provenance and preserves existing
++training metrics. The run must already exist and match the checkpoint directory.
++
+ Each run writes `run.json` (settings, dependency versions, hashes, home pose),
+ `metrics.jsonl`, intermediate `params_<step>` files, and final `mjx_params` under
+ `workspace/output/walk_<timestamp>/`. Intermediate weights survive a stopped run.
+@@ -134,5 +270,6 @@ values are unchanged, and FK matched the pre-change model at 20 random joint
+ poses. Tests cover side rubbing, bottom allowance, tilted rings, point velocities,
+ JIT rollout/reset behavior, randomized Brax wrapping, and exported MLP parity.
+ A 64-step CPU PPO integration run completed and saved intermediate/final weights;
+-it is only a pipeline test, not a walking policy. Remote CUDA training has not
+-been launched or verified from this machine.
++it is only a pipeline test, not a walking policy. Subsequent CUDA training and
++direction-specific evaluation results are recorded in the September 7 validation
++directories linked above.
+diff --git a/mujoco_playground/workspace/evaluate_walk.py b/mujoco_playground/workspace/evaluate_walk.py
+index 6675c92..95464b0 100644
+--- a/mujoco_playground/workspace/evaluate_walk.py
++++ b/mujoco_playground/workspace/evaluate_walk.py
+@@ -21,9 +21,13 @@ def main():
+     p.add_argument('--steps',type=int,default=600)
+     p.add_argument('--command',type=float,nargs=3,default=[.2,0.,0.])
+     p.add_argument('--video',help='Optional MP4 path (requires mediapy/ffmpeg)')
++    p.add_argument('--with_pushes',action='store_true',help='Use the training push probability; default is push-free evaluation')
+     args=p.parse_args()
+     metadata=json.loads((Path(args.params).parent/'run.json').read_text())
+     c=get_config();c.update(metadata['config']);c.sensor_noise=0.;c.latency_probability=0.;c.reset_joint_noise=0.
++    c.foot_model=metadata['config'].get('foot_model','legacy_soft')
++    c.planned_swing_foot_weights=tuple(metadata['config'].get('planned_swing_foot_weights',(1.,1.,1.,1.)))
++    if not args.with_pushes:c.push_probability=0.
+     c.command_hold_steps=args.steps+1
+     env=PupperWalkEnv(c,args.model_path)
+     if args.steps <= 0:raise ValueError('--steps must be positive')
+diff --git a/mujoco_playground/workspace/tests/test_walk_env.py b/mujoco_playground/workspace/tests/test_walk_env.py
+index 10a3c16..b4cc006 100644
+--- a/mujoco_playground/workspace/tests/test_walk_env.py
++++ b/mujoco_playground/workspace/tests/test_walk_env.py
+@@ -43,7 +43,8 @@ def test_shaping_term_ceilings_are_not_negligible():
+     time given stand_probability=.2)."""
+     c=get_config()
+     tracking_ceiling=c.reward_scales.tracking_linear*1.
+-    swing_ceiling=c.reward_scales.swing_clearance*1.4*c.swing_clearance_target*.8
++    swing_ceiling=max(c.reward_scales.swing_clearance*1.4*c.swing_clearance_target*.8,
++                      abs(c.reward_scales.planned_swing)*c.planned_swing_bonus*2*.8)
+     assert swing_ceiling/tracking_ceiling>.02,'swing_clearance is too small to shape the gait'
+     # A single foot held up at rest must cost noticeably more than stand_pose's
+     # per-joint-averaged penalty for the same deviation (~.006/s measured), or the
+@@ -71,3 +72,39 @@ def test_randomized_brax_wrapper_can_reset_and_step():
+     assert state.obs.shape==(2,144)
+     assert np.all(np.isfinite(np.asarray(state.reward)))
+     assert set(state.metrics)==metric_keys
++    references=np.asarray(state.info['height_reference'])
++    assert np.all(references < env.height)
++    assert abs(references[0]-references[1])>1e-5
++
++
++def test_height_reference_tracks_length_without_reset_noise():
++    from workspace.walk_randomize import LEG_BODY_IDS
++    c=get_config()
++    c.foot_model='legacy_soft'  # The audited heights below used the old capsule.
++    # Reference must be independent of randomized reset pose and sensor noise.
++    c.reset_joint_noise=.1;c.reset_xy_noise=.2;c.reset_yaw_noise=.3
++    env=PupperWalkEnv(c)
++    nominal=env.sys
++    for scale,expected in ((1.,.142463661),(.864,.131007),(.94,.137409),(1.0192,.144081)):
++        env.sys=nominal.tree_replace({'body_pos':nominal.body_pos.at[LEG_BODY_IDS].multiply(scale)})
++        reference=float(jax.jit(env.neutral_height_reference)())
++        # Independent four-second MJX standing heights from the gait audit.
++        np.testing.assert_allclose(reference,expected,atol=8e-5)
++
++
++def test_height_reward_and_survival_are_invariant_to_travel_on_slope():
++    from workspace.walk_randomize import _small_tilt_quat
++    from workspace import walk_geometry as geom
++    c=get_config();c.sensor_noise=0.;c.latency_probability=0.;c.push_probability=0.
++    env=PupperWalkEnv(c)
++    env.sys=env.sys.tree_replace({'geom_quat':env.sys.geom_quat.at[env.floor].set(_small_tilt_quat(jp.array(0.),jp.array(.04)))})
++    state=jax.jit(env.reset)(jax.random.PRNGKey(8))
++    normal=geom.quat_axis_z(env.sys.geom_quat[env.floor],jp)
++    # Two metres downslope changes world Z by -80mm, formerly a false fall.
++    translation=jp.array([2.,0.,-2.*normal[0]/normal[2]])
++    shifted=state.replace(pipeline_state=state.pipeline_state.replace(qpos=state.pipeline_state.qpos.at[:3].add(translation)))
++    step=jax.jit(env.step)
++    original=step(state,jp.zeros(12));translated=step(shifted,jp.zeros(12))
++    np.testing.assert_allclose(translated.metrics['height'],original.metrics['height'],atol=1e-5)
++    np.testing.assert_allclose(translated.metrics['torso_height'],original.metrics['torso_height'],atol=1e-5)
++    assert float(translated.done)==float(original.done)==0.
+diff --git a/mujoco_playground/workspace/tests/test_walk_export.py b/mujoco_playground/workspace/tests/test_walk_export.py
+index 582f141..4dc5b64 100644
+--- a/mujoco_playground/workspace/tests/test_walk_export.py
++++ b/mujoco_playground/workspace/tests/test_walk_export.py
+@@ -31,3 +31,21 @@ def test_export_matches_normalized_network_with_constant_upright_channels():
+             actual = actual @ np.array(layer['weights'][0], dtype=np.float32) + np.array(layer['weights'][1], dtype=np.float32)
+             actual = np.tanh(actual) if layer['activation'] == 'tanh' else np.where(actual > 0, actual, np.expm1(np.minimum(actual, 0)))
+         np.testing.assert_allclose(actual, expected, atol=1e-6)
++
++
++def test_action_scale_warm_start_preserves_history_normalization_and_small_targets():
++    from jax import numpy as jp
++    from brax.training.acme import running_statistics
++    from workspace.walk_warm_start import rescale_action_head
++    stats=running_statistics.init_state(jp.zeros(144)).replace(mean=jp.full(144,.2),std=jp.full(144,.3),summed_variance=jp.full(144,9.))
++    params=(stats,{'params':{'head':{'kernel':jp.zeros((8,24)),'bias':jp.concatenate([jp.full(12,.1),jp.full(12,-3.)])}}},{})
++    old=np.array([.5,.25,.5]*4);new=np.array([.5,.25,1.1]*4)
++    result=rescale_action_head(params,old,new,4)
++    obs=np.linspace(-.1,.5,144);changed=obs.copy()
++    indices=np.concatenate([np.arange(24,36)+36*i for i in range(4)])
++    changed[indices]*=np.tile(old/new,4)
++    np.testing.assert_allclose((obs-stats.mean)/stats.std,(changed-result[0].mean)/result[0].std,atol=1e-6)
++    before=np.tanh(np.asarray(params[1]['params']['head']['bias'][:12]))*old
++    after=np.tanh(np.asarray(result[1]['params']['head']['bias'][:12]))*new
++    np.testing.assert_allclose(before,after,atol=.0002)
++    np.testing.assert_allclose(params[1]['params']['head']['bias'][:12],.1)
+diff --git a/mujoco_playground/workspace/tests/test_walk_randomize.py b/mujoco_playground/workspace/tests/test_walk_randomize.py
+index d8b50b3..c21e6e8 100644
+--- a/mujoco_playground/workspace/tests/test_walk_randomize.py
++++ b/mujoco_playground/workspace/tests/test_walk_randomize.py
+@@ -1,41 +1,56 @@
+-"""Guards the ring-clearance reward against desyncing from leg-length DR.
++"""Guards the ring-clearance reward against desyncing from leg-length/tilt/terrain DR.
+ 
+ `ring_local` (walk_geometry.py) and `self.sizes` (walk_env.py) are baked once from
+-the foot body's nominal local mesh/geom mounts. A leg-length randomization that
+-scales `body_pos` upstream of the foot body should stay perfectly consistent with
+-them (the reward re-projects through the real per-step body pose every step); one
+-that instead moves the foot's own mesh/geom mount would silently desync. These
+-tests catch a future change to walk_randomize.py that crosses that line.
++the foot body's nominal local mesh/geom mounts. Randomization that acts upstream in
++the kinematic chain (body_pos, body_quat, the floor's own geom_quat) stays perfectly
++consistent with them (the reward re-projects through the real per-step body pose /
++floor normal every step); randomization that instead moves the FOOT's own visual
++mesh mount or capsule size would silently desync. This checks actual per-index
++values (not just "was this field name touched anywhere"), since geom_quat is now
++legitimately randomized for the floor -- a plain field-name check can't distinguish
++that from an unsafe change to the foot's own geom_quat row.
+ """
+ import jax
+ from jax import numpy as jp
++import mujoco
+ from mujoco import mjx
+ import numpy as np
+ from workspace.walk_config import get_config
+ from workspace.walk_env import PupperWalkEnv
+-from workspace.walk_randomize import LEG_BODY_IDS, domain_randomize
+-
+-_UNSAFE_FIELDS = {'mesh_pos', 'mesh_quat', 'geom_pos', 'geom_quat', 'geom_size'}
++from workspace.walk_randomize import LEG_BODY_IDS, FOOT_GEOM_IDS, domain_randomize
++from workspace import walk_geometry as wgeom
+ 
+ 
+ def test_domain_randomize_never_touches_the_foots_local_mesh_mount():
+-    import inspect
+-    from workspace import walk_randomize
+-    source = inspect.getsource(walk_randomize)
+-    for field in _UNSAFE_FIELDS:
+-        assert f"'{field}'" not in source and f'"{field}"' not in source, (
+-            f'domain_randomize touches {field}, which desyncs ring_local from the '
+-            'true foot mesh mount -- see walk_randomize.py module docstring')
++    m = mujoco.MjModel.from_xml_path(str(wgeom.MODEL_PATH))
++    mesh_id = m.mesh('CustomLegFoot').id
++    visual_ids = np.array([
++        np.flatnonzero((m.geom_bodyid == body) & (m.geom_dataid == mesh_id) & (m.geom_group == 1))[0]
++        for body in LEG_BODY_IDS
++    ])
++    env = PupperWalkEnv()
++    model, _ = domain_randomize(env.sys, jax.random.split(jax.random.PRNGKey(5), 4))
++    # mesh_pos, mesh_quat, geom_pos, and geom_size are not in `fields` at all, so
++    # they pass through completely untouched (no per-env batch axis, still the
++    # original single copy) -- confirms that indirectly too.
++    np.testing.assert_allclose(np.asarray(model.mesh_pos)[mesh_id], m.mesh_pos[mesh_id])
++    np.testing.assert_allclose(np.asarray(model.mesh_quat)[mesh_id], m.mesh_quat[mesh_id])
++    np.testing.assert_allclose(np.asarray(model.geom_pos)[visual_ids], m.geom_pos[visual_ids])
++    np.testing.assert_allclose(np.asarray(model.geom_size)[FOOT_GEOM_IDS], env.mj_model.geom_size[FOOT_GEOM_IDS])
++    # geom_quat IS in `fields` now (floor tilt), so it does have a per-env batch
++    # axis -- check every env's visual-geom rows still match nominal.
++    for env_i in range(4):
++        np.testing.assert_allclose(np.asarray(model.geom_quat)[env_i, visual_ids], m.geom_quat[visual_ids])
+ 
+ 
+ def test_thigh_length_randomization_keeps_ring_calibrated():
+     c = get_config()
+     env = PupperWalkEnv(c)
+-    for scale in (0.94, 1.0, 1.06):
++    for scale in (0.864, 0.94, 1.0192):
+         sys = env.sys.tree_replace({'body_pos': env.sys.body_pos.at[LEG_BODY_IDS].multiply(scale)})
+         step = jax.jit(lambda d: mjx.step(sys, d))
+         d = jax.jit(lambda: mjx.forward(sys, mjx.make_data(sys).replace(qpos=env.init_q)))()
+-        for _ in range(50):
++        for _ in range(1000):
+             d = step(d)
+         d = jax.jit(lambda d: mjx.forward(sys, d))(d)
+         ring = env.ring_signals(d)
+@@ -49,12 +64,84 @@ def test_thigh_length_randomization_keeps_ring_calibrated():
+         assert int(jp.sum(contact)) == 4, scale
+ 
+ 
+-def test_randomize_adds_leg_length_and_contact_softness_fields():
++def test_randomize_varies_length_and_mounts_but_preserves_rigid_contacts():
+     env = PupperWalkEnv()
+     model, axes = domain_randomize(env.sys, jax.random.split(jax.random.PRNGKey(3), 4))
+     assert axes.body_pos == 0
+     assert axes.geom_solref == 0
++    assert axes.body_quat == 0
++    assert axes.geom_quat == 0
++    for name in ('geom_solref','geom_solimp'):
++        expected=np.broadcast_to(np.asarray(getattr(env.sys,name)),np.asarray(getattr(model,name)).shape)
++        np.testing.assert_array_equal(np.asarray(getattr(model,name)),expected)
+     # Per-env body_pos for the leg bodies must actually differ across the batch,
+     # proving the field is live rather than silently constant.
+     leg_pos = np.asarray(model.body_pos)[:, LEG_BODY_IDS]
+     assert not np.allclose(leg_pos[0], leg_pos[1])
++    scales=np.linalg.norm(leg_pos,axis=-1)/np.linalg.norm(np.asarray(env.sys.body_pos)[LEG_BODY_IDS],axis=-1)
++    assert np.all((scales>=.864)&(scales<=1.0192))
++    leg_quat = np.asarray(model.body_quat)[:, LEG_BODY_IDS]
++    assert not np.allclose(leg_quat[0], leg_quat[1])
++    from workspace.walk_randomize import FLOOR_GEOM_ID
++    floor_quat = np.asarray(model.geom_quat)[:, FLOOR_GEOM_ID]
++    assert not np.allclose(floor_quat[0], floor_quat[1])
++
++
++def test_quat_axis_z_matches_known_rotations():
++    identity = jp.array([1., 0., 0., 0.])
++    np.testing.assert_allclose(wgeom.quat_axis_z(identity, jp), [0., 0., 1.], atol=1e-6)
++    # 90deg roll about local X: local +Z maps to world +Y (or -Y depending on
++    # handedness) -- just confirm it's now horizontal (near-zero Z component).
++    half = jp.cos(jp.pi/4)
++    roll90 = jp.array([half, half, 0., 0.])
++    n = wgeom.quat_axis_z(roll90, jp)
++    assert abs(float(n[2])) < 1e-5
++    np.testing.assert_allclose(float(jp.linalg.norm(n)), 1., atol=1e-6)
++
++
++def test_leg_mount_tilt_keeps_standing_within_allowance():
++    """A few-degree body_quat tilt on the leg bodies (manufacturing-tolerance proxy)
++    should still let the robot settle without blowing past the ring's bottom
++    allowance, even though it's no longer bit-identical to the untilted case the
++    way pure leg-length scaling is."""
++    c = get_config()
++    env = PupperWalkEnv(c)
++    from workspace.walk_randomize import _small_tilt_quat, _quat_mul
++    for rx, ry in [(0.07, 0.), (-0.07, 0.07), (0., -0.07)]:
++        tilt = _small_tilt_quat(jp.full((4,), rx), jp.full((4,), ry))
++        sys = env.sys.tree_replace({'body_quat': env.sys.body_quat.at[LEG_BODY_IDS].set(
++            _quat_mul(tilt, env.sys.body_quat[LEG_BODY_IDS]))})
++        step = jax.jit(lambda d: mjx.step(sys, d))
++        d = jax.jit(lambda: mjx.forward(sys, mjx.make_data(sys).replace(qpos=env.init_q)))()
++        for _ in range(50):
++            d = step(d)
++        d = jax.jit(lambda d: mjx.forward(sys, d))(d)
++        ring = env.ring_signals(d)
++        assert float(ring['ring_penetration_m']) < c.bottom_allowance, (rx, ry)
++        rot = d.xmat[env.torso].reshape(3, 3)
++        tilt_deg = float(jp.degrees(jp.arccos(jp.clip(rot[2, 2], -1., 1.))))
++        assert tilt_deg < 10., (rx, ry)
++
++
++def test_floor_tilt_ring_reward_uses_the_true_floor_normal():
++    """Settling on a tilted floor with the STALE (flat) normal should look wrong;
++    with the correct per-episode floor normal it should look like ordinary standing,
++    same as the flat-floor case -- proving walk_env.py's floor_normal plumbing (not
++    just this test file) actually uses the randomized geom_quat, not raw world Z."""
++    from workspace.walk_randomize import _small_tilt_quat, FLOOR_GEOM_ID
++    c = get_config()
++    env = PupperWalkEnv(c)
++    tilt = _small_tilt_quat(jp.array(0.06), jp.array(-0.04))
++    sys = env.sys.tree_replace({'geom_quat': env.sys.geom_quat.at[FLOOR_GEOM_ID].set(tilt)})
++    step = jax.jit(lambda d: mjx.step(sys, d))
++    d = jax.jit(lambda: mjx.forward(sys, mjx.make_data(sys).replace(qpos=env.init_q)))()
++    for _ in range(50):
++        d = step(d)
++    d = jax.jit(lambda d: mjx.forward(sys, d))(d)
++    floor_normal = wgeom.quat_axis_z(sys.geom_quat[FLOOR_GEOM_ID], jp)
++    ring_correct = env.ring_signals(d, floor_normal)
++    ring_stale = env.ring_signals(d, jp.array([0., 0., 1.]))
++    assert float(ring_correct['ring_penetration_m']) < c.bottom_allowance
++    # The stale (world-Z) reading should disagree with the correct one -- otherwise
++    # this test isn't actually exercising the tilt.
++    assert abs(float(ring_correct['ring_penetration_m']) - float(ring_stale['ring_penetration_m'])) > 1e-4
+diff --git a/mujoco_playground/workspace/train_walk.py b/mujoco_playground/workspace/train_walk.py
+index af687da..f92985d 100644
+--- a/mujoco_playground/workspace/train_walk.py
++++ b/mujoco_playground/workspace/train_walk.py
+@@ -20,8 +20,13 @@ from workspace.walk_randomize import domain_randomize
+ 
+ # (vx, vy, yaw, label). Fixed showcase so eval videos are comparable frame-for-frame.
+ _SHOWCASE=[(0.,0.,0.),(.2,0.,0.),(.35,0.,0.),(.2,0.,.4),(.2,0.,-.4),(0.,0.,.5),(-.15,0.,0.),(0.,0.,0.)]
++# Preserve the original first 16 seconds, then expose reverse-speed and lateral
++# weaknesses that a single brief -0.15 m/s segment can hide.
++_SHOWCASE += [(-.2,0.,0.),(-.35,0.,0.),(-.2,0.,.4),(0.,.1,0.),(0.,-.1,0.),(0.,0.,0.)]
++# Include both spin directions; the original showcase only turned left in place.
++_SHOWCASE += [(0.,0.,-.5),(0.,0.,0.)]
+ 
+-def render_showcase(env,inference_fn,rng,observation_history,steps_per_command=100,render_every=2):
++def render_showcase(env,inference_fn,rng,observation_history,steps_per_command=100,render_every=1,commands=None):
+     """Roll the policy through a fixed command sequence and render it. Returns (frames, fps)."""
+     jit_reset=jax.jit(env.reset);jit_step=jax.jit(env.step);jit_policy=jax.jit(inference_fn)
+     state=jit_reset(rng)
+@@ -39,7 +44,7 @@ def render_showcase(env,inference_fn,rng,observation_history,steps_per_command=1
+     cam.distance=0.55; cam.azimuth=90; cam.elevation=-8
+     frames=[]
+     try:
+-        for vx,vy,wz in _SHOWCASE:
++        for vx,vy,wz in (_SHOWCASE if commands is None else commands):
+             cmd=jp.array([vx,vy,wz])
+             state.info['command']=cmd;state.info['initial_command']=cmd;state.info['step']=jp.array(0)
+             obs=state.obs.reshape(observation_history,36).at[:,6:9].set(cmd)
+@@ -65,6 +70,34 @@ def main():
+     parser=argparse.ArgumentParser(description=__doc__)
+     parser.add_argument('--num_timesteps',type=int)
+     parser.add_argument('--num_envs',type=int)
++    parser.add_argument('--num_evals',type=int)
++    parser.add_argument('--learning_rate',type=float)
++    parser.add_argument('--air_time',type=float,help='Override swing-duration reward for controlled trials')
++    parser.add_argument('--touchdown_weight',type=float,help='Override touchdown penalty (zero disables it)')
++    parser.add_argument('--action_rate',type=float,help='Override command smoothness weight')
++    parser.add_argument('--action_acceleration',type=float,help='Second action-difference penalty for abrupt target reversals')
++    parser.add_argument('--swing_shape',type=float,help='Weight of lift-triggered, full-duration swing shape')
++    parser.add_argument('--swing_duration',type=float,help='Planned swing duration in seconds')
++    parser.add_argument('--swing_clearance',type=float,help='Weight of the original height-area reward')
++    parser.add_argument('--ring_side_weight',type=float)
++    parser.add_argument('--tracking_linear_weight',type=float)
++    parser.add_argument('--tracking_yaw_weight',type=float)
++    parser.add_argument('--action_scale',type=float,nargs=3,metavar=('HIP','ABD','KNEE'))
++    parser.add_argument('--moving_height_offset',type=float)
++    parser.add_argument('--swing_height',type=float)
++    parser.add_argument('--swing_foot_weights',type=float,nargs=4,metavar=('FR','FL','BR','BL'),help='Per-foot trajectory error multipliers; bonus stays unchanged')
++    parser.add_argument('--minimum_swing_clearance',type=float,help='Minimum swing peak scored at touchdown')
++    parser.add_argument('--clearance_shortfall_weight',type=float,help='Penalty for replanting after a shallow swing')
++    parser.add_argument('--swing_bonus',type=float)
++    parser.add_argument('--height_weight',type=float)
++    parser.add_argument('--ring_contact_weight',type=float)
++    parser.add_argument('--floor_friction',type=float,help='Nominal/evaluation floor sliding friction')
++    parser.add_argument('--friction_range',type=float,nargs=2,metavar=('MIN','MAX'),help='Training sliding-friction randomization range')
++    parser.add_argument('--leg_length_common_range',type=float,nargs=2,metavar=('MIN','MAX'))
++    parser.add_argument('--leg_length_per_leg_range',type=float,nargs=2,metavar=('MIN','MAX'))
++    parser.add_argument('--straight_probability',type=float,help='Fraction of moving commands that are straight')
++    parser.add_argument('--axis_probability',type=float,help='Fraction of moving commands that are pure lateral or yaw')
++    parser.add_argument('--air_time_floor',type=float,help='Lower clip for signed swing-duration reward')
+     parser.add_argument('--seed',type=int,default=0)
+     parser.add_argument('--model_path')
+     parser.add_argument('--output_dir',default=str(Path(__file__).with_name('output')))
+@@ -73,10 +106,18 @@ def main():
+     parser.add_argument('--use_wandb',action='store_true')
+     parser.add_argument('--wandb_project',default='pupper-leg')
+     parser.add_argument('--wandb_entity',default='QuadMorph')
+-    parser.add_argument('--no_eval_videos',action='store_true',help='skip rendering rollout videos to W&B')
++    videos=parser.add_mutually_exclusive_group()
++    videos.add_argument('--no_eval_videos',action='store_true',help='Disable ALL videos, including final and best checkpoints')
++    videos.add_argument('--final_videos_only',action='store_true',help='Skip intermediate videos; still save and upload final and best checkpoints')
+     parser.add_argument('--no_randomization',action='store_true')
+     args=parser.parse_args()
++    video_mode='disabled' if args.smoke or args.no_eval_videos else ('final_and_best' if args.final_videos_only else 'all')
++    print(f'Evaluation videos: {video_mode}',flush=True)
++    if args.use_wandb and video_mode=='disabled':
++        print('WARNING: this run will upload no W&B videos (including final/best). Use --final_videos_only to retain end-of-run videos.',flush=True)
+     c=get_config(); c.ppo.seed=args.seed
++    # Mature warm starts proved susceptible to late KL spikes at 3e-4.
++    if args.init_params:c.ppo.learning_rate=5e-5
+     if args.smoke:
+         c.ppo.update(num_timesteps=64,num_envs=2,num_evals=2,num_eval_envs=2,
+                      unroll_length=4,batch_size=2,num_minibatches=1,num_updates_per_batch=1)
+@@ -84,6 +125,42 @@ def main():
+         c.sensor_noise=0.; c.latency_probability=0.
+     if args.num_timesteps is not None:c.ppo.num_timesteps=args.num_timesteps
+     if args.num_envs is not None:c.ppo.num_envs=args.num_envs
++    if args.num_evals is not None:c.ppo.num_evals=args.num_evals
++    if args.learning_rate is not None:c.ppo.learning_rate=args.learning_rate
++    if args.air_time is not None:c.reward_scales.air_time=args.air_time
++    if args.touchdown_weight is not None:c.reward_scales.touchdown=args.touchdown_weight
++    if args.action_rate is not None:c.reward_scales.action_rate=args.action_rate
++    if args.action_acceleration is not None:c.reward_scales.action_acceleration=args.action_acceleration
++    if args.swing_shape is not None:c.reward_scales.planned_swing=args.swing_shape
++    if args.swing_duration is not None:c.planned_swing_duration=args.swing_duration
++    if args.swing_clearance is not None:c.reward_scales.swing_clearance=args.swing_clearance
++    if args.ring_side_weight is not None:c.reward_scales.ring_side=args.ring_side_weight
++    if args.tracking_linear_weight is not None:c.reward_scales.tracking_linear=args.tracking_linear_weight
++    if args.tracking_yaw_weight is not None:c.reward_scales.tracking_yaw=args.tracking_yaw_weight
++    if args.action_scale is not None:c.action_scale=tuple(args.action_scale)*4
++    if args.moving_height_offset is not None:c.moving_height_offset=args.moving_height_offset
++    if args.swing_height is not None:c.planned_swing_height=args.swing_height
++    if args.swing_foot_weights is not None:c.planned_swing_foot_weights=tuple(args.swing_foot_weights)
++    if args.minimum_swing_clearance is not None:c.minimum_swing_clearance=args.minimum_swing_clearance
++    if args.clearance_shortfall_weight is not None:c.reward_scales.clearance_shortfall=args.clearance_shortfall_weight
++    if args.swing_bonus is not None:c.planned_swing_bonus=args.swing_bonus
++    if args.height_weight is not None:c.reward_scales.height=args.height_weight
++    if args.ring_contact_weight is not None:c.reward_scales.ring_side_contact=args.ring_contact_weight
++    if args.floor_friction is not None:c.floor_friction=args.floor_friction
++    if args.friction_range is not None:c.friction_range=tuple(args.friction_range)
++    if args.leg_length_common_range is not None:c.leg_length_common_range=tuple(args.leg_length_common_range)
++    if args.leg_length_per_leg_range is not None:c.leg_length_per_leg_range=tuple(args.leg_length_per_leg_range)
++    if not 0.<c.friction_range[0]<=c.friction_range[1]:raise ValueError('friction_range must be positive and ordered')
++    if min(c.action_scale)<=0.:raise ValueError('Action scales must be positive')
++    if c.planned_swing_duration<=0. or c.planned_swing_height<=0.:raise ValueError('Planned swing duration and height must be positive')
++    if c.minimum_swing_clearance<=0.:raise ValueError('Minimum swing clearance must be positive')
++    if not np.all(np.isfinite(c.planned_swing_foot_weights)) or min(c.planned_swing_foot_weights)<=0.:raise ValueError('Swing foot weights must be finite and positive')
++    if not 0.<=c.planned_swing_bonus<.375:raise ValueError('swing_bonus must be in [0,.375) so floor-level hovering cannot earn net swing credit')
++    if args.straight_probability is not None:c.straight_probability=args.straight_probability
++    if args.axis_probability is not None:c.axis_probability=args.axis_probability
++    if args.air_time_floor is not None:c.air_time_floor=args.air_time_floor
++    if not 0.<=c.straight_probability<=1.:raise ValueError('straight_probability must be in [0,1]')
++    if not 0.<=c.axis_probability<=1.-c.straight_probability:raise ValueError('straight and axis probabilities must sum to at most one')
+     devices=jax.devices()
+     print('JAX devices:',devices,flush=True)
+     if not args.smoke and not any(d.platform=='gpu' for d in devices):
+@@ -96,13 +173,33 @@ def main():
+     out=Path(args.output_dir).resolve()/f'walk_{datetime.now():%Y-%m-%d_%H-%M-%S}'
+     out.mkdir(parents=True)
+     env=PupperWalkEnv(c,args.model_path)
++    restore_params=model.load_params(args.init_params) if args.init_params else None
++    old_scale=None
++    if args.init_params:
++        from workspace.walk_warm_start import rescale_action_head
++        old_scale=json.loads((Path(args.init_params).parent/'run.json').read_text())['config']['action_scale']
++        if not np.allclose(old_scale,c.action_scale):
++            restore_params=rescale_action_head(restore_params,old_scale,c.action_scale,c.observation_history)
++            print('Adjusted warm-start action head/history normalization for new command scales (approximate tanh remapping).',flush=True)
+     eval_c=get_config(); eval_c.update(c.to_dict()); eval_c.sensor_noise=0.; eval_c.latency_probability=0.; eval_c.reset_joint_noise=0.
++    eval_c.push_probability=0.
+     eval_env=PupperWalkEnv(eval_c,args.model_path)
+     metadata={'config':c.to_dict(),'model_path':env.model_path,
++              'eval_config':eval_c.to_dict(),'eval_video_fps':round(1/env.dt),'eval_video_mode':video_mode,
++              'init_params':str(Path(args.init_params).resolve()) if args.init_params else None,
++              'init_params_sha256':hashlib.sha256(Path(args.init_params).read_bytes()).hexdigest() if args.init_params else None,
++              'warm_start_action_scale':old_scale,
++              'height_reference':'randomized neutral capsule projection; floor-normal torso height',
++              'randomization_lifetime':'environment slot',
+               'randomization_enabled':not (args.no_randomization or args.smoke),'smoke_test':args.smoke,
+               'model_sha256':hashlib.sha256(Path(env.model_path).read_bytes()).hexdigest(),
+               'ring_sha256':hashlib.sha256(Path(__file__).with_name('ring_outline.json').read_bytes()).hexdigest(),
+               'home_joint_pos':env.mj_model.qpos0[7:].tolist(),
++              'effective_home_qpos':np.asarray(env.init_q).tolist(),
++              'effective_foot_geometry':dict(size=env.mj_model.geom_size[env.foot_ids].tolist(),
++                                           pos=env.mj_model.geom_pos[env.foot_ids].tolist(),
++                                           solref=env.mj_model.geom_solref[env.foot_ids].tolist(),
++                                           solimp=env.mj_model.geom_solimp[env.foot_ids].tolist()),
+               'joint_lower_limits':env.mj_model.jnt_range[1:,0].tolist(),
+               'joint_upper_limits':env.mj_model.jnt_range[1:,1].tolist(),
+               'kp':env.mj_model.actuator_gainprm[:,0].tolist(),
+@@ -110,18 +207,30 @@ def main():
+               'devices':[str(d) for d in devices],
+               'versions':{p:importlib.metadata.version(p) for p in ('jax','jaxlib','mujoco','mujoco-mjx','brax','flax','orbax-checkpoint')}}
+     (out/'run.json').write_text(json.dumps(metadata,indent=2))
++    source_dir=out/'source'; source_dir.mkdir()
++    for name in ('walk_config.py','walk_env.py','walk_geometry.py','walk_randomize.py','walk_warm_start.py','train_walk.py','evaluate_walk.py','evaluate_gait_suite.py','render_gait_review.py','upload_walk_video.py'):
++        (source_dir/name).write_bytes(Path(__file__).with_name(name).read_bytes())
+     Path(out/'model.xml').write_bytes(Path(env.model_path).read_bytes())
++    from workspace.walk_geometry import save_effective_model
++    save_effective_model(env.mj_model,out/'effective_model.xml',env.model_path)
+     run=None
+     if args.use_wandb:
+         import wandb
+         run=wandb.init(project=args.wandb_project,entity=args.wandb_entity,name=out.name,config=metadata)
++        metadata['wandb_run_path']=run.path
++        (out/'run.json').write_text(json.dumps(metadata,indent=2))
+     # PPO has no built-in checkpoint selection -- it just runs to num_timesteps and
+-    # stops, even mid-collapse. policy_params_fn (save) sees params for a step but
+-    # not that step's eval reward; progress_fn (called right after, same step) sees
+-    # the reward but not params. `pending` bridges the two so the best-eval params
+-    # can be kept regardless of where training happens to end.
++    # stops, even mid-collapse. Parameter and metric callbacks arrive separately
++    # (in opposite order at step zero). Match by step so the warm start and every
++    # later evaluated policy are eligible, regardless of where training ends.
+     pending={'step':None,'params':None}
+     best={'step':None,'reward':-float('inf'),'kl':float('inf'),'params':None}
++    evaluated={'step':None,'reward':-float('inf'),'kl':0.}
++    def select_best():
++        if pending['step']==evaluated['step'] and pending['params'] is not None and np.isfinite(evaluated['reward']) and evaluated['reward']>best['reward']:
++            best.update(**evaluated,params=pending['params'])
++            model.save_params(str(out/'best_params'),best['params'])
++            (out/'best_checkpoint.json').write_text(json.dumps(evaluated,indent=2))
+     def progress(step,metrics):
+         with (out/'metrics.jsonl').open('a') as f:f.write(json.dumps({'step':step,**{k:float(v) for k,v in metrics.items()}})+'\n')
+         n=max(float(metrics.get('eval/avg_episode_length',1)),1)
+@@ -130,30 +239,39 @@ def main():
+         kl=float(metrics.get('training/kl_mean',0.))
+         print(f"{step:,} steps | reward {reward:.3f} | length {n:.0f} | tilt {mean('tilt_deg'):.2f} deg | feet {mean('foot_contacts'):.2f} | ring side {mean('ring_side_fraction'):.3f} | velocity error {mean('velocity_error'):.3f} | kl {kl:.3f}",flush=True)
+         if kl>0.15:print(f'WARNING: elevated KL ({kl:.3f}) at step {step:,} -- possible PPO collapse in progress',flush=True)
+-        if pending['step']==step and np.isfinite(reward) and reward>best['reward']:
+-            best.update(step=step,reward=reward,kl=kl,params=pending['params'])
+-        if run is not None:run.log(metrics,step=step)
++        evaluated.update(step=step,reward=reward,kl=kl)
++        select_best()
++        # Video and metric callbacks arrive in either order at the same step.
++        # Keep that row open so W&B does not discard the second callback.
++        if run is not None:run.log(metrics,step=step,commit=False)
+     def save(step,make_policy,params):
+         # Independent parameter snapshots survive interrupted SSH sessions/runs.
+         model.save_params(str(out/f'params_{step:012d}'),params)
+         pending.update(step=step,params=params)
+-        if args.smoke or args.no_eval_videos:return
++        # Brax reports the initial evaluation BEFORE its initial parameter callback.
++        # Include the warm start in selection even if subsequent updates regress.
++        select_best()
++        if args.smoke or args.no_eval_videos or args.final_videos_only:return
+         try:
+             inference_fn=make_policy(params,deterministic=True)
+             frames,fps=render_showcase(eval_env,inference_fn,jax.random.PRNGKey(0),c.observation_history)
+             path=out/f'rollout_step_{step:012d}.mp4'
+             media.write_video(str(path),frames,fps=fps)
+-            if run is not None:run.log({'eval/video':wandb.Video(str(path),fps=fps,format='mp4')},step=step)
++            if run is not None:run.log({'eval/video':wandb.Video(str(path),fps=fps,format='mp4')},step=step,commit=False)
+         except Exception as e:  # noqa: BLE001 -- a video hiccup must not kill a multi-hour run
+             print(f'WARNING: eval video render failed at step {step}: {e!r}',flush=True)
+     factory=functools.partial(networks.make_ppo_networks,policy_hidden_layer_sizes=tuple(c.hidden_layer_sizes),activation=jax.nn.elu)
+     kwargs=c.ppo.to_dict()
+     make,params,_=ppo.train(environment=env,eval_env=eval_env,episode_length=c.episode_length,
+                            network_factory=factory,progress_fn=progress,policy_params_fn=save,
+-                           randomization_fn=None if args.no_randomization or args.smoke else domain_randomize,
+-                           restore_params=model.load_params(args.init_params) if args.init_params else None,
++                           randomization_fn=None if args.no_randomization or args.smoke else functools.partial(
++                               domain_randomize,friction_range=c.friction_range,foot_model=c.foot_model,
++                               leg_length_common_range=c.leg_length_common_range,
++                               leg_length_per_leg_range=c.leg_length_per_leg_range),
++                           restore_params=restore_params,
+                            **kwargs)
+     model.save_params(str(out/'mjx_params'),params)
++    if run is not None:run.log({},commit=True)
+     print(f'Saved {out}/mjx_params',flush=True)
+     if not args.smoke and not args.no_eval_videos:
+         try:
+diff --git a/mujoco_playground/workspace/walk_config.py b/mujoco_playground/workspace/walk_config.py
+index 3d00824..6964d88 100644
+--- a/mujoco_playground/workspace/walk_config.py
++++ b/mujoco_playground/workspace/walk_config.py
+@@ -4,36 +4,65 @@ from ml_collections import config_dict
+ def get_config():
+     return config_dict.create(
+         ctrl_dt=.02, episode_length=600, observation_history=4,
+-        # Joint order per leg is (hip pitch, abduction, knee); hip pitch drives the
+-        # fore/aft swing that both walking directions need most, so it gets the
+-        # largest authority, not abduction.
+-        action_scale=(.5, .25, .5)*4,
++        # Zero preserves XML friction; positive values override floor sliding friction.
++        floor_friction=0., friction_range=(.8, 2.5),
++        foot_model='rigid_flush',
++        # Scale the upstream leg offset around the newly extended capsule/ring
++        # assembly. Both move together, so the flush fit survives length DR.
++        leg_length_common_range=(.90, .98), leg_length_per_leg_range=(.96, 1.04),
++        # Extra knee flexion makes a centered, smooth swing reachable. These
++        # command bounds remain within the authoritative XML joint limits.
++        action_scale=(.5, .25, 1.1)*4,
++        smoothness_reference_scale=(.5, .25, .5)*4,
++        moving_height_offset=-.003,
+         # Symmetric range: uniform sampling then gives backward and forward equal
+         # magnitude coverage instead of forward getting 2x the top speed and 5x the
+         # at-speed sample density.
+         command_low=(-.35, -.15, -.8), command_high=(.35, .15, .8),
+         command_hold_steps=150, stand_probability=.2,
+-        bottom_allowance=.006, side_clearance=.001,
++        # Of all commands: 20% stand, 20% forward, 20% reverse, 10% lateral,
++        # 10% turn in place, 20% mixed. Pure axes prevent direction forgetting.
++        straight_probability=.5, axis_probability=.25, straight_min_speed=.10,
++        # Grade short swings instead of making everything below 80 ms equally
++        # unrewarded. Persistent contact is unaffected; only touchdown is scored.
++        air_time_floor=-.08,
++        touchdown_speed_allowance=.15,
++        # Keep ~.07 variance at .35 m/s, but make ignoring a slow command costly.
++        tracking_variance_base=.0025, tracking_variance_speed_gain=.55,
++        tracking_variance_yaw_gain=.27,
++        minimum_swing_clearance=.012,
++        planned_swing_duration=.32, planned_swing_height=.016,
++        planned_swing_bonus=.25,
++        # The front feet under-lifted under equal weighting despite reachable
++        # geometry. Strengthen their trajectory error, keeping bonus unchanged.
++        planned_swing_foot_weights=(3.,3.,1.,1.),
++        # Permit ordinary rounded-tip rolling; discourage leaning on the foot.
++        tip_tilt_allowance_deg=15., tip_tilt_scale_deg=45.,
++        # Legacy diagnostic only: bottom compression contributes no reward.
++        bottom_allowance=.009, side_clearance=.001,
+         joint_limit_margin=.15,
+-        # 20mm of capsule-bottom height ~= 17mm of visible mesh clearance (the
+-        # visual foot hangs ~2.9mm below the collision capsule); reachable at zero
+-        # ring-clearance cost within the action range via coordinated hip+knee.
+-        swing_clearance_target=.020,
++        # Height-area reward cap, not a prescribed apex. The audit found short,
++        # rounded swings below this cap and limited centered-swing reachability.
++        swing_clearance_target=.028,
+         reset_joint_noise=.01, reset_xy_noise=.01, reset_yaw_noise=.1,
+         sensor_noise=.01, latency_probability=.2,
+         push_probability=.02, push_velocity=.3,
+         terminal_tilt=.65, terminal_height=.085,
+         reward_scales=config_dict.create(
+-            tracking_linear=2., tracking_yaw=1., upright=.3,
+-            height=-2., vertical_velocity=-.3, roll_pitch_velocity=-.05,
+-            foot_slip=-.6, air_time=.3,
+-            # Smallest weight at which lift's marginal reward beats the ring's
+-            # marginal per-mm cost along the pure-knee lift direction (~.0066/s per
+-            # mm) -- a weaker weight (.5 realized as 0.047% of total reward) cannot
+-            # move the gait at all, regardless of target.
+-            swing_clearance=6., stand_pose=-3., stance_feet=-.4,
+-            ring_side=-1., ring_bottom=-1., ring_rub=-2.,
+-            unwanted_contact=-2., action_rate=-.05, torques=-.0002,
++            tracking_linear=6., tracking_yaw=3., upright=.3,
++            height=-12., vertical_velocity=-.3, roll_pitch_velocity=-.05,
++            foot_slip=-.6, air_time=1.5, touchdown=-1.5, tip_support=-.5,
++            clearance_shortfall=-.5,
++            # The old height-area term is retained for old-checkpoint evaluation;
++            # the selected policy uses the full-duration curve and credit below.
++            swing_clearance=0., stand_pose=-3., stance_feet=-.4,
++            ring_side=-3., ring_bottom=0., ring_rub=-2.,
++            ring_side_contact=-6.,
++            unwanted_contact=-2., action_rate=-.30, torques=-.0002,
++            # Fixed physical normalization keeps wider commands from reducing
++            # the cost of an equally abrupt joint-target change.
++            action_acceleration=-1.6,
++            planned_swing=-6.,
+             joint_limits=-1.5, termination=-2.,
+         ),
+         ppo=config_dict.create(
+diff --git a/mujoco_playground/workspace/walk_env.py b/mujoco_playground/workspace/walk_env.py
+index 694f7d1..0ebb6d1 100644
+--- a/mujoco_playground/workspace/walk_env.py
++++ b/mujoco_playground/workspace/walk_env.py
+@@ -16,7 +16,11 @@ class PupperWalkEnv(Env):
+     def __init__(self, config=None, model_path=None):
+         self.config = config or get_config()
+         self.model_path = str(model_path or geom.MODEL_PATH)
+-        self.mj_model = m = mujoco.MjModel.from_xml_path(self.model_path)
++        self.mj_model = m = geom.load_walk_model(self.model_path, self.config.foot_model)
++        if not np.isfinite(self.config.floor_friction) or self.config.floor_friction < 0.:
++            raise ValueError('floor_friction must be nonnegative')
++        if self.config.floor_friction > 0.:
++            m.geom_friction[m.geom('floor').id,0] = self.config.floor_friction
+         self.sys = mjx.put_model(m, impl='jax')
+         self.frames = int(round(self.config.ctrl_dt / m.opt.timestep))
+         if not np.isclose(self.frames*m.opt.timestep, self.config.ctrl_dt):
+@@ -32,8 +36,19 @@ class PupperWalkEnv(Env):
+         self.init_q = jp.array(m.key('home').qpos)
+         self.height = float(m.key('home').qpos[2])
+         self.action_scale = jp.array(self.config.action_scale)
++        self.smoothness_scale = self.action_scale/jp.array(self.config.smoothness_reference_scale)
+         self.limits = jp.array(m.jnt_range[1:])
+         self.sizes = jp.array(m.geom_size[feet])
++        nominal = mujoco.MjData(m)
++        nominal.qpos[:] = np.asarray(self.init_q)
++        mujoco.mj_forward(m, nominal)
++        self.nominal_foot_centers = jp.array(nominal.geom_xpos[feet])
++        self.nominal_foot_matrices = jp.array(nominal.geom_xmat[feet])
++        tip_sites=np.array([m.site(f'leg_{leg}_3_foot_site').id for leg in geom.LEGS])
++        axes=nominal.geom_xmat[feet].reshape(-1,3,3)[:,:,2]
++        self.tip_sign=jp.array(np.sign(np.sum((nominal.site_xpos[tip_sites]-nominal.geom_xpos[feet])*axes,axis=1)))
++        self.tip_allowance_cos=float(np.cos(np.deg2rad(self.config.tip_tilt_allowance_deg)))
++        self.tip_scale_cos=float(np.cos(np.deg2rad(self.config.tip_tilt_scale_deg)))
+         self.root_ids = m.body_rootid[body]
+         self.names = tuple(self.config.reward_scales.keys())
+         np.testing.assert_allclose(m.actuator_biasprm[:,0], m.actuator_gainprm[:,0]*m.qpos0[7:])
+@@ -52,6 +67,20 @@ class PupperWalkEnv(Env):
+     def sample_command(self, key):
+         key, stand = jax.random.split(key)
+         cmd = jax.random.uniform(key, (3,), minval=jp.array(self.config.command_low), maxval=jp.array(self.config.command_high))
++        mode=jax.random.uniform(jax.random.fold_in(key,1))
++        straight=mode<self.config.straight_probability
++        single_axis=(mode>=self.config.straight_probability)&(mode<self.config.straight_probability+self.config.axis_probability)
++        forward=cmd[0]>=0.
++        maximum=jp.where(forward,self.config.command_high[0],-self.config.command_low[0])
++        speed=jax.random.uniform(jax.random.fold_in(key,2),(),minval=self.config.straight_min_speed,maxval=maximum)
++        cmd=jp.where(straight,jp.array([jp.where(forward,speed,-speed),0.,0.]),cmd)
++        turn=jax.random.bernoulli(jax.random.fold_in(key,3))
++        axis=jp.where(turn,2,1)
++        positive=cmd[axis]>=0.
++        maximum=jp.where(positive,jp.array(self.config.command_high)[axis],-jp.array(self.config.command_low)[axis])
++        speed=jax.random.uniform(jax.random.fold_in(key,4),(),minval=jp.where(turn,.2,.05),maxval=maximum)
++        axis_cmd=jp.zeros(3).at[axis].set(jp.where(positive,speed,-speed))
++        cmd=jp.where(single_axis,axis_cmd,cmd)
+         return jp.where(jax.random.bernoulli(stand, self.config.stand_probability), jp.zeros(3), cmd)
+ 
+     def observation(self, d, command, action, key):
+@@ -73,10 +102,35 @@ class PupperWalkEnv(Env):
+         command = self.sample_command(ck)
+         frame = self.observation(d,command,jp.zeros(12),ok)
+         info = dict(rng=rng, command=command, initial_command=command, last_action=jp.zeros(12),
++                    last_action_delta=jp.zeros(12),
++                    height_reference=self.neutral_height_reference(),
++                    impact_contact=self.contact_mask(d)[0], impact_normal_velocity=jp.zeros(4),
++                    swing_peak=jp.zeros(4),
++                    swing_elapsed=-jp.ones(4),
+                     air_time=jp.zeros(4), last_contact=jp.ones(4,dtype=bool), step=jp.array(0), reset_next=jp.array(False))
+-        metrics = {k: jp.array(0.) for k in (*self.names,'ring_side_fraction','ring_penetration_m','foot_contacts','tilt_deg','torso_z','velocity_error')}
++        metrics = {k: jp.array(0.) for k in (*self.names,'ring_side_fraction','ring_penetration_m','foot_contacts','tilt_deg','torso_z','torso_height','height_reference','action_delta_rms','velocity_error','yaw_error','tip_tilt_deg','tip_lean_fraction')}
+         return State(d,jp.tile(frame,self.config.observation_history),jp.array(0.),jp.array(0.),metrics,info)
+ 
++    def neutral_height_reference(self):
++        """Adapt nominal height to this slot's length and mount geometry at home.
++
++        Evaluate identical, noise-free root/joint poses. Only the reference nominal
++        geometry is cached; self.sys is the actual randomized model inside Brax's
++        vmap. The reference persists across auto-resets with the slot's geometry.
++        """
++        neutral = mjx.kinematics(self.sys, mjx.make_data(self.sys).replace(qpos=self.init_q))
++        normal = geom.quat_axis_z(self.sys.geom_quat[self.floor], jp)
++        # Exact capsule support projection, including endpoint selection on slopes.
++        def bottom_height(centers, matrices):
++            axes = matrices.reshape(-1, 3, 3)[:, :, 2]
++            return centers@normal - self.sizes[:, 1]*jp.abs(axes@normal) - self.sizes[:, 0]
++        delta = bottom_height(neutral.geom_xpos[self.foot_ids], neutral.geom_xmat[self.foot_ids]) - bottom_height(self.nominal_foot_centers, self.nominal_foot_matrices)
++        return self.height - jp.mean(delta)
++
++    def torso_height(self, d):
++        normal = geom.quat_axis_z(self.sys.geom_quat[self.floor], jp)
++        return d.xpos[self.torso]@normal
++
+     def contact_mask(self,d):
+         contact = d._impl.contact
+         floor_pair = (contact.geom[:,0]==self.floor)|(contact.geom[:,1]==self.floor)
+@@ -86,16 +140,24 @@ class PupperWalkEnv(Env):
+         unwanted = (active & ~hits.any(axis=1)).any().astype(float)
+         return feet, unwanted
+ 
+-    def ring_signals(self,d):
++    def ring_signals(self,d,floor_normal=None):
+         points = geom.world_points(d.xpos[self.body_ids],d.xmat[self.body_ids],self.ring_local,jp)
+         velocities = geom.point_velocities(points,d.subtree_com[self.root_ids],d.cvel[self.body_ids],jp)
+-        return geom.ring_costs(points,velocities,self.bottom_mask,self.config.bottom_allowance,self.config.side_clearance,jp)
++        return geom.ring_costs(points,velocities,self.bottom_mask,self.config.bottom_allowance,self.config.side_clearance,floor_normal,jp)
+ 
+     def step(self,state,action):
++        return self.step_with_diagnostics(state,action)[0]
++
++    def step_with_diagnostics(self,state,action):
++        """Ordinary transition plus 250 Hz foot traces for matched evaluation.
++
++        JAX prunes unused trace outputs from step() during training.
++        """
+         c = self.config
+         info = dict(state.info)
+         fresh = info['reset_next']
+         prev = jp.where(fresh,jp.zeros(12),info['last_action'])
++        previous_delta = jp.where(fresh,jp.zeros(12),info['last_action_delta'])
+         age = jp.where(fresh,0,info['step'])
+         air = jp.where(fresh,jp.zeros(4),info['air_time'])
+         old_contact = jp.where(fresh,jp.ones(4,dtype=bool),info['last_contact'])
+@@ -105,6 +167,7 @@ class PupperWalkEnv(Env):
+         # and episode_length=600, replaying `initial_command` meant the first 25% of
+         # every episode always retraced one of only num_envs fixed commands.
+         command = jp.where(fresh,self.sample_command(fk),info['command'])
++        moving = jp.linalg.norm(command)> .05
+         action = jp.clip(action,-1.,1.)
+         applied = jp.where(jax.random.bernoulli(lk,c.latency_probability),prev,action)
+         target = jp.clip(self.home + applied*self.action_scale,self.limits[:,0],self.limits[:,1])
+@@ -113,13 +176,36 @@ class PupperWalkEnv(Env):
+         # produces a disturbance, so the policy has no incentive to reject one.
+         kick = jax.random.uniform(pk2,(2,),minval=-c.push_velocity,maxval=c.push_velocity)*jax.random.bernoulli(pk1,c.push_probability)
+         d = d.replace(qvel=d.qvel.at[:2].add(kick))
+-        def substep(d,_):
++        # Floor geom_quat may be randomized (a small terrain-tilt DR proxy -- see
++        # walk_randomize.py); measure "height above ground" as a projection onto its
++        # actual normal, not raw world Z, so ring/swing-clearance rewards stay valid
++        # on a tilted floor. Constant for the whole rollout, so compute once here.
++        floor_normal = geom.quat_axis_z(self.sys.geom_quat[self.floor],jp)
++        impact_contact=jp.where(fresh,self.contact_mask(d)[0],info['impact_contact'])
++        impact_velocity=jp.where(fresh,jp.zeros(4),info['impact_normal_velocity'])
++        swing_peak=jp.where(fresh,jp.zeros(4),info['swing_peak'])
++        swing_elapsed=jp.where(fresh|~moving,-jp.ones(4),info['swing_elapsed'])
++        def substep(carry,_):
++            d,previous_contact,previous_velocity,peak,elapsed=carry
+             d = mjx.step(self.sys,d)
+             substep_contact,_ = self.contact_mask(d)
+             substep_points = geom.capsule_bottom(d.geom_xpos[self.foot_ids],d.geom_xmat[self.foot_ids],self.sizes,jp)
+-            swing = jp.sum(jp.clip(substep_points[:,2],0.,c.swing_clearance_target)*(~substep_contact))
+-            return d,(self.ring_signals(d),swing)
+-        d, (ring_history,swing_history) = jax.lax.scan(substep,d,None,length=self.frames)
++            foot_velocity=geom.point_velocities(substep_points[:,None,:],d.subtree_com[self.root_ids],d.cvel[self.body_ids],jp)[:,0,:]
++            velocity=foot_velocity@floor_normal
++            impact=geom.touchdown_cost(previous_contact,substep_contact,previous_velocity,c.touchdown_speed_allowance,jp)
++            peak=jp.where(substep_contact,peak,jp.maximum(peak,substep_points@floor_normal))
++            shortfall=geom.clearance_shortfall_cost(peak,previous_contact,substep_contact,c.minimum_swing_clearance,jp)
++            peak=jp.where(substep_contact,0.,peak)
++            elapsed,shape,reference,planned=geom.planned_swing_cost(elapsed,previous_contact,substep_contact,substep_points@floor_normal,self.dt/self.frames,c.planned_swing_duration,c.planned_swing_height,jp,bonus=c.planned_swing_bonus,weights=jp.array(c.planned_swing_foot_weights))
++            alignment=-(d.geom_xmat[self.foot_ids].reshape(-1,3,3)[:,:,2]*self.tip_sign[:,None])@floor_normal
++            tip=geom.tip_support_cost(alignment,substep_contact,self.tip_allowance_cos,self.tip_scale_cos,jp)
++            swing = jp.sum(jp.clip(substep_points@floor_normal,0.,c.swing_clearance_target)*(~substep_contact))
++            trace=dict(z=substep_points@floor_normal,contact=substep_contact,normal_velocity=velocity,tip_alignment=alignment,
++                       tangential_speed=jp.linalg.norm(foot_velocity-velocity[:,None]*floor_normal,axis=-1),foot_position=substep_points,
++                       joint_velocity=d.qvel[6:],angular_velocity=d.xmat[self.torso].reshape(3,3).T@d.cvel[self.torso,:3],torso_position=d.xpos[self.torso])
++            trace.update(planned_height=reference,planned_swing=planned)
++            return (d,substep_contact,velocity,peak,elapsed),(self.ring_signals(d,floor_normal),swing,impact,tip,shortfall,shape,trace)
++        (d,impact_contact,impact_velocity,swing_peak,swing_elapsed), (ring_history,swing_history,impact_history,tip_history,shortfall_history,shape_history,trace) = jax.lax.scan(substep,(d,impact_contact,impact_velocity,swing_peak,swing_elapsed),None,length=self.frames)
+         # step() integrates qpos after forward; refresh geometry to the resulting pose.
+         d = mjx.forward(self.sys,d)
+         ring = jax.tree.map(lambda x: jp.mean(x,axis=0),ring_history)
+@@ -134,20 +220,25 @@ class PupperWalkEnv(Env):
+         v = rot.T@torso_v
+         omega = rot.T@d.cvel[self.torso,:3]
+         tilt = jp.arccos(jp.clip(rot[2,2],-1.,1.))
+-        done = (tilt>c.terminal_tilt)|(d.qpos[2]<c.terminal_height)|(~jp.all(jp.isfinite(d.qpos)))
+-        moving = jp.linalg.norm(command)> .05
++        torso_height = self.torso_height(d)
++        done = (tilt>c.terminal_tilt)|(torso_height<c.terminal_height)|(~jp.all(jp.isfinite(d.qpos)))
+         air += self.dt
+         touchdown = contact & ~old_contact
+         low, high = self.limits[:,0]+c.joint_limit_margin,self.limits[:,1]-c.joint_limit_margin
+         terms = dict(
+-            # Sharper than the original /.1: the shipped policy undershot every
+-            # commanded speed by ~14%, so give tracking error more gradient.
+-            tracking_linear=jp.exp(-jp.sum((v[:2]-command[:2])**2)/.07),
+-            tracking_yaw=jp.exp(-(omega[2]-command[2])**2/.25),
+-            upright=rot[2,2], height=((d.qpos[2]-self.height)/.04)**2,
++            # Fixed .07 tolerance made standing attractive at .05--.10 m/s once
++            # stepping costs were included. Preserve fast tolerance, tighten slow.
++            tracking_linear=geom.linear_tracking_reward(v[:2],command[:2],c.tracking_variance_base,c.tracking_variance_speed_gain,jp,yaw_rate=command[2],yaw_gain=c.tracking_variance_yaw_gain),
++            tracking_yaw=geom.yaw_tracking_reward(omega[2],command[2],jp),
++            upright=rot[2,2], height=((torso_height-info['height_reference']-c.moving_height_offset*moving)/.04)**2,
+             vertical_velocity=v[2]**2, roll_pitch_velocity=jp.sum(omega[:2]**2),
+             foot_slip=jp.sum(jp.sum(foot_velocity[:,:2]**2,axis=1)*contact),
+-            air_time=jp.sum(jp.clip(air-.08,0.,.25)*touchdown)*moving,
++            air_time=geom.swing_duration_reward(air,touchdown,c.air_time_floor,jp)*moving,
++            # Sum discrete touchdown events; averaging over substeps would dilute
++            # their weight when simulation frequency changes. Outer dt remains.
++            touchdown=jp.sum(impact_history),
++            tip_support=jp.mean(tip_history),
++            clearance_shortfall=jp.sum(shortfall_history)*moving,
+             # Real swing-height reward. Weight derived to beat the ring's marginal
+             # per-mm cost along the (otherwise favored) pure-knee lift direction --
+             # see .notes; a weaker weight is arithmetically incapable of moving the
+@@ -162,7 +253,10 @@ class PupperWalkEnv(Env):
+             # deceleration right after a command drops to zero).
+             stance_feet=(4.-jp.sum(contact.astype(float)))*(~moving)*(jp.linalg.norm(v[:2])<.05),
+             ring_side=ring['ring_side'],ring_bottom=ring['ring_bottom'],ring_rub=ring['ring_rub'],
+-            unwanted_contact=unwanted, action_rate=jp.mean((action-prev)**2),
++            ring_side_contact=ring['ring_side_fraction'],
++            unwanted_contact=unwanted, action_rate=jp.mean(((action-prev)*self.smoothness_scale)**2),
++            action_acceleration=jp.mean(((action-prev-previous_delta)*self.smoothness_scale)**2),
++            planned_swing=jp.mean(shape_history)*moving,
+             torques=jp.sum(d.actuator_force**2),
+             joint_limits=jp.sum(jp.maximum(low-d.qpos[7:],0.)+jp.maximum(d.qpos[7:]-high,0.)),
+             termination=done.astype(float),
+@@ -173,8 +267,17 @@ class PupperWalkEnv(Env):
+         next_command = jp.where((age+1)%c.command_hold_steps==0,self.sample_command(ck),command)
+         obs = jp.roll(state.obs,36).at[:36].set(self.observation(d,next_command,action,ok))
+         info.update(rng=rng,command=next_command,last_action=action,air_time=jp.where(contact,0.,air),
++                    last_action_delta=action-prev,
++                    impact_contact=impact_contact,impact_normal_velocity=impact_velocity,
++                    swing_peak=swing_peak,
++                    swing_elapsed=jp.where(moving,swing_elapsed,-jp.ones(4)),
+                     last_contact=contact,step=age+1,reset_next=done|((age+1)>=c.episode_length))
+         metrics = {**state.metrics,**scaled,'ring_side_fraction':ring['ring_side_fraction'],'ring_penetration_m':ring['ring_penetration_m'],
+                    'foot_contacts':jp.sum(contact).astype(float),'tilt_deg':tilt*180/jp.pi,'torso_z':d.qpos[2],
++                   'torso_height':torso_height,'height_reference':info['height_reference']+c.moving_height_offset*moving,
++                   'action_delta_rms':jp.sqrt(terms['action_rate']),
++                   'tip_tilt_deg':jp.sum(jp.degrees(jp.arccos(jp.clip(trace['tip_alignment'],-1.,1.)))*trace['contact'])/jp.maximum(jp.sum(trace['contact']),1),
++                   'tip_lean_fraction':jp.sum((trace['tip_alignment']<self.tip_allowance_cos)*trace['contact'])/jp.maximum(jp.sum(trace['contact']),1),
+                    'velocity_error':jp.linalg.norm(v[:2]-command[:2])}
+-        return state.replace(pipeline_state=d,obs=obs,reward=reward,done=done.astype(float),metrics=metrics,info=info)
++        metrics['yaw_error']=jp.abs(omega[2]-command[2])
++        return state.replace(pipeline_state=d,obs=obs,reward=reward,done=done.astype(float),metrics=metrics,info=info),trace
+diff --git a/mujoco_playground/workspace/walk_geometry.py b/mujoco_playground/workspace/walk_geometry.py
+index 2ed254f..6f4f3af 100644
+--- a/mujoco_playground/workspace/walk_geometry.py
++++ b/mujoco_playground/workspace/walk_geometry.py
+@@ -6,12 +6,68 @@ Both rim edges are sampled so lateral tilt and rubbing are detected as well.
+ from pathlib import Path
+ import hashlib
+ import json
++import xml.etree.ElementTree as ET
+ import mujoco
+ import numpy as np
+ 
+ LEGS = ('front_r', 'front_l', 'back_r', 'back_l')
+ MODEL_PATH = Path(__file__).resolve().parents[2] / 'Stanford/training/pupper_v3_description/description/mujoco_xml/pupper_v3_complete.mjx.position.xml'
+ 
++def load_walk_model(model_path=MODEL_PATH, foot_model='rigid_flush'):
++    """Compile a flush, stiff capsule; retain the original model for old runs.
++
++    Extend only the distal cap center. Compilation updates all collision bounds,
++    and the visual ring stays untouched. The ring outline supplies the axial
++    outer edge, not a guessed mesh bounding-box dimension.
++    """
++    original = mujoco.MjModel.from_xml_path(str(model_path))
++    if foot_model == 'legacy_soft':
++        return original
++    if foot_model != 'rigid_flush':
++        raise ValueError(f'Unknown foot_model: {foot_model}')
++    _, _, rings, _ = load_geometry(original, model_path)
++    spec = mujoco.MjSpec.from_file(str(model_path))
++    for leg, ring in zip(LEGS, rings):
++        capsule = spec.geom(f'leg_{leg}_3_foot_collision')
++        endpoints = np.array(capsule.fromto).reshape(2, 3)
++        axis = endpoints[1] - endpoints[0]
++        length = np.linalg.norm(axis)
++        axis /= length
++        extension = np.max((ring - endpoints[0]) @ axis) - length - capsule.size[0]
++        if extension < 0.:
++            raise ValueError('Flush calibration would shorten the capsule')
++        endpoints[1] += extension * axis
++        capsule.fromto = endpoints.ravel()
++        spec.site(f'leg_{leg}_3_foot_site').pos = endpoints[1]
++    # Both members of each floor/foot pair use the same stiff parameters. Raising
++    # geom priority instead would also override the requested floor friction.
++    for name in ['floor', *[f'leg_{leg}_3_foot_collision' for leg in LEGS]]:
++        collision = spec.geom(name)
++        collision.solref = [2 * original.opt.timestep, 1.]
++        collision.solimp = [.99, .99, .001, .5, 2.]
++    model = spec.compile()
++    # Re-settle the home keyframe for the longer, stiff feet. The old home height
++    # included soft-contact sinking and is no longer a consistent target/reset.
++    data = mujoco.MjData(model)
++    data.qpos[:] = model.key('home').qpos
++    data.qpos[2] += .01
++    for _ in range(round(4. / model.opt.timestep)):
++        mujoco.mj_step(model, data)
++    if not np.all(np.isfinite(data.qpos)) or np.linalg.norm(data.qvel) > .01:
++        raise ValueError('Rigid capsule neutral pose did not settle')
++    model.key('home').qpos[:] = data.qpos
++    return model
++
++def save_effective_model(model, path, source_path=MODEL_PATH):
++    """Save the compiled overrides for direct inspection in the MuJoCo viewer."""
++    mujoco.mj_saveLastXML(str(path), model)
++    tree = ET.parse(path)
++    compiler = tree.getroot().find('compiler')
++    # A run folder is outside the source asset tree; resolve its mesh directory.
++    meshdir = compiler.get('meshdir', '.')
++    compiler.set('meshdir', str((Path(source_path).resolve().parent / meshdir).resolve()))
++    tree.write(path, encoding='unicode')
++
+ def load_geometry(model, model_path=MODEL_PATH):
+     source = json.loads(Path(__file__).with_name('ring_outline.json').read_text())
+     stl = Path(model_path).resolve().parent.parent / 'meshes/stl/CustomLegFoot.stl'
+@@ -48,8 +104,77 @@ def capsule_bottom(centers, matrices, sizes, xp=np):
+     lower_center = centers - axis * xp.where(axis[:, 2:3] >= 0, 1., -1.) * sizes[:, 1:2]
+     return lower_center - xp.array([0., 0., 1.]) * sizes[:, 0:1]
+ 
+-def ring_costs(points, velocities, bottom_mask, bottom_allowance=.006, side_clearance=.001, xp=np):
+-    height = points[..., 2]
++def quat_axis_z(q, xp=np):
++    """World-frame direction of the local +Z axis after rotating by quaternion q=(w,x,y,z).
++
++    Used to turn a (possibly randomized/tilted) floor geom_quat into a ground-normal
++    vector, so reward code can measure height-above-ground as a projection onto the
++    true floor normal instead of assuming the floor is exactly the world XY-plane.
++    """
++    w, x, y, z = q[..., 0], q[..., 1], q[..., 2], q[..., 3]
++    return xp.stack([2*(x*z+y*w), 2*(y*z-x*w), 1-2*(x*x+y*y)], axis=-1)
++
++def touchdown_cost(previous_contact, contact, previous_normal_velocity, allowance=.15, xp=np):
++    """Once per airborne-to-contact transition, tax excess approach speed.
++
++    Use the preceding airborne sample: the contact solver may already have
++    removed downward velocity in the current sample. Persistent contact and
++    upward motion carry no cost. This is a velocity proxy, not impact force.
++    """
++    hit=(~previous_contact)&contact
++    return xp.sum(hit*xp.maximum(-previous_normal_velocity-allowance,0.)**2)
++
++def swing_duration_reward(air_time, touchdown, floor=-.08, xp=np):
++    """Score only touchdown: short swings cost, longer swings earn credit."""
++    return xp.sum(xp.clip(air_time-.08,floor,.25)*touchdown)
++
++def linear_tracking_reward(velocity, command, variance_base=.0025, speed_gain=.55, xp=np, yaw_rate=0., yaw_gain=.27):
++    """Tighten low-speed tracking without making fast tracking much sharper."""
++    variance=xp.minimum(.07,variance_base+speed_gain*xp.sum(command**2)+yaw_gain*yaw_rate**2)
++    return xp.exp(-xp.sum((velocity-command)**2)/variance)
++
++def yaw_tracking_reward(velocity, command, xp=np):
++    variance=xp.minimum(.25,.05+.8*command**2)
++    return xp.exp(-(velocity-command)**2/variance)
++
++def clearance_shortfall_cost(peak, previous_contact, contact, target=.004, xp=np):
++    """Discourage replanting after a barely-airborne shuffle, once per event."""
++    hit=(~previous_contact)&contact
++    return xp.sum(hit*xp.maximum(1.-peak/target,0.)**2)
++
++def tip_support_cost(alignment, contact, allowance_cos, scale_cos, xp=np):
++    """Soft contact-only guard on alignment of the designated tip with ground.
++
++    One at the scale angle (45 degrees by default), zero inside the allowance
++    (15 degrees). Saturates at four per foot, then averages all four feet.
++    Alignment is an orientation proxy, not a ring force measurement.
++    """
++    excess=xp.clip((allowance_cos-alignment)/(allowance_cos-scale_cos),0.,2.)
++    return xp.mean(contact*excess**2)
++
++def planned_swing_cost(elapsed, previous_contact, contact, height, dt, duration=.16, apex=.003, xp=np, bonus=0., weights=None):
++    """A lift starts a full rise/fall window; early touchdown cannot erase it.
++
++    Elapsed -1 means inactive. This is an endogenous, reward-only per-foot clock,
++    not an externally prescribed diagonal phase or a new policy observation.
++    Horizontal placement is free. Cap normalized errors to limit outlier costs.
++    """
++    start=previous_contact & ~contact & (elapsed<0.)
++    time=xp.where(start,0.,xp.where(elapsed>=0.,elapsed+dt,-1.))
++    active=(time>=0.) & (time<duration)
++    phase=xp.clip(time/duration,0.,1.)
++    reference=apex*xp.sin(xp.pi*phase)**2
++    # Weights strengthen error correction for under-lifting feet, without raising
++    # their swing bonus or making in-place stepping more profitable.
++    weights=1. if weights is None else weights
++    cost=xp.sum(active*(weights*xp.clip((height-reference)/apex,-2.,2.)**2-bonus))
++    return xp.where(active,time,-1.),cost,reference,active
++
++def ring_costs(points, velocities, bottom_mask, bottom_allowance=.006, side_clearance=.001, floor_normal=None, xp=np):
++    # Defaults to world +Z (flat ground), which reduces exactly to points[...,2] --
++    # existing flat-ground callers see no behavior change.
++    normal = xp.array([0., 0., 1.]) if floor_normal is None else floor_normal
++    height = points @ normal
+     side = ~bottom_mask
+     # Max per foot avoids reward dependence on the outline sampling density.
+     side_depth = xp.max(xp.where(side, xp.maximum(side_clearance-height, 0.), 0.), axis=1)
+@@ -57,10 +182,9 @@ def ring_costs(points, velocities, bottom_mask, bottom_allowance=.006, side_clea
+     touch = xp.clip((.001-height)/.002, 0., 1.)
+     rub = xp.max(xp.where(side, touch * xp.sum(velocities[..., :2]**2, axis=-1), 0.), axis=1)
+     return {
+-        # Capped at 2 (not 5): at reward_scales.ring_side=-1, a per-foot cap of 4
+-        # keeps the worst case below tracking_linear's own ceiling instead of
+-        # dwarfing it, so the ring behaves as a strong penalty rather than an
+-        # effectively-infinite one that swamps the task reward.
++        # Depth ratio capped at 2 before squaring: each aggregate cost is at
++        # most 4 (not below linear tracking's ceiling of 2). These are soft,
++        # saturating penalties; no prohibition or physical contact force.
+         'ring_side': xp.mean(xp.minimum(side_depth/.01, 2.)**2),
+         'ring_bottom': xp.mean(xp.minimum(bottom_depth/.01, 2.)**2),
+         'ring_rub': xp.mean(rub),
+diff --git a/mujoco_playground/workspace/walk_randomize.py b/mujoco_playground/workspace/walk_randomize.py
+index a84c455..d724bc3 100644
+--- a/mujoco_playground/workspace/walk_randomize.py
++++ b/mujoco_playground/workspace/walk_randomize.py
+@@ -1,7 +1,7 @@
+-"""Walking randomization: nominal symmetric terms plus leg-compliance and contact DR.
++"""Walking randomization: manufacturing geometry, friction, and actuator variation.
+ 
+ `LEG_BODY_IDS`/`FOOT_GEOM_IDS` are resolved once from the nominal MJCF at import
+-time (ids are structural, not affected by per-episode randomization) so this stays
++time (ids are structural, not affected by per-slot randomization) so this stays
+ a plain (sys, rng) -> (sys, axes) function, matching brax's expected signature.
+ 
+ Leg-length randomization scales `body_pos` for the leg_*_3 bodies rather than any
+@@ -11,10 +11,22 @@ this randomization never touches. `world_points()` re-projects those fixed local
+ points through the ACTUAL per-step `d.xpos`/`d.xmat` of the foot body, which already
+ reflects the randomized body_pos upstream in the kinematic chain -- so ring-clearance
+ rewards stay correctly calibrated across leg lengths with no other change required
+-(verified: standing penetration is unchanged across a wide body_pos scale sweep).
+-Do NOT add mesh_pos/mesh_quat/geom_pos/geom_quat/geom_size for the foot to `fields`
++(verified for the basic length endpoints; combined DR can change penetration).
++Do NOT add mesh_pos/mesh_quat/geom_pos/geom_quat/geom_size for the FOOT to `fields`
+ below without re-baking ring_local per-sample -- that desyncs the ring from the true
+-mesh position (see .notes and the walk-policy review this followed from).
++mesh position (see .notes and the walk-policy review this followed from). `body_quat`
++for the leg_*_3 bodies is different and safe by the same argument as `body_pos`: it
++changes how that body's frame sits relative to its PARENT (modeling a leg bolted on a
++few degrees off), not the foot's own local mesh mount, so world_points() still
++re-projects ring_local correctly through the resulting (tilted) runtime body pose.
++
++Floor `geom_quat` is randomized too (a small terrain-tilt proxy): the floor stays a
++flat MuJoCo plane (real, MJX-native contact physics, no heightfield needed), just
++reoriented per env. Reward code must measure height-above-ground as a projection onto
++this floor's actual normal (walk_geometry.quat_axis_z) rather than assuming world +Z --
++walk_env.py uses this for ring clearance and torso height as well as the swing
++height projection. Brax samples geometry once per environment slot and reuses it
++across episode resets, representing persistent manufacturing differences.
+ """
+ import mujoco
+ import numpy as np
+@@ -25,15 +37,41 @@ from workspace import walk_geometry as geom
+ _nominal = mujoco.MjModel.from_xml_path(str(geom.MODEL_PATH))
+ LEG_BODY_IDS = np.array([_nominal.body(f'leg_{leg}_3').id for leg in geom.LEGS])
+ FOOT_GEOM_IDS = np.array([_nominal.geom(f'leg_{leg}_3_foot_collision').id for leg in geom.LEGS])
++FLOOR_GEOM_ID = _nominal.geom('floor').id
+ _JOINT_DOFS = slice(_nominal.nv - 12, _nominal.nv)
+ if _nominal.nv < 12:
+     raise ValueError('Expected at least 12 actuated DOFs')
+ 
+-def domain_randomize(sys,rng):
++def _quat_mul(q1, q2):
++    """Hamilton product, batched over any leading shape ending in the 4 quat comps."""
++    w1,x1,y1,z1 = q1[...,0],q1[...,1],q1[...,2],q1[...,3]
++    w2,x2,y2,z2 = q2[...,0],q2[...,1],q2[...,2],q2[...,3]
++    return jp.stack([
++        w1*w2 - x1*x2 - y1*y2 - z1*z2,
++        w1*x2 + x1*w2 + y1*z2 - z1*y2,
++        w1*y2 - x1*z2 + y1*w2 + z1*x2,
++        w1*z2 + x1*y2 - y1*x2 + z1*w2,
++    ], axis=-1)
++
++def _small_tilt_quat(rx, ry):
++    """Compose Ry(ry) Rx(rx); pre-multiplication applies parent-frame X/Y tilt."""
++    qx = jp.stack([jp.cos(rx/2), jp.sin(rx/2), jp.zeros_like(rx), jp.zeros_like(rx)], axis=-1)
++    qy = jp.stack([jp.cos(ry/2), jp.zeros_like(ry), jp.sin(ry/2), jp.zeros_like(ry)], axis=-1)
++    return _quat_mul(qy, qx)
++
++def domain_randomize(sys,rng,friction_range=(.8,2.5),foot_model='rigid_flush',
++                     leg_length_common_range=(.90,.98),leg_length_per_leg_range=(.96,1.04)):
++    if not np.all(np.isfinite(friction_range)) or not 0. < friction_range[0] <= friction_range[1]:
++        raise ValueError('friction_range must be positive and ordered')
++    if foot_model not in ('rigid_flush','legacy_soft'):
++        raise ValueError(f'Unknown foot_model: {foot_model}')
++    for bounds in (leg_length_common_range,leg_length_per_leg_range):
++        if not np.all(np.isfinite(bounds)) or not 0. < bounds[0] <= bounds[1]:
++            raise ValueError('Leg length ranges must be positive and ordered')
+     @jax.vmap
+     def sample(key):
+-        keys=jax.random.split(key,13)
+-        friction=sys.geom_friction.at[:,0].set(jax.random.uniform(keys[0],(),minval=.4,maxval=1.2))
++        keys=jax.random.split(key,17)
++        friction=sys.geom_friction.at[:,0].set(jax.random.uniform(keys[0],(),minval=friction_range[0],maxval=friction_range[1]))
+         kp=sys.actuator_gainprm[:,0]*jax.random.uniform(keys[1],(12,),minval=.8,maxval=1.2)
+         kd=-sys.actuator_biasprm[:,2]*jax.random.uniform(keys[2],(12,),minval=.8,maxval=1.2)
+         gain=sys.actuator_gainprm.at[:,0].set(kp)
+@@ -47,27 +85,52 @@ def domain_randomize(sys,rng):
+         # natural 55/45 front/rear load split, so training never saw a rear-biased
+         # robot -- which is exactly the load state backward walking needs.
+         com=sys.body_ipos.at[1].add(jax.random.uniform(keys[5],(3,),minval=-.02,maxval=.02))
+-        # Leg-length/compliance proxy: a common whole-robot scale plus a smaller
++        # Leg-length variation: a common whole-robot scale plus a smaller
+         # per-leg term for build asymmetry. See module docstring for why this field
+         # (and not a foot-local mesh/geom field) keeps the ring reward consistent.
+-        thigh_common=jax.random.uniform(keys[6],(),minval=.94,maxval=1.06)
+-        thigh_per_leg=jax.random.uniform(keys[7],(4,),minval=.98,maxval=1.02)
++        # Shorter-biased engineering prior: combined range .864--1.0192, mean .94,
++        # preserving +/-4% per-leg asymmetry. These are upstream-offset scales,
++        # not capsule-size scales. The new 62.65mm capsule and ring move together;
++        # its distal extension is present at every length, with no random tip gap.
++        thigh_common=jax.random.uniform(keys[6],(),minval=leg_length_common_range[0],maxval=leg_length_common_range[1])
++        thigh_per_leg=jax.random.uniform(keys[7],(4,),minval=leg_length_per_leg_range[0],maxval=leg_length_per_leg_range[1])
+         body_pos=sys.body_pos.at[LEG_BODY_IDS].multiply((thigh_common*thigh_per_leg)[:,None])
+-        # Foot contact softness: a real series spring-damper at the ground contact,
+-        # i.e. actual leg compliance rather than a kinematic proxy. Timeconst is
+-        # capped at .045 (not the .12 that would model very soft rubber) because
+-        # beyond that the standing ring_bottom penalty starts firing at rest -- see
+-        # bottom_allowance in walk_config.py.
+-        solref=sys.geom_solref.at[FOOT_GEOM_IDS,0].set(jax.random.uniform(keys[8],(4,),minval=.02,maxval=.045)) \
+-                              .at[FOOT_GEOM_IDS,1].set(jax.random.uniform(keys[9],(4,),minval=.8,maxval=1.2))
+-        solimp=sys.geom_solimp.at[FOOT_GEOM_IDS,0].set(jax.random.uniform(keys[10],(4,),minval=.010,maxval=.025))
++        # Rigid mode keeps compiled contact stiffness fixed. Preserve key indices
++        # so changing contact mode does not change unrelated random draws.
++        solref,solimp=sys.geom_solref,sys.geom_solimp
++        if foot_model == 'legacy_soft':
++            solref=solref.at[FOOT_GEOM_IDS,0].set(jax.random.uniform(keys[8],(4,),minval=.02,maxval=.045)) \
++                          .at[FOOT_GEOM_IDS,1].set(jax.random.uniform(keys[9],(4,),minval=.8,maxval=1.2))
++            solimp=solimp.at[FOOT_GEOM_IDS,0].set(jax.random.uniform(keys[10],(4,),minval=.010,maxval=.025))
+         # Servo torque varies with battery voltage/temperature by well over +-15%
+         # in practice; forcerange is symmetric so a positive scale keeps it so.
+         forcerange=sys.actuator_forcerange*jax.random.uniform(keys[11],(12,1),minval=.85,maxval=1.15)
+         armature=sys.dof_armature.at[_JOINT_DOFS].multiply(jax.random.uniform(keys[12],(12,),minval=.7,maxval=1.3))
+-        return friction,gain,bias,mass,inertia,com,body_pos,solref,solimp,forcerange,armature
++        # Leg-mount misalignment: manufacturing/assembly tolerance means the lower
++        # leg isn't always bolted on perfectly square to the knee axis, so at the
++        # commanded home pose the foot isn't always exactly plumb. Tilts body_quat
++        # (how leg_*_3's frame sits relative to its parent), not the foot's own mesh
++        # mount -- see module docstring for why that keeps the ring reward calibrated.
++        # Raised to 0.07 rad (~4deg) per axis, independent per leg: this and the
++        # thigh-length range above are now the priority (foot lift has been dialed
++        # back to make room for exactly this).
++        # Pre-multiplication is in the PARENT frame: X mainly deflects fore/aft;
++        # Y supplies real lateral tilt plus yaw. No mount-correlated encoder bias.
++        leg_tilt = _small_tilt_quat(jax.random.uniform(keys[13],(4,),minval=-.07,maxval=.07),
++                                     jax.random.uniform(keys[14],(4,),minval=-.07,maxval=.07))
++        body_quat=sys.body_quat.at[LEG_BODY_IDS].set(_quat_mul(leg_tilt,sys.body_quat[LEG_BODY_IDS]))
++        # Terrain proxy: small floor tilt (roll+pitch, ~0.04 rad / ~2.3deg, eased down
++        # from 0.07 for the same reason as leg_tilt above). The floor stays a real,
++        # flat MuJoCo plane -- MJX handles a tilted plane's contact physics natively,
++        # no heightfield needed -- just reoriented per env. Reward code must read
++        # walk_env.py's floor normal, not raw world Z, for anything calling this
++        # "ground height" (see walk_geometry.quat_axis_z/ring_costs).
++        floor_tilt = _small_tilt_quat(jax.random.uniform(keys[15],(),minval=-.04,maxval=.04),
++                                       jax.random.uniform(keys[16],(),minval=-.04,maxval=.04))
++        geom_quat=sys.geom_quat.at[FLOOR_GEOM_ID].set(_quat_mul(floor_tilt,sys.geom_quat[FLOOR_GEOM_ID]))
++        return friction,gain,bias,mass,inertia,com,body_pos,solref,solimp,forcerange,armature,body_quat,geom_quat
+     values=sample(rng)
+     fields=('geom_friction','actuator_gainprm','actuator_biasprm','body_mass','body_inertia','body_ipos',
+-            'body_pos','geom_solref','geom_solimp','actuator_forcerange','dof_armature')
++            'body_pos','geom_solref','geom_solimp','actuator_forcerange','dof_armature','body_quat','geom_quat')
+     axes=jax.tree.map(lambda _:None,sys).tree_replace({k:0 for k in fields})
+     return sys.tree_replace(dict(zip(fields,values))),axes

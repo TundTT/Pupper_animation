@@ -1,0 +1,11 @@
+* -filter
+*.json -filter diff merge text eol=lf
+*.jsonl -filter diff merge text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.xml text eol=lf
+*params binary
+*.mp4 binary
+*.patch -diff -whitespace
+# Preserve the exact compiled model snapshot and its training hash.
+effective_model.xml -whitespace

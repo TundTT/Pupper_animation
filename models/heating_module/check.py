@@ -50,7 +50,8 @@ def check(path):
     data=mj.MjData(model)
     if model.nkey:mj.mj_resetDataKeyframe(model,data,0)
     mj.mj_forward(model,data)
-    assert np.isfinite(data.qM).all() and np.isfinite(data.qacc).all()
+    mass_matrix = data.qM if hasattr(data, 'qM') else data.M
+    assert np.isfinite(mass_matrix).all() and np.isfinite(data.qacc).all()
     return dict(path=str(path),mass_kg=float(model.body_mass.sum()),status='PASS')
 
 

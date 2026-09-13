@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "scope": "Offline checkpoint export and controller source configuration; physical hardware not tested.",
+  "cpp_backend": "RTNeural Eigen float32",
+  "fixtures_per_policy": 128,
+  "tolerance": 3e-05,
+  "leg_max_abs_action_error": 2.40654e-06,
+  "wheel_max_abs_action_error": 3.12924e-07,
+  "leg_export_tests": "2 passed",
+  "controller_config": "scripts/check_locomotion_policies.py PASS",
+  "startup_launch_tests": "6 passed (ROS source resolution, no nodes launched)",
+  "ros_manager_integration": "Not run for this policy shipment; no physical robot contacted"
+}
