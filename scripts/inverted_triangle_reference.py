@@ -38,13 +38,14 @@ def main():
     p.add_argument('--operator-confirmed-inverted-start', action='store_true',
                    help='ONLY after actual confirmation of 9 mm gaps, rigid triangles and matching inverted start pose')
     p.add_argument('--replace', action='store_true')
+    p.add_argument('--roll', action='store_true', help='Use the simultaneous roll plan and separate mapping')
     a = p.parse_args()
-    plan_path = ROOT / 'ros2_ws/src/neural_controller/launch/inverted_triangle_plan.json'
+    plan_path = ROOT / ('ros2_ws/src/neural_controller/launch/triangle_roll_plan.json' if a.roll else 'ros2_ws/src/neural_controller/launch/inverted_triangle_plan.json')
     plan = json.loads(plan_path.read_text())
-    expected = json.loads((ROOT / 'hardware_testing/inverted_triangle/source/export_provenance.json').read_text())
+    expected = json.loads((ROOT / ('hardware_testing/triangle_roll/export_provenance.json' if a.roll else 'hardware_testing/inverted_triangle/source/export_provenance.json')).read_text())
     if hashlib.sha256(plan_path.read_bytes().replace(b'\r\n', b'\n')).hexdigest() != expected['export_sha256']:
         raise ValueError('Unreviewed exported plan')
-    path = directory() / 'inverted-triangle-map.json'
+    path = directory() / ('triangle-roll-map.json' if a.roll else 'inverted-triangle-map.json')
     if a.command == 'capture' and not a.operator_confirmed_inverted_start:
         if not sys.stdin.isatty():
             raise ValueError('Actual physical confirmation is required before capture')

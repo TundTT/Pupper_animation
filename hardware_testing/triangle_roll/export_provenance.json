@@ -1,0 +1,9 @@
+{
+  "source_commit": "221e16681952bb9350bd2c1019c2b092c347432a",
+  "model_sha256": "c274c1b3ddba73b58c89e8dded10d2d2d8e0fda37af77f631d4bedefa2d177e2",
+  "plan_sha256": "b537ab53be353970d1152e748fbd00a8c7643dbbd1a91461f2e5efe19ef9a1c4",
+  "export_sha256": "d9c99a324bcbfd8c1a16bdb11daf25622e044d58dfb077b9d48a28a83b0db4ea",
+  "geometry_sha256": "757e06c7935e877559145c0fede9dd79cce8b7c6aef1be672a97aae46de65e47",
+  "fixture_rows": 520,
+  "fixture_scope": "Sequential 52 Hz BalancedSupport updates over 10 seconds, random joint and IMU inputs, seed 431"
+}

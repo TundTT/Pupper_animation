@@ -10,4 +10,7 @@
   <class name="neural_controller/InvertedTriangleController" type="neural_controller::InvertedTriangleController" base_class_type="controller_interface::ControllerInterface">
     <description>Staged rigid inverted-triangle flip, with a session-bound reference and shared calibration gate.</description>
   </class>
+  <class name="neural_controller/TriangleRollController" type="neural_controller::TriangleRollController" base_class_type="controller_interface::ControllerInterface">
+    <description>Simultaneous rigid triangle roll and bounded support settling; no walking.</description>
+  </class>
 </library>

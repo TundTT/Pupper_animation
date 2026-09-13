@@ -5,7 +5,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-add_library(neural_controller SHARED src/neural_controller.cpp src/keyframe_controller.cpp src/inverted_triangle_controller.cpp)
+add_library(neural_controller SHARED src/neural_controller.cpp src/keyframe_controller.cpp src/inverted_triangle_controller.cpp src/triangle_roll_controller.cpp)
 target_compile_features(neural_controller PUBLIC cxx_std_17)
 
 # find dependencies
@@ -64,6 +64,18 @@ install(
 )
 
 if(BUILD_TESTING)
+  add_executable(triangle_roll_test test/triangle_roll_test.cpp)
+  target_compile_features(triangle_roll_test PRIVATE cxx_std_17)
+  target_include_directories(triangle_roll_test PRIVATE include)
+  target_link_libraries(triangle_roll_test RTNeural)
+  add_test(NAME triangle_roll_core COMMAND triangle_roll_test ${CMAKE_CURRENT_SOURCE_DIR}/test/triangle_roll_support_reference.csv)
+  add_executable(triangle_roll_controller_test test/triangle_roll_controller_test.cpp)
+  target_compile_features(triangle_roll_controller_test PRIVATE cxx_std_17)
+  target_include_directories(triangle_roll_controller_test PRIVATE include)
+  target_link_libraries(triangle_roll_controller_test neural_controller neural_controller_parameters RTNeural)
+  ament_target_dependencies(triangle_roll_controller_test controller_interface hardware_interface rclcpp rclcpp_lifecycle robot_calibration realtime_tools geometry_msgs tf2 sensor_msgs)
+  add_test(NAME triangle_roll_lifecycle COMMAND triangle_roll_controller_test ${CMAKE_CURRENT_SOURCE_DIR}/launch/triangle_roll_config.yaml ${CMAKE_CURRENT_SOURCE_DIR}/launch/triangle_roll_plan.json)
+
   add_executable(inverted_triangle_test test/inverted_triangle_test.cpp)
   target_compile_features(inverted_triangle_test PRIVATE cxx_std_17)
   target_include_directories(inverted_triangle_test PRIVATE include)
