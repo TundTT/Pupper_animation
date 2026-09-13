@@ -1,0 +1,89 @@
+diff --git a/Stanford/training/pupper_v3_description/description/mujoco_xml/pupper_v3_complete.mjx.position.xml b/Stanford/training/pupper_v3_description/description/mujoco_xml/pupper_v3_complete.mjx.position.xml
+index ee4007a..35330b6 100644
+--- a/Stanford/training/pupper_v3_description/description/mujoco_xml/pupper_v3_complete.mjx.position.xml
++++ b/Stanford/training/pupper_v3_description/description/mujoco_xml/pupper_v3_complete.mjx.position.xml
+@@ -105,9 +105,9 @@
+ <body name="heating_module" pos="-0.036349545 3.1565e-05 0.032506671263" quat="0.5 -0.5 -0.5 0.5">
+   <inertial mass="0.60191707499" pos="0.003048 -0.043688 0.0062992" fullinertia="0.00042315693885862 0.0011088116468432 0.0012522050770235 4.6822344548672e-06 2.3411172274336e-06 2.8386046382632e-05" />
+   <geom name="heating_module_visual" type="mesh" mesh="heating_module_mesh" group="1" density="0" contype="0" conaffinity="0" rgba="0.96 0.49 0.08 1" />
+-  <geom name="heating_module_mount_plate_collision" type="box" pos="-3.1566499999997e-05 -0.0729689255 0.009196205" size="0.0870712015 0.0079756015 0.03175" density="0" group="3" contype="1" conaffinity="1" rgba="0.9 0.35 0.08 0.25" friction="0.8 0.02 0.01" />
+-  <geom name="heating_module_electronics_collision" type="box" pos="0.0022393245 -0.035668326 0.0050547045" size="0.0655292535 0.029324998 0.0267500005" density="0" group="3" contype="1" conaffinity="1" rgba="0.9 0.35 0.08 0.25" friction="0.8 0.02 0.01" />
+-  <geom name="heating_module_end_bracket_collision" type="box" pos="-3.15645e-05 -0.0031683285 -0.006349545" size="0.0275000005 0.0031750005 0.01620425" density="0" group="3" contype="1" conaffinity="1" rgba="0.9 0.35 0.08 0.25" friction="0.8 0.02 0.01" />
++  <geom name="heating_module_mount_plate_collision" type="box" pos="-3.1566499999997e-05 -0.0729689255 0.009196205" size="0.0870712015 0.0079756015 0.03175" density="0" group="3" contype="0" conaffinity="1" rgba="0.9 0.35 0.08 0.25" friction="0.8 0.02 0.01" />
++  <geom name="heating_module_electronics_collision" type="box" pos="0.0022393245 -0.035668326 0.0050547045" size="0.0655292535 0.029324998 0.0267500005" density="0" group="3" contype="0" conaffinity="1" rgba="0.9 0.35 0.08 0.25" friction="0.8 0.02 0.01" />
++  <geom name="heating_module_end_bracket_collision" type="box" pos="-3.15645e-05 -0.0031683285 -0.006349545" size="0.0275000005 0.0031750005 0.01620425" density="0" group="3" contype="0" conaffinity="1" rgba="0.9 0.35 0.08 0.25" friction="0.8 0.02 0.01" />
+ </body>
+ <!-- HEATING_MODULE_END -->
+ 
+diff --git a/mujoco_playground/workspace/train.py b/mujoco_playground/workspace/train.py
+index cc67310..70c8bc8 100644
+--- a/mujoco_playground/workspace/train.py
++++ b/mujoco_playground/workspace/train.py
+@@ -31,6 +31,8 @@ to the robot's neural_controller JSON with workspace/export_policy.py.
+ import argparse
+ import functools
+ import os
++import json
++from pathlib import Path
+ from datetime import datetime
+ 
+ # NOTE: headless rendering (MUJOCO_GL=egl) is set in workspace/__init__.py, which
+@@ -55,6 +57,7 @@ def main() -> None:
+     p.add_argument("--num_timesteps", type=int, default=None)
+     p.add_argument("--num_envs", type=int, default=None)
+     p.add_argument("--seed", type=int, default=None)
++    p.add_argument("--learning_rate", type=float, default=None)
+     p.add_argument("--model_path", default=None, help="override Pupper MJX xml path")
+     p.add_argument(
+         "--init_params", default=None,
+@@ -86,6 +89,8 @@ def main() -> None:
+         config.ppo.num_envs = args.num_envs
+     if args.seed is not None:
+         config.ppo.seed = args.seed
++    if args.learning_rate is not None:
++        config.ppo.learning_rate = args.learning_rate
+     # Each episode spans several commanded velocity changes.
+     config.ppo.episode_length = config.episode_length
+ 
+@@ -131,6 +136,9 @@ def main() -> None:
+     )
+ 
+     times = [datetime.now()]
++    metadata = dict(config=config.to_dict(), model_path=args.model_path, init_params=args.init_params,
++                    wandb_run_path=wandb_run.path if wandb_run else None)
++    Path(out_dir, "run.json").write_text(json.dumps(metadata, indent=2))
+ 
+     def progress(step: int, metrics: dict) -> None:
+         times.append(datetime.now())
+@@ -150,6 +158,8 @@ def main() -> None:
+             f"stance={d('stance_pose'):.3f} still={d('stand_still'):.3f}",
+             flush=True,  # unbuffered: this goes to a redirected log that is tailed live
+         )
++        with open(os.path.join(out_dir, "metrics.jsonl"), "a") as f:
++            f.write(json.dumps(dict(step=int(step), **{k: float(v) for k, v in metrics.items()})) + "\n")
+         if wandb_run is not None:
+             wandb_run.log(metrics, step=step)
+ 
+@@ -166,6 +176,7 @@ def main() -> None:
+         # Called by brax after each eval. params[1] is PPONetworkParams here, so the
+         # policy params are params[1].policy. Render best-effort: a video hiccup must
+         # not kill a multi-hour run, but we surface it loudly (no silent swallow).
++        model.save_params(os.path.join(out_dir, f"params_{step:012d}"), params)
+         if args.no_eval_videos:
+             return
+         try:
+diff --git a/mujoco_playground/workspace/wheel_env.py b/mujoco_playground/workspace/wheel_env.py
+index c264733..f46a72a 100644
+--- a/mujoco_playground/workspace/wheel_env.py
++++ b/mujoco_playground/workspace/wheel_env.py
+@@ -80,7 +80,9 @@ class PupperWheelEnv(PipelineEnv):
+         self._config = config
+         path = str(configs.resolve_model_path(model_path))
+ 
+-        sys = mjcf.load(path)
++        # Retain the fixed backpack body and its original inertia in MJX.
++        # Brax XML preprocessing duplicates inertial elements for fixed bodies.
++        sys = mjcf.load_model(mujoco.MjModel.from_xml_path(path))
+         self._dt = config.ctrl_dt
+         sys = sys.tree_replace({"opt.timestep": config.sim_dt})
+ 

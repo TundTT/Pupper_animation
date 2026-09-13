@@ -1,3 +1,10 @@
+## Latest heating-backpack policy (September 13, 2026)
+
+The latest trained wheel policy is in
+[`trained_policies/backpack_2026-09-13`](../../trained_policies/backpack_2026-09-13/README.md).
+This release supersedes the gap-only checkpoints discussed in the historical notes below.
+Its matching robot-code controller export is identified by `policies/latest.json` there.
+
 # Pupper V3 wheeled locomotion — RL training
 
 Training pipeline for a new **wheeled locomotion** policy, forked from this repo's

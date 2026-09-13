@@ -31,6 +31,8 @@ to the robot's neural_controller JSON with workspace/export_policy.py.
 import argparse
 import functools
 import os
+import json
+from pathlib import Path
 from datetime import datetime
 
 # NOTE: headless rendering (MUJOCO_GL=egl) is set in workspace/__init__.py, which
@@ -55,6 +57,7 @@ def main() -> None:
     p.add_argument("--num_timesteps", type=int, default=None)
     p.add_argument("--num_envs", type=int, default=None)
     p.add_argument("--seed", type=int, default=None)
+    p.add_argument("--learning_rate", type=float, default=None)
     p.add_argument("--model_path", default=None, help="override Pupper MJX xml path")
     p.add_argument(
         "--init_params", default=None,
@@ -86,6 +89,8 @@ def main() -> None:
         config.ppo.num_envs = args.num_envs
     if args.seed is not None:
         config.ppo.seed = args.seed
+    if args.learning_rate is not None:
+        config.ppo.learning_rate = args.learning_rate
     # Each episode spans several commanded velocity changes.
     config.ppo.episode_length = config.episode_length
 
@@ -131,6 +136,9 @@ def main() -> None:
     )
 
     times = [datetime.now()]
+    metadata = dict(config=config.to_dict(), model_path=args.model_path, init_params=args.init_params,
+                    wandb_run_path=wandb_run.path if wandb_run else None)
+    Path(out_dir, "run.json").write_text(json.dumps(metadata, indent=2))
 
     def progress(step: int, metrics: dict) -> None:
         times.append(datetime.now())
@@ -150,6 +158,8 @@ def main() -> None:
             f"stance={d('stance_pose'):.3f} still={d('stand_still'):.3f}",
             flush=True,  # unbuffered: this goes to a redirected log that is tailed live
         )
+        with open(os.path.join(out_dir, "metrics.jsonl"), "a") as f:
+            f.write(json.dumps(dict(step=int(step), **{k: float(v) for k, v in metrics.items()})) + "\n")
         if wandb_run is not None:
             wandb_run.log(metrics, step=step)
 
@@ -166,6 +176,7 @@ def main() -> None:
         # Called by brax after each eval. params[1] is PPONetworkParams here, so the
         # policy params are params[1].policy. Render best-effort: a video hiccup must
         # not kill a multi-hour run, but we surface it loudly (no silent swallow).
+        model.save_params(os.path.join(out_dir, f"params_{step:012d}"), params)
         if args.no_eval_videos:
             return
         try:

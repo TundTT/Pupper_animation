@@ -80,7 +80,9 @@ class PupperWheelEnv(PipelineEnv):
         self._config = config
         path = str(configs.resolve_model_path(model_path))
 
-        sys = mjcf.load(path)
+        # Retain the fixed backpack body and its original inertia in MJX.
+        # Brax XML preprocessing duplicates inertial elements for fixed bodies.
+        sys = mjcf.load_model(mujoco.MjModel.from_xml_path(path))
         self._dt = config.ctrl_dt
         sys = sys.tree_replace({"opt.timestep": config.sim_dt})
 

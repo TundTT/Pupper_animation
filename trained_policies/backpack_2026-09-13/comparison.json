@@ -1,0 +1,72 @@
+{
+  "leg": {
+    "metrics": {
+      "speed_error": {
+        "old": 0.058020954132080076,
+        "new": 0.056912714640299476,
+        "percent_change": -1.9100676787523696
+      },
+      "turn_error": {
+        "old": 0.16600059509277343,
+        "new": 0.15182896931966147,
+        "percent_change": -8.537093355112258
+      },
+      "tilt_deg": {
+        "old": 2.716629842122396,
+        "new": 2.474659220377604,
+        "percent_change": -8.907014786959333
+      },
+      "action_change": {
+        "old": 0.2594817860921224,
+        "new": 0.28391985575358075,
+        "percent_change": 9.418028921992327
+      },
+      "ring_side_fraction": {
+        "old": 0.001940755049387614,
+        "new": 0.00402148445447286,
+        "percent_change": 107.21236591613143
+      }
+    },
+    "old_step": 0,
+    "new_step": 21299200,
+    "episode_steps": [
+      600.0,
+      600.0
+    ],
+    "source": "/home/theerawit/Pupper_animation/training_runs/backpack_2026-09-12_17-46-24/leg/walk_2026-09-12_17-47-14/metrics.jsonl",
+    "speed_turn_statistic": "mean error magnitude"
+  },
+  "wheel": {
+    "metrics": {
+      "speed_error": {
+        "old": 0.10958640603131926,
+        "new": 0.10308670720155998,
+        "percent_change": -5.931117795670482
+      },
+      "turn_error": {
+        "old": 0.33131129819283456,
+        "new": 0.302365419069658,
+        "percent_change": -8.736761855410391
+      },
+      "tilt_deg": {
+        "old": 0.7117245483398438,
+        "new": 0.7034485880533854,
+        "percent_change": -1.1628038270933283
+      },
+      "squared_action_change_penalty": {
+        "old": -0.032536182403564456,
+        "new": -0.022026268641153972,
+        "percent_change": -32.302233962332
+      }
+    },
+    "old_step": 0,
+    "new_step": 201850880,
+    "episode_steps": [
+      600.0,
+      600.0
+    ],
+    "source": "/home/theerawit/Pupper_animation/training_runs/backpack_2026-09-12_17-46-24/wheel/wheel_2026-09-12_23-56-32/metrics.jsonl",
+    "speed_turn_statistic": "root mean squared error"
+  },
+  "comparison": "Old 9 mm checkpoint evaluated on the backpack model at step 0 versus final fine-tuned checkpoint on the same model. Training evaluation statistics, not independent holdout results."
+}
