@@ -7,15 +7,16 @@ import json
 from pathlib import Path
 import numpy as np
 import mujoco as mj
-from .core import Robot
+from .core import Robot,KP,KD
 from .clearance import CADClearance
 
 class RollRecorder:
     def __init__(self,r,command):
-        self.start=r.snapshot(command);self.commands=[];self.qpos=[];self.qvel=[];self.loads=[]
+        self.start=r.snapshot(command);self.kp=[];self.kd=[];self.commands=[];self.qpos=[];self.qvel=[];self.loads=[]
         self.max_slip=np.zeros(4);self.max_normal_speed=np.zeros(4);self.impulse=np.zeros(4)
         self.contact_impulse_peak=np.zeros(4);self.floor_peak=0.;self.tilt_peak=0.
-    def add(self,r,command):
+    def add(self,r,command,kp=KP,kd=KD):
+        self.kp.append(np.asarray(kp).copy());self.kd.append(np.asarray(kd).copy())
         self.commands.append(np.array(command));self.qpos.append(r.d.qpos.copy());self.qvel.append(r.d.qvel.copy())
         loads=r.contacts_precise();self.loads.append(loads);self.impulse+=loads/520
         self.contact_impulse_peak=np.maximum(self.contact_impulse_peak,loads/520)
@@ -28,8 +29,8 @@ class RollRecorder:
             i=ids[0];jac=np.zeros((3,r.m.nv));rot=np.zeros_like(jac)
             mj.mj_jac(r.m,r.d,jac,rot,c.pos,r.bodies[i]);v=jac@r.d.qvel
             self.max_slip[i]=max(self.max_slip[i],np.linalg.norm(v[:2]));self.max_normal_speed[i]=max(self.max_normal_speed[i],abs(v[2]))
-    def finish(self,r,output,cad=True,kp=None,kd=None):
-        output=Path(output);np.savez_compressed(output/'integration.npz',commands=self.commands,qpos=self.qpos,qvel=self.qvel,loads=self.loads)
+    def finish(self,r,output,cad=True):
+        output=Path(output);np.savez_compressed(output/'integration.npz',commands=self.commands,kp=self.kp,kd=self.kd,qpos=self.qpos,qvel=self.qvel,loads=self.loads)
         (output/'initial_integration_state.json').write_text(json.dumps(self.start))
         result=dict(physics_hz=520,contact_kinematics='MuJoCo step contact points and post-step velocities',normal_impulse_Ns=self.impulse.tolist(),peak_step_normal_impulse_Ns=self.contact_impulse_peak.tolist(),max_contact_slip_m_s=self.max_slip.tolist(),max_contact_normal_speed_m_s=self.max_normal_speed.tolist(),max_floor_force_N=self.floor_peak,max_tilt_deg=self.tilt_peak)
         if not cad:return result
@@ -38,10 +39,10 @@ class RollRecorder:
         checker=CADClearance(geometry);loads=np.asarray(self.loads);changes=np.flatnonzero(np.any(np.diff(loads>1,axis=0),axis=1))+1
         chosen=set(range(0,len(self.commands),10))
         for k in changes:chosen.update(range(max(0,k-26),min(len(self.commands),k+27)))
-        records=[];max_error=0.;options={} if kp is None else dict(kp=kp,kd=kd)
+        records=[];max_error=0.
         # Reintegrate ALL steps, inspect at 52 Hz and 520 Hz around contact changes.
         for k,command in enumerate(self.commands):
-            clone.tick(command,**options)
+            clone.tick(command,kp=self.kp[k],kd=self.kd[k])
             error=max(float(abs(clone.d.qpos-self.qpos[k]).max()),float(abs(clone.d.qvel-self.qvel[k]).max()));max_error=max(error,max_error)
             if k in chosen:
                 geometry.d.qpos[:]=clone.d.qpos;geometry.d.qvel[:]=clone.d.qvel;mj.mj_forward(geometry.m,geometry.d)

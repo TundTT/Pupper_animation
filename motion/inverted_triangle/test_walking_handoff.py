@@ -69,3 +69,17 @@ def test_broadphase_preserves_all_cad_minima_and_intersections():
         assert actual==dict(minimum_m=lowest[0],nearest_pair=lowest[1],intersections=hits,front_rear_minimum_m=front[0],front_rear_nearest_pair=front[1])
         collisions+=bool(hits)
     assert collisions>0
+
+def test_gain_schedule_and_command_delay_replay_exactly(tmp_path):
+    from .core import KP,KD
+    from .roll_audit import RollRecorder
+    r,home,goal=initialize(dynamics=dict(delay_steps=3,mass_scale=1.1))
+    recorder=RollRecorder(r,home)
+    for k in range(22):
+        target=home+(.001 if k>10 else 0);damping=KD*(2 if k<12 else 1)
+        r.tick(target,kd=damping);recorder.add(r,target,kd=damping)
+    result=recorder.finish(r,tmp_path,cad=True)
+    assert result['replay_max_state_error']==0
+    data=np.load(tmp_path/'integration.npz')
+    np.testing.assert_array_equal(data['kd'][0],2*KD)
+    np.testing.assert_array_equal(data['kd'][-1],KD)

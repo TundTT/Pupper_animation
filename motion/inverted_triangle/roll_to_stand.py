@@ -83,6 +83,8 @@ def render_states(r, states, output, title):
 def probe(config, output, video=False, cad=False):
     output=Path(output); output.mkdir(parents=True,exist_ok=False)
     scenario=config.get('scenario',{})
+    damping_scale=float(config.get('roll_damping_scale',1.))
+    if not np.isfinite(damping_scale) or not 1<=damping_scale<=3:raise ValueError('Roll damping scale must be in [1,3]')
     if set(scenario)-{'dynamics','initial_offset','sensors'}:raise ValueError('Unknown scenario')
     r,home,goal=initialize(config['direction'],config.get('formation'),config.get('friction',.8),scenario.get('dynamics'),scenario.get('initial_offset'),config.get('seed',0))
     targets=commands(home,goal,config['seconds'],config['shoulder_bump'],config['splay_power'],config.get('hold_seconds',5.))
@@ -132,8 +134,9 @@ def probe(config, output, video=False, cad=False):
         actual_speed_ratio=max(actual_speed_ratio,float(np.max(abs(cmd_velocity)/SPEED)))
         actual_acceleration_ratio=max(actual_acceleration_ratio,float(np.max(abs(cmd_velocity-last_velocity)*520/ACCEL)))
         last_velocity=cmd_velocity;last_command=target.copy()
-        tau=r.tick(target)
-        recorder.add(r,target)
+        damping=KD*(damping_scale if step<(2+config['seconds'])*520 else 1.)
+        tau=r.tick(target,kd=damping)
+        recorder.add(r,target,kd=damping)
         report['peak_requested_torque_Nm']=max(report['peak_requested_torque_Nm'],float(abs(tau).max()))
         report['max_measured_joint_speed']=max(report['max_measured_joint_speed'],float(abs(r.d.qvel[6:]).max()))
         if step%13==0:

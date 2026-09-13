@@ -37,7 +37,7 @@ def handoff(config,transition,output,video=True,cad=True,contact_model='cad'):
         command=np.array([.1*np.clip((elapsed-zero_seconds)/ramp_seconds,0,1),0,0])
         if k<1040 or (k-1040)%10==0:target=policy.target(elapsed,measurement['omega'],measurement['gravity'],measurement['q'],command)
         tau=r.tick(target,kp=np.full(12,5.),kd=np.full(12,.25))
-        recorder.add(r,target)
+        recorder.add(r,target,kp=np.full(12,5.),kd=np.full(12,.25))
         report['peak_requested_torque_Nm']=max(report['peak_requested_torque_Nm'],float(np.abs(tau).max()))
         report['max_measured_joint_speed']=max(report['max_measured_joint_speed'],float(np.abs(r.d.qvel[6:]).max()))
         if k%13==0:
@@ -54,7 +54,7 @@ def handoff(config,transition,output,video=True,cad=True,contact_model='cad'):
                 if c['intersections'] and report['first_cad_intersections'] is None:report['first_cad_intersections']=dict(time_s=float(r.d.time),pairs=c['intersections'])
             if tilt>35 or r.d.qpos[2]<.045 or not np.isfinite(r.d.qpos).all():report['early_termination']=dict(elapsed_s=elapsed,tilt_deg=tilt,height_m=float(r.d.qpos[2]));break
         if k%26==0:states.append((float(r.d.time),r.d.qpos.copy()))
-    report['dense_dynamics_audit']=recorder.finish(r,output,cad,kp=np.full(12,5.),kd=np.full(12,.25))
+    report['dense_dynamics_audit']=recorder.finish(r,output,cad)
     report['max_motor_body_floor_N']=max(report['max_motor_body_floor_N'],recorder.floor_peak)
     report['max_tilt_deg']=max(report['max_tilt_deg'],recorder.tilt_peak)
     report['environment_steps']=k+1;report['zero_samples']=len(zero);report['forward_samples']=len(forward)
