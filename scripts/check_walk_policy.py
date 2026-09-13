@@ -12,7 +12,7 @@ import yaml
 
 def check(repo, package_share=None):
     controller = package_share or repo / 'ros2_ws/src/neural_controller'
-    manifest = json.loads((repo / 'hardware_testing/walk_gap9_2026-09-11/selection.json').read_text())
+    manifest = json.loads((repo / 'policies/latest.json').read_text())['policies']['leg']
     policy_path = controller / 'launch/policy_walk_v2.json'
     data = policy_path.read_bytes()
     assert not data.startswith(b'version https://git-lfs'), 'Fetch the actual policy with git lfs pull'

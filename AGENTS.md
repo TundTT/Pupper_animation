@@ -1,3 +1,11 @@
+# Latest leg and wheel policies
+
+For locomotion policy work, read [LATEST_POLICIES.md](LATEST_POLICIES.md) first.
+`policies/latest.json` identifies the current backpack + 9 mm leg and wheel exports.
+They replace the existing walking and wheel controller files and are already wired
+in source. Do not substitute historical gap-only policies or the legacy
+`policy_latest.json`. Physical installation and hardware validation remain pending.
+
 # Robot startup and calibration
 
 Latest user request (September 12): replace the saved start pose with the

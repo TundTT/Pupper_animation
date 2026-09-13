@@ -33,3 +33,8 @@ hardware_testing/inverted_triangle/evidence/*.log -whitespace
 scripts/prepare_inverted_triangle.sh text eol=lf
 hardware_testing/inverted_triangle/*.sh text eol=lf
 /hardware_testing/inverted_triangle/native_pi/*.log -whitespace
+
+# Latest locomotion exports are ordinary Git files, available without LFS downloads.
+ros2_ws/src/neural_controller/launch/policy_walk_v2.json -filter diff merge -text
+ros2_ws/src/neural_controller/launch/policy_wheel.json -filter diff merge -text
+policies/*.json -filter diff merge text eol=lf

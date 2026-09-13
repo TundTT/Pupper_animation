@@ -212,8 +212,8 @@ neural_controller_leg_lift:
     model_path: "$(find-pkg-share neural_controller)/launch/policy_leg_lift.json"
 
 # ---------------------------------------------------------------------------
-# Wheeled locomotion policy (branch `wheel`). Hardware-verified 2026-09-01:
-# activates cleanly, drives and turns correctly via the joystick.
+# Latest backpack + 9 mm wheeled policy (codex/backpack-wheel, 2026-09-13).
+# New weights passed training; hardware testing is pending. See LATEST_POLICIES.md.
 # Generated from policy_wheel.json so the two cannot disagree; see
 # mujoco_playground/workspace/README.md's deployment section.
 #
@@ -302,7 +302,8 @@ neural_controller_wheel:
     model_path: "$(find-pkg-share neural_controller)/launch/policy_wheel.json"
 
 # ---------------------------------------------------------------------------
-# New leg-walking policy (branch `leg`, mujoco_playground/workspace/train_walk.py).
+# Latest backpack + 9 mm leg policy (codex/backpack-leg, 2026-09-13).
+# See LATEST_POLICIES.md and policies/latest.json for the current checkpoint.
 # SIM-VALIDATED ONLY as of this addition -- never run on hardware. Do not treat
 # this like the other instances above until it has a hardware test entry of its
 # own; see WALK_V2_TESTING.md for status and how to activate it safely.
@@ -438,7 +439,7 @@ joy_util_node:
     controller_names: ["neural_controller_walk_v2", "neural_controller_wheel", "neural_controller_three_legged", "neural_controller", "neural_controller_leg_lift", "neural_controller_wheel_align_hybrid", "forward_kp_controller", "forward_kd_controller", "forward_position_controller"]
     # All policies start inactive. Options selects this before the first selection.
     default_controller_name: "neural_controller_walk_v2"
-    # Triangle (2): selected 9 mm gap walking; Circle (1): gap wheel policy.
+    # Triangle (2): latest backpack leg policy; Circle (1): latest backpack wheel policy.
     # L2 (6): legacy three-legged mode in the full launch only. Square is unbound.
     switch_button_indices: [2, 1, 6]
 

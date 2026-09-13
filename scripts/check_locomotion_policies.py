@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only checks of selected gap exports and their installed runtime configuration."""
+"""Read-only checks of latest locomotion exports and their installed runtime configuration."""
 import argparse
 import hashlib
 import json
@@ -16,7 +16,7 @@ def main():
     repo = Path(__file__).resolve().parents[1]
     share = args.package_share or repo / 'ros2_ws/src/neural_controller'
     walking = check(repo, share)
-    manifest = json.loads((repo / 'hardware_testing/wheel_gap9_2026-09-11/manifest.json').read_text())
+    manifest = json.loads((repo / 'policies/latest.json').read_text())['policies']['wheel']
     raw = (share / 'launch/policy_wheel.json').read_bytes()
     assert hashlib.sha256(raw).hexdigest() == manifest['export_sha256'], 'Wrong wheel weights or LFS pointer'
     wheel = json.loads(raw)
