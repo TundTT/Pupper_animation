@@ -31,6 +31,19 @@ int main(int argc,char** argv) {
     Pose frozen=c.command;qd.fill(0);for(int k=0;k<20;++k)c.step(1./520,q,qd,{0,0,-1},1,true);
     check(c.command==frozen && c.state==DONE,"done must hold, not repeat");
     c.step(1./520,q,qd,{0,0,-1},-1,true);check(c.state==FAULT && c.gain==0,"stop must release torque");
+    c.stand_only=true;c.reset(q=triangle_roll::home,Pose{});qd.fill(0);
+    for(int k=0;k<1041;++k)c.step(1./520,q,qd,{0,0,-1});
+    c.step(1./520,q,qd,{0,0,-1},1,true);
+    while(c.state==RUNNING) {
+      for(int i=0;i<12;++i){double next=c.command[i];qd[i]=(next-q[i])*520;q[i]=next;}
+      c.step(1./520,q,qd,{0,0,-1});
+    }
+    check(c.state==DONE && c.run_steps==7280,"Stand roll finishes after exactly 14 seconds");
+    check(c.command==triangle_roll::goal && c.kd==triangle_roll::base_kd,"Stand reaches nominal goal and holding damping");
+    q=c.command;qd.fill(0);q[2]+=.05;
+    for(int k=0;k<5200;++k)c.step(1./520,q,qd,{0,0,-1});
+    check(c.state==DONE && c.command==triangle_roll::goal && c.support.elapsed==0 && c.support.offset==Pose{},"Hanging tracking error must never start load adaptation");
+    c.step(1./520,q,qd,{0,0,-1},-1,true);check(c.state==FAULT && c.gain==0,"Stand stop releases torque");
     c.reset(q=triangle_roll::home,Pose{});c.step(.02,q,qd,{0,0,-1});check(c.fault==TIMING,"clock guard");
     c.reset(q,Pose{});c.step(1./520,q,qd,{0,.2,-std::sqrt(.96)});check(c.fault==TILT,"tilt guard");
     c.reset(q,Pose{});qd[2]=2.1;c.step(1./520,q,qd,{0,0,-1});check(c.fault==SPEED,"speed guard");qd.fill(0);

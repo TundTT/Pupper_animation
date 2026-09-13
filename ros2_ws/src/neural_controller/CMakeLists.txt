@@ -75,6 +75,7 @@ if(BUILD_TESTING)
   target_link_libraries(triangle_roll_controller_test neural_controller neural_controller_parameters RTNeural)
   ament_target_dependencies(triangle_roll_controller_test controller_interface hardware_interface rclcpp rclcpp_lifecycle robot_calibration realtime_tools geometry_msgs tf2 sensor_msgs)
   add_test(NAME triangle_roll_lifecycle COMMAND triangle_roll_controller_test ${CMAKE_CURRENT_SOURCE_DIR}/launch/triangle_roll_config.yaml ${CMAKE_CURRENT_SOURCE_DIR}/launch/triangle_roll_plan.json)
+  add_test(NAME triangle_roll_stand_lifecycle COMMAND triangle_roll_controller_test ${CMAKE_CURRENT_SOURCE_DIR}/launch/triangle_roll_config.yaml ${CMAKE_CURRENT_SOURCE_DIR}/launch/triangle_roll_plan.json ${CMAKE_CURRENT_SOURCE_DIR}/launch/triangle_roll_stand.yaml)
 
   add_executable(inverted_triangle_test test/inverted_triangle_test.cpp)
   target_compile_features(inverted_triangle_test PRIVATE cxx_std_17)

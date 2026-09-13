@@ -18,12 +18,16 @@ int main(int argc,char** argv){
   const auto dir=std::filesystem::temp_directory_path()/("triangle-fixture-"+robot_calibration::identity());
   setenv("QUADMORPH_CALIBRATION_DIR",dir.c_str(),1);
   try{
-    require(argc==3,"Expected config YAML and plan JSON");Harness c;rclcpp::NodeOptions options;
-    options.arguments({"--ros-args","--params-file",argv[1],"-p",std::string("model_path:=")+argv[2]});
+    require(argc==3 || argc==4,"Expected config YAML, plan JSON, optional stand config");Harness c;rclcpp::NodeOptions options;
+    std::vector<std::string> args{"--ros-args","--params-file",argv[1],"-p",std::string("model_path:=")+argv[2]};
+    if(argc==4){args.push_back("--params-file");args.push_back(argv[3]);}
+    options.arguments(args);
     {pluginlib::ClassLoader<controller_interface::ControllerInterface> loader("controller_interface","controller_interface::ControllerInterface");
       auto plugin=loader.createSharedInstance("neural_controller/TriangleRollController");
       require(plugin->init("neural_controller_triangle_roll","",520,"",options)==controller_interface::return_type::OK,"Installed plugin init");}
     require(c.init("neural_controller_triangle_roll","",520,"",options)==controller_interface::return_type::OK,"Init");
+    require(c.core().stand_only==(argc==4),"Requested diagnostic mode reaches actual plugin");
+    require(!c.get_node()->set_parameter(rclcpp::Parameter("stand_only",argc!=4)).successful,"Cannot change test mode at runtime");
     require(c.on_configure({})==controller_interface::CallbackReturn::SUCCESS,"Configure");
     auto q=c.core().initial;std::array<double,12> qd{};std::array<std::array<double,5>,12> output{};
     std::vector<hardware_interface::CommandInterface> commands;commands.reserve(60);
@@ -65,6 +69,13 @@ int main(int argc,char** argv){
         require(output[i][1]==0 && output[i][2]==0,"No feed-forward or velocity target");
         require(output[i][3]==(i%3==2?4.:5.) && output[i][4]==c.core().kd[i],"Simulation gains routed exactly");}}
     require(c.core().completed==1 && c.core().state==inverted_triangle::DONE,"Holds completed roll without walking");
+    if(argc==4){
+      require(c.core().run_steps==7280 && c.core().support.elapsed==0,"Stand profile bypasses all load correction");
+      qd.fill(0);q[2]+=.05;
+      for(int n=0;n<520;++n)tick();
+      require(c.core().state==inverted_triangle::DONE && c.core().support.elapsed==0,"Hanging error does not trigger adaptation");
+      for(int i=0;i<12;++i)require(std::abs(output[i][0]-triangle_roll::goal[i])<1e-12,"Stand holds nominal goal");
+    }
     imu[7]=.2;tick();zero();imu[7]=0;tick();zero();
     c.on_deactivate({});zero();q=c.core().initial;qd.fill(0);assign();c.joy();
     require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Reactivation from correct initial pose");

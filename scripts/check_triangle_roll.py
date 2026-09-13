@@ -17,7 +17,7 @@ def check(install=None):
             prefix=Path(subprocess.check_output(['ros2','pkg','prefix',package],text=True).strip()).resolve()
             require(prefix.is_relative_to(install.resolve()),'Wrong overlay: '+package)
             if package=='neural_controller':
-                for name in ['triangle_roll_plan.json','triangle_roll_config.yaml','triangle_roll_trial.launch.py','calibration_hardware.yaml']:
+                for name in ['triangle_roll_plan.json','triangle_roll_config.yaml','triangle_roll_trial.launch.py','triangle_roll_stand.launch.py','triangle_roll_stand.yaml','calibration_hardware.yaml']:
                     require((prefix/'share'/package/'launch'/name).read_bytes().replace(b'\r\n',b'\n')==(controller/'launch'/name).read_bytes().replace(b'\r\n',b'\n'),'Stale installed '+name)
                 require((prefix/'lib/libneural_controller.so').is_file(),'Missing controller library')
             if package=='pupper_v3_description':description=prefix/'share'/package

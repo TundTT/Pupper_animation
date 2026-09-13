@@ -18,6 +18,12 @@ bool TriangleRollController::joy_ready() const {
 controller_interface::CallbackReturn TriangleRollController::on_init() {
   try {
     param_listener_=std::make_shared<ParamListener>(get_node()); params_=param_listener_->get_params();
+    rcl_interfaces::msg::ParameterDescriptor mode_descriptor;
+    mode_descriptor.read_only=true;
+    mode_descriptor.description="Stand diagnostic: 2 s hold + 12 s roll, then hold; no load adaptation or walking.";
+    triangle_.stand_only=get_node()->declare_parameter<bool>("stand_only",false,mode_descriptor);
+    RCLCPP_INFO(get_node()->get_logger(),"Triangle mode: %s",triangle_.stand_only?
+      "STAND ONLY: roll and hold, load correction disabled":"GROUND: roll and adaptive support settle");
     if(!check_param_vector_size() || get_update_rate()!=520 || params_.repeat_action!=1 ||
        !params_.use_imu || params_.gain_multiplier!=1 || params_.estop_kd!=0)
       throw std::runtime_error("Triangle controller requires 520 Hz, IMU, unit gains and zero stop gains");
@@ -45,7 +51,7 @@ controller_interface::CallbackReturn TriangleRollController::on_init() {
     rt_motor_commands_publisher_->msg_.data.resize(60);
     alignment_status_publisher_=get_node()->create_publisher<std_msgs::msg::Float64MultiArray>("~/status",1);
     rt_alignment_status_publisher_=std::make_shared<realtime_tools::RealtimePublisher<std_msgs::msg::Float64MultiArray>>(alignment_status_publisher_);
-    rt_alignment_status_publisher_->msg_.data.resize(15);
+    rt_alignment_status_publisher_->msg_.data.resize(16);
     fault_timer_=get_node()->create_wall_timer(std::chrono::milliseconds(100),[this]() {
       int code=fault_code_.load();
       if(code && code!=reported_fault_)
@@ -155,6 +161,7 @@ void TriangleRollController::publish_triangle() {
     d[7]=last_period_; d[8]=last_imu_age_; d[9]=triangle_.settled([&]{inverted_triangle::Pose q{}; for(int i=0;i<12;++i)q[i]=state_interfaces_map_.at(params_.joint_names[i]).at("position").get().get_value();return q;}(), [&]{inverted_triangle::Pose v{}; for(int i=0;i<12;++i)v[i]=state_interfaces_map_.at(params_.joint_names[i]).at("velocity").get().get_value();return v;}());
     for(int i=0;i<4;++i)d[10+i]=triangle_.support.loads[i];
     d[14]=triangle_.support.elapsed;
+    d[15]=triangle_.stand_only?1.:0.;
     rt_alignment_status_publisher_->unlockAndPublish();
   }
 }

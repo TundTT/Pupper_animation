@@ -62,6 +62,7 @@ struct Support {
 struct Controller {
   Pose initial=home,kp=base_kp,kd=base_kd,offset{},command=home,entry{},velocity{};
   Support support;
+  bool stand_only=false;  // Diagnostic roll+hold, with no ground-load adaptation.
   inverted_triangle::State state=inverted_triangle::FAULT;
   inverted_triangle::Fault fault=inverted_triangle::ACTIVATION;
   int segment=0,completed=0,run_steps=0;
@@ -114,7 +115,7 @@ struct Controller {
       for(int i=0;i<12;++i)kd[i]=base_kd[i]*(k<7280?2.:1.);
       Pose target=home;
       if(k>=1040 && k<7280)for(int i=0;i<12;++i)target[i]=home[i]+smooth((k-1039.)/6240.)*(goal[i]-home[i]);
-      if(k>=7280) {
+      if(k>=7280 && !stand_only) {
         if(k%10==0)support.update(q,qd,command,gravity,10./hz);
         for(int i=0;i<12;++i) {
           double speed=i%3==2?.5:(i%3==0?.45:.65),accel=i%3==2?1.2:2.;
@@ -124,7 +125,10 @@ struct Controller {
         }
       }
       for(int i=0;i<12;++i){velocity[i]=(target[i]-command[i])*hz;command[i]=target[i];}
-      if(run_steps>=23920){state=DONE;completed=1;segment=3;}
+      if(run_steps>=(stand_only?7280:23920)){
+        state=DONE;completed=1;segment=3;
+        if(stand_only)kd=base_kd;
+      }
     }
     for(int i=0;i<12;++i) {
       double torque=gain*(kp[i]*(command[i]-q[i])-kd[i]*qd[i]);max_torque=std::max(max_torque,std::abs(torque));

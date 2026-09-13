@@ -1,0 +1,3 @@
+neural_controller_triangle_roll:
+  ros__parameters:
+    stand_only: true

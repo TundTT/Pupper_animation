@@ -114,6 +114,29 @@ proves foot support. Fault numbers retain the old controller's enum: timing 1,
 sensors 2, tilt 3, tracking 4, speed 5, estimated torque 6, stop/gamepad 7,
 activation 9, invalid command 10.
 
+## Supported stand diagnostic
+
+Use `ros2 launch neural_controller triangle_roll_stand.launch.py` from the
+`install-roll` overlay only after the same confirmed startup/homing procedure.
+This launch still homes hardware; it is not a motor-free preview. The torso must
+be level and securely supported, with all limbs clear of the stand. Verify the
+gamepad stop and capture both the live startup reference and point-up mapping
+before activation, as for the ground trial. No automatic approach is added.
+
+This explicit, read-only `stand_only: true` profile retains the two-second
+activation gain ramp and waits for command 1. It then holds for 2 seconds, rolls
+all four limbs together for 12 seconds, and holds the nominal walking-default
+joint targets with base damping. Ground-load estimation and adaptation never
+run. The normal `triangle_roll_trial.launch.py` retains its 46-second loaded
+sequence. The pinned geometry, plan hash and physical mapping are shared because
+the roll path and its coordinate frame are unchanged; the diagnostic profile is
+a hardware-only addition, not another simulation-validated result.
+
+Status now appends field 15: 1 means stand diagnostic, 0 means ground sequence.
+Field 14 (support elapsed seconds) must remain zero throughout the stand test.
+No walking controller is launched. A supported test can check rotation direction,
+clearance and tracking, but cannot establish balance or ground support.
+
 ## Compatibility and deliberate hardware differences
 
 The existing C++/ROS 520 Hz stack is reused, with no MuJoCo, GPU or Python
