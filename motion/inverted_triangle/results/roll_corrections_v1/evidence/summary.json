@@ -1,0 +1,118 @@
+{
+  "baseline_formation": {
+    "cases": 7,
+    "passed": 3,
+    "failed_gates": {
+      "three_second_walk_pose": 3,
+      "three_second_tip_support": 4,
+      "three_second_settled": 1
+    }
+  },
+  "direct_original_families": {
+    "cases": 36,
+    "passed": 22,
+    "failed_gates": {
+      "three_second_tip_support": 7,
+      "measured_speed": 10
+    }
+  },
+  "support_only_original_families": {
+    "cases": 36,
+    "passed": 26,
+    "failed_gates": {
+      "measured_speed": 10
+    }
+  },
+  "final_original_families": {
+    "cases": 36,
+    "passed": 36,
+    "failed_gates": {}
+  },
+  "final_development_roll": {
+    "cases": 7,
+    "passed": 5,
+    "failed_gates": {
+      "three_second_tip_support": 2
+    }
+  },
+  "unmodified_development_handoff": {
+    "cases": 7,
+    "passed": 0,
+    "failed_gates": {
+      "dense_cad": 7,
+      "sampled_cad": 7,
+      "transition_pass": 2,
+      "torque": 2,
+      "zero_four_tip_support": 2,
+      "zero_pose": 4
+    }
+  },
+  "final_development_handoff": {
+    "cases": 7,
+    "passed": 3,
+    "failed_gates": {
+      "forward_tracking": 4,
+      "transition_pass": 2,
+      "torque": 1,
+      "zero_four_tip_support": 3,
+      "zero_pose": 2
+    }
+  },
+  "length_permutation_and_common_offset_validation": {
+    "cases": 12,
+    "passed": 4,
+    "failed_gates": {
+      "transition_pass": 4,
+      "zero_four_tip_support": 5,
+      "zero_pose": 6,
+      "forward_tracking": 8,
+      "dense_cad": 1,
+      "sampled_cad": 1
+    }
+  },
+  "angle_permutation_validation": {
+    "cases": 6,
+    "passed": 3,
+    "failed_gates": {
+      "zero_pose": 1,
+      "forward_tracking": 3,
+      "transition_pass": 1
+    }
+  },
+  "fresh_shapes_sensors_dynamics": {
+    "cases": 12,
+    "passed": 0,
+    "failed_gates": {
+      "dense_cad": 6,
+      "transition_pass": 2,
+      "sampled_cad": 5,
+      "zero_stable": 12,
+      "zero_pose": 7,
+      "forward_tracking": 8,
+      "zero_four_tip_support": 2
+    }
+  },
+  "expanded_reach_rejected": {
+    "cases": 6,
+    "passed": 0,
+    "failed_gates": {
+      "three_second_walk_pose": 6,
+      "three_second_tip_support": 3
+    }
+  },
+  "fresh_held_out": {
+    "cases": 25,
+    "roll_passed": 19,
+    "continuous_passed": 5
+  },
+  "development_repeat": {
+    "cases": 5,
+    "roll_passed": 4,
+    "continuous_passed": 2
+  },
+  "coverage_all": {
+    "cases": 30,
+    "roll_passed": 23,
+    "continuous_passed": 7
+  }
+}

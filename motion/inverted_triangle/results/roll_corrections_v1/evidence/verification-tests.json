@@ -1,0 +1,10 @@
+{
+  "python_tests_passed": 31,
+  "command": "python -m pytest motion/inverted_triangle/test_model.py motion/inverted_triangle/test_formation.py motion/inverted_triangle/test_roll_to_stand.py motion/inverted_triangle/test_walking_handoff.py -q",
+  "audited_code_revision": "97c948f",
+  "current_candidate_revision": "c1d8342bd9b161b1fcfb3061efb12e7ed594cd3e",
+  "standalone_cpp_test": "UNAVAILABLE: c++ compiler missing",
+  "nominal_model_and_assets_changed": false,
+  "hardware_actions": false,
+  "simulation_code_changed_after_tests": false
+}

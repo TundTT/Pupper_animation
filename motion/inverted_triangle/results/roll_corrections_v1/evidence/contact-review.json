@@ -1,0 +1,538 @@
+[
+  {
+    "case": "diagonal_length_mismatch",
+    "source_directory": "runs/roll_to_stand/damped-development/diagonal_length_mismatch/diagonal_length_mismatch",
+    "sampled_motor_body_backpack_cad_floor_clearance_m": 0.004292411813802008,
+    "minimum_part": "leg_back_l_2",
+    "minimum_time_s": 3.826923076923077,
+    "floor_cad_sample_period_s": 0.025,
+    "tip_arrival_events": [
+      {
+        "time_s": 9.551923076923076,
+        "record_step": 4966,
+        "tip_height_m": 0.0028628579776556196,
+        "load_N": 6.848361204770946,
+        "window_s": [
+          9.05,
+          10.051923076923076
+        ],
+        "normal_impulse_Ns": 4.69743353447889,
+        "peak_step_impulse_Ns": 0.021675995836945655,
+        "max_contact_slip_m_s": 0.10783593760798602,
+        "max_contact_normal_speed_m_s": 0.008042401236406892
+      },
+      {
+        "time_s": 9.026923076923078,
+        "record_step": 4693,
+        "tip_height_m": 0.002857363946603915,
+        "load_N": 5.246916959527499,
+        "window_s": [
+          8.525,
+          9.526923076923078
+        ],
+        "normal_impulse_Ns": 5.37552101110047,
+        "peak_step_impulse_Ns": 0.021540104854061954,
+        "max_contact_slip_m_s": 0.07236074350120911,
+        "max_contact_normal_speed_m_s": 0.011669079733264788
+      },
+      {
+        "time_s": 9.151923076923078,
+        "record_step": 4758,
+        "tip_height_m": 0.00296858788359608,
+        "load_N": 12.03597487914121,
+        "window_s": [
+          8.65,
+          9.651923076923078
+        ],
+        "normal_impulse_Ns": 13.109176348380453,
+        "peak_step_impulse_Ns": 0.039622832243893936,
+        "max_contact_slip_m_s": 0.10382702045015027,
+        "max_contact_normal_speed_m_s": 0.011217162072595264
+      },
+      {
+        "time_s": 9.951923076923077,
+        "record_step": 5174,
+        "tip_height_m": 0.002820256526619616,
+        "load_N": 11.229168494129723,
+        "window_s": [
+          9.45,
+          10.451923076923077
+        ],
+        "normal_impulse_Ns": 9.30597633470936,
+        "peak_step_impulse_Ns": 0.03968753630390679,
+        "max_contact_slip_m_s": 0.15816053400618627,
+        "max_contact_normal_speed_m_s": 0.011105769911622756
+      }
+    ],
+    "scope": "Geometric diagnostics on saved integrated states. Loads/impulses use original physics records; point velocities use FK/Jacobians of those states. No new dynamic acceptance claim."
+  },
+  {
+    "case": "nominal_regression",
+    "source_directory": "runs/roll_to_stand/damped-development/nominal_regression/nominal_regression",
+    "sampled_motor_body_backpack_cad_floor_clearance_m": 0.004292413460278657,
+    "minimum_part": "leg_back_l_2",
+    "minimum_time_s": 3.826923076923077,
+    "floor_cad_sample_period_s": 0.025,
+    "tip_arrival_events": [
+      {
+        "time_s": 9.076923076923077,
+        "record_step": 4719,
+        "tip_height_m": 0.002889562933056415,
+        "load_N": 5.585515508081871,
+        "window_s": [
+          8.575,
+          9.576923076923077
+        ],
+        "normal_impulse_Ns": 5.78679133389417,
+        "peak_step_impulse_Ns": 0.02162236689113682,
+        "max_contact_slip_m_s": 0.07065668399991244,
+        "max_contact_normal_speed_m_s": 0.010065478118793054
+      },
+      {
+        "time_s": 9.176923076923076,
+        "record_step": 4771,
+        "tip_height_m": 0.002969359156347176,
+        "load_N": 5.261947117580859,
+        "window_s": [
+          8.675,
+          9.676923076923076
+        ],
+        "normal_impulse_Ns": 5.308689025682417,
+        "peak_step_impulse_Ns": 0.02169009690906537,
+        "max_contact_slip_m_s": 0.07623331719697099,
+        "max_contact_normal_speed_m_s": 0.01166904193529698
+      },
+      {
+        "time_s": 9.301923076923076,
+        "record_step": 4836,
+        "tip_height_m": 0.00290512514144272,
+        "load_N": 12.86692829672072,
+        "window_s": [
+          8.8,
+          9.801923076923076
+        ],
+        "normal_impulse_Ns": 12.567014411958471,
+        "peak_step_impulse_Ns": 0.03864825140697793,
+        "max_contact_slip_m_s": 0.10382702228035061,
+        "max_contact_normal_speed_m_s": 0.011246644851916572
+      },
+      {
+        "time_s": 9.476923076923077,
+        "record_step": 4927,
+        "tip_height_m": 0.0027322668556597693,
+        "load_N": 15.599274306487011,
+        "window_s": [
+          8.975,
+          9.976923076923077
+        ],
+        "normal_impulse_Ns": 13.174820968029577,
+        "peak_step_impulse_Ns": 0.03855310386867001,
+        "max_contact_slip_m_s": 0.11140425703706315,
+        "max_contact_normal_speed_m_s": 0.022854655048068058
+      }
+    ],
+    "scope": "Geometric diagnostics on saved integrated states. Loads/impulses use original physics records; point velocities use FK/Jacobians of those states. No new dynamic acceptance claim."
+  },
+  {
+    "case": "right_short_left_long",
+    "source_directory": "runs/roll_to_stand/damped-development/right_short_left_long/right_short_left_long",
+    "sampled_motor_body_backpack_cad_floor_clearance_m": 0.004292414673712511,
+    "minimum_part": "leg_back_l_2",
+    "minimum_time_s": 3.826923076923077,
+    "floor_cad_sample_period_s": 0.025,
+    "tip_arrival_events": [
+      {
+        "time_s": 9.551923076923076,
+        "record_step": 4966,
+        "tip_height_m": 0.0029202087895479,
+        "load_N": 6.6191270016158805,
+        "window_s": [
+          9.05,
+          10.051923076923076
+        ],
+        "normal_impulse_Ns": 5.473775723807575,
+        "peak_step_impulse_Ns": 0.025929758041880427,
+        "max_contact_slip_m_s": 0.08554691721453017,
+        "max_contact_normal_speed_m_s": 0.007426019090380956
+      },
+      {
+        "time_s": 9.026923076923078,
+        "record_step": 4693,
+        "tip_height_m": 0.002874205077160935,
+        "load_N": 5.207069086643778,
+        "window_s": [
+          8.525,
+          9.526923076923078
+        ],
+        "normal_impulse_Ns": 5.385646429130114,
+        "peak_step_impulse_Ns": 0.021199692421360997,
+        "max_contact_slip_m_s": 0.06580806439411623,
+        "max_contact_normal_speed_m_s": 0.009550411525130188
+      },
+      {
+        "time_s": 9.851923076923077,
+        "record_step": 5122,
+        "tip_height_m": 0.0029253353733547094,
+        "load_N": 13.710481986743968,
+        "window_s": [
+          9.35,
+          10.351923076923077
+        ],
+        "normal_impulse_Ns": 13.472831414965189,
+        "peak_step_impulse_Ns": 0.040105993698187944,
+        "max_contact_slip_m_s": 0.165594294718159,
+        "max_contact_normal_speed_m_s": 0.009606525835279083
+      },
+      {
+        "time_s": 9.301923076923076,
+        "record_step": 4836,
+        "tip_height_m": 0.0029271221046263396,
+        "load_N": 13.724860405828231,
+        "window_s": [
+          8.8,
+          9.801923076923076
+        ],
+        "normal_impulse_Ns": 12.770589479751985,
+        "peak_step_impulse_Ns": 0.04059385490224883,
+        "max_contact_slip_m_s": 0.10821841384600572,
+        "max_contact_normal_speed_m_s": 0.014900864092422153
+      }
+    ],
+    "scope": "Geometric diagnostics on saved integrated states. Loads/impulses use original physics records; point velocities use FK/Jacobians of those states. No new dynamic acceptance claim."
+  },
+  {
+    "case": "combined_length_and_angle",
+    "source_directory": "runs/roll_to_stand/damped-development/combined_length_and_angle/combined_length_and_angle",
+    "sampled_motor_body_backpack_cad_floor_clearance_m": 0.004292413581825583,
+    "minimum_part": "leg_back_l_2",
+    "minimum_time_s": 3.826923076923077,
+    "floor_cad_sample_period_s": 0.025,
+    "tip_arrival_events": [
+      {
+        "time_s": 9.326923076923077,
+        "record_step": 4849,
+        "tip_height_m": 0.0029999370298452108,
+        "load_N": 5.977086228034259,
+        "window_s": [
+          8.825,
+          9.826923076923077
+        ],
+        "normal_impulse_Ns": 5.345786315581736,
+        "peak_step_impulse_Ns": 0.021101747791597566,
+        "max_contact_slip_m_s": 0.10201248211495346,
+        "max_contact_normal_speed_m_s": 0.010065520420756192
+      },
+      {
+        "time_s": 9.026923076923078,
+        "record_step": 4693,
+        "tip_height_m": 0.0027959576573011458,
+        "load_N": 5.246917191276301,
+        "window_s": [
+          8.525,
+          9.526923076923078
+        ],
+        "normal_impulse_Ns": 5.36892174534816,
+        "peak_step_impulse_Ns": 0.021176610412851377,
+        "max_contact_slip_m_s": 0.07236089253143507,
+        "max_contact_normal_speed_m_s": 0.011669042173229009
+      },
+      {
+        "time_s": 9.151923076923078,
+        "record_step": 4758,
+        "tip_height_m": 0.0029863394597628642,
+        "load_N": 12.035982323707225,
+        "window_s": [
+          8.65,
+          9.651923076923078
+        ],
+        "normal_impulse_Ns": 13.160562230179591,
+        "peak_step_impulse_Ns": 0.039670804472416915,
+        "max_contact_slip_m_s": 0.10382701989294736,
+        "max_contact_normal_speed_m_s": 0.011217162456376129
+      },
+      {
+        "time_s": 10.326923076923077,
+        "record_step": 5369,
+        "tip_height_m": 0.0029714575770723936,
+        "load_N": 9.772207093633982,
+        "window_s": [
+          9.825,
+          10.826923076923077
+        ],
+        "normal_impulse_Ns": 7.649878744414033,
+        "peak_step_impulse_Ns": 0.03743990457192675,
+        "max_contact_slip_m_s": 0.16127017367882474,
+        "max_contact_normal_speed_m_s": 0.009331467316600048
+      }
+    ],
+    "scope": "Geometric diagnostics on saved integrated states. Loads/impulses use original physics records; point velocities use FK/Jacobians of those states. No new dynamic acceptance claim."
+  },
+  {
+    "case": "front_short_rear_long",
+    "source_directory": "runs/roll_to_stand/damped-development/front_short_rear_long/front_short_rear_long",
+    "sampled_motor_body_backpack_cad_floor_clearance_m": 0.004292414761266197,
+    "minimum_part": "leg_back_l_2",
+    "minimum_time_s": 3.826923076923077,
+    "floor_cad_sample_period_s": 0.025,
+    "tip_arrival_events": [
+      {
+        "time_s": 9.526923076923078,
+        "record_step": 4953,
+        "tip_height_m": 0.002999819418627876,
+        "load_N": 6.981047876563498,
+        "window_s": [
+          9.025,
+          10.026923076923078
+        ],
+        "normal_impulse_Ns": 5.736526916567672,
+        "peak_step_impulse_Ns": 0.021792676527941608,
+        "max_contact_slip_m_s": 0.08996507362267284,
+        "max_contact_normal_speed_m_s": 0.008677802104057518
+      },
+      {
+        "time_s": 9.776923076923078,
+        "record_step": 5083,
+        "tip_height_m": 0.0029786521609105887,
+        "load_N": 4.810545091464392,
+        "window_s": [
+          9.275,
+          10.276923076923078
+        ],
+        "normal_impulse_Ns": 6.2251815099875145,
+        "peak_step_impulse_Ns": 0.024727832536388186,
+        "max_contact_slip_m_s": 0.06275845226303055,
+        "max_contact_normal_speed_m_s": 0.008168493676940116
+      },
+      {
+        "time_s": 9.151923076923078,
+        "record_step": 4758,
+        "tip_height_m": 0.002968588227964565,
+        "load_N": 12.035987730504186,
+        "window_s": [
+          8.65,
+          9.651923076923078
+        ],
+        "normal_impulse_Ns": 12.935382848624936,
+        "peak_step_impulse_Ns": 0.03864824360787764,
+        "max_contact_slip_m_s": 0.10382703308539898,
+        "max_contact_normal_speed_m_s": 0.01121716655816482
+      },
+      {
+        "time_s": 9.301923076923076,
+        "record_step": 4836,
+        "tip_height_m": 0.002861198279903887,
+        "load_N": 13.349636518317347,
+        "window_s": [
+          8.8,
+          9.801923076923076
+        ],
+        "normal_impulse_Ns": 13.081495720213972,
+        "peak_step_impulse_Ns": 0.0384528809912317,
+        "max_contact_slip_m_s": 0.11236218344362159,
+        "max_contact_normal_speed_m_s": 0.022854653495297774
+      }
+    ],
+    "scope": "Geometric diagnostics on saved integrated states. Loads/impulses use original physics records; point velocities use FK/Jacobians of those states. No new dynamic acceptance claim."
+  },
+  {
+    "case": "one_front_leg_10mm_short",
+    "source_directory": "runs/roll_to_stand/damped-development/one_front_leg_10mm_short/one_front_leg_10mm_short",
+    "sampled_motor_body_backpack_cad_floor_clearance_m": 0.004292412817118091,
+    "minimum_part": "leg_back_l_2",
+    "minimum_time_s": 3.826923076923077,
+    "floor_cad_sample_period_s": 0.025,
+    "tip_arrival_events": [
+      {
+        "time_s": 22.051923076923078,
+        "record_step": 11466,
+        "tip_height_m": -4.7180592607214134e-05,
+        "load_N": 1.0760445114467567,
+        "window_s": [
+          21.55,
+          22.551923076923078
+        ],
+        "normal_impulse_Ns": 0.40570537704162685,
+        "peak_step_impulse_Ns": 0.005566653811683273,
+        "max_contact_slip_m_s": 0.002042264033085305,
+        "max_contact_normal_speed_m_s": 0.009657492779290507
+      },
+      {
+        "time_s": 9.176923076923076,
+        "record_step": 4771,
+        "tip_height_m": 0.002969359826437569,
+        "load_N": 5.261946997251026,
+        "window_s": [
+          8.675,
+          9.676923076923076
+        ],
+        "normal_impulse_Ns": 5.505294927012012,
+        "peak_step_impulse_Ns": 0.021763261279999765,
+        "max_contact_slip_m_s": 0.07236074372633278,
+        "max_contact_normal_speed_m_s": 0.01166910344138259
+      },
+      {
+        "time_s": 9.301923076923076,
+        "record_step": 4836,
+        "tip_height_m": 0.002905283116943838,
+        "load_N": 12.948713744525097,
+        "window_s": [
+          8.8,
+          9.801923076923076
+        ],
+        "normal_impulse_Ns": 12.910469579796805,
+        "peak_step_impulse_Ns": 0.03864825016910763,
+        "max_contact_slip_m_s": 0.10382702305737757,
+        "max_contact_normal_speed_m_s": 0.011217166598533264
+      },
+      {
+        "time_s": 9.451923076923077,
+        "record_step": 4914,
+        "tip_height_m": 0.0028625344042629217,
+        "load_N": 13.230566874791297,
+        "window_s": [
+          8.95,
+          9.951923076923077
+        ],
+        "normal_impulse_Ns": 12.20276792204834,
+        "peak_step_impulse_Ns": 0.03837177710722943,
+        "max_contact_slip_m_s": 0.15964331139726293,
+        "max_contact_normal_speed_m_s": 0.022854662118347753
+      }
+    ],
+    "scope": "Geometric diagnostics on saved integrated states. Loads/impulses use original physics records; point velocities use FK/Jacobians of those states. No new dynamic acceptance claim."
+  },
+  {
+    "case": "angle_only_assumed_5deg",
+    "source_directory": "runs/roll_to_stand/damped-development/angle_only_assumed_5deg/angle_only_assumed_5deg",
+    "sampled_motor_body_backpack_cad_floor_clearance_m": 0.004292412913108709,
+    "minimum_part": "leg_back_l_2",
+    "minimum_time_s": 3.826923076923077,
+    "floor_cad_sample_period_s": 0.025,
+    "tip_arrival_events": [
+      {
+        "time_s": 8.976923076923077,
+        "record_step": 4667,
+        "tip_height_m": 0.0029236728382147706,
+        "load_N": 4.6815525270514415,
+        "window_s": [
+          8.475,
+          9.476923076923077
+        ],
+        "normal_impulse_Ns": 5.753964666318148,
+        "peak_step_impulse_Ns": 0.02591851484846327,
+        "max_contact_slip_m_s": 0.048763901261210545,
+        "max_contact_normal_speed_m_s": 0.007425972397592029
+      },
+      {
+        "time_s": 9.076923076923077,
+        "record_step": 4719,
+        "tip_height_m": 0.0029052473921339916,
+        "load_N": 5.253001547087792,
+        "window_s": [
+          8.575,
+          9.576923076923077
+        ],
+        "normal_impulse_Ns": 5.2332944417590115,
+        "peak_step_impulse_Ns": 0.021453953418179857,
+        "max_contact_slip_m_s": 0.07313317348128824,
+        "max_contact_normal_speed_m_s": 0.009550425435143544
+      },
+      {
+        "time_s": 9.426923076923076,
+        "record_step": 4901,
+        "tip_height_m": 0.002778221854322159,
+        "load_N": 13.908100957935398,
+        "window_s": [
+          8.925,
+          9.926923076923076
+        ],
+        "normal_impulse_Ns": 12.263422971167843,
+        "peak_step_impulse_Ns": 0.03851325355033283,
+        "max_contact_slip_m_s": 0.10446656739684809,
+        "max_contact_normal_speed_m_s": 0.013507436921009319
+      },
+      {
+        "time_s": 9.726923076923077,
+        "record_step": 5057,
+        "tip_height_m": 0.0029066326402793427,
+        "load_N": 12.370305209054187,
+        "window_s": [
+          9.225,
+          10.226923076923077
+        ],
+        "normal_impulse_Ns": 13.378437934998086,
+        "peak_step_impulse_Ns": 0.04059772683572458,
+        "max_contact_slip_m_s": 0.1832868885907962,
+        "max_contact_normal_speed_m_s": 0.011061611360713793
+      }
+    ],
+    "scope": "Geometric diagnostics on saved integrated states. Loads/impulses use original physics records; point velocities use FK/Jacobians of those states. No new dynamic acceptance claim."
+  },
+  {
+    "case": "combined-seed-22",
+    "source_directory": "runs/roll_to_stand/damped-original-families/combined-seed-22/combined-seed-22",
+    "sampled_motor_body_backpack_cad_floor_clearance_m": 0.001268189896239405,
+    "minimum_part": "leg_back_r_2",
+    "minimum_time_s": 0.0019230769230769232,
+    "floor_cad_sample_period_s": 0.025,
+    "tip_arrival_events": [
+      {
+        "time_s": 9.176923076923076,
+        "record_step": 4771,
+        "tip_height_m": 0.0028860381030513943,
+        "load_N": 5.4754025295473125,
+        "window_s": [
+          8.675,
+          9.676923076923076
+        ],
+        "normal_impulse_Ns": 5.544096911428461,
+        "peak_step_impulse_Ns": 0.020838197979524638,
+        "max_contact_slip_m_s": 0.08019584593347526,
+        "max_contact_normal_speed_m_s": 0.009124597881719848
+      },
+      {
+        "time_s": 9.326923076923077,
+        "record_step": 4849,
+        "tip_height_m": 0.0026809007589576536,
+        "load_N": 5.453022553532708,
+        "window_s": [
+          8.825,
+          9.826923076923077
+        ],
+        "normal_impulse_Ns": 5.308200893821538,
+        "peak_step_impulse_Ns": 0.021463504535236308,
+        "max_contact_slip_m_s": 0.07194892743467803,
+        "max_contact_normal_speed_m_s": 0.009774382214612513
+      },
+      {
+        "time_s": 9.551923076923076,
+        "record_step": 4966,
+        "tip_height_m": 0.0028838369362642682,
+        "load_N": 15.860178312963411,
+        "window_s": [
+          9.05,
+          10.051923076923076
+        ],
+        "normal_impulse_Ns": 14.288741587053018,
+        "peak_step_impulse_Ns": 0.04348261558413144,
+        "max_contact_slip_m_s": 0.11755573496827991,
+        "max_contact_normal_speed_m_s": 0.021096630568133313
+      },
+      {
+        "time_s": 9.726923076923077,
+        "record_step": 5057,
+        "tip_height_m": 0.002923951549893021,
+        "load_N": 16.731242824907117,
+        "window_s": [
+          9.225,
+          10.226923076923077
+        ],
+        "normal_impulse_Ns": 15.24154097654772,
+        "peak_step_impulse_Ns": 0.04402391749152635,
+        "max_contact_slip_m_s": 0.12694648543762296,
+        "max_contact_normal_speed_m_s": 0.021106546657089685
+      }
+    ],
+    "scope": "Geometric diagnostics on saved integrated states. Loads/impulses use original physics records; point velocities use FK/Jacobians of those states. No new dynamic acceptance claim."
+  }
+]

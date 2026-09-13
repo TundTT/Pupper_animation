@@ -1,0 +1,7 @@
+{
+  "files": 1156,
+  "sha256": "3f4aaf4b84e1d617dc22908788909d212aaede9f56cbd29aeab65c072b0aa3b8",
+  "bytes": 5120341,
+  "full_dynamics_location": "W&B artifacts and original local run directories; indexed by case and run ID",
+  "directory_label_note": "Some directories use held-out prefix but contain five exact development repeats. Index role explicitly separates 25 fresh conditions from those five regressions."
+}

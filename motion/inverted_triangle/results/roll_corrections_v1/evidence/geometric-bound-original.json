@@ -1,0 +1,130 @@
+{
+  "source_hashes": {
+    "robust_search.py": "ff7a87892233162f8f37d7414c5ecb96d6488fb0fd720db856f52e59259306ef",
+    "review_replay.py": "f77914ea6e010455a3409127843598b735e3250b8cc17e5da9dc49d136f0aa25",
+    "roll_to_stand.py": "a1c67886cf214afa0b8d3c94c0cc5eeb0ea8334c5dd5a9eee3199e553f4651fd",
+    "build_model.py": "9cd268b6f6ea3a6d6ebb6b39781eea1819fde850a8bb399ed593fb086f8a0c76",
+    "test_roll_to_stand.py": "50af7e2f5b7f527e14786f7650072a23519c5bc40497f6580268f47f7033faec",
+    "search_flip.py": "1df8d059fec6d40185b27a108a2d12ba3b5e75922e63ee535600f4b0a02d8335",
+    "__init__.py": "3703e5fa655d1cbf26ee959451b519e5301d5cb0e6c397857b931288db202aa1",
+    "policy_handoff.py": "57393cc46240db0c599861d7b3deb16eebdaab1ab1c071ab69b43ec00248df34",
+    "adaptive_support.py": "9cb0c233504ee6bf4ef34e24b8f14ddcf1b9365c5f998ba11548376fa757eb99",
+    "extended_search.py": "a163347e0d620e978d8cb82529ca9f516cee83e0d2d2ea1e06a956175c21920e",
+    "formation.py": "2a6a2ac1a8837ef6fe70dc5a04ce66581a59ba10cb822107edf83c97aac42859",
+    "walking_policy.py": "104fcfba6b842e70180b74fad193b9c9038e52a4a3869f962f2c184a2f384a11",
+    "sequence.py": "0b58becca853b3c069460f3a059253fa711baecf3c072d7e73cad59a87a52a9f",
+    "core.py": "6d501673cbf3cd7168a76e4faecf34321b9cc98f964ba11fd0067158b3fef8f9",
+    "check_wheel_clearance.py": "d3ac6cfed37be76d523e79a65d50c17d6dd952d196c478cbd11344ed5e7c5116",
+    "settling_feedback.py": "0526d83d5dabd237725c72b157ac5076aa69f6188c95e58da0e2bd781ac2824f",
+    "simulate.py": "39115651afe57846e373bc863335b98602e88b89774d7c59200ec2ced7f15237",
+    "render_roll_reference.py": "88022cb0eb2a2b41dd8bc83cf21f9f18b20af354df17df61d4aad13cdbb76079",
+    "test_formation.py": "32b3627c4f913afe68031081d6b70c583a8c0d6def1601488c03eb7e22c6d127",
+    "contact_reference.py": "e6483bdbb9990cf72730b210ea7b2320173d49fa8de33d82c7ce656ad1fe394a",
+    "test_walking_handoff.py": "d94b7a42c9f8ff9f3ea2271ea1274198e5c153891ac2f4211c01fa715cf5db71",
+    "experiment.py": "a5c348c0278541b7d81d6df4e61fdaa37158fea871207d35a385b6c745785bac",
+    "search_lift.py": "15d27e0443e65fc607c3c20cfe156c41befe9355b20d4983bf418be90d4dfe61",
+    "robustness.py": "af3d891d40c94e4c301917da443eefc64a520bdf8c3c9a75f9b8b0107a1a66e6",
+    "clearance.py": "f8be81a07566cb851ddf4fe81fd351b170f770770750c58d483c80808a2f7a3f",
+    "sensors.py": "145e967e0532c4d5ad44cc6f675a08b042651743a7c3a58ba9d59e2b1178adf5",
+    "roll_audit.py": "33871626b155b48901d035652323f44e1055f0a9a4bbe0e13d6bcff3bf8bac1b",
+    "test_model.py": "ba5649103296b9f1c74ce4a7f767a57bda79919af555085c397bf323c30b2784",
+    "model.xml": "c274c1b3ddba73b58c89e8dded10d2d2d8e0fda37af77f631d4bedefa2d177e2",
+    "source_manifest.json": "f5e45c1d5dc263619c146bccf0f6971a9fbf68144639b59c4c57eb6e96f46f19",
+    "requirements.txt": "e5b7a57890d64abfb4f88737b8ee0b0b8dae458807dced6f43d009bfeeb7b147",
+    "requirements.lock.txt": "18504a2fd27ad085db0f51f0502d8df143ce8304147e7f5d94968c5601951b9c"
+  },
+  "results": [
+    {
+      "case": {
+        "name": "diagonal_length_mismatch",
+        "direction": "forward",
+        "seconds": 12.0,
+        "shoulder_bump": 0.0,
+        "splay_power": 1.0,
+        "formation": {
+          "length_mm": [
+            -5,
+            5,
+            5,
+            -5
+          ],
+          "bend_deg": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "pose_cap_rad": 0.1,
+      "grid_min_interval_gap_m": 0.0016670543911711244,
+      "joint_interpolation_error_m": 5.859375000000001e-05,
+      "orientation_lipschitz_error_m": 0.0007344857389789816,
+      "conservative_rigid_coplanarity_gap_lower_bound_m": 0.0009325686521921428,
+      "worst_grid_normal": [
+        -0.004349159405002051,
+        0.0021745797025010116,
+        0.9999881779379131
+      ],
+      "downstream_point_radius_bounds_m": [
+        0.16365359756470657,
+        0.17102031951668795,
+        0.17102031951668797,
+        0.1636535975647066
+      ],
+      "uniform_second_derivative_bound_m": 0.25,
+      "normal_square_contains_full_8_degree_cone": true,
+      "normal_grid": 129,
+      "joint_grid_per_axis": 9,
+      "roundoff_allowance_m": 1e-08,
+      "rigid_four_contact_infeasible": true,
+      "limitations": "Numerical conservative FK bound with 10 nm roundoff allowance, not formal interval arithmetic. Proves separation of rigid-floor contact height intervals; does not independently prove infeasibility of soft-penetration MuJoCo equilibria or load stability. No dynamic gate is waived."
+    },
+    {
+      "case": {
+        "name": "combined_length_and_angle",
+        "direction": "forward",
+        "seconds": 12.0,
+        "shoulder_bump": 0.0,
+        "splay_power": 1.0,
+        "formation": {
+          "length_mm": [
+            -5,
+            5,
+            5,
+            -5
+          ],
+          "bend_deg": [
+            3,
+            -3,
+            -3,
+            3
+          ]
+        }
+      },
+      "pose_cap_rad": 0.1,
+      "grid_min_interval_gap_m": 0.0011361050219078628,
+      "joint_interpolation_error_m": 5.859375000000001e-05,
+      "orientation_lipschitz_error_m": 0.000733656646468766,
+      "conservative_rigid_coplanarity_gap_lower_bound_m": 0.0004024483754390968,
+      "worst_grid_normal": [
+        -0.004349159405002051,
+        0.0021745797025010116,
+        0.9999881779379131
+      ],
+      "downstream_point_radius_bounds_m": [
+        0.16415062508740436,
+        0.17050034853122836,
+        0.17050034853122836,
+        0.16415062508740436
+      ],
+      "uniform_second_derivative_bound_m": 0.25,
+      "normal_square_contains_full_8_degree_cone": true,
+      "normal_grid": 129,
+      "joint_grid_per_axis": 9,
+      "roundoff_allowance_m": 1e-08,
+      "rigid_four_contact_infeasible": true,
+      "limitations": "Numerical conservative FK bound with 10 nm roundoff allowance, not formal interval arithmetic. Proves separation of rigid-floor contact height intervals; does not independently prove infeasibility of soft-penetration MuJoCo equilibria or load stability. No dynamic gate is waived."
+    }
+  ]
+}
