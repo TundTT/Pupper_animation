@@ -12,13 +12,16 @@ POLICY=HERE.parents[1]/'ros2_ws/src/neural_controller/launch/policy_walk_v2.json
 EXPORT_SHA256='854ac8ba4ffc305079b7f6f7b52187a211413c3cdb18f0de016dd819ff2450a8'
 
 class WalkingPolicy:
-    def __init__(self,initial_q,init_seconds=2.,fade_seconds=2.):
+    def __init__(self,initial_q,init_seconds=2.,fade_seconds=2.,action_multiplier=None):
         if hashlib.sha256(POLICY.read_bytes()).hexdigest()!=EXPORT_SHA256:raise ValueError('Walking export mismatch')
         self.spec=json.loads(POLICY.read_text());self.layers=[]
         for layer in self.spec['layers']:
             if layer['type']!='dense':raise ValueError('Unsupported export layer')
             w,b=layer['weights'];self.layers.append((np.array(w,dtype=np.float32),np.array(b,dtype=np.float32),layer['activation']))
         self.home=np.array(self.spec['default_joint_pos']);self.scale=np.array(self.spec['action_scale'])
+        self.multiplier=np.ones(12) if action_multiplier is None else np.asarray(action_multiplier,dtype=float)
+        if self.multiplier.shape==(3,):self.multiplier=np.tile(self.multiplier,4)
+        if self.multiplier.shape!=(12,) or not np.isfinite(self.multiplier).all() or np.any((self.multiplier<=0)|(self.multiplier>1)):raise ValueError('Walking multipliers must be 12 (or 3 repeated) values in (0,1]')
         self.initial_q=np.array(initial_q);self.init_seconds=init_seconds;self.fade_seconds=fade_seconds
         self.history=None;self.last_action=np.zeros(12,dtype=np.float32);self.last_target=self.initial_q.copy();self.last_observation=None
     def infer(self,observation):
@@ -39,6 +42,6 @@ class WalkingPolicy:
         self.last_observation=self.history.reshape(-1).copy()
         action=self.infer(self.last_observation)
         fade=min((elapsed-self.init_seconds)/self.fade_seconds,1.) if self.fade_seconds else 1.
-        self.last_action=fade*action
+        self.last_action=fade*action*self.multiplier
         self.last_target=np.clip(self.home+self.last_action*self.scale,self.spec['joint_lower_limits'],self.spec['joint_upper_limits'])
         return self.last_target.copy()

@@ -26,12 +26,12 @@ def handoff(config,transition,output,video=True,cad=True,contact_model='cad'):
         np.testing.assert_allclose(r.d.xpos,original.d.xpos,atol=1e-12)
         boundary=dict(model_changed=True,old_model_sha256=start['model_sha256'],new_model_sha256=r.manifest['model_sha256'],state_exact=True,reason='Explicit contact-model counterfactual; primary acceptance uses unchanged CAD-floor physics')
     actual_start=r.snapshot(home);(output/'start_state.json').write_text(json.dumps(actual_start,indent=2))
-    policy=WalkingPolicy(r.d.qpos[7:].copy());sensor=JointImuSensors(scenario.get('sensors'),config.get('seed',0));checker=CADClearance(r) if cad else None
+    policy=WalkingPolicy(r.d.qpos[7:].copy(),action_multiplier=config.get('walking_action_multiplier'));sensor=JointImuSensors(scenario.get('sensors'),config.get('seed',0));checker=CADClearance(r) if cad else None
     zero_seconds=12.;ramp_seconds=1.;forward_seconds=7.;steps=round((zero_seconds+ramp_seconds+forward_seconds)*520)
     from .roll_audit import RollRecorder
     recorder=RollRecorder(r,home)
     rows=[];states=[];zero=[];forward=[];target=home.copy();start_xy=r.d.qpos[:2].copy();forward_start=None
-    report=dict(config=config,boundary=boundary,model_manifest=r.manifest,export_sha256=EXPORT_SHA256,source_hashes=provenance(),environment=versions(),simulation_only=True,hardware_validated=False,contact_model=contact_model,transition_gates=old_audit['gates'],transition_pass=all(v is True for v in old_audit['gates'].values()),peak_requested_torque_Nm=0.,max_tilt_deg=0.,max_motor_body_floor_N=0.,max_measured_joint_speed=0.,minimum_cad_gap_m=1.,first_cad_intersections=None,early_termination=None,physics_hz=520,policy_hz=52,training_policy_hz=50,init_seconds=2.,fade_seconds=2.)
+    report=dict(config=config,boundary=boundary,model_manifest=r.manifest,export_sha256=EXPORT_SHA256,source_hashes=provenance(),environment=versions(),simulation_only=True,hardware_validated=False,contact_model=contact_model,walking_action_multiplier=policy.multiplier.tolist(),unmodified_runtime_actions=bool(np.all(policy.multiplier==1)),executor_change=None if np.all(policy.multiplier==1) else 'Multiply faded action before target scaling and store effective action in history; simulation-only correction not installed in runtime',transition_gates=old_audit['gates'],transition_pass=all(v is True for v in old_audit['gates'].values()),peak_requested_torque_Nm=0.,max_tilt_deg=0.,max_motor_body_floor_N=0.,max_measured_joint_speed=0.,minimum_cad_gap_m=1.,first_cad_intersections=None,early_termination=None,physics_hz=520,policy_hz=52,training_policy_hz=50,init_seconds=2.,fade_seconds=2.)
     for k in range(steps):
         elapsed=k/520;measurement=sensor.read(r)
         command=np.array([.1*np.clip((elapsed-zero_seconds)/ramp_seconds,0,1),0,0])

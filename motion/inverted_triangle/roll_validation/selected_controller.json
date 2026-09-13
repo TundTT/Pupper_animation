@@ -1,0 +1,10 @@
+{
+  "hold_seconds": 32.0,
+  "balanced_support": {
+    "estimate_mode": "hybrid",
+    "norm_delay_s": 2.0,
+    "force_gain": 0.003,
+    "reference_cap": 0.075,
+    "integral_gain": 0.25
+  }
+}

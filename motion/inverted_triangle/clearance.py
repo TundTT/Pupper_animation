@@ -9,7 +9,7 @@ from .core import HERE,LEGS
 
 class CADClearance:
     def __init__(self,robot):
-        self.r=robot;self.objects={};self.body_ids={}
+        self.r=robot;self.objects={};self.body_ids={};self.local_vertices={}
         root=ET.fromstring(robot.model_xml)
         meshes={e.get('name'):e for e in root.iter('mesh')}
         for body in root.iter('body'):
@@ -25,7 +25,7 @@ class CADClearance:
                 R=np.empty(9);mj.mju_quat2Mat(R,quat)
                 v=v@R.reshape(3,3).T+np.fromstring(g.get('pos','0 0 0'),sep=' ')
                 b=fcl.BVHModel();b.beginModel();b.addSubModel(v.astype(np.float64),t.faces.astype(np.int32));b.endModel()
-                name=body.get('name');self.objects[name]=fcl.CollisionObject(b);self.body_ids[name]=robot.m.body(name).id
+                name=body.get('name');self.local_vertices[name]=v.copy();self.objects[name]=fcl.CollisionObject(b);self.body_ids[name]=robot.m.body(name).id
         self.pairs=[]
         for leg in LEGS:
             name=f'leg_{leg}_3'
@@ -34,16 +34,27 @@ class CADClearance:
                 pair=tuple(sorted((name,other)))
                 if pair not in self.pairs:self.pairs.append(pair)
     def measure(self):
+        bounds={}
         for name,obj in self.objects.items():
             bid=self.body_ids[name]
-            obj.setTransform(fcl.Transform(self.r.d.xmat[bid].reshape(3,3),self.r.d.xpos[bid]))
+            R=self.r.d.xmat[bid].reshape(3,3);position=self.r.d.xpos[bid]
+            obj.setTransform(fcl.Transform(R,position))
+            points=self.local_vertices[name]@R.T+position
+            bounds[name]=(points.min(axis=0),points.max(axis=0))
         lowest=(float('inf'),None);front_rear=(float('inf'),None);hits=[]
         for a,b in self.pairs:
-            count=fcl.collide(self.objects[a],self.objects[b],fcl.CollisionRequest(num_max_contacts=1),fcl.CollisionResult())
+            is_front_rear=a.endswith('_3') and b.endswith('_3') and (('front_' in a and 'back_' in b) or ('back_' in a and 'front_' in b))
+            alo,ahi=bounds[a];blo,bhi=bounds[b]
+            lower=float(np.linalg.norm(np.maximum(0,np.maximum(alo-bhi,blo-ahi))))
+            # Outward roundoff allowance: AABB separation is a conservative
+            # lower bound; skip only pairs unable to affect either minimum.
+            lower=max(0.,lower-1e-10)
+            if lower>lowest[0] and (not is_front_rear or lower>front_rear[0]):continue
+            count=0 if lower>0 else fcl.collide(self.objects[a],self.objects[b],fcl.CollisionRequest(num_max_contacts=1),fcl.CollisionResult())
             gap=0. if count else float(fcl.distance(self.objects[a],self.objects[b],fcl.DistanceRequest(),fcl.DistanceResult()))
             if count:hits.append([a,b])
             if gap<lowest[0]:lowest=(gap,[a,b])
-            if a.endswith('_3') and b.endswith('_3') and (('front_' in a and 'back_' in b) or ('back_' in a and 'front_' in b)):
+            if is_front_rear:
                 if gap<front_rear[0]:front_rear=(gap,[a,b])
         return dict(minimum_m=lowest[0],nearest_pair=lowest[1],intersections=hits,
                     front_rear_minimum_m=front_rear[0],front_rear_nearest_pair=front_rear[1])

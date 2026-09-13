@@ -42,3 +42,30 @@ def test_capsule_reference_preserves_mass_geometry_and_rejects_restore():
         g=b.geoms[i]
         np.testing.assert_allclose(b.m.geom_size[g,:2],[.012,.0193249805],atol=1e-10)
     with pytest.raises(ValueError,match='model/friction'):b.restore(a.snapshot(a.initial[7:]))
+
+def test_action_correction_history_is_effective_action():
+    p=WalkingPolicy(np.zeros(12),action_multiplier=[.8,.8,.6]);p.target(4,[0]*3,[0,0,-1],p.home,[0]*3)
+    effective=p.last_action.copy();p.target(5,[0]*3,[0,0,-1],p.home,[0]*3)
+    np.testing.assert_allclose(p.history[0,-12:],effective,atol=1e-7)
+
+def test_broadphase_preserves_all_cad_minima_and_intersections():
+    import fcl,mujoco as mj
+    from .clearance import CADClearance
+    r=Robot();checker=CADClearance(r);rng=np.random.default_rng(27);collisions=0
+    for k in range(19):
+        r.d.qpos[7:]+=rng.uniform(-.2,.2,12)
+        if k==18:
+            import json
+            from .core import HERE
+            r.d.qpos[:]=json.loads((HERE/'roll_validation/cad_intersection_fixture.json').read_text())['qpos']
+        mj.mj_forward(r.m,r.d);actual=checker.measure()
+        lowest=(float('inf'),None);front=(float('inf'),None);hits=[]
+        for a,b in checker.pairs:
+            count=fcl.collide(checker.objects[a],checker.objects[b],fcl.CollisionRequest(num_max_contacts=1),fcl.CollisionResult())
+            gap=0. if count else float(fcl.distance(checker.objects[a],checker.objects[b],fcl.DistanceRequest(),fcl.DistanceResult()))
+            if count:hits.append([a,b])
+            if gap<lowest[0]:lowest=(gap,[a,b])
+            if a.endswith('_3') and b.endswith('_3') and (('front_' in a and 'back_' in b) or ('back_' in a and 'front_' in b)) and gap<front[0]:front=(gap,[a,b])
+        assert actual==dict(minimum_m=lowest[0],nearest_pair=lowest[1],intersections=hits,front_rear_minimum_m=front[0],front_rear_nearest_pair=front[1])
+        collisions+=bool(hits)
+    assert collisions>0

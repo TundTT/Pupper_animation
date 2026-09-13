@@ -109,6 +109,9 @@ def probe(config, output, video=False, cad=False):
     if config.get('adaptive_support') is not None:
         from .adaptive_support import AdaptiveSupport
         feedback=AdaptiveSupport(goal,config['adaptive_support'])
+    if config.get('balanced_support') is not None:
+        from .balanced_support import BalancedSupport
+        feedback=BalancedSupport(goal,config['balanced_support'])
     trace=[];states=[];hold=[]
     from .roll_audit import RollRecorder
     recorder=RollRecorder(r,home)
