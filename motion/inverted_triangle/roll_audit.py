@@ -24,9 +24,9 @@ class RollRecorder:
         for k in range(r.d.ncon):
             c=r.d.contact[k]
             if r.floor not in (c.geom1,c.geom2):continue
-            g=c.geom2 if c.geom1==r.floor else c.geom1;ids=np.flatnonzero(r.geoms==g)
-            if not ids.size:continue
-            i=ids[0];jac=np.zeros((3,r.m.nv));rot=np.zeros_like(jac)
+            g=c.geom2 if c.geom1==r.floor else c.geom1;i=r.contact_owners.get(g)
+            if i is None:continue
+            jac=np.zeros((3,r.m.nv));rot=np.zeros_like(jac)
             mj.mj_jac(r.m,r.d,jac,rot,c.pos,r.bodies[i]);v=jac@r.d.qvel
             self.max_slip[i]=max(self.max_slip[i],np.linalg.norm(v[:2]));self.max_normal_speed[i]=max(self.max_normal_speed[i],abs(v[2]))
     def finish(self,r,output,cad=True):

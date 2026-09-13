@@ -1,0 +1,315 @@
+{
+  "config": {
+    "seed": 13,
+    "entry_seconds": 4.0,
+    "pose_noise_deg": 2.0,
+    "formation": {
+      "support_extension_mm": [
+        4.169795377930464,
+        4.08123714563503,
+        2.982083070899299,
+        2.6135892635031888
+      ],
+      "tip_shortening_mm": [
+        8.786056536306992,
+        8.276265982317161,
+        5.466796895424898,
+        5.637585705072215
+      ],
+      "bend_deg": [
+        2.9088208514253324,
+        -1.2822203750029775,
+        1.881966738233877,
+        -2.5055523367121504
+      ]
+    }
+  },
+  "boundary": {
+    "source_kind": "synthetic_alignment_neutral",
+    "actual_alignment_replay": false,
+    "pose_perturbation_rad": [
+      0.02546767598707981,
+      0.024804794904722982,
+      0.021713529438120396,
+      -0.016654185743580262,
+      -0.02951704616812418,
+      0.03116919146507969,
+      0.007944158680736328,
+      -0.034722923789535745,
+      0.028651826124270093,
+      0.03384566747202456,
+      -0.014919311519972236,
+      0.02189767733013294
+    ],
+    "root_height_adjustment_m": -0.004400318651206839,
+    "boundary": "Post-cooling geometry initialization with lowest intended foot at floor; heating/deformation dynamics NOT simulated. No subsequent state resets."
+  },
+  "model_manifest": {
+    "source_commit": "27bc66823478758bd9dc701a5aec27cceaa0710a",
+    "source_xml_sha256": "d946c5f3d20369e3faa0c38a22617b6c25ef89ec97115ce5757f9962d4b7c103",
+    "asset_sha256": {
+      "BodyV4v70_001.stl": "703137e327683555c1f6d12d39b99fd721479af0e0785e61805ad755a8f782a8",
+      "LegAssemblyForFlangedv26_001.stl": "ef36b14858126b237f15c43d9176ffb9da25d98bdb903c49cf3623234bb79a0a",
+      "LegAssemblyForFlangedv26_002.stl": "83d9b19ac0fb616cf2619228f851b01f3adac08b52344cf47080687f451fc474",
+      "LegAssemblyForFlangedv26_003.stl": "175081bce9491118bedde36677989dee7c274a1c37022ffad33a70488cbcd835",
+      "LegAssemblyForFlangedv26_010.stl": "ef36b14858126b237f15c43d9176ffb9da25d98bdb903c49cf3623234bb79a0a",
+      "LegAssemblyForFlangedv26_011.stl": "83d9b19ac0fb616cf2619228f851b01f3adac08b52344cf47080687f451fc474",
+      "LegAssemblyForFlangedv26_012.stl": "175081bce9491118bedde36677989dee7c274a1c37022ffad33a70488cbcd835",
+      "LegAssemblyForFlangedv26_005.stl": "ef36b14858126b237f15c43d9176ffb9da25d98bdb903c49cf3623234bb79a0a",
+      "LegAssemblyForFlangedv26_006.stl": "83d9b19ac0fb616cf2619228f851b01f3adac08b52344cf47080687f451fc474",
+      "LegAssemblyForFlangedv26_007.stl": "175081bce9491118bedde36677989dee7c274a1c37022ffad33a70488cbcd835",
+      "LegAssemblyForFlangedv26_013.stl": "ef36b14858126b237f15c43d9176ffb9da25d98bdb903c49cf3623234bb79a0a",
+      "LegAssemblyForFlangedv26_014.stl": "83d9b19ac0fb616cf2619228f851b01f3adac08b52344cf47080687f451fc474",
+      "LegAssemblyForFlangedv26_015.stl": "175081bce9491118bedde36677989dee7c274a1c37022ffad33a70488cbcd835",
+      "CustomLegFoot.stl": "5d46e3d9b53c579b81c743f5a23f9e03d13582443e1cf94db4dc2bd06a2615ae",
+      "BodyV4v70_001_FloorHull.stl": "96d703d4eda9876e4f8eb101221df33b705acbcbdf3da757d798db7b67f5ac2e",
+      "LegAssemblyForFlangedv26_001_FloorHull.stl": "e2e024de8fef6ebbdca711bb0cb835d48bcb9d0a4c7025372f898bdab5bcb0d1",
+      "LegAssemblyForFlangedv26_002_FloorHull.stl": "6cffdbd32e20359d926d23fec029863814e739c38f4353b765340eebf8a4a67b",
+      "LegAssemblyForFlangedv26_010_FloorHull.stl": "e2e024de8fef6ebbdca711bb0cb835d48bcb9d0a4c7025372f898bdab5bcb0d1",
+      "LegAssemblyForFlangedv26_011_FloorHull.stl": "6cffdbd32e20359d926d23fec029863814e739c38f4353b765340eebf8a4a67b",
+      "LegAssemblyForFlangedv26_005_FloorHull.stl": "e2e024de8fef6ebbdca711bb0cb835d48bcb9d0a4c7025372f898bdab5bcb0d1",
+      "LegAssemblyForFlangedv26_006_FloorHull.stl": "6cffdbd32e20359d926d23fec029863814e739c38f4353b765340eebf8a4a67b",
+      "LegAssemblyForFlangedv26_013_FloorHull.stl": "e2e024de8fef6ebbdca711bb0cb835d48bcb9d0a4c7025372f898bdab5bcb0d1",
+      "LegAssemblyForFlangedv26_014_FloorHull.stl": "6cffdbd32e20359d926d23fec029863814e739c38f4353b765340eebf8a4a67b",
+      "Heating_module.stl": "40d4b45c2943272e69801393df76551f3829fc41205d79f156bd49957b84a9b1",
+      "ShinFloorHull.stl": "a8e4a3e59d2297da97abd0d871cb1659a1b081c07c423ae7a5304dd324c5e0c7"
+    },
+    "model_sha256": "39f9093a0e38759c6777f49e3f343d1d14b8e40d214c111e29c39870acaccace",
+    "gap_m": 0.009,
+    "initial_joint2_rad": [
+      -0.29,
+      0.29,
+      -0.29,
+      0.29
+    ],
+    "initial_pose_status": "Model candidate for user-reported approximately 5 mm lower housing floor clearance; not a captured hardware pose",
+    "components_sha256": "a869de2a23d0ceaf9997575bdca9a202781c557366138be69c714ed7e9a4683e",
+    "floor_collision": "Convex hull of original CAD, floor-only mask; detailed self-collision audit required",
+    "modeling": "rigid locked post-morph; no heating; original mass and COM inertia; explicit total torque saturation 3 Nm; 520 Hz; approved fixed 0.60191707499 kg heating backpack",
+    "heating_module": {
+      "spec_sha256": "e16e7091c14b3e91fd0933e4b21885c8526fab7d961177af26750058c4884f1a",
+      "mesh_sha256": "40d4b45c2943272e69801393df76551f3829fc41205d79f156bd49957b84a9b1",
+      "generator_sha256": "9def9156a6758a7d70e494baa848c3ece29dc2acb5398f4ff8d8d4d975367479",
+      "gap_generator_sha256": "37f2789c295f88070964ce02ce9d93e9a53191576a3984ef8b14dfa69a08f7bf",
+      "additional_hub_gap_m": 0.009,
+      "placement_revision": 3,
+      "placement_approved": true,
+      "collision_mode": "floor-only proxies",
+      "added_mass_kg": 0.60191707499
+    },
+    "nominal_model_sha256": "c274c1b3ddba73b58c89e8dded10d2d2d8e0fda37af77f631d4bedefa2d177e2",
+    "formation": {
+      "support_extension_mm": [
+        4.169795377930464,
+        4.08123714563503,
+        2.982083070899299,
+        2.6135892635031888
+      ],
+      "tip_shortening_mm": [
+        8.786056536306992,
+        8.276265982317161,
+        5.466796895424898,
+        5.637585705072215
+      ],
+      "bend_deg": [
+        2.9088208514253324,
+        -1.2822203750029775,
+        1.881966738233877,
+        -2.5055523367121504
+      ]
+    },
+    "generated_asset_sha256": {
+      "underformed_front_r_visual.stl": "8fbc462751f5e10cff5635ae5916b871251a3f340b41b0b271950aac89c9cc8a",
+      "underformed_front_r_half_a.stl": "6dba6fb1dddf4b7f4c6fb1745f5096e3a69680996a508e3b1ed87e1538e2ff08",
+      "underformed_front_r_half_b.stl": "78e64ff5a6f5f91b1d6451df41d5f47300accaaaf9ea9e742923afd1e5837e08",
+      "underformed_front_l_visual.stl": "792b842d3d5ce1b8e8bdd93d26c1c05fdfc4aaae3cd572f030be31d9ad1fc829",
+      "underformed_front_l_half_a.stl": "d349726e298f774abbcd30658bef58b862561d403f984b36b3ca8d62366ad0a7",
+      "underformed_front_l_half_b.stl": "7c0f5e545a87bf5f922473a724af6fe91716b9b59dbd4cd06fe7f7a90b081a0c",
+      "underformed_back_r_visual.stl": "c55fae7892b0ff7f3b424f9e02a027e82d9e534e56c359689b50186129a74632",
+      "underformed_back_r_half_a.stl": "f695dc1fc93b04e665fd4e10e24bdef682e6bc1b3c485fff1a2613e363c516b7",
+      "underformed_back_r_half_b.stl": "e4cd8dbef80e9d7fcef98f61811d227016d7c2fd5cc926380fac97db41824144",
+      "underformed_back_l_visual.stl": "38dcf0c913041e58c9ed7e1fedff660f1f26413916931f030f88b96c14c0a996",
+      "underformed_back_l_half_a.stl": "25189eb9e936798e71a467125f8cd8f7c5bd75926c2dfa80370381f97c952c4a",
+      "underformed_back_l_half_b.stl": "5d56177510d78d14a7d91ba55f63d0895488a615836ad318dd110a4fdfd723ce"
+    },
+    "local_shape_metrics": [
+      {
+        "central_attachment_max_change_mm": 0.0,
+        "central_underside_y_mm": 25.447282791137695,
+        "lateral_support_y_mm": 27.41699729748612,
+        "local_central_recess_mm": 1.9697145063484243,
+        "tip_extent_mm": 54.2723164933648,
+        "axial_change_mm": 0.0
+      },
+      {
+        "central_attachment_max_change_mm": 0.0,
+        "central_underside_y_mm": 25.447282791137695,
+        "lateral_support_y_mm": 27.328439065190693,
+        "local_central_recess_mm": 1.881156274052998,
+        "tip_extent_mm": 54.319112305601124,
+        "axial_change_mm": 0.0
+      },
+      {
+        "central_attachment_max_change_mm": 0.0,
+        "central_underside_y_mm": 25.447282791137695,
+        "lateral_support_y_mm": 26.22928499045497,
+        "local_central_recess_mm": 0.7820021993172759,
+        "tip_extent_mm": 57.449757849722715,
+        "axial_change_mm": 0.0
+      },
+      {
+        "central_attachment_max_change_mm": 0.0,
+        "central_underside_y_mm": 25.447282791137695,
+        "lateral_support_y_mm": 25.86079118305885,
+        "local_central_recess_mm": 0.4135083919211553,
+        "tip_extent_mm": 56.90221520416358,
+        "axial_change_mm": 0.0
+      }
+    ],
+    "formation_status": "Synthetic coupled rigid under-compression; trial ranges, not measured polymer behavior",
+    "floor_contact_model": "two convex half-mesh hulls; contact convergence unvalidated",
+    "inertia_status": "Nominal mass, COM and inertia retained; shape redistribution unvalidated",
+    "deformable_material": false
+  },
+  "simulation_only": true,
+  "hardware_validated": false,
+  "walking_handoff_validated": false,
+  "optimizer_updates": 0,
+  "engineering_gates": {
+    "completed": true,
+    "command_rate": true,
+    "tilt": true,
+    "torque": true,
+    "motor_body_floor": false,
+    "measured_speed": true,
+    "three_second_walk_pose": true,
+    "three_second_tip_support": true,
+    "three_second_settled": true,
+    "dense_cad": null
+  },
+  "engineering_pass": false,
+  "acceptance_complete": false,
+  "remaining_acceptance": [
+    "actual alignment endpoint distribution",
+    "base contact convergence",
+    "fresh held-out perturbations",
+    "walking handoff"
+  ],
+  "final_phase": "done",
+  "early_termination": null,
+  "environment_steps": 25873,
+  "max_command_speed_ratio": 0.9885317860531584,
+  "max_command_acceleration_ratio": 0.6890450173937565,
+  "peak_requested_torque_Nm": 0.7510710411916576,
+  "dense_audit": {
+    "physics_hz": 520,
+    "contact_kinematics": "MuJoCo step contact points and post-step velocities",
+    "normal_impulse_Ns": [
+      448.5796238208292,
+      448.09417918721556,
+      503.65544903325844,
+      447.052575715565
+    ],
+    "peak_step_normal_impulse_Ns": [
+      0.038879150362556396,
+      0.06739191324347389,
+      0.04120024670147097,
+      0.03924201495296684
+    ],
+    "max_contact_slip_m_s": [
+      0.06499791278073928,
+      0.07137925463787416,
+      0.1384724437785991,
+      0.11244199416901773
+    ],
+    "max_contact_normal_speed_m_s": [
+      0.017613451445615266,
+      0.0823143149613377,
+      0.014321522057298395,
+      0.0517243573273214
+    ],
+    "max_floor_force_N": 6.083088881921034,
+    "max_tilt_deg": 1.4335930688267053
+  },
+  "initial_q": [
+    0.0,
+    0.0,
+    0.11246811060779316,
+    1.0,
+    0.0,
+    0.0,
+    0.0,
+    1.0254676759870798,
+    0.024804794904722982,
+    2.1633061830279137,
+    -1.0166541857435802,
+    -0.02951704616812418,
+    -2.1104234621247135,
+    1.0079441586807363,
+    -0.034722923789535745,
+    2.1702444797140634,
+    -0.9661543325279754,
+    -0.014919311519972236,
+    -2.11969497625966
+  ],
+  "final_q": [
+    0.13570257901965324,
+    0.007096399995259045,
+    0.14067762713580131,
+    0.99991181909725,
+    0.007534710403918345,
+    0.008439306991453944,
+    0.0069541546043931386,
+    1.0004419116161056,
+    0.046729444410358235,
+    -1.006253268955928,
+    -0.9269401112051128,
+    0.06410476552930804,
+    1.039125925396264,
+    0.9809444120965065,
+    0.06071244912974151,
+    -1.036250538051788,
+    -0.9727618354576358,
+    0.07971954677008149,
+    1.0191172252266423
+  ],
+  "source_hashes": {
+    "adaptive_support.py": "9cb0c233504ee6bf4ef34e24b8f14ddcf1b9365c5f998ba11548376fa757eb99",
+    "balanced_support.py": "a1f166f2bbb044ae50350996b5b0bee8043ad5c70386b5cc1eaff79523438962",
+    "build_model.py": "9cd268b6f6ea3a6d6ebb6b39781eea1819fde850a8bb399ed593fb086f8a0c76",
+    "check_wheel_clearance.py": "d3ac6cfed37be76d523e79a65d50c17d6dd952d196c478cbd11344ed5e7c5116",
+    "clearance.py": "98008025c5e1e7146be28c8560c232990d069df7266face8a14f7a65617d7f40",
+    "contact_reference.py": "e6483bdbb9990cf72730b210ea7b2320173d49fa8de33d82c7ce656ad1fe394a",
+    "core.py": "45749b92b3abe961be4d16e6d48218a15e3e2c10c12265c3e2781280a37af3b5",
+    "experiment.py": "a5c348c0278541b7d81d6df4e61fdaa37158fea871207d35a385b6c745785bac",
+    "extended_search.py": "a163347e0d620e978d8cb82529ca9f516cee83e0d2d2ea1e06a956175c21920e",
+    "formation.py": "2a6a2ac1a8837ef6fe70dc5a04ce66581a59ba10cb822107edf83c97aac42859",
+    "handoff_entry.py": "646433b096ff84c40252403bebf76ba1f3dba82b92f4f36183cf973f7ef3aa14",
+    "handoff_probe.py": "dc2d4c22a472d68f9058d151d8a5e43f7b9a88c70b571295816f52d713e00eac",
+    "handoff_shape.py": "5804ae88fbd05602621ffb7c19682eb1e9296b77080847f74ac4505520a8ee11",
+    "policy_handoff.py": "6c28a82f0f8eaa3bb3dd20acf9212a63e8f0d6cb68772c5c5f05238be5ea6d01",
+    "render_roll_reference.py": "88022cb0eb2a2b41dd8bc83cf21f9f18b20af354df17df61d4aad13cdbb76079",
+    "review_replay.py": "f77914ea6e010455a3409127843598b735e3250b8cc17e5da9dc49d136f0aa25",
+    "robustness.py": "af3d891d40c94e4c301917da443eefc64a520bdf8c3c9a75f9b8b0107a1a66e6",
+    "robust_search.py": "ff7a87892233162f8f37d7414c5ecb96d6488fb0fd720db856f52e59259306ef",
+    "roll_audit.py": "6baa9ed689058c2db89320c10f790900a9fb0fd22ad2b1994631560e2dd31d41",
+    "roll_to_stand.py": "bcee53a6ced8f193c294624fa0e3405baa417920515b074600234f1767e8aa6a",
+    "search_flip.py": "1df8d059fec6d40185b27a108a2d12ba3b5e75922e63ee535600f4b0a02d8335",
+    "search_lift.py": "15d27e0443e65fc607c3c20cfe156c41befe9355b20d4983bf418be90d4dfe61",
+    "sensors.py": "145e967e0532c4d5ad44cc6f675a08b042651743a7c3a58ba9d59e2b1178adf5",
+    "sequence.py": "0b58becca853b3c069460f3a059253fa711baecf3c072d7e73cad59a87a52a9f",
+    "settling_feedback.py": "0526d83d5dabd237725c72b157ac5076aa69f6188c95e58da0e2bd781ac2824f",
+    "simulate.py": "39115651afe57846e373bc863335b98602e88b89774d7c59200ec2ced7f15237",
+    "test_formation.py": "32b3627c4f913afe68031081d6b70c583a8c0d6def1601488c03eb7e22c6d127",
+    "test_handoff.py": "f0c8ad33110abedba6473d1f5c0402d44f97dc4017771348d94478af2af294c6",
+    "test_model.py": "ba5649103296b9f1c74ce4a7f767a57bda79919af555085c397bf323c30b2784",
+    "test_roll_to_stand.py": "50af7e2f5b7f527e14786f7650072a23519c5bc40497f6580268f47f7033faec",
+    "test_walking_handoff.py": "fd76d30c3efdbb5400b1d210a45d30ea5f26e76d402dc7f05f12d1174bd79d5a",
+    "walking_policy.py": "2744ae506b17cd9d6581bf43bf9a00633affd2319c3988701ee1f954f099f6f6",
+    "__init__.py": "3703e5fa655d1cbf26ee959451b519e5301d5cb0e6c397857b931288db202aa1",
+    "model.xml": "c274c1b3ddba73b58c89e8dded10d2d2d8e0fda37af77f631d4bedefa2d177e2",
+    "source_manifest.json": "f5e45c1d5dc263619c146bccf0f6971a9fbf68144639b59c4c57eb6e96f46f19",
+    "requirements.txt": "e5b7a57890d64abfb4f88737b8ee0b0b8dae458807dced6f43d009bfeeb7b147",
+    "requirements.lock.txt": "18504a2fd27ad085db0f51f0502d8df143ce8304147e7f5d94968c5601951b9c"
+  }
+}

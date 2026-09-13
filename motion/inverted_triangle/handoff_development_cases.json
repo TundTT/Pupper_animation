@@ -1,0 +1,13 @@
+{
+  "status": "Development cases only; compression/angle/dynamics ranges are synthetic trials, not physical measurements. Generate fresh held-out cases separately.",
+  "cases": [
+    {"name": "nominal_endpoint", "config": {"seed": 0}},
+    {"name": "pose_error_2deg", "config": {"seed": 17, "pose_noise_deg": 2}},
+    {"name": "uniform_undercompression", "config": {"seed": 18, "formation": {"support_extension_mm": [3,3,3,3], "tip_shortening_mm": [6,6,6,6], "bend_deg": [0,0,0,0]}}},
+    {"name": "diagonal_10mm_spread", "config": {"seed": 19, "pose_noise_deg": 2, "formation": {"support_extension_mm": [0,5,5,0], "tip_shortening_mm": [0,10,10,0], "bend_deg": [3,-3,3,-3]}}},
+    {"name": "front_short_10mm", "config": {"seed": 20, "formation": {"support_extension_mm": [5,5,0,0], "tip_shortening_mm": [10,10,0,0], "bend_deg": [0,0,0,0]}}},
+    {"name": "rear_short_10mm", "config": {"seed": 21, "formation": {"support_extension_mm": [0,0,5,5], "tip_shortening_mm": [0,0,10,10], "bend_deg": [0,0,0,0]}}},
+    {"name": "left_short_10mm", "config": {"seed": 22, "formation": {"support_extension_mm": [0,5,0,5], "tip_shortening_mm": [0,10,0,10], "bend_deg": [3,-3,3,-3]}}},
+    {"name": "combined_trial", "config": {"seed": 23, "pose_noise_deg": 2, "friction": 0.5, "dynamics": {"mass_scale": 1.05, "delay_steps": 2, "kp_scale": 0.9}, "formation": {"support_extension_mm": [0,5,5,0], "tip_shortening_mm": [0,10,10,0], "bend_deg": [-3,3,-3,3]}}}
+  ]
+}

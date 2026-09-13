@@ -7,6 +7,7 @@ underside/mount unchanged, and shortens the tip. The resulting central gap and
 tip height must be measured in the posed CAD, not equated to the input parameter.
 """
 import numpy as np
+TIP_EXTENT_MM=62.69415283203125  # Pinned nominal CustomLegFoot.stl, negative-Y extent.
 
 def smooth(x):
     x=np.clip(x,0.,1.)
@@ -26,8 +27,7 @@ def deform(vertices, support_extension_mm=0., tip_shortening_mm=0., bend_deg=0.)
     lateral=smooth((np.abs(v[:,0])-8.)/12.)
     lower=smooth((v[:,1]-3.)/12.)
     out[:,1]+=support_extension_mm*radial*lateral*lower
-    extent=max(float(-v[:,1].min()),40.0001)
-    distal=smooth((-v[:,1]-40.)/(extent-40.))
+    distal=smooth((-v[:,1]-40.)/(TIP_EXTENT_MM-40.))
     out[:,1]+=tip_shortening_mm*distal
     a=np.deg2rad(bend_deg)*distal
     x=out[:,0].copy();y=out[:,1]+40.
@@ -65,3 +65,58 @@ def geometry_metrics(vertices, deformed):
         local_central_recess_mm=float(w[lateral,1].max()-w[central,1].max()),
         tip_extent_mm=float(-w[:,1].min()),
         axial_change_mm=float(np.max(np.abs(w[:,2]-v[:,2]))))
+
+def build(spec, nominal_manifest):
+    """Use the same deformed CAD for rendering, clearance and floor contacts.
+
+    Two half-mesh convex hulls preserve the central base recess better than one
+    whole-limb hull. This remains a contact approximation requiring convergence
+    checks before acceptance. Nominal inertial properties are retained.
+    """
+    import hashlib,io,xml.etree.ElementTree as ET
+    import trimesh
+    from .core import HERE,LEGS
+    keys=('support_extension_mm','tip_shortening_mm','bend_deg')
+    if set(spec)!=set(keys):raise ValueError('Unexpected coupled formation fields')
+    fields={key:np.asarray(spec[key],dtype=float) for key in keys}
+    if any(x.shape!=(4,) for x in fields.values()):raise ValueError('Four values per field required')
+    root=ET.parse(HERE/'model.xml').getroot()
+    assets={m.get('file'):(HERE/'assets'/m.get('file')).read_bytes() for m in root.iter('mesh')}
+    original=trimesh.load(io.BytesIO(assets['CustomLegFoot.stl']),file_type='stl',process=True)
+    generated={};metrics=[]
+    for i,leg in enumerate(LEGS):
+        values={key:float(fields[key][i]) for key in keys}
+        vertices=deform(original.vertices,**values)
+        metrics.append(geometry_metrics(original.vertices,vertices))
+        mesh=trimesh.Trimesh(vertices=vertices,faces=original.faces,process=False)
+        body=root.find(f'.//body[@name="leg_{leg}_3"]')
+        visual=body.find(f'geom[@name="{leg}_shin_visual"]')
+        floor=body.find(f'geom[@name="{leg}_floor_contact"]')
+        right=ET.fromstring(ET.tostring(floor));right.set('name',leg+'_floor_contact_right');body.append(right)
+        # Include exact edge/plane intersections; no optional polygon package.
+        edges=mesh.vertices[mesh.edges_unique];cross=edges[:,0,0]*edges[:,1,0]<0
+        a,b=edges[cross,0],edges[cross,1]
+        cut=a+(-a[:,0]/(b[:,0]-a[:,0]))[:,None]*(b-a)
+        shapes=[mesh]
+        for side in (1,-1):
+            points=np.vstack((vertices[side*vertices[:,0]>=0],cut))
+            shapes.append(trimesh.convex.convex_hull(points))
+        for suffix,shape,geom in zip(('visual','half_a','half_b'),shapes,(visual,floor,right)):
+            name=f'underformed_{leg}_{suffix}';file=name+'.stl';assets[file]=shape.export(file_type='stl')
+            generated[file]=hashlib.sha256(assets[file]).hexdigest()
+            ET.SubElement(root.findall('asset')[-1],'mesh',name=name,file=file,scale='.001 .001 .001')
+            geom.set('mesh',name)
+        for site in body.findall('site'):
+            pos=np.fromstring(site.get('pos'),sep=' ')*1000
+            if i%2:pos[:2]*=-1
+            pos=deform(pos[None,:],**values)[0]
+            if i%2:pos[:2]*=-1
+            site.set('pos',' '.join(str(x/1000) for x in pos))
+    xml=ET.tostring(root,encoding='utf-8');manifest=dict(nominal_manifest)
+    manifest.update(nominal_model_sha256=nominal_manifest['model_sha256'],
+        model_sha256=hashlib.sha256(xml).hexdigest(),formation={k:v.tolist() for k,v in fields.items()},
+        generated_asset_sha256=generated,local_shape_metrics=metrics,
+        formation_status='Synthetic coupled rigid under-compression; trial ranges, not measured polymer behavior',
+        floor_contact_model='two convex half-mesh hulls; contact convergence unvalidated',
+        inertia_status='Nominal mass, COM and inertia retained; shape redistribution unvalidated',deformable_material=False)
+    return xml,assets,manifest

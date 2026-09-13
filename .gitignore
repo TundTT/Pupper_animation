@@ -16,3 +16,4 @@ untracked_bags
 /runs/
 /.venv/
 /.pytest_cache/
+/output/

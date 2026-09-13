@@ -56,11 +56,16 @@ class Robot:
         if formation is None:
             self.m=mj.MjModel.from_xml_path(str(HERE/'model.xml'))
         else:
-            from .formation import build
+            if 'support_extension_mm' in formation:
+                from .handoff_shape import build
+            else:
+                from .formation import build
             self.model_xml,self.model_assets,self.manifest=build(formation,self.manifest)
             self.m=mj.MjModel.from_xml_string(self.model_xml.decode(),assets=self.model_assets)
         if contact_model not in ['cad','rigid_flush']:raise ValueError('Unknown contact model')
         if contact_model=='rigid_flush':
+            if formation and 'support_extension_mm' in formation:
+                raise ValueError('Flush capsule would erase the under-compressed base; use CAD contacts')
             from .contact_reference import build
             self.model_xml,self.model_assets,self.manifest=build(self.model_xml,self.model_assets,self.manifest)
             self.m=mj.MjModel.from_xml_string(self.model_xml.decode(),assets=self.model_assets)
@@ -68,12 +73,17 @@ class Robot:
         self.geoms=np.array([self.m.geom(f'{leg}_floor_contact').id for leg in LEGS])
         self.bodies=np.array([self.m.body('leg_'+leg+'_3').id for leg in LEGS])
         self.floor=self.m.geom('floor').id;self.base=self.m.body('base_link').id
+        self.contact_owners={g:i for i,g in enumerate(self.geoms)}
+        for i,leg in enumerate(LEGS):
+            for g in range(self.m.ngeom):
+                name=mj.mj_id2name(self.m,mj.mjtObj.mjOBJ_GEOM,g) or ''
+                if name.startswith(leg+'_floor_contact'):self.contact_owners[g]=i
         self.m.body_mass[1:]*=self.dynamics['mass_scale']
         self.m.body_inertia[1:]*=self.dynamics['mass_scale']
         self.m.body_ipos[self.base]+=offset
         self.m.actuator_ctrlrange[:]=[-self.dynamics['torque_limit_Nm'],self.dynamics['torque_limit_Nm']]
         mj.mj_setConst(self.m,self.d)
-        self.point_geoms=self.geoms if contact_model=='cad' else np.array([self.m.geom(f'{leg}_shin_visual').id for leg in LEGS])
+        self.point_geoms=self.geoms if contact_model=='cad' and not (formation and 'support_extension_mm' in formation) else np.array([self.m.geom(f'{leg}_shin_visual').id for leg in LEGS])
         self.vertices=[];self.tip_masks=[]
         for leg,g in enumerate(self.point_geoms):
             mid=self.m.geom_dataid[g]
@@ -122,9 +132,9 @@ class Robot:
             c=self.d.contact[k]
             if self.floor not in (c.geom1,c.geom2):continue
             g=c.geom2 if c.geom1==self.floor else c.geom1
-            ids=np.flatnonzero(self.geoms==g)
-            if ids.size:
-                force=np.zeros(6);mj.mj_contactForce(self.m,self.d,k,force);forces[ids[0]]+=max(0,force[0])
+            owner=self.contact_owners.get(g)
+            if owner is not None:
+                force=np.zeros(6);mj.mj_contactForce(self.m,self.d,k,force);forces[owner]+=max(0,force[0])
         return forces
     def unintended_floor_force(self):
         total=0.
@@ -132,7 +142,7 @@ class Robot:
             c=self.d.contact[k]
             if self.floor not in (c.geom1,c.geom2):continue
             g=c.geom2 if c.geom1==self.floor else c.geom1
-            if g in self.geoms:continue
+            if g in self.contact_owners:continue
             force=np.zeros(6);mj.mj_contactForce(self.m,self.d,k,force);total+=max(0,force[0])
         return float(total)
     def tilt(self):return float(np.arccos(np.clip(self.d.xmat[self.base].reshape(3,3)[2,2],-1,1)))
