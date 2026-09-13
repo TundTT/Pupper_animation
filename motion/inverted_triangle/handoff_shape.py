@@ -77,7 +77,9 @@ def build(spec, nominal_manifest):
     import trimesh
     from .core import HERE,LEGS
     keys=('support_extension_mm','tip_shortening_mm','bend_deg')
-    if set(spec)!=set(keys):raise ValueError('Unexpected coupled formation fields')
+    if set(spec)-{'contact_parts'}!=set(keys):raise ValueError('Unexpected coupled formation fields')
+    parts=spec.get('contact_parts',2)
+    if type(parts) is not int or parts not in (2,4,8):raise ValueError('Contact parts must be 2, 4 or 8')
     fields={key:np.asarray(spec[key],dtype=float) for key in keys}
     if any(x.shape!=(4,) for x in fields.values()):raise ValueError('Four values per field required')
     root=ET.parse(HERE/'model.xml').getroot()
@@ -92,16 +94,30 @@ def build(spec, nominal_manifest):
         body=root.find(f'.//body[@name="leg_{leg}_3"]')
         visual=body.find(f'geom[@name="{leg}_shin_visual"]')
         floor=body.find(f'geom[@name="{leg}_floor_contact"]')
-        right=ET.fromstring(ET.tostring(floor));right.set('name',leg+'_floor_contact_right');body.append(right)
-        # Include exact edge/plane intersections; no optional polygon package.
-        edges=mesh.vertices[mesh.edges_unique];cross=edges[:,0,0]*edges[:,1,0]<0
-        a,b=edges[cross,0],edges[cross,1]
-        cut=a+(-a[:,0]/(b[:,0]-a[:,0]))[:,None]*(b-a)
-        shapes=[mesh]
-        for side in (1,-1):
-            points=np.vstack((vertices[side*vertices[:,0]>=0],cut))
-            shapes.append(trimesh.convex.convex_hull(points))
-        for suffix,shape,geom in zip(('visual','half_a','half_b'),shapes,(visual,floor,right)):
+        if parts==2:
+            right=ET.fromstring(ET.tostring(floor));right.set('name',leg+'_floor_contact_right');body.append(right)
+            edges=mesh.vertices[mesh.edges_unique];cross=edges[:,0,0]*edges[:,1,0]<0
+            a,b=edges[cross,0],edges[cross,1]
+            cut=a+(-a[:,0]/(b[:,0]-a[:,0]))[:,None]*(b-a)
+            shapes=[mesh]+[trimesh.convex.convex_hull(np.vstack((vertices[side*vertices[:,0]>=0],cut))) for side in (1,-1)]
+            suffixes=['visual','half_a','half_b'];geoms=[visual,floor,right]
+        else:
+            floors=[floor]
+            for part in range(1,parts):
+                extra=ET.fromstring(ET.tostring(floor));extra.set('name',leg+'_floor_contact_'+str(part));body.append(extra);floors.append(extra)
+            # Clip the SAME triangle mesh; exact edge-plane intersections, no inflation.
+            bounds=np.linspace(float(vertices[:,0].min())-1e-6,float(vertices[:,0].max())+1e-6,parts+1)
+            shapes=[mesh]
+            for lo,hi in zip(bounds[:-1],bounds[1:]):
+                points=[vertices[(vertices[:,0]>=lo)&(vertices[:,0]<=hi)]]
+                edges=vertices[mesh.edges_unique]
+                for plane in (lo,hi):
+                    cross=(edges[:,0,0]-plane)*(edges[:,1,0]-plane)<0
+                    a,b=edges[cross,0],edges[cross,1]
+                    points.append(a+((plane-a[:,0])/(b[:,0]-a[:,0]))[:,None]*(b-a))
+                shapes.append(trimesh.convex.convex_hull(np.vstack(points)))
+            suffixes=['visual']+['part_'+str(k) for k in range(parts)];geoms=[visual]+floors
+        for suffix,shape,geom in zip(suffixes,shapes,geoms):
             name=f'underformed_{leg}_{suffix}';file=name+'.stl';assets[file]=shape.export(file_type='stl')
             generated[file]=hashlib.sha256(assets[file]).hexdigest()
             ET.SubElement(root.findall('asset')[-1],'mesh',name=name,file=file,scale='.001 .001 .001')
@@ -114,9 +130,9 @@ def build(spec, nominal_manifest):
             site.set('pos',' '.join(str(x/1000) for x in pos))
     xml=ET.tostring(root,encoding='utf-8');manifest=dict(nominal_manifest)
     manifest.update(nominal_model_sha256=nominal_manifest['model_sha256'],
-        model_sha256=hashlib.sha256(xml).hexdigest(),formation={k:v.tolist() for k,v in fields.items()},
+        model_sha256=hashlib.sha256(xml).hexdigest(),formation=dict({k:v.tolist() for k,v in fields.items()},contact_parts=parts),
         generated_asset_sha256=generated,local_shape_metrics=metrics,
         formation_status='Synthetic coupled rigid under-compression; trial ranges, not measured polymer behavior',
-        floor_contact_model='two convex half-mesh hulls; contact convergence unvalidated',
+        floor_contact_model=f'{parts} convex CAD slabs; contact convergence requires comparison',
         inertia_status='Nominal mass, COM and inertia retained; shape redistribution unvalidated',deformable_material=False)
     return xml,assets,manifest

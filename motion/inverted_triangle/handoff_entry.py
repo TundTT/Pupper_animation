@@ -12,7 +12,7 @@ LOW=np.array([-1.12,-.32,-1000,-2.41,-3.04,-1000]*2)
 HIGH=np.array([2.41,3.04,1000,1.12,.32,1000]*2)
 
 class EntryRoll:
-    def __init__(self,q,previous_command=None,entry_seconds=4.,roll_seconds=12.,settle_seconds=32.):
+    def __init__(self,q,previous_command=None,entry_seconds=4.,roll_seconds=12.,settle_seconds=32.,entry_integral_gain=0.,entry_mode="measured"):
         q=np.asarray(q,dtype=float)
         if q.shape!=(12,) or not np.isfinite(q).all():raise ValueError('Finite measured 12-joint pose required')
         if np.any(q<LOW) or np.any(q>HIGH):raise ValueError('Measured start exceeds position limits')
@@ -21,6 +21,9 @@ class EntryRoll:
             raise ValueError('Handoff command must agree with measured pose within 0.15 rad')
         if np.any(self.command<LOW) or np.any(self.command>HIGH):raise ValueError('Initial command exceeds position limits')
         if entry_seconds<=0 or roll_seconds<12 or settle_seconds<3:raise ValueError('Invalid stage durations')
+        if entry_mode not in ('measured','direct'):raise ValueError('Unknown entry mode')
+        if not np.isfinite(entry_integral_gain) or not 0<=entry_integral_gain<=1:raise ValueError('Invalid entry integral gain')
+        self.entry_integral_gain=entry_integral_gain;self.entry_integral=np.zeros(12);self.entry_mode=entry_mode
         self.start=self.command.copy();self.entry=ROLL_START.copy();self.entry[HUB]=q[HUB]
         # Fixed whole-turn choice for the FINAL TARGET only; never wrap a live state.
         self.goal=NEUTRAL.copy()
@@ -30,6 +33,7 @@ class EntryRoll:
         self.entry_seconds=duration(self.start,self.entry,entry_seconds)
         self.roll_seconds=duration(self.entry,self.goal,roll_seconds)
         self.settle_seconds=settle_seconds;self.elapsed=0.;self.phase='entry';self.stable=0.
+        if entry_mode=='direct':self.phase='roll'
         self.velocity=np.zeros(12);self.peak_speed_ratio=0.;self.peak_accel_ratio=0.;self.failure=None
 
     def step(self,q,qd,dt,correction=None):
@@ -39,7 +43,9 @@ class EntryRoll:
         if self.phase in ('done','failed'):return self.command.copy()
         self.elapsed+=dt
         if self.phase=='entry':
-            target=self.start+smooth(self.elapsed/self.entry_seconds)*(self.entry-self.start)
+            reference=self.start+smooth(self.elapsed/self.entry_seconds)*(self.entry-self.start)
+            self.entry_integral[PROX]=np.clip(self.entry_integral[PROX]+self.entry_integral_gain*(reference[PROX]-q[PROX])*dt,-.15,.15)
+            target=reference+self.entry_integral
             good=np.max(abs(q-self.entry))<=.10 and np.max(abs(qd))<=.12
             self.stable=self.stable+dt if good and self.elapsed>=self.entry_seconds else 0.
             if self.stable>=.25:

@@ -56,6 +56,8 @@ def main():
     p.add_argument('--seed',type=int,default=0)
     p.add_argument('--friction',type=float,default=0.)
     p.add_argument('--video',action='store_true')
+    p.add_argument('--imu-roll',type=float,default=0.)
+    p.add_argument('--imu-pitch',type=float,default=0.)
     p.add_argument('--source-record',type=Path,help='Git provenance exported on host when WSL cannot read a Windows worktree')
     args=p.parse_args();root=args.alignment_root.resolve()
     args.output.mkdir(parents=True,exist_ok=False)
@@ -86,7 +88,7 @@ def main():
     previous=sys.getprofile()
     try:
         sys.setprofile(collect)
-        report,trace=simulate.run(cfg,seed=args.seed,friction=args.friction,
+        report,trace=simulate.run(cfg,seed=args.seed,friction=args.friction,tilt=(args.imu_roll,args.imu_pitch),
             video=str(args.output/'alignment.mp4') if args.video else None)
     finally:sys.setprofile(previous)
     d=captured['data'];m=captured['model'];o=captured['o']
@@ -103,6 +105,9 @@ def main():
         last_alignment_output=o.tolist(),last_proximal_position_target=o[:8].tolist(),simulation_time_s=float(d.time),
         versions=dict(python=sys.version,mujoco=mj.__version__,numpy=np.__version__),
         source_command_semantics='8 proximal position targets followed by 4 hub control outputs; not 12 position commands',
+        environment_steps=int(round(d.time/m.opt.timestep)),
+        replay_options=dict(seed=args.seed,friction=args.friction,imu_roll=args.imu_roll,imu_pitch=args.imu_pitch),
+        source_files_sha256={str(p.relative_to(root)):digest(p) for folder in ('motion/keyframe_align','training/wheel_align') for p in (root/folder).glob('*') if p.is_file()},
         boundary_note='End of alignment only. Subsequent manual cooling is not simulated.',seed=args.seed)
     (args.output/'terminal.json').write_text(json.dumps(terminal,indent=2)+'\n')
     (args.output/'alignment_report.json').write_text(json.dumps(report,indent=2)+'\n')

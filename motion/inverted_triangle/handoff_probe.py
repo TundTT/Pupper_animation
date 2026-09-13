@@ -15,7 +15,7 @@ from .roll_audit import RollRecorder
 from .clearance import CADClearance
 
 def initialize(config,terminal=None):
-    allowed={'seed','entry_seconds','roll_seconds','settle_seconds','pose_noise_deg','friction','dynamics','formation'}
+    allowed={'seed','entry_seconds','roll_seconds','settle_seconds','pose_noise_deg','friction','dynamics','formation','entry_integral_gain','entry_mode'}
     if set(config)-allowed:raise ValueError('Unknown handoff configuration fields')
     r=Robot(friction=config.get('friction',.8),dynamics=config.get('dynamics'),formation=config.get('formation'))
     if terminal is None:
@@ -70,8 +70,10 @@ def probe(config,output,terminal=None,video=True,cad=True):
         source_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
         source_dirty=bool(subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],text=True).strip()))
     r,boundary=initialize(config,terminal)
+    from .cold_boundary import inspect
+    boundary["cold_geometry"]=inspect(r)
     motion=EntryRoll(r.d.qpos[7:],previous_command=boundary['entry_initial_command'],entry_seconds=config.get('entry_seconds',4.),
-        roll_seconds=config.get('roll_seconds',12.),settle_seconds=config.get('settle_seconds',32.))
+        roll_seconds=config.get('roll_seconds',12.),settle_seconds=config.get('settle_seconds',32.),entry_integral_gain=config.get('entry_integral_gain',0.),entry_mode=config.get('entry_mode','measured'))
     feedback=BalancedSupport(motion.goal,dict(estimate_mode='hybrid',norm_delay_s=2.,force_gain=.003,reference_cap=.075,integral_gain=.25))
     recorder=RollRecorder(r,motion.command);checker=CADClearance(r) if cad else None
     states=[];trace=[];gaps=[];hold=[];reason=None;peak_torque=0.;peak_speed=0.;correction=np.zeros(12)
@@ -101,7 +103,7 @@ def probe(config,output,terminal=None,video=True,cad=True):
         if motion.phase=='done':break
     dense=recorder.finish(r,output,cad=cad) if recorder.commands else None
     all_hold=lambda predicate:len(hold)>=119 and all(predicate(x) for x in hold)
-    gates=dict(completed=motion.phase=='done' and reason is None,
+    gates=dict(cold_boundary=boundary['cold_geometry']['contact_free_at_fixed_measured_posture'],completed=motion.phase=='done' and reason is None,
         command_rate=motion.peak_speed_ratio<=1.000001 and motion.peak_accel_ratio<=1.000001,
         tilt=recorder.tilt_peak<=8,torque=peak_torque<=r.dynamics['torque_limit_Nm'],
         motor_body_floor=recorder.floor_peak<=.01,measured_speed=peak_speed<=2,

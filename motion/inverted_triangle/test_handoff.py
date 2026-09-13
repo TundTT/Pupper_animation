@@ -75,3 +75,34 @@ def test_terminal_preserves_velocity_and_previous_proximal_target():
     np.testing.assert_allclose(out.d.qpos[7+HUB],NEUTRAL[HUB]-SIGNS*np.pi)
     record['target_model_sha256']='wrong'
     with pytest.raises(ValueError,match='current nominal'):initialize({},record)
+
+
+def test_integral_never_turns_hubs_or_bypasses_stuck_entry():
+    q=NEUTRAL.copy();q[HUB]-=SIGNS*np.pi
+    control=EntryRoll(q,entry_integral_gain=1.)
+    for _ in range(520*14):control.step(q,np.zeros(12),1/520)
+    assert control.phase=='failed'
+    assert np.max(abs(control.entry_integral))<=.15
+    np.testing.assert_array_equal(control.entry_integral[HUB],0)
+    assert control.peak_speed_ratio<=1.000001 and control.peak_accel_ratio<=1.000001
+
+
+def test_cold_motor_penetration_cannot_be_fixed_by_root_translation():
+    from .cold_boundary import inspect
+    import mujoco as mj
+    r,_=initialize({})
+    before=inspect(r)
+    assert before['unintended_minus_lowest_foot_m']==pytest.approx(-.001118,abs=2e-6)
+    assert not before['contact_free_at_fixed_measured_posture']
+    r.d.qpos[2]+=.1;mj.mj_forward(r.m,r.d)
+    after=inspect(r)
+    assert after['unintended_minus_lowest_foot_m']==pytest.approx(before['unintended_minus_lowest_foot_m'],abs=1e-12)
+
+
+@pytest.mark.parametrize('parts',[4,8])
+def test_finer_contacts_keep_visual_shape_and_attachment(parts):
+    spec=sample(19)[0]
+    base=Robot(formation=spec);fine=Robot(formation=dict(spec,contact_parts=parts))
+    for i in range(4):np.testing.assert_allclose(base.points(i),fine.points(i),atol=1e-10)
+    assert len(fine.contact_owners)==4*parts
+    assert fine.manifest['local_shape_metrics']==base.manifest['local_shape_metrics']
