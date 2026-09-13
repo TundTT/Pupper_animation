@@ -36,7 +36,7 @@ def verify_sources():
     return manifest
 
 class Robot:
-    def __init__(self,friction=.8,dynamics=None,formation=None):
+    def __init__(self,friction=.8,dynamics=None,formation=None,contact_model="cad"):
         if not np.isfinite(friction) or friction<=0:raise ValueError('Friction must be positive')
         self.friction=float(friction)
         self.dynamics=dict(mass_scale=1.,base_com_offset_m=[0.,0.,0.],kp_scale=1.,kd_scale=1.,torque_limit_Nm=3.,delay_steps=0)
@@ -59,6 +59,11 @@ class Robot:
             from .formation import build
             self.model_xml,self.model_assets,self.manifest=build(formation,self.manifest)
             self.m=mj.MjModel.from_xml_string(self.model_xml.decode(),assets=self.model_assets)
+        if contact_model not in ['cad','rigid_flush']:raise ValueError('Unknown contact model')
+        if contact_model=='rigid_flush':
+            from .contact_reference import build
+            self.model_xml,self.model_assets,self.manifest=build(self.model_xml,self.model_assets,self.manifest)
+            self.m=mj.MjModel.from_xml_string(self.model_xml.decode(),assets=self.model_assets)
         self.d=mj.MjData(self.m)
         self.geoms=np.array([self.m.geom(f'{leg}_floor_contact').id for leg in LEGS])
         self.bodies=np.array([self.m.body('leg_'+leg+'_3').id for leg in LEGS])
@@ -68,8 +73,9 @@ class Robot:
         self.m.body_ipos[self.base]+=offset
         self.m.actuator_ctrlrange[:]=[-self.dynamics['torque_limit_Nm'],self.dynamics['torque_limit_Nm']]
         mj.mj_setConst(self.m,self.d)
+        self.point_geoms=self.geoms if contact_model=='cad' else np.array([self.m.geom(f'{leg}_shin_visual').id for leg in LEGS])
         self.vertices=[];self.tip_masks=[]
-        for leg,g in enumerate(self.geoms):
+        for leg,g in enumerate(self.point_geoms):
             mid=self.m.geom_dataid[g]
             self.vertices.append(self.m.mesh_vert[self.m.mesh_vertadr[mid]:self.m.mesh_vertadr[mid]+self.m.mesh_vertnum[mid]].copy())
             R=np.empty(9);mj.mju_quat2Mat(R,self.m.geom_quat[g])
@@ -85,7 +91,7 @@ class Robot:
         self.command_history=[self.initial[7:].copy() for _ in range(self.dynamics['delay_steps'])]
         return self.initial.copy()
     def points(self,leg):
-        g=self.geoms[leg]
+        g=self.point_geoms[leg]
         return self.vertices[leg]@self.d.geom_xmat[g].reshape(3,3).T+self.d.geom_xpos[g]
     def snapshot(self,command):
         spec=mj.mjtState.mjSTATE_INTEGRATION

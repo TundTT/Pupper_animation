@@ -130,7 +130,9 @@ def test_initial_offsets_are_not_reapplied_to_continuation(tmp_path):
     r=Robot();home=r.initial[7:].copy()
     for _ in range(50):r.tick(home)
     state=r.snapshot(home)
-    run(HERE/'results/nominal_rear/candidate.json',tmp_path/'continued',cad=False,
+    candidate=tmp_path/'continuation_fixture.json'
+    candidate.write_text(json.dumps(dict(leg='back_r',full_pose=home.tolist(),model_sha256=r.manifest['model_sha256'])))
+    run(candidate,tmp_path/'continued',cad=False,landing_delta=0.,
         start_override=state,scenario=dict(initial_offset=dict(height_m=.002,roll_rad=.02)))
     actual=json.loads((tmp_path/'continued/start_state.json').read_text())
     np.testing.assert_allclose(actual['state'][1:20],state['state'][1:20],atol=1e-12)

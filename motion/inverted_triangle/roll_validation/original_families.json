@@ -1,0 +1,510 @@
+[
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.5-seed-1",
+    "friction": 0.5,
+    "seed": 1,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.5-seed-2",
+    "friction": 0.5,
+    "seed": 2,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.5-seed-3",
+    "friction": 0.5,
+    "seed": 3,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.5-seed-4",
+    "friction": 0.5,
+    "seed": 4,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.5-seed-5",
+    "friction": 0.5,
+    "seed": 5,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.65-seed-1",
+    "friction": 0.65,
+    "seed": 1,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.65-seed-2",
+    "friction": 0.65,
+    "seed": 2,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.65-seed-3",
+    "friction": 0.65,
+    "seed": 3,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.65-seed-4",
+    "friction": 0.65,
+    "seed": 4,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.65-seed-5",
+    "friction": 0.65,
+    "seed": 5,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.8-seed-1",
+    "friction": 0.8,
+    "seed": 1,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.8-seed-2",
+    "friction": 0.8,
+    "seed": 2,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.8-seed-3",
+    "friction": 0.8,
+    "seed": 3,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.8-seed-4",
+    "friction": 0.8,
+    "seed": 4,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-0.8-seed-5",
+    "friction": 0.8,
+    "seed": 5,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-1.0-seed-1",
+    "friction": 1.0,
+    "seed": 1,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-1.0-seed-2",
+    "friction": 1.0,
+    "seed": 2,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-1.0-seed-3",
+    "friction": 1.0,
+    "seed": 3,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-1.0-seed-4",
+    "friction": 1.0,
+    "seed": 4,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mu-1.0-seed-5",
+    "friction": 1.0,
+    "seed": 5,
+    "scenario": {}
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mass-low",
+    "friction": 0.8,
+    "seed": 11,
+    "scenario": {
+      "dynamics": {
+        "mass_scale": 0.9
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "mass-high",
+    "friction": 0.8,
+    "seed": 12,
+    "scenario": {
+      "dynamics": {
+        "mass_scale": 1.1
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "com-front-right-high",
+    "friction": 0.8,
+    "seed": 13,
+    "scenario": {
+      "dynamics": {
+        "base_com_offset_m": [
+          0.003,
+          -0.003,
+          0.002
+        ]
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "com-rear-left-low",
+    "friction": 0.8,
+    "seed": 14,
+    "scenario": {
+      "dynamics": {
+        "base_com_offset_m": [
+          -0.003,
+          0.003,
+          -0.002
+        ]
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "delay-5-steps",
+    "friction": 0.8,
+    "seed": 15,
+    "scenario": {
+      "dynamics": {
+        "delay_steps": 5
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "delay-10-steps",
+    "friction": 0.8,
+    "seed": 16,
+    "scenario": {
+      "dynamics": {
+        "delay_steps": 10
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "half-torque",
+    "friction": 0.8,
+    "seed": 17,
+    "scenario": {
+      "dynamics": {
+        "torque_limit_Nm": 1.5
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "gains-low",
+    "friction": 0.8,
+    "seed": 18,
+    "scenario": {
+      "dynamics": {
+        "kp_scale": 0.8,
+        "kd_scale": 0.8
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "gains-high",
+    "friction": 0.8,
+    "seed": 19,
+    "scenario": {
+      "dynamics": {
+        "kp_scale": 1.2,
+        "kd_scale": 1.2
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "start-low-tilted",
+    "friction": 0.8,
+    "seed": 20,
+    "scenario": {
+      "initial_offset": {
+        "height_m": -0.002,
+        "roll_rad": 0.017453292519943295,
+        "pitch_rad": -0.017453292519943295
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "start-high-tilted",
+    "friction": 0.8,
+    "seed": 21,
+    "scenario": {
+      "initial_offset": {
+        "height_m": 0.002,
+        "roll_rad": -0.017453292519943295,
+        "pitch_rad": 0.017453292519943295
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "combined-seed-22",
+    "friction": 0.8,
+    "seed": 22,
+    "scenario": {
+      "dynamics": {
+        "mass_scale": 1.1,
+        "base_com_offset_m": [
+          0.003,
+          0.003,
+          0.002
+        ],
+        "delay_steps": 5,
+        "torque_limit_Nm": 1.5,
+        "kp_scale": 0.8,
+        "kd_scale": 0.8
+      },
+      "initial_offset": {
+        "height_m": -0.002,
+        "roll_rad": 0.017453292519943295,
+        "pitch_rad": -0.017453292519943295
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "combined-seed-23",
+    "friction": 0.8,
+    "seed": 23,
+    "scenario": {
+      "dynamics": {
+        "mass_scale": 1.1,
+        "base_com_offset_m": [
+          0.003,
+          0.003,
+          0.002
+        ],
+        "delay_steps": 5,
+        "torque_limit_Nm": 1.5,
+        "kp_scale": 0.8,
+        "kd_scale": 0.8
+      },
+      "initial_offset": {
+        "height_m": -0.002,
+        "roll_rad": 0.017453292519943295,
+        "pitch_rad": -0.017453292519943295
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "combined-seed-24",
+    "friction": 0.8,
+    "seed": 24,
+    "scenario": {
+      "dynamics": {
+        "mass_scale": 1.1,
+        "base_com_offset_m": [
+          0.003,
+          0.003,
+          0.002
+        ],
+        "delay_steps": 5,
+        "torque_limit_Nm": 1.5,
+        "kp_scale": 0.8,
+        "kd_scale": 0.8
+      },
+      "initial_offset": {
+        "height_m": -0.002,
+        "roll_rad": 0.017453292519943295,
+        "pitch_rad": -0.017453292519943295
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "combined-seed-25",
+    "friction": 0.8,
+    "seed": 25,
+    "scenario": {
+      "dynamics": {
+        "mass_scale": 1.1,
+        "base_com_offset_m": [
+          0.003,
+          0.003,
+          0.002
+        ],
+        "delay_steps": 5,
+        "torque_limit_Nm": 1.5,
+        "kp_scale": 0.8,
+        "kd_scale": 0.8
+      },
+      "initial_offset": {
+        "height_m": -0.002,
+        "roll_rad": 0.017453292519943295,
+        "pitch_rad": -0.017453292519943295
+      }
+    }
+  },
+  {
+    "direction": "forward",
+    "seconds": 12.0,
+    "shoulder_bump": 0.0,
+    "splay_power": 1.0,
+    "name": "combined-seed-26",
+    "friction": 0.8,
+    "seed": 26,
+    "scenario": {
+      "dynamics": {
+        "mass_scale": 1.1,
+        "base_com_offset_m": [
+          0.003,
+          0.003,
+          0.002
+        ],
+        "delay_steps": 5,
+        "torque_limit_Nm": 1.5,
+        "kp_scale": 0.8,
+        "kd_scale": 0.8
+      },
+      "initial_offset": {
+        "height_m": -0.002,
+        "roll_rad": 0.017453292519943295,
+        "pitch_rad": -0.017453292519943295
+      }
+    }
+  }
+]

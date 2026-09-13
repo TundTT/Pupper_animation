@@ -19,8 +19,8 @@ ROOT = HERE.parents[1]
 POLICY = ROOT/'ros2_ws/src/neural_controller/launch/policy_walk_v2.json'
 
 
-def initialize(direction='forward',formation=None):
-    r = Robot(formation=formation)
+def initialize(direction='forward',formation=None,friction=.8,dynamics=None,initial_offset=None,seed=0):
+    r = Robot(formation=formation,friction=friction,dynamics=dynamics)
     goal = np.array(json.loads(POLICY.read_text())['default_joint_pos'])
     # World hub axes are mirrored. Choose a fixed initial winding that reaches
     # the policy's UNWRAPPED default; never wrap/teleport any running trajectory.
@@ -32,7 +32,15 @@ def initialize(direction='forward',formation=None):
     r.d.qpos[7:] = home
     mj.mj_forward(r.m, r.d)
     assert np.max(abs(before-r.d.xpos)) < 1e-10
-    r.initial = r.d.qpos.copy()
+    r.command_history=[home.copy() for _ in range(r.dynamics['delay_steps'])]
+    offsets=initial_offset or {}
+    if set(offsets)-{'height_m','roll_rad','pitch_rad'}:raise ValueError('Unknown initial offset')
+    r.d.qpos[2]+=float(offsets.get('height_m',0.))
+    roll=offsets.get('roll_rad',0.);pitch=offsets.get('pitch_rad',0.)
+    quat=np.array([np.cos(roll/2)*np.cos(pitch/2),np.sin(roll/2)*np.cos(pitch/2),np.cos(roll/2)*np.sin(pitch/2),-np.sin(roll/2)*np.sin(pitch/2)])
+    result=np.empty(4);mj.mju_mulQuat(result,r.d.qpos[3:7].copy(),quat);r.d.qpos[3:7]=result
+    if seed:r.d.qpos[7:][PROX]+=np.random.default_rng(seed).uniform(-.01,.01,8)
+    mj.mj_forward(r.m,r.d);r.initial = r.d.qpos.copy()
     return r, home, goal
 
 
@@ -74,7 +82,9 @@ def render_states(r, states, output, title):
 
 def probe(config, output, video=False, cad=False):
     output=Path(output); output.mkdir(parents=True,exist_ok=False)
-    r,home,goal=initialize(config['direction'],config.get('formation'))
+    scenario=config.get('scenario',{})
+    if set(scenario)-{'dynamics','initial_offset','sensors'}:raise ValueError('Unknown scenario')
+    r,home,goal=initialize(config['direction'],config.get('formation'),config.get('friction',.8),scenario.get('dynamics'),scenario.get('initial_offset'),config.get('seed',0))
     targets=commands(home,goal,config['seconds'],config['shoulder_bump'],config['splay_power'],config.get('hold_seconds',5.))
     velocity=np.diff(np.vstack([home,targets]),axis=0)*520
     acceleration=np.diff(np.vstack([np.zeros(12),velocity]),axis=0)*520
@@ -96,14 +106,21 @@ def probe(config, output, video=False, cad=False):
     if config.get('settling_feedback',False):
         from .settling_feedback import SettlingFeedback
         feedback=SettlingFeedback()
+    if config.get('adaptive_support') is not None:
+        from .adaptive_support import AdaptiveSupport
+        feedback=AdaptiveSupport(goal,config['adaptive_support'])
     trace=[];states=[];hold=[]
+    from .roll_audit import RollRecorder
+    recorder=RollRecorder(r,home)
+    from .sensors import JointImuSensors
+    sensors=JointImuSensors(scenario.get('sensors'),config.get('seed',0))
     last_command=home.copy();last_velocity=np.zeros(12);correction=np.zeros(12)
     actual_speed_ratio=0.;actual_acceleration_ratio=0.
     for step,target in enumerate(targets):
-        target=target.copy()
+        target=target.copy();measurement=sensors.read(r)
         if feedback and step>=(2+config['seconds'])*520:
             if step%10==0:
-                correction=feedback.update(r.d.qpos[3:7].copy(),r.d.qpos[7:].copy(),r.d.qvel[6:].copy(),last_command,10/520)
+                correction=feedback.update(measurement['quaternion'],measurement['q'],measurement['qd'],last_command,10/520)
             desired_velocity=np.clip(5.*(target+correction-last_command),-SPEED,SPEED)
             next_velocity=last_velocity+np.clip(desired_velocity-last_velocity,-ACCEL/520,ACCEL/520)
             target=last_command+next_velocity/520
@@ -113,6 +130,7 @@ def probe(config, output, video=False, cad=False):
         actual_acceleration_ratio=max(actual_acceleration_ratio,float(np.max(abs(cmd_velocity-last_velocity)*520/ACCEL)))
         last_velocity=cmd_velocity;last_command=target.copy()
         tau=r.tick(target)
+        recorder.add(r,target)
         report['peak_requested_torque_Nm']=max(report['peak_requested_torque_Nm'],float(abs(tau).max()))
         report['max_measured_joint_speed']=max(report['max_measured_joint_speed'],float(abs(r.d.qvel[6:]).max()))
         if step%13==0:
@@ -124,7 +142,7 @@ def probe(config, output, video=False, cad=False):
                 floor_force_N=floor,tip_bottom_m=r.tip_bottoms().tolist(),forces_N=r.contacts_precise().tolist(),
                 joint_speed=float(abs(r.d.qvel[6:]).max()),base_speed=float(np.linalg.norm(r.d.qvel[:3])),
                 commanded_offset_rad=(target-goal).tolist() if feedback else None,
-                estimated_load_N=feedback.estimated_load_N.tolist() if feedback else None)
+                estimated_load_N=feedback.estimated_load_N.tolist() if feedback else None,qpos=r.d.qpos.tolist(),qvel=r.d.qvel.tolist(),command=target.tolist())
             trace.append(row)
             if step>len(targets)-1560:hold.append(row)
             if cad and step%52==0:
@@ -140,14 +158,17 @@ def probe(config, output, video=False, cad=False):
                 report['early_termination']='large tilt, collapse, or nonfinite state'
                 states.append((float(r.d.time),r.d.qpos.copy())); break
         if step%26==0:states.append((float(r.d.time),r.d.qpos.copy()))
+    report['dense_dynamics_audit']=recorder.finish(r,output,cad)
+    report['max_unintended_floor_force_N']=max(report['max_unintended_floor_force_N'],recorder.floor_peak)
+    report['max_tilt_deg']=max(report['max_tilt_deg'],recorder.tilt_peak)
     report['environment_steps']=step+1
     report['simulated_seconds']=float(r.d.time)
     report['final']=trace[-1]
     report['final_joint_positions']=r.d.qpos[7:].tolist()
     report['max_command_speed_ratio']=actual_speed_ratio
     report['max_command_acceleration_ratio']=actual_acceleration_ratio
-    report['feedback']=None if feedback is None else dict(type='nominal_kinematics_imu_pd_estimate',
-        ideal_sensor_inputs=True,contact_oracle=False,estimated_load_N=feedback.estimated_load_N.tolist(),
+    report['feedback']=None if feedback is None else dict(type=type(feedback).__name__,controller_config=getattr(feedback,'config',{}),
+        ideal_sensor_inputs=not bool(scenario.get('sensors')),sensor_spec=scenario.get('sensors',{}),contact_oracle=False,estimated_load_N=feedback.estimated_load_N.tolist(),
         max_command_offset_rad=feedback.max_offset_rad,extension_m=feedback.extension.tolist())
     gates={'completed':step+1==len(targets),
         'command_rate':report['max_command_speed_ratio']<=1.000001 and report['max_command_acceleration_ratio']<=1.000001,
@@ -157,7 +178,8 @@ def probe(config, output, video=False, cad=False):
         'three_second_walk_pose':len(hold)>=119 and max(x['policy_pose_error_rad'] for x in hold)<=.1,
         'three_second_tip_support':len(hold)>=119 and all(max(map(abs,x['tip_bottom_m']))<=.003 and min(x['forces_N'])>=1 for x in hold),
         'three_second_settled':len(hold)>=119 and all(x['joint_speed']<=.1 and x['base_speed']<=.03 for x in hold),
-        'sampled_cad':None if not cad else report['minimum_cad_gap_m']>=.001 and report['first_cad_intersections'] is None}
+        'sampled_cad':None if not cad else report['minimum_cad_gap_m']>=.001 and report['first_cad_intersections'] is None,
+        'dense_cad':None if not cad else report['dense_dynamics_audit']['cad_pass']}
     report['gates']=gates
     report['status']='PROBE_PASS_REQUIRES_DENSE_AUDIT_AND_POLICY_HANDOFF' if all(v is True for v in gates.values()) else 'FAILED_OR_INCOMPLETE'
     (output/'audit.json').write_text(json.dumps(report,indent=2)+'\n')
