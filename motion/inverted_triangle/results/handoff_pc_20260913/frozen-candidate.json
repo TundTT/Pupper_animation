@@ -1,0 +1,10 @@
+{
+  "config": {
+    "entry_seconds": 2.0,
+    "entry_integral_gain": 0.25,
+    "entry_splay": 0.1
+  },
+  "source_commit": "076f46b",
+  "status": "diagnostic candidate: resolves saved entry timeout; floor and final support not accepted",
+  "selection": "smallest tested splay that completed measured entry under unchanged 0.1 rad / 0.12 rad/s gates; no held-out results used"
+}

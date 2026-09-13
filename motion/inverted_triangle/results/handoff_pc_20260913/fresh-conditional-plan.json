@@ -1,0 +1,571 @@
+[
+  {
+    "name": "fresh-conditional-0",
+    "role": "fresh shape/friction/sensor/dynamics conditional on ONE historical actual endpoint; NOT fresh alignment endpoint",
+    "config": {
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "seed": 2026091403,
+      "formation": {
+        "support_extension_mm": [
+          0.514133390811472,
+          0.7340727697273259,
+          0.2700788068816482,
+          0.012486106609016057
+        ],
+        "tip_shortening_mm": [
+          0.7925405151601076,
+          1.1639491993762663,
+          0.9078617204881186,
+          0.0
+        ],
+        "bend_deg": [
+          -1.9294124492791056,
+          -0.15319453550556794,
+          -1.95983199151141,
+          -1.5493811982620234
+        ]
+      },
+      "pose_noise_deg": 2.0,
+      "friction": 0.6739393540048457,
+      "dynamics": {
+        "mass_scale": 1.0432597634783223,
+        "base_com_offset_m": [
+          -0.001927193524088672,
+          0.0014568956507221465,
+          -0.0013298174631254985
+        ],
+        "delay_steps": 3,
+        "kp_scale": 0.982508094714146,
+        "kd_scale": 1.0114459733109553
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          1.5568862418522539e-06,
+          0.0005533282610754075,
+          -0.0018039520381260968,
+          -0.0016504181760287175,
+          0.0012706074276854122,
+          -0.0026312486490646715,
+          0.000402428186108055,
+          0.00067779504160172,
+          -0.0007625507279577256,
+          -0.001305554607032775,
+          -0.0005467261686512744,
+          0.0022744067219854997
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          0.007042455378233,
+          0.004414588840690955
+        ],
+        "delay_steps": 0
+      }
+    }
+  },
+  {
+    "name": "fresh-conditional-1",
+    "role": "fresh shape/friction/sensor/dynamics conditional on ONE historical actual endpoint; NOT fresh alignment endpoint",
+    "config": {
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "seed": 2026091404,
+      "formation": {
+        "support_extension_mm": [
+          0.7479590118508621,
+          0.4090389909709151,
+          1.098566301818702,
+          0.37325267367398807
+        ],
+        "tip_shortening_mm": [
+          1.8706772754706487,
+          0.4114123825236917,
+          2.5822605434654418,
+          0.31862315293514154
+        ],
+        "bend_deg": [
+          -0.5521507307517752,
+          -1.8079346333629709,
+          2.794037254812703,
+          2.4734927674653653
+        ]
+      },
+      "pose_noise_deg": 2.0,
+      "friction": 0.7902876163231702,
+      "dynamics": {
+        "mass_scale": 0.9435612558651276,
+        "base_com_offset_m": [
+          0.0015310426303494764,
+          0.001708125991123376,
+          -0.0013986643978598017
+        ],
+        "delay_steps": 3,
+        "kp_scale": 0.9160480668747051,
+        "kd_scale": 0.9664329160335137
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          -0.002551499134221035,
+          -4.521765209031508e-05,
+          -0.0017748999706860059,
+          -0.0003866779854121115,
+          0.0010869799064931697,
+          0.0026186420075506416,
+          -0.0029607806198887485,
+          0.000336514918657473,
+          0.00022599314028092345,
+          0.0008214980602722602,
+          -0.0027605224706926156,
+          0.0025949467025160027
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          0.00231254694100037,
+          -0.004661261126944111
+        ],
+        "delay_steps": 0
+      }
+    }
+  },
+  {
+    "name": "fresh-conditional-2",
+    "role": "fresh shape/friction/sensor/dynamics conditional on ONE historical actual endpoint; NOT fresh alignment endpoint",
+    "config": {
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "seed": 2026091405,
+      "formation": {
+        "support_extension_mm": [
+          2.555219123171093,
+          2.1624789312632777,
+          1.5034617841650992,
+          3.1980554954280977
+        ],
+        "tip_shortening_mm": [
+          4.610569155752869,
+          4.474957805063701,
+          2.9112741819879924,
+          6.526669803031477
+        ],
+        "bend_deg": [
+          2.312198543150952,
+          -0.4013004475639992,
+          1.598442168579166,
+          0.7896663186083033
+        ]
+      },
+      "pose_noise_deg": 2.0,
+      "friction": 0.8648171926713228,
+      "dynamics": {
+        "mass_scale": 1.0084254409749673,
+        "base_com_offset_m": [
+          -0.00039425517020611335,
+          -0.0010193458596929276,
+          -0.0016788133883064759
+        ],
+        "delay_steps": 5,
+        "kp_scale": 0.9680867836915638,
+        "kd_scale": 1.0064422127587984
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          -0.0008828309259539765,
+          0.0026089043114763686,
+          -0.0012229599968874667,
+          -0.0005114680963892245,
+          -0.0024471235507377257,
+          0.0021655189381155227,
+          0.0018135500731762712,
+          0.00230583200747114,
+          -0.0009311196009154075,
+          -0.001722672381212681,
+          -0.00048245550567642273,
+          0.0005270388140816511
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          -0.0019732882569633518,
+          0.008042609573234251
+        ],
+        "delay_steps": 1
+      }
+    }
+  },
+  {
+    "name": "fresh-conditional-3",
+    "role": "fresh shape/friction/sensor/dynamics conditional on ONE historical actual endpoint; NOT fresh alignment endpoint",
+    "config": {
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "seed": 2026091406,
+      "formation": {
+        "support_extension_mm": [
+          2.1718467396535273,
+          0.7087227150567543,
+          1.7918727800121834,
+          0.9120328466092624
+        ],
+        "tip_shortening_mm": [
+          4.410645246937295,
+          1.1563317389251249,
+          3.5264252529353017,
+          1.364976361698254
+        ],
+        "bend_deg": [
+          1.0508769957160293,
+          2.3104770054476624,
+          1.9855110978185273,
+          1.466984248277563
+        ]
+      },
+      "pose_noise_deg": 2.0,
+      "friction": 0.7600806196673455,
+      "dynamics": {
+        "mass_scale": 0.9257657115259934,
+        "base_com_offset_m": [
+          -0.0008351679962715641,
+          -0.001721051578403086,
+          -0.0019377805973655594
+        ],
+        "delay_steps": 0,
+        "kp_scale": 0.8375755438543503,
+        "kd_scale": 1.0706315522428116
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          0.0012668732322759684,
+          0.0017804718405791163,
+          -0.001637132278979676,
+          -0.002925752636367198,
+          -0.0021321328430176805,
+          0.0004047222591732542,
+          -0.002697448343243884,
+          0.001389541908555991,
+          0.002076400732832972,
+          -0.0029098900691881826,
+          -0.0018826590194612448,
+          -0.0021292130071131014
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          0.005846634537678676,
+          -0.006152720422897389
+        ],
+        "delay_steps": 1
+      }
+    }
+  },
+  {
+    "name": "fresh-conditional-4",
+    "role": "fresh shape/friction/sensor/dynamics conditional on ONE historical actual endpoint; NOT fresh alignment endpoint",
+    "config": {
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "seed": 2026091407,
+      "formation": {
+        "support_extension_mm": [
+          3.6578163634932905,
+          2.642634476510686,
+          2.2052920549690778,
+          2.907043900166789
+        ],
+        "tip_shortening_mm": [
+          7.030263141702056,
+          5.019348570619557,
+          4.637088519984718,
+          6.167612306791122
+        ],
+        "bend_deg": [
+          -1.1035592174909805,
+          0.6766736711944867,
+          0.0008248866989135628,
+          0.7864573405705051
+        ]
+      },
+      "pose_noise_deg": 2.0,
+      "friction": 0.9761575580756076,
+      "dynamics": {
+        "mass_scale": 0.9852764743102559,
+        "base_com_offset_m": [
+          -0.0007452974176351082,
+          0.0014214190571744459,
+          -0.00019808440644870917
+        ],
+        "delay_steps": 1,
+        "kp_scale": 1.038090070006088,
+        "kd_scale": 1.0805713428182615
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          0.002403304530164797,
+          -0.0024830603351375536,
+          -0.0003904372840898519,
+          -0.0008636650929701468,
+          0.0020789983298601334,
+          0.0012661304962071343,
+          -0.0009003435090119021,
+          0.001713228857505699,
+          -0.0015328726541835658,
+          -0.0019966148972006105,
+          0.002414128471487321,
+          0.001543282795929829
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          0.007163978166663424,
+          0.008419958545297482
+        ],
+        "delay_steps": 2
+      }
+    }
+  },
+  {
+    "name": "fresh-conditional-5",
+    "role": "fresh shape/friction/sensor/dynamics conditional on ONE historical actual endpoint; NOT fresh alignment endpoint",
+    "config": {
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "seed": 2026091408,
+      "formation": {
+        "support_extension_mm": [
+          2.914902003901448,
+          2.6673050231903237,
+          3.0375830642102963,
+          3.7174833711270248
+        ],
+        "tip_shortening_mm": [
+          5.835476041318632,
+          5.2959683185585735,
+          6.2897185825615445,
+          7.5114797622155
+        ],
+        "bend_deg": [
+          2.6817044212386154,
+          0.925380866866262,
+          -1.0802457542709356,
+          -1.402968397872216
+        ]
+      },
+      "pose_noise_deg": 2.0,
+      "friction": 0.9502170137812357,
+      "dynamics": {
+        "mass_scale": 0.9793204752735762,
+        "base_com_offset_m": [
+          0.0018431046343391111,
+          0.001997053955545831,
+          0.0004766884623781469
+        ],
+        "delay_steps": 0,
+        "kp_scale": 1.0624119967973595,
+        "kd_scale": 0.9063754625665419
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          0.001778790692025382,
+          0.0029726437319856176,
+          0.00186810378867921,
+          -0.0026510699825144234,
+          0.0005119217770361206,
+          -0.002272167769006728,
+          -0.002402976770050711,
+          -0.0029884899002824636,
+          0.002392682812599244,
+          -0.00246751199745897,
+          -0.0003686071322660839,
+          -0.0010730809012976074
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          0.010578691101736423,
+          0.009866043016907942
+        ],
+        "delay_steps": 0
+      }
+    }
+  },
+  {
+    "name": "fresh-conditional-6",
+    "role": "fresh shape/friction/sensor/dynamics conditional on ONE historical actual endpoint; NOT fresh alignment endpoint",
+    "config": {
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "seed": 2026091409,
+      "formation": {
+        "support_extension_mm": [
+          1.6692410140015057,
+          1.691344439893309,
+          1.5568070940355763,
+          1.582290644232505
+        ],
+        "tip_shortening_mm": [
+          3.6161173806342806,
+          3.026487540832661,
+          2.979081820582356,
+          2.7725631365935355
+        ],
+        "bend_deg": [
+          2.410456222834065,
+          -2.252131418808249,
+          0.18039747860091637,
+          0.8312553353423593
+        ]
+      },
+      "pose_noise_deg": 2.0,
+      "friction": 0.8732552436564902,
+      "dynamics": {
+        "mass_scale": 1.002670519465664,
+        "base_com_offset_m": [
+          -0.0015178809868602642,
+          -0.00011086867285933842,
+          0.0003451629165186921
+        ],
+        "delay_steps": 0,
+        "kp_scale": 0.8933310509533312,
+        "kd_scale": 1.0769570337413468
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          0.002312592424233981,
+          -0.0021756426229914364,
+          0.0009434544309949366,
+          -0.0008005384230835907,
+          0.001863215050153049,
+          -0.0022518904417810383,
+          0.0024756136493666488,
+          -0.0013576467596009604,
+          -0.0027163474400519923,
+          0.00019450359290007187,
+          -0.001167592419350795,
+          0.0007750153009594141
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          -0.009759790253069146,
+          0.011515251929585073
+        ],
+        "delay_steps": 0
+      }
+    }
+  },
+  {
+    "name": "fresh-conditional-7",
+    "role": "fresh shape/friction/sensor/dynamics conditional on ONE historical actual endpoint; NOT fresh alignment endpoint",
+    "config": {
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "seed": 2026091410,
+      "formation": {
+        "support_extension_mm": [
+          0.920655539081159,
+          0.0,
+          1.3522886776486303,
+          0.0
+        ],
+        "tip_shortening_mm": [
+          1.4671275772517864,
+          0.3738663216847341,
+          2.9446651040906775,
+          0.0
+        ],
+        "bend_deg": [
+          -2.440067339426647,
+          0.6430815368439697,
+          -1.2816061358851547,
+          2.886281960790291
+        ]
+      },
+      "pose_noise_deg": 2.0,
+      "friction": 0.7969139407818655,
+      "dynamics": {
+        "mass_scale": 0.912784593755019,
+        "base_com_offset_m": [
+          3.310180252580255e-05,
+          0.0019000682545368733,
+          -0.0015660328884042557
+        ],
+        "delay_steps": 0,
+        "kp_scale": 1.0261209652869483,
+        "kd_scale": 0.9224919840420571
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          -0.0018135772863011876,
+          0.0026115620080681646,
+          0.0004341746523298753,
+          0.0027565028521005274,
+          -0.0009479018718260264,
+          -0.0013143344832964002,
+          -0.0003614388003329622,
+          -0.001545781968621137,
+          0.002526084495140671,
+          0.0001270020353869132,
+          -0.0006230672568565739,
+          -0.00247196602674368
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          0.0025567514786046415,
+          0.00948592880710811
+        ],
+        "delay_steps": 0
+      }
+    }
+  },
+  {
+    "name": "baseline-nominal",
+    "role": "exact development repeat for sensor-instrumentation baseline parity, NOT held-out",
+    "config": {
+      "seed": 0,
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    }
+  },
+  {
+    "name": "baseline-diagonal",
+    "role": "exact development repeat for sensor-instrumentation baseline parity, NOT held-out",
+    "config": {
+      "seed": 19,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    }
+  }
+]

@@ -1,0 +1,292 @@
+[
+  {
+    "name": "entry-0.5-integral-0.25",
+    "config": {
+      "seed": 19,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_seconds": 0.5,
+      "entry_integral_gain": 0.25
+    }
+  },
+  {
+    "name": "entry-0.5-integral-0.5",
+    "config": {
+      "seed": 19,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_seconds": 0.5,
+      "entry_integral_gain": 0.5
+    }
+  },
+  {
+    "name": "entry-1.0-integral-0.25",
+    "config": {
+      "seed": 19,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_seconds": 1.0,
+      "entry_integral_gain": 0.25
+    }
+  },
+  {
+    "name": "entry-1.0-integral-0.5",
+    "config": {
+      "seed": 19,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_seconds": 1.0,
+      "entry_integral_gain": 0.5
+    }
+  },
+  {
+    "name": "entry-2.0-integral-0.25",
+    "config": {
+      "seed": 19,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25
+    }
+  },
+  {
+    "name": "entry-2.0-integral-0.5",
+    "config": {
+      "seed": 19,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.5
+    }
+  },
+  {
+    "name": "entry-4.0-integral-0.25",
+    "config": {
+      "seed": 19,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_seconds": 4.0,
+      "entry_integral_gain": 0.25
+    }
+  },
+  {
+    "name": "entry-4.0-integral-0.5",
+    "config": {
+      "seed": 19,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_seconds": 4.0,
+      "entry_integral_gain": 0.5
+    }
+  },
+  {
+    "name": "direct-12.0",
+    "config": {
+      "seed": 19,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_mode": "direct",
+      "roll_seconds": 12.0
+    }
+  },
+  {
+    "name": "direct-20.0",
+    "config": {
+      "seed": 19,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_mode": "direct",
+      "roll_seconds": 20.0
+    }
+  }
+]

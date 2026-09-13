@@ -1,0 +1,19 @@
+{
+  "source_commit": "a7e3bb1e67f73b4fb14ee6658d66d0263fd2bfd8",
+  "source_target_error_rad": [
+    0.0004567724990532047,
+    0.010838250109729941,
+    0.0030509936320586525,
+    -0.007386399428293444
+  ],
+  "within_original_alignment_tolerance": true,
+  "hub_frame_offset_rad": [
+    -1.8605414776710898,
+    -3.836720902610722,
+    1.8841413106052785,
+    -2.2454350330875386
+  ],
+  "velocity_exactly_preserved": true,
+  "proximal_commands_exactly_preserved": true,
+  "scope": "Calibrated post-cooling frame conversion only. No live wrapping; no continuous heating/deformation physics claim."
+}

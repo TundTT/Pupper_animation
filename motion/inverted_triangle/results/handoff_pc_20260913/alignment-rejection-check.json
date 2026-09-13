@@ -1,0 +1,17 @@
+[
+  {
+    "case": "alignment-published-0",
+    "rejected": true,
+    "reason": "Alignment must finish all four wheels and lower/settle successfully"
+  },
+  {
+    "case": "alignment-published-1",
+    "rejected": true,
+    "reason": "Alignment must finish all four wheels and lower/settle successfully"
+  },
+  {
+    "case": "alignment-published-5",
+    "rejected": true,
+    "reason": "Alignment must finish all four wheels and lower/settle successfully"
+  }
+]

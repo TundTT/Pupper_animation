@@ -1,0 +1,26 @@
+[
+  {
+    "original": "nominal_endpoint",
+    "repeat": "baseline-nominal",
+    "arrays_exactly_equal": {
+      "commands": true,
+      "kp": true,
+      "kd": true,
+      "qpos": true,
+      "qvel": true,
+      "loads": true
+    }
+  },
+  {
+    "original": "diagonal_10mm_spread",
+    "repeat": "baseline-diagonal",
+    "arrays_exactly_equal": {
+      "commands": true,
+      "kp": true,
+      "kd": true,
+      "qpos": true,
+      "qvel": true,
+      "loads": true
+    }
+  }
+]

@@ -1,0 +1,185 @@
+[
+  {
+    "name": "zero-parts-2",
+    "config": {
+      "seed": 0,
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "bend_deg": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "contact_parts": 2
+      }
+    }
+  },
+  {
+    "name": "zero-parts-4",
+    "config": {
+      "seed": 0,
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "bend_deg": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "contact_parts": 4
+      }
+    }
+  },
+  {
+    "name": "zero-parts-8",
+    "config": {
+      "seed": 0,
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "bend_deg": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "contact_parts": 8
+      }
+    }
+  },
+  {
+    "name": "diagonal-parts-2",
+    "config": {
+      "seed": 19,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ],
+        "contact_parts": 2
+      },
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    }
+  },
+  {
+    "name": "diagonal-parts-4",
+    "config": {
+      "seed": 19,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ],
+        "contact_parts": 4
+      },
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    }
+  },
+  {
+    "name": "diagonal-parts-8",
+    "config": {
+      "seed": 19,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ],
+        "contact_parts": 8
+      },
+      "entry_seconds": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    }
+  }
+]

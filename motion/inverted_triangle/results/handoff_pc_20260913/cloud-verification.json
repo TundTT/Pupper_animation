@@ -1,0 +1,2479 @@
+[
+  {
+    "local": "alignment-published-0",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/a5277b1833124436",
+    "id": "a5277b1833124436",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/alignment/actual_rollout_1_df063d4be1d2b0bb234b.mp4",
+        "size": 1215244,
+        "md5": "oL8tw01snMIqiE9rfaTy5A=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "published-alignment-failure-a5277b1833124436:v0",
+        "digest": "8af25a69ad12abc51545c84b1a8ba8f1",
+        "state": "COMMITTED",
+        "files": [
+          "alignment_report.json",
+          "alignment_trace.csv",
+          "terminal.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "alignment-published-1",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3b967fd543c54aef",
+    "id": "3b967fd543c54aef",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/alignment/actual_rollout_1_b46e737902096c537435.mp4",
+        "size": 1227393,
+        "md5": "KcM4vyfnOJ2nNaKJbCOB3w=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "published-alignment-failure-3b967fd543c54aef:v0",
+        "digest": "851a59bdb7a147c89dbf56d95de06527",
+        "state": "COMMITTED",
+        "files": [
+          "alignment_report.json",
+          "alignment_trace.csv",
+          "terminal.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "alignment-published-5",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/cdf835985c2a4da9",
+    "id": "cdf835985c2a4da9",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/alignment/actual_rollout_1_7a2ac483573bf7caa2b3.mp4",
+        "size": 1223895,
+        "md5": "hbetHFTQWcPStX7pDo2vHw=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "published-alignment-failure-cdf835985c2a4da9:v0",
+        "digest": "4d2b21c38a8f479c2fe72916ab8a9253",
+        "state": "COMMITTED",
+        "files": [
+          "alignment_report.json",
+          "alignment_trace.csv",
+          "terminal.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "contact-convergence/diagonal-parts-2",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9d97f037de7342c4",
+    "id": "9d97f037de7342c4",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_1b8a1161b5af0af6e5a1.mp4",
+        "size": 1710428,
+        "md5": "CBqtTuxWrlKKLk0KkbJXvQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-9d97f037de7342c4:v0",
+        "digest": "a3448c28f7e51a6339606f53aec9e322",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "contact-convergence/diagonal-parts-4",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/2b550a10addb4f89",
+    "id": "2b550a10addb4f89",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_3ca64eb390904926f5d3.mp4",
+        "size": 1713945,
+        "md5": "M8z3kFEnkjtTSVe+dSINlw=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-2b550a10addb4f89:v0",
+        "digest": "cbe91ef0c1cc7cd3122e05077b61947f",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "contact-convergence/diagonal-parts-8",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/bdf7303b285f4cd6",
+    "id": "bdf7303b285f4cd6",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_ccf4bb84c5b204956124.mp4",
+        "size": 1707318,
+        "md5": "+kTQda9gqit4+hyESLh8SQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-bdf7303b285f4cd6:v0",
+        "digest": "5693d2972d98026904117e4dbd0892e2",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "contact-convergence/zero-parts-2",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/eb1dfac2cab14260",
+    "id": "eb1dfac2cab14260",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_503bcb2e361a018fc32f.mp4",
+        "size": 1269425,
+        "md5": "blrgnAilI7pbIIhWbJIb1w=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-eb1dfac2cab14260:v0",
+        "digest": "7d8f6601b958f1214a1cb5bce037fb57",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "contact-convergence/zero-parts-4",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/7771d81a27ce4655",
+    "id": "7771d81a27ce4655",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_ee8212662e059c85b5be.mp4",
+        "size": 1274620,
+        "md5": "/yHM3s+VuFjvLcaEc9rj6Q=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-7771d81a27ce4655:v0",
+        "digest": "34f5dd2914d115e0671a6b3bf2ea43f7",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "contact-convergence/zero-parts-8",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/94a310b70a914e61",
+    "id": "94a310b70a914e61",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_80e83b054fe926eaeb54.mp4",
+        "size": 1276274,
+        "md5": "9yYfLqCjaSLaNWKepRYPkQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-94a310b70a914e61:v0",
+        "digest": "7f1f6a52440abc175606f5432c07cd5a",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "development/combined_trial",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/f93978fc99234c0e",
+    "id": "f93978fc99234c0e",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_dad3d8283faad5f14a03.mp4",
+        "size": 1568125,
+        "md5": "6nm1pL1Je8Wo6Jkwf7Z0Mg=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-f93978fc99234c0e:v0",
+        "digest": "e7e6f44a210ba816d2c1eef9c5caa720",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "development/diagonal_10mm_spread",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/6919a38d0564467b",
+    "id": "6919a38d0564467b",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_d02ea96e83e813f8dbae.mp4",
+        "size": 1712420,
+        "md5": "pcZYS5Cva8Heum6N3+Ojpw=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-6919a38d0564467b:v0",
+        "digest": "6c6bf675050599798af0caeff624302d",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true,
+    "selected_download_sha256": "d02ea96e83e813f8dbae793d20b99563fd14d9c310c361b0b47fc761caf01a25",
+    "selected_local_sha256": "d02ea96e83e813f8dbae793d20b99563fd14d9c310c361b0b47fc761caf01a25",
+    "selected_bytes_identical": true
+  },
+  {
+    "local": "development/front_short_10mm",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3043aeb06d5f4fa7",
+    "id": "3043aeb06d5f4fa7",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_7f7db021e151cbd748f9.mp4",
+        "size": 1337434,
+        "md5": "t3hdxgaBkQ/fCMBujMJmYA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-3043aeb06d5f4fa7:v0",
+        "digest": "553cb62e3f524eabcd4fc30c7cebaf0f",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "development/left_short_10mm",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/574dabad94be4813",
+    "id": "574dabad94be4813",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_452d6d64491cb0fc3558.mp4",
+        "size": 1334618,
+        "md5": "KnR3bIdeeY9LiNfwhnHzCQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-574dabad94be4813:v0",
+        "digest": "75bd301428e57e2e6e8485fb5d637291",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "development/nominal_endpoint",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/237c46235e9d438f",
+    "id": "237c46235e9d438f",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_3e8410eb66eee607dd7d.mp4",
+        "size": 1264822,
+        "md5": "pPtxbRTI/2brNhMJU9mKsg=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-237c46235e9d438f:v0",
+        "digest": "38c79afe7b16c07856d2b8694d069513",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "development/pose_error_2deg",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/93563aed49894dc7",
+    "id": "93563aed49894dc7",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_fd29e5090642a51902bd.mp4",
+        "size": 1272482,
+        "md5": "ff2kAgBWcVc44CEY0t7DJQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-93563aed49894dc7:v0",
+        "digest": "2a2643932556b04473e78ef637f2dccf",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "development/rear_short_10mm",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/449dccfea36e466e",
+    "id": "449dccfea36e466e",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_95646768524f127016f4.mp4",
+        "size": 1545355,
+        "md5": "N7J+QpEKsRXNpL9lYLWIOA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-449dccfea36e466e:v0",
+        "digest": "13fd516e58f9d35f0a0b61758b0ab43f",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "development/uniform_undercompression",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/1d30ce2a75f0418e",
+    "id": "1d30ce2a75f0418e",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_e4d1d6bef6aadb796ad4.mp4",
+        "size": 1266070,
+        "md5": "0P1K77lQiFixtlv4+U3/ug=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-1d30ce2a75f0418e:v0",
+        "digest": "3e507828a93c1269b4d33c9241c7d973",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "entry-search/direct-12.0",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/5f87c3176eb44b13",
+    "id": "5f87c3176eb44b13",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_c7573cd4512c347333de.mp4",
+        "size": 1514220,
+        "md5": "TAhpyzOnAUArVwEqUCGfnQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-5f87c3176eb44b13:v0",
+        "digest": "a822dd47c36d3a782f4dbbadf4011556",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "entry-search/direct-20.0",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/af90bffc595e47b5",
+    "id": "af90bffc595e47b5",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_6c4aed84880d310a3cf4.mp4",
+        "size": 1815395,
+        "md5": "n7j9yVLfOS2JA+Fw5b1Ylg=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-af90bffc595e47b5:v0",
+        "digest": "a77fbbb441bca1857be559e42b5991ae",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "entry-search/entry-0.5-integral-0.25",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/49d5bc741c8a45ff",
+    "id": "49d5bc741c8a45ff",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_dbdd0f24b48e1e99f709.mp4",
+        "size": 315014,
+        "md5": "YhNMC4k9Jk5Br/HDNYpE/Q=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-49d5bc741c8a45ff:v0",
+        "digest": "76ed6ed3bfa2c8a45c57679a2c1ecd84",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "entry-search/entry-0.5-integral-0.5",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/cb7a9f5a989e4d34",
+    "id": "cb7a9f5a989e4d34",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_61b034bfdf01dfab3dbd.mp4",
+        "size": 312304,
+        "md5": "yR5WsKlG6ghdpdzijQNweA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-cb7a9f5a989e4d34:v0",
+        "digest": "2e0a8741b54d4c421ce513fa2b0ad868",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "entry-search/entry-1.0-integral-0.25",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/cc69664e71ac4abe",
+    "id": "cc69664e71ac4abe",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_273fbca4409f26244e3f.mp4",
+        "size": 316684,
+        "md5": "AqWOPqRGcciDRALka3ENUA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-cc69664e71ac4abe:v0",
+        "digest": "9d2ba686c585ae989de14ccdc188127b",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "entry-search/entry-1.0-integral-0.5",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/7f6bd55713764bb3",
+    "id": "7f6bd55713764bb3",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_6b07b5b13ef4889192ff.mp4",
+        "size": 317536,
+        "md5": "1QRxYw5Bnba16LbLRlOWTA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-7f6bd55713764bb3:v0",
+        "digest": "778e83bb654131a288efabebb1a1688a",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "entry-search/entry-2.0-integral-0.25",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/822991fed10e4954",
+    "id": "822991fed10e4954",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_81aa5454673175e084fe.mp4",
+        "size": 345376,
+        "md5": "9RClEtrLz2Bxk26CSyel9g=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-822991fed10e4954:v0",
+        "digest": "90ef5b236412252539a955a92b8e2cbc",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "entry-search/entry-2.0-integral-0.5",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/4d359e6d76714ba5",
+    "id": "4d359e6d76714ba5",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_2504e0127003781f23cd.mp4",
+        "size": 350719,
+        "md5": "YKLRSy3paRznbRmUAxSXjA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-4d359e6d76714ba5:v0",
+        "digest": "c7b75007e0abf2762dae8e2ddcc2f126",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "entry-search/entry-4.0-integral-0.25",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/8622b5611ceb4fd7",
+    "id": "8622b5611ceb4fd7",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_843b807a781f4a1166c6.mp4",
+        "size": 407393,
+        "md5": "MgTbrfQQME3LdMWBm1xuCg=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-8622b5611ceb4fd7:v0",
+        "digest": "0680ff0594cce8d45c3c50e7098f5b18",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "entry-search/entry-4.0-integral-0.5",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/98f1c8fd52b7454b",
+    "id": "98f1c8fd52b7454b",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_0d3b9b380f54bcbd0b44.mp4",
+        "size": 414345,
+        "md5": "gPVj2yC7O6wliI9wYt93eQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-98f1c8fd52b7454b:v0",
+        "digest": "4bccf769dfcfffa6437e25e980d1f77e",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "fresh-conditional/baseline-diagonal",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/0b0bf7b793b7492f",
+    "id": "0b0bf7b793b7492f",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_76503c4a431b632553db.mp4",
+        "size": 1713147,
+        "md5": "VtVja82DSpMkNweZlmjlUg=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-0b0bf7b793b7492f:v0",
+        "digest": "a5679a8cff16161329d90f4c1cddeb65",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "fresh-conditional/baseline-nominal",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/59381739e97c4370",
+    "id": "59381739e97c4370",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_86dd5fc80e05dbd5f507.mp4",
+        "size": 1263197,
+        "md5": "62/zGJ2oaVfL2D7ocI3/VQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-59381739e97c4370:v0",
+        "digest": "5931305f93733888d7b2a67d9ffbad2e",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "fresh-conditional/fresh-conditional-0",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/cd65c9d3c8914d02",
+    "id": "cd65c9d3c8914d02",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_5d8d986a1cf4f73235e1.mp4",
+        "size": 1395017,
+        "md5": "Nz1mIBmcH4d2I4yD3oAqhA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-cd65c9d3c8914d02:v0",
+        "digest": "1ad567cade39cf38aa4080158168f839",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "fresh-conditional/fresh-conditional-1",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/1733ed34798c4a98",
+    "id": "1733ed34798c4a98",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_76b37d78a30f5bf2f3fc.mp4",
+        "size": 1340679,
+        "md5": "PyjhpR32HEB+MCxsDujXOQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-1733ed34798c4a98:v0",
+        "digest": "b9a676ba698f05370cb50fb0b6ec3e79",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "fresh-conditional/fresh-conditional-2",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/4d8b997ae358435e",
+    "id": "4d8b997ae358435e",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_63714fb49bf3ed09b906.mp4",
+        "size": 1544345,
+        "md5": "jzUUJ7Dku582PrBJ1tuuWw=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-4d8b997ae358435e:v0",
+        "digest": "b51c300af344ab3155fa20c0581d2dfd",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "fresh-conditional/fresh-conditional-3",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c43365e5e97e4348",
+    "id": "c43365e5e97e4348",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_d529866619d2baf0e513.mp4",
+        "size": 1490118,
+        "md5": "OFp11aoHPwMm5SQfn5oHfg=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-c43365e5e97e4348:v0",
+        "digest": "0f34f6aa4a372cf3251c0d13cbc9e961",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "fresh-conditional/fresh-conditional-4",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/86c3ffcb4e384dd2",
+    "id": "86c3ffcb4e384dd2",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_4060bba9b76b769462b3.mp4",
+        "size": 1431158,
+        "md5": "CmNKiTMbe6UGo3wT2jhBsA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-86c3ffcb4e384dd2:v0",
+        "digest": "67e44ae8a250642e7c7fcc4ee820573c",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "fresh-conditional/fresh-conditional-5",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3901a02be0bd43c1",
+    "id": "3901a02be0bd43c1",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_754cf5cbfa7412a1a7a2.mp4",
+        "size": 1394832,
+        "md5": "R0JPuSPAa2DW7FEbqleVag=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-3901a02be0bd43c1:v0",
+        "digest": "c549cab09afbefc278ca681d707e0f0f",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "fresh-conditional/fresh-conditional-6",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ec0e93d654694bfa",
+    "id": "ec0e93d654694bfa",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_ea0b9656e8ccbcf8828d.mp4",
+        "size": 1346743,
+        "md5": "k9VrMF2wHgKZmdNlz/luqg=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-ec0e93d654694bfa:v0",
+        "digest": "e667c991145241b85ce587da7ac8df01",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "fresh-conditional/fresh-conditional-7",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9d80c0fabfa3432d",
+    "id": "9d80c0fabfa3432d",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_74067c77f69467919854.mp4",
+        "size": 1340889,
+        "md5": "qKOjRi8xcjDwN/6UwJ9Aaw=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-9d80c0fabfa3432d:v0",
+        "digest": "430a24d76e940069efd57bb6697ba46f",
+        "state": "COMMITTED",
+        "files": [
+          "dense_cad_samples.json",
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/com-front-right-high",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c78eed3561fe41c9",
+    "id": "c78eed3561fe41c9",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/com-front-right-high_1_6e7067440223e127f83f.mp4",
+        "size": 1519776,
+        "md5": "9JO8szsce774f119TzdU+w=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-c78eed3561fe41c9:v0",
+        "digest": "efe12b0f3a5668d5f730077409949333",
+        "state": "COMMITTED",
+        "files": [
+          "com-front-right-high/audit.json",
+          "com-front-right-high/dense_cad_samples.json",
+          "com-front-right-high/final_state.json",
+          "com-front-right-high/initial_integration_state.json",
+          "com-front-right-high/integration.npz",
+          "com-front-right-high/states.npz",
+          "com-front-right-high/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/com-rear-left-low",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9f9496ff22624972",
+    "id": "9f9496ff22624972",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/com-rear-left-low_1_25ce959efa563a4dcde7.mp4",
+        "size": 1520469,
+        "md5": "icKbne6HG+yx3YSoH2ZXsg=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-9f9496ff22624972:v0",
+        "digest": "71cf66beb2e8c5225e7b4b3ed8b1c66a",
+        "state": "COMMITTED",
+        "files": [
+          "com-rear-left-low/audit.json",
+          "com-rear-left-low/dense_cad_samples.json",
+          "com-rear-left-low/final_state.json",
+          "com-rear-left-low/initial_integration_state.json",
+          "com-rear-left-low/integration.npz",
+          "com-rear-left-low/states.npz",
+          "com-rear-left-low/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/combined-seed-22",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/bbdfcb13e6a64852",
+    "id": "bbdfcb13e6a64852",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/combined-seed-22_1_7ed4dfc8c1d2c07e5588.mp4",
+        "size": 1570850,
+        "md5": "0mDVhI3l5ofu8VXhbIiz8A=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-bbdfcb13e6a64852:v0",
+        "digest": "f39f1cd3ed258410a25cecf0504f4557",
+        "state": "COMMITTED",
+        "files": [
+          "combined-seed-22/audit.json",
+          "combined-seed-22/dense_cad_samples.json",
+          "combined-seed-22/final_state.json",
+          "combined-seed-22/initial_integration_state.json",
+          "combined-seed-22/integration.npz",
+          "combined-seed-22/states.npz",
+          "combined-seed-22/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/combined-seed-23",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/423c53b4939e4a6d",
+    "id": "423c53b4939e4a6d",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/combined-seed-23_1_807ffaad2dc35ee0dbc7.mp4",
+        "size": 1603686,
+        "md5": "4q6DxTK3IRJMfNK2VCCoiQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-423c53b4939e4a6d:v0",
+        "digest": "429973dec1b88a0a83eafce2cf1dd9d7",
+        "state": "COMMITTED",
+        "files": [
+          "combined-seed-23/audit.json",
+          "combined-seed-23/dense_cad_samples.json",
+          "combined-seed-23/final_state.json",
+          "combined-seed-23/initial_integration_state.json",
+          "combined-seed-23/integration.npz",
+          "combined-seed-23/states.npz",
+          "combined-seed-23/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/combined-seed-24",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e85464f00236410a",
+    "id": "e85464f00236410a",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/combined-seed-24_1_627a257b235216269ba2.mp4",
+        "size": 1590695,
+        "md5": "v92mdNUzfQjbCbBy5yO22w=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-e85464f00236410a:v0",
+        "digest": "35a14861de368f4f7951a432f2763a05",
+        "state": "COMMITTED",
+        "files": [
+          "combined-seed-24/audit.json",
+          "combined-seed-24/dense_cad_samples.json",
+          "combined-seed-24/final_state.json",
+          "combined-seed-24/initial_integration_state.json",
+          "combined-seed-24/integration.npz",
+          "combined-seed-24/states.npz",
+          "combined-seed-24/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/combined-seed-25",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ca202db85b7046fa",
+    "id": "ca202db85b7046fa",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/combined-seed-25_1_bc20fc00c1b9d9e9b37d.mp4",
+        "size": 1550501,
+        "md5": "8iXt58O5zTPM/G98I7lkIQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-ca202db85b7046fa:v0",
+        "digest": "1af5b6b8691f378b11e6452d549db618",
+        "state": "COMMITTED",
+        "files": [
+          "combined-seed-25/audit.json",
+          "combined-seed-25/dense_cad_samples.json",
+          "combined-seed-25/final_state.json",
+          "combined-seed-25/initial_integration_state.json",
+          "combined-seed-25/integration.npz",
+          "combined-seed-25/states.npz",
+          "combined-seed-25/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/combined-seed-26",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3a82916a65234e8b",
+    "id": "3a82916a65234e8b",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/combined-seed-26_1_dc5f05a91a9a512c6d3d.mp4",
+        "size": 1562425,
+        "md5": "PtfYpIOZoNyqe9FU89Ckzg=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-3a82916a65234e8b:v0",
+        "digest": "d4c36715387c68045e268d666e03a2f3",
+        "state": "COMMITTED",
+        "files": [
+          "combined-seed-26/audit.json",
+          "combined-seed-26/dense_cad_samples.json",
+          "combined-seed-26/final_state.json",
+          "combined-seed-26/initial_integration_state.json",
+          "combined-seed-26/integration.npz",
+          "combined-seed-26/states.npz",
+          "combined-seed-26/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/delay-10-steps",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/226b97ce21ec4827",
+    "id": "226b97ce21ec4827",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/delay-10-steps_1_b2dcb8ca541ceef4ec65.mp4",
+        "size": 1525802,
+        "md5": "Mc8Z0ZwM4KHgoLdu3NMozA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-226b97ce21ec4827:v0",
+        "digest": "6667702128d2066ef969e7bb0766e22d",
+        "state": "COMMITTED",
+        "files": [
+          "delay-10-steps/audit.json",
+          "delay-10-steps/dense_cad_samples.json",
+          "delay-10-steps/final_state.json",
+          "delay-10-steps/initial_integration_state.json",
+          "delay-10-steps/integration.npz",
+          "delay-10-steps/states.npz",
+          "delay-10-steps/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/delay-5-steps",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/0d8e0a20a99d4b22",
+    "id": "0d8e0a20a99d4b22",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/delay-5-steps_1_7e0392c0d9bb2420459c.mp4",
+        "size": 1500492,
+        "md5": "XYKV38bclBrXbBHhL1x27g=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-0d8e0a20a99d4b22:v0",
+        "digest": "de7b5fe3efabf87ce03da88b255f4422",
+        "state": "COMMITTED",
+        "files": [
+          "delay-5-steps/audit.json",
+          "delay-5-steps/dense_cad_samples.json",
+          "delay-5-steps/final_state.json",
+          "delay-5-steps/initial_integration_state.json",
+          "delay-5-steps/integration.npz",
+          "delay-5-steps/states.npz",
+          "delay-5-steps/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/gains-high",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/78e12b882e0c465d",
+    "id": "78e12b882e0c465d",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/gains-high_1_73f33d76086df4d6d01c.mp4",
+        "size": 1490775,
+        "md5": "pG1FJRaF+9ewVal+rtRlhw=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-78e12b882e0c465d:v0",
+        "digest": "6556c42ecda83f25823f75351341a559",
+        "state": "COMMITTED",
+        "files": [
+          "gains-high/audit.json",
+          "gains-high/dense_cad_samples.json",
+          "gains-high/final_state.json",
+          "gains-high/initial_integration_state.json",
+          "gains-high/integration.npz",
+          "gains-high/states.npz",
+          "gains-high/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/gains-low",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/11ba99d1c39a496c",
+    "id": "11ba99d1c39a496c",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/gains-low_1_5129143d9bbf5e6b75ca.mp4",
+        "size": 1538368,
+        "md5": "ymobFkXcdUyalmJcvyDvCQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-11ba99d1c39a496c:v0",
+        "digest": "07b30a61f55dcefe62ee05913c3ffbef",
+        "state": "COMMITTED",
+        "files": [
+          "gains-low/audit.json",
+          "gains-low/dense_cad_samples.json",
+          "gains-low/final_state.json",
+          "gains-low/initial_integration_state.json",
+          "gains-low/integration.npz",
+          "gains-low/states.npz",
+          "gains-low/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/half-torque",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c3091f8c05aa4ed5",
+    "id": "c3091f8c05aa4ed5",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/half-torque_1_18e4965fa3dc783e0e97.mp4",
+        "size": 1502083,
+        "md5": "793KCe0Hhz50YwzP7YcziA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-c3091f8c05aa4ed5:v0",
+        "digest": "38ab805764d263dc81237a351a8c399b",
+        "state": "COMMITTED",
+        "files": [
+          "half-torque/audit.json",
+          "half-torque/dense_cad_samples.json",
+          "half-torque/final_state.json",
+          "half-torque/initial_integration_state.json",
+          "half-torque/integration.npz",
+          "half-torque/states.npz",
+          "half-torque/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mass-high",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/8feca95b75ed4c0d",
+    "id": "8feca95b75ed4c0d",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mass-high_1_8b64af8ee797d4044786.mp4",
+        "size": 1504600,
+        "md5": "JSBjRZ0N2P4X664ttHPdJQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-8feca95b75ed4c0d:v0",
+        "digest": "7ccc7a1af8ecf7499e0e8afdf96f1ff4",
+        "state": "COMMITTED",
+        "files": [
+          "mass-high/audit.json",
+          "mass-high/dense_cad_samples.json",
+          "mass-high/final_state.json",
+          "mass-high/initial_integration_state.json",
+          "mass-high/integration.npz",
+          "mass-high/states.npz",
+          "mass-high/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mass-low",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ff4d67ec6d9f420c",
+    "id": "ff4d67ec6d9f420c",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mass-low_1_2081e2d285fa909223f4.mp4",
+        "size": 1480419,
+        "md5": "s8fi42m7xb/9hC3c2FpgZg=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-ff4d67ec6d9f420c:v0",
+        "digest": "d0999ede897f5f24c102a97c54dc5fef",
+        "state": "COMMITTED",
+        "files": [
+          "mass-low/audit.json",
+          "mass-low/dense_cad_samples.json",
+          "mass-low/final_state.json",
+          "mass-low/initial_integration_state.json",
+          "mass-low/integration.npz",
+          "mass-low/states.npz",
+          "mass-low/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.5-seed-1",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/515d3de64021459d",
+    "id": "515d3de64021459d",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.5-seed-1_1_598ee0d75acd6ca38e34.mp4",
+        "size": 1466230,
+        "md5": "brbSWq0lkZohpzUPsiZcJA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-515d3de64021459d:v0",
+        "digest": "47da3cf4a2f20f4b48787153e8799791",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.5-seed-1/audit.json",
+          "mu-0.5-seed-1/dense_cad_samples.json",
+          "mu-0.5-seed-1/final_state.json",
+          "mu-0.5-seed-1/initial_integration_state.json",
+          "mu-0.5-seed-1/integration.npz",
+          "mu-0.5-seed-1/states.npz",
+          "mu-0.5-seed-1/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.5-seed-2",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e5e2e557943541ae",
+    "id": "e5e2e557943541ae",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.5-seed-2_1_aba755b3615604bd7589.mp4",
+        "size": 1448287,
+        "md5": "USUplU1Ye6V9BSUZLryIMw=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-e5e2e557943541ae:v0",
+        "digest": "a066b58e7881b42855ac9696bcb8f02c",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.5-seed-2/audit.json",
+          "mu-0.5-seed-2/dense_cad_samples.json",
+          "mu-0.5-seed-2/final_state.json",
+          "mu-0.5-seed-2/initial_integration_state.json",
+          "mu-0.5-seed-2/integration.npz",
+          "mu-0.5-seed-2/states.npz",
+          "mu-0.5-seed-2/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.5-seed-3",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/2886fb76808b445f",
+    "id": "2886fb76808b445f",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.5-seed-3_1_86aa797678956e83d3db.mp4",
+        "size": 1467521,
+        "md5": "2qTrcAXQz2gLnFEH17muww=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-2886fb76808b445f:v0",
+        "digest": "55c7b84621bd3cb489cff0204ab96a08",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.5-seed-3/audit.json",
+          "mu-0.5-seed-3/dense_cad_samples.json",
+          "mu-0.5-seed-3/final_state.json",
+          "mu-0.5-seed-3/initial_integration_state.json",
+          "mu-0.5-seed-3/integration.npz",
+          "mu-0.5-seed-3/states.npz",
+          "mu-0.5-seed-3/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.5-seed-4",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/f8b9be3de32d448d",
+    "id": "f8b9be3de32d448d",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.5-seed-4_1_5eccfea7c2ff298b0a4b.mp4",
+        "size": 1468608,
+        "md5": "wDHQuCv8hTw/SQ/oRM+CZg=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-f8b9be3de32d448d:v0",
+        "digest": "597b0370677b626ad8ec5be13673fbc2",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.5-seed-4/audit.json",
+          "mu-0.5-seed-4/dense_cad_samples.json",
+          "mu-0.5-seed-4/final_state.json",
+          "mu-0.5-seed-4/initial_integration_state.json",
+          "mu-0.5-seed-4/integration.npz",
+          "mu-0.5-seed-4/states.npz",
+          "mu-0.5-seed-4/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.5-seed-5",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/1d5103bdac604c14",
+    "id": "1d5103bdac604c14",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.5-seed-5_1_36ec3c572b997b54e4f6.mp4",
+        "size": 1429556,
+        "md5": "1gOgmLoNpu3sHoJ0AY8cFw=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-1d5103bdac604c14:v0",
+        "digest": "7f474db90c96caf04f99a7a0b86a119e",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.5-seed-5/audit.json",
+          "mu-0.5-seed-5/dense_cad_samples.json",
+          "mu-0.5-seed-5/final_state.json",
+          "mu-0.5-seed-5/initial_integration_state.json",
+          "mu-0.5-seed-5/integration.npz",
+          "mu-0.5-seed-5/states.npz",
+          "mu-0.5-seed-5/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.65-seed-1",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/4701cb208cb64cdc",
+    "id": "4701cb208cb64cdc",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.65-seed-1_1_95e87073fb73fe21ded7.mp4",
+        "size": 1474777,
+        "md5": "UGjAQvWaBY3J4+1q5rubEA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-4701cb208cb64cdc:v0",
+        "digest": "e29b0c6b13d716b0dde0059775492d1d",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.65-seed-1/audit.json",
+          "mu-0.65-seed-1/dense_cad_samples.json",
+          "mu-0.65-seed-1/final_state.json",
+          "mu-0.65-seed-1/initial_integration_state.json",
+          "mu-0.65-seed-1/integration.npz",
+          "mu-0.65-seed-1/states.npz",
+          "mu-0.65-seed-1/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.65-seed-2",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/96ece73db46a4dfd",
+    "id": "96ece73db46a4dfd",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.65-seed-2_1_23b22f62064e8f21d1af.mp4",
+        "size": 1479475,
+        "md5": "bhn1+xp/3ZP6cz4Y9aFrwQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-96ece73db46a4dfd:v0",
+        "digest": "37c6d4e4c2539c99f0a008fbfce077a0",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.65-seed-2/audit.json",
+          "mu-0.65-seed-2/dense_cad_samples.json",
+          "mu-0.65-seed-2/final_state.json",
+          "mu-0.65-seed-2/initial_integration_state.json",
+          "mu-0.65-seed-2/integration.npz",
+          "mu-0.65-seed-2/states.npz",
+          "mu-0.65-seed-2/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.65-seed-3",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/103e9fa9e99f45ac",
+    "id": "103e9fa9e99f45ac",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.65-seed-3_1_d0ed4669e72776eceaaf.mp4",
+        "size": 1486847,
+        "md5": "Qj0M9uhCMZw6xHgx2qd92w=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-103e9fa9e99f45ac:v0",
+        "digest": "5530958010bd37d1b9b02157aba34c92",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.65-seed-3/audit.json",
+          "mu-0.65-seed-3/dense_cad_samples.json",
+          "mu-0.65-seed-3/final_state.json",
+          "mu-0.65-seed-3/initial_integration_state.json",
+          "mu-0.65-seed-3/integration.npz",
+          "mu-0.65-seed-3/states.npz",
+          "mu-0.65-seed-3/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.65-seed-4",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/a79a9fb5264e4223",
+    "id": "a79a9fb5264e4223",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.65-seed-4_1_781628422761ed69c9f4.mp4",
+        "size": 1475009,
+        "md5": "6mBTSTwPVFIXftbYSGS+hw=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-a79a9fb5264e4223:v0",
+        "digest": "70334b03134bec2c0241a4885e672262",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.65-seed-4/audit.json",
+          "mu-0.65-seed-4/dense_cad_samples.json",
+          "mu-0.65-seed-4/final_state.json",
+          "mu-0.65-seed-4/initial_integration_state.json",
+          "mu-0.65-seed-4/integration.npz",
+          "mu-0.65-seed-4/states.npz",
+          "mu-0.65-seed-4/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.65-seed-5",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/25b2c291f7c64a83",
+    "id": "25b2c291f7c64a83",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.65-seed-5_1_aa932bc153b9057a8993.mp4",
+        "size": 1473315,
+        "md5": "W9ze9tO2E7CnU7Dk9D11GQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-25b2c291f7c64a83:v0",
+        "digest": "e24b73503412664e53b9a45b308c759f",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.65-seed-5/audit.json",
+          "mu-0.65-seed-5/dense_cad_samples.json",
+          "mu-0.65-seed-5/final_state.json",
+          "mu-0.65-seed-5/initial_integration_state.json",
+          "mu-0.65-seed-5/integration.npz",
+          "mu-0.65-seed-5/states.npz",
+          "mu-0.65-seed-5/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.8-seed-1",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/cc72b1665e49477f",
+    "id": "cc72b1665e49477f",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.8-seed-1_1_bfdf96d013b2d26f20bb.mp4",
+        "size": 1500294,
+        "md5": "lXJcURo0RqH7cVHFaINPFQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-cc72b1665e49477f:v0",
+        "digest": "43556293f23549a5c42f2eb12d0c12f8",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.8-seed-1/audit.json",
+          "mu-0.8-seed-1/dense_cad_samples.json",
+          "mu-0.8-seed-1/final_state.json",
+          "mu-0.8-seed-1/initial_integration_state.json",
+          "mu-0.8-seed-1/integration.npz",
+          "mu-0.8-seed-1/states.npz",
+          "mu-0.8-seed-1/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.8-seed-2",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/09c3a93a3d5e41ed",
+    "id": "09c3a93a3d5e41ed",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.8-seed-2_1_744ff450edf103f9a41d.mp4",
+        "size": 1508383,
+        "md5": "h1N98COW1tQmYRkLmqmNIg=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-09c3a93a3d5e41ed:v0",
+        "digest": "b31d2a4e947c65616bd448ac05d5077d",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.8-seed-2/audit.json",
+          "mu-0.8-seed-2/dense_cad_samples.json",
+          "mu-0.8-seed-2/final_state.json",
+          "mu-0.8-seed-2/initial_integration_state.json",
+          "mu-0.8-seed-2/integration.npz",
+          "mu-0.8-seed-2/states.npz",
+          "mu-0.8-seed-2/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.8-seed-3",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/7da3350b038b4372",
+    "id": "7da3350b038b4372",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.8-seed-3_1_b11ab13599282eb3f376.mp4",
+        "size": 1502058,
+        "md5": "+pc2EBCM/i/5g/Ox4JgKJA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-7da3350b038b4372:v0",
+        "digest": "64be8b527e320c30ae092887b3b31d07",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.8-seed-3/audit.json",
+          "mu-0.8-seed-3/dense_cad_samples.json",
+          "mu-0.8-seed-3/final_state.json",
+          "mu-0.8-seed-3/initial_integration_state.json",
+          "mu-0.8-seed-3/integration.npz",
+          "mu-0.8-seed-3/states.npz",
+          "mu-0.8-seed-3/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.8-seed-4",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/8ba252e8ca74489f",
+    "id": "8ba252e8ca74489f",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.8-seed-4_1_9053cbceda11d1d7e134.mp4",
+        "size": 1530402,
+        "md5": "1vlJFYHMONSopkTe5FLnFg=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-8ba252e8ca74489f:v0",
+        "digest": "f4233c025978a59984f96951fc28c646",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.8-seed-4/audit.json",
+          "mu-0.8-seed-4/dense_cad_samples.json",
+          "mu-0.8-seed-4/final_state.json",
+          "mu-0.8-seed-4/initial_integration_state.json",
+          "mu-0.8-seed-4/integration.npz",
+          "mu-0.8-seed-4/states.npz",
+          "mu-0.8-seed-4/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-0.8-seed-5",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/f41b75041a4e466e",
+    "id": "f41b75041a4e466e",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-0.8-seed-5_1_5e5fd84819a48d2fe635.mp4",
+        "size": 1540800,
+        "md5": "CTw56OwBf3HeURePd7FTBA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-f41b75041a4e466e:v0",
+        "digest": "7a8884e8f44eca6837edfc68724cfea9",
+        "state": "COMMITTED",
+        "files": [
+          "mu-0.8-seed-5/audit.json",
+          "mu-0.8-seed-5/dense_cad_samples.json",
+          "mu-0.8-seed-5/final_state.json",
+          "mu-0.8-seed-5/initial_integration_state.json",
+          "mu-0.8-seed-5/integration.npz",
+          "mu-0.8-seed-5/states.npz",
+          "mu-0.8-seed-5/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-1.0-seed-1",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/2c98bc01a4c54f0f",
+    "id": "2c98bc01a4c54f0f",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-1.0-seed-1_1_481255c5032eb8f39903.mp4",
+        "size": 1547925,
+        "md5": "AzeQ5lSRdv2LeFR62Sw4sA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-2c98bc01a4c54f0f:v0",
+        "digest": "6410dff708d018c7c43e448e08aae845",
+        "state": "COMMITTED",
+        "files": [
+          "mu-1.0-seed-1/audit.json",
+          "mu-1.0-seed-1/dense_cad_samples.json",
+          "mu-1.0-seed-1/final_state.json",
+          "mu-1.0-seed-1/initial_integration_state.json",
+          "mu-1.0-seed-1/integration.npz",
+          "mu-1.0-seed-1/states.npz",
+          "mu-1.0-seed-1/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-1.0-seed-2",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/8e785859fe504346",
+    "id": "8e785859fe504346",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-1.0-seed-2_1_6e3106472f802d81ca28.mp4",
+        "size": 1568411,
+        "md5": "oakObGzn3DP4WV8A3MVVpg=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-8e785859fe504346:v0",
+        "digest": "f18bbc40fc29673cb916a3170d33d57c",
+        "state": "COMMITTED",
+        "files": [
+          "mu-1.0-seed-2/audit.json",
+          "mu-1.0-seed-2/dense_cad_samples.json",
+          "mu-1.0-seed-2/final_state.json",
+          "mu-1.0-seed-2/initial_integration_state.json",
+          "mu-1.0-seed-2/integration.npz",
+          "mu-1.0-seed-2/states.npz",
+          "mu-1.0-seed-2/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-1.0-seed-3",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/6a8ac6e8ba6b4067",
+    "id": "6a8ac6e8ba6b4067",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-1.0-seed-3_1_5d5415d8f9eafd93a1a4.mp4",
+        "size": 1574457,
+        "md5": "h7JV6Uh37YBd2ImmmfhKsA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-6a8ac6e8ba6b4067:v0",
+        "digest": "e3c82722c086b540757ba4eafb890b14",
+        "state": "COMMITTED",
+        "files": [
+          "mu-1.0-seed-3/audit.json",
+          "mu-1.0-seed-3/dense_cad_samples.json",
+          "mu-1.0-seed-3/final_state.json",
+          "mu-1.0-seed-3/initial_integration_state.json",
+          "mu-1.0-seed-3/integration.npz",
+          "mu-1.0-seed-3/states.npz",
+          "mu-1.0-seed-3/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-1.0-seed-4",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ac9d5892d23d4c61",
+    "id": "ac9d5892d23d4c61",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-1.0-seed-4_1_8a4ffd1135a9a9554b16.mp4",
+        "size": 1575243,
+        "md5": "xQhG5eGsdJTqQKAwzW9s4Q=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-ac9d5892d23d4c61:v0",
+        "digest": "12a38bf2104e496e666a537c024719e6",
+        "state": "COMMITTED",
+        "files": [
+          "mu-1.0-seed-4/audit.json",
+          "mu-1.0-seed-4/dense_cad_samples.json",
+          "mu-1.0-seed-4/final_state.json",
+          "mu-1.0-seed-4/initial_integration_state.json",
+          "mu-1.0-seed-4/integration.npz",
+          "mu-1.0-seed-4/states.npz",
+          "mu-1.0-seed-4/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/mu-1.0-seed-5",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3692099a75504c3e",
+    "id": "3692099a75504c3e",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/mu-1.0-seed-5_1_c77eba69171d4ddae554.mp4",
+        "size": 1558086,
+        "md5": "PJja+ILuFK+DCZftJPElrQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-3692099a75504c3e:v0",
+        "digest": "32c4bc189993ce52715d92c8425e865f",
+        "state": "COMMITTED",
+        "files": [
+          "mu-1.0-seed-5/audit.json",
+          "mu-1.0-seed-5/dense_cad_samples.json",
+          "mu-1.0-seed-5/final_state.json",
+          "mu-1.0-seed-5/initial_integration_state.json",
+          "mu-1.0-seed-5/integration.npz",
+          "mu-1.0-seed-5/states.npz",
+          "mu-1.0-seed-5/trace.json",
+          "provenance.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/start-high-tilted",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e7dffd7ec5e8416a",
+    "id": "e7dffd7ec5e8416a",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/start-high-tilted_1_2235132780a0e12d0d46.mp4",
+        "size": 1447699,
+        "md5": "eqsghCxZPbGM+ycNPah+iw=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-e7dffd7ec5e8416a:v0",
+        "digest": "2baf388efb5582767d5a05fb84c0d6dc",
+        "state": "COMMITTED",
+        "files": [
+          "provenance.json",
+          "start-high-tilted/audit.json",
+          "start-high-tilted/dense_cad_samples.json",
+          "start-high-tilted/final_state.json",
+          "start-high-tilted/initial_integration_state.json",
+          "start-high-tilted/integration.npz",
+          "start-high-tilted/states.npz",
+          "start-high-tilted/trace.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "parent-regression/start-low-tilted",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9c99afcdc41c475b",
+    "id": "9c99afcdc41c475b",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/trajectory/start-low-tilted_1_a90d2ffa259af72a41a5.mp4",
+        "size": 1506998,
+        "md5": "Ndu+z9/W4xR6AfcfwSon+g=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "roll-to-stand-9c99afcdc41c475b:v0",
+        "digest": "1e092a4d61148afcdb89ba20a0da8922",
+        "state": "COMMITTED",
+        "files": [
+          "provenance.json",
+          "start-low-tilted/audit.json",
+          "start-low-tilted/dense_cad_samples.json",
+          "start-low-tilted/final_state.json",
+          "start-low-tilted/initial_integration_state.json",
+          "start-low-tilted/integration.npz",
+          "start-low-tilted/states.npz",
+          "start-low-tilted/trace.json",
+          "summary.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "reproduce-diagonal",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e29cd4d5c0e44c4c",
+    "id": "e29cd4d5c0e44c4c",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_9f5ff80f78ea2141428c.mp4",
+        "size": 388868,
+        "md5": "SApZ1rCfNusikfdOAzdyIA=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-e29cd4d5c0e44c4c:v0",
+        "digest": "cb11787bfb14959537a75124c82f8ab7",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "reproduce-nominal",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/dec65a3f8445466c",
+    "id": "dec65a3f8445466c",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_0e3499a11a725f2ba3fa.mp4",
+        "size": 1682795,
+        "md5": "gyJ/BZprCJUkIrZ8Pub25Q=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-dec65a3f8445466c:v0",
+        "digest": "5f530491e376a12813bfec4fb59d69c6",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "review",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c4318b8974414955",
+    "id": "c4318b8974414955",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/evidence/published_alignment_failure_5_df063d4be1d2b0bb234b.mp4",
+        "size": 1215244,
+        "md5": "oL8tw01snMIqiE9rfaTy5A=="
+      },
+      {
+        "name": "media/videos/evidence/saved_entry_failure_3_9f5ff80f78ea2141428c.mp4",
+        "size": 388868,
+        "md5": "SApZ1rCfNusikfdOAzdyIA=="
+      },
+      {
+        "name": "media/videos/evidence/saved_floor_failure_4_0e3499a11a725f2ba3fa.mp4",
+        "size": 1682795,
+        "md5": "gyJ/BZprCJUkIrZ8Pub25Q=="
+      },
+      {
+        "name": "media/videos/evidence/selected_continuous_2_d02ea96e83e813f8dbae.mp4",
+        "size": 1712420,
+        "md5": "pcZYS5Cva8Heum6N3+Ojpw=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "run-c4318b8974414955-evidenceacceptance_matrix-qaeCLg:v0",
+        "digest": "f942470f4261f6bc00395aa4dde36331",
+        "state": "COMMITTED",
+        "files": [
+          "evidence/acceptance_matrix.table.json"
+        ]
+      },
+      {
+        "name": "pc-handoff-resolution-evidence-c4318b8974414955:v0",
+        "digest": "7c546743cfa28fe5e6265c3b0aea45e0",
+        "state": "COMMITTED",
+        "files": [
+          "alignment-environment.txt",
+          "alignment-source-availability.json",
+          "all-audits-configs-and-provenance.zip",
+          "boundary-parity.json",
+          "case-index.json",
+          "cloud-verification.json",
+          "contact-convergence-summary.json",
+          "frozen-walking-policy-record.json",
+          "geometry-review.json",
+          "handoff-environment.txt",
+          "sensor-baseline-parity.json",
+          "summary.json",
+          "verification-tests.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "splay-search/splay-0.1",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/08ee4048ee264bc2",
+    "id": "08ee4048ee264bc2",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_e2b3a9457af9f378abe5.mp4",
+        "size": 1711032,
+        "md5": "+948wt1/K7VZzouwYKnjdQ=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-08ee4048ee264bc2:v0",
+        "digest": "6a0badb51dfdf717fada2b5c5fbcb610",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "splay-search/splay-0.15",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c61af60f7ab646c4",
+    "id": "c61af60f7ab646c4",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_8dbb91d798a0b3c441f5.mp4",
+        "size": 1823430,
+        "md5": "/Z39CAl0WcLqWcX8IC5Qvw=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-c61af60f7ab646c4:v0",
+        "digest": "6bee60f06b1b0443b09e8b2492ac31a1",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  },
+  {
+    "local": "splay-search/splay-0.2",
+    "url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/177b8793dc774c91",
+    "id": "177b8793dc774c91",
+    "state": "finished",
+    "videos": [
+      {
+        "name": "media/videos/handoff/continuous_motion_1_2c01f32d1f3edafc24a5.mp4",
+        "size": 1920417,
+        "md5": "YZ3IlFT50IiLH1lU51x47A=="
+      }
+    ],
+    "artifacts": [
+      {
+        "name": "alignment-roll-handoff-177b8793dc774c91:v0",
+        "digest": "b7937da403616501c3ba9964e9df4dd6",
+        "state": "COMMITTED",
+        "files": [
+          "final_state.json",
+          "initial_integration_state.json",
+          "integration.npz",
+          "report.json",
+          "trace.json",
+          "wandb_run.json"
+        ]
+      }
+    ],
+    "verified": true
+  }
+]

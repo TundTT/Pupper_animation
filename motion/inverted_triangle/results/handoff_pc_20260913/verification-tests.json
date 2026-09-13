@@ -1,0 +1,13 @@
+{
+  "command": "/tmp/pupper-handoff-py/bin/python -m pytest motion/inverted_triangle/test_handoff.py motion/inverted_triangle/test_formation.py motion/inverted_triangle/test_model.py motion/inverted_triangle/test_roll_to_stand.py -q",
+  "result": "37 passed in 9.30s",
+  "exit_code": 0,
+  "source_commit": "986d1cb",
+  "baseline_before_changes": "33 passed in 6.99s",
+  "added_checks": [
+    "Root translation cannot repair motor-below-foot ordering",
+    "Integral correction keeps hubs unchanged and cannot bypass stuck-entry failure",
+    "4 and 8 hulls preserve the identical visual shape and attachment"
+  ],
+  "scope": "Focused simulation/model/controller tests; not hardware or walking acceptance"
+}

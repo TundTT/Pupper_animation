@@ -1,0 +1,5244 @@
+[
+  {
+    "case": "reproduce-nominal",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 0,
+      "entry_seconds": 4.0,
+      "pose_noise_deg": 0.0
+    },
+    "source_commit": "4eb8260790b42829c960a9c47032b9c6b3b88c07",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": null
+    },
+    "early_termination": null,
+    "steps": 25548,
+    "floor_peak_N": 68.105525213665,
+    "peak_requested_torque_Nm": 0.7542051022767401,
+    "final_tip_bottom_m": [
+      -2.7046432177227353e-05,
+      -2.8262061159557705e-05,
+      -3.4651624281845095e-05,
+      -2.3089448835153514e-05
+    ],
+    "final_normal_force_N": [
+      8.729440101952012,
+      9.298344767078554,
+      11.358634286055304,
+      7.831978553571683
+    ],
+    "final_pose_error_rad": 0.07980669558785934,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/dec65a3f8445466c",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "reproduce-diagonal",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 4.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      }
+    },
+    "source_commit": "4eb8260790b42829c960a9c47032b9c6b3b88c07",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "completed": false,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "dense_cad": null
+    },
+    "early_termination": "entry_did_not_settle",
+    "steps": 6239,
+    "floor_peak_N": 5.900936404804508,
+    "peak_requested_torque_Nm": 1.1713899766128995,
+    "final_tip_bottom_m": [
+      0.07629586904856323,
+      0.0783162695378756,
+      0.07840875642098241,
+      0.07350572096302331
+    ],
+    "final_normal_force_N": [
+      0.0,
+      17.143329744797526,
+      19.23436337515316,
+      0.8280396039511986
+    ],
+    "final_pose_error_rad": 3.1534276124452862,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e29cd4d5c0e44c4c",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "entry-search/direct-12.0",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 4.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_mode": "direct",
+      "roll_seconds": 12.0
+    },
+    "source_commit": "0ac6362377a31fac53b8a63ac2b4ea65e6164f1b",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "dense_cad": null
+    },
+    "early_termination": null,
+    "steps": 22880,
+    "floor_peak_N": 7.987204278647988,
+    "peak_requested_torque_Nm": 0.5285579483533347,
+    "final_tip_bottom_m": [
+      -5.199359959776051e-05,
+      -7.940396187171295e-06,
+      0.01002923267853139,
+      -5.341524941571835e-05
+    ],
+    "final_normal_force_N": [
+      17.2451662913638,
+      2.6788991539418325,
+      0.0,
+      17.27953176397059
+    ],
+    "final_pose_error_rad": 0.10053130412396305,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/5f87c3176eb44b13",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "entry-search/direct-20.0",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 4.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_mode": "direct",
+      "roll_seconds": 20.0
+    },
+    "source_commit": "0ac6362377a31fac53b8a63ac2b4ea65e6164f1b",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "dense_cad": null
+    },
+    "early_termination": null,
+    "steps": 27040,
+    "floor_peak_N": 5.900921409361377,
+    "peak_requested_torque_Nm": 0.5296933002233937,
+    "final_tip_bottom_m": [
+      -5.199427413118268e-05,
+      -8.004435541796029e-06,
+      0.010029779813031,
+      -5.367234899781442e-05
+    ],
+    "final_normal_force_N": [
+      17.24474969876168,
+      2.7014457284152513,
+      0.0,
+      17.27989233041804
+    ],
+    "final_pose_error_rad": 0.1006904146282066,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/af90bffc595e47b5",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "entry-search/entry-0.5-integral-0.25",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 0.5,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_integral_gain": 0.25
+    },
+    "source_commit": "0ac6362377a31fac53b8a63ac2b4ea65e6164f1b",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": false,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "dense_cad": null
+    },
+    "early_termination": "entry_did_not_settle",
+    "steps": 4635,
+    "floor_peak_N": 5.780169289711261,
+    "peak_requested_torque_Nm": 1.2721765511304581,
+    "final_tip_bottom_m": [
+      0.07722680786026642,
+      0.07814723279019659,
+      0.07834175897676982,
+      0.07356153807945724
+    ],
+    "final_normal_force_N": [
+      0.0,
+      16.46641153942155,
+      19.089641750619183,
+      1.6496674774834734
+    ],
+    "final_pose_error_rad": 3.152201927284565,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/49d5bc741c8a45ff",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "entry-search/entry-0.5-integral-0.5",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 0.5,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_integral_gain": 0.5
+    },
+    "source_commit": "0ac6362377a31fac53b8a63ac2b4ea65e6164f1b",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": false,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "dense_cad": null
+    },
+    "early_termination": "entry_did_not_settle",
+    "steps": 4635,
+    "floor_peak_N": 5.679497192098928,
+    "peak_requested_torque_Nm": 1.3014935352445236,
+    "final_tip_bottom_m": [
+      0.07739643395226346,
+      0.07812851316815463,
+      0.07834728112747177,
+      0.07349696014719295
+    ],
+    "final_normal_force_N": [
+      0.0,
+      16.326693331542756,
+      19.048768104701296,
+      1.8302479448953648
+    ],
+    "final_pose_error_rad": 3.1509971903343827,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/cb7a9f5a989e4d34",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "entry-search/entry-1.0-integral-0.25",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 1.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_integral_gain": 0.25
+    },
+    "source_commit": "0ac6362377a31fac53b8a63ac2b4ea65e6164f1b",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": false,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "dense_cad": null
+    },
+    "early_termination": "entry_did_not_settle",
+    "steps": 4679,
+    "floor_peak_N": 5.784710212140987,
+    "peak_requested_torque_Nm": 1.2950224352324688,
+    "final_tip_bottom_m": [
+      0.07720104970566756,
+      0.07815009617305368,
+      0.07834253152734634,
+      0.07355652255626044
+    ],
+    "final_normal_force_N": [
+      0.0,
+      16.45567835093026,
+      19.09007831066179,
+      1.6599638593843755
+    ],
+    "final_pose_error_rad": 3.15245912821139,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/cc69664e71ac4abe",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "entry-search/entry-1.0-integral-0.5",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 1.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_integral_gain": 0.5
+    },
+    "source_commit": "0ac6362377a31fac53b8a63ac2b4ea65e6164f1b",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": false,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "dense_cad": null
+    },
+    "early_termination": "entry_did_not_settle",
+    "steps": 4679,
+    "floor_peak_N": 5.68407087585852,
+    "peak_requested_torque_Nm": 1.2955016445331413,
+    "final_tip_bottom_m": [
+      0.07739419819674265,
+      0.07812878380539608,
+      0.07834749307849102,
+      0.07349682742866959
+    ],
+    "final_normal_force_N": [
+      0.0,
+      16.317358740253322,
+      19.031987750278375,
+      1.8569902281962773
+    ],
+    "final_pose_error_rad": 3.1509782324745594,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/7f6bd55713764bb3",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "entry-search/entry-2.0-integral-0.25",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_integral_gain": 0.25
+    },
+    "source_commit": "0ac6362377a31fac53b8a63ac2b4ea65e6164f1b",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": false,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "dense_cad": null
+    },
+    "early_termination": "entry_did_not_settle",
+    "steps": 5199,
+    "floor_peak_N": 5.798461237345615,
+    "peak_requested_torque_Nm": 1.3180764156591003,
+    "final_tip_bottom_m": [
+      0.07733868200466568,
+      0.07813533921495953,
+      0.07833719242958406,
+      0.07353405914083105
+    ],
+    "final_normal_force_N": [
+      0.0,
+      16.437885684472082,
+      19.076074465313212,
+      1.6917619062500142
+    ],
+    "final_pose_error_rad": 3.152307380222606,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/822991fed10e4954",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "entry-search/entry-2.0-integral-0.5",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_integral_gain": 0.5
+    },
+    "source_commit": "0ac6362377a31fac53b8a63ac2b4ea65e6164f1b",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": false,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "dense_cad": null
+    },
+    "early_termination": "entry_did_not_settle",
+    "steps": 5199,
+    "floor_peak_N": 5.697920278858395,
+    "peak_requested_torque_Nm": 1.374085581494447,
+    "final_tip_bottom_m": [
+      0.07752777706263572,
+      0.07811768923783077,
+      0.07834227785392717,
+      0.07347966285342902
+    ],
+    "final_normal_force_N": [
+      0.0,
+      16.31246828877058,
+      19.03389242933959,
+      1.8593570218549265
+    ],
+    "final_pose_error_rad": 3.1506086333511245,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/4d359e6d76714ba5",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "entry-search/entry-4.0-integral-0.25",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 4.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_integral_gain": 0.25
+    },
+    "source_commit": "0ac6362377a31fac53b8a63ac2b4ea65e6164f1b",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": false,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "dense_cad": null
+    },
+    "early_termination": "entry_did_not_settle",
+    "steps": 6239,
+    "floor_peak_N": 5.800340658521884,
+    "peak_requested_torque_Nm": 1.3757650383458502,
+    "final_tip_bottom_m": [
+      0.07751121045926375,
+      0.07811440354849619,
+      0.07833358584167131,
+      0.07351129239229777
+    ],
+    "final_normal_force_N": [
+      0.0,
+      16.416646274532425,
+      19.043857258271068,
+      1.7458910581433018
+    ],
+    "final_pose_error_rad": 3.1513697668422616,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/8622b5611ceb4fd7",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "entry-search/entry-4.0-integral-0.5",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 4.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_integral_gain": 0.5
+    },
+    "source_commit": "0ac6362377a31fac53b8a63ac2b4ea65e6164f1b",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": false,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": false,
+      "three_second_tip_support": false,
+      "three_second_settled": false,
+      "dense_cad": null
+    },
+    "early_termination": "entry_did_not_settle",
+    "steps": 6239,
+    "floor_peak_N": 5.699812991242655,
+    "peak_requested_torque_Nm": 1.4426176096640306,
+    "final_tip_bottom_m": [
+      0.07782466002264016,
+      0.07808393918232505,
+      0.07833231962432254,
+      0.07334540698418879
+    ],
+    "final_normal_force_N": [
+      0.0,
+      16.281111744214392,
+      18.997719378593004,
+      1.9268689449597927
+    ],
+    "final_pose_error_rad": 3.1509222036592104,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/98f1c8fd52b7454b",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "splay-search/splay-0.1",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "dense_cad": null
+    },
+    "early_termination": null,
+    "steps": 24794,
+    "floor_peak_N": 5.799877090373237,
+    "peak_requested_torque_Nm": 0.8487775057119792,
+    "final_tip_bottom_m": [
+      -4.930502554086058e-05,
+      -8.218621501965284e-06,
+      0.009783019299657143,
+      -5.1209607659440104e-05
+    ],
+    "final_normal_force_N": [
+      17.16691430626028,
+      2.806750630288583,
+      0.0,
+      17.159853470524244
+    ],
+    "final_pose_error_rad": 0.0856747872143726,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/08ee4048ee264bc2",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "splay-search/splay-0.15",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.15
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "dense_cad": null
+    },
+    "early_termination": null,
+    "steps": 25361,
+    "floor_peak_N": 5.799504531706642,
+    "peak_requested_torque_Nm": 1.104028161258044,
+    "final_tip_bottom_m": [
+      -4.822495623087175e-05,
+      -7.409645869878301e-06,
+      0.009872497631718359,
+      -5.2154016550690074e-05
+    ],
+    "final_normal_force_N": [
+      17.26956099577839,
+      2.4620848543041847,
+      0.0,
+      17.474353085556437
+    ],
+    "final_pose_error_rad": 0.09047894362132491,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c61af60f7ab646c4",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "splay-search/splay-0.2",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.2
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "dense_cad": null
+    },
+    "early_termination": null,
+    "steps": 25567,
+    "floor_peak_N": 5.799131948586529,
+    "peak_requested_torque_Nm": 1.2414202047161726,
+    "final_tip_bottom_m": [
+      -5.2085363673910756e-05,
+      -7.908578771170793e-06,
+      0.00978888838348229,
+      -5.17342764423806e-05
+    ],
+    "final_normal_force_N": [
+      17.30271950452404,
+      2.58538612587978,
+      0.0,
+      17.316315016143367
+    ],
+    "final_pose_error_rad": 0.09070210515086541,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/177b8793dc774c91",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "development/combined_trial",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 23,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2,
+      "friction": 0.5,
+      "dynamics": {
+        "mass_scale": 1.05,
+        "delay_steps": 2,
+        "kp_scale": 0.9
+      },
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          -3,
+          3,
+          -3,
+          3
+        ]
+      },
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 25171,
+    "floor_peak_N": 1.2981603461779474,
+    "peak_requested_torque_Nm": 0.8379628694608048,
+    "final_tip_bottom_m": [
+      -1.5108513323716655e-05,
+      0.010315374242201587,
+      -1.5335178170303165e-06,
+      -2.058553460553697e-05
+    ],
+    "final_normal_force_N": [
+      17.291099188688566,
+      0.0,
+      1.7317648809740507,
+      19.923293324246032
+    ],
+    "final_pose_error_rad": 0.08370375911676398,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/f93978fc99234c0e",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 3831,
+      "minimum_m": 0.0024649010156025998,
+      "nearest_pair": [
+        "leg_back_l_1",
+        "leg_back_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.05083117132220705,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "development/diagonal_10mm_spread",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24794,
+    "floor_peak_N": 5.799877090373237,
+    "peak_requested_torque_Nm": 0.8487775057119792,
+    "final_tip_bottom_m": [
+      -4.930502554086058e-05,
+      -8.218621501965284e-06,
+      0.009783019299657143,
+      -5.1209607659440104e-05
+    ],
+    "final_normal_force_N": [
+      17.16691430626028,
+      2.806750630288583,
+      0.0,
+      17.159853470524244
+    ],
+    "final_pose_error_rad": 0.0856747872143726,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/6919a38d0564467b",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 3559,
+      "minimum_m": 0.0031603806497777155,
+      "nearest_pair": [
+        "leg_back_l_1",
+        "leg_back_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04996695933057024,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "development/front_short_10mm",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 20,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 0.0,
+      "formation": {
+        "support_extension_mm": [
+          5,
+          5,
+          0,
+          0
+        ],
+        "tip_shortening_mm": [
+          10,
+          10,
+          0,
+          0
+        ],
+        "bend_deg": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 46.28806317850007,
+    "peak_requested_torque_Nm": 0.6203246994966465,
+    "final_tip_bottom_m": [
+      -1.5079847592421036e-05,
+      -3.0436191287203096e-05,
+      -1.3735448084604973e-05,
+      -2.8114122099277827e-05
+    ],
+    "final_normal_force_N": [
+      9.572437512726301,
+      9.66695821062201,
+      9.044920057073359,
+      8.85042323220257
+    ],
+    "final_pose_error_rad": 0.03375293304796075,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3043aeb06d5f4fa7",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2772,
+      "minimum_m": 0.0027763254866029325,
+      "nearest_pair": [
+        "leg_back_l_1",
+        "leg_back_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04943865546171137,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "development/left_short_10mm",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 22,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 0.0,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          0,
+          5
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          0,
+          10
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 60.8246775303497,
+    "peak_requested_torque_Nm": 0.5411750966354744,
+    "final_tip_bottom_m": [
+      -2.9921812276907656e-05,
+      -1.5764457146696942e-05,
+      -2.8991037448251877e-05,
+      -2.6001409484797955e-05
+    ],
+    "final_normal_force_N": [
+      9.922278985463134,
+      9.156102756226796,
+      9.450552948384907,
+      8.682359616586613
+    ],
+    "final_pose_error_rad": 0.026069108398960372,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/574dabad94be4813",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 15,
+      "minimum_m": 0.004186753350359245,
+      "nearest_pair": [
+        "leg_back_r_1",
+        "leg_back_r_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.049310587394824065,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "development/nominal_endpoint",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 0,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 0.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": false,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 68.1055256543964,
+    "peak_requested_torque_Nm": 0.4643117340375577,
+    "final_tip_bottom_m": [
+      -2.9090604307613344e-05,
+      -2.5679878866230466e-05,
+      -3.1733992463450766e-05,
+      -2.534565065589328e-05
+    ],
+    "final_normal_force_N": [
+      9.643944372201243,
+      8.566575941271857,
+      10.527658667505477,
+      8.46758898597092
+    ],
+    "final_pose_error_rad": 0.04477773685766521,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/237c46235e9d438f",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2719,
+      "minimum_m": 0.0027813532574539664,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.05083308208984738,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "development/pose_error_2deg",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 17,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": false,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 66.27484666644727,
+    "peak_requested_torque_Nm": 0.45295865795403273,
+    "final_tip_bottom_m": [
+      -2.919040730361977e-05,
+      -2.5600531929098613e-05,
+      -3.160181308094201e-05,
+      -2.5457317128149692e-05
+    ],
+    "final_normal_force_N": [
+      9.67697423082027,
+      8.540154419746827,
+      10.483822062346045,
+      8.504816948697936
+    ],
+    "final_pose_error_rad": 0.04579552366798806,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/93563aed49894dc7",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2737,
+      "minimum_m": 0.002777421000006153,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.05146258162514362,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "development/rear_short_10mm",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 21,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 0.0,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          0,
+          5,
+          5
+        ],
+        "tip_shortening_mm": [
+          0,
+          0,
+          10,
+          10
+        ],
+        "bend_deg": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24643,
+    "floor_peak_N": 54.60586422761452,
+    "peak_requested_torque_Nm": 0.7025983342140483,
+    "final_tip_bottom_m": [
+      -3.0729406035427675e-05,
+      -2.1308503870144657e-05,
+      -3.0512868927634607e-05,
+      -3.036266624084627e-05
+    ],
+    "final_normal_force_N": [
+      9.516081281057115,
+      7.328519781024303,
+      10.359087092642119,
+      9.955400393219483
+    ],
+    "final_pose_error_rad": 0.08102760286281808,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/449dccfea36e466e",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 3299,
+      "minimum_m": 0.002773565566194917,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.051355469409750755,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "development/uniform_undercompression",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 18,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 0.0,
+      "formation": {
+        "support_extension_mm": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "tip_shortening_mm": [
+          6,
+          6,
+          6,
+          6
+        ],
+        "bend_deg": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": false,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 48.03323670372089,
+    "peak_requested_torque_Nm": 0.6288670023758083,
+    "final_tip_bottom_m": [
+      -2.848785442055579e-05,
+      -2.8089086181050382e-05,
+      -3.2254683963416075e-05,
+      -2.4349190525352338e-05
+    ],
+    "final_normal_force_N": [
+      9.39537239660424,
+      8.980698431014744,
+      10.744227102188939,
+      8.077450177780868
+    ],
+    "final_pose_error_rad": 0.05967771355407296,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/1d30ce2a75f0418e",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 3484,
+      "minimum_m": 0.005631796156119249,
+      "nearest_pair": [
+        "leg_back_r_1",
+        "leg_back_r_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.0492769264097539,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "contact-convergence/diagonal-parts-2",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ],
+        "contact_parts": 2
+      },
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "dense_cad": null
+    },
+    "early_termination": null,
+    "steps": 24794,
+    "floor_peak_N": 5.799877090373237,
+    "peak_requested_torque_Nm": 0.8487775057119792,
+    "final_tip_bottom_m": [
+      -4.930502554086058e-05,
+      -8.218621501965284e-06,
+      0.009783019299657143,
+      -5.1209607659440104e-05
+    ],
+    "final_normal_force_N": [
+      17.16691430626028,
+      2.806750630288583,
+      0.0,
+      17.159853470524244
+    ],
+    "final_pose_error_rad": 0.0856747872143726,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9d97f037de7342c4",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "contact-convergence/diagonal-parts-4",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ],
+        "contact_parts": 4
+      },
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "dense_cad": null
+    },
+    "early_termination": null,
+    "steps": 24794,
+    "floor_peak_N": 5.799835739952812,
+    "peak_requested_torque_Nm": 0.8487773671292784,
+    "final_tip_bottom_m": [
+      -3.256235368953586e-05,
+      -7.74387013859068e-06,
+      0.009873784101267526,
+      -5.1786336910782105e-05
+    ],
+    "final_normal_force_N": [
+      17.284700730333082,
+      2.5781736337178502,
+      0.0,
+      17.342867447076014
+    ],
+    "final_pose_error_rad": 0.09273549893219402,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/2b550a10addb4f89",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "contact-convergence/diagonal-parts-8",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ],
+        "contact_parts": 8
+      },
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "dense_cad": null
+    },
+    "early_termination": null,
+    "steps": 24794,
+    "floor_peak_N": 5.799795577955362,
+    "peak_requested_torque_Nm": 0.848776728581578,
+    "final_tip_bottom_m": [
+      -3.160160692440572e-05,
+      -7.938576139149278e-06,
+      0.009876367497281609,
+      -4.4641093636055285e-05
+    ],
+    "final_normal_force_N": [
+      17.29266703995342,
+      2.644941550753795,
+      0.0,
+      17.26812674310132
+    ],
+    "final_pose_error_rad": 0.0908516323283115,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/bdf7303b285f4cd6",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "contact-convergence/zero-parts-2",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 0,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 0.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "bend_deg": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "contact_parts": 2
+      }
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": false,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": null
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 68.10553722158684,
+    "peak_requested_torque_Nm": 0.46431173404618303,
+    "final_tip_bottom_m": [
+      -2.9123242078543665e-05,
+      -2.5662396322810588e-05,
+      -3.170375621461968e-05,
+      -2.5364630949674394e-05
+    ],
+    "final_normal_force_N": [
+      9.653866893205212,
+      8.56099444145933,
+      10.517200169367763,
+      8.47370596406126
+    ],
+    "final_pose_error_rad": 0.04582873595442882,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/eb1dfac2cab14260",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "contact-convergence/zero-parts-4",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 0,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 0.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "bend_deg": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "contact_parts": 4
+      }
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": false,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": null
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 68.10553722158684,
+    "peak_requested_torque_Nm": 0.46431173404618215,
+    "final_tip_bottom_m": [
+      -2.9116814017293713e-05,
+      -2.5668185931887466e-05,
+      -3.170545375315997e-05,
+      -2.53675693824007e-05
+    ],
+    "final_normal_force_N": [
+      9.652005806576053,
+      8.561986087105733,
+      10.517745739189186,
+      8.474030158508636
+    ],
+    "final_pose_error_rad": 0.04529120559665797,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/7771d81a27ce4655",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "contact-convergence/zero-parts-8",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 0,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 0.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "bend_deg": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "contact_parts": 8
+      }
+    },
+    "source_commit": "076f46b9c9b3cbbf0e8757ded444e56166b12f05",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": false,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": null
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 68.10553722158686,
+    "peak_requested_torque_Nm": 0.4643117340461821,
+    "final_tip_bottom_m": [
+      -2.9180674214729363e-05,
+      -2.5632321174182127e-05,
+      -3.162605611527203e-05,
+      -2.5413226640715048e-05
+    ],
+    "final_normal_force_N": [
+      9.6730466136286,
+      8.551105420716517,
+      10.491605121490796,
+      8.490010363446414
+    ],
+    "final_pose_error_rad": 0.046359632700934086,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/94a310b70a914e61",
+    "dense_replay_error": null,
+    "cad_minimum": null
+  },
+  {
+    "case": "fresh-conditional/baseline-diagonal",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 19,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2,
+      "formation": {
+        "support_extension_mm": [
+          0,
+          5,
+          5,
+          0
+        ],
+        "tip_shortening_mm": [
+          0,
+          10,
+          10,
+          0
+        ],
+        "bend_deg": [
+          3,
+          -3,
+          3,
+          -3
+        ]
+      },
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    },
+    "source_commit": "986d1cb2293dd8e41af4073dcdd2ce3cd9f1bf54",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": false,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24794,
+    "floor_peak_N": 5.799877090373237,
+    "peak_requested_torque_Nm": 0.8487775057119792,
+    "final_tip_bottom_m": [
+      -4.930502554086058e-05,
+      -8.218621501965284e-06,
+      0.009783019299657143,
+      -5.1209607659440104e-05
+    ],
+    "final_normal_force_N": [
+      17.16691430626028,
+      2.806750630288583,
+      0.0,
+      17.159853470524244
+    ],
+    "final_pose_error_rad": 0.0856747872143726,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/0b0bf7b793b7492f",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 3559,
+      "minimum_m": 0.0031603806497777155,
+      "nearest_pair": [
+        "leg_back_l_1",
+        "leg_back_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04996695933057024,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "fresh-conditional/baseline-nominal",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 0,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 0.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1
+    },
+    "source_commit": "986d1cb2293dd8e41af4073dcdd2ce3cd9f1bf54",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": false,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 68.1055256543964,
+    "peak_requested_torque_Nm": 0.4643117340375577,
+    "final_tip_bottom_m": [
+      -2.9090604307613344e-05,
+      -2.5679878866230466e-05,
+      -3.1733992463450766e-05,
+      -2.534565065589328e-05
+    ],
+    "final_normal_force_N": [
+      9.643944372201243,
+      8.566575941271857,
+      10.527658667505477,
+      8.46758898597092
+    ],
+    "final_pose_error_rad": 0.04477773685766521,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/59381739e97c4370",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2719,
+      "minimum_m": 0.0027813532574539664,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.05083308208984738,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "fresh-conditional/fresh-conditional-0",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 2026091403,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "formation": {
+        "support_extension_mm": [
+          0.514133390811472,
+          0.7340727697273259,
+          0.2700788068816482,
+          0.012486106609016057
+        ],
+        "tip_shortening_mm": [
+          0.7925405151601076,
+          1.1639491993762663,
+          0.9078617204881186,
+          0.0
+        ],
+        "bend_deg": [
+          -1.9294124492791056,
+          -0.15319453550556794,
+          -1.95983199151141,
+          -1.5493811982620234
+        ]
+      },
+      "friction": 0.6739393540048457,
+      "dynamics": {
+        "mass_scale": 1.0432597634783223,
+        "base_com_offset_m": [
+          -0.001927193524088672,
+          0.0014568956507221465,
+          -0.0013298174631254985
+        ],
+        "delay_steps": 3,
+        "kp_scale": 0.982508094714146,
+        "kd_scale": 1.0114459733109553
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          1.5568862418522539e-06,
+          0.0005533282610754075,
+          -0.0018039520381260968,
+          -0.0016504181760287175,
+          0.0012706074276854122,
+          -0.0026312486490646715,
+          0.000402428186108055,
+          0.00067779504160172,
+          -0.0007625507279577256,
+          -0.001305554607032775,
+          -0.0005467261686512744,
+          0.0022744067219854997
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          0.007042455378233,
+          0.004414588840690955
+        ],
+        "delay_steps": 0
+      }
+    },
+    "source_commit": "986d1cb2293dd8e41af4073dcdd2ce3cd9f1bf54",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": false,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24061,
+    "floor_peak_N": 59.69735923565452,
+    "peak_requested_torque_Nm": 0.5099026662385869,
+    "final_tip_bottom_m": [
+      -2.09907268948345e-05,
+      -7.802518829064242e-06,
+      -1.1288402165500477e-05,
+      -2.5974643631618277e-05
+    ],
+    "final_normal_force_N": [
+      11.34684579208007,
+      7.175245933119059,
+      6.091718835407787,
+      14.201448290594907
+    ],
+    "final_pose_error_rad": 0.08904475944715307,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/cd65c9d3c8914d02",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2843,
+      "minimum_m": 0.0029510260013681554,
+      "nearest_pair": [
+        "leg_back_l_1",
+        "leg_back_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.05105627734981218,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "fresh-conditional/fresh-conditional-1",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 2026091404,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "formation": {
+        "support_extension_mm": [
+          0.7479590118508621,
+          0.4090389909709151,
+          1.098566301818702,
+          0.37325267367398807
+        ],
+        "tip_shortening_mm": [
+          1.8706772754706487,
+          0.4114123825236917,
+          2.5822605434654418,
+          0.31862315293514154
+        ],
+        "bend_deg": [
+          -0.5521507307517752,
+          -1.8079346333629709,
+          2.794037254812703,
+          2.4734927674653653
+        ]
+      },
+      "friction": 0.7902876163231702,
+      "dynamics": {
+        "mass_scale": 0.9435612558651276,
+        "base_com_offset_m": [
+          0.0015310426303494764,
+          0.001708125991123376,
+          -0.0013986643978598017
+        ],
+        "delay_steps": 3,
+        "kp_scale": 0.9160480668747051,
+        "kd_scale": 0.9664329160335137
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          -0.002551499134221035,
+          -4.521765209031508e-05,
+          -0.0017748999706860059,
+          -0.0003866779854121115,
+          0.0010869799064931697,
+          0.0026186420075506416,
+          -0.0029607806198887485,
+          0.000336514918657473,
+          0.00022599314028092345,
+          0.0008214980602722602,
+          -0.0027605224706926156,
+          0.0025949467025160027
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          0.00231254694100037,
+          -0.004661261126944111
+        ],
+        "delay_steps": 0
+      }
+    },
+    "source_commit": "986d1cb2293dd8e41af4073dcdd2ce3cd9f1bf54",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": false,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 52.81551519742244,
+    "peak_requested_torque_Nm": 0.3642228782442676,
+    "final_tip_bottom_m": [
+      -2.114559929929788e-05,
+      -2.2924153960289517e-05,
+      -2.963028974798526e-05,
+      -2.5861765871007525e-05
+    ],
+    "final_normal_force_N": [
+      6.889227653370783,
+      10.351695529002477,
+      9.22144518228057,
+      8.603055218621964
+    ],
+    "final_pose_error_rad": 0.07897352321288957,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/1733ed34798c4a98",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2709,
+      "minimum_m": 0.0026811098747531866,
+      "nearest_pair": [
+        "leg_back_l_1",
+        "leg_back_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.05029048661125563,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "fresh-conditional/fresh-conditional-2",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 2026091405,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "formation": {
+        "support_extension_mm": [
+          2.555219123171093,
+          2.1624789312632777,
+          1.5034617841650992,
+          3.1980554954280977
+        ],
+        "tip_shortening_mm": [
+          4.610569155752869,
+          4.474957805063701,
+          2.9112741819879924,
+          6.526669803031477
+        ],
+        "bend_deg": [
+          2.312198543150952,
+          -0.4013004475639992,
+          1.598442168579166,
+          0.7896663186083033
+        ]
+      },
+      "friction": 0.8648171926713228,
+      "dynamics": {
+        "mass_scale": 1.0084254409749673,
+        "base_com_offset_m": [
+          -0.00039425517020611335,
+          -0.0010193458596929276,
+          -0.0016788133883064759
+        ],
+        "delay_steps": 5,
+        "kp_scale": 0.9680867836915638,
+        "kd_scale": 1.0064422127587984
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          -0.0008828309259539765,
+          0.0026089043114763686,
+          -0.0012229599968874667,
+          -0.0005114680963892245,
+          -0.0024471235507377257,
+          0.0021655189381155227,
+          0.0018135500731762712,
+          0.00230583200747114,
+          -0.0009311196009154075,
+          -0.001722672381212681,
+          -0.00048245550567642273,
+          0.0005270388140816511
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          -0.0019732882569633518,
+          0.008042609573234251
+        ],
+        "delay_steps": 1
+      }
+    },
+    "source_commit": "986d1cb2293dd8e41af4073dcdd2ce3cd9f1bf54",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 48.08279174638389,
+    "peak_requested_torque_Nm": 0.5656636608660923,
+    "final_tip_bottom_m": [
+      -3.3605650003751264e-05,
+      -3.5880897538011214e-05,
+      -2.300036319347748e-05,
+      -2.8195503785202747e-05
+    ],
+    "final_normal_force_N": [
+      8.990416925027498,
+      9.676766600256192,
+      11.263919932037178,
+      7.5881088715544
+    ],
+    "final_pose_error_rad": 0.08688814978102466,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/4d8b997ae358435e",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2850,
+      "minimum_m": 0.0053318819234309586,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.051417025647798945,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "fresh-conditional/fresh-conditional-3",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 2026091406,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "formation": {
+        "support_extension_mm": [
+          2.1718467396535273,
+          0.7087227150567543,
+          1.7918727800121834,
+          0.9120328466092624
+        ],
+        "tip_shortening_mm": [
+          4.410645246937295,
+          1.1563317389251249,
+          3.5264252529353017,
+          1.364976361698254
+        ],
+        "bend_deg": [
+          1.0508769957160293,
+          2.3104770054476624,
+          1.9855110978185273,
+          1.466984248277563
+        ]
+      },
+      "friction": 0.7600806196673455,
+      "dynamics": {
+        "mass_scale": 0.9257657115259934,
+        "base_com_offset_m": [
+          -0.0008351679962715641,
+          -0.001721051578403086,
+          -0.0019377805973655594
+        ],
+        "delay_steps": 0,
+        "kp_scale": 0.8375755438543503,
+        "kd_scale": 1.0706315522428116
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          0.0012668732322759684,
+          0.0017804718405791163,
+          -0.001637132278979676,
+          -0.002925752636367198,
+          -0.0021321328430176805,
+          0.0004047222591732542,
+          -0.002697448343243884,
+          0.001389541908555991,
+          0.002076400732832972,
+          -0.0029098900691881826,
+          -0.0018826590194612448,
+          -0.0021292130071131014
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          0.005846634537678676,
+          -0.006152720422897389
+        ],
+        "delay_steps": 1
+      }
+    },
+    "source_commit": "986d1cb2293dd8e41af4073dcdd2ce3cd9f1bf54",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": false,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 40.058205711365346,
+    "peak_requested_torque_Nm": 0.43204015465461015,
+    "final_tip_bottom_m": [
+      -1.8282188812820954e-05,
+      -2.7107278439332527e-05,
+      -2.7861369249426726e-05,
+      -2.2830512986654616e-05
+    ],
+    "final_normal_force_N": [
+      6.575387577520476,
+      9.9417586581493,
+      9.48593329926172,
+      8.383152412194942
+    ],
+    "final_pose_error_rad": 0.08581593471257641,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c43365e5e97e4348",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2774,
+      "minimum_m": 0.0030786758506520175,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.049945624029284014,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "fresh-conditional/fresh-conditional-4",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 2026091407,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "formation": {
+        "support_extension_mm": [
+          3.6578163634932905,
+          2.642634476510686,
+          2.2052920549690778,
+          2.907043900166789
+        ],
+        "tip_shortening_mm": [
+          7.030263141702056,
+          5.019348570619557,
+          4.637088519984718,
+          6.167612306791122
+        ],
+        "bend_deg": [
+          -1.1035592174909805,
+          0.6766736711944867,
+          0.0008248866989135628,
+          0.7864573405705051
+        ]
+      },
+      "friction": 0.9761575580756076,
+      "dynamics": {
+        "mass_scale": 0.9852764743102559,
+        "base_com_offset_m": [
+          -0.0007452974176351082,
+          0.0014214190571744459,
+          -0.00019808440644870917
+        ],
+        "delay_steps": 1,
+        "kp_scale": 1.038090070006088,
+        "kd_scale": 1.0805713428182615
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          0.002403304530164797,
+          -0.0024830603351375536,
+          -0.0003904372840898519,
+          -0.0008636650929701468,
+          0.0020789983298601334,
+          0.0012661304962071343,
+          -0.0009003435090119021,
+          0.001713228857505699,
+          -0.0015328726541835658,
+          -0.0019966148972006105,
+          0.002414128471487321,
+          0.001543282795929829
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          0.007163978166663424,
+          0.008419958545297482
+        ],
+        "delay_steps": 2
+      }
+    },
+    "source_commit": "986d1cb2293dd8e41af4073dcdd2ce3cd9f1bf54",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": false,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 36.930654405111454,
+    "peak_requested_torque_Nm": 0.6424984392619479,
+    "final_tip_bottom_m": [
+      -5.355114193274224e-05,
+      -2.6534469647419845e-05,
+      -2.526770542876644e-05,
+      -5.966045661850994e-05
+    ],
+    "final_normal_force_N": [
+      9.787560838620369,
+      7.506283079774375,
+      8.491564387852225,
+      10.85599228212767
+    ],
+    "final_pose_error_rad": 0.053085914772735034,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/86c3ffcb4e384dd2",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2869,
+      "minimum_m": 0.005509785660358948,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.05083438725440054,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "fresh-conditional/fresh-conditional-5",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 2026091408,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "formation": {
+        "support_extension_mm": [
+          2.914902003901448,
+          2.6673050231903237,
+          3.0375830642102963,
+          3.7174833711270248
+        ],
+        "tip_shortening_mm": [
+          5.835476041318632,
+          5.2959683185585735,
+          6.2897185825615445,
+          7.5114797622155
+        ],
+        "bend_deg": [
+          2.6817044212386154,
+          0.925380866866262,
+          -1.0802457542709356,
+          -1.402968397872216
+        ]
+      },
+      "friction": 0.9502170137812357,
+      "dynamics": {
+        "mass_scale": 0.9793204752735762,
+        "base_com_offset_m": [
+          0.0018431046343391111,
+          0.001997053955545831,
+          0.0004766884623781469
+        ],
+        "delay_steps": 0,
+        "kp_scale": 1.0624119967973595,
+        "kd_scale": 0.9063754625665419
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          0.001778790692025382,
+          0.0029726437319856176,
+          0.00186810378867921,
+          -0.0026510699825144234,
+          0.0005119217770361206,
+          -0.002272167769006728,
+          -0.002402976770050711,
+          -0.0029884899002824636,
+          0.002392682812599244,
+          -0.00246751199745897,
+          -0.0003686071322660839,
+          -0.0010730809012976074
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          0.010578691101736423,
+          0.009866043016907942
+        ],
+        "delay_steps": 0
+      }
+    },
+    "source_commit": "986d1cb2293dd8e41af4073dcdd2ce3cd9f1bf54",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": true,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24121,
+    "floor_peak_N": 44.48314881045328,
+    "peak_requested_torque_Nm": 0.6612520871655715,
+    "final_tip_bottom_m": [
+      -3.169073658631366e-05,
+      -3.02100829932192e-05,
+      -5.139191523227671e-05,
+      -2.1490089942503843e-05
+    ],
+    "final_normal_force_N": [
+      6.325362501075381,
+      11.189188145504204,
+      10.289510214371838,
+      8.63231140511505
+    ],
+    "final_pose_error_rad": 0.08280662485911688,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3901a02be0bd43c1",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 3519,
+      "minimum_m": 0.005617404288358335,
+      "nearest_pair": [
+        "leg_back_r_1",
+        "leg_back_r_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.05003456959392972,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "fresh-conditional/fresh-conditional-6",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 2026091409,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "formation": {
+        "support_extension_mm": [
+          1.6692410140015057,
+          1.691344439893309,
+          1.5568070940355763,
+          1.582290644232505
+        ],
+        "tip_shortening_mm": [
+          3.6161173806342806,
+          3.026487540832661,
+          2.979081820582356,
+          2.7725631365935355
+        ],
+        "bend_deg": [
+          2.410456222834065,
+          -2.252131418808249,
+          0.18039747860091637,
+          0.8312553353423593
+        ]
+      },
+      "friction": 0.8732552436564902,
+      "dynamics": {
+        "mass_scale": 1.002670519465664,
+        "base_com_offset_m": [
+          -0.0015178809868602642,
+          -0.00011086867285933842,
+          0.0003451629165186921
+        ],
+        "delay_steps": 0,
+        "kp_scale": 0.8933310509533312,
+        "kd_scale": 1.0769570337413468
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          0.002312592424233981,
+          -0.0021756426229914364,
+          0.0009434544309949366,
+          -0.0008005384230835907,
+          0.001863215050153049,
+          -0.0022518904417810383,
+          0.0024756136493666488,
+          -0.0013576467596009604,
+          -0.0027163474400519923,
+          0.00019450359290007187,
+          -0.001167592419350795,
+          0.0007750153009594141
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          -0.009759790253069146,
+          0.011515251929585073
+        ],
+        "delay_steps": 0
+      }
+    },
+    "source_commit": "986d1cb2293dd8e41af4073dcdd2ce3cd9f1bf54",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": false,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 53.200824205992255,
+    "peak_requested_torque_Nm": 0.48786574801657895,
+    "final_tip_bottom_m": [
+      -4.4630370482225123e-05,
+      -2.830366015615232e-05,
+      -3.131212031762948e-05,
+      -3.825024689048384e-05
+    ],
+    "final_normal_force_N": [
+      11.415362774635582,
+      7.205992265623523,
+      8.559474270102108,
+      10.158323536907071
+    ],
+    "final_pose_error_rad": 0.07799263622244366,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ec0e93d654694bfa",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2907,
+      "minimum_m": 0.004139599706256862,
+      "nearest_pair": [
+        "leg_back_l_1",
+        "leg_back_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.05146163504139204,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "fresh-conditional/fresh-conditional-7",
+    "kind": "actual historical endpoint + explicitly configured synthetic trials",
+    "config": {
+      "seed": 2026091410,
+      "entry_seconds": 2.0,
+      "pose_noise_deg": 2.0,
+      "entry_integral_gain": 0.25,
+      "entry_splay": 0.1,
+      "formation": {
+        "support_extension_mm": [
+          0.920655539081159,
+          0.0,
+          1.3522886776486303,
+          0.0
+        ],
+        "tip_shortening_mm": [
+          1.4671275772517864,
+          0.3738663216847341,
+          2.9446651040906775,
+          0.0
+        ],
+        "bend_deg": [
+          -2.440067339426647,
+          0.6430815368439697,
+          -1.2816061358851547,
+          2.886281960790291
+        ]
+      },
+      "friction": 0.7969139407818655,
+      "dynamics": {
+        "mass_scale": 0.912784593755019,
+        "base_com_offset_m": [
+          3.310180252580255e-05,
+          0.0019000682545368733,
+          -0.0015660328884042557
+        ],
+        "delay_steps": 0,
+        "kp_scale": 1.0261209652869483,
+        "kd_scale": 0.9224919840420571
+      },
+      "sensors": {
+        "joint_bias_rad": [
+          -0.0018135772863011876,
+          0.0026115620080681646,
+          0.0004341746523298753,
+          0.0027565028521005274,
+          -0.0009479018718260264,
+          -0.0013143344832964002,
+          -0.0003614388003329622,
+          -0.001545781968621137,
+          0.002526084495140671,
+          0.0001270020353869132,
+          -0.0006230672568565739,
+          -0.00247196602674368
+        ],
+        "joint_noise_rad": 0.001,
+        "velocity_noise_rad_s": 0.005,
+        "orientation_bias_rad": [
+          0.0025567514786046415,
+          0.00948592880710811
+        ],
+        "delay_steps": 0
+      }
+    },
+    "source_commit": "986d1cb2293dd8e41af4073dcdd2ce3cd9f1bf54",
+    "source_dirty": false,
+    "engineering_pass": false,
+    "gates": {
+      "cold_boundary": false,
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": false,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "dense_cad": true
+    },
+    "early_termination": null,
+    "steps": 24051,
+    "floor_peak_N": 55.194630271726965,
+    "peak_requested_torque_Nm": 0.4506839663149162,
+    "final_tip_bottom_m": [
+      -2.8802319983665947e-05,
+      -2.0600663180644907e-05,
+      -2.0124295549248106e-05,
+      -2.7579990135043198e-05
+    ],
+    "final_normal_force_N": [
+      9.090800471987913,
+      6.568260966816439,
+      6.367986014361639,
+      11.933806671623428
+    ],
+    "final_pose_error_rad": 0.07951435617413068,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9d80c0fabfa3432d",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2640,
+      "minimum_m": 0.0025089806882782136,
+      "nearest_pair": [
+        "leg_back_l_1",
+        "leg_back_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.05104128096127808,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/com-front-right-high/com-front-right-high",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "com-front-right-high",
+      "friction": 0.8,
+      "seed": 13,
+      "scenario": {
+        "dynamics": {
+          "base_com_offset_m": [
+            0.003,
+            -0.003,
+            0.002
+          ]
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.7410119212085441,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c78eed3561fe41c9",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2510,
+      "minimum_m": 0.0027929031626954866,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04994922482697683,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/com-rear-left-low/com-rear-left-low",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "com-rear-left-low",
+      "friction": 0.8,
+      "seed": 14,
+      "scenario": {
+        "dynamics": {
+          "base_com_offset_m": [
+            -0.003,
+            0.003,
+            -0.002
+          ]
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.771923127883956,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9f9496ff22624972",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2511,
+      "minimum_m": 0.0027866413520788993,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04999345315436124,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/combined-seed-22/combined-seed-22",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "combined-seed-22",
+      "friction": 0.8,
+      "seed": 22,
+      "scenario": {
+        "dynamics": {
+          "mass_scale": 1.1,
+          "base_com_offset_m": [
+            0.003,
+            0.003,
+            0.002
+          ],
+          "delay_steps": 5,
+          "torque_limit_Nm": 1.5,
+          "kp_scale": 0.8,
+          "kd_scale": 0.8
+        },
+        "initial_offset": {
+          "height_m": -0.002,
+          "roll_rad": 0.017453292519943295,
+          "pitch_rad": -0.017453292519943295
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.9083152133482113,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/bbdfcb13e6a64852",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2529,
+      "minimum_m": 0.0027934250671488863,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04953976794137827,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/combined-seed-23/combined-seed-23",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "combined-seed-23",
+      "friction": 0.8,
+      "seed": 23,
+      "scenario": {
+        "dynamics": {
+          "mass_scale": 1.1,
+          "base_com_offset_m": [
+            0.003,
+            0.003,
+            0.002
+          ],
+          "delay_steps": 5,
+          "torque_limit_Nm": 1.5,
+          "kp_scale": 0.8,
+          "kd_scale": 0.8
+        },
+        "initial_offset": {
+          "height_m": -0.002,
+          "roll_rad": 0.017453292519943295,
+          "pitch_rad": -0.017453292519943295
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.9021512071571605,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/423c53b4939e4a6d",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2529,
+      "minimum_m": 0.0027971950551053887,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.0491352567181515,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/combined-seed-24/combined-seed-24",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "combined-seed-24",
+      "friction": 0.8,
+      "seed": 24,
+      "scenario": {
+        "dynamics": {
+          "mass_scale": 1.1,
+          "base_com_offset_m": [
+            0.003,
+            0.003,
+            0.002
+          ],
+          "delay_steps": 5,
+          "torque_limit_Nm": 1.5,
+          "kp_scale": 0.8,
+          "kd_scale": 0.8
+        },
+        "initial_offset": {
+          "height_m": -0.002,
+          "roll_rad": 0.017453292519943295,
+          "pitch_rad": -0.017453292519943295
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.9075665209073686,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e85464f00236410a",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2529,
+      "minimum_m": 0.0027919641608305165,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.049576894543072084,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/combined-seed-25/combined-seed-25",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "combined-seed-25",
+      "friction": 0.8,
+      "seed": 25,
+      "scenario": {
+        "dynamics": {
+          "mass_scale": 1.1,
+          "base_com_offset_m": [
+            0.003,
+            0.003,
+            0.002
+          ],
+          "delay_steps": 5,
+          "torque_limit_Nm": 1.5,
+          "kp_scale": 0.8,
+          "kd_scale": 0.8
+        },
+        "initial_offset": {
+          "height_m": -0.002,
+          "roll_rad": 0.017453292519943295,
+          "pitch_rad": -0.017453292519943295
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.905128950710631,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ca202db85b7046fa",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2530,
+      "minimum_m": 0.002793099731157627,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.049629127661959205,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/combined-seed-26/combined-seed-26",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "combined-seed-26",
+      "friction": 0.8,
+      "seed": 26,
+      "scenario": {
+        "dynamics": {
+          "mass_scale": 1.1,
+          "base_com_offset_m": [
+            0.003,
+            0.003,
+            0.002
+          ],
+          "delay_steps": 5,
+          "torque_limit_Nm": 1.5,
+          "kp_scale": 0.8,
+          "kd_scale": 0.8
+        },
+        "initial_offset": {
+          "height_m": -0.002,
+          "roll_rad": 0.017453292519943295,
+          "pitch_rad": -0.017453292519943295
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.9049347659786506,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3a82916a65234e8b",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2529,
+      "minimum_m": 0.0027898807817132443,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04968608725882767,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/delay-10-steps/delay-10-steps",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "delay-10-steps",
+      "friction": 0.8,
+      "seed": 16,
+      "scenario": {
+        "dynamics": {
+          "delay_steps": 10
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.7601749717987895,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/226b97ce21ec4827",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2520,
+      "minimum_m": 0.0027873020469572586,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04978234363082514,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/delay-5-steps/delay-5-steps",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "delay-5-steps",
+      "friction": 0.8,
+      "seed": 15,
+      "scenario": {
+        "dynamics": {
+          "delay_steps": 5
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.7649513080271613,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/0d8e0a20a99d4b22",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2514,
+      "minimum_m": 0.0027899267291929823,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04975880038579143,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/gains-high/gains-high",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "gains-high",
+      "friction": 0.8,
+      "seed": 19,
+      "scenario": {
+        "dynamics": {
+          "kp_scale": 1.2,
+          "kd_scale": 1.2
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.7383880761030813,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/78e12b882e0c465d",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2501,
+      "minimum_m": 0.0027897541540389047,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.049848941115978485,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/gains-low/gains-low",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "gains-low",
+      "friction": 0.8,
+      "seed": 18,
+      "scenario": {
+        "dynamics": {
+          "kp_scale": 0.8,
+          "kd_scale": 0.8
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.821697481618573,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/11ba99d1c39a496c",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2518,
+      "minimum_m": 0.0027904423880565025,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.049462639399264534,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/half-torque/half-torque",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "half-torque",
+      "friction": 0.8,
+      "seed": 17,
+      "scenario": {
+        "dynamics": {
+          "torque_limit_Nm": 1.5
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.7699553610994907,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/c3091f8c05aa4ed5",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2511,
+      "minimum_m": 0.0027907081025607765,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.049926605656297356,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mass-high/mass-high",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mass-high",
+      "friction": 0.8,
+      "seed": 12,
+      "scenario": {
+        "dynamics": {
+          "mass_scale": 1.1
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.8689686861735476,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/8feca95b75ed4c0d",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2514,
+      "minimum_m": 0.0027900511924093753,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.049681944416112414,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mass-low/mass-low",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mass-low",
+      "friction": 0.8,
+      "seed": 11,
+      "scenario": {
+        "dynamics": {
+          "mass_scale": 0.9
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.6803184883578662,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ff4d67ec6d9f420c",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2504,
+      "minimum_m": 0.0027919522583764278,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04961420571417583,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.5-seed-1/mu-0.5-seed-1",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.5-seed-1",
+      "friction": 0.5,
+      "seed": 1,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.5469355984704616,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/515d3de64021459d",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2512,
+      "minimum_m": 0.0027831647979585836,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.05005827578903913,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.5-seed-2/mu-0.5-seed-2",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.5-seed-2",
+      "friction": 0.5,
+      "seed": 2,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.5639321682786363,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e5e2e557943541ae",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2509,
+      "minimum_m": 0.0027881166118611605,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04964396215463939,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.5-seed-3/mu-0.5-seed-3",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.5-seed-3",
+      "friction": 0.5,
+      "seed": 3,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.5674680071506699,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/2886fb76808b445f",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2511,
+      "minimum_m": 0.0027854100048441692,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04990618128168115,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.5-seed-4/mu-0.5-seed-4",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.5-seed-4",
+      "friction": 0.5,
+      "seed": 4,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.5568140964433512,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/f8b9be3de32d448d",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2510,
+      "minimum_m": 0.002788060752104633,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04986616121304165,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.5-seed-5/mu-0.5-seed-5",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.5-seed-5",
+      "friction": 0.5,
+      "seed": 5,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.5552256681839313,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/1d5103bdac604c14",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2511,
+      "minimum_m": 0.0027888677418947123,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.050144643888123494,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.65-seed-1/mu-0.65-seed-1",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.65-seed-1",
+      "friction": 0.65,
+      "seed": 1,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.5779444666083673,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/4701cb208cb64cdc",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2512,
+      "minimum_m": 0.002783515139830207,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04997405794714628,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.65-seed-2/mu-0.65-seed-2",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.65-seed-2",
+      "friction": 0.65,
+      "seed": 2,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.5992787357168537,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/96ece73db46a4dfd",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2509,
+      "minimum_m": 0.002789256990699373,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04964054382759448,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.65-seed-3/mu-0.65-seed-3",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.65-seed-3",
+      "friction": 0.65,
+      "seed": 3,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.5604890463472988,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/103e9fa9e99f45ac",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2511,
+      "minimum_m": 0.0027867450737583455,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04991803026919999,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.65-seed-4/mu-0.65-seed-4",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.65-seed-4",
+      "friction": 0.65,
+      "seed": 4,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.5676135747856496,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/a79a9fb5264e4223",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2510,
+      "minimum_m": 0.0027891309068033576,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.0499955994499184,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.65-seed-5/mu-0.65-seed-5",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.65-seed-5",
+      "friction": 0.65,
+      "seed": 5,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.5829776852794872,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/25b2c291f7c64a83",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2511,
+      "minimum_m": 0.0027900902708609208,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.050077044101659335,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.8-seed-1/mu-0.8-seed-1",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.8-seed-1",
+      "friction": 0.8,
+      "seed": 1,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.7785242717157356,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/cc72b1665e49477f",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2511,
+      "minimum_m": 0.002786237186500568,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04990212425450843,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.8-seed-2/mu-0.8-seed-2",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.8-seed-2",
+      "friction": 0.8,
+      "seed": 2,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.7711572985600217,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/09c3a93a3d5e41ed",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2508,
+      "minimum_m": 0.0027913781714828437,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.049597326361302124,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.8-seed-3/mu-0.8-seed-3",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.8-seed-3",
+      "friction": 0.8,
+      "seed": 3,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.7794527966233926,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/7da3350b038b4372",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2510,
+      "minimum_m": 0.0027892252429969353,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.0498568618680777,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.8-seed-4/mu-0.8-seed-4",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.8-seed-4",
+      "friction": 0.8,
+      "seed": 4,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.7671054412246763,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/8ba252e8ca74489f",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2510,
+      "minimum_m": 0.0027910669816228074,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.049939682454267255,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-0.8-seed-5/mu-0.8-seed-5",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-0.8-seed-5",
+      "friction": 0.8,
+      "seed": 5,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.7698435719476718,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/f41b75041a4e466e",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2510,
+      "minimum_m": 0.0027918847149956292,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.050013341708386054,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-1.0-seed-1/mu-1.0-seed-1",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-1.0-seed-1",
+      "friction": 1.0,
+      "seed": 1,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.9268142367920258,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/2c98bc01a4c54f0f",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2510,
+      "minimum_m": 0.0027898714208992653,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04981877855249453,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-1.0-seed-2/mu-1.0-seed-2",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-1.0-seed-2",
+      "friction": 1.0,
+      "seed": 2,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.9291346416514237,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/8e785859fe504346",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2507,
+      "minimum_m": 0.0027941360723813336,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04953727835596551,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-1.0-seed-3/mu-1.0-seed-3",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-1.0-seed-3",
+      "friction": 1.0,
+      "seed": 3,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.931440112385393,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/6a8ac6e8ba6b4067",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2508,
+      "minimum_m": 0.002792490012287431,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04976859944420145,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-1.0-seed-4/mu-1.0-seed-4",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-1.0-seed-4",
+      "friction": 1.0,
+      "seed": 4,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.9297552780970055,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ac9d5892d23d4c61",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2508,
+      "minimum_m": 0.0027936225321991185,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.049830059909672465,
+      "front_rear_nearest_pair": [
+        "leg_back_r_3",
+        "leg_front_r_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/mu-1.0-seed-5/mu-1.0-seed-5",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "mu-1.0-seed-5",
+      "friction": 1.0,
+      "seed": 5,
+      "scenario": {},
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.9301194363173505,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3692099a75504c3e",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2509,
+      "minimum_m": 0.0027942589723846775,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.0499202182505922,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/start-high-tilted/start-high-tilted",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "start-high-tilted",
+      "friction": 0.8,
+      "seed": 21,
+      "scenario": {
+        "initial_offset": {
+          "height_m": 0.002,
+          "roll_rad": -0.017453292519943295,
+          "pitch_rad": 0.017453292519943295
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.7769132159429598,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/e7dffd7ec5e8416a",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2508,
+      "minimum_m": 0.0027918986580150354,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.04921909732828085,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "parent-regression/start-low-tilted/start-low-tilted",
+    "kind": "parent fixed-keyframe regression, NOT actual alignment handoff",
+    "config": {
+      "direction": "forward",
+      "seconds": 12.0,
+      "shoulder_bump": 0.0,
+      "splay_power": 1.0,
+      "name": "start-low-tilted",
+      "friction": 0.8,
+      "seed": 20,
+      "scenario": {
+        "initial_offset": {
+          "height_m": -0.002,
+          "roll_rad": 0.017453292519943295,
+          "pitch_rad": -0.017453292519943295
+        }
+      },
+      "hold_seconds": 32.0,
+      "balanced_support": {
+        "estimate_mode": "hybrid",
+        "norm_delay_s": 2.0,
+        "force_gain": 0.003,
+        "reference_cap": 0.075,
+        "integral_gain": 0.25
+      },
+      "roll_damping_scale": 2.0
+    },
+    "engineering_pass": true,
+    "gates": {
+      "completed": true,
+      "command_rate": true,
+      "tilt": true,
+      "torque": true,
+      "motor_body_floor": true,
+      "measured_speed": true,
+      "three_second_walk_pose": true,
+      "three_second_tip_support": true,
+      "three_second_settled": true,
+      "sampled_cad": true,
+      "dense_cad": true
+    },
+    "steps": 23920,
+    "floor_peak_N": 0.0,
+    "peak_requested_torque_Nm": 0.7902487311922075,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9c99afcdc41c475b",
+    "dense_replay_error": 0.0,
+    "cad_minimum": {
+      "step": 2508,
+      "minimum_m": 0.0027931039999221363,
+      "nearest_pair": [
+        "leg_front_l_1",
+        "leg_front_l_3"
+      ],
+      "intersections": [],
+      "front_rear_minimum_m": 0.049216099015083656,
+      "front_rear_nearest_pair": [
+        "leg_back_l_3",
+        "leg_front_l_3"
+      ]
+    }
+  },
+  {
+    "case": "alignment-published-0",
+    "kind": "actual fresh published-source alignment replay; rejected endpoint",
+    "source_commit": "dde1f961b519f53379d80fc4e77eab797b38be73",
+    "engineering_pass": false,
+    "alignment_passed": false,
+    "completed_mask": 0,
+    "failed_mask": 0,
+    "steps": 116134,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/a5277b1833124436"
+  },
+  {
+    "case": "alignment-published-1",
+    "kind": "actual fresh published-source alignment replay; rejected endpoint",
+    "source_commit": "dde1f961b519f53379d80fc4e77eab797b38be73",
+    "engineering_pass": false,
+    "alignment_passed": false,
+    "completed_mask": 0,
+    "failed_mask": 0,
+    "steps": 116134,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/3b967fd543c54aef"
+  },
+  {
+    "case": "alignment-published-5",
+    "kind": "actual fresh published-source alignment replay; rejected endpoint",
+    "source_commit": "dde1f961b519f53379d80fc4e77eab797b38be73",
+    "engineering_pass": false,
+    "alignment_passed": false,
+    "completed_mask": 0,
+    "failed_mask": 0,
+    "steps": 116134,
+    "wandb_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/cdf835985c2a4da9"
+  }
+]

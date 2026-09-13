@@ -1,0 +1,16 @@
+[
+  {
+    "original": "reproduce-nominal",
+    "candidate": "development/nominal_endpoint",
+    "model_sha256_equal": true,
+    "generated_assets_equal": true,
+    "model_sha256": "c274c1b3ddba73b58c89e8dded10d2d2d8e0fda37af77f631d4bedefa2d177e2"
+  },
+  {
+    "original": "reproduce-diagonal",
+    "candidate": "development/diagonal_10mm_spread",
+    "model_sha256_equal": true,
+    "generated_assets_equal": true,
+    "model_sha256": "0fee3ff987f8ea1c529a4813f3b93c13d9c27d471f4d09a1c4ac26c698392049"
+  }
+]

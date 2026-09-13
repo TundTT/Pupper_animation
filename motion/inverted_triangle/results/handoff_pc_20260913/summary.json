@@ -1,0 +1,20 @@
+{
+  "experiments": 78,
+  "environment_steps": 1991186,
+  "archive_sha256": "69504a544e755ebb95eb426ee5324c6903ad0a60dd99f35b1ea57423b16ee658",
+  "archive_bytes": 970156,
+  "groups": {
+    "development": {
+      "count": 8,
+      "passed": 0
+    },
+    "fresh-conditional": {
+      "count": 8,
+      "passed": 0
+    },
+    "parent-regression": {
+      "count": 36,
+      "passed": 36
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "seed": 19,
+  "entry_seconds": 2.0,
+  "pose_noise_deg": 2,
+  "formation": {
+    "support_extension_mm": [
+      0,
+      5,
+      5,
+      0
+    ],
+    "tip_shortening_mm": [
+      0,
+      10,
+      10,
+      0
+    ],
+    "bend_deg": [
+      3,
+      -3,
+      3,
+      -3
+    ]
+  },
+  "entry_integral_gain": 0.25,
+  "entry_splay": 0.1
+}
