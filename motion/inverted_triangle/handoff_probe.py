@@ -15,7 +15,7 @@ from .roll_audit import RollRecorder
 from .clearance import CADClearance
 
 def initialize(config,terminal=None):
-    allowed={'seed','entry_seconds','roll_seconds','settle_seconds','pose_noise_deg','friction','dynamics','formation','entry_integral_gain','entry_mode','entry_splay'}
+    allowed={'seed','entry_seconds','roll_seconds','settle_seconds','pose_noise_deg','friction','dynamics','formation','entry_integral_gain','entry_mode','entry_splay','sensors'}
     if set(config)-allowed:raise ValueError('Unknown handoff configuration fields')
     r=Robot(friction=config.get('friction',.8),dynamics=config.get('dynamics'),formation=config.get('formation'))
     if terminal is None:
@@ -75,12 +75,18 @@ def probe(config,output,terminal=None,video=True,cad=True):
     motion=EntryRoll(r.d.qpos[7:],previous_command=boundary['entry_initial_command'],entry_seconds=config.get('entry_seconds',4.),
         roll_seconds=config.get('roll_seconds',12.),settle_seconds=config.get('settle_seconds',32.),entry_integral_gain=config.get('entry_integral_gain',0.),entry_mode=config.get('entry_mode','measured'),entry_splay=config.get('entry_splay',.29))
     feedback=BalancedSupport(motion.goal,dict(estimate_mode='hybrid',norm_delay_s=2.,force_gain=.003,reference_cap=.075,integral_gain=.25))
+    from .sensors import JointImuSensors
+    sensors=JointImuSensors(config.get('sensors'),config.get('seed',0));measurement=None
     recorder=RollRecorder(r,motion.command);checker=CADClearance(r) if cad else None
     states=[];trace=[];gaps=[];hold=[];reason=None;peak_torque=0.;peak_speed=0.;correction=np.zeros(12)
     for step in range(int(520*(motion.entry_seconds+motion.roll_seconds+motion.settle_seconds+10))):
+        if config.get('sensors'):
+            sample=sensors.read(r)
+            if step%10==0:measurement=sample
+        else:measurement=dict(quaternion=r.d.qpos[3:7],q=r.d.qpos[7:],qd=r.d.qvel[6:])
         if motion.phase=='settle' and step%10==0:
-            correction=feedback.update(r.d.qpos[3:7],r.d.qpos[7:],r.d.qvel[6:],motion.command,10/520)
-        target=motion.step(r.d.qpos[7:],r.d.qvel[6:],1/520,correction)
+            correction=feedback.update(measurement['quaternion'],measurement['q'],measurement['qd'],motion.command,10/520)
+        target=motion.step(measurement['q'],measurement['qd'],1/520,correction)
         if motion.phase=='failed':reason=motion.failure;break
         damping=KD*(1 if motion.phase in ('settle','done') else 2)
         tau=r.tick(target,kd=damping);recorder.add(r,target,kd=damping)
@@ -116,6 +122,7 @@ def probe(config,output,terminal=None,video=True,cad=True):
         peak_sample_N=max(x['unintended_floor_force_N'] for x in floor_rows),phases=sorted(set(x['phase'] for x in floor_rows)))
     report=dict(config=config,boundary=boundary,model_manifest=r.manifest,simulation_only=True,
         hardware_validated=False,walking_handoff_validated=False,optimizer_updates=0,
+        observation_contract=dict(joint_imu_only=True,contact_oracle=False,controller_hz=520,feedback_hz=52 if config.get('sensors') else 520,sensor_spec=config.get('sensors',{}),note='Unperturbed baseline retains historical ideal feedback; explicit sensor trials sample and hold at 52 Hz.'),
         engineering_gates=gates,engineering_pass=all(v is True for v in gates.values()),
         acceptance_complete=False,remaining_acceptance=['actual alignment endpoint distribution','base contact convergence','fresh held-out perturbations','walking handoff'],
         final_phase=motion.phase,early_termination=reason,environment_steps=len(recorder.commands),
