@@ -1,0 +1,20 @@
+{
+  "source_commit": "3115c6394219d69c0e1a57c9ee259e562b58030a",
+  "host": "pupper",
+  "architecture": "aarch64",
+  "checkout": "/home/pi/robot-code-leglift",
+  "install": "/home/pi/robot-code-leglift/ros2_ws/install-roll",
+  "source_motion_commit": "221e16681952bb9350bd2c1019c2b092c347432a",
+  "library_sha256": "d7cbb2432872f2e414cc54a76553148b62c6581722eb9e3f22333e4609d194d1",
+  "installed_plan_sha256": "d9c99a324bcbfd8c1a16bdb11daf25622e044d58dfb077b9d48a28a83b0db4ea",
+  "build_packages": 6,
+  "ctest_passed": 11,
+  "reference_pytest_passed": 2,
+  "build_log_sha256": "4519e71e1ee6f139cfc5b88c83a85ff4a3098e85085f5a28cecf7c8b1f5e53f2",
+  "hardware_stack_started": false,
+  "motor_commands_sent": false,
+  "controller_activated": false,
+  "physical_assembly_confirmation": "pending",
+  "old_overlay_preserved": "/home/pi/robot-code-leglift/ros2_ws/install-triangle",
+  "notes": "Native mock-interface controller/calibration/stop tests only; no physical acceptance. No encoder session created by hardware startup."
+}
