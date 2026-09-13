@@ -38,3 +38,22 @@ def test_measured_profile_compiles_and_replays():
 
 def test_unmeasured_angle_not_silently_invented():
     with pytest.raises(ValueError,match='angle'):deform(np.zeros((3,3)),57,35,2)
+
+
+def test_labelled_synthetic_angle_preserves_mount_and_shared_geometry():
+    from .clearance import CADClearance
+    v=trimesh.load(HERE/'assets/CustomLegFoot.stl',process=True).vertices
+    w=deform(v,57,35,synthetic_bend_deg=3)
+    mask=np.linalg.norm(v[:,:2],axis=1)<=18
+    np.testing.assert_allclose(w[mask],v[mask],atol=1e-14,rtol=0)
+    np.testing.assert_array_equal(w[:,2],v[:,2])
+    assert np.max(abs(w-deform(v,57,35)))>1
+    r=Robot(formation=dict(top_mm=[57]*4,bottom_mm=[35]*4,bend_deg=[0]*4,synthetic_bend_deg=[3,-3,3,-3],contact_parts=4))
+    assert 'synthetic_angle_status' in r.manifest
+    assert r.manifest['gap_m']==.009
+    checker=CADClearance(r)
+    assert len(checker.pairs)>0
+    state=r.snapshot(r.initial[7:]);clone=Robot(formation=r.manifest['formation']);clone.restore(state)
+    for _ in range(30):r.tick(r.initial[7:]);clone.tick(r.initial[7:])
+    np.testing.assert_array_equal(r.d.qpos,clone.d.qpos)
+    with pytest.raises(ValueError,match='Synthetic bend'):deform(v,57,35,synthetic_bend_deg=4)

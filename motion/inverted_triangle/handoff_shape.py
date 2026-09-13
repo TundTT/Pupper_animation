@@ -78,6 +78,7 @@ def build(spec, nominal_manifest):
     from .core import HERE,LEGS
     measured='top_mm' in spec
     keys=('top_mm','bottom_mm','bend_deg') if measured else ('support_extension_mm','tip_shortening_mm','bend_deg')
+    if measured and 'synthetic_bend_deg' in spec:keys=keys+('synthetic_bend_deg',)
     transform=deform
     if measured:
         from .measured_profile import deform as transform
@@ -145,4 +146,7 @@ def build(spec, nominal_manifest):
         manifest.update(formation_status='Provisional rigid CAD fitted to manually measured top/base extents; full contour and posture unvalidated',
             measurement_source_sha256=hashlib.sha256((HERE/'measured_dimensions.json').read_bytes()).hexdigest(),
             fitting_assumptions='Original width, mounting region, axial coordinates and inertial properties retained; Y-only smooth profile fit')
+    if measured and "synthetic_bend_deg" in spec:
+        manifest.update(synthetic_angle_status="Unmeasured synthetic distal bend after measured extent fit; top/base extents are pre-bend inputs",
+            synthetic_angle_model="Smooth rotation about local Y=-18 mm, weighted beyond protected mounting region; axial coordinates unchanged")
     return xml,assets,manifest
