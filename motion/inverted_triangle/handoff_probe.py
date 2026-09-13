@@ -15,7 +15,7 @@ from .roll_audit import RollRecorder
 from .clearance import CADClearance
 
 def initialize(config,terminal=None):
-    allowed={'seed','entry_seconds','roll_seconds','settle_seconds','pose_noise_deg','friction','dynamics','formation','entry_integral_gain','entry_mode'}
+    allowed={'seed','entry_seconds','roll_seconds','settle_seconds','pose_noise_deg','friction','dynamics','formation','entry_integral_gain','entry_mode','entry_splay'}
     if set(config)-allowed:raise ValueError('Unknown handoff configuration fields')
     r=Robot(friction=config.get('friction',.8),dynamics=config.get('dynamics'),formation=config.get('formation'))
     if terminal is None:
@@ -73,7 +73,7 @@ def probe(config,output,terminal=None,video=True,cad=True):
     from .cold_boundary import inspect
     boundary["cold_geometry"]=inspect(r)
     motion=EntryRoll(r.d.qpos[7:],previous_command=boundary['entry_initial_command'],entry_seconds=config.get('entry_seconds',4.),
-        roll_seconds=config.get('roll_seconds',12.),settle_seconds=config.get('settle_seconds',32.),entry_integral_gain=config.get('entry_integral_gain',0.),entry_mode=config.get('entry_mode','measured'))
+        roll_seconds=config.get('roll_seconds',12.),settle_seconds=config.get('settle_seconds',32.),entry_integral_gain=config.get('entry_integral_gain',0.),entry_mode=config.get('entry_mode','measured'),entry_splay=config.get('entry_splay',.29))
     feedback=BalancedSupport(motion.goal,dict(estimate_mode='hybrid',norm_delay_s=2.,force_gain=.003,reference_cap=.075,integral_gain=.25))
     recorder=RollRecorder(r,motion.command);checker=CADClearance(r) if cad else None
     states=[];trace=[];gaps=[];hold=[];reason=None;peak_torque=0.;peak_speed=0.;correction=np.zeros(12)

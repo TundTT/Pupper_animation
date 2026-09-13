@@ -12,7 +12,7 @@ LOW=np.array([-1.12,-.32,-1000,-2.41,-3.04,-1000]*2)
 HIGH=np.array([2.41,3.04,1000,1.12,.32,1000]*2)
 
 class EntryRoll:
-    def __init__(self,q,previous_command=None,entry_seconds=4.,roll_seconds=12.,settle_seconds=32.,entry_integral_gain=0.,entry_mode="measured"):
+    def __init__(self,q,previous_command=None,entry_seconds=4.,roll_seconds=12.,settle_seconds=32.,entry_integral_gain=0.,entry_mode="measured",entry_splay=.29):
         q=np.asarray(q,dtype=float)
         if q.shape!=(12,) or not np.isfinite(q).all():raise ValueError('Finite measured 12-joint pose required')
         if np.any(q<LOW) or np.any(q>HIGH):raise ValueError('Measured start exceeds position limits')
@@ -23,8 +23,9 @@ class EntryRoll:
         if entry_seconds<=0 or roll_seconds<12 or settle_seconds<3:raise ValueError('Invalid stage durations')
         if entry_mode not in ('measured','direct'):raise ValueError('Unknown entry mode')
         if not np.isfinite(entry_integral_gain) or not 0<=entry_integral_gain<=1:raise ValueError('Invalid entry integral gain')
+        if not np.isfinite(entry_splay) or not 0<=entry_splay<=.32:raise ValueError('Invalid entry splay')
         self.entry_integral_gain=entry_integral_gain;self.entry_integral=np.zeros(12);self.entry_mode=entry_mode
-        self.start=self.command.copy();self.entry=ROLL_START.copy();self.entry[HUB]=q[HUB]
+        self.start=self.command.copy();self.entry=ROLL_START.copy();self.entry[1::3]=entry_splay*SIGNS;self.entry[HUB]=q[HUB]
         # Fixed whole-turn choice for the FINAL TARGET only; never wrap a live state.
         self.goal=NEUTRAL.copy()
         self.goal[HUB]+=2*np.pi*np.round((q[HUB]+SIGNS*np.pi-self.goal[HUB])/(2*np.pi))
