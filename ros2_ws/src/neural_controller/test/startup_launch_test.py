@@ -173,3 +173,22 @@ def test_inverted_triangle_trial_starts_only_triangle_inactive():
     params = yaml.safe_load(Path(resolved).read_text())['neural_controller_inverted_triangle']['ros__parameters']
     assert '$(' not in params['model_path']
     assert Path(params['model_path']).is_file()
+
+
+def test_stand_roll_launch_selects_diagnostic_without_activating_motion():
+    context = LaunchContext()
+    path = Path(__file__).parents[1] / 'launch' / 'triangle_roll_stand.launch.py'
+    description = runpy.run_path(str(path))['generate_launch_description']()
+    names = []
+    for node in description.entities:
+        executable = perform_substitutions(context, normalize_to_list_of_substitutions(node.node_executable))
+        if executable != 'spawner':
+            continue
+        args = [perform_substitutions(context, normalize_to_list_of_substitutions(word)) for word in node.cmd][1:]
+        names.append(args[0])
+        if args[0] == 'neural_controller_triangle_roll':
+            assert_calibration_gate(args, True)
+            controller = parse_controllers(args)[0]
+            assert get_parameter_from_param_files(Mock(), controller['name'], '/',
+                controller['param_files'], 'stand_only') is True
+    assert names == ['joint_state_broadcaster', 'imu_sensor_broadcaster', 'neural_controller_triangle_roll']
