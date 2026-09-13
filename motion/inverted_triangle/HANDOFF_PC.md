@@ -143,6 +143,10 @@ SHA256 map `files`; it verifies the recorded files before replay.
    final support. More compute/RL is available if this fails; preserve a deployable
    observation/action contract before any training. Do not assume perfect contact
    sensors or per-limb geometry measurements on the Pi.
+   The clean-commit local diagonal 10 mm trial already times out in entry with
+   the rear-right hip about 7 degrees away from its target. Reproduce this saved
+   counterexample; consider load-aware support during entry or a feasible posture
+   region instead of making every differently formed limb track one exact pose.
 4. Check contact approximation convergence against a finer decomposition of the
    SAME shape, including a zero-variation control versus the original nominal
    hull. Validate that changed inertia assumptions do not determine success.
