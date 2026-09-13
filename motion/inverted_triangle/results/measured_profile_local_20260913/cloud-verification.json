@@ -1,0 +1,24 @@
+[
+  {
+    "id": "202de0748cdf44ff",
+    "state": "finished",
+    "videos": [
+      "media/videos/handoff/continuous_motion_1_abac604cf235b8f440d7.mp4"
+    ],
+    "artifacts": [
+      "alignment-roll-handoff-202de0748cdf44ff:v0"
+    ],
+    "verified": true
+  },
+  {
+    "id": "f8ef53bbe1844734",
+    "state": "finished",
+    "videos": [
+      "media/videos/handoff/continuous_motion_1_4e9fe4c888cb17996b45.mp4"
+    ],
+    "artifacts": [
+      "alignment-roll-handoff-f8ef53bbe1844734:v0"
+    ],
+    "verified": true
+  }
+]
