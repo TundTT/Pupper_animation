@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "purpose": "operator_approved_upper_policy_home",
+  "angle_units": "radians",
+  "coordinate_frame": "calibrated_policy_joint_frame",
+  "joint_positions": {
+    "leg_front_r_1": 1.0, "leg_front_r_2": 0.0,
+    "leg_front_l_1": -1.0, "leg_front_l_2": 0.0,
+    "leg_back_r_1": 1.0, "leg_back_r_2": 0.0,
+    "leg_back_l_1": -1.0, "leg_back_l_2": 0.0
+  },
+  "operator_confirmation_date": "2026-09-13",
+  "operator_observation": "Upper pose looked correct on stand and robot stood when placed on floor. User approved this pose.",
+  "source_calibration_id": "c5b833d39a394259b6e6f689568ae277",
+  "source_encoder_session_id": "8b9f209675222d56de8a0a10c7c25e9c",
+  "hub_reference": "Separate selected-spoke calibration; no hub zeros stored in this profile.",
+  "sources": ["ros2_ws/src/neural_controller/launch/policy_wheel.json:default_joint_pos", "ros2_ws/src/neural_controller/launch/policy_walk_v2.json:default_joint_pos"],
+  "cross_boot_encoder_mapping_verified": false,
+  "roll_hardware_validated": false
+}

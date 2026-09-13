@@ -2,6 +2,7 @@
 #include "neural_controller/wheel_align_hybrid.hpp"
 #include "neural_controller/wheel_align_geometry_data.hpp"
 #include "neural_controller/wheel_align_reference_data.hpp"
+#include "neural_controller/policy_home.hpp"
 
 namespace neural_controller {
 // Version 5 supplies coordinated reference poses and supported descent.
@@ -10,7 +11,7 @@ struct WheelAlignMotion {
   static constexpr const char* contract_id = "quadmorph-align-motion-v5";
   static constexpr int observation_size = 83;
   static constexpr double control_dt = 10.0/520.0;
-  static constexpr std::array<double,8> neutral{1,0,-1,0,1,0,-1,0};
+  static constexpr std::array<double,8> neutral=policy_home::upper;
   static constexpr std::array<double,8> low{-1.12,-.32,-2.41,-3.04,-1.12,-.32,-2.41,-3.04};
   static constexpr std::array<double,8> high{2.41,3.04,1.12,.32,2.41,3.04,1.12,.32};
   std::array<double,8> reference=neutral, start=neutral, applied=neutral, velocity{}, desired=neutral;

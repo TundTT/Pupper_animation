@@ -1,0 +1,400 @@
+Sep 13 06:05:36 pupper systemd[1]: llm-agent.service: Scheduled restart job, restart counter is at 275.
+Sep 13 06:05:36 pupper systemd[1]: pupper-gui.service: Scheduled restart job, restart counter is at 551.
+Sep 13 06:05:36 pupper systemd[1]: Stopped llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:05:36 pupper systemd[1]: llm-agent.service: Consumed 4.932s CPU time.
+Sep 13 06:05:36 pupper systemd[1]: Couldn't stat device /dev/snd/*: No such file or directory
+Sep 13 06:05:36 pupper systemd[1]: Started llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:05:36 pupper systemd[1]: Stopped pupper-gui.service - Pupper GUI Service.
+Sep 13 06:05:36 pupper systemd[1]: Started pupper-gui.service - Pupper GUI Service.
+Sep 13 06:05:36 pupper run_gui.sh[25803]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:05:36 pupper systemd[1]: pupper-gui.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:05:36 pupper systemd[1]: pupper-gui.service: Failed with result 'exit-code'.
+Sep 13 06:05:36 pupper run.sh[25863]: Simple mixer control 'Master',0
+Sep 13 06:05:36 pupper run.sh[25863]:   Capabilities: pvolume pswitch pswitch-joined
+Sep 13 06:05:36 pupper run.sh[25863]:   Playback channels: Front Left - Front Right
+Sep 13 06:05:36 pupper run.sh[25863]:   Limits: Playback 0 - 65536
+Sep 13 06:05:36 pupper run.sh[25863]:   Mono:
+Sep 13 06:05:36 pupper run.sh[25863]:   Front Left: Playback 65536 [100%] [on]
+Sep 13 06:05:36 pupper run.sh[25863]:   Front Right: Playback 65536 [100%] [on]
+Sep 13 06:05:39 pupper run.sh[25802]: 2026-09-13 06:05:39.578049626 [W:onnxruntime:Default, device_discovery.cc:164 DiscoverDevicesForPlatform] GPU device discovery failed: device_discovery.cc:89 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"
+Sep 13 06:05:40 pupper run.sh[25802]: Traceback (most recent call last):
+Sep 13 06:05:40 pupper run.sh[25802]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/agent.py", line 26, in <module>
+Sep 13 06:05:40 pupper run.sh[25802]:     from ros_tool_server import RosToolServer
+Sep 13 06:05:40 pupper run.sh[25802]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/ros_tool_server.py", line 20, in <module>
+Sep 13 06:05:40 pupper run.sh[25802]:     import gemini_interface
+Sep 13 06:05:40 pupper run.sh[25802]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/gemini_interface.py", line 41, in <module>
+Sep 13 06:05:40 pupper run.sh[25802]:     client = genai.Client(api_key=GOOGLE_API_KEY)
+Sep 13 06:05:40 pupper run.sh[25802]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:05:40 pupper run.sh[25802]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 271, in __init__
+Sep 13 06:05:40 pupper run.sh[25802]:     self._api_client = self._get_api_client(
+Sep 13 06:05:40 pupper run.sh[25802]:                        ^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:05:40 pupper run.sh[25802]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 318, in _get_api_client
+Sep 13 06:05:40 pupper run.sh[25802]:     return BaseApiClient(
+Sep 13 06:05:40 pupper run.sh[25802]:            ^^^^^^^^^^^^^^
+Sep 13 06:05:40 pupper run.sh[25802]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/_api_client.py", line 683, in __init__
+Sep 13 06:05:40 pupper run.sh[25802]:     raise ValueError(
+Sep 13 06:05:40 pupper run.sh[25802]: ValueError: Missing key inputs argument! To use the Google AI API, provide (`api_key`) arguments. To use the Google Cloud API, provide (`vertexai`, `project` & `location`) arguments.
+Sep 13 06:05:40 pupper systemd[1]: llm-agent.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:05:40 pupper systemd[1]: llm-agent.service: Failed with result 'exit-code'.
+Sep 13 06:05:40 pupper systemd[1]: llm-agent.service: Consumed 4.778s CPU time.
+Sep 13 06:05:41 pupper systemd[1]: pupper-gui.service: Scheduled restart job, restart counter is at 552.
+Sep 13 06:05:41 pupper systemd[1]: Stopped pupper-gui.service - Pupper GUI Service.
+Sep 13 06:05:41 pupper systemd[1]: Started pupper-gui.service - Pupper GUI Service.
+Sep 13 06:05:41 pupper run_gui.sh[25877]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:05:41 pupper systemd[1]: pupper-gui.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:05:41 pupper systemd[1]: pupper-gui.service: Failed with result 'exit-code'.
+Sep 13 06:05:41 pupper sshd[25875]: Accepted publickey for pi from 10.138.222.160 port 59100 ssh2: ED25519 SHA256:QSiPjPsEzRvCPrTSC4i/hir5uE6xMdTooZOCWd+tbcU
+Sep 13 06:05:41 pupper sshd[25875]: pam_unix(sshd:session): session opened for user pi(uid=1000) by (uid=0)
+Sep 13 06:05:41 pupper systemd-logind[739]: New session 72 of user pi.
+Sep 13 06:05:41 pupper systemd[1]: Started session-72.scope - Session 72 of User pi.
+Sep 13 06:05:41 pupper sshd[25875]: pam_env(sshd:session): deprecated reading of user environment enabled
+Sep 13 06:05:46 pupper systemd[1]: llm-agent.service: Scheduled restart job, restart counter is at 276.
+Sep 13 06:05:46 pupper systemd[1]: Stopped llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:05:46 pupper systemd[1]: llm-agent.service: Consumed 4.778s CPU time.
+Sep 13 06:05:46 pupper systemd[1]: Couldn't stat device /dev/snd/*: No such file or directory
+Sep 13 06:05:46 pupper systemd[1]: Started llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:05:46 pupper sshd[25882]: Received disconnect from 10.138.222.160 port 59100:11: disconnected by user
+Sep 13 06:05:46 pupper sshd[25882]: Disconnected from user pi 10.138.222.160 port 59100
+Sep 13 06:05:46 pupper sshd[25875]: pam_unix(sshd:session): session closed for user pi
+Sep 13 06:05:46 pupper systemd[1]: session-72.scope: Deactivated successfully.
+Sep 13 06:05:46 pupper systemd-logind[739]: Session 72 logged out. Waiting for processes to exit.
+Sep 13 06:05:46 pupper systemd[1]: session-72.scope: Consumed 2.538s CPU time.
+Sep 13 06:05:46 pupper systemd-logind[739]: Removed session 72.
+Sep 13 06:05:46 pupper systemd[1]: pupper-gui.service: Scheduled restart job, restart counter is at 553.
+Sep 13 06:05:46 pupper systemd[1]: Stopped pupper-gui.service - Pupper GUI Service.
+Sep 13 06:05:46 pupper run.sh[26041]: Simple mixer control 'Master',0
+Sep 13 06:05:46 pupper run.sh[26041]:   Capabilities: pvolume pswitch pswitch-joined
+Sep 13 06:05:46 pupper run.sh[26041]:   Playback channels: Front Left - Front Right
+Sep 13 06:05:46 pupper run.sh[26041]:   Limits: Playback 0 - 65536
+Sep 13 06:05:46 pupper run.sh[26041]:   Mono:
+Sep 13 06:05:46 pupper run.sh[26041]:   Front Left: Playback 65536 [100%] [on]
+Sep 13 06:05:46 pupper run.sh[26041]:   Front Right: Playback 65536 [100%] [on]
+Sep 13 06:05:46 pupper systemd[1]: Started pupper-gui.service - Pupper GUI Service.
+Sep 13 06:05:46 pupper run_gui.sh[26042]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:05:46 pupper systemd[1]: pupper-gui.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:05:46 pupper systemd[1]: pupper-gui.service: Failed with result 'exit-code'.
+Sep 13 06:05:49 pupper run.sh[25981]: 2026-09-13 06:05:49.673101881 [W:onnxruntime:Default, device_discovery.cc:164 DiscoverDevicesForPlatform] GPU device discovery failed: device_discovery.cc:89 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"
+Sep 13 06:05:50 pupper run.sh[25981]: Traceback (most recent call last):
+Sep 13 06:05:50 pupper run.sh[25981]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/agent.py", line 26, in <module>
+Sep 13 06:05:50 pupper run.sh[25981]:     from ros_tool_server import RosToolServer
+Sep 13 06:05:50 pupper run.sh[25981]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/ros_tool_server.py", line 20, in <module>
+Sep 13 06:05:50 pupper run.sh[25981]:     import gemini_interface
+Sep 13 06:05:50 pupper run.sh[25981]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/gemini_interface.py", line 41, in <module>
+Sep 13 06:05:50 pupper run.sh[25981]:     client = genai.Client(api_key=GOOGLE_API_KEY)
+Sep 13 06:05:50 pupper run.sh[25981]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:05:50 pupper run.sh[25981]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 271, in __init__
+Sep 13 06:05:50 pupper run.sh[25981]:     self._api_client = self._get_api_client(
+Sep 13 06:05:50 pupper run.sh[25981]:                        ^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:05:50 pupper run.sh[25981]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 318, in _get_api_client
+Sep 13 06:05:50 pupper run.sh[25981]:     return BaseApiClient(
+Sep 13 06:05:50 pupper run.sh[25981]:            ^^^^^^^^^^^^^^
+Sep 13 06:05:50 pupper run.sh[25981]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/_api_client.py", line 683, in __init__
+Sep 13 06:05:50 pupper run.sh[25981]:     raise ValueError(
+Sep 13 06:05:50 pupper run.sh[25981]: ValueError: Missing key inputs argument! To use the Google AI API, provide (`api_key`) arguments. To use the Google Cloud API, provide (`vertexai`, `project` & `location`) arguments.
+Sep 13 06:05:50 pupper systemd[1]: llm-agent.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:05:50 pupper systemd[1]: llm-agent.service: Failed with result 'exit-code'.
+Sep 13 06:05:50 pupper systemd[1]: llm-agent.service: Consumed 4.804s CPU time.
+Sep 13 06:05:51 pupper systemd[1]: pupper-gui.service: Scheduled restart job, restart counter is at 554.
+Sep 13 06:05:51 pupper systemd[1]: Stopped pupper-gui.service - Pupper GUI Service.
+Sep 13 06:05:51 pupper systemd[1]: Started pupper-gui.service - Pupper GUI Service.
+Sep 13 06:05:51 pupper run_gui.sh[26054]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:05:51 pupper systemd[1]: pupper-gui.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:05:51 pupper systemd[1]: pupper-gui.service: Failed with result 'exit-code'.
+Sep 13 06:05:56 pupper systemd[1]: llm-agent.service: Scheduled restart job, restart counter is at 277.
+Sep 13 06:05:56 pupper systemd[1]: Stopped llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:05:56 pupper systemd[1]: llm-agent.service: Consumed 4.804s CPU time.
+Sep 13 06:05:56 pupper systemd[1]: Couldn't stat device /dev/snd/*: No such file or directory
+Sep 13 06:05:56 pupper systemd[1]: Started llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:05:56 pupper run.sh[26116]: Simple mixer control 'Master',0
+Sep 13 06:05:56 pupper run.sh[26116]:   Capabilities: pvolume pswitch pswitch-joined
+Sep 13 06:05:56 pupper run.sh[26116]:   Playback channels: Front Left - Front Right
+Sep 13 06:05:56 pupper run.sh[26116]:   Limits: Playback 0 - 65536
+Sep 13 06:05:56 pupper run.sh[26116]:   Mono:
+Sep 13 06:05:56 pupper run.sh[26116]:   Front Left: Playback 65536 [100%] [on]
+Sep 13 06:05:56 pupper run.sh[26116]:   Front Right: Playback 65536 [100%] [on]
+Sep 13 06:05:56 pupper sshd[26123]: Accepted publickey for pi from 10.138.222.160 port 59104 ssh2: ED25519 SHA256:QSiPjPsEzRvCPrTSC4i/hir5uE6xMdTooZOCWd+tbcU
+Sep 13 06:05:56 pupper sshd[26123]: pam_unix(sshd:session): session opened for user pi(uid=1000) by (uid=0)
+Sep 13 06:05:56 pupper systemd-logind[739]: New session 73 of user pi.
+Sep 13 06:05:56 pupper systemd[1]: Started session-73.scope - Session 73 of User pi.
+Sep 13 06:05:56 pupper sshd[26123]: pam_env(sshd:session): deprecated reading of user environment enabled
+Sep 13 06:05:57 pupper systemd[1]: pupper-gui.service: Scheduled restart job, restart counter is at 555.
+Sep 13 06:05:57 pupper systemd[1]: Stopped pupper-gui.service - Pupper GUI Service.
+Sep 13 06:05:57 pupper systemd[1]: Started pupper-gui.service - Pupper GUI Service.
+Sep 13 06:05:57 pupper run_gui.sh[26138]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:05:57 pupper systemd[1]: pupper-gui.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:05:57 pupper systemd[1]: pupper-gui.service: Failed with result 'exit-code'.
+Sep 13 06:05:59 pupper sshd[26132]: Received disconnect from 10.138.222.160 port 59104:11: disconnected by user
+Sep 13 06:05:59 pupper sshd[26132]: Disconnected from user pi 10.138.222.160 port 59104
+Sep 13 06:05:59 pupper sshd[26123]: pam_unix(sshd:session): session closed for user pi
+Sep 13 06:05:59 pupper systemd[1]: session-73.scope: Deactivated successfully.
+Sep 13 06:05:59 pupper systemd[1]: session-73.scope: Consumed 1.500s CPU time.
+Sep 13 06:05:59 pupper systemd-logind[739]: Session 73 logged out. Waiting for processes to exit.
+Sep 13 06:05:59 pupper systemd-logind[739]: Removed session 73.
+Sep 13 06:06:00 pupper run.sh[26056]: 2026-09-13 06:06:00.238210929 [W:onnxruntime:Default, device_discovery.cc:164 DiscoverDevicesForPlatform] GPU device discovery failed: device_discovery.cc:89 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"
+Sep 13 06:06:00 pupper run.sh[26056]: Traceback (most recent call last):
+Sep 13 06:06:00 pupper run.sh[26056]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/agent.py", line 26, in <module>
+Sep 13 06:06:00 pupper run.sh[26056]:     from ros_tool_server import RosToolServer
+Sep 13 06:06:00 pupper run.sh[26056]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/ros_tool_server.py", line 20, in <module>
+Sep 13 06:06:00 pupper run.sh[26056]:     import gemini_interface
+Sep 13 06:06:00 pupper run.sh[26056]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/gemini_interface.py", line 41, in <module>
+Sep 13 06:06:00 pupper run.sh[26056]:     client = genai.Client(api_key=GOOGLE_API_KEY)
+Sep 13 06:06:00 pupper run.sh[26056]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:06:00 pupper run.sh[26056]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 271, in __init__
+Sep 13 06:06:00 pupper run.sh[26056]:     self._api_client = self._get_api_client(
+Sep 13 06:06:00 pupper run.sh[26056]:                        ^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:06:00 pupper run.sh[26056]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 318, in _get_api_client
+Sep 13 06:06:00 pupper run.sh[26056]:     return BaseApiClient(
+Sep 13 06:06:00 pupper run.sh[26056]:            ^^^^^^^^^^^^^^
+Sep 13 06:06:00 pupper run.sh[26056]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/_api_client.py", line 683, in __init__
+Sep 13 06:06:00 pupper run.sh[26056]:     raise ValueError(
+Sep 13 06:06:00 pupper run.sh[26056]: ValueError: Missing key inputs argument! To use the Google AI API, provide (`api_key`) arguments. To use the Google Cloud API, provide (`vertexai`, `project` & `location`) arguments.
+Sep 13 06:06:01 pupper systemd[1]: llm-agent.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:06:01 pupper systemd[1]: llm-agent.service: Failed with result 'exit-code'.
+Sep 13 06:06:01 pupper systemd[1]: llm-agent.service: Consumed 5.168s CPU time.
+Sep 13 06:06:02 pupper systemd[1]: pupper-gui.service: Scheduled restart job, restart counter is at 556.
+Sep 13 06:06:02 pupper systemd[1]: Stopped pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:02 pupper systemd[1]: Started pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:02 pupper run_gui.sh[26215]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:06:02 pupper systemd[1]: pupper-gui.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:06:02 pupper systemd[1]: pupper-gui.service: Failed with result 'exit-code'.
+Sep 13 06:06:06 pupper systemd[1]: llm-agent.service: Scheduled restart job, restart counter is at 278.
+Sep 13 06:06:06 pupper systemd[1]: Stopped llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:06:06 pupper systemd[1]: llm-agent.service: Consumed 5.168s CPU time.
+Sep 13 06:06:06 pupper systemd[1]: Couldn't stat device /dev/snd/*: No such file or directory
+Sep 13 06:06:06 pupper systemd[1]: Started llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:06:07 pupper run.sh[26276]: Simple mixer control 'Master',0
+Sep 13 06:06:07 pupper run.sh[26276]:   Capabilities: pvolume pswitch pswitch-joined
+Sep 13 06:06:07 pupper run.sh[26276]:   Playback channels: Front Left - Front Right
+Sep 13 06:06:07 pupper run.sh[26276]:   Limits: Playback 0 - 65536
+Sep 13 06:06:07 pupper run.sh[26276]:   Mono:
+Sep 13 06:06:07 pupper run.sh[26276]:   Front Left: Playback 65536 [100%] [on]
+Sep 13 06:06:07 pupper run.sh[26276]:   Front Right: Playback 65536 [100%] [on]
+Sep 13 06:06:07 pupper systemd[1]: pupper-gui.service: Scheduled restart job, restart counter is at 557.
+Sep 13 06:06:07 pupper systemd[1]: Stopped pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:07 pupper systemd[1]: Started pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:07 pupper run_gui.sh[26286]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:06:07 pupper systemd[1]: pupper-gui.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:06:07 pupper systemd[1]: pupper-gui.service: Failed with result 'exit-code'.
+Sep 13 06:06:10 pupper run.sh[26216]: 2026-09-13 06:06:10.685464285 [W:onnxruntime:Default, device_discovery.cc:164 DiscoverDevicesForPlatform] GPU device discovery failed: device_discovery.cc:89 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"
+Sep 13 06:06:11 pupper run.sh[26216]: Traceback (most recent call last):
+Sep 13 06:06:11 pupper run.sh[26216]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/agent.py", line 26, in <module>
+Sep 13 06:06:11 pupper run.sh[26216]:     from ros_tool_server import RosToolServer
+Sep 13 06:06:11 pupper run.sh[26216]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/ros_tool_server.py", line 20, in <module>
+Sep 13 06:06:11 pupper run.sh[26216]:     import gemini_interface
+Sep 13 06:06:11 pupper run.sh[26216]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/gemini_interface.py", line 41, in <module>
+Sep 13 06:06:11 pupper run.sh[26216]:     client = genai.Client(api_key=GOOGLE_API_KEY)
+Sep 13 06:06:11 pupper run.sh[26216]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:06:11 pupper run.sh[26216]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 271, in __init__
+Sep 13 06:06:11 pupper run.sh[26216]:     self._api_client = self._get_api_client(
+Sep 13 06:06:11 pupper run.sh[26216]:                        ^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:06:11 pupper run.sh[26216]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 318, in _get_api_client
+Sep 13 06:06:11 pupper run.sh[26216]:     return BaseApiClient(
+Sep 13 06:06:11 pupper run.sh[26216]:            ^^^^^^^^^^^^^^
+Sep 13 06:06:11 pupper run.sh[26216]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/_api_client.py", line 683, in __init__
+Sep 13 06:06:11 pupper run.sh[26216]:     raise ValueError(
+Sep 13 06:06:11 pupper run.sh[26216]: ValueError: Missing key inputs argument! To use the Google AI API, provide (`api_key`) arguments. To use the Google Cloud API, provide (`vertexai`, `project` & `location`) arguments.
+Sep 13 06:06:12 pupper systemd[1]: llm-agent.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:06:12 pupper systemd[1]: llm-agent.service: Failed with result 'exit-code'.
+Sep 13 06:06:12 pupper systemd[1]: llm-agent.service: Consumed 4.945s CPU time.
+Sep 13 06:06:12 pupper systemd[1]: pupper-gui.service: Scheduled restart job, restart counter is at 558.
+Sep 13 06:06:12 pupper systemd[1]: Stopped pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:12 pupper systemd[1]: Started pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:12 pupper run_gui.sh[26289]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:06:12 pupper systemd[1]: pupper-gui.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:06:12 pupper systemd[1]: pupper-gui.service: Failed with result 'exit-code'.
+Sep 13 06:06:17 pupper systemd[1]: llm-agent.service: Scheduled restart job, restart counter is at 279.
+Sep 13 06:06:17 pupper systemd[1]: Stopped llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:06:17 pupper systemd[1]: llm-agent.service: Consumed 4.945s CPU time.
+Sep 13 06:06:17 pupper systemd[1]: Couldn't stat device /dev/snd/*: No such file or directory
+Sep 13 06:06:17 pupper systemd[1]: Started llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:06:17 pupper run.sh[26350]: Simple mixer control 'Master',0
+Sep 13 06:06:17 pupper run.sh[26350]:   Capabilities: pvolume pswitch pswitch-joined
+Sep 13 06:06:17 pupper run.sh[26350]:   Playback channels: Front Left - Front Right
+Sep 13 06:06:17 pupper run.sh[26350]:   Limits: Playback 0 - 65536
+Sep 13 06:06:17 pupper run.sh[26350]:   Mono:
+Sep 13 06:06:17 pupper run.sh[26350]:   Front Left: Playback 65536 [100%] [on]
+Sep 13 06:06:17 pupper run.sh[26350]:   Front Right: Playback 65536 [100%] [on]
+Sep 13 06:06:18 pupper systemd[1]: pupper-gui.service: Scheduled restart job, restart counter is at 559.
+Sep 13 06:06:18 pupper systemd[1]: Stopped pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:18 pupper systemd[1]: Started pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:18 pupper run_gui.sh[26357]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:06:18 pupper systemd[1]: pupper-gui.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:06:18 pupper systemd[1]: pupper-gui.service: Failed with result 'exit-code'.
+Sep 13 06:06:19 pupper sshd[26361]: Accepted publickey for pi from 10.138.222.160 port 59116 ssh2: ED25519 SHA256:QSiPjPsEzRvCPrTSC4i/hir5uE6xMdTooZOCWd+tbcU
+Sep 13 06:06:19 pupper sshd[26361]: pam_unix(sshd:session): session opened for user pi(uid=1000) by (uid=0)
+Sep 13 06:06:19 pupper systemd-logind[739]: New session 74 of user pi.
+Sep 13 06:06:19 pupper systemd[1]: Started session-74.scope - Session 74 of User pi.
+Sep 13 06:06:19 pupper sshd[26361]: pam_env(sshd:session): deprecated reading of user environment enabled
+Sep 13 06:06:21 pupper run.sh[26290]: 2026-09-13 06:06:21.082592340 [W:onnxruntime:Default, device_discovery.cc:164 DiscoverDevicesForPlatform] GPU device discovery failed: device_discovery.cc:89 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"
+Sep 13 06:06:21 pupper run.sh[26290]: Traceback (most recent call last):
+Sep 13 06:06:21 pupper run.sh[26290]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/agent.py", line 26, in <module>
+Sep 13 06:06:21 pupper run.sh[26290]:     from ros_tool_server import RosToolServer
+Sep 13 06:06:21 pupper run.sh[26290]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/ros_tool_server.py", line 20, in <module>
+Sep 13 06:06:21 pupper run.sh[26290]:     import gemini_interface
+Sep 13 06:06:21 pupper run.sh[26290]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/gemini_interface.py", line 41, in <module>
+Sep 13 06:06:21 pupper run.sh[26290]:     client = genai.Client(api_key=GOOGLE_API_KEY)
+Sep 13 06:06:21 pupper run.sh[26290]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:06:21 pupper run.sh[26290]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 271, in __init__
+Sep 13 06:06:21 pupper run.sh[26290]:     self._api_client = self._get_api_client(
+Sep 13 06:06:21 pupper run.sh[26290]:                        ^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:06:21 pupper run.sh[26290]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 318, in _get_api_client
+Sep 13 06:06:21 pupper run.sh[26290]:     return BaseApiClient(
+Sep 13 06:06:21 pupper run.sh[26290]:            ^^^^^^^^^^^^^^
+Sep 13 06:06:21 pupper run.sh[26290]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/_api_client.py", line 683, in __init__
+Sep 13 06:06:21 pupper run.sh[26290]:     raise ValueError(
+Sep 13 06:06:21 pupper run.sh[26290]: ValueError: Missing key inputs argument! To use the Google AI API, provide (`api_key`) arguments. To use the Google Cloud API, provide (`vertexai`, `project` & `location`) arguments.
+Sep 13 06:06:21 pupper sshd[26367]: Received disconnect from 10.138.222.160 port 59116:11: disconnected by user
+Sep 13 06:06:21 pupper sshd[26367]: Disconnected from user pi 10.138.222.160 port 59116
+Sep 13 06:06:21 pupper sshd[26361]: pam_unix(sshd:session): session closed for user pi
+Sep 13 06:06:21 pupper systemd-logind[739]: Session 74 logged out. Waiting for processes to exit.
+Sep 13 06:06:21 pupper systemd[1]: session-74.scope: Deactivated successfully.
+Sep 13 06:06:21 pupper systemd[1]: session-74.scope: Consumed 1.526s CPU time.
+Sep 13 06:06:21 pupper systemd-logind[739]: Removed session 74.
+Sep 13 06:06:22 pupper systemd[1]: llm-agent.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:06:22 pupper systemd[1]: llm-agent.service: Failed with result 'exit-code'.
+Sep 13 06:06:22 pupper systemd[1]: llm-agent.service: Consumed 5.025s CPU time.
+Sep 13 06:06:22 pupper sshd[26447]: Accepted publickey for pi from 10.138.222.160 port 59117 ssh2: ED25519 SHA256:QSiPjPsEzRvCPrTSC4i/hir5uE6xMdTooZOCWd+tbcU
+Sep 13 06:06:22 pupper sshd[26447]: pam_unix(sshd:session): session opened for user pi(uid=1000) by (uid=0)
+Sep 13 06:06:22 pupper systemd-logind[739]: New session 75 of user pi.
+Sep 13 06:06:22 pupper systemd[1]: Started session-75.scope - Session 75 of User pi.
+Sep 13 06:06:22 pupper sshd[26447]: pam_env(sshd:session): deprecated reading of user environment enabled
+Sep 13 06:06:22 pupper sshd[26453]: Received disconnect from 10.138.222.160 port 59117:11: disconnected by user
+Sep 13 06:06:22 pupper sshd[26453]: Disconnected from user pi 10.138.222.160 port 59117
+Sep 13 06:06:22 pupper sshd[26447]: pam_unix(sshd:session): session closed for user pi
+Sep 13 06:06:22 pupper systemd-logind[739]: Session 75 logged out. Waiting for processes to exit.
+Sep 13 06:06:22 pupper systemd[1]: session-75.scope: Deactivated successfully.
+Sep 13 06:06:22 pupper systemd-logind[739]: Removed session 75.
+Sep 13 06:06:23 pupper systemd[1]: pupper-gui.service: Scheduled restart job, restart counter is at 560.
+Sep 13 06:06:23 pupper systemd[1]: Stopped pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:23 pupper systemd[1]: Started pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:23 pupper run_gui.sh[26455]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:06:23 pupper systemd[1]: pupper-gui.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:06:23 pupper systemd[1]: pupper-gui.service: Failed with result 'exit-code'.
+Sep 13 06:06:27 pupper systemd[1]: llm-agent.service: Scheduled restart job, restart counter is at 280.
+Sep 13 06:06:27 pupper systemd[1]: Stopped llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:06:27 pupper systemd[1]: llm-agent.service: Consumed 5.025s CPU time.
+Sep 13 06:06:27 pupper systemd[1]: Couldn't stat device /dev/snd/*: No such file or directory
+Sep 13 06:06:27 pupper systemd[1]: Started llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:06:27 pupper run.sh[26516]: Simple mixer control 'Master',0
+Sep 13 06:06:27 pupper run.sh[26516]:   Capabilities: pvolume pswitch pswitch-joined
+Sep 13 06:06:27 pupper run.sh[26516]:   Playback channels: Front Left - Front Right
+Sep 13 06:06:27 pupper run.sh[26516]:   Limits: Playback 0 - 65536
+Sep 13 06:06:27 pupper run.sh[26516]:   Mono:
+Sep 13 06:06:27 pupper run.sh[26516]:   Front Left: Playback 65536 [100%] [on]
+Sep 13 06:06:27 pupper run.sh[26516]:   Front Right: Playback 65536 [100%] [on]
+Sep 13 06:06:28 pupper systemd[1]: pupper-gui.service: Scheduled restart job, restart counter is at 561.
+Sep 13 06:06:28 pupper systemd[1]: Stopped pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:28 pupper systemd[1]: Started pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:28 pupper run_gui.sh[26526]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:06:28 pupper systemd[1]: pupper-gui.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:06:28 pupper systemd[1]: pupper-gui.service: Failed with result 'exit-code'.
+Sep 13 06:06:28 pupper sshd[26527]: Accepted publickey for pi from 10.138.222.160 port 59121 ssh2: ED25519 SHA256:QSiPjPsEzRvCPrTSC4i/hir5uE6xMdTooZOCWd+tbcU
+Sep 13 06:06:28 pupper sshd[26527]: pam_unix(sshd:session): session opened for user pi(uid=1000) by (uid=0)
+Sep 13 06:06:28 pupper systemd-logind[739]: New session 76 of user pi.
+Sep 13 06:06:28 pupper systemd[1]: Started session-76.scope - Session 76 of User pi.
+Sep 13 06:06:28 pupper sshd[26527]: pam_env(sshd:session): deprecated reading of user environment enabled
+Sep 13 06:06:31 pupper run.sh[26456]: 2026-09-13 06:06:31.814349650 [W:onnxruntime:Default, device_discovery.cc:164 DiscoverDevicesForPlatform] GPU device discovery failed: device_discovery.cc:89 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"
+Sep 13 06:06:32 pupper run.sh[26456]: Traceback (most recent call last):
+Sep 13 06:06:32 pupper run.sh[26456]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/agent.py", line 26, in <module>
+Sep 13 06:06:32 pupper run.sh[26456]:     from ros_tool_server import RosToolServer
+Sep 13 06:06:32 pupper run.sh[26456]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/ros_tool_server.py", line 20, in <module>
+Sep 13 06:06:32 pupper run.sh[26456]:     import gemini_interface
+Sep 13 06:06:32 pupper run.sh[26456]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/gemini_interface.py", line 41, in <module>
+Sep 13 06:06:32 pupper run.sh[26456]:     client = genai.Client(api_key=GOOGLE_API_KEY)
+Sep 13 06:06:32 pupper run.sh[26456]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:06:32 pupper run.sh[26456]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 271, in __init__
+Sep 13 06:06:32 pupper run.sh[26456]:     self._api_client = self._get_api_client(
+Sep 13 06:06:32 pupper run.sh[26456]:                        ^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:06:32 pupper run.sh[26456]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 318, in _get_api_client
+Sep 13 06:06:32 pupper run.sh[26456]:     return BaseApiClient(
+Sep 13 06:06:32 pupper run.sh[26456]:            ^^^^^^^^^^^^^^
+Sep 13 06:06:32 pupper run.sh[26456]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/_api_client.py", line 683, in __init__
+Sep 13 06:06:32 pupper run.sh[26456]:     raise ValueError(
+Sep 13 06:06:32 pupper run.sh[26456]: ValueError: Missing key inputs argument! To use the Google AI API, provide (`api_key`) arguments. To use the Google Cloud API, provide (`vertexai`, `project` & `location`) arguments.
+Sep 13 06:06:33 pupper systemd[1]: llm-agent.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:06:33 pupper systemd[1]: llm-agent.service: Failed with result 'exit-code'.
+Sep 13 06:06:33 pupper systemd[1]: llm-agent.service: Consumed 5.741s CPU time.
+Sep 13 06:06:33 pupper systemd[1]: pupper-gui.service: Scheduled restart job, restart counter is at 562.
+Sep 13 06:06:33 pupper systemd[1]: Stopped pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:33 pupper systemd[1]: Started pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:33 pupper run_gui.sh[26634]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:06:33 pupper systemd[1]: pupper-gui.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:06:33 pupper systemd[1]: pupper-gui.service: Failed with result 'exit-code'.
+Sep 13 06:06:38 pupper systemd[1]: llm-agent.service: Scheduled restart job, restart counter is at 281.
+Sep 13 06:06:38 pupper systemd[1]: Stopped llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:06:38 pupper systemd[1]: llm-agent.service: Consumed 5.741s CPU time.
+Sep 13 06:06:38 pupper systemd[1]: Couldn't stat device /dev/snd/*: No such file or directory
+Sep 13 06:06:38 pupper systemd[1]: Started llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:06:38 pupper run.sh[26695]: Simple mixer control 'Master',0
+Sep 13 06:06:38 pupper run.sh[26695]:   Capabilities: pvolume pswitch pswitch-joined
+Sep 13 06:06:38 pupper run.sh[26695]:   Playback channels: Front Left - Front Right
+Sep 13 06:06:38 pupper run.sh[26695]:   Limits: Playback 0 - 65536
+Sep 13 06:06:38 pupper run.sh[26695]:   Mono:
+Sep 13 06:06:38 pupper run.sh[26695]:   Front Left: Playback 65536 [100%] [on]
+Sep 13 06:06:38 pupper run.sh[26695]:   Front Right: Playback 65536 [100%] [on]
+Sep 13 06:06:39 pupper systemd[1]: pupper-gui.service: Scheduled restart job, restart counter is at 563.
+Sep 13 06:06:39 pupper systemd[1]: Stopped pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:39 pupper systemd[1]: Started pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:39 pupper run_gui.sh[26702]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:06:39 pupper systemd[1]: pupper-gui.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:06:39 pupper systemd[1]: pupper-gui.service: Failed with result 'exit-code'.
+Sep 13 06:06:42 pupper run.sh[26635]: 2026-09-13 06:06:42.325610045 [W:onnxruntime:Default, device_discovery.cc:164 DiscoverDevicesForPlatform] GPU device discovery failed: device_discovery.cc:89 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"
+Sep 13 06:06:42 pupper run.sh[26635]: Traceback (most recent call last):
+Sep 13 06:06:42 pupper run.sh[26635]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/agent.py", line 26, in <module>
+Sep 13 06:06:42 pupper run.sh[26635]:     from ros_tool_server import RosToolServer
+Sep 13 06:06:42 pupper run.sh[26635]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/ros_tool_server.py", line 20, in <module>
+Sep 13 06:06:42 pupper run.sh[26635]:     import gemini_interface
+Sep 13 06:06:42 pupper run.sh[26635]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/gemini_interface.py", line 41, in <module>
+Sep 13 06:06:42 pupper run.sh[26635]:     client = genai.Client(api_key=GOOGLE_API_KEY)
+Sep 13 06:06:42 pupper run.sh[26635]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:06:42 pupper run.sh[26635]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 271, in __init__
+Sep 13 06:06:42 pupper run.sh[26635]:     self._api_client = self._get_api_client(
+Sep 13 06:06:42 pupper run.sh[26635]:                        ^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:06:42 pupper run.sh[26635]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 318, in _get_api_client
+Sep 13 06:06:42 pupper run.sh[26635]:     return BaseApiClient(
+Sep 13 06:06:42 pupper run.sh[26635]:            ^^^^^^^^^^^^^^
+Sep 13 06:06:42 pupper run.sh[26635]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/_api_client.py", line 683, in __init__
+Sep 13 06:06:42 pupper run.sh[26635]:     raise ValueError(
+Sep 13 06:06:42 pupper run.sh[26635]: ValueError: Missing key inputs argument! To use the Google AI API, provide (`api_key`) arguments. To use the Google Cloud API, provide (`vertexai`, `project` & `location`) arguments.
+Sep 13 06:06:43 pupper systemd[1]: llm-agent.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:06:43 pupper systemd[1]: llm-agent.service: Failed with result 'exit-code'.
+Sep 13 06:06:43 pupper systemd[1]: llm-agent.service: Consumed 5.043s CPU time.
+Sep 13 06:06:44 pupper systemd[1]: pupper-gui.service: Scheduled restart job, restart counter is at 564.
+Sep 13 06:06:44 pupper systemd[1]: Stopped pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:44 pupper systemd[1]: Started pupper-gui.service - Pupper GUI Service.
+Sep 13 06:06:44 pupper run_gui.sh[26708]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:06:44 pupper systemd[1]: pupper-gui.service: Main process exited, code=exited, status=1/FAILURE
+Sep 13 06:06:44 pupper systemd[1]: pupper-gui.service: Failed with result 'exit-code'.
+Sep 13 06:06:48 pupper systemd[1]: llm-agent.service: Scheduled restart job, restart counter is at 282.
+Sep 13 06:06:48 pupper systemd[1]: Stopped llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:06:48 pupper systemd[1]: llm-agent.service: Consumed 5.043s CPU time.
+Sep 13 06:06:48 pupper systemd[1]: Couldn't stat device /dev/snd/*: No such file or directory
+Sep 13 06:06:48 pupper systemd[1]: Started llm-agent.service - LLM Voice Agent Service.
+Sep 13 06:06:49 pupper run.sh[26769]: Simple mixer control 'Master',0
+Sep 13 06:06:49 pupper run.sh[26769]:   Capabilities: pvolume pswitch pswitch-joined
+Sep 13 06:06:49 pupper run.sh[26769]:   Playback channels: Front Left - Front Right
+Sep 13 06:06:49 pupper run.sh[26769]:   Limits: Playback 0 - 65536
+Sep 13 06:06:49 pupper run.sh[26769]:   Mono:
+Sep 13 06:06:49 pupper run.sh[26769]:   Front Left: Playback 65536 [100%] [on]
+Sep 13 06:06:49 pupper run.sh[26769]:   Front Right: Playback 65536 [100%] [on]
+Sep 13 06:06:49 pupper run_gui.sh[26776]: Error: pupper-rs binary not found in ./target/aarch64-unknown-linux-gnu/release or ./target/release
+Sep 13 06:06:51 pupper sshd[26533]: Received disconnect from 10.138.222.160 port 59121:11: disconnected by user
+Sep 13 06:06:51 pupper sshd[26533]: Disconnected from user pi 10.138.222.160 port 59121
+Sep 13 06:06:52 pupper run.sh[26709]: 2026-09-13 06:06:52.532093920 [W:onnxruntime:Default, device_discovery.cc:164 DiscoverDevicesForPlatform] GPU device discovery failed: device_discovery.cc:89 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"
+Sep 13 06:06:53 pupper run.sh[26709]: Traceback (most recent call last):
+Sep 13 06:06:53 pupper run.sh[26709]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/agent.py", line 26, in <module>
+Sep 13 06:06:53 pupper run.sh[26709]:     from ros_tool_server import RosToolServer
+Sep 13 06:06:53 pupper run.sh[26709]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/ros_tool_server.py", line 20, in <module>
+Sep 13 06:06:53 pupper run.sh[26709]:     import gemini_interface
+Sep 13 06:06:53 pupper run.sh[26709]:   File "/home/pi/pupperv3-monorepo/ai/llm-ui/agent-starter-python/src/gemini_interface.py", line 41, in <module>
+Sep 13 06:06:53 pupper run.sh[26709]:     client = genai.Client(api_key=GOOGLE_API_KEY)
+Sep 13 06:06:53 pupper run.sh[26709]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:06:53 pupper run.sh[26709]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 271, in __init__
+Sep 13 06:06:53 pupper run.sh[26709]:     self._api_client = self._get_api_client(
+Sep 13 06:06:53 pupper run.sh[26709]:                        ^^^^^^^^^^^^^^^^^^^^^
+Sep 13 06:06:53 pupper run.sh[26709]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/client.py", line 318, in _get_api_client
+Sep 13 06:06:53 pupper run.sh[26709]:     return BaseApiClient(
+Sep 13 06:06:53 pupper run.sh[26709]:            ^^^^^^^^^^^^^^
+Sep 13 06:06:53 pupper run.sh[26709]:   File "/usr/local/lib/python3.11/dist-packages/google/genai/_api_client.py", line 683, in __init__
+Sep 13 06:06:53 pupper run.sh[26709]:     raise ValueError(
+Sep 13 06:06:53 pupper run.sh[26709]: ValueError: Missing key inputs argument! To use the Google AI API, provide (`api_key`) arguments. To use the Google Cloud API, provide (`vertexai`, `project` & `location`) arguments.

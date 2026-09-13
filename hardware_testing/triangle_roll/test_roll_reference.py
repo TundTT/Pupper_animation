@@ -17,7 +17,24 @@ def test_forward_roll_maps_each_side_without_wrapping_or_recalibration():
     assert mapping['wheel_home']==cal['wheel_home']
 
 def test_mapping_rejects_proximal_pose_guess_and_does_not_match_old_plan():
-    measured=plan['initial'].copy();measured[0]+=.04
+    measured=plan['initial'].copy();measured[0]+=.16
     with pytest.raises(ValueError):reference.make_mapping(plan,cal,measured)
     old=json.loads((ROOT/'ros2_ws/src/neural_controller/launch/inverted_triangle_plan.json').read_text())
     assert old['plan_sha256']!=plan['plan_sha256']
+
+
+def test_near_alignment_entry_preserves_proximal_encoder_frame():
+    measured=plan["initial"].copy();measured[0]+=.04;measured[1]=.035
+    result=reference.make_mapping(plan,cal,measured)
+    assert result["schema_version"]==2
+    assert result["captured_q"]==measured
+    assert result["model_to_encoder_offset"][0:2]==[0.,0.]
+
+
+def test_calibrated_hanging_hips_are_accepted_without_offset_guessing():
+    measured=plan['initial'].copy()
+    measured[1::3]=[-.179972,.179973,-.179972,.179973]
+    result=reference.make_mapping(plan,cal,measured)
+    assert result['model_to_encoder_offset'][1::3]==[0.]*4
+    measured[1]=-.201
+    with pytest.raises(ValueError):reference.make_mapping(plan,cal,measured)

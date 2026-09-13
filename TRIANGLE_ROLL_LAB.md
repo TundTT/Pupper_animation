@@ -4,18 +4,35 @@ This is the **all-four roll onto the tips**, followed by bounded settling and a
 hold. It is separate from the old sequential `inverted_triangle_trial` launch.
 No walking controller is spawned or activated. Heating remains manual.
 
-The motion is ported from simulation commit
-[`221e166`](https://github.com/TundTT/Pupper_animation/commit/221e16681952bb9350bd2c1019c2b092c347432a):
-2 s initial hold, 12 s simultaneous forward roll, 32 s settling. Roll damping is
-doubled; settling restores the base gains. The final target then freezes.
-Activation adds a separate 2 s gain ramp and waits for an explicit start command.
-The 46-second sequence is a feedback trial, not a claim of formation robustness.
-The PC's 36 original dynamics passes and 5/7 formation passes describe simulation;
-some unequal rigid shapes still fail support. The runtime does not measure feet
-touching the floor, load support or collision clearance. DONE means the command
-sequence finished, not that the robot successfully stood.
+The measured-shape candidate comes from W&B run
+[360ffcd09344487d](https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/360ffcd09344487d).
+The C++ executor ports its measured-state entry, 12 s simultaneous roll, and
+32 s bounded support settling. Entry lasts at least 2 s and waits for measured
+position/speed to settle, with a timeout. Every phase shares one speed and
+acceleration filter. Roll damping is doubled; settling restores base damping.
+The final target freezes without activating walking.
+
+Activation ramps gains for 2 s while holding the **current measured position**.
+It waits in READY for a separate START command before approaching or rolling.
+The suspended diagnostic uses the same entry and roll, then filters toward the
+nominal standing target for 32 s with ground-load correction disabled. It is a
+motion inspection on a stand, not a test of ground support.
+
+The saved baseline uses provisional rigid profiles with 57 mm above and 35 mm
+below the hub, retaining the 9 mm outward spacing. Operator measurements were
+(55,37), (57–58,34), (60,32), (56,37) mm. These are cold-shape dimensions, not a
+reconstructed full contour. The load estimator retains the nominal geometry
+used in the passing run. It estimates loads from joints and IMU, without contact
+sensors. DONE means the sequence finished, not proof that the robot stood.
 
 ## Physical setup and mapping
+
+The operator-approved upper home is recorded in
+`hardware_testing/start_pose/approved_upper_pose.json`. Alignment neutral and the
+roll's nominal tip-up/tip-down poses share `policy_home.hpp`: motors 1/2 are
+`[1,0],[-1,0],[1,0],[-1,0]`. Hub mapping remains separate. This source consolidation
+does not change the validated trajectory: START still includes the small hip
+preparation below. Approval of the static stance is not validation of the roll.
 
 Read [STARTUP_CALIBRATION.md](STARTUP_CALIBRATION.md) before any hardware startup.
 An online robot or permission to build is **not** confirmation for homing/motors.
@@ -28,15 +45,25 @@ wheels do not reproduce this ground-contact test. Confirm that wires and the
 physical sweep are clear. Keep a support/catch available that does not obstruct
 rolling; stop/fault releases torque and can let the robot fall.
 
-There are two separate references: ordinary supported startup homing, and the
-triangle's point-up test start. With controllers inactive, match the triangle
-start to the model and capture its mapping. The proximal angles are FR/FL/BR/BL
-`[1,-0.29], [-1,0.29], [1,-0.29], [-1,0.29]` radians. Model hub angles are
-`[2.14159265359,-2.14159265359,2.14159265359,-2.14159265359]`.
-The left model winding differs from the old sequential plan by one whole turn;
-the physical starting orientation is the same. These are **not raw hardware
-targets**. The mapping preserves actual encoder turns and is tied to this plan
-and the live startup calibration. No automatic approach or encoder zero change.
+Normal startup establishes the proximal encoder frame; the point-up reference
+establishes hub orientation. The measurement-only stiffness session is **not**
+a model calibration: its arbitrary startup pose must not be reused as if its
+reported proximal angles were physical model angles.
+
+After valid normal calibration, the roll accepts shoulders within 0.15 rad and
+hips within 0.20 rad of `[1,0], [-1,0], [1,0], [-1,0]` (FR/FL/BR/BL), subject to
+hardware limits. This includes the documented hanging hips at about +/-0.18 rad.
+These are entry eligibility limits, not evidence every pose succeeds on the floor.
+With motion inactive, the operator confirms tips up and captures hub offsets.
+The old exact +/-0.29 rad hip pose is no longer required. START gradually moves
+the hips toward `[-0.1,+0.1,-0.1,+0.1]` and holds the measured hub positions
+until entry settles. Proximal offsets are never guessed from an unknown pose.
+
+The point-up model hub reference is `[pi-1,1-pi,pi-1,1-pi]`. Mapping preserves
+actual encoder turns and is tied to this plan and the current calibration.
+Forward roll decreases right hub angles and increases left hub angles by about
+pi radians. A fixed target winding is selected once; live angles are never
+wrapped. Old mappings are rejected by the new schema and plan hash.
 
 ## Build and launch
 
@@ -45,12 +72,15 @@ Correct Pi checkout: `/home/pi/robot-code-leglift`; the other robot's
 
 ```bash
 cd /home/pi/robot-code-leglift
-bash scripts/prepare_triangle_roll.sh
+bash scripts/prepare_measured_roll.sh
 ```
 
-This builds/checks a separate `ros2_ws/install-roll` overlay without launching
-hardware. It refuses a running hardware stack. Preserve the existing install
-for rollback; a stack shutdown/restart requires the supported physical procedure.
+This reuses the already-prepared `install-roll` dependencies and builds the new
+controller in `ros2_ws/install-measured-roll`, without launching hardware.
+It refuses a running hardware stack. Preserve both prior installs for rollback.
+The native preparation script expects the saved `measured-parity.csv` generated
+by `hardware_testing/triangle_roll/prepare_measured_fixture.py` from the passing
+run's audit artifact. The prepared Pi contains that fixture.
 
 Only after physical startup confirmation, with the old stack safely stopped:
 
@@ -58,7 +88,8 @@ Only after physical startup confirmation, with the old stack safely stopped:
 source /opt/ros/jazzy/setup.bash
 cd /home/pi/robot-code-leglift
 source ros2_ws/install-roll/local_setup.bash
-python3 scripts/check_triangle_roll.py --install-base ros2_ws/install-roll
+source ros2_ws/install-measured-roll/local_setup.bash
+python3 scripts/check_triangle_roll.py --install-base ros2_ws/install-roll --controller-install-base ros2_ws/install-measured-roll
 ros2 launch neural_controller triangle_roll_trial.launch.py
 ```
 
@@ -108,29 +139,29 @@ After the trial, support the robot before deactivation; preserve the recording.
 Status fields: `[state, completed, phase, motion_seconds, fault, max_tracking_error,
 estimated_PD_torque, period, IMU_age, joint_tracking_settled, estimated_load_FR,
 estimated_load_FL, estimated_load_BR, estimated_load_BL, settling_seconds]`.
-States: 0 gain ramp, 1 READY, 2 RUNNING, 4 DONE/hold, 5 FAULT. Phases: 0 initial
-hold, 1 roll, 2 settling, 3 final hold. Neither field 9 nor the load estimates
+States: 0 gain ramp, 1 READY, 2 RUNNING, 4 DONE/hold, 5 FAULT. Phases: 0 measured
+entry, 1 roll, 2 settling, 3 final hold. Neither field 9 nor the load estimates
 proves foot support. Fault numbers retain the old controller's enum: timing 1,
 sensors 2, tilt 3, tracking 4, speed 5, estimated torque 6, stop/gamepad 7,
-activation 9, invalid command 10.
+entry timeout 8, activation 9, invalid command 10.
 
 ## Supported stand diagnostic
 
 Use `ros2 launch neural_controller triangle_roll_stand.launch.py` from the
-`install-roll` overlay only after the same confirmed startup/homing procedure.
+`install-roll` dependencies plus `install-measured-roll` controller overlay,
+only after the same confirmed startup/homing procedure.
 This launch still homes hardware; it is not a motor-free preview. The torso must
 be level and securely supported, with all limbs clear of the stand. Verify the
 gamepad stop and capture both the live startup reference and point-up mapping
-before activation, as for the ground trial. No automatic approach is added.
+before activation, as for the ground trial. START performs the bounded approach.
 
 This explicit, read-only `stand_only: true` profile retains the two-second
-activation gain ramp and waits for command 1. It then holds for 2 seconds, rolls
-all four limbs together for 12 seconds, and holds the nominal walking-default
-joint targets with base damping. Ground-load estimation and adaptation never
-run. The normal `triangle_roll_trial.launch.py` retains its 46-second loaded
-sequence. The pinned geometry, plan hash and physical mapping are shared because
-the roll path and its coordinate frame are unchanged; the diagnostic profile is
-a hardware-only addition, not another simulation-validated result.
+activation gain ramp and waits for command 1. It approaches the measured entry,
+rolls all four limbs together for at least 12 seconds, then filters toward the
+nominal standing targets for 32 seconds and holds. Ground-load estimation never
+runs. The normal `triangle_roll_trial.launch.py` uses bounded load adaptation
+during that settling phase. Both profiles share the same plan and physical
+mapping. The suspended profile is a diagnostic, not proof of ground balance.
 
 Status now appends field 15: 1 means stand diagnostic, 0 means ground sequence.
 Field 14 (support elapsed seconds) must remain zero throughout the stand test.
@@ -142,7 +173,9 @@ clearance and tracking, but cannot establish balance or ground support.
 The existing C++/ROS 520 Hz stack is reused, with no MuJoCo, GPU or Python
 inference on the Pi. Fixed nominal chain transforms, hinge references, COMs and
 tip vertices are exported into C++; a 520-row sequential fixture compares its
-support correction with the pinned Python/MuJoCo implementation. The runtime
+support correction with the pinned Python/MuJoCo implementation. A separate
+24,051-step replay compares entry, roll, settling commands and damping against
+the actual passing measured-shape recording. The runtime
 uses measured q/qd, command history and body-frame projected gravity only.
 
 Source-backed hardware claims: `robot-info` commit

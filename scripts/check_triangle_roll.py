@@ -10,16 +10,19 @@ NAME='neural_controller_triangle_roll'
 def require(ok,why):
     if not ok:raise ValueError(why)
 
-def check(install=None):
+def check(install=None,controller_install=None):
     controller=ROOT/'ros2_ws/src/neural_controller';description=ROOT/'ros2_ws/src/pupper_v3_description'
     if install:
         for package in ['robot_calibration','control_board_hardware_interface','neural_controller','joy_utils','pupper_v3_description']:
             prefix=Path(subprocess.check_output(['ros2','pkg','prefix',package],text=True).strip()).resolve()
-            require(prefix.is_relative_to(install.resolve()),'Wrong overlay: '+package)
+            expected=controller_install if package=='neural_controller' and controller_install else install
+            require(prefix.is_relative_to(expected.resolve()),'Wrong overlay: '+package)
             if package=='neural_controller':
                 for name in ['triangle_roll_plan.json','triangle_roll_config.yaml','triangle_roll_trial.launch.py','triangle_roll_stand.launch.py','triangle_roll_stand.yaml','calibration_hardware.yaml']:
                     require((prefix/'share'/package/'launch'/name).read_bytes().replace(b'\r\n',b'\n')==(controller/'launch'/name).read_bytes().replace(b'\r\n',b'\n'),'Stale installed '+name)
                 require((prefix/'lib/libneural_controller.so').is_file(),'Missing controller library')
+                for name in ['measured_roll.hpp','triangle_roll.hpp','triangle_roll_contract.hpp']:
+                    require((prefix/'include/neural_controller'/name).read_bytes().replace(b'\r\n',b'\n')==(controller/'include/neural_controller'/name).read_bytes().replace(b'\r\n',b'\n'),'Stale installed '+name)
             if package=='pupper_v3_description':description=prefix/'share'/package
     check_geometry(controller,description)
     manifest=json.loads((ROOT/'hardware_testing/triangle_roll/export_provenance.json').read_text())
@@ -28,9 +31,9 @@ def check(install=None):
     require(hashlib.sha256(raw).hexdigest()==manifest['export_sha256'],'Unreviewed roll plan')
     header=(controller/'include/neural_controller/triangle_roll_geometry.hpp').read_bytes().replace(b'\r\n',b'\n')
     require(hashlib.sha256(header).hexdigest()==data['geometry_sha256'],'Changed nominal kinematics')
-    contract=(controller/'include/neural_controller/triangle_roll_contract.hpp').read_text().split('R"ROLL(',1)[1].split(')ROLL"',1)[0]
+    contract=(controller/'include/neural_controller/triangle_roll_contract.hpp').read_text().split('R"CONTRACT(',1)[1].split(')CONTRACT"',1)[0]
     require(json.loads(contract)==data,'Compiled contract differs from plan')
-    require(data['schema_version']==2 and data['source_commit']=='221e16681952bb9350bd2c1019c2b092c347432a' and not data['walking_enabled'],'Wrong source/task')
+    require(data['schema_version']==3 and data['source_run']=='360ffcd09344487d' and not data['walking_enabled'],'Wrong source/task')
     require(data['axial_gap_m']==.009 and data['hz']==520,'Gap/rate mismatch')
     cfg=yaml.safe_load((controller/'launch/triangle_roll_config.yaml').read_text());c=cfg[NAME]['ros__parameters']
     require(cfg['controller_manager']['ros__parameters'][NAME]['type']=='neural_controller/TriangleRollController','Wrong plugin')
@@ -48,4 +51,5 @@ def check(install=None):
     print('PASS: pinned simultaneous roll, 9 mm gap, nominal kinematics, current CAN/axes/continuous hubs, doubled damping, stop and position limits. No hardware activation.')
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--install-base',type=Path);check(p.parse_args().install_base)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--install-base',type=Path);p.add_argument('--controller-install-base',type=Path)
+    a=p.parse_args();check(a.install_base,a.controller_install_base)

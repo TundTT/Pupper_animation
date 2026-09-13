@@ -1,6 +1,6 @@
 #pragma once
 #include "neural_controller/keyframe_controller.hpp"
-#include "neural_controller/triangle_roll.hpp"
+#include "neural_controller/measured_roll.hpp"
 #include "sensor_msgs/msg/joy.hpp"
 
 namespace neural_controller {
@@ -14,7 +14,7 @@ class TriangleRollController : public KeyframeController {
   controller_interface::CallbackReturn on_error(const rclcpp_lifecycle::State&) override;
   controller_interface::return_type update(const rclcpp::Time&,const rclcpp::Duration&) override;
  protected:
-  triangle_roll::Controller triangle_;
+  measured_roll::Controller triangle_;
   std::shared_ptr<std_msgs::msg::Int32> consumed_;
   std::string plan_hash_;
   std::atomic<int64_t> joy_receipt_ns_{0};

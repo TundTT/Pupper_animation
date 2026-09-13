@@ -1,0 +1,91 @@
+{
+  "schema_version": 2,
+  "source_commit": "221e16681952bb9350bd2c1019c2b092c347432a",
+  "model_sha256": "c274c1b3ddba73b58c89e8dded10d2d2d8e0fda37af77f631d4bedefa2d177e2",
+  "axial_gap_m": 0.009,
+  "hz": 520,
+  "joint_names": [
+    "leg_front_r_1",
+    "leg_front_r_2",
+    "leg_front_r_3",
+    "leg_front_l_1",
+    "leg_front_l_2",
+    "leg_front_l_3",
+    "leg_back_r_1",
+    "leg_back_r_2",
+    "leg_back_r_3",
+    "leg_back_l_1",
+    "leg_back_l_2",
+    "leg_back_l_3"
+  ],
+  "initial": [
+    1.0,
+    -0.29,
+    2.141592653589793,
+    -1.0,
+    0.29,
+    -2.141592653589793,
+    1.0,
+    -0.29,
+    2.141592653589793,
+    -1.0,
+    0.29,
+    -2.141592653589793
+  ],
+  "goal": [
+    1.0,
+    0.0,
+    -1.0,
+    -1.0,
+    0.0,
+    1.0,
+    1.0,
+    0.0,
+    -1.0,
+    -1.0,
+    0.0,
+    1.0
+  ],
+  "kp": [
+    5.0,
+    5.0,
+    4.0,
+    5.0,
+    5.0,
+    4.0,
+    5.0,
+    5.0,
+    4.0,
+    5.0,
+    5.0,
+    4.0
+  ],
+  "kd": [
+    0.25,
+    0.25,
+    0.15,
+    0.25,
+    0.25,
+    0.15,
+    0.25,
+    0.25,
+    0.15,
+    0.25,
+    0.25,
+    0.15
+  ],
+  "controller": {
+    "hold_seconds": 32.0,
+    "balanced_support": {
+      "estimate_mode": "hybrid",
+      "norm_delay_s": 2.0,
+      "force_gain": 0.003,
+      "reference_cap": 0.075,
+      "integral_gain": 0.25
+    },
+    "roll_damping_scale": 2.0
+  },
+  "geometry_sha256": "757e06c7935e877559145c0fede9dd79cce8b7c6aef1be672a97aae46de65e47",
+  "walking_enabled": false,
+  "plan_sha256": "b537ab53be353970d1152e748fbd00a8c7643dbbd1a91461f2e5efe19ef9a1c4"
+}

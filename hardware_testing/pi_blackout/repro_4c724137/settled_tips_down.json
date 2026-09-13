@@ -1,0 +1,56 @@
+{
+  "boot_id": "4c724137-6a6f-4084-98c9-62503bcad82f",
+  "calibration_id": "b987f986ff154f70b0b0d3ee553ddd9a",
+  "time_unix": 1789298751.4549425,
+  "joint_positions": {
+    "leg_front_r_1": 0.995877576171875,
+    "leg_front_r_2": -0.18149787890625,
+    "leg_front_r_3": -1.019963998046875,
+    "leg_front_l_1": -0.989776060546875,
+    "leg_front_l_2": 0.180735939453125,
+    "leg_front_l_3": 0.93862896875,
+    "leg_back_r_1": 0.9928267720336914,
+    "leg_back_r_2": -0.1795905302734375,
+    "leg_back_r_3": -1.0119531337890626,
+    "leg_back_l_1": -0.9901575302734374,
+    "leg_back_l_2": 0.179973,
+    "leg_back_l_3": 0.9519804091796873
+  },
+  "raw_joint_positions": {
+    "leg_front_r_1": 0.08834057617187496,
+    "leg_front_r_2": 0.0032741210937499987,
+    "leg_front_r_3": 3.091277001953125,
+    "leg_front_l_1": -0.2470370605468749,
+    "leg_front_l_2": 0.17146293945312502,
+    "leg_front_l_3": 2.6998929687500004,
+    "leg_back_r_1": 0.1584897720336913,
+    "leg_back_r_2": 0.015481469726562502,
+    "leg_back_r_3": -3.035612133789063,
+    "leg_back_l_1": -0.22491853027343744,
+    "leg_back_l_2": 0.1184,
+    "leg_back_l_3": -3.105055590820313
+  },
+  "position_ranges": {
+    "leg_front_r_1": 0.0,
+    "leg_front_r_2": 0.0,
+    "leg_front_r_3": 0.0,
+    "leg_front_l_1": 0.0,
+    "leg_front_l_2": 0.0,
+    "leg_front_l_3": 0.0003814697265625,
+    "leg_back_r_1": 0.0003814697265625,
+    "leg_back_r_2": 0.0,
+    "leg_back_r_3": 0.000762939453125,
+    "leg_back_l_1": 0.0,
+    "leg_back_l_2": 0.0,
+    "leg_back_l_3": 0.0
+  },
+  "status": [
+    3.0,
+    0.0,
+    84.87315419799869,
+    0.029373168945317385,
+    1.0
+  ],
+  "motion_commanded": false,
+  "calibration_modified": false
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>measurement_hold</name><version>0.1.0</version>
+  <description>Operator-authorized, session-bound current-angle measurement hold.</description>
+  <maintainer email="robot@example.invalid">QuadMorph</maintainer><license>Apache-2.0</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>controller_interface</depend><depend>hardware_interface</depend>
+  <depend>rclcpp</depend><depend>rclcpp_lifecycle</depend><depend>pluginlib</depend>
+  <depend>sensor_msgs</depend><depend>std_msgs</depend><depend>robot_calibration</depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

@@ -21,10 +21,10 @@ def make_mapping(plan, calibration, positions):
     for i, (q, model) in enumerate(zip(positions, plan['initial'])):
         if i % 3 == 2:
             offsets[i] = q - model  # Preserve encoder winding, never choose a nearest half-turn.
-        elif abs(q - model) > .03:
-            raise ValueError(f'{plan["joint_names"][i]} must be within 0.03 rad of {model}; measured {q}. '
-                             'No automatic approach or proximal offset guessing is implemented.')
-    return dict(schema_version=1, mapping_id=uuid.uuid4().hex,
+        elif abs(q - model) > ((.20 if i % 3 == 1 else .15) if plan.get('schema_version') == 3 else .03):
+            raise ValueError(f'{plan["joint_names"][i]} is outside the calibrated entry region around {model}; measured {q}. '
+                             'Restore the known calibrated proximal frame; arbitrary pose offsets are not inferred.')
+    return dict(schema_version=2 if plan.get('schema_version') == 3 else 1, mapping_id=uuid.uuid4().hex,
                 calibration_id=calibration['calibration_id'], encoder_session_id=calibration['encoder_session_id'],
                 wheel_home=calibration['wheel_home'], joint_names=plan['joint_names'],
                 operator_confirmed_inverted_start=True, axial_gap_m=.009,
@@ -51,7 +51,7 @@ def main():
             raise ValueError('Actual physical confirmation is required before capture')
         print('Support the robot. Motion controllers must be inactive. All four rigid triangles must match '
               'the reviewed inverted start, with 9 mm axial gaps. This is separate from startup ring homing.')
-        print('Proximal target FR/FL/BR/BL: [1,-0.29], [-1,0.29], [1,-0.29], [-1,0.29] radians.')
+        print('Roll: calibrated shoulders within 0.15 rad of +/-1, hips within 0.20 rad of 0; tips up. START performs entry.' if a.roll else 'Sequential: use the exact reviewed inverted start pose.')
         if input('Type INVERTED only when this physical setup is confirmed: ').strip() != 'INVERTED':
             raise ValueError('Cancelled; no mapping saved')
     with capture_lock():

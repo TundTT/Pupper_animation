@@ -1,0 +1,262 @@
+PASS: exact v5 checkpoint/export, 83/8 contract, 52 Hz inference, CAN order, modes, gains and limits: /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/launch/policy_wheel_align_motion_v5.json
+PASS: description joint axes and mounting transforms match training geometry within source rounding
+PASS: pinned simultaneous roll, 9 mm gap, nominal kinematics, current CAN/axes/continuous hubs, doubled damping, stop and position limits. No hardware activation.
+Starting >>> neural_controller
+[0.512s] colcon.colcon_core.shell WARNING The following packages are in the workspace but haven't been built:
+- robot_calibration
+They are being used from the following locations instead:
+- /home/pi/robot-code-leglift/ros2_ws/install-roll/robot_calibration
+To suppress this warning ignore these packages in the workspace:
+--packages-ignore robot_calibration
+--- stderr: neural_controller
+In file included from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:18,
+                 from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/include/neural_controller/keyframe_controller.hpp:2,
+                 from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/include/neural_controller/triangle_roll_controller.hpp:2,
+                 from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/src/triangle_roll_controller.cpp:1:
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_buffer.h:25:2: warning: #warning "This header include is deprecated. Please update your code to use 'realtime_buffer.hpp' header." [-Wcpp]
+   25 | #warning \
+      |  ^~~~~~~
+In file included from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:19:
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_publisher.h:25:2: warning: #warning "This header include is deprecated. Please update your code to use 'realtime_publisher.hpp' header." [-Wcpp]
+   25 | #warning \
+      |  ^~~~~~~
+In file included from /usr/include/boost/bind.hpp:30,
+                 from /usr/include/boost/property_tree/json_parser/detail/parser.hpp:7,
+                 from /usr/include/boost/property_tree/json_parser/detail/read.hpp:13,
+                 from /usr/include/boost/property_tree/json_parser.hpp:16,
+                 from /home/pi/robot-code-leglift/ros2_ws/install-roll/robot_calibration/include/robot_calibration/calibration.hpp:4,
+                 from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:32:
+/usr/include/boost/bind.hpp:36:1: note: ‘#pragma message: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.’
+   36 | BOOST_PRAGMA_MESSAGE(
+      | ^~~~~~~~~~~~~~~~~~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/src/triangle_roll_controller.cpp: In member function ‘virtual controller_interface::return_type neural_controller::TriangleRollController::update(const rclcpp::Time&, const rclcpp::Duration&)’:
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/src/triangle_roll_controller.cpp:140:43: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(T, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  140 |       joint.at("position").get().set_value(triangle_.command[i]+triangle_.offset[i]);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface_base.hpp:26,
+                 from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface.hpp:21,
+                 from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:12:
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:98:22: note: declared here
+   98 |   [[nodiscard]] bool set_value(T value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/src/triangle_roll_controller.cpp:141:43: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(T, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  141 |       joint.at("velocity").get().set_value(0.); joint.at("effort").get().set_value(0.);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:98:22: note: declared here
+   98 |   [[nodiscard]] bool set_value(T value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/src/triangle_roll_controller.cpp:141:83: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(T, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  141 |       joint.at("velocity").get().set_value(0.); joint.at("effort").get().set_value(0.);
+      |                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:98:22: note: declared here
+   98 |   [[nodiscard]] bool set_value(T value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/src/triangle_roll_controller.cpp:142:37: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(T, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  142 |       joint.at("kp").get().set_value(triangle_.gain*triangle_.kp[i]);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:98:22: note: declared here
+   98 |   [[nodiscard]] bool set_value(T value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/src/triangle_roll_controller.cpp:143:37: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(T, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  143 |       joint.at("kd").get().set_value(triangle_.gain*triangle_.kd[i]);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:98:22: note: declared here
+   98 |   [[nodiscard]] bool set_value(T value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+In file included from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:18,
+                 from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/include/neural_controller/keyframe_controller.hpp:2,
+                 from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/include/neural_controller/triangle_roll_controller.hpp:2,
+                 from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:1:
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_buffer.h:25:2: warning: #warning "This header include is deprecated. Please update your code to use 'realtime_buffer.hpp' header." [-Wcpp]
+   25 | #warning \
+      |  ^~~~~~~
+In file included from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:19:
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_publisher.h:25:2: warning: #warning "This header include is deprecated. Please update your code to use 'realtime_publisher.hpp' header." [-Wcpp]
+   25 | #warning \
+      |  ^~~~~~~
+In file included from /usr/include/boost/bind.hpp:30,
+                 from /usr/include/boost/property_tree/json_parser/detail/parser.hpp:7,
+                 from /usr/include/boost/property_tree/json_parser/detail/read.hpp:13,
+                 from /usr/include/boost/property_tree/json_parser.hpp:16,
+                 from /home/pi/robot-code-leglift/ros2_ws/install-roll/robot_calibration/include/robot_calibration/calibration.hpp:4,
+                 from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp:32:
+/usr/include/boost/bind.hpp:36:1: note: ‘#pragma message: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.’
+   36 | BOOST_PRAGMA_MESSAGE(
+      | ^~~~~~~~~~~~~~~~~~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp: In function ‘int main(int, char**)’:
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:31:27: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   31 |     require(c.on_configure({})==controller_interface::CallbackReturn::SUCCESS,"Configure");
+      |             ~~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:31:27: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp: In lambda function:
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:40:7: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   40 |       for(auto& x:commands)ci.emplace_back(x);for(auto& x:states)si.emplace_back(x);c.assign_interfaces(std::move(ci),std::move(si));};
+      |       ^~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:40:47: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   40 |       for(auto& x:commands)ci.emplace_back(x);for(auto& x:states)si.emplace_back(x);c.assign_interfaces(std::move(ci),std::move(si));};
+      |                                               ^~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp: In function ‘int main(int, char**)’:
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:42:43: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   42 |     assign();c.joy();require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"Missing calibration rejects");zero();
+      |                              ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:42:43: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:49:26: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   49 |     require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"Missing triangle map rejects even with startup calibration");zero();
+      |             ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:49:26: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:55:40: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   55 |     c.stale_joy();require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"Missing gamepad rejects");zero();
+      |                           ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:55:40: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:58:40: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   58 |     require(!c.ready() && c.on_activate({})==controller_interface::CallbackReturn::ERROR,"Held PS rejects activation");zero();
+      |                           ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:58:40: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:61:34: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   61 |     c.joy();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Confirmed fixtures activate");
+      |                     ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:61:34: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:64:5: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   64 |     for(int i=0;i<1041;++i)tick();require(c.core().state==inverted_triangle::READY,"No automatic flip on activation");
+      |     ^~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:64:35: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   64 |     for(int i=0;i<1041;++i)tick();require(c.core().state==inverted_triangle::READY,"No automatic flip on activation");
+      |                                   ^~~~~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:80:20: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   80 |     c.on_deactivate({});zero();q=c.core().initial;qd.fill(0);assign();c.joy();
+      |     ~~~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:80:20: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:81:26: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   81 |     require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Reactivation from correct initial pose");
+      |             ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:81:26: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:83:20: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   83 |     c.on_deactivate({});assign();c.joy();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Fresh lifecycle resets fault");
+      |     ~~~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:83:20: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:83:63: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   83 |     c.on_deactivate({});assign();c.joy();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Fresh lifecycle resets fault");
+      |                                                  ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:83:63: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:87:20: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   87 |     c.on_deactivate({});assign();
+      |     ~~~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:87:20: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:89:26: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   89 |     require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"New encoder session invalidates old reference");zero();
+      |             ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp:89:26: note: in C++11 and above a default constructor can be explicit
+---
+Finished <<< neural_controller [1min 16s]
+
+Summary: 1 package finished [1min 16s]
+  1 package had stderr output: neural_controller
+[ 50%] Built target RTNeural
+[ 75%] Building CXX object CMakeFiles/measured_roll_test.dir/test/measured_roll_test.cpp.o
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/measured_roll_test.cpp: In function ‘std::vector<double> row(std::istream&)’:
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/measured_roll_test.cpp:9:3: warning: this ‘while’ clause does not guard... [-Wmisleading-indentation]
+    9 |   while(std::getline(s,token,','))out.push_back(std::stod(token));return out;
+      |   ^~~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/measured_roll_test.cpp:9:67: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘while’
+    9 |   while(std::getline(s,token,','))out.push_back(std::stod(token));return out;
+      |                                                                   ^~~~~~
+[100%] Linking CXX executable measured_roll_test
+[100%] Built target measured_roll_test
+[ 50%] Built target RTNeural
+[100%] Built target triangle_roll_test
+-- Install configuration: "Release"
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/neural_controller_parameters.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/neural_controller.xml
+-- Installing: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/lib/libneural_controller.so
+-- Set runtime path of "/home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/lib/libneural_controller.so" to ""
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/triangle_roll_geometry.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/wheel_align_motion.hpp
+-- Installing: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/measured_roll.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/wheel_align_hybrid.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/neural_controller.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/triangle_roll.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/policy_contract.hpp
+-- Installing: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/triangle_roll_contract.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/inverted_triangle.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/wheel_align_reference_data.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/keyframe_controller.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/keyframe_align
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/keyframe_align/controller.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/keyframe_align/geometry.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/triangle_roll_controller.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/inverted_triangle_controller.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/wheel_align_geometry_data.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/triangle_roll_config.yaml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/calibration_sim.yaml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_leg_lift.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/__pycache__
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/__pycache__/alignment_trial.launch.cpython-311.pyc
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_wheel_align_motion_v5.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/triangle_roll_stand.launch.py
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/inverted_triangle_plan.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/calibration_hardware.yaml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/triangle_roll_trial.launch.py
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_ancient-surf-216_max_reward_20.27.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/locomotion_trial.launch.py
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_pretty-spaceship-243_max_reward_17.57.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/locomotion_wheel_trial.yaml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_rich-donkey-233_max_reward_19.16.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/triangle_roll_stand.yaml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/keyframe_trial.launch.py
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_latest.json
+-- Installing: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/triangle_roll_plan.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/inverted_triangle_trial.launch.py
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/config.yaml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/keyframe_config.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/alignment_trial.launch.py
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_wheel.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/inverted_triangle_config.yaml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_wheel_align_hybrid.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_wheel_align.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/launch.py
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_walk_v2.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_leg_lift_1.5cm_backup.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/ament_index/resource_index/package_run_dependencies/neural_controller
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/ament_index/resource_index/parent_prefix_path/neural_controller
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/environment/ament_prefix_path.sh
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/environment/path.sh
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/environment/path.dsv
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/local_setup.bash
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/local_setup.sh
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/local_setup.zsh
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/local_setup.dsv
+-- Installing: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/package.dsv
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/ament_index/resource_index/packages/neural_controller
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/ament_index/resource_index/controller_interface__pluginlib__plugin/neural_controller
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/cmake/neural_controllerConfig.cmake
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/cmake/neural_controllerConfig-version.cmake
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/package.xml
+Internal ctest changing into directory: /home/pi/robot-code-leglift/ros2_ws/build-measured-roll/neural_controller
+Test project /home/pi/robot-code-leglift/ros2_ws/build-measured-roll/neural_controller
+    Start 1: measured_roll_core
+1/4 Test #1: measured_roll_core ...............   Passed    0.02 sec
+    Start 2: triangle_roll_core
+2/4 Test #2: triangle_roll_core ...............   Passed    0.02 sec
+    Start 3: triangle_roll_lifecycle
+3/4 Test #3: triangle_roll_lifecycle ..........   Passed    0.39 sec
+    Start 4: triangle_roll_stand_lifecycle
+4/4 Test #4: triangle_roll_stand_lifecycle ....   Passed    0.37 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Total Test time (real) =   0.81 sec
+Recorded replay: 24051 steps, peak command error 1.77636e-15 rad
+PASS: measured entry, continuous winding, acceleration bounds, ground/stand hold and fault guards
+PASS: exact v5 checkpoint/export, 83/8 contract, 52 Hz inference, CAN order, modes, gains and limits: /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/launch/policy_wheel_align_motion_v5.json
+PASS: description joint axes and mounting transforms match training geometry within source rounding
+PASS: pinned simultaneous roll, 9 mm gap, nominal kinematics, current CAN/axes/continuous hubs, doubled damping, stop and position limits. No hardware activation.
+....                                                                     [100%]
+4 passed in 0.02s
+Software checks passed. No motor stack was started. Follow TRIANGLE_ROLL_LAB.md for the supervised test.

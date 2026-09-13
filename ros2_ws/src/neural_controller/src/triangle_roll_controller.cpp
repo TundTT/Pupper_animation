@@ -20,7 +20,7 @@ controller_interface::CallbackReturn TriangleRollController::on_init() {
     param_listener_=std::make_shared<ParamListener>(get_node()); params_=param_listener_->get_params();
     rcl_interfaces::msg::ParameterDescriptor mode_descriptor;
     mode_descriptor.read_only=true;
-    mode_descriptor.description="Stand diagnostic: 2 s hold + 12 s roll, then hold; no load adaptation or walking.";
+    mode_descriptor.description="Stand diagnostic: Measured entry + simultaneous roll + filtered hold; no ground-load adaptation or walking.";
     triangle_.stand_only=get_node()->declare_parameter<bool>("stand_only",false,mode_descriptor);
     RCLCPP_INFO(get_node()->get_logger(),"Triangle mode: %s",triangle_.stand_only?
       "STAND ONLY: roll and hold, load correction disabled":"GROUND: roll and adaptive support settle");
@@ -77,7 +77,7 @@ controller_interface::CallbackReturn TriangleRollController::on_activate(const r
       if(!joy_ready()) throw std::runtime_error("Fresh gamepad with released stop button required");
       auto live=robot_calibration::load_current();
       nlohmann::json j; std::ifstream f(robot_calibration::directory()/"triangle-roll-map.json"); f>>j;
-      if(live.calibration_id!=startup_calibration_.calibration_id || j.at("schema_version")!=1 ||
+      if(live.calibration_id!=startup_calibration_.calibration_id || j.at("schema_version")!=2 ||
          j.at("calibration_id")!=live.calibration_id || j.at("plan_sha256")!=plan_hash_ ||
          j.at("operator_confirmed_inverted_start")!=true || j.at("axial_gap_m")!=.009 ||
          j.at("joint_names").get<std::vector<std::string>>()!=params_.joint_names ||
@@ -87,7 +87,7 @@ controller_interface::CallbackReturn TriangleRollController::on_activate(const r
       auto captured=j.at("captured_q").get<inverted_triangle::Pose>();
       for(int i=0;i<12;++i) if(!std::isfinite(captured[i]) ||
           (i%3==2 && std::abs(captured[i]-triangle_.initial[i]-mapping[i])>1e-10) ||
-          (i%3!=2 && std::abs(captured[i]-triangle_.initial[i])>.03))
+          (i%3!=2 && std::abs(captured[i]-triangle_.initial[i])>measured_roll::entry_radius(i)))
         throw std::runtime_error("Invalid triangle mapping capture");
     }
     for(const auto& name:params_.joint_names) for(const auto& field:{"position","velocity","effort","kp","kd"})

@@ -1,0 +1,175 @@
+Sep 13 04:17:02 pupper systemd-journald[319]: Received client request to flush runtime journal.
+Sep 13 04:17:02 pupper kernel: i2c_dev: i2c /dev entries driver
+Sep 13 04:17:02 pupper systemd-journald[319]: File /var/log/journal/62bc140bd9444960a70c063b60c305dd/system.journal corrupted or uncleanly shut down, renaming and replacing.
+Sep 13 04:17:02 pupper systemd-journald[319]: Failed to read journal file /var/log/journal/62bc140bd9444960a70c063b60c305dd/user-1000.journal for rotation, trying to move it out of the way: Device or resource busy
+Sep 13 04:17:02 pupper kernel: input: pwr_button as /devices/platform/pwr_button/input/input0
+Sep 13 04:17:02 pupper kernel: rp1-firmware rp1_firmware: RP1 Firmware version eb39cfd516f8c90628aa9d91f52370aade5d0a55
+Sep 13 04:17:02 pupper kernel: rpi-gpiomem 107d508500.gpiomem: window base 0x107d508500 size 0x00000040
+Sep 13 04:17:02 pupper kernel: rpi-gpiomem 107d508500.gpiomem: initialised 1 regions as /dev/gpiomem1
+Sep 13 04:17:02 pupper kernel: rpi-gpiomem 107d517c00.gpiomem: window base 0x107d517c00 size 0x00000040
+Sep 13 04:17:02 pupper kernel: rpi-gpiomem 107d517c00.gpiomem: initialised 1 regions as /dev/gpiomem2
+Sep 13 04:17:02 pupper kernel: rpi-gpiomem 107d504100.gpiomem: window base 0x107d504100 size 0x00000020
+Sep 13 04:17:02 pupper kernel: rpi-gpiomem 107d504100.gpiomem: initialised 1 regions as /dev/gpiomem3
+Sep 13 04:17:02 pupper kernel: rpi-gpiomem 107d510700.gpiomem: window base 0x107d510700 size 0x00000020
+Sep 13 04:17:02 pupper kernel: rpi-gpiomem 107d510700.gpiomem: initialised 1 regions as /dev/gpiomem4
+Sep 13 04:17:02 pupper kernel: rpi-gpiomem 1f000d0000.gpiomem: window base 0x1f000d0000 size 0x00030000
+Sep 13 04:17:02 pupper kernel: rpi-gpiomem 1f000d0000.gpiomem: initialised 1 regions as /dev/gpiomem0
+Sep 13 04:17:02 pupper kernel: /axi/pcie@1000120000/rp1/csi@110000: Fixed dependency cycle(s) with /axi/pcie@1000120000/rp1/i2c@88000/imx296@1a
+Sep 13 04:17:02 pupper kernel: /axi/pcie@1000120000/rp1/i2c@88000/imx296@1a: Fixed dependency cycle(s) with /axi/pcie@1000120000/rp1/csi@110000
+Sep 13 04:17:02 pupper kernel: brcmstb-i2c 107d508200.i2c:  @97500hz registered in interrupt mode
+Sep 13 04:17:02 pupper kernel: brcmstb-i2c 107d508280.i2c:  @97500hz registered in interrupt mode
+Sep 13 04:17:02 pupper kernel: rp1-pio 1f00178000.pio: Created instance as pio0
+Sep 13 04:17:02 pupper kernel: mc: Linux media interface: v0.10
+Sep 13 04:17:03 pupper kernel: videodev: Linux video capture interface: v2.00
+Sep 13 04:17:03 pupper kernel: v3d 1002000000.v3d: [drm] Transparent Hugepage support is recommended for optimal performance on this platform!
+Sep 13 04:17:03 pupper kernel: [drm] Initialized v3d 1.0.0 for 1002000000.v3d on minor 0
+Sep 13 04:17:03 pupper kernel: pispbe 1000880000.pisp_be: bcm2712_iommu_of_xlate: MMU 1000005100.iommu
+Sep 13 04:17:03 pupper kernel: pispbe 1000880000.pisp_be: bcm2712_iommu_probe_device: MMU 1000005100.iommu
+Sep 13 04:17:03 pupper kernel: pispbe 1000880000.pisp_be: bcm2712_iommu_device_group: MMU 1000005100.iommu
+Sep 13 04:17:03 pupper kernel: pispbe 1000880000.pisp_be: Adding to iommu group 0
+Sep 13 04:17:03 pupper kernel: pispbe 1000880000.pisp_be: bcm2712_iommu_attach_dev: MMU 1000005100.iommu
+Sep 13 04:17:03 pupper kernel: rp1-cfe 1f00110000.csi: bcm2712_iommu_of_xlate: MMU 1000005280.iommu
+Sep 13 04:17:03 pupper kernel: rp1-cfe 1f00110000.csi: bcm2712_iommu_probe_device: MMU 1000005280.iommu
+Sep 13 04:17:03 pupper kernel: rp1-cfe 1f00110000.csi: bcm2712_iommu_device_group: MMU 1000005280.iommu
+Sep 13 04:17:03 pupper kernel: rp1-cfe 1f00110000.csi: Adding to iommu group 2
+Sep 13 04:17:03 pupper kernel: rp1-cfe 1f00110000.csi: bcm2712_iommu_attach_dev: MMU 1000005280.iommu
+Sep 13 04:17:03 pupper kernel: rp1-cfe 1f00110000.csi: DW dphy Host HW v1.20
+Sep 13 04:17:03 pupper kernel: rp1-cfe 1f00110000.csi: PiSP FE HW v0.1
+Sep 13 04:17:03 pupper kernel: rp1-cfe 1f00110000.csi: found subdevice /axi/pcie@1000120000/rp1/i2c@88000/imx296@1a
+Sep 13 04:17:03 pupper kernel: vc4_hvs 107c580000.hvs: bcm2712_iommu_of_xlate: MMU 1000005200.iommu
+Sep 13 04:17:03 pupper kernel: vc4_hvs 107c580000.hvs: bcm2712_iommu_probe_device: MMU 1000005200.iommu
+Sep 13 04:17:03 pupper kernel: vc4_hvs 107c580000.hvs: bcm2712_iommu_device_group: MMU 1000005200.iommu
+Sep 13 04:17:03 pupper kernel: vc4_hvs 107c580000.hvs: Adding to iommu group 1
+Sep 13 04:17:03 pupper kernel: vc4_hvs 107c580000.hvs: bcm2712_iommu_attach_dev: MMU 1000005200.iommu
+Sep 13 04:17:03 pupper kernel: vc4-drm axi:gpu: bcm2712_iommu_of_xlate: MMU 1000005200.iommu
+Sep 13 04:17:03 pupper kernel: vc4-drm axi:gpu: bcm2712_iommu_probe_device: MMU 1000005200.iommu
+Sep 13 04:17:03 pupper kernel: vc4-drm axi:gpu: bcm2712_iommu_device_group: MMU 1000005200.iommu
+Sep 13 04:17:03 pupper kernel: vc4-drm axi:gpu: Adding to iommu group 1
+Sep 13 04:17:03 pupper kernel: vc4-drm axi:gpu: bcm2712_iommu_attach_dev: MMU 1000005200.iommu
+Sep 13 04:17:03 pupper kernel: Console: switching to colour dummy device 80x25
+Sep 13 04:17:03 pupper kernel: vc4-drm axi:gpu: bound 107c580000.hvs (ops vc4_hvs_ops [vc4])
+Sep 13 04:17:03 pupper kernel: [drm] forcing HDMI-A-1 connector on
+Sep 13 04:17:03 pupper kernel: Registered IR keymap rc-cec
+Sep 13 04:17:03 pupper kernel: rc rc0: vc4-hdmi-0 as /devices/platform/soc@107c000000/107c701400.hdmi/rc/rc0
+Sep 13 04:17:03 pupper kernel: input: vc4-hdmi-0 as /devices/platform/soc@107c000000/107c701400.hdmi/rc/rc0/input1
+Sep 13 04:17:03 pupper kernel: input: vc4-hdmi-0 HDMI Jack as /devices/platform/soc@107c000000/107c701400.hdmi/sound/card1/input2
+Sep 13 04:17:03 pupper kernel: vc4-drm axi:gpu: bound 107c701400.hdmi (ops vc4_hdmi_ops [vc4])
+Sep 13 04:17:03 pupper kernel: Registered IR keymap rc-cec
+Sep 13 04:17:03 pupper kernel: rc rc1: vc4-hdmi-1 as /devices/platform/soc@107c000000/107c706400.hdmi/rc/rc1
+Sep 13 04:17:03 pupper kernel: input: vc4-hdmi-1 as /devices/platform/soc@107c000000/107c706400.hdmi/rc/rc1/input3
+Sep 13 04:17:03 pupper kernel: input: vc4-hdmi-1 HDMI Jack as /devices/platform/soc@107c000000/107c706400.hdmi/sound/card2/input4
+Sep 13 04:17:03 pupper kernel: vc4-drm axi:gpu: bound 107c706400.hdmi (ops vc4_hdmi_ops [vc4])
+Sep 13 04:17:03 pupper kernel: vc4-drm axi:gpu: bound 107c500000.mop (ops vc4_txp_ops [vc4])
+Sep 13 04:17:03 pupper kernel: vc4-drm axi:gpu: bound 107c501000.moplet (ops vc4_txp_ops [vc4])
+Sep 13 04:17:03 pupper kernel: vc4-drm axi:gpu: bound 107c410000.pixelvalve (ops vc4_crtc_ops [vc4])
+Sep 13 04:17:03 pupper kernel: vc4-drm axi:gpu: bound 107c411000.pixelvalve (ops vc4_crtc_ops [vc4])
+Sep 13 04:17:03 pupper kernel: rpi-hevc-dec 1000800000.codec: bcm2712_iommu_of_xlate: MMU 1000005100.iommu
+Sep 13 04:17:03 pupper kernel: rpi-hevc-dec 1000800000.codec: bcm2712_iommu_probe_device: MMU 1000005100.iommu
+Sep 13 04:17:03 pupper kernel: rpi-hevc-dec 1000800000.codec: bcm2712_iommu_device_group: MMU 1000005100.iommu
+Sep 13 04:17:03 pupper kernel: rpi-hevc-dec 1000800000.codec: Adding to iommu group 0
+Sep 13 04:17:03 pupper kernel: rpi-hevc-dec 1000800000.codec: bcm2712_iommu_attach_dev: MMU 1000005100.iommu
+Sep 13 04:17:03 pupper kernel: rpi-hevc-dec 1000800000.codec: Device registered as /dev/video19
+Sep 13 04:17:03 pupper kernel: [drm] Initialized vc4 0.0.0 for axi:gpu on minor 1
+Sep 13 04:17:03 pupper kernel: Console: switching to colour frame buffer device 90x45
+Sep 13 04:17:03 pupper kernel: hailo: Init module. driver version 4.20.0
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Probing on: 1e60:2864...
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Probing: Allocate memory for device extension, 13184
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: enabling device (0000 -> 0002)
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Probing: Device enabled
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Probing: mapped bar 0 - 00000000471a5bf2 16384
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Probing: mapped bar 2 - 00000000f0bea9f1 4096
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Probing: mapped bar 4 - 00000000ed4cfd1f 16384
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Probing: Force setting max_desc_page_size to 4096 (recommended value is 16384)
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Probing: Enabled 64 bit dma
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Probing: Using userspace allocated vdma buffers
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Disabling ASPM L0s 
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Successfully disabled ASPM L0s 
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Writing file hailo/hailo8_fw.bin
+Sep 13 04:17:03 pupper kernel: vc4-drm axi:gpu: [drm] fb0: vc4drmfb frame buffer device
+Sep 13 04:17:03 pupper kernel: cfg80211: Loading compiled-in X.509 certificates for regulatory database
+Sep 13 04:17:03 pupper kernel: Loaded X.509 cert 'benh@debian.org: 577e021cb980e0e820821ba7b54b4961b8b4fadf'
+Sep 13 04:17:03 pupper kernel: Loaded X.509 cert 'romain.perier@gmail.com: 3abbc6ec146e09d1b6016ab9d6cf71dd233f0328'
+Sep 13 04:17:03 pupper kernel: Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
+Sep 13 04:17:03 pupper kernel: Loaded X.509 cert 'wens: 61c038651aabdcf94bd0ac7ff06c7248db18c600'
+Sep 13 04:17:03 pupper kernel: Bluetooth: Core ver 2.22
+Sep 13 04:17:03 pupper kernel: NET: Registered PF_BLUETOOTH protocol family
+Sep 13 04:17:03 pupper kernel: Bluetooth: HCI device and connection manager initialized
+Sep 13 04:17:03 pupper kernel: Bluetooth: HCI socket layer initialized
+Sep 13 04:17:03 pupper kernel: Bluetooth: L2CAP socket layer initialized
+Sep 13 04:17:03 pupper kernel: Bluetooth: SCO socket layer initialized
+Sep 13 04:17:03 pupper kernel: Bluetooth: HCI UART driver ver 2.3
+Sep 13 04:17:03 pupper kernel: Bluetooth: HCI UART protocol H4 registered
+Sep 13 04:17:03 pupper kernel: Bluetooth: HCI UART protocol Three-wire (H5) registered
+Sep 13 04:17:03 pupper kernel: hci_uart_bcm serial0-0: supply vbat not found, using dummy regulator
+Sep 13 04:17:03 pupper kernel: hci_uart_bcm serial0-0: supply vddio not found, using dummy regulator
+Sep 13 04:17:03 pupper kernel: Bluetooth: HCI UART protocol Broadcom registered
+Sep 13 04:17:03 pupper kernel: brcmfmac: F1 signature read @0x18000000=0x15264345
+Sep 13 04:17:03 pupper kernel: brcmfmac: brcmf_fw_alloc_request: using brcm/brcmfmac43455-sdio for chip BCM4345/6
+Sep 13 04:17:03 pupper kernel: usbcore: registered new interface driver brcmfmac
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: File hailo/hailo8_fw.bin written successfully
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Writing file hailo/hailo8_board_cfg.bin
+Sep 13 04:17:03 pupper kernel: Failed to write file hailo/hailo8_board_cfg.bin
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: File hailo/hailo8_board_cfg.bin written successfully
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Writing file hailo/hailo8_fw_cfg.bin
+Sep 13 04:17:03 pupper kernel: Failed to write file hailo/hailo8_fw_cfg.bin
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: File hailo/hailo8_fw_cfg.bin written successfully
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: NNC Firmware loaded successfully
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: FW loaded, took 331 ms
+Sep 13 04:17:03 pupper kernel: hailo 0001:01:00.0: Probing: Added board 1e60-2864, /dev/hailo0
+Sep 13 04:17:03 pupper kernel: sd 0:0:0:0: Attached scsi generic sg0 type 0
+Sep 13 04:17:03 pupper kernel: Bluetooth: hci0: BCM: chip id 107
+Sep 13 04:17:03 pupper kernel: Bluetooth: hci0: BCM: features 0x2f
+Sep 13 04:17:03 pupper kernel: Bluetooth: hci0: BCM4345C0
+Sep 13 04:17:03 pupper kernel: Bluetooth: hci0: BCM4345C0 (003.001.025) build 0000
+Sep 13 04:17:03 pupper kernel: Bluetooth: hci0: BCM4345C0 'brcm/BCM4345C0.raspberrypi,5-model-b.hcd' Patch
+Sep 13 04:17:03 pupper kernel: Goodix-TS 1-0014: supply AVDD28 not found, using dummy regulator
+Sep 13 04:17:03 pupper kernel: Goodix-TS 1-0014: supply VDDIO not found, using dummy regulator
+Sep 13 04:17:03 pupper kernel: Goodix-TS 1-0014: Error reading 1 bytes from 0x8140: -121
+Sep 13 04:17:03 pupper kernel: brcmfmac: brcmf_c_process_txcap_blob: no txcap_blob available (err=-2)
+Sep 13 04:17:03 pupper kernel: brcmfmac: brcmf_c_preinit_dcmds: Firmware: BCM4345/6 wl0: Aug 29 2023 01:47:08 version 7.45.265 (28bca26 CY) FWID 01-b677b91b
+Sep 13 04:17:03 pupper kernel: Goodix-TS 1-0014: Error reading 1 bytes from 0x8140: -121
+Sep 13 04:17:04 pupper kernel: Goodix-TS 1-0014: I2C communication failure: -121
+Sep 13 04:17:04 pupper kernel: Goodix-TS 1-0014: probe with driver Goodix-TS failed with error -121
+Sep 13 04:17:04 pupper kernel: Goodix-TS 1-005d: supply AVDD28 not found, using dummy regulator
+Sep 13 04:17:04 pupper kernel: Goodix-TS 1-005d: supply VDDIO not found, using dummy regulator
+Sep 13 04:17:04 pupper kernel: Goodix-TS 1-005d: ID 911, version: 1060
+Sep 13 04:17:04 pupper kernel: input: 1-005d Goodix Capacitive TouchScreen as /devices/platform/axi/1000120000.pcie/1f00074000.i2c/i2c-1/1-005d/input/input5
+Sep 13 04:17:04 pupper kernel: Bluetooth: hci0: BCM: features 0x2f
+Sep 13 04:17:04 pupper kernel: Bluetooth: hci0: BCM43455 37.4MHz Raspberry Pi 3+-0190
+Sep 13 04:17:04 pupper kernel: Bluetooth: hci0: BCM4345C0 (003.001.025) build 0382
+Sep 13 04:17:04 pupper kernel: Bluetooth: hci0: BCM: Using default device address (43:45:c0:00:1f:ac)
+Sep 13 04:17:04 pupper kernel: imx296 10-001a: found IMX296LQ (35.0C)
+Sep 13 04:17:04 pupper kernel: rp1-cfe 1f00110000.csi: Using sensor imx296 10-001a for capture
+Sep 13 04:17:04 pupper kernel: rp1-cfe 1f00110000.csi: Registered [rp1-cfe-csi2_ch0] node id 0 successfully as /dev/video0
+Sep 13 04:17:04 pupper kernel: rp1-cfe 1f00110000.csi: Registered [rp1-cfe-embedded] node id 1 successfully as /dev/video1
+Sep 13 04:17:04 pupper kernel: rp1-cfe 1f00110000.csi: Registered [rp1-cfe-csi2_ch2] node id 2 successfully as /dev/video2
+Sep 13 04:17:04 pupper kernel: rp1-cfe 1f00110000.csi: Registered [rp1-cfe-csi2_ch3] node id 3 successfully as /dev/video3
+Sep 13 04:17:04 pupper kernel: rp1-cfe 1f00110000.csi: Registered [rp1-cfe-fe_image0] node id 4 successfully as /dev/video4
+Sep 13 04:17:04 pupper kernel: rp1-cfe 1f00110000.csi: Registered [rp1-cfe-fe_image1] node id 5 successfully as /dev/video5
+Sep 13 04:17:04 pupper kernel: rp1-cfe 1f00110000.csi: Registered [rp1-cfe-fe_stats] node id 6 successfully as /dev/video6
+Sep 13 04:17:04 pupper kernel: rp1-cfe 1f00110000.csi: Registered [rp1-cfe-fe_config] node id 7 successfully as /dev/video7
+Sep 13 05:13:25 pupper kernel: Adding 524272k swap on /var/swap.  Priority:-2 extents:2 across:532464k 
+Sep 13 05:13:26 pupper kernel: Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+Sep 13 05:13:26 pupper kernel: Bluetooth: BNEP filters: protocol multicast
+Sep 13 05:13:26 pupper kernel: Bluetooth: BNEP socket layer initialized
+Sep 13 05:13:26 pupper kernel: Bluetooth: MGMT ver 1.23
+Sep 13 05:13:26 pupper kernel: NET: Registered PF_ALG protocol family
+Sep 13 05:13:29 pupper kernel: macb 1f00100000.ethernet eth0: PHY [1f00100000.ethernet-ffffffff:01] driver [Broadcom BCM54213PE] (irq=POLL)
+Sep 13 05:13:29 pupper kernel: macb 1f00100000.ethernet eth0: configuring for phy/rgmii-id link mode
+Sep 13 05:13:29 pupper kernel: macb 1f00100000.ethernet: gem-ptp-timer ptp clock registered.
+Sep 13 05:13:29 pupper kernel: brcmfmac: brcmf_cfg80211_set_power_mgmt: power save enabled
+Sep 13 05:13:35 pupper kernel: Bluetooth: RFCOMM TTY layer initialized
+Sep 13 05:13:35 pupper kernel: Bluetooth: RFCOMM socket layer initialized
+Sep 13 05:13:35 pupper kernel: Bluetooth: RFCOMM ver 1.11
+Sep 13 05:24:18 pupper kernel: Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+Sep 13 05:24:18 pupper kernel: Bluetooth: HIDP socket layer initialized
+Sep 13 05:25:06 pupper kernel: hid-generic 0005:054C:0CE6.0001: unknown main item tag 0x0
+Sep 13 05:25:06 pupper kernel: input: DualSense Wireless Controller as /devices/platform/soc@107c000000/107d50c000.serial/107d50c000.serial:0/107d50c000.serial:0.0/serial0/serial0-0/bluetooth/hci0/hci0:11/0005:054C:0CE6.0001/input/input7
+Sep 13 05:25:06 pupper kernel: hid-generic 0005:054C:0CE6.0001: input,hidraw0: BLUETOOTH HID v1.00 Gamepad [DualSense Wireless Controller] on 2c:cf:67:e2:00:e1
+Sep 13 05:25:06 pupper kernel: playstation 0005:054C:0CE6.0001: unknown main item tag 0x0
+Sep 13 05:25:06 pupper kernel: playstation 0005:054C:0CE6.0001: hidraw0: BLUETOOTH HID v1.00 Gamepad [DualSense Wireless Controller] on 2c:cf:67:e2:00:e1
+Sep 13 05:25:06 pupper kernel: input: DualSense Wireless Controller as /devices/platform/soc@107c000000/107d50c000.serial/107d50c000.serial:0/107d50c000.serial:0.0/serial0/serial0-0/bluetooth/hci0/hci0:11/0005:054C:0CE6.0001/input/input8
+Sep 13 05:25:06 pupper kernel: input: DualSense Wireless Controller Motion Sensors as /devices/platform/soc@107c000000/107d50c000.serial/107d50c000.serial:0/107d50c000.serial:0.0/serial0/serial0-0/bluetooth/hci0/hci0:11/0005:054C:0CE6.0001/input/input9
+Sep 13 05:25:06 pupper kernel: input: DualSense Wireless Controller Touchpad as /devices/platform/soc@107c000000/107d50c000.serial/107d50c000.serial:0/107d50c000.serial:0.0/serial0/serial0-0/bluetooth/hci0/hci0:11/0005:054C:0CE6.0001/input/input10
+Sep 13 05:25:06 pupper kernel: playstation 0005:054C:0CE6.0001: Registered DualSense controller hw_version=0x00000810 fw_version=0x010e0013
+Sep 13 05:39:21 pupper kernel: hrtimer: interrupt took 12741 ns

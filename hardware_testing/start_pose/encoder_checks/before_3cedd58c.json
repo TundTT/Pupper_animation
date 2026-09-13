@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "purpose": "encoder_persistence_diagnostic_only",
+  "boot_id": "3cedd58c-4293-4826-85ae-72a90093b497",
+  "encoder_session_id": "e0df8c8378ab0d03da1bbe8ce19ec9d3",
+  "owner_pid": "6116",
+  "pose_label": "hanging_A",
+  "time_unix": 1789295552.3415446,
+  "raw_joint_positions": {
+    "leg_front_r_1": 0.0875220458984376,
+    "leg_front_r_2": 0.0550814697265625,
+    "leg_front_l_1": -0.26192619628906255,
+    "leg_front_l_2": 0.2245185317993164,
+    "leg_back_r_1": 0.1569638931274413,
+    "leg_back_r_2": 0.07876293945312497,
+    "leg_back_l_1": -0.25581181640625006,
+    "leg_back_l_2": 0.13641118011474612
+  },
+  "position_ranges": {
+    "leg_front_r_1": 0.0,
+    "leg_front_r_2": 0.0,
+    "leg_front_l_1": 0.0,
+    "leg_front_l_2": 0.0,
+    "leg_back_r_1": 0.0,
+    "leg_back_r_2": 0.0,
+    "leg_back_l_1": 0.0,
+    "leg_back_l_2": 0.0
+  },
+  "joint_positions": {
+    "leg_front_r_1": 0.9962590458984375,
+    "leg_front_r_2": -0.1795905302734375,
+    "leg_front_l_1": -0.9817651962890624,
+    "leg_front_l_2": 0.2104915317993164,
+    "leg_back_r_1": 0.9913008931274414,
+    "leg_back_r_2": -0.17920906054687502,
+    "leg_back_l_1": -0.96765081640625,
+    "leg_back_l_2": 0.1467841801147461
+  },
+  "reconstructed_startup_offsets": {
+    "leg_front_r_1": -0.908737,
+    "leg_front_r_2": 0.234672,
+    "leg_front_l_1": 0.7198389999999999,
+    "leg_front_l_2": 0.014027000000000012,
+    "leg_back_r_1": -0.834337,
+    "leg_back_r_2": 0.257972,
+    "leg_back_l_1": 0.7118389999999999,
+    "leg_back_l_2": -0.010372999999999993
+  },
+  "raw_log_rounding_bound_rad": 5e-05,
+  "calibration_modified": false,
+  "motion_commanded": false
+}

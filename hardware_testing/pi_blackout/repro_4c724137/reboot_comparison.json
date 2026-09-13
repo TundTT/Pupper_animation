@@ -1,0 +1,95 @@
+{
+  "before_boot": "4c724137-6a6f-4084-98c9-62503bcad82f",
+  "after_boot": "4e6b3aa4-00bd-4e9d-b956-7b52127dbb2e",
+  "joints": {
+    "leg_front_r_1": {
+      "before_raw_rad": 0.08834057617187496,
+      "after_raw_rad": 0.08754825592041016,
+      "difference_rad": -0.0007923202514648064,
+      "difference_deg": -0.04539660643167749,
+      "post_boot_range_rad": 0.0
+    },
+    "leg_front_r_2": {
+      "before_raw_rad": 0.0032741210937499987,
+      "after_raw_rad": 0.00286102294921875,
+      "difference_rad": -0.0004130981445312487,
+      "difference_deg": -0.02366878020632584,
+      "post_boot_range_rad": 0.0
+    },
+    "leg_front_r_3": {
+      "before_raw_rad": 3.091277001953125,
+      "after_raw_rad": -0.057793617248535156,
+      "difference_rad": -3.14907061920166,
+      "difference_deg": -180.42845586890394,
+      "post_boot_range_rad": 0.0
+    },
+    "leg_front_l_1": {
+      "before_raw_rad": -0.2470370605468749,
+      "after_raw_rad": -0.24776840209960938,
+      "difference_rad": -0.0007313415527344658,
+      "difference_deg": -0.04190278435422922,
+      "post_boot_range_rad": 0.0
+    },
+    "leg_front_l_2": {
+      "before_raw_rad": 0.17146293945312502,
+      "after_raw_rad": 0.17109203338623047,
+      "difference_rad": -0.00037090606689454964,
+      "difference_deg": -0.02125135222885468,
+      "post_boot_range_rad": 0.0
+    },
+    "leg_front_l_3": {
+      "before_raw_rad": 2.6998929687500004,
+      "after_raw_rad": 0.18558788299560547,
+      "difference_rad": -2.514305085754395,
+      "difference_deg": -144.05906982200534,
+      "post_boot_range_rad": 0.0
+    },
+    "leg_back_r_1": {
+      "before_raw_rad": 0.1584897720336913,
+      "after_raw_rad": 0.15850353240966797,
+      "difference_rad": 1.3760375976668016e-05,
+      "difference_deg": 0.0007884114679762855,
+      "post_boot_range_rad": 0.0
+    },
+    "leg_back_r_2": {
+      "before_raw_rad": 0.015481469726562502,
+      "after_raw_rad": 0.01506805419921875,
+      "difference_rad": -0.0004134155273437523,
+      "difference_deg": -0.02368696490197229,
+      "post_boot_range_rad": 0.0
+    },
+    "leg_back_r_3": {
+      "before_raw_rad": -3.035612133789063,
+      "after_raw_rad": 0.10814857482910156,
+      "difference_rad": 3.1437607086181645,
+      "difference_deg": 180.1242204028778,
+      "post_boot_range_rad": 0.0
+    },
+    "leg_back_l_1": {
+      "before_raw_rad": -0.22491853027343744,
+      "after_raw_rad": -0.22526168823242188,
+      "difference_rad": -0.00034315795898443024,
+      "difference_deg": -0.019661502756131263,
+      "post_boot_range_rad": 0.0
+    },
+    "leg_back_l_2": {
+      "before_raw_rad": 0.1184,
+      "after_raw_rad": 0.11806678771972656,
+      "difference_rad": -0.00033321228027344274,
+      "difference_deg": -0.019091657341598567,
+      "post_boot_range_rad": 0.0
+    },
+    "leg_back_l_3": {
+      "before_raw_rad": -3.105055590820313,
+      "after_raw_rad": 0.035668373107910156,
+      "difference_rad": 3.140723963928223,
+      "difference_deg": 179.9502277486854,
+      "post_boot_range_rad": 0.0
+    }
+  },
+  "max_upper_difference_deg": 0.04539660643167749,
+  "physical_configuration": "Operator reported tips remained down through power-off/on.",
+  "motor_stack_started_after_reboot": false,
+  "persistent_homing_approved": false,
+  "limitations": "Before capture was during HOLD, about minutes before power-off; includes possible physical settling. Disabled packets have no per-motor freshness counters. Do not infer a fixed hub correction."
+}

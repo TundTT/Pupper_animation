@@ -22,6 +22,11 @@ scripts/check_keyframes.py text eol=lf
 hardware_testing/keyframe_align/arm64_check.sh text eol=lf
 
 scripts/prepare_locomotion.sh text eol=lf
+scripts/prepare_measured_roll.sh text eol=lf
+# Preserve captured evidence logs, including original trailing spaces.
+hardware_testing/pi_blackout/**/*.log -whitespace
+hardware_testing/start_pose/encoder_checks/*.log -whitespace
+hardware_testing/triangle_roll/measured_360ffcd09344487d/native_pi/*.log -whitespace
 ros2_ws/src/neural_controller/launch/inverted_triangle_plan.json -filter diff merge text eol=lf
 hardware_testing/inverted_triangle/source/*.json -filter diff merge -text whitespace=cr-at-eol
 hardware_testing/inverted_triangle/evidence/*.log -whitespace

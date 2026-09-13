@@ -27,6 +27,7 @@
   <depend>rclcpp_lifecycle</depend>
   <depend>geometry_msgs</depend>
   <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
   <depend>tf2</depend>
   <depend>generate_parameter_library</depend>
 

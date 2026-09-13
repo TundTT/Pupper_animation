@@ -1,0 +1,5 @@
+<library path="measurement_hold">
+  <class name="measurement_hold/CurrentPose" type="measurement_hold::CurrentPose" base_class_type="controller_interface::ControllerInterface">
+    <description>Holds measured current angles only. No model pose, calibration replacement, policy or trajectory.</description>
+  </class>
+</library>

@@ -19,6 +19,7 @@ find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(generate_parameter_library REQUIRED)
 
@@ -50,6 +51,21 @@ ament_target_dependencies(
 
 pluginlib_export_plugin_description_file(controller_interface neural_controller.xml)
 
+add_library(joint_pose_controller SHARED src/joint_pose_controller.cpp)
+target_compile_features(joint_pose_controller PUBLIC cxx_std_17)
+target_include_directories(joint_pose_controller PRIVATE include)
+ament_target_dependencies(joint_pose_controller controller_interface hardware_interface pluginlib robot_calibration rclcpp rclcpp_lifecycle sensor_msgs std_msgs)
+install(TARGETS joint_pose_controller DESTINATION lib)
+
+# Separate library: adding this diagnostic never requires overwriting the
+# existing neural_controller library used by a live hardware session.
+add_library(hub_roll_controller SHARED src/hub_roll_controller.cpp)
+target_compile_features(hub_roll_controller PUBLIC cxx_std_17)
+target_include_directories(hub_roll_controller PRIVATE include)
+target_link_libraries(hub_roll_controller neural_controller neural_controller_parameters RTNeural)
+ament_target_dependencies(hub_roll_controller controller_interface robot_calibration hardware_interface pluginlib realtime_tools rclcpp rclcpp_lifecycle geometry_msgs sensor_msgs tf2)
+install(TARGETS hub_roll_controller DESTINATION lib)
+
 install(
   TARGETS ${PROJECT_NAME}
   DESTINATION lib
@@ -64,6 +80,27 @@ install(
 )
 
 if(BUILD_TESTING)
+  add_executable(joint_pose_test test/joint_pose_test.cpp)
+  target_compile_features(joint_pose_test PRIVATE cxx_std_17)
+  target_include_directories(joint_pose_test PRIVATE include)
+  add_test(NAME joint_pose_recovery COMMAND joint_pose_test)
+  add_executable(joint_pose_controller_test test/joint_pose_controller_test.cpp)
+  target_compile_features(joint_pose_controller_test PRIVATE cxx_std_17)
+  target_include_directories(joint_pose_controller_test PRIVATE include)
+  ament_target_dependencies(joint_pose_controller_test controller_interface hardware_interface rclcpp rclcpp_lifecycle pluginlib sensor_msgs std_msgs robot_calibration)
+  add_test(NAME joint_pose_lifecycle COMMAND joint_pose_controller_test)
+  set_tests_properties(joint_pose_lifecycle PROPERTIES ENVIRONMENT "ROS_DOMAIN_ID=193;ROS_LOCALHOST_ONLY=1")
+  add_executable(measured_roll_test test/measured_roll_test.cpp)
+  target_compile_features(measured_roll_test PRIVATE cxx_std_17)
+  target_include_directories(measured_roll_test PRIVATE include)
+  target_link_libraries(measured_roll_test RTNeural)
+  add_test(NAME measured_roll_core COMMAND measured_roll_test)
+  add_executable(hub_roll_controller_test test/hub_roll_controller_test.cpp)
+  target_compile_features(hub_roll_controller_test PRIVATE cxx_std_17)
+  target_include_directories(hub_roll_controller_test PRIVATE include)
+  target_link_libraries(hub_roll_controller_test hub_roll_controller neural_controller neural_controller_parameters RTNeural)
+  ament_target_dependencies(hub_roll_controller_test controller_interface hardware_interface rclcpp rclcpp_lifecycle robot_calibration realtime_tools geometry_msgs tf2 sensor_msgs)
+  add_test(NAME hub_roll_lifecycle COMMAND hub_roll_controller_test ${CMAKE_CURRENT_SOURCE_DIR}/launch/hub_roll_config.yaml ${CMAKE_CURRENT_SOURCE_DIR}/launch/triangle_roll_plan.json)
   add_executable(triangle_roll_test test/triangle_roll_test.cpp)
   target_compile_features(triangle_roll_test PRIVATE cxx_std_17)
   target_include_directories(triangle_roll_test PRIVATE include)

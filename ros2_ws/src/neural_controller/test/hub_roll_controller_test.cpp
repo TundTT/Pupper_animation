@@ -1,0 +1,91 @@
+#include "neural_controller/hub_roll_controller.hpp"
+#include <filesystem>
+#include <iostream>
+#include "pluginlib/class_loader.hpp"
+void require(bool x,const char* why){if(!x)throw std::runtime_error(why);}
+class Harness:public neural_controller::HubRollController {
+ public:
+  auto& params(){return params_;} auto& core(){return triangle_;}
+  void command(int n){auto m=std::make_shared<std_msgs::msg::Int32>();m->data=n;rt_leg_lift_command_ptr_.writeFromNonRT(m);}
+  void joy(){joy_receipt_ns_=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();}
+  void stale_joy(){joy_receipt_ns_=1;}
+  void stop(){estop_active_=true;}
+  void input(const sensor_msgs::msg::Joy& msg){receive_joy(msg);}
+  bool ready(){return joy_ready();}
+};
+int main(int argc,char** argv){
+  rclcpp::init(argc,argv);int result=0;
+  const auto dir=std::filesystem::temp_directory_path()/("triangle-fixture-"+robot_calibration::identity());
+  setenv("QUADMORPH_CALIBRATION_DIR",dir.c_str(),1);
+  try{
+    require(argc==3,"Expected config YAML and plan JSON");Harness c;rclcpp::NodeOptions options;
+    std::vector<std::string> args{"--ros-args","--params-file",argv[1],"-p",std::string("model_path:=")+argv[2]};
+    if(argc==4){args.push_back("--params-file");args.push_back(argv[3]);}
+    options.arguments(args);
+    {pluginlib::ClassLoader<controller_interface::ControllerInterface> loader("controller_interface","controller_interface::ControllerInterface");
+      auto plugin=loader.createSharedInstance("neural_controller/HubRollController");
+      require(plugin->init("neural_controller_hub_roll","",520,"",options)==controller_interface::return_type::OK,"Installed plugin init");}
+    require(c.init("neural_controller_hub_roll","",520,"",options)==controller_interface::return_type::OK,"Init");
+    require(c.on_configure({})==controller_interface::CallbackReturn::SUCCESS,"Configure");
+    auto q=c.core().initial; q={.8265,.00657,2.37593,-.93828,.18646,4.06749,1.09048,.16412,2.17108,-.93103,.18722,4.09343}; const auto captured=q;std::array<double,12> qd{};std::array<std::array<double,5>,12> output{};
+    std::vector<hardware_interface::CommandInterface> commands;commands.reserve(60);
+    std::vector<hardware_interface::StateInterface> states;states.reserve(32);
+    for(int i=0;i<12;++i){int n=0;for(const auto& field:{"position","velocity","effort","kp","kd"})commands.emplace_back(c.params().joint_names[i],field,&output[i][n++]);
+      states.emplace_back(c.params().joint_names[i],"position",&q[i]);states.emplace_back(c.params().joint_names[i],"velocity",&qd[i]);}
+    std::array<double,8> imu{0,0,0,0,0,0,1,0};int n=0;
+    for(const auto& field:{"angular_velocity.x","angular_velocity.y","angular_velocity.z","orientation.x","orientation.y","orientation.z","orientation.w","time_since_measurement_seconds"})states.emplace_back("imu_sensor",field,&imu[n++]);
+    auto assign=[&]{std::vector<hardware_interface::LoanedCommandInterface> ci;std::vector<hardware_interface::LoanedStateInterface> si;
+      for(auto& x:commands)ci.emplace_back(x);for(auto& x:states)si.emplace_back(x);c.assign_interfaces(std::move(ci),std::move(si));};
+    auto zero=[&]{for(auto& a:output)for(auto x:a)require(x==0,"All command fields zero on rejection/stop");};
+    assign();c.joy();require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"Missing calibration rejects");zero();
+    auto session=robot_calibration::begin_session();robot_calibration::finish_session(session);
+    std::array<double,4> home{.1,.2,.3,.4},base{};for(int k=0;k<4;++k)base[k]=robot_calibration::wrap(home[k]+M_PI);
+    nlohmann::json record={{"schema_version",1},{"calibration_id","triangle-fixture"},{"encoder_session_id",session},{"operator_confirmed",true},
+      {"angle_units","radians"},{"reference_convention","marked_point_ring_home"},{"joint_names",c.params().joint_names},
+      {"reference_joint_positions",q},{"wheel_home",home},{"wheel_base_target",base}};
+    {std::ofstream f(dir/"calibration.json");f<<record;}
+    require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"Missing triangle map rejects even with startup calibration");zero();
+    nlohmann::json plan;{std::ifstream f(argv[2]);f>>plan;}
+    nlohmann::json map={{"schema_version",1},{"calibration_id","triangle-fixture"},{"plan_sha256",plan.at("plan_sha256")},
+      {"operator_confirmed_tips_up",true},{"purpose","supported_hub_only_v1"},{"joint_names",c.params().joint_names},
+      {"wheel_home",home},{"model_to_encoder_offset",std::array<double,12>{}},{"captured_q",q}};
+    {std::ofstream f(dir/"hub-roll-reference.json");f<<map;}
+    c.stale_joy();require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"Missing gamepad rejects");zero();
+    sensor_msgs::msg::Joy pad;pad.buttons.resize(13);
+    pad.buttons[10]=1;c.input(pad);
+    require(!c.ready() && c.on_activate({})==controller_interface::CallbackReturn::ERROR,"Held PS rejects activation");zero();
+    pad.buttons[10]=0;c.input(pad);require(c.ready(),"Released PS provides fresh input");
+    sensor_msgs::msg::Joy malformed;c.input(malformed);require(!c.ready(),"Short message invalidates input");
+    c.joy();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Confirmed fixtures activate");
+    c.update(rclcpp::Time(int64_t(0),RCL_ROS_TIME),rclcpp::Duration::from_seconds(0));zero();
+    double now=0;auto tick=[&]{c.joy();now+=1./520;c.update(rclcpp::Time(int64_t(now*1e9),RCL_ROS_TIME),rclcpp::Duration::from_seconds(1./520));};
+    for(int i=0;i<1041;++i)tick();require(c.core().state==inverted_triangle::READY,"No automatic flip on activation");
+    c.command(1);
+    for(int n=0;n<25000 && !c.core().completed;++n){tick();
+      require(c.core().state!=inverted_triangle::FAULT,"Simultaneous roll tracks through real plugin");
+      for(int i=0;i<12;++i){double next=output[i][0];qd[i]=(next-q[i])*520;q[i]=next;
+        require(output[i][1]==0 && output[i][2]==0,"No feed-forward or velocity target");
+        require(output[i][3]==(i%3==2?4.:5.) && output[i][4]==c.core().kd[i],"Simulation gains routed exactly");}}
+    require(c.core().completed==1 && c.core().state==inverted_triangle::DONE,"Holds completed roll without walking");
+    if(argc==4){
+      require(c.core().run_steps==7280 && c.core().support.elapsed==0,"Stand profile bypasses all load correction");
+      qd.fill(0);q[2]+=.05;
+      for(int n=0;n<520;++n)tick();
+      require(c.core().state==inverted_triangle::DONE && c.core().support.elapsed==0,"Hanging error does not trigger adaptation");
+      for(int i=0;i<12;++i)require(std::abs(output[i][0]-c.core().goal[i])<1e-12,"Stand holds nominal goal");
+    }
+    imu[7]=.2;tick();zero();imu[7]=0;tick();zero();
+    c.on_deactivate({});zero();q=captured;qd.fill(0);assign();c.joy();
+    require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Reactivation from correct initial pose");
+    c.stale_joy();now+=.002;c.update(rclcpp::Time(int64_t(now*1e9),RCL_ROS_TIME),rclcpp::Duration::from_seconds(.002));zero();
+    c.on_deactivate({});assign();c.joy();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"Fresh lifecycle resets fault");
+    pad.buttons[10]=1;c.input(pad);tick();zero();
+    pad.buttons[10]=0;c.input(pad);tick();zero();
+    require(c.core().state==inverted_triangle::FAULT,"Releasing PS cannot resume motion");
+    c.on_deactivate({});assign();
+    auto next=robot_calibration::begin_session();robot_calibration::finish_session(next);
+    require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"New encoder session invalidates old reference");zero();
+    std::cout<<"PASS: installed triangle plugin, calibration/map/gamepad gates, simultaneous roll, sensor/stop/reentry\n";
+  }catch(const std::exception& e){std::cerr<<e.what()<<'\n';result=1;}
+  std::filesystem::remove_all(dir);rclcpp::shutdown();return result;
+}

@@ -1,5 +1,11 @@
 # Startup calibration: every robot session
 
+September 13 workflow decision: the user accepts per-boot hub/spoke calibration
+and wants saved upper-joint targets, with deep encoder diagnosis deferred. The
+upper target exists, but automatic physical reference restoration is not yet
+implemented; the confirmed startup procedure below still applies. See
+[LAB_HANDOFF.md](LAB_HANDOFF.md) for tested controllers, evidence and remaining work.
+
 September 12 update: the user now wants the successful repeat-test home retained
 permanently, with automatic return at startup and an easy way to replace it.
 The exact desired reference is saved in

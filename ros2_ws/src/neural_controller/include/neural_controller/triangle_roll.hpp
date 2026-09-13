@@ -1,11 +1,12 @@
 #pragma once
 #include "neural_controller/inverted_triangle.hpp"
 #include "neural_controller/triangle_roll_geometry.hpp"
+#include "neural_controller/policy_home.hpp"
 
 namespace triangle_roll {
 using inverted_triangle::Pose;
 using inverted_triangle::smooth;
-inline constexpr Pose goal{1,0,-1,-1,0,1,1,0,-1,-1,0,1};
+inline constexpr Pose goal=neural_controller::policy_home::with_hubs({-1,1,-1,1});
 inline constexpr Pose home{1,-.29,2.141592653589793,-1,.29,-2.141592653589793,1,-.29,2.141592653589793,-1,.29,-2.141592653589793};
 inline constexpr Pose base_kp{5,5,4,5,5,4,5,5,4,5,5,4};
 inline constexpr Pose base_kd{.25,.25,.15,.25,.25,.15,.25,.25,.15,.25,.25,.15};
@@ -15,6 +16,8 @@ inline constexpr Pose base_kd{.25,.25,.15,.25,.25,.15,.25,.25,.15,.25,.25,.15};
 // R^T*[0,0,-1], already normalized by the shared IMU reader. Yaw cancels out.
 struct Support {
   Pose reference=goal,integral{},offset{};
+  Pose target=goal;
+  void set_goal(const Pose& q) { target=q;reference=q;integral.fill(0);offset.fill(0);loads.fill(0);elapsed=0; }
   std::array<double,4> loads{};
   double elapsed=0;
   void update(const Pose& q,const Pose& qd,const Pose& previous,const V3& gravity,double dt) {
@@ -50,9 +53,9 @@ struct Support {
       for(int j=0;j<3;++j)reference[3*leg+j]-=.003*error*zs[leg][j]/std::max(zs[leg].norm(),.01)*dt;
     }
     for(int i=0;i<12;++i) {
-      reference[i]=std::clamp(reference[i],goal[i]-.075,goal[i]+.075);
+      reference[i]=std::clamp(reference[i],target[i]-.075,target[i]+.075);
       integral[i]=std::clamp(integral[i]+.25*(reference[i]-q[i])*dt,-.15,.15);
-      offset[i]=std::clamp(reference[i]+integral[i]-goal[i],-.2,.2);
+      offset[i]=std::clamp(reference[i]+integral[i]-target[i],-.2,.2);
     }
   }
 };

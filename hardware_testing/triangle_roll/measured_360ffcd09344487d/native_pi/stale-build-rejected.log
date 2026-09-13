@@ -1,0 +1,121 @@
+PASS: exact v5 checkpoint/export, 83/8 contract, 52 Hz inference, CAN order, modes, gains and limits: /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/launch/policy_wheel_align_motion_v5.json
+PASS: description joint axes and mounting transforms match training geometry within source rounding
+PASS: pinned simultaneous roll, 9 mm gap, nominal kinematics, current CAN/axes/continuous hubs, doubled damping, stop and position limits. No hardware activation.
+Starting >>> neural_controller
+[0.460s] colcon.colcon_core.shell WARNING The following packages are in the workspace but haven't been built:
+- robot_calibration
+They are being used from the following locations instead:
+- /home/pi/robot-code-leglift/ros2_ws/install-roll/robot_calibration
+To suppress this warning ignore these packages in the workspace:
+--packages-ignore robot_calibration
+Finished <<< neural_controller [0.27s]
+
+Summary: 1 package finished [0.58s]
+[ 50%] Built target RTNeural
+[100%] Built target measured_roll_test
+[ 50%] Built target RTNeural
+[100%] Built target triangle_roll_test
+-- Install configuration: "Release"
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/neural_controller_parameters.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/neural_controller.xml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/lib/libneural_controller.so
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/triangle_roll_geometry.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/wheel_align_motion.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/measured_roll.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/wheel_align_hybrid.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/neural_controller.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/triangle_roll.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/policy_contract.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/triangle_roll_contract.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/inverted_triangle.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/wheel_align_reference_data.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/keyframe_controller.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/keyframe_align
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/keyframe_align/controller.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/keyframe_align/geometry.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/triangle_roll_controller.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/inverted_triangle_controller.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/include/neural_controller/wheel_align_geometry_data.hpp
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/triangle_roll_config.yaml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/calibration_sim.yaml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_leg_lift.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/__pycache__
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/__pycache__/alignment_trial.launch.cpython-311.pyc
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_wheel_align_motion_v5.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/triangle_roll_stand.launch.py
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/inverted_triangle_plan.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/calibration_hardware.yaml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/triangle_roll_trial.launch.py
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_ancient-surf-216_max_reward_20.27.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/locomotion_trial.launch.py
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_pretty-spaceship-243_max_reward_17.57.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/locomotion_wheel_trial.yaml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_rich-donkey-233_max_reward_19.16.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/triangle_roll_stand.yaml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/keyframe_trial.launch.py
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_latest.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/triangle_roll_plan.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/inverted_triangle_trial.launch.py
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/config.yaml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/keyframe_config.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/alignment_trial.launch.py
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_wheel.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/inverted_triangle_config.yaml
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_wheel_align_hybrid.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_wheel_align.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/launch.py
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_walk_v2.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/policy_leg_lift_1.5cm_backup.json
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/ament_index/resource_index/package_run_dependencies/neural_controller
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/ament_index/resource_index/parent_prefix_path/neural_controller
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/environment/ament_prefix_path.sh
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/environment/path.sh
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/environment/path.dsv
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/local_setup.bash
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/local_setup.sh
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/local_setup.zsh
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/local_setup.dsv
+-- Installing: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/package.dsv
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/ament_index/resource_index/packages/neural_controller
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/ament_index/resource_index/controller_interface__pluginlib__plugin/neural_controller
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/cmake/neural_controllerConfig.cmake
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/cmake/neural_controllerConfig-version.cmake
+-- Up-to-date: /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/package.xml
+Internal ctest changing into directory: /home/pi/robot-code-leglift/ros2_ws/build-measured-roll/neural_controller
+Test project /home/pi/robot-code-leglift/ros2_ws/build-measured-roll/neural_controller
+    Start 1: measured_roll_core
+1/4 Test #1: measured_roll_core ...............   Passed    0.02 sec
+    Start 2: triangle_roll_core
+2/4 Test #2: triangle_roll_core ...............   Passed    0.02 sec
+    Start 3: triangle_roll_lifecycle
+3/4 Test #3: triangle_roll_lifecycle ..........***Failed    0.15 sec
+[WARN] [1789290462.084120024] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[WARN] [1789290462.084143968] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[INFO] [1789290462.103496001] [neural_controller_triangle_roll]: Triangle mode: GROUND: roll and adaptive support settle
+[ERROR] [1789290462.103826577] [neural_controller_triangle_roll]: Triangle configuration rejected: Unreviewed roll contract; rebuild from pinned export
+Installed plugin init
+
+    Start 4: triangle_roll_stand_lifecycle
+4/4 Test #4: triangle_roll_stand_lifecycle ....***Failed    0.16 sec
+[WARN] [1789290462.240234641] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[WARN] [1789290462.240263827] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[INFO] [1789290462.262164095] [neural_controller_triangle_roll]: Triangle mode: STAND ONLY: roll and hold, load correction disabled
+[ERROR] [1789290462.262504301] [neural_controller_triangle_roll]: Triangle configuration rejected: Unreviewed roll contract; rebuild from pinned export
+Installed plugin init
+
+
+50% tests passed, 2 tests failed out of 4
+
+Total Test time (real) =   0.36 sec
+
+The following tests FAILED:
+	  3 - triangle_roll_lifecycle (Failed)
+	  4 - triangle_roll_stand_lifecycle (Failed)
+Errors while running CTest

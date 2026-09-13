@@ -1,0 +1,99 @@
+{
+  "before_boot": "3cedd58c-4293-4826-85ae-72a90093b497",
+  "after_boot": "4c724137-6a6f-4084-98c9-62503bcad82f",
+  "joint_results": {
+    "leg_front_r_1": {
+      "before_sign_corrected_raw": 0.102781788635254,
+      "after_sign_corrected_raw": 0.10357093811035156,
+      "difference_rad": 0.0007891494750975614,
+      "difference_deg": 0.045214934328054526,
+      "after_range_rad": 0.0
+    },
+    "leg_front_r_2": {
+      "before_sign_corrected_raw": 0.2156821319580078,
+      "after_sign_corrected_raw": 0.21419811248779297,
+      "difference_rad": -0.0014840194702148424,
+      "difference_deg": -0.08502805235855085,
+      "after_range_rad": 0.0
+    },
+    "leg_front_r_3": {
+      "before_sign_corrected_raw": 3.150027537536621,
+      "after_sign_corrected_raw": 0.01010894775390625,
+      "difference_rad": -3.139918589782715,
+      "difference_deg": -179.9040832092188,
+      "after_range_rad": 0.0
+    },
+    "leg_front_l_1": {
+      "before_sign_corrected_raw": -0.26688530273437505,
+      "after_sign_corrected_raw": -0.2668418884277344,
+      "difference_rad": 4.341430664067669e-05,
+      "difference_deg": 0.0024874565409975574,
+      "after_range_rad": 0.0
+    },
+    "leg_front_l_2": {
+      "before_sign_corrected_raw": 0.03606962585449219,
+      "after_sign_corrected_raw": 0.036049842834472656,
+      "difference_rad": -1.9783020019537023e-05,
+      "difference_deg": -0.0011334835531422868,
+      "after_range_rad": 0.0
+    },
+    "leg_front_l_3": {
+      "before_sign_corrected_raw": 2.9570496444702146,
+      "after_sign_corrected_raw": -0.18558788299560547,
+      "difference_rad": -3.14263752746582,
+      "difference_deg": -180.0598668632198,
+      "after_range_rad": 0.0
+    },
+    "leg_back_r_1": {
+      "before_sign_corrected_raw": 0.1634488784790038,
+      "after_sign_corrected_raw": 0.16231822967529297,
+      "difference_rad": -0.001130648803710832,
+      "difference_deg": -0.06478140456414612,
+      "after_range_rad": 0.0
+    },
+    "leg_back_r_2": {
+      "before_sign_corrected_raw": 0.24356072235107418,
+      "after_sign_corrected_raw": 0.23479843139648438,
+      "difference_rad": -0.008762290954589802,
+      "difference_deg": -0.5020422905636529,
+      "after_range_rad": 0.0
+    },
+    "leg_back_r_3": {
+      "before_sign_corrected_raw": 3.062261083984375,
+      "after_sign_corrected_raw": -0.07991886138916016,
+      "difference_rad": -3.142179945373535,
+      "difference_deg": -180.03364934055114,
+      "after_range_rad": 0.0
+    },
+    "leg_back_l_1": {
+      "before_sign_corrected_raw": -0.27870000000000006,
+      "after_sign_corrected_raw": -0.2790489196777344,
+      "difference_rad": -0.0003489196777343162,
+      "difference_deg": -0.019991624923241122,
+      "after_range_rad": 0.0
+    },
+    "leg_back_l_2": {
+      "before_sign_corrected_raw": -0.008167753601074218,
+      "after_sign_corrected_raw": -0.00820159912109375,
+      "difference_rad": -3.3845520019532005e-05,
+      "difference_deg": -0.0019392054525447194,
+      "after_range_rad": 0.0
+    },
+    "leg_back_l_3": {
+      "before_sign_corrected_raw": 3.3339508819580077,
+      "after_sign_corrected_raw": 0.19283580780029297,
+      "difference_rad": -3.1411150741577147,
+      "difference_deg": -179.97263671415965,
+      "after_range_rad": 0.0
+    }
+  },
+  "operator_reported_no_physical_joint_movement": true,
+  "max_upper_difference_deg": 0.5020422905636529,
+  "persistent_homing_approved": false,
+  "limitations": [
+    "Before snapshot is at successful HOLD entry, not immediately at power loss.",
+    "Includes possible settling after final snapshot, manual measurement uncertainty and raw log rounding.",
+    "Disabled SPI replies changed from zero to nonzero, but per-motor timestamps/sequence counters are absent.",
+    "One unchanged-pose restart cannot establish behavior when joints move while unpowered."
+  ]
+}

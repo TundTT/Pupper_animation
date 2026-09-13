@@ -1,3 +1,4 @@
+<class_libraries>
 <library path="neural_controller">
   <class name="neural_controller/NeuralController" type="neural_controller::NeuralController" base_class_type="controller_interface::ControllerInterface">
     <description>
@@ -14,3 +15,14 @@
     <description>Simultaneous rigid triangle roll and bounded support settling; no walking.</description>
   </class>
 </library>
+<library path="hub_roll_controller">
+  <class name="neural_controller/HubRollController" type="neural_controller::HubRollController" base_class_type="controller_interface::ControllerInterface">
+    <description>Supported half-turn diagnostic: hold measured proximal angles and turn all four hubs; no approach, load correction, or walking.</description>
+  </class>
+</library>
+<library path="joint_pose_controller">
+  <class name="neural_controller/JointPoseController" type="neural_controller::JointPoseController" base_class_type="controller_interface::ControllerInterface">
+    <description>Supported named-joint positioning with bounded inward recovery, staged upper/hub motion, and torque limits.</description>
+  </class>
+</library>
+</class_libraries>

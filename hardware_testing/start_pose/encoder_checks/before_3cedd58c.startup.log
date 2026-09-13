@@ -1,0 +1,99 @@
+[INFO] [launch]: All log files can be found below /home/pi/.ros/log/2026-09-13-05-25-23-648236-pupper-5873
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [robot_state_publisher-1]: process started with pid [6114]
+[INFO] [ros2_control_node-2]: process started with pid [6116]
+[INFO] [joy_linux_node-3]: process started with pid [6118]
+[INFO] [estop_controller-4]: process started with pid [6120]
+[INFO] [spawner-5]: process started with pid [6122]
+[INFO] [spawner-6]: process started with pid [6124]
+[INFO] [spawner-7]: process started with pid [6126]
+[estop_controller-4] [WARN] [1789295125.657826367] [joy_util_node]: wheel_align_hybrid_button_index is unbound (-1): the hybrid wheel-align controller cannot be activated from the joystick. See WHEEL_ALIGN_HYBRID_TESTING.md before binding a button.
+[spawner-5] [INFO] [1789295125.674371665] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[spawner-6] [INFO] [1789295125.736467717] [spawner_imu_sensor_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[spawner-7] [INFO] [1789295125.761192441] [spawner_neural_controller_triangle_roll]: waiting for service /controller_manager/list_controllers to become available...
+[joy_linux_node-3] [INFO] [1789295125.930954245] [joy_linux_node]: Opened joystick: /dev/input/js0. deadzone_: 0.050000.
+[estop_controller-4] [INFO] [1789295125.932541097] [joy_util_node]: EStopController node has been started.
+[robot_state_publisher-1] [WARN] [1789295125.979634813] [kdl_parser]: Converting unknown joint type of joint 'world_to_body' into a fixed joint
+[robot_state_publisher-1] [INFO] [1789295125.979842149] [robot_state_publisher]: Robot initialized
+[ros2_control_node-2] [INFO] [1789295126.074393701] [controller_manager]: Subscribing to '/robot_description' topic for robot description.
+[ros2_control_node-2] [INFO] [1789295126.076770728] [controller_manager]: update rate is 520 Hz
+[ros2_control_node-2] [INFO] [1789295126.076813895] [controller_manager]: Spawning controller_manager RT thread with scheduler priority: 50
+[ros2_control_node-2] [INFO] [1789295126.076924692] [controller_manager]: Successful set up FIFO RT scheduling policy with priority 50.
+[ros2_control_node-2] [INFO] [1789295126.084398092] [controller_manager]: Received robot description from topic.
+[ros2_control_node-2] [INFO] [1789295126.088439452] [controller_manager.resource_manager]: Loading hardware 'control_board_hardware_interface' 
+[ros2_control_node-2] [INFO] [1789295126.108320733] [controller_manager.resource_manager]: Loaded hardware 'control_board_hardware_interface' from plugin 'control_board_hardware_interface/ControlBoardHardwareInterface'
+[ros2_control_node-2] [INFO] [1789295126.108442809] [controller_manager.resource_manager]: Initialize hardware 'control_board_hardware_interface' 
+[ros2_control_node-2] [BNO055] Using device name /dev/i2c-1
+[ros2_control_node-2] Connected
+[ros2_control_node-2] First receive finished
+[ros2_control_node-2] second receive finished
+[ros2_control_node-2] Reset
+[ros2_control_node-2] Sent first packet
+[ros2_control_node-2] Correct Product ID
+[ros2_control_node-2] Enabling rot vec + gyro. Micros between reports: 10000
+[ros2_control_node-2] [INFO] [1789295126.559097266] [controller_manager.resource_manager]: Successful initialization of hardware 'control_board_hardware_interface'
+[ros2_control_node-2] [INFO] [1789295126.559518808] [resource_manager]: 'configure' hardware 'control_board_hardware_interface' 
+[ros2_control_node-2] [INFO] [1789295126.559545253] [ControlBoardHardwareInterface]: Successfully configured!
+[ros2_control_node-2] [INFO] [1789295126.559553568] [resource_manager]: Successful 'configure' of hardware 'control_board_hardware_interface'
+[ros2_control_node-2] [INFO] [1789295126.559584624] [resource_manager]: 'activate' hardware 'control_board_hardware_interface' 
+[ros2_control_node-2] [INFO] [1789295126.698277436] [ControlBoardHardwareInterface]: Homing actuators...
+[ros2_control_node-2] [INFO] [1789295126.739519292] [ControlBoardHardwareInterface]: Homing leg_front_r_3 at raw=0.1852 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789295126.739564366] [ControlBoardHardwareInterface]: Homed actuator 2
+[ros2_control_node-2] [INFO] [1789295126.739569478] [ControlBoardHardwareInterface]: Homing leg_front_l_3 at raw=-0.4995 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789295126.739573941] [ControlBoardHardwareInterface]: Homed actuator 5
+[ros2_control_node-2] [INFO] [1789295126.739577848] [ControlBoardHardwareInterface]: Homing leg_back_r_3 at raw=0.0734 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789295126.739582181] [ControlBoardHardwareInterface]: Homed actuator 8
+[ros2_control_node-2] [INFO] [1789295126.739585941] [ControlBoardHardwareInterface]: Homing leg_back_l_3 at raw=0.1925 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789295126.739589885] [ControlBoardHardwareInterface]: Homed actuator 11
+[ros2_control_node-2] [INFO] [1789295126.750151560] [ControlBoardHardwareInterface]: Homing leg_front_r_2 at raw=0.0547 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789295126.750178079] [ControlBoardHardwareInterface]: Homed actuator 1
+[ros2_control_node-2] [INFO] [1789295126.750182394] [ControlBoardHardwareInterface]: Homing leg_front_l_2 at raw=0.1940 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789295126.750186487] [ControlBoardHardwareInterface]: Homed actuator 4
+[ros2_control_node-2] [INFO] [1789295126.750190190] [ControlBoardHardwareInterface]: Homing leg_back_r_2 at raw=0.0780 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789295126.750194505] [ControlBoardHardwareInterface]: Homed actuator 7
+[ros2_control_node-2] [INFO] [1789295126.750198265] [ControlBoardHardwareInterface]: Homing leg_back_l_2 at raw=0.1696 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789295126.750202265] [ControlBoardHardwareInterface]: Homed actuator 10
+[ros2_control_node-2] [INFO] [1789295126.760745940] [ControlBoardHardwareInterface]: Homing leg_front_r_1 at raw=0.0818 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789295126.760774366] [ControlBoardHardwareInterface]: Homed actuator 0
+[ros2_control_node-2] [INFO] [1789295126.760779681] [ControlBoardHardwareInterface]: Homing leg_front_l_1 at raw=-0.2707 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789295126.760783959] [ControlBoardHardwareInterface]: Homed actuator 3
+[ros2_control_node-2] [INFO] [1789295126.760787662] [ControlBoardHardwareInterface]: Homing leg_back_r_1 at raw=0.1562 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789295126.760791792] [ControlBoardHardwareInterface]: Homed actuator 6
+[ros2_control_node-2] [INFO] [1789295126.760795144] [ControlBoardHardwareInterface]: Homing leg_back_l_1 at raw=-0.2787 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789295126.760840015] [ControlBoardHardwareInterface]: Homed actuator 9
+[ros2_control_node-2] [INFO] [1789295126.781914457] [ControlBoardHardwareInterface]: Homing sanity check OK: leg_front_r_3 (-1.0451) and leg_back_r_3 (-1.0451) agree within 0.0 deg
+[ros2_control_node-2] [INFO] [1789295126.781947606] [ControlBoardHardwareInterface]: Homing sanity check OK: leg_front_l_3 (0.9516) and leg_back_l_3 (0.9508) agree within 0.0 deg
+[ros2_control_node-2] [INFO] [1789295126.781954643] [ControlBoardHardwareInterface]: Finished homing!
+[ros2_control_node-2] [WARN] [1789295126.782300721] [ControlBoardHardwareInterface]: Startup wheel calibration required. Confirm physical ring/reference pose with the operator, then run: ros2 run robot_calibration calibrate capture. Policies remain gated until calibration is saved.
+[ros2_control_node-2] [INFO] [1789295126.782321351] [ControlBoardHardwareInterface]: Successfully activated!
+[ros2_control_node-2] [INFO] [1789295126.782344295] [resource_manager]: Successful 'activate' of hardware 'control_board_hardware_interface'
+[ros2_control_node-2] [INFO] [1789295126.782368166] [controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+[ros2_control_node-2] [INFO] [1789295126.930368454] [controller_manager]: Loading controller : 'joint_state_broadcaster' of type 'joint_state_broadcaster/JointStateBroadcaster'
+[ros2_control_node-2] [INFO] [1789295126.930425640] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[ros2_control_node-2] [INFO] [1789295127.030801574] [controller_manager]: Controller 'joint_state_broadcaster' node arguments: --ros-args --params-file /tmp/launch_params_mbapiwhi --params-file /tmp/launch_params_twac6py9 --params-file /tmp/launch_params_l8908iji 
+[spawner-5] [INFO] [1789295127.088036392] [spawner_joint_state_broadcaster]: [94mLoaded [1mjoint_state_broadcaster[0m
+[ros2_control_node-2] [INFO] [1789295127.091690230] [controller_manager]: Loading controller : 'imu_sensor_broadcaster' of type 'imu_sensor_broadcaster/IMUSensorBroadcaster'
+[ros2_control_node-2] [INFO] [1789295127.091752508] [controller_manager]: Loading controller 'imu_sensor_broadcaster'
+[ros2_control_node-2] [INFO] [1789295127.109654471] [controller_manager]: Controller 'imu_sensor_broadcaster' node arguments: --ros-args --params-file /tmp/launch_params_mbapiwhi --params-file /tmp/launch_params_twac6py9 --params-file /tmp/launch_params_l8908iji 
+[spawner-7] [INFO] [1789295127.132747049] [spawner_neural_controller_triangle_roll]: [96mSetting controller param "params_file" to "['/home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/calibration_hardware.yaml', '/home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/triangle_roll_stand.yaml']" for [1mneural_controller_triangle_roll[0m
+[ros2_control_node-2] [INFO] [1789295127.156036980] [controller_manager]: Loading controller : 'neural_controller_triangle_roll' of type 'neural_controller/TriangleRollController'
+[ros2_control_node-2] [INFO] [1789295127.156091592] [controller_manager]: Loading controller 'neural_controller_triangle_roll'
+[spawner-6] [INFO] [1789295127.161667618] [spawner_imu_sensor_broadcaster]: [94mLoaded [1mimu_sensor_broadcaster[0m
+[ros2_control_node-2] [INFO] [1789295127.174506838] [controller_manager]: Controller 'neural_controller_triangle_roll' node arguments: --ros-args --params-file /tmp/launch_params_mbapiwhi --params-file /tmp/launch_params_twac6py9 --params-file /tmp/launch_params_l8908iji --params-file /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/calibration_hardware.yaml --params-file /home/pi/robot-code-leglift/ros2_ws/install-measured-roll/neural_controller/share/neural_controller/launch/triangle_roll_stand.yaml 
+[ros2_control_node-2] [INFO] [1789295127.212534919] [neural_controller_triangle_roll]: Triangle mode: STAND ONLY: roll and hold, load correction disabled
+[ros2_control_node-2] [INFO] [1789295127.229173367] [controller_manager]: Configuring controller: 'joint_state_broadcaster'
+[ros2_control_node-2] [INFO] [1789295127.229350703] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[spawner-7] [INFO] [1789295127.233222469] [spawner_neural_controller_triangle_roll]: [94mLoaded [1mneural_controller_triangle_roll[0m
+[ros2_control_node-2] [INFO] [1789295127.331704108] [controller_manager]: Configuring controller: 'imu_sensor_broadcaster'
+[ros2_control_node-2] [INFO] [1789295127.340711414] [controller_manager]: Activating controllers: [ joint_state_broadcaster ]
+[ros2_control_node-2] [INFO] [1789295127.344975962] [controller_manager]: Configuring controller: 'neural_controller_triangle_roll'
+[ros2_control_node-2] [INFO] [1789295127.345080130] [neural_controller_triangle_roll]: configure successful
+[spawner-5] [INFO] [1789295127.348213221] [spawner_joint_state_broadcaster]: [92mConfigured and activated [1mjoint_state_broadcaster[0m
+[ros2_control_node-2] [INFO] [1789295127.351552518] [controller_manager]: Activating controllers: [ imu_sensor_broadcaster ]
+[spawner-6] [INFO] [1789295127.361581281] [spawner_imu_sensor_broadcaster]: [92mConfigured and activated [1mimu_sensor_broadcaster[0m
+[INFO] [spawner-5]: process has finished cleanly [pid 6122]
+[INFO] [spawner-6]: process has finished cleanly [pid 6124]
+[INFO] [spawner-7]: process has finished cleanly [pid 6126]
+[ros2_control_node-2] [RT SPI] command size good
+[ros2_control_node-2] [RT SPI] data size good
+[ros2_control_node-2] [RT SPI] Open

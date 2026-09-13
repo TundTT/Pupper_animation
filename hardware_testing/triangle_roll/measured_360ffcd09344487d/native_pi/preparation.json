@@ -1,0 +1,18 @@
+{
+  "prepared_utc": "2026-09-13T09:10:42.209871+00:00",
+  "robot_checkout": "/home/pi/robot-code-leglift",
+  "branch": "robot-code",
+  "dependency_overlay": "ros2_ws/install-roll",
+  "controller_overlay": "ros2_ws/install-measured-roll",
+  "architecture": "aarch64",
+  "shared_library_sha256": "5c158bc0cd9f1203ee75116e2bc9249803a5687c99c497da66f35c6af7cbf14d",
+  "plan_sha256": "9a1978933771c4a0724accf186c5a0e08da5e20f952ac38cea2dcb456bbef7bf",
+  "cpp_tests_passed": 4,
+  "python_tests_passed": 4,
+  "recorded_replay_steps": 24051,
+  "max_command_error_rad": 1.77636e-15,
+  "hardware_interface_checks_passed": true,
+  "motor_stack_started": false,
+  "hardware_motion_tested": false,
+  "walking_enabled": false
+}
