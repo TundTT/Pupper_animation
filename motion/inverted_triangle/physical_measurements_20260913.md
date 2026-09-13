@@ -48,3 +48,28 @@ Attachment groups in the local task:
 - `9DA443C0-68F8-4FA4-977E-F248693C210C`: three confirming point-up face photos.
 Images remain in the task attachments. No dimensions were inferred by treating
 perspective pixel distances as an orthographic scale.
+
+## Subsequent operator ruler readings
+
+| Measurement order (not anatomical leg identity) | Hub to top, mm | Hub to bottom, mm | Overall height, mm |
+|---|---:|---:|---:|
+| 1 | 55 | 37 | 92 |
+| 2 | 57–58 | 34 | 91–92 |
+| 3 | 60 | 32 (after verbal 31–32) | 92 |
+| 4 | 56 | 37 | 93 |
+
+The third bottom value was corrected from 28, with a final reading of 32. The
+fourth repeated 56 was followed by a final bottom reading of 37. Preserve the
+raw reported ranges in `measured_dimensions.json`; the readings are approximate.
+Using 57.5 for sample 2, the means are 57.125 above and 35 below. A provisional
+uniform profile uses 57/35. Preserve each top/bottom pair when varying limbs.
+The observed top and base spans are both about 5 mm, while overall height stays
+within roughly 2 mm. The previous 10 mm robustness requirement remains useful;
+four samples do not define all possible future formations.
+
+`measured_profile.py` smoothly fits the original mesh's Y coordinates to those
+extents, keeping the attachment region, X width and Z mounting coordinates fixed.
+This is a provisional geometry fit, not reconstruction of the full contour or
+validation of inertia. It does not modify the historical nominal mesh/XML or the
+walking-policy model. The same fitted mesh is used for rendering and detailed
+CAD audits; floor contact still uses the explicitly configured convex parts.

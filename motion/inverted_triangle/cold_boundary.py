@@ -26,5 +26,7 @@ def inspect(robot):
                 root_translation_can_fix=bool(margin>=0),
                 interpretation=('geometrically_possible_not_dynamic_support_proof' if margin>=0 else
                     'infeasible_at_fixed_measured_posture; establish_supported_posture_before_manual_formation_or_verify_physical_geometry'),
-                user_reported_approximate_clearance_m=.005,
+                user_reported_approximate_clearance_m=.0127,
+                physical_measurement_context='Operator ruler estimate at photographed current-angle hold pose; not verified identical to saved simulated endpoint',
+                earlier_user_estimate_m=.005,
                 measurement_status='pinned_CAD_prediction_not_physical_measurement')

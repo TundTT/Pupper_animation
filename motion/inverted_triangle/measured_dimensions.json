@@ -1,0 +1,15 @@
+{
+  "source": "Operator's manual measurements in chat, September 13, 2026; cooled rigid limbs, points up, centre of blue hub to outer top/bottom",
+  "units": "mm",
+  "anatomical_leg_mapping": "Unknown; sample numbers are measurement order, not FR/FL/BR/BL",
+  "samples": [
+    {"sample": 1, "top_mm": 55, "bottom_mm": 37},
+    {"sample": 2, "top_mm": 57.5, "top_reported_range_mm": [57,58], "bottom_mm": 34},
+    {"sample": 3, "top_mm": 60, "bottom_mm": 32, "bottom_reported_range_mm": [31,32], "interpretation": "Operator's final bottom reading was 32 after correcting an initial 28 mm reading"},
+    {"sample": 4, "top_mm": 56, "bottom_mm": 37, "interpretation": "Final bottom reading 37; repeated 56 was a verbal correction"}
+  ],
+  "mean_mm": {"top": 57.125, "bottom": 35.0},
+  "provisional_uniform_baseline_mm": {"top": 57, "bottom": 35},
+  "uncertainty": "Approximate ruler readings; measurement precision, full contour, width, mass redistribution, and limb angles were not measured",
+  "prior_requirement": "Retain approximately 10 mm between-limb variation as a robustness target; these four samples do not establish the full population distribution"
+}

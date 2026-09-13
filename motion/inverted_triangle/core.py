@@ -56,7 +56,7 @@ class Robot:
         if formation is None:
             self.m=mj.MjModel.from_xml_path(str(HERE/'model.xml'))
         else:
-            if 'support_extension_mm' in formation:
+            if 'support_extension_mm' in formation or 'top_mm' in formation:
                 from .handoff_shape import build
             else:
                 from .formation import build
@@ -64,7 +64,7 @@ class Robot:
             self.m=mj.MjModel.from_xml_string(self.model_xml.decode(),assets=self.model_assets)
         if contact_model not in ['cad','rigid_flush']:raise ValueError('Unknown contact model')
         if contact_model=='rigid_flush':
-            if formation and 'support_extension_mm' in formation:
+            if formation and ('support_extension_mm' in formation or 'top_mm' in formation):
                 raise ValueError('Flush capsule would erase the under-compressed base; use CAD contacts')
             from .contact_reference import build
             self.model_xml,self.model_assets,self.manifest=build(self.model_xml,self.model_assets,self.manifest)
@@ -83,7 +83,7 @@ class Robot:
         self.m.body_ipos[self.base]+=offset
         self.m.actuator_ctrlrange[:]=[-self.dynamics['torque_limit_Nm'],self.dynamics['torque_limit_Nm']]
         mj.mj_setConst(self.m,self.d)
-        self.point_geoms=self.geoms if contact_model=='cad' and not (formation and 'support_extension_mm' in formation) else np.array([self.m.geom(f'{leg}_shin_visual').id for leg in LEGS])
+        self.point_geoms=self.geoms if contact_model=='cad' and not (formation and ('support_extension_mm' in formation or 'top_mm' in formation)) else np.array([self.m.geom(f'{leg}_shin_visual').id for leg in LEGS])
         self.vertices=[];self.tip_masks=[]
         for leg,g in enumerate(self.point_geoms):
             mid=self.m.geom_dataid[g]

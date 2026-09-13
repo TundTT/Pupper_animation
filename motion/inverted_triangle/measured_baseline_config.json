@@ -1,0 +1,12 @@
+{
+  "seed": 0,
+  "entry_seconds": 2.0,
+  "entry_integral_gain": 0.25,
+  "entry_splay": 0.1,
+  "formation": {
+    "top_mm": [57,57,57,57],
+    "bottom_mm": [35,35,35,35],
+    "bend_deg": [0,0,0,0],
+    "contact_parts": 2
+  }
+}

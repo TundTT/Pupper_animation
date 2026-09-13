@@ -76,7 +76,11 @@ def build(spec, nominal_manifest):
     import hashlib,io,xml.etree.ElementTree as ET
     import trimesh
     from .core import HERE,LEGS
-    keys=('support_extension_mm','tip_shortening_mm','bend_deg')
+    measured='top_mm' in spec
+    keys=('top_mm','bottom_mm','bend_deg') if measured else ('support_extension_mm','tip_shortening_mm','bend_deg')
+    transform=deform
+    if measured:
+        from .measured_profile import deform as transform
     if set(spec)-{'contact_parts'}!=set(keys):raise ValueError('Unexpected coupled formation fields')
     parts=spec.get('contact_parts',2)
     if type(parts) is not int or parts not in (2,4,8):raise ValueError('Contact parts must be 2, 4 or 8')
@@ -88,8 +92,10 @@ def build(spec, nominal_manifest):
     generated={};metrics=[]
     for i,leg in enumerate(LEGS):
         values={key:float(fields[key][i]) for key in keys}
-        vertices=deform(original.vertices,**values)
-        metrics.append(geometry_metrics(original.vertices,vertices))
+        vertices=transform(original.vertices,**values)
+        metric=geometry_metrics(original.vertices,vertices)
+        metric['bottom_extent_mm']=float(vertices[:,1].max())
+        metrics.append(metric)
         mesh=trimesh.Trimesh(vertices=vertices,faces=original.faces,process=False)
         body=root.find(f'.//body[@name="leg_{leg}_3"]')
         visual=body.find(f'geom[@name="{leg}_shin_visual"]')
@@ -125,7 +131,7 @@ def build(spec, nominal_manifest):
         for site in body.findall('site'):
             pos=np.fromstring(site.get('pos'),sep=' ')*1000
             if i%2:pos[:2]*=-1
-            pos=deform(pos[None,:],**values)[0]
+            pos=transform(pos[None,:],**values)[0]
             if i%2:pos[:2]*=-1
             site.set('pos',' '.join(str(x/1000) for x in pos))
     xml=ET.tostring(root,encoding='utf-8');manifest=dict(nominal_manifest)
@@ -135,4 +141,8 @@ def build(spec, nominal_manifest):
         formation_status='Synthetic coupled rigid under-compression; trial ranges, not measured polymer behavior',
         floor_contact_model=f'{parts} convex CAD slabs; contact convergence requires comparison',
         inertia_status='Nominal mass, COM and inertia retained; shape redistribution unvalidated',deformable_material=False)
+    if measured:
+        manifest.update(formation_status='Provisional rigid CAD fitted to manually measured top/base extents; full contour and posture unvalidated',
+            measurement_source_sha256=hashlib.sha256((HERE/'measured_dimensions.json').read_bytes()).hexdigest(),
+            fitting_assumptions='Original width, mounting region, axial coordinates and inertial properties retained; Y-only smooth profile fit')
     return xml,assets,manifest
