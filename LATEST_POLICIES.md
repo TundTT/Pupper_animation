@@ -1,5 +1,10 @@
 # Latest trained leg and wheel policies
 
+For X roll-to-stand plus Triangle walking and Circle wheels in one session, use
+`COMBINED_MOTION_LAB.md` and `combined_motion.launch.py`. That launch adds the
+session-bound walking frame required after hub rotation; the legacy ordinary
+walking controller does not infer full-turn offsets.
+
 Use these September 13, 2026 heating-backpack + 9 mm policies. They supersede the
 September 11 gap-only policies. `policies/latest.json` is the authoritative machine-readable
 selection and hash record. Both exports replace the files already loaded by the existing
@@ -18,7 +23,10 @@ mixed position/velocity actions, with wheel kp=0/kd=.35 and the existing directi
 The 520 Hz manager / repeat_action=10 timing is unchanged (52 Hz nominal versus 50 Hz
 training); check the measured observation rate during later hardware validation.
 
-**Wired in the repository; not installed or tested on the physical robot.**
+**Installed in the Pi's `install-combined` overlay; supervised walking and
+roll-to-walking tests reported successful on September 13.** The new wheel
+policy's installation was checked; this does not establish a physical wheel
+driving result. See `COMBINED_MOTION_LAB.md` for the tested entry point.
 A later hardware agent should fetch robot-code, run `python3 scripts/check_locomotion_policies.py`
 and the existing preparation/build procedure, verify the installed package with that check's
 `--package-share` argument, and follow STARTUP_CALIBRATION.md before any physical startup.

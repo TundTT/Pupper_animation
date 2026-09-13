@@ -1,0 +1,115 @@
+[ 16%] Building CXX object CMakeFiles/joint_pose_test.dir/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_test.cpp.o
+[ 33%] Building CXX object CMakeFiles/joint_pose_controller.dir/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/src/joint_pose_controller.cpp.o
+[ 50%] Linking CXX executable joint_pose_test
+[ 50%] Built target joint_pose_test
+[ 66%] Building CXX object CMakeFiles/joint_pose_controller_test.dir/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp.o
+In file included from /usr/include/boost/bind.hpp:30,
+                 from /usr/include/boost/property_tree/json_parser/detail/parser.hpp:7,
+                 from /usr/include/boost/property_tree/json_parser/detail/read.hpp:13,
+                 from /usr/include/boost/property_tree/json_parser.hpp:16,
+                 from /home/pi/robot-code-leglift/ros2_ws/install-roll/robot_calibration/include/robot_calibration/calibration.hpp:4,
+                 from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/src/joint_pose_controller.cpp:6:
+/usr/include/boost/bind.hpp:36:1: note: ‘#pragma message: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.’
+   36 | BOOST_PRAGMA_MESSAGE(
+      | ^~~~~~~~~~~~~~~~~~~~
+In file included from /usr/include/boost/bind.hpp:30,
+                 from /usr/include/boost/property_tree/json_parser/detail/parser.hpp:7,
+                 from /usr/include/boost/property_tree/json_parser/detail/read.hpp:13,
+                 from /usr/include/boost/property_tree/json_parser.hpp:16,
+                 from /home/pi/robot-code-leglift/ros2_ws/install-roll/robot_calibration/include/robot_calibration/calibration.hpp:4,
+                 from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/../src/joint_pose_controller.cpp:6,
+                 from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:2:
+/usr/include/boost/bind.hpp:36:1: note: ‘#pragma message: The practice of declaring the Bind placeholders (_1, _2, ...) in the global namespace is deprecated. Please use <boost/bind/bind.hpp> + using namespace boost::placeholders, or define BOOST_BIND_GLOBAL_PLACEHOLDERS to retain the current behavior.’
+   36 | BOOST_PRAGMA_MESSAGE(
+      | ^~~~~~~~~~~~~~~~~~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/src/joint_pose_controller.cpp: In member function ‘void neural_controller::JointPoseController::release()’:
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/src/joint_pose_controller.cpp:24:60: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(T, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   24 |   void release(){for(auto&c:command_interfaces_)c.set_value(0.);for(auto&v:telemetry_)v=0.;}
+      |                                                 ~~~~~~~~~~~^~~~
+In file included from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface_base.hpp:26,
+                 from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface.hpp:21,
+                 from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/src/joint_pose_controller.cpp:4:
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:98:22: note: declared here
+   98 |   [[nodiscard]] bool set_value(T value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/src/joint_pose_controller.cpp: In member function ‘virtual controller_interface::return_type neural_controller::JointPoseController::update(const rclcpp::Time&, const rclcpp::Duration&)’:
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/src/joint_pose_controller.cpp:81:75: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(T, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   81 |       for(int j=0;j<5;++j){command_interfaces_[commands_[5*i+j]].set_value(values[j]);telemetry_[5*i+j]=values[j];}}
+      |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:98:22: note: declared here
+   98 |   [[nodiscard]] bool set_value(T value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/../src/joint_pose_controller.cpp: In member function ‘void neural_controller::JointPoseController::release()’:
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/../src/joint_pose_controller.cpp:24:60: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(T, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   24 |   void release(){for(auto&c:command_interfaces_)c.set_value(0.);for(auto&v:telemetry_)v=0.;}
+      |                                                 ~~~~~~~~~~~^~~~
+In file included from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface_base.hpp:26,
+                 from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface.hpp:21,
+                 from /home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/../src/joint_pose_controller.cpp:4:
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:98:22: note: declared here
+   98 |   [[nodiscard]] bool set_value(T value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/../src/joint_pose_controller.cpp: In member function ‘virtual controller_interface::return_type neural_controller::JointPoseController::update(const rclcpp::Time&, const rclcpp::Duration&)’:
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/../src/joint_pose_controller.cpp:81:75: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(T, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+   81 |       for(int j=0;j<5;++j){command_interfaces_[commands_[5*i+j]].set_value(values[j]);telemetry_[5*i+j]=values[j];}}
+      |                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:98:22: note: declared here
+   98 |   [[nodiscard]] bool set_value(T value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp: In function ‘int main(int, char**)’:
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:11:17: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   11 |   c.on_configure({});joint_pose::Pose q{1,0,0,-1,0,0,1,0,0,-1,0,0},v{},goal=q;goal[1]=-.1;
+      |   ~~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:11:17: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:20:24: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   20 |   require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"missing calibration rejected");zero();
+      |           ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:20:24: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:26:24: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   26 |   require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"missing joystick rejected");zero();
+      |           ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:26:24: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:29:35: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   29 |   pad(false);require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"valid activation");
+      |                      ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:29:35: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:36:24: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   36 |   require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"explicit fresh activation");
+      |           ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:36:24: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:38:24: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   38 |   require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"reactivate for tilt");
+      |           ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:38:24: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:44:35: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   44 |   pad(false);require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"transfer activation level");
+      |                      ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:44:35: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:47:24: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   47 |   require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"transfer rejects tilted activation");zero();
+      |           ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:47:24: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp: In lambda function:
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:49:44: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   49 |   auto reach_hold=[&]{require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"transfer restart");
+      |                               ~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:49:44: note: in C++11 and above a default constructor can be explicit
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp: In function ‘int main(int, char**)’:
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:61:18: warning: converting to ‘const rclcpp_lifecycle::State’ from initializer list would use explicit constructor ‘rclcpp_lifecycle::State::State(rcutils_allocator_t)’
+   61 |   c.on_deactivate({});zero();
+      |   ~~~~~~~~~~~~~~~^~~~
+/home/pi/robot-code-leglift/ros2_ws/src/neural_controller/test/joint_pose_controller_test.cpp:61:18: note: in C++11 and above a default constructor can be explicit
+[ 83%] Linking CXX shared library libjoint_pose_controller.so
+[ 83%] Built target joint_pose_controller
+[100%] Linking CXX executable joint_pose_controller_test
+[100%] Built target joint_pose_controller_test
+PASS: actual displaced start, bounded inward recovery, staged trajectory, speed/acceleration, peak torque 0.153402, stop guards
+[WARN] [1789301640.379163733] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[WARN] [1789301640.379202086] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+[ERROR] [1789301640.541703359] [joint_pose_fake]: Joint pose rejected: /tmp/joint-pose-fake-a0f3013081553f5d9568816068f7d241/encoder-session.json: cannot open file
+[ERROR] [1789301640.542954771] [joint_pose_fake]: Joint pose rejected: Fresh gamepad with PS released required
+[ERROR] [1789301640.964935063] [joint_pose_fake]: Joint pose rejected: Fresh level IMU required
+PASS: actual ROS wrapper, calibration/gamepad gates, gains, PS latch, stale IMU, tilt, transfer HOLD and disconnect, deactivation
+291bf415a52c5cdf96ddf02b7fe962fb80dded0b14720d6588931be1352475d2  hardware_testing/joint_pose/build/libjoint_pose_controller.so
+291bf415a52c5cdf96ddf02b7fe962fb80dded0b14720d6588931be1352475d2  ros2_ws/install-measured-roll/neural_controller/lib/libjoint_pose_controller.so
+Transfer HOLD installed. Hardware stack remains stopped.

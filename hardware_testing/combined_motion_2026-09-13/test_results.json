@@ -1,0 +1,18 @@
+{
+  "date": "2026-09-13",
+  "environment": "Laptop WSL Ubuntu, ROS Jazzy, isolated ROS domain 193",
+  "evidence_source": "Results observed in command-tool output during this session; original temporary WSL logs were unavailable when copying evidence afterward.",
+  "ctest": {
+    "walking_frame": "passed (0.01 s)",
+    "walking_handoff": "passed (0.59 s)",
+    "measured_roll_core": "passed (0.02 s)",
+    "wheel_policy_contract_and_inference": "passed (0.21 s)",
+    "walk_policy_contract_and_inference": "passed (0.30 s)",
+    "total": "5/5 passed, 1.14 s"
+  },
+  "launch_resolution": "1 passed, 6 deselected, 1.87 s",
+  "button_tests": "6/6 passed; see buttons.log",
+  "physical_actions": false,
+  "pi_deployment": false,
+  "new_policy_hardware_handoff": "pending"
+}

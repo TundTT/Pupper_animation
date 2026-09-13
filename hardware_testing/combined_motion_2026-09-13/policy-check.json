@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "walking_sha256": "f5326dd69488d1e4a32a6da223c4a274cd5362e69ed3eed13deeaa15dba84baa",
+  "wheel_sha256": "5a494c33ab5cdb10bce156d442d40fd1167d3796cb3d63b369c9e290c13e42d6",
+  "triangle": "neural_controller_walk_v2",
+  "circle": "neural_controller_wheel",
+  "scope": "Source/installed files only; hardware validation pending."
+}

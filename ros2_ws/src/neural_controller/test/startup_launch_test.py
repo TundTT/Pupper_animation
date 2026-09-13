@@ -135,6 +135,34 @@ def test_locomotion_trial_has_only_requested_policies_and_command_path():
         'estop_controller', 'teleop_node', 'cmd_vel_mux_node', *(['spawner'] * 4)])
 
 
+def test_combined_launch_has_one_dispatcher_and_inactive_mapped_policies():
+    import yaml
+    from launch_ros.utilities import evaluate_parameters
+    context = LaunchContext()
+    package = Path(__file__).parents[1]
+    description = runpy.run_path(str(package / 'launch/combined_motion.launch.py'))['generate_launch_description']()
+    names, executables, manager_params = [], [], {}
+    with patch('launch_ros.substitutions.find_package.get_package_share_directory', return_value=str(package)):
+        for node in description.entities:
+            executable = perform_substitutions(context, normalize_to_list_of_substitutions(node.node_executable))
+            executables.append(executable)
+            if executable == 'ros2_control_node':
+                for item in evaluate_parameters(context, node._Node__parameters):
+                    for name, block in yaml.safe_load(Path(item).read_text()).items():
+                        manager_params.setdefault(name, {}).update(block['ros__parameters'])
+            if executable == 'spawner':
+                args = [perform_substitutions(context, normalize_to_list_of_substitutions(word)) for word in node.cmd][1:]
+                names.append(args[0])
+                if args[0].startswith('neural_controller'):
+                    assert_calibration_gate(args, True)
+    assert names == ['joint_state_broadcaster', 'imu_sensor_broadcaster',
+                     'neural_controller_triangle_roll', 'neural_controller_walk_v2', 'neural_controller_wheel']
+    assert executables.count('motion_buttons.py') == 1
+    assert 'estop_controller' not in executables
+    assert manager_params['neural_controller_walk_v2']['calibrated_walk_frame'] is True
+    assert abs(manager_params['neural_controller_triangle_roll']['hub_tracking_error_limit'] - 0.5235987755982988) < 1e-12
+
+
 def test_inverted_triangle_trial_starts_only_triangle_inactive():
     import yaml
     from launch_ros.parameter_descriptions import ParameterFile

@@ -76,6 +76,15 @@ int main(int argc,char** argv) {
   c.reset(q,Pose{});c.step(.02,q,qd,{0,0,-1});check(c.fault==TIMING,"Timing guard");
   c.reset(q,Pose{});c.step(1./hz,q,qd,{0,.2,-std::sqrt(.96)});check(c.fault==TILT,"Tilt guard");
   c.reset(q,Pose{});qd[2]=2.1;c.step(1./hz,q,qd,{0,0,-1});check(c.fault==SPEED,"Speed guard");qd.fill(0);
+  c.hub_tracking_error_limit=pi/6.;c.validate();q=point_up;c.reset(q,Pose{});
+  q[2]+=.51;c.step(1./hz,q,qd,{0,0,-1});check(c.state!=FAULT,"30-degree tracking limit permits smaller error during gain ramp");
+  check(c.kp==triangle_roll::base_kp,"Retry leaves motor gains unchanged");
+  q=point_up;c.reset(q,Pose{});q[2]+=pi/6.+.001;c.step(1./hz,q,qd,{0,0,-1});check(c.fault==TRACKING,"Retry still bounds hub error at 30 degrees");
+  q=point_up;c.reset(q,Pose{});q[1]+=.251;c.step(1./hz,q,qd,{0,0,-1});check(c.fault==TRACKING,"Upper tracking guard unchanged");
+  q=point_up;c.reset(q,Pose{});c.state=READY;c.gain=1;q[2]+=.4;
+  c.step(1./hz,q,qd,{0,0,-1});check(c.fault==TORQUE,"Torque guard remains active below enlarged tracking limit");
+  c.hub_tracking_error_limit=.7;bool tracking_rejected=false;try{c.validate();}catch(...){tracking_rejected=true;}check(tracking_rejected,"Reject tolerance above operator-selected 30 degrees");
+  c.hub_tracking_error_limit=.15;q=point_up;
   c.reset(q,Pose{});q[2]+=.16;c.step(1./hz,q,qd,{0,0,-1});check(c.fault==TRACKING,"Tracking guard");
   q=point_up;c.reset(q,Pose{});c.step(1./hz,q,qd,{0,0,-1},2,true);check(c.fault==COMMAND,"Unknown commands rejected");
   q[0]+=.3;bool rejected=false;try{c.reset(q,Pose{});}catch(...){rejected=true;}check(rejected,"Unknown proximal pose rejected");

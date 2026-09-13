@@ -22,6 +22,11 @@ controller_interface::CallbackReturn TriangleRollController::on_init() {
     mode_descriptor.read_only=true;
     mode_descriptor.description="Stand diagnostic: Measured entry + simultaneous roll + filtered hold; no ground-load adaptation or walking.";
     triangle_.stand_only=get_node()->declare_parameter<bool>("stand_only",false,mode_descriptor);
+    rcl_interfaces::msg::ParameterDescriptor tracking_descriptor;
+    tracking_descriptor.read_only=true;
+    tracking_descriptor.description="Hub tracking stop in radians, bounded 0.15 to pi/6 (30 degrees); does not change gains, motion, speed or torque guards.";
+    triangle_.hub_tracking_error_limit=get_node()->declare_parameter<double>("hub_tracking_error_limit",.15,tracking_descriptor);
+    RCLCPP_INFO(get_node()->get_logger(),"Hub tracking tolerance: %.6f rad; motor gains and trajectory unchanged",triangle_.hub_tracking_error_limit);
     RCLCPP_INFO(get_node()->get_logger(),"Triangle mode: %s",triangle_.stand_only?
       "STAND ONLY: roll and hold, load correction disabled":"GROUND: roll and adaptive support settle");
     if(!check_param_vector_size() || get_update_rate()!=520 || params_.repeat_action!=1 ||

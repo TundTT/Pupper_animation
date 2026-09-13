@@ -1,6 +1,11 @@
 #include "neural_controller/neural_controller.hpp"
+#include "neural_controller/walking_frame.hpp"
+#include "neural_controller/triangle_roll_contract.hpp"
 
 #include <algorithm>
+#include <chrono>
+#include <filesystem>
+#include <fstream>
 #include <memory>
 #include <string>
 #include <utility>
@@ -291,6 +296,11 @@ controller_interface::CallbackReturn NeuralController::on_init() {
     return controller_interface::CallbackReturn::ERROR;
   }
 
+  rcl_interfaces::msg::ParameterDescriptor frame_descriptor;
+  frame_descriptor.read_only=true;
+  calibrated_walk_frame_=get_node()->declare_parameter<bool>("calibrated_walk_frame",false,frame_descriptor);
+  if(calibrated_walk_frame_ && (behavior_!="locomotion" || !params_.calibration_required))
+    return controller_interface::CallbackReturn::ERROR;
   return controller_interface::CallbackReturn::SUCCESS;
 }
 
@@ -365,6 +375,58 @@ controller_interface::CallbackReturn NeuralController::on_activate(
   for (int i = 0; i < kActionSize; i++) {
     init_joint_pos_.at(i) =
         state_interfaces_map_.at(params_.joint_names.at(i)).at("position").get().get_value();
+  }
+
+  encoder_offset_.fill(0);have_handoff_=false;
+  if(calibrated_walk_frame_) {
+    try {
+      std::array<double,12> home{},reference{};
+      std::copy_n(params_.default_joint_pos.begin(),12,home.begin());
+      // A startup capture is explicitly tips-down. An existing roll reference
+      // refines that frame; a stale file is rejected rather than silently ignored.
+      for(int leg=0;leg<4;++leg) reference[3*leg+2]=startup_calibration_.wheel_home[leg]-home[3*leg+2];
+      const auto path=robot_calibration::directory()/"triangle-roll-map.json";
+      if(std::filesystem::exists(path)) {
+        nlohmann::json j;std::ifstream f(path);f>>j;
+        const auto plan=nlohmann::json::parse(triangle_roll::contract_json);
+        if(j.at("schema_version")!=2 || j.at("calibration_id")!=startup_calibration_.calibration_id ||
+           j.at("joint_names")!=params_.joint_names || j.at("wheel_home")!=startup_calibration_.wheel_home ||
+           j.at("plan_sha256")!=plan.at("plan_sha256") || j.at("axial_gap_m")!=.009 ||
+           j.at("operator_confirmed_inverted_start")!=true)
+          throw std::runtime_error("Stale/incompatible roll reference for walking");
+        reference=j.at("model_to_encoder_offset").get<std::array<double,12>>();
+        auto captured=j.at("captured_q").get<std::array<double,12>>();
+        for(int i=0;i<12;++i) if(!std::isfinite(captured[i]) ||
+          (i%3==2 && std::abs(captured[i]-plan.at("initial")[i].get<double>()-reference[i])>1e-9))
+          throw std::runtime_error("Inconsistent roll reference");
+      }
+      encoder_offset_=walking_offsets(init_joint_pos_,home,reference);
+      const auto handoff_path=robot_calibration::directory()/"walking-handoff.json";
+      if(std::filesystem::exists(handoff_path)) {
+        nlohmann::json j;std::ifstream f(handoff_path);f>>j;
+        const double now=std::chrono::duration<double>(std::chrono::system_clock::now().time_since_epoch()).count();
+        const double age=now-j.at("time_unix").get<double>();
+        if(j.at("calibration_id")!=startup_calibration_.calibration_id || age<0 || age>3 ||
+           j.at("joint_names")!=params_.joint_names || j.at("source")!="completed_triangle_roll")
+          throw std::runtime_error("Stale walking handoff; prepare a fresh controller switch");
+        auto target=j.at("positions").get<std::array<double,12>>();
+        handoff_kp_=j.at("kp").get<std::array<double,12>>();
+        handoff_kd_=j.at("kd").get<std::array<double,12>>();
+        for(int i=0;i<12;++i) {
+          if(!std::isfinite(target[i]) || std::abs(target[i]-init_joint_pos_[i])>.30 ||
+             !std::isfinite(handoff_kp_[i]) || handoff_kp_[i]<0 || handoff_kp_[i]>5 ||
+             !std::isfinite(handoff_kd_[i]) || handoff_kd_[i]<0 || handoff_kd_[i]>.5)
+            throw std::runtime_error("Invalid walking handoff commands/gains");
+          init_joint_pos_[i]=target[i];
+        }
+        have_handoff_=true;
+      }
+      for(int i=0;i<12;++i) init_joint_pos_[i]-=encoder_offset_[i];
+      RCLCPP_INFO(get_node()->get_logger(),"Walking hub offsets FR FL BR BL: %.9f %.9f %.9f %.9f",encoder_offset_[2],encoder_offset_[5],encoder_offset_[8],encoder_offset_[11]);
+    } catch(const std::exception& e) {
+      RCLCPP_ERROR(get_node()->get_logger(),"Walking frame rejected: %s",e.what());
+      return controller_interface::CallbackReturn::ERROR;
+    }
   }
 
   if (behavior_ == "wheel_align_hybrid") {
@@ -575,7 +637,7 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
       // positions
       const double u=std::clamp(time_since_init / params_.init_duration,0.,1.);
       const bool align=behavior_ == "wheel_align_hybrid";
-      const double blend=align ? WheelAlignMotion::smooth(u) : u;
+      const double blend=(align || calibrated_walk_frame_) ? WheelAlignMotion::smooth(u) : u;
       double interpolated_joint_pos = init_joint_pos_.at(i)*(1-blend)+params_.default_joint_pos.at(i)*blend;
       if(align && i%3!=2) {
         const int a=(i/3)*2+i%3;
@@ -586,15 +648,15 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
       command_interfaces_map_.at(params_.joint_names.at(i))
           .at("position")
           .get()
-          .set_value(interpolated_joint_pos);
+          .set_value(interpolated_joint_pos+encoder_offset_[i]);
       command_interfaces_map_.at(params_.joint_names.at(i))
           .at("kp")
           .get()
-          .set_value(params_.init_kps.at(i));
+          .set_value(have_handoff_ ? handoff_kp_[i]*(1-blend)+params_.init_kps.at(i)*blend : params_.init_kps.at(i));
       command_interfaces_map_.at(params_.joint_names.at(i))
           .at("kd")
           .get()
-          .set_value(params_.init_kds.at(i));
+          .set_value(have_handoff_ ? handoff_kd_[i]*(1-blend)+params_.init_kds.at(i)*blend : params_.init_kds.at(i));
     }
     return controller_interface::return_type::OK;
   }
@@ -833,7 +895,7 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
         RCLCPP_DEBUG(get_node()->get_logger(), "Attempting to read joint position for %s (index %d)", params_.joint_names.at(i).c_str(), i);
         float joint_pos =
             state_interfaces_map_.at(params_.joint_names.at(i)).at("position").get().get_value();
-        observation_.at(joint_position_idx_ + i) = joint_pos - params_.default_joint_pos.at(i);
+        observation_.at(joint_position_idx_ + i) = joint_pos - encoder_offset_[i] - params_.default_joint_pos.at(i);
       }
     }
 
@@ -1024,7 +1086,7 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
     command_interfaces_map_.at(params_.joint_names.at(i))
         .at(params_.action_types.at(i))
         .get()
-        .set_value((double)action_.at(i));
+        .set_value((double)action_.at(i)+(params_.action_types.at(i)=="position" ? encoder_offset_[i] : 0.));
     command_interfaces_map_.at(params_.joint_names.at(i))
         .at("kp")
         .get()
@@ -1054,7 +1116,7 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
   if (rt_position_command_publisher_->trylock()) {
     rt_position_command_publisher_->msg_.data.resize(kActionSize, 0.0);
     for (int i = 0; i < kActionSize; i++) {
-      rt_position_command_publisher_->msg_.data.at(i) = action_.at(i);
+      rt_position_command_publisher_->msg_.data.at(i) = action_.at(i)+(params_.action_types.at(i)=="position" ? encoder_offset_[i] : 0.);
     }
     // rt_position_command_publisher_->msg_.header.stamp = time;
     rt_position_command_publisher_->unlockAndPublish();

@@ -31,6 +31,7 @@ def main():
     p.add_argument('--preset',choices=['upper-home','tips-up'])
     p.add_argument('--joint',action='append',default=[],help='Named joint position in radians: leg_front_r_1=1.0')
     p.add_argument('--execute',action='store_true')
+    p.add_argument('--transfer-hold',action='store_true',help='Ignore torso tilt only after reaching stationary HOLD; motion, IMU freshness, PS/disconnect and other guards remain active')
     p.add_argument('--stream-telemetry',action='store_true',help='Also stream each new controller sample to stdout for an SSH log copy')
     p.add_argument('--operator-confirmed-supported',action='store_true')
     a=p.parse_args()
@@ -71,6 +72,7 @@ def main():
         if time.monotonic()-received>.2 or time.monotonic()-joy_time>.3 or ps:raise ValueError('Fresh encoders and gamepad required')
         q={n:q[n] for n in JOINT_NAMES};goal=targets(q,a.preset,a.joint,cal)
         request={'request_id':uuid.uuid4().hex,'calibration_id':cal['calibration_id'],
+            'allow_tilt_in_hold':a.transfer_hold,
             'operator_confirmed_supported':a.operator_confirmed_supported,'scope':'supported_joint_pose',
             'joint_names':JOINT_NAMES,'target_positions':[goal[n] for n in JOINT_NAMES],
             'captured_positions':[q[n] for n in JOINT_NAMES],'prepared_at_unix':time.time()}

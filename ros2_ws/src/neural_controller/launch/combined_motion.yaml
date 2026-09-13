@@ -1,0 +1,8 @@
+neural_controller_walk_v2:
+  ros__parameters:
+    calibrated_walk_frame: true
+    calibration_required: true
+
+neural_controller_triangle_roll:
+  ros__parameters:
+    hub_tracking_error_limit: 0.5235987755982988

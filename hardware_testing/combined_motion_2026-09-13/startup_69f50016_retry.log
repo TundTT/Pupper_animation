@@ -1,0 +1,308 @@
+{
+  "status": "PASS",
+  "walking_sha256": "f5326dd69488d1e4a32a6da223c4a274cd5362e69ed3eed13deeaa15dba84baa",
+  "wheel_sha256": "5a494c33ab5cdb10bce156d442d40fd1167d3796cb3d63b369c9e290c13e42d6",
+  "triangle": "neural_controller_walk_v2",
+  "circle": "neural_controller_wheel",
+  "scope": "Source/installed files only; hardware validation pending."
+}
+[INFO] [launch]: All log files can be found below /home/pi/.ros/log/2026-09-13-09-13-35-793727-pupper-10597
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [robot_state_publisher-1]: process started with pid [10683]
+[INFO] [ros2_control_node-2]: process started with pid [10685]
+[INFO] [joy_linux_node-3]: process started with pid [10687]
+[INFO] [motion_buttons.py-4]: process started with pid [10689]
+[INFO] [teleop_node-5]: process started with pid [10691]
+[INFO] [cmd_vel_mux_node-6]: process started with pid [10697]
+[INFO] [spawner-7]: process started with pid [10699]
+[INFO] [spawner-8]: process started with pid [10701]
+[INFO] [spawner-9]: process started with pid [10707]
+[INFO] [spawner-10]: process started with pid [10709]
+[INFO] [spawner-11]: process started with pid [10713]
+[robot_state_publisher-1] [WARN] [1789308816.486647725] [kdl_parser]: Converting unknown joint type of joint 'world_to_body' into a fixed joint
+[robot_state_publisher-1] [INFO] [1789308816.488830025] [robot_state_publisher]: Robot initialized
+[cmd_vel_mux_node-6] [INFO] [1789308816.542449180] [cmd_vel_mux]: Added input: /teleop_cmd_vel with priority 0
+[cmd_vel_mux_node-6] [INFO] [1789308816.547988283] [cmd_vel_mux]: CmdVelMux node initialized with 1 input sources
+[cmd_vel_mux_node-6] [INFO] [1789308816.548055320] [cmd_vel_mux]: Deadband: 0.050000
+[cmd_vel_mux_node-6] [INFO] [1789308816.548076005] [cmd_vel_mux]: Timeout: 500 ms
+[ros2_control_node-2] [INFO] [1789308816.570787455] [controller_manager]: Subscribing to '/robot_description' topic for robot description.
+[ros2_control_node-2] [INFO] [1789308816.573198515] [controller_manager]: update rate is 520 Hz
+[ros2_control_node-2] [INFO] [1789308816.573458719] [controller_manager]: Spawning controller_manager RT thread with scheduler priority: 50
+[ros2_control_node-2] [INFO] [1789308816.573678942] [controller_manager]: Successful set up FIFO RT scheduling policy with priority 50.
+[ros2_control_node-2] [INFO] [1789308816.586392984] [controller_manager]: Received robot description from topic.
+[joy_linux_node-3] [INFO] [1789308816.598235283] [joy_linux_node]: Opened joystick: /dev/input/js0. deadzone_: 0.050000.
+[ros2_control_node-2] [INFO] [1789308816.601720697] [controller_manager.resource_manager]: Loading hardware 'control_board_hardware_interface' 
+[teleop_node-5] [INFO] [1789308816.616300947] [TeleopTwistJoy]: Linear axis x on 1 at scale 0.200000.
+[teleop_node-5] [INFO] [1789308816.617334245] [TeleopTwistJoy]: Linear axis y on 0 at scale 0.100000.
+[teleop_node-5] [INFO] [1789308816.617356226] [TeleopTwistJoy]: Angular axis yaw on 3 at scale 0.400000.
+[ros2_control_node-2] [INFO] [1789308816.621158881] [controller_manager.resource_manager]: Loaded hardware 'control_board_hardware_interface' from plugin 'control_board_hardware_interface/ControlBoardHardwareInterface'
+[ros2_control_node-2] [INFO] [1789308816.622103291] [controller_manager.resource_manager]: Initialize hardware 'control_board_hardware_interface' 
+[ros2_control_node-2] [BNO055] Using device name /dev/i2c-1
+[ros2_control_node-2] Connected
+[ros2_control_node-2] First receive finished
+[ros2_control_node-2] second receive finished
+[ros2_control_node-2] Reset
+[ros2_control_node-2] Sent first packet
+[ros2_control_node-2] Correct Product ID
+[ros2_control_node-2] Enabling rot vec + gyro. Micros between reports: 10000
+[ros2_control_node-2] [INFO] [1789308817.076174243] [controller_manager.resource_manager]: Successful initialization of hardware 'control_board_hardware_interface'
+[ros2_control_node-2] [INFO] [1789308817.076562596] [resource_manager]: 'configure' hardware 'control_board_hardware_interface' 
+[ros2_control_node-2] [INFO] [1789308817.076597522] [ControlBoardHardwareInterface]: Successfully configured!
+[ros2_control_node-2] [INFO] [1789308817.076607059] [resource_manager]: Successful 'configure' of hardware 'control_board_hardware_interface'
+[ros2_control_node-2] [INFO] [1789308817.076632429] [resource_manager]: 'activate' hardware 'control_board_hardware_interface' 
+[ros2_control_node-2] [INFO] [1789308817.186932023] [ControlBoardHardwareInterface]: Homing actuators...
+[ros2_control_node-2] [INFO] [1789308817.228605600] [ControlBoardHardwareInterface]: Homing leg_front_r_3 at raw=-0.0154 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789308817.228872730] [ControlBoardHardwareInterface]: Homed actuator 2
+[ros2_control_node-2] [INFO] [1789308817.228881841] [ControlBoardHardwareInterface]: Homing leg_front_l_3 at raw=0.3653 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789308817.228888137] [ControlBoardHardwareInterface]: Homed actuator 5
+[ros2_control_node-2] [INFO] [1789308817.228908174] [ControlBoardHardwareInterface]: Homing leg_back_r_3 at raw=-0.1165 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789308817.228915563] [ControlBoardHardwareInterface]: Homed actuator 8
+[ros2_control_node-2] [INFO] [1789308817.228919989] [ControlBoardHardwareInterface]: Homing leg_back_l_3 at raw=0.3500 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789308817.228925008] [ControlBoardHardwareInterface]: Homed actuator 11
+[ros2_control_node-2] [INFO] [1789308817.239941380] [ControlBoardHardwareInterface]: Homing leg_front_r_2 at raw=-0.0017 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789308817.240023658] [ControlBoardHardwareInterface]: Homed actuator 1
+[ros2_control_node-2] [INFO] [1789308817.240030343] [ControlBoardHardwareInterface]: Homing leg_front_l_2 at raw=0.0525 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789308817.240036991] [ControlBoardHardwareInterface]: Homed actuator 4
+[ros2_control_node-2] [INFO] [1789308817.240042269] [ControlBoardHardwareInterface]: Homing leg_back_r_2 at raw=0.0040 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789308817.240048602] [ControlBoardHardwareInterface]: Homed actuator 7
+[ros2_control_node-2] [INFO] [1789308817.240054028] [ControlBoardHardwareInterface]: Homing leg_back_l_2 at raw=0.1253 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789308817.240059065] [ControlBoardHardwareInterface]: Homed actuator 10
+[ros2_control_node-2] [INFO] [1789308817.250674955] [ControlBoardHardwareInterface]: Homing leg_front_r_1 at raw=0.0868 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789308817.250715733] [ControlBoardHardwareInterface]: Homed actuator 0
+[ros2_control_node-2] [INFO] [1789308817.250723752] [ControlBoardHardwareInterface]: Homing leg_front_l_1 at raw=-0.3038 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789308817.250729807] [ControlBoardHardwareInterface]: Homed actuator 3
+[ros2_control_node-2] [INFO] [1789308817.250734530] [ControlBoardHardwareInterface]: Homing leg_back_r_1 at raw=0.2375 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789308817.250740252] [ControlBoardHardwareInterface]: Homed actuator 6
+[ros2_control_node-2] [INFO] [1789308817.250744955] [ControlBoardHardwareInterface]: Homing leg_back_l_1 at raw=-0.4114 (operator-confirmed home pose, no cross-check)
+[ros2_control_node-2] [INFO] [1789308817.251002678] [ControlBoardHardwareInterface]: Homed actuator 9
+[ros2_control_node-2] [INFO] [1789308817.272853830] [ControlBoardHardwareInterface]: Homing sanity check OK: leg_front_r_3 (-1.0451) and leg_back_r_3 (-1.0451) agree within 0.0 deg
+[ros2_control_node-2] [INFO] [1789308817.272910848] [ControlBoardHardwareInterface]: Homing sanity check OK: leg_front_l_3 (0.9508) and leg_back_l_3 (0.9508) agree within 0.0 deg
+[ros2_control_node-2] [INFO] [1789308817.272919330] [ControlBoardHardwareInterface]: Finished homing!
+[ros2_control_node-2] [WARN] [1789308817.273923276] [ControlBoardHardwareInterface]: Startup wheel calibration required. Confirm physical ring/reference pose with the operator, then run: ros2 run robot_calibration calibrate capture. Policies remain gated until calibration is saved.
+[ros2_control_node-2] [INFO] [1789308817.273951832] [ControlBoardHardwareInterface]: Successfully activated!
+[ros2_control_node-2] [INFO] [1789308817.273975906] [resource_manager]: Successful 'activate' of hardware 'control_board_hardware_interface'
+[ros2_control_node-2] [INFO] [1789308817.274014980] [controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+[spawner-10] [INFO] [1789308817.890701751] [spawner_neural_controller_walk_v2]: [96mSetting controller param "params_file" to "['/home/pi/robot-code-leglift/ros2_ws/install-combined/neural_controller/share/neural_controller/launch/calibration_hardware.yaml']" for [1mneural_controller_walk_v2[0m
+[ros2_control_node-2] [INFO] [1789308817.977916431] [controller_manager]: Loading controller : 'neural_controller_walk_v2' of type 'neural_controller/NeuralController'
+[ros2_control_node-2] [INFO] [1789308817.977969728] [controller_manager]: Loading controller 'neural_controller_walk_v2'
+[ros2_control_node-2] [INFO] [1789308817.983557664] [controller_manager]: Controller 'neural_controller_walk_v2' node arguments: --ros-args --params-file /tmp/launch_params_okp7khku --params-file /tmp/launch_params_l_flpy6n --params-file /tmp/launch_params_2v_uc12h --params-file /home/pi/robot-code-leglift/ros2_ws/install-combined/neural_controller/share/neural_controller/launch/calibration_hardware.yaml 
+[ros2_control_node-2] [RT SPI] command size good
+[ros2_control_node-2] [RT SPI] data size good
+[ros2_control_node-2] [RT SPI] Open
+[ros2_control_node-2] # dimensions: 144
+[ros2_control_node-2] Layer: dense
+[ros2_control_node-2]   Dims: 128
+[ros2_control_node-2]   activation: elu
+[ros2_control_node-2] Layer: dense
+[ros2_control_node-2]   Dims: 128
+[ros2_control_node-2]   activation: elu
+[ros2_control_node-2] Layer: dense
+[ros2_control_node-2]   Dims: 128
+[ros2_control_node-2]   activation: elu
+[ros2_control_node-2] Layer: dense
+[ros2_control_node-2]   Dims: 12
+[ros2_control_node-2]   activation: tanh
+[ros2_control_node-2] [INFO] [1789308818.101542771] [neural_controller_walk_v2]: Policy command limits: vx [-0.35,0.35], vy [-0.15,0.15], yaw [-0.8,0.8]
+[ros2_control_node-2] [INFO] [1789308818.101718049] [neural_controller_walk_v2]: From JSON, setting kp[:]=5.000000
+[ros2_control_node-2] [INFO] [1789308818.101748271] [neural_controller_walk_v2]: From JSON, setting kd[:]=0.250000
+[ros2_control_node-2] [INFO] [1789308818.101765290] [neural_controller_walk_v2]: From JSON, setting action_scale vector element-by-element
+[ros2_control_node-2] [INFO] [1789308818.101780382] [neural_controller_walk_v2]: From JSON, setting default_joint_pos vector element-by-element
+[ros2_control_node-2] [INFO] [1789308818.101797012] [neural_controller_walk_v2]: From JSON, setting joint_lower_limits vector element-by-element
+[ros2_control_node-2] [INFO] [1789308818.101813716] [neural_controller_walk_v2]: From JSON, setting joint_upper_limits vector element-by-element
+[ros2_control_node-2] [INFO] [1789308818.101842012] [neural_controller_walk_v2]: From JSON, setting params_.observation_history=4
+[spawner-10] [INFO] [1789308818.109491026] [spawner_neural_controller_walk_v2]: [94mLoaded [1mneural_controller_walk_v2[0m
+[ros2_control_node-2] [INFO] [1789308818.261252751] [controller_manager]: Configuring controller: 'neural_controller_walk_v2'
+[ros2_control_node-2] [INFO] [1789308818.262887069] [neural_controller_walk_v2]: configure successful
+[ros2_control_node-2] [INFO] [1789308818.290030860] [controller_manager]: Loading controller : 'imu_sensor_broadcaster' of type 'imu_sensor_broadcaster/IMUSensorBroadcaster'
+[ros2_control_node-2] [INFO] [1789308818.290656139] [controller_manager]: Loading controller 'imu_sensor_broadcaster'
+[ros2_control_node-2] [INFO] [1789308818.324096867] [controller_manager]: Controller 'imu_sensor_broadcaster' node arguments: --ros-args --params-file /tmp/launch_params_okp7khku --params-file /tmp/launch_params_l_flpy6n --params-file /tmp/launch_params_2v_uc12h 
+[spawner-8] [INFO] [1789308818.492610827] [spawner_imu_sensor_broadcaster]: [94mLoaded [1mimu_sensor_broadcaster[0m
+[ros2_control_node-2] [INFO] [1789308818.520399897] [controller_manager]: Configuring controller: 'imu_sensor_broadcaster'
+[ros2_control_node-2] [INFO] [1789308818.570277415] [controller_manager]: Activating controllers: [ imu_sensor_broadcaster ]
+[spawner-8] [INFO] [1789308818.585867240] [spawner_imu_sensor_broadcaster]: [92mConfigured and activated [1mimu_sensor_broadcaster[0m
+[spawner-9] [INFO] [1789308818.684660219] [spawner_neural_controller_triangle_roll]: [96mSetting controller param "params_file" to "['/home/pi/robot-code-leglift/ros2_ws/install-combined/neural_controller/share/neural_controller/launch/calibration_hardware.yaml']" for [1mneural_controller_triangle_roll[0m
+[ros2_control_node-2] [INFO] [1789308818.693749069] [controller_manager]: Loading controller : 'neural_controller_triangle_roll' of type 'neural_controller/TriangleRollController'
+[ros2_control_node-2] [INFO] [1789308818.693811754] [controller_manager]: Loading controller 'neural_controller_triangle_roll'
+[ros2_control_node-2] [INFO] [1789308818.694193884] [controller_manager]: Controller 'neural_controller_triangle_roll' node arguments: --ros-args --params-file /tmp/launch_params_okp7khku --params-file /tmp/launch_params_l_flpy6n --params-file /tmp/launch_params_2v_uc12h --params-file /home/pi/robot-code-leglift/ros2_ws/install-combined/neural_controller/share/neural_controller/launch/calibration_hardware.yaml 
+[ros2_control_node-2] [INFO] [1789308818.740939563] [neural_controller_triangle_roll]: Hub tracking tolerance: 0.523599 rad; motor gains and trajectory unchanged
+[ros2_control_node-2] [INFO] [1789308818.741031101] [neural_controller_triangle_roll]: Triangle mode: GROUND: roll and adaptive support settle
+[spawner-9] [INFO] [1789308818.751984917] [spawner_neural_controller_triangle_roll]: [94mLoaded [1mneural_controller_triangle_roll[0m
+[ros2_control_node-2] [INFO] [1789308818.772791289] [controller_manager]: Loading controller : 'joint_state_broadcaster' of type 'joint_state_broadcaster/JointStateBroadcaster'
+[ros2_control_node-2] [INFO] [1789308818.772921197] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[ros2_control_node-2] [INFO] [1789308818.833907680] [controller_manager]: Controller 'joint_state_broadcaster' node arguments: --ros-args --params-file /tmp/launch_params_okp7khku --params-file /tmp/launch_params_l_flpy6n --params-file /tmp/launch_params_2v_uc12h 
+[INFO] [spawner-10]: process has finished cleanly [pid 10709]
+[motion_buttons.py-4] [INFO] [1789308819.014685254] [quadmorph_motion_buttons]: X: roll and hold; Triangle: walk; Circle: wheels; PS: stop. All initially inactive.
+[INFO] [spawner-8]: process has finished cleanly [pid 10701]
+[ros2_control_node-2] [INFO] [1789308819.250356745] [controller_manager]: Configuring controller: 'neural_controller_triangle_roll'
+[ros2_control_node-2] [INFO] [1789308819.250445393] [neural_controller_triangle_roll]: configure successful
+[spawner-7] [INFO] [1789308819.336900978] [spawner_joint_state_broadcaster]: [94mLoaded [1mjoint_state_broadcaster[0m
+[ros2_control_node-2] [INFO] [1789308819.346460459] [controller_manager]: Configuring controller: 'joint_state_broadcaster'
+[ros2_control_node-2] [INFO] [1789308819.346604978] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[spawner-11] [INFO] [1789308819.362019506] [spawner_neural_controller_wheel]: [96mSetting controller param "params_file" to "['/home/pi/robot-code-leglift/ros2_ws/install-combined/neural_controller/share/neural_controller/launch/locomotion_wheel_trial.yaml']" for [1mneural_controller_wheel[0m
+[ros2_control_node-2] [INFO] [1789308819.397904146] [controller_manager]: Loading controller : 'neural_controller_wheel' of type 'neural_controller/NeuralController'
+[ros2_control_node-2] [INFO] [1789308819.397967221] [controller_manager]: Loading controller 'neural_controller_wheel'
+[ros2_control_node-2] [INFO] [1789308819.402098376] [controller_manager]: Controller 'neural_controller_wheel' node arguments: --ros-args --params-file /tmp/launch_params_okp7khku --params-file /tmp/launch_params_l_flpy6n --params-file /tmp/launch_params_2v_uc12h --params-file /home/pi/robot-code-leglift/ros2_ws/install-combined/neural_controller/share/neural_controller/launch/locomotion_wheel_trial.yaml 
+[ros2_control_node-2] # dimensions: 132
+[ros2_control_node-2] Layer: dense
+[ros2_control_node-2]   Dims: 128
+[ros2_control_node-2]   activation: elu
+[ros2_control_node-2] Layer: dense
+[ros2_control_node-2]   Dims: 128
+[ros2_control_node-2]   activation: elu
+[ros2_control_node-2] Layer: dense
+[ros2_control_node-2]   Dims: 128
+[ros2_control_node-2]   activation: elu
+[ros2_control_node-2] Layer: dense
+[ros2_control_node-2]   Dims: 12
+[ros2_control_node-2]   activation: tanh
+[ros2_control_node-2] [INFO] [1789308819.603136673] [neural_controller_wheel]: From JSON, setting action_scale vector element-by-element
+[ros2_control_node-2] [INFO] [1789308819.603207359] [neural_controller_wheel]: From JSON, setting default_joint_pos vector element-by-element
+[ros2_control_node-2] [INFO] [1789308819.603224340] [neural_controller_wheel]: From JSON, setting joint_lower_limits vector element-by-element
+[ros2_control_node-2] [INFO] [1789308819.603236673] [neural_controller_wheel]: From JSON, setting joint_upper_limits vector element-by-element
+[ros2_control_node-2] [INFO] [1789308819.603250525] [neural_controller_wheel]: From JSON, setting params_.observation_history=4
+[ros2_control_node-2] [INFO] [1789308819.609869260] [controller_manager]: Activating controllers: [ joint_state_broadcaster ]
+[spawner-11] [INFO] [1789308819.612656191] [spawner_neural_controller_wheel]: [94mLoaded [1mneural_controller_wheel[0m
+[spawner-7] [INFO] [1789308819.616874587] [spawner_joint_state_broadcaster]: [92mConfigured and activated [1mjoint_state_broadcaster[0m
+[ros2_control_node-2] [INFO] [1789308819.632308134] [controller_manager]: Configuring controller: 'neural_controller_wheel'
+[ros2_control_node-2] [INFO] [1789308819.632423061] [neural_controller_wheel]: configure successful
+[INFO] [spawner-9]: process has finished cleanly [pid 10707]
+[INFO] [spawner-11]: process has finished cleanly [pid 10713]
+[INFO] [spawner-7]: process has finished cleanly [pid 10699]
+[ros2_control_node-2] [INFO] [1789308893.222371931] [controller_manager]: Loading controller : 'neural_controller_joint_pose' of type 'neural_controller/JointPoseController'
+[ros2_control_node-2] [INFO] [1789308893.223070339] [controller_manager]: Loading controller 'neural_controller_joint_pose'
+[ros2_control_node-2] [INFO] [1789308893.231711835] [controller_manager]: Controller 'neural_controller_joint_pose' node arguments: --ros-args --params-file /tmp/launch_params_okp7khku --params-file /tmp/launch_params_l_flpy6n --params-file /tmp/launch_params_2v_uc12h 
+[ros2_control_node-2] [INFO] [1789308893.316438625] [controller_manager]: Configuring controller: 'neural_controller_joint_pose'
+[ros2_control_node-2] [INFO] [1789308968.880134798] [controller_manager]: Activating controllers: [ neural_controller_joint_pose ]
+[motion_buttons.py-4] [WARN] [1789309042.494754500] [quadmorph_motion_buttons]: Mode unchanged: Roll reference belongs to an old calibration
+[motion_buttons.py-4] [WARN] [1789309053.247004008] [quadmorph_motion_buttons]: Mode unchanged: Roll reference belongs to an old calibration
+[cmd_vel_mux_node-6] [INFO] [1789309066.418440887] [cmd_vel_mux]: Input /teleop_cmd_vel activated (deadband exceeded)
+[cmd_vel_mux_node-6] [INFO] [1789309066.448501547] [cmd_vel_mux]: Active source: /teleop_cmd_vel
+[cmd_vel_mux_node-6] [INFO] [1789309066.998224070] [cmd_vel_mux]: Input /teleop_cmd_vel timed out
+[cmd_vel_mux_node-6] [INFO] [1789309066.998310663] [cmd_vel_mux]: Active source: none
+[motion_buttons.py-4] [WARN] [1789309068.971834799] [quadmorph_motion_buttons]: Mode unchanged: Roll reference belongs to an old calibration
+[ros2_control_node-2] [WARN] [1789309123.961906134] [controller_manager.rclcpp]: failed to send response to /controller_manager/list_controllers (timeout): client will not receive response, at /ros2_ws/src/ros2/rmw_fastrtps/rmw_fastrtps_shared_cpp/src/rmw_response.cpp:153, at /ros2_ws/src/ros2/rcl/rcl/src/rcl/service.c:400
+[ros2_control_node-2] [INFO] [1789309219.917539762] [controller_manager]: Activating controllers: [ neural_controller_triangle_roll ]
+[ros2_control_node-2] [INFO] [1789309219.917598485] [controller_manager]: Deactivating controllers: [ neural_controller_joint_pose ]
+[ros2_control_node-2] [INFO] [1789309219.919651658] [neural_controller_triangle_roll]: Using startup calibration d452f543284a47709cbe1082b1da9074
+[ros2_control_node-2] [INFO] [1789309219.919724806] [neural_controller_triangle_roll]: Populating command interfaces map
+[ros2_control_node-2] [INFO] [1789309219.919740232] [neural_controller_triangle_roll]: Prefix leg_front_r_1. Adding command interface position
+[ros2_control_node-2] [INFO] [1789309219.919766084] [neural_controller_triangle_roll]: Prefix leg_front_r_1. Adding command interface velocity
+[ros2_control_node-2] [INFO] [1789309219.919779714] [neural_controller_triangle_roll]: Prefix leg_front_r_1. Adding command interface effort
+[ros2_control_node-2] [INFO] [1789309219.919792621] [neural_controller_triangle_roll]: Prefix leg_front_r_1. Adding command interface kp
+[ros2_control_node-2] [INFO] [1789309219.919801695] [neural_controller_triangle_roll]: Prefix leg_front_r_1. Adding command interface kd
+[ros2_control_node-2] [INFO] [1789309219.919811251] [neural_controller_triangle_roll]: Prefix leg_front_r_2. Adding command interface position
+[ros2_control_node-2] [INFO] [1789309219.919820381] [neural_controller_triangle_roll]: Prefix leg_front_r_2. Adding command interface velocity
+[ros2_control_node-2] [INFO] [1789309219.919830121] [neural_controller_triangle_roll]: Prefix leg_front_r_2. Adding command interface effort
+[ros2_control_node-2] [INFO] [1789309219.919838696] [neural_controller_triangle_roll]: Prefix leg_front_r_2. Adding command interface kp
+[ros2_control_node-2] [INFO] [1789309219.919848936] [neural_controller_triangle_roll]: Prefix leg_front_r_2. Adding command interface kd
+[ros2_control_node-2] [INFO] [1789309219.919859714] [neural_controller_triangle_roll]: Prefix leg_front_r_3. Adding command interface position
+[ros2_control_node-2] [INFO] [1789309219.919870288] [neural_controller_triangle_roll]: Prefix leg_front_r_3. Adding command interface velocity
+[ros2_control_node-2] [INFO] [1789309219.919880807] [neural_controller_triangle_roll]: Prefix leg_front_r_3. Adding command interface effort
+[ros2_control_node-2] [INFO] [1789309219.919890659] [neural_controller_triangle_roll]: Prefix leg_front_r_3. Adding command interface kp
+[ros2_control_node-2] [INFO] [1789309219.919900103] [neural_controller_triangle_roll]: Prefix leg_front_r_3. Adding command interface kd
+[ros2_control_node-2] [INFO] [1789309219.919908751] [neural_controller_triangle_roll]: Prefix leg_front_l_1. Adding command interface position
+[ros2_control_node-2] [INFO] [1789309219.919918344] [neural_controller_triangle_roll]: Prefix leg_front_l_1. Adding command interface velocity
+[ros2_control_node-2] [INFO] [1789309219.919927400] [neural_controller_triangle_roll]: Prefix leg_front_l_1. Adding command interface effort
+[ros2_control_node-2] [INFO] [1789309219.919935937] [neural_controller_triangle_roll]: Prefix leg_front_l_1. Adding command interface kp
+[ros2_control_node-2] [INFO] [1789309219.919945640] [neural_controller_triangle_roll]: Prefix leg_front_l_1. Adding command interface kd
+[ros2_control_node-2] [INFO] [1789309219.919955807] [neural_controller_triangle_roll]: Prefix leg_front_l_2. Adding command interface position
+[ros2_control_node-2] [INFO] [1789309219.919967214] [neural_controller_triangle_roll]: Prefix leg_front_l_2. Adding command interface velocity
+[ros2_control_node-2] [INFO] [1789309219.919976011] [neural_controller_triangle_roll]: Prefix leg_front_l_2. Adding command interface effort
+[ros2_control_node-2] [INFO] [1789309219.919985622] [neural_controller_triangle_roll]: Prefix leg_front_l_2. Adding command interface kp
+[ros2_control_node-2] [INFO] [1789309219.919994326] [neural_controller_triangle_roll]: Prefix leg_front_l_2. Adding command interface kd
+[ros2_control_node-2] [INFO] [1789309219.920003752] [neural_controller_triangle_roll]: Prefix leg_front_l_3. Adding command interface position
+[ros2_control_node-2] [INFO] [1789309219.920012141] [neural_controller_triangle_roll]: Prefix leg_front_l_3. Adding command interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920021437] [neural_controller_triangle_roll]: Prefix leg_front_l_3. Adding command interface effort
+[ros2_control_node-2] [INFO] [1789309219.920029955] [neural_controller_triangle_roll]: Prefix leg_front_l_3. Adding command interface kp
+[ros2_control_node-2] [INFO] [1789309219.920039067] [neural_controller_triangle_roll]: Prefix leg_front_l_3. Adding command interface kd
+[ros2_control_node-2] [INFO] [1789309219.920048196] [neural_controller_triangle_roll]: Prefix leg_back_r_1. Adding command interface position
+[ros2_control_node-2] [INFO] [1789309219.920089548] [neural_controller_triangle_roll]: Prefix leg_back_r_1. Adding command interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920102548] [neural_controller_triangle_roll]: Prefix leg_back_r_1. Adding command interface effort
+[ros2_control_node-2] [INFO] [1789309219.920111770] [neural_controller_triangle_roll]: Prefix leg_back_r_1. Adding command interface kp
+[ros2_control_node-2] [INFO] [1789309219.920120789] [neural_controller_triangle_roll]: Prefix leg_back_r_1. Adding command interface kd
+[ros2_control_node-2] [INFO] [1789309219.920129215] [neural_controller_triangle_roll]: Prefix leg_back_r_2. Adding command interface position
+[ros2_control_node-2] [INFO] [1789309219.920138659] [neural_controller_triangle_roll]: Prefix leg_back_r_2. Adding command interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920147363] [neural_controller_triangle_roll]: Prefix leg_back_r_2. Adding command interface effort
+[ros2_control_node-2] [INFO] [1789309219.920156919] [neural_controller_triangle_roll]: Prefix leg_back_r_2. Adding command interface kp
+[ros2_control_node-2] [INFO] [1789309219.920166067] [neural_controller_triangle_roll]: Prefix leg_back_r_2. Adding command interface kd
+[ros2_control_node-2] [INFO] [1789309219.920174734] [neural_controller_triangle_roll]: Prefix leg_back_r_3. Adding command interface position
+[ros2_control_node-2] [INFO] [1789309219.920183548] [neural_controller_triangle_roll]: Prefix leg_back_r_3. Adding command interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920192567] [neural_controller_triangle_roll]: Prefix leg_back_r_3. Adding command interface effort
+[ros2_control_node-2] [INFO] [1789309219.920201234] [neural_controller_triangle_roll]: Prefix leg_back_r_3. Adding command interface kp
+[ros2_control_node-2] [INFO] [1789309219.920209715] [neural_controller_triangle_roll]: Prefix leg_back_r_3. Adding command interface kd
+[ros2_control_node-2] [INFO] [1789309219.920218271] [neural_controller_triangle_roll]: Prefix leg_back_l_1. Adding command interface position
+[ros2_control_node-2] [INFO] [1789309219.920227697] [neural_controller_triangle_roll]: Prefix leg_back_l_1. Adding command interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920237178] [neural_controller_triangle_roll]: Prefix leg_back_l_1. Adding command interface effort
+[ros2_control_node-2] [INFO] [1789309219.920245863] [neural_controller_triangle_roll]: Prefix leg_back_l_1. Adding command interface kp
+[ros2_control_node-2] [INFO] [1789309219.920254252] [neural_controller_triangle_roll]: Prefix leg_back_l_1. Adding command interface kd
+[ros2_control_node-2] [INFO] [1789309219.920263938] [neural_controller_triangle_roll]: Prefix leg_back_l_2. Adding command interface position
+[ros2_control_node-2] [INFO] [1789309219.920272938] [neural_controller_triangle_roll]: Prefix leg_back_l_2. Adding command interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920281160] [neural_controller_triangle_roll]: Prefix leg_back_l_2. Adding command interface effort
+[ros2_control_node-2] [INFO] [1789309219.920290197] [neural_controller_triangle_roll]: Prefix leg_back_l_2. Adding command interface kp
+[ros2_control_node-2] [INFO] [1789309219.920299456] [neural_controller_triangle_roll]: Prefix leg_back_l_2. Adding command interface kd
+[ros2_control_node-2] [INFO] [1789309219.920308345] [neural_controller_triangle_roll]: Prefix leg_back_l_3. Adding command interface position
+[ros2_control_node-2] [INFO] [1789309219.920317290] [neural_controller_triangle_roll]: Prefix leg_back_l_3. Adding command interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920326456] [neural_controller_triangle_roll]: Prefix leg_back_l_3. Adding command interface effort
+[ros2_control_node-2] [INFO] [1789309219.920336142] [neural_controller_triangle_roll]: Prefix leg_back_l_3. Adding command interface kp
+[ros2_control_node-2] [INFO] [1789309219.920344660] [neural_controller_triangle_roll]: Prefix leg_back_l_3. Adding command interface kd
+[ros2_control_node-2] [INFO] [1789309219.920353142] [neural_controller_triangle_roll]: Prefix leg_front_r_1. Adding state interface position
+[ros2_control_node-2] [INFO] [1789309219.920376568] [neural_controller_triangle_roll]: Prefix leg_front_r_1. Adding state interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920388642] [neural_controller_triangle_roll]: Prefix leg_front_r_1. Adding state interface effort
+[ros2_control_node-2] [INFO] [1789309219.920397568] [neural_controller_triangle_roll]: Prefix leg_front_r_2. Adding state interface position
+[ros2_control_node-2] [INFO] [1789309219.920407086] [neural_controller_triangle_roll]: Prefix leg_front_r_2. Adding state interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920417216] [neural_controller_triangle_roll]: Prefix leg_front_r_2. Adding state interface effort
+[ros2_control_node-2] [INFO] [1789309219.920443605] [neural_controller_triangle_roll]: Prefix leg_front_r_3. Adding state interface position
+[ros2_control_node-2] [INFO] [1789309219.920455309] [neural_controller_triangle_roll]: Prefix leg_front_r_3. Adding state interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920464642] [neural_controller_triangle_roll]: Prefix leg_front_r_3. Adding state interface effort
+[ros2_control_node-2] [INFO] [1789309219.920473364] [neural_controller_triangle_roll]: Prefix leg_front_l_1. Adding state interface position
+[ros2_control_node-2] [INFO] [1789309219.920482364] [neural_controller_triangle_roll]: Prefix leg_front_l_1. Adding state interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920490586] [neural_controller_triangle_roll]: Prefix leg_front_l_1. Adding state interface effort
+[ros2_control_node-2] [INFO] [1789309219.920498957] [neural_controller_triangle_roll]: Prefix leg_front_l_2. Adding state interface position
+[ros2_control_node-2] [INFO] [1789309219.920507790] [neural_controller_triangle_roll]: Prefix leg_front_l_2. Adding state interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920516457] [neural_controller_triangle_roll]: Prefix leg_front_l_2. Adding state interface effort
+[ros2_control_node-2] [INFO] [1789309219.920525457] [neural_controller_triangle_roll]: Prefix leg_front_l_3. Adding state interface position
+[ros2_control_node-2] [INFO] [1789309219.920534253] [neural_controller_triangle_roll]: Prefix leg_front_l_3. Adding state interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920542790] [neural_controller_triangle_roll]: Prefix leg_front_l_3. Adding state interface effort
+[ros2_control_node-2] [INFO] [1789309219.920551920] [neural_controller_triangle_roll]: Prefix leg_back_r_1. Adding state interface position
+[ros2_control_node-2] [INFO] [1789309219.920560494] [neural_controller_triangle_roll]: Prefix leg_back_r_1. Adding state interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920569531] [neural_controller_triangle_roll]: Prefix leg_back_r_1. Adding state interface effort
+[ros2_control_node-2] [INFO] [1789309219.920578216] [neural_controller_triangle_roll]: Prefix leg_back_r_2. Adding state interface position
+[ros2_control_node-2] [INFO] [1789309219.920587476] [neural_controller_triangle_roll]: Prefix leg_back_r_2. Adding state interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920595790] [neural_controller_triangle_roll]: Prefix leg_back_r_2. Adding state interface effort
+[ros2_control_node-2] [INFO] [1789309219.920603939] [neural_controller_triangle_roll]: Prefix leg_back_r_3. Adding state interface position
+[ros2_control_node-2] [INFO] [1789309219.920612124] [neural_controller_triangle_roll]: Prefix leg_back_r_3. Adding state interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920620402] [neural_controller_triangle_roll]: Prefix leg_back_r_3. Adding state interface effort
+[ros2_control_node-2] [INFO] [1789309219.920629217] [neural_controller_triangle_roll]: Prefix leg_back_l_1. Adding state interface position
+[ros2_control_node-2] [INFO] [1789309219.920638180] [neural_controller_triangle_roll]: Prefix leg_back_l_1. Adding state interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920646642] [neural_controller_triangle_roll]: Prefix leg_back_l_1. Adding state interface effort
+[ros2_control_node-2] [INFO] [1789309219.920655031] [neural_controller_triangle_roll]: Prefix leg_back_l_2. Adding state interface position
+[ros2_control_node-2] [INFO] [1789309219.920663624] [neural_controller_triangle_roll]: Prefix leg_back_l_2. Adding state interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920672402] [neural_controller_triangle_roll]: Prefix leg_back_l_2. Adding state interface effort
+[ros2_control_node-2] [INFO] [1789309219.920681346] [neural_controller_triangle_roll]: Prefix leg_back_l_3. Adding state interface position
+[ros2_control_node-2] [INFO] [1789309219.920690735] [neural_controller_triangle_roll]: Prefix leg_back_l_3. Adding state interface velocity
+[ros2_control_node-2] [INFO] [1789309219.920700661] [neural_controller_triangle_roll]: Prefix leg_back_l_3. Adding state interface effort
+[ros2_control_node-2] [INFO] [1789309219.920709569] [neural_controller_triangle_roll]: Prefix imu_sensor. Adding state interface orientation.x
+[ros2_control_node-2] [INFO] [1789309219.920718550] [neural_controller_triangle_roll]: Prefix imu_sensor. Adding state interface orientation.y
+[ros2_control_node-2] [INFO] [1789309219.920726735] [neural_controller_triangle_roll]: Prefix imu_sensor. Adding state interface orientation.z
+[ros2_control_node-2] [INFO] [1789309219.920745124] [neural_controller_triangle_roll]: Prefix imu_sensor. Adding state interface orientation.w
+[ros2_control_node-2] [INFO] [1789309219.920758513] [neural_controller_triangle_roll]: Prefix imu_sensor. Adding state interface angular_velocity.x
+[ros2_control_node-2] [INFO] [1789309219.920775291] [neural_controller_triangle_roll]: Prefix imu_sensor. Adding state interface angular_velocity.y
+[ros2_control_node-2] [INFO] [1789309219.920786087] [neural_controller_triangle_roll]: Prefix imu_sensor. Adding state interface angular_velocity.z
+[ros2_control_node-2] [INFO] [1789309219.920795550] [neural_controller_triangle_roll]: Prefix imu_sensor. Adding state interface linear_acceleration.x
+[ros2_control_node-2] [INFO] [1789309219.920804624] [neural_controller_triangle_roll]: Prefix imu_sensor. Adding state interface linear_acceleration.y
+[ros2_control_node-2] [INFO] [1789309219.920813810] [neural_controller_triangle_roll]: Prefix imu_sensor. Adding state interface linear_acceleration.z
+[ros2_control_node-2] [INFO] [1789309219.920823291] [neural_controller_triangle_roll]: Prefix imu_sensor. Adding state interface time_since_measurement_seconds
+[ros2_control_node-2] [INFO] [1789309219.928641075] [neural_controller_triangle_roll]: activate successful
+[ros2_control_node-2] [INFO] [1789309219.933905054] [controller_manager]: Activating controllers: [ neural_controller_triangle_roll ]
+[ros2_control_node-2] [INFO] [1789309219.933955480] [controller_manager]: Deactivating controllers: [ neural_controller_joint_pose ]
+[ros2_control_node-2] [WARN] [1789309219.933978758] [controller_manager]: Controller with name 'neural_controller_triangle_roll' is not inactive so its following controllers do not have to be checked, because it cannot be activated.
+[ros2_control_node-2] [WARN] [1789309219.933991407] [controller_manager]: Could not activate controller with name 'neural_controller_triangle_roll'. Check above warnings for more details. Check the state of the controllers and their required interfaces using `ros2 control list_controllers -v` CLI to get more information.
+[ros2_control_node-2] [ERROR] [1789309219.934002851] [controller_manager]: Aborting, no controller is switched! (::STRICT switch)
+[ros2_control_node-2] [INFO] [1789309219.935632764] [neural_controller_triangle_roll]: Emergency stop triggered
+[motion_buttons.py-4] [ERROR] [1789309219.936280043] [quadmorph_motion_buttons]: Controller switch rejected; inspect logs before retrying
+[ros2_control_node-2] [ERROR] [1789309219.949167695] [neural_controller_triangle_roll]: TRIANGLE FAULT 7; torque released. Support robot; lifecycle reset required. See TRIANGLE_ROLL_LAB.md.
+[ros2_control_node-2] [INFO] [1789309220.026756734] [neural_controller_triangle_roll]: Emergency stop triggered
+[cmd_vel_mux_node-6] [INFO] [1789309234.866880102] [cmd_vel_mux]: Input /teleop_cmd_vel activated (deadband exceeded)
+[cmd_vel_mux_node-6] [INFO] [1789309234.898477754] [cmd_vel_mux]: Active source: /teleop_cmd_vel
+[cmd_vel_mux_node-6] [INFO] [1789309235.548211280] [cmd_vel_mux]: Input /teleop_cmd_vel timed out
+[cmd_vel_mux_node-6] [INFO] [1789309235.548329836] [cmd_vel_mux]: Active source: none

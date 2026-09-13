@@ -13,7 +13,7 @@ struct Core {
   double elapsed=0,total=0,duration=0,gain=0,error=0,stable=0;
   // Software recovery allowance around policy command limits, not mechanical limits.
   static constexpr double recovery_margin=.35,torque_limit=.6;
-  void stop(Fault f){fault=f;state=FAULT;kp.fill(0);kd.fill(0);gain=0;}
+  void stop(Fault f){if(state==FAULT&&fault!=NONE)return;fault=f;state=FAULT;kp.fill(0);kd.fill(0);gain=0;}
   static double seconds(const Pose&a,const Pose&b,bool hubs) {
     double t=hubs?12.:4.;
     for(int i=0;i<12;++i)if((i%3==2)==hubs) {

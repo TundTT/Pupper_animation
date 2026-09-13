@@ -1,0 +1,5 @@
+# Explicit supervised retry after the September 13 floor tracking stop.
+# Baseline plan, gains and all other guards remain unchanged.
+neural_controller_triangle_roll:
+  ros__parameters:
+    hub_tracking_error_limit: 0.5235987755982988 # 30 degrees, explicitly requested by operator

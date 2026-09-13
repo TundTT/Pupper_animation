@@ -4,6 +4,43 @@ This is the **all-four roll onto the tips**, followed by bounded settling and a
 hold. It is separate from the old sequential `inverted_triangle_trial` launch.
 No walking controller is spawned or activated. Heating remains manual.
 
+## September 13 floor feedback and explicit tracking retry
+
+The first physical floor roll stopped at 7.713 s with hub tracking error
+0.150316 rad (fault 4). Recorded torso tilt remained below 2.6 degrees. Evidence:
+`hardware_testing/triangle_roll/lab/floor_1789302054188949667/`.
+The operator reported it was rolling over the base and asked for more permitted
+tracking error, explicitly **not** increased motor gains. Walking is deferred;
+the next physical objective is roll onto the tips and hold.
+
+The optional `triangle_roll_tracking_retry.yaml` selects 30 degrees
+(`0.5235987755982988` rad) for hub tracking error only. The default remains 0.15 rad.
+Trajectory, gains, upper-joint tracking tolerance, 1.5 Nm estimated-PD guard,
+speed/tilt/sensor/stop checks are unchanged. The independent torque guard may
+stop a move before the wider tracking threshold is reached. This is not proof
+that the previous trial would have completed or that larger lag is harmless.
+
+After installing the updated binary with the hardware stack stopped, normal
+startup/capture still applies. Select the retry on the inactive roll controller
+before its first activation (not by changing a running controller's parameters):
+
+```bash
+ros2 control unload_controller neural_controller_triangle_roll
+ros2 run controller_manager spawner neural_controller_triangle_roll --inactive \
+  --param-file ros2_ws/src/neural_controller/launch/calibration_hardware.yaml \
+  --param-file ros2_ws/src/neural_controller/launch/triangle_roll_tracking_retry.yaml
+ros2 param get /neural_controller_triangle_roll hub_tracking_error_limit
+```
+
+The controller parameter is read-only after loading. Loading this profile does
+not authorize START. Restore and confirm tips-up, preserve/revalidate the live
+mapping, and obtain operator readiness for the physical trial.
+
+The IMU does not directly measure body height or establish four-tip support.
+Encoder rotation and model-based support estimates are distinct from physically
+observed weight bearing. A future lag-aware motion governor could pause reference
+progress to let joints catch up; that behavior is not implemented by this retry.
+
 The measured-shape candidate comes from W&B run
 [360ffcd09344487d](https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/360ffcd09344487d).
 The C++ executor ports its measured-state entry, 12 s simultaneous roll, and

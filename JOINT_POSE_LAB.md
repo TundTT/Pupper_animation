@@ -51,7 +51,12 @@ python3 scripts/set_joint_pose.py --preset tips-up --execute --operator-confirme
 ```
 
 Other motion controllers must be inactive. The command holds at completion; do not
-carry an active controller to the floor. Preserve the physical encoder session when
+carry an ordinary hold to the floor. For an operator-supported transfer, explicitly
+use `--transfer-hold`: tilt is ignored only after the controller reaches HOLD.
+Activation and all moving phases still require a level torso. IMU freshness,
+PS/disconnect, tracking, speed and timing stops remain active during transfer.
+Support the torso's full weight. The separate floor-roll controller retains its
+tilt guard; it does not inherit this request setting. Preserve the physical encoder session when
 switching controllers. Initial validation uses the actual displaced encoder snapshot
 in a simplified damped plant, and checks staged motion, recovery bounds, target speed
 and acceleration, PD torque and fault guards. That test is not hardware validation.

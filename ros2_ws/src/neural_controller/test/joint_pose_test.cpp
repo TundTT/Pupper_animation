@@ -3,6 +3,8 @@
 using namespace joint_pose;
 void check(bool b,const char*m){if(!b)throw std::runtime_error(m);}
 int main(){try{
+  Core fault_latch;fault_latch.stop(INPUT);fault_latch.stop(STOP);
+  check(fault_latch.fault==INPUT,"Preserve the first fault rather than overwriting it with stop latch");
   // Actual displaced encoder snapshot; only the hub winding is chosen before reset.
   Pose q{1.1202386,-.3264583,-1.1336429,-.7586025,.5755628,1.2697495,
          1.2747367,-.1193174,-1.1599653,-.6308083,-.0576865,2.4797905};

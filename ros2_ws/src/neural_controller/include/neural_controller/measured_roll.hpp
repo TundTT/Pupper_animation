@@ -1,4 +1,5 @@
 #pragma once
+#include "neural_controller/policy_home.hpp"
 #include "neural_controller/triangle_roll.hpp"
 
 // Port of handoff_entry.py a2dd1633 and balanced_support.py a1f166f2 from
@@ -89,10 +90,13 @@ struct Controller {
   Motion motion;
   triangle_roll::Support support;
   bool stand_only=false;
+  double hub_tracking_error_limit=.15; // Default baseline; bounded lab override, radians.
   State state=FAULT;Fault fault=ACTIVATION;
   int segment=0,completed=0,run_steps=0;
   double elapsed=0,ramp=0,gain=0,max_error=0,max_torque=0;
   void validate() const {
+    if(!std::isfinite(hub_tracking_error_limit) || hub_tracking_error_limit<.15 || hub_tracking_error_limit>pi/6.)
+      throw std::runtime_error("Hub tracking tolerance must be within 0.15 rad to 30 degrees");
     if(initial!=point_up || kp!=triangle_roll::base_kp || kd!=triangle_roll::base_kd)
       throw std::runtime_error("Unexpected measured-roll pose/gains");
   }
@@ -129,7 +133,7 @@ struct Controller {
     for(int i=0;i<12;++i) {
       if(!std::isfinite(encoder[i])||!std::isfinite(qd[i])){stop(SENSORS);return;}
       q[i]=encoder[i]-offset[i];double error=std::abs(command[i]-q[i]);max_error=std::max(max_error,error);
-      if(error>(i%3==2?.15:.25)||encoder[i]<low[i]||encoder[i]>high[i]){stop(TRACKING);return;}
+      if(error>(i%3==2?hub_tracking_error_limit:.25)||encoder[i]<low[i]||encoder[i]>high[i]){stop(TRACKING);return;}
       if(std::abs(qd[i])>2.){stop(SPEED);return;}
     }
     if(state==RAMP) {

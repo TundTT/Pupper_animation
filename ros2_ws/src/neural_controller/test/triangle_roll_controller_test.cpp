@@ -29,6 +29,14 @@ int main(int argc,char** argv){
     require(c.core().stand_only==(argc==4),"Requested diagnostic mode reaches actual plugin");
     require(!c.get_node()->set_parameter(rclcpp::Parameter("stand_only",argc!=4)).successful,"Cannot change test mode at runtime");
     require(c.on_configure({})==controller_interface::CallbackReturn::SUCCESS,"Configure");
+    {
+      Harness tuned;auto tuned_args=args;tuned_args.push_back("-p");tuned_args.push_back("hub_tracking_error_limit:=0.5235987755982988");
+      rclcpp::NodeOptions tuned_options;tuned_options.arguments(tuned_args);
+      require(tuned.init("neural_controller_triangle_roll","",520,"",tuned_options)==controller_interface::return_type::OK,"Retry profile init");
+      require(std::abs(tuned.core().hub_tracking_error_limit-M_PI/6.)<1e-12,"30-degree retry parameter reaches controller");
+      require(tuned.core().kp==c.core().kp && tuned.core().kd==c.core().kd,"Retry leaves actual gains unchanged");
+      require(!tuned.get_node()->set_parameter(rclcpp::Parameter("hub_tracking_error_limit",.2)).successful,"Tracking tolerance cannot change during motion");
+    }
     auto q=c.core().initial;std::array<double,12> qd{};std::array<std::array<double,5>,12> output{};
     std::vector<hardware_interface::CommandInterface> commands;commands.reserve(60);
     std::vector<hardware_interface::StateInterface> states;states.reserve(32);

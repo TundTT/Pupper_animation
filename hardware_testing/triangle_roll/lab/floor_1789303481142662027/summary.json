@@ -1,0 +1,9 @@
+{
+  "completed": true,
+  "samples": 965,
+  "peak_logged_tracking_error_deg": 10.495578601871856,
+  "peak_logged_estimated_PD_torque_Nm": 0.9256616276211214,
+  "peak_logged_tilt_deg": 6.112594520280891,
+  "physical_standing_operator_confirmation": "User confirms standing on all four tips without support after completion.",
+  "transition_assistance": "User reports light hand support during roll; amount not measured. Not an unassisted roll validation."
+}

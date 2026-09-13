@@ -1,0 +1,11 @@
+test_ambiguous_and_short_inputs (test_motion_buttons.ButtonsTest.test_ambiguous_and_short_inputs) ... ok
+test_buttons_and_edges (test_motion_buttons.ButtonsTest.test_buttons_and_edges) ... ok
+test_running_and_failed_roll_cannot_switch (test_motion_buttons.ButtonsTest.test_running_and_failed_roll_cannot_switch) ... ok
+test_stale_mapping_rejected_for_x (test_motion_buttons.ButtonsTest.test_stale_mapping_rejected_for_x) ... ok
+test_walking_full_turn_and_up_rejection (test_motion_buttons.ButtonsTest.test_walking_full_turn_and_up_rejection) ... ok
+test_x_requires_up (test_motion_buttons.ButtonsTest.test_x_requires_up) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.007s
+
+OK

@@ -1,0 +1,16 @@
+{
+  "host": "pi@10.140.55.163",
+  "boot_id": "69f50016-59a5-46a1-8868-e6f2fd95ce89",
+  "checkout": "/home/pi/robot-code-leglift",
+  "install_prefix": "/home/pi/robot-code-leglift/ros2_ws/install-combined",
+  "source_bundle_sha256": "b5ef5154a24264f0f04f0739a422fe603cd9e6eafb6459eb98150873de62edfe",
+  "library_sha256": "8a19bf429f02eef656936afa5a20f21e980b56637c098dfb263089e2443b651f",
+  "source_backup": "/home/pi/robot-code-leglift/hardware_testing/combined_motion_2026-09-13/1789308035640367574/previous-source.tar.gz",
+  "native_ctest": "7/7 passed",
+  "native_button_tests": "6/6 passed",
+  "native_launch_resolution": "1 passed",
+  "installed_policy_hashes": "passed",
+  "hardware_stack_started": false,
+  "motors_moved": false,
+  "startup_calibration": "pending operator-confirmed physical pose after fresh boot"
+}

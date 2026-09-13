@@ -78,8 +78,20 @@ install(
   DIRECTORY launch/
   DESTINATION share/${PROJECT_NAME}/launch
 )
+install(PROGRAMS scripts/motion_buttons.py DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
+  add_executable(walking_frame_test test/walking_frame_test.cpp)
+  target_compile_features(walking_frame_test PRIVATE cxx_std_17)
+  target_include_directories(walking_frame_test PRIVATE include)
+  add_test(NAME walking_frame COMMAND walking_frame_test)
+  add_executable(walking_handoff_test test/walking_handoff_test.cpp)
+  target_compile_features(walking_handoff_test PRIVATE cxx_std_17)
+  target_include_directories(walking_handoff_test PRIVATE include)
+  target_link_libraries(walking_handoff_test neural_controller neural_controller_parameters RTNeural)
+  ament_target_dependencies(walking_handoff_test controller_interface hardware_interface robot_calibration rclcpp rclcpp_lifecycle realtime_tools geometry_msgs sensor_msgs tf2)
+  add_test(NAME walking_handoff COMMAND walking_handoff_test ${CMAKE_CURRENT_SOURCE_DIR}/launch/config.yaml ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_walk_v2.json)
+  set_tests_properties(walking_handoff PROPERTIES ENVIRONMENT "ROS_DOMAIN_ID=193;ROS_LOCALHOST_ONLY=1")
   add_executable(joint_pose_test test/joint_pose_test.cpp)
   target_compile_features(joint_pose_test PRIVATE cxx_std_17)
   target_include_directories(joint_pose_test PRIVATE include)
@@ -191,6 +203,8 @@ if(BUILD_TESTING)
     COMMAND walk_policy_test
       ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_walk_v2.json
       ${CMAKE_CURRENT_SOURCE_DIR}/test/walk_policy_reference.csv)
+  option(QUADMORPH_FOCUSED_TESTS "Configure controller tests without recursive vendor lint discovery" OFF)
+  if(NOT QUADMORPH_FOCUSED_TESTS)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
   # comment the line when a copyright and license is added to all source files
@@ -200,6 +214,7 @@ if(BUILD_TESTING)
   # a copyright and license is added to all source files
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
+  endif()
 endif()
 
 ament_package()

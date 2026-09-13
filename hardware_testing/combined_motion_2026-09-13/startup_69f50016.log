@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "walking_sha256": "f5326dd69488d1e4a32a6da223c4a274cd5362e69ed3eed13deeaa15dba84baa",
+  "wheel_sha256": "5a494c33ab5cdb10bce156d442d40fd1167d3796cb3d63b369c9e290c13e42d6",
+  "triangle": "neural_controller_walk_v2",
+  "circle": "neural_controller_wheel",
+  "scope": "Source/installed files only; hardware validation pending."
+}
+[INFO] [launch]: All log files can be found below /home/pi/.ros/log/2026-09-13-09-11-21-905976-pupper-8999
+[INFO] [launch]: Default logging verbosity is set to INFO
+[ERROR] [launch]: Caught exception in launch (see debug for traceback): "package 'cmd_vel_mux' not found, searching: ['/home/pi/robot-code-leglift/ros2_ws/install-combined/neural_controller', '/home/pi/robot-code-leglift/ros2_ws/install-roll/neural_controller', '/home/pi/robot-code-leglift/ros2_ws/install-roll/joy_utils', '/home/pi/robot-code-leglift/ros2_ws/install-roll/control_board_hardware_interface', '/home/pi/robot-code-leglift/ros2_ws/install-roll/animation_controller_py', '/home/pi/robot-code-leglift/ros2_ws/install-roll/robot_calibration', '/home/pi/robot-code-leglift/ros2_ws/install-roll/pupper_v3_description', '/opt/ros/jazzy']"

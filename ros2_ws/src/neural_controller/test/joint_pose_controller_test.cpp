@@ -37,8 +37,29 @@ int main(int argc,char**argv){rclcpp::init(argc,argv);int result=0;
   imu[4]=.2;c.update(rclcpp::Time(0),rclcpp::Duration::from_seconds(.002));zero();imu[4]=0;
   require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"reactivate for tilt");
   imu[0]=std::sin(.2);imu[3]=std::cos(.2);c.update(rclcpp::Time(0),rclcpp::Duration::from_seconds(.002));zero();
+  imu[0]=0;imu[3]=1;
+  // Transfer permission applies only to HOLD, never activation or movement.
+  request.put("allow_tilt_in_hold",true);request.erase("target_positions");array(request,"target_positions",q);
+  robot_calibration::atomic_json(dir/"joint-pose-request.json",request);
+  pad(false);require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"transfer activation level");
+  imu[0]=std::sin(.2);imu[3]=std::cos(.2);
+  c.update(rclcpp::Time(0),rclcpp::Duration::from_seconds(.002));zero();
+  require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"transfer rejects tilted activation");zero();
+  imu[0]=0;imu[3]=1;pad(false);
+  auto reach_hold=[&]{require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"transfer restart");
+    for(int i=0;i<10500;++i){if(i%1000==0)pad(false);c.update(rclcpp::Time(0),rclcpp::Duration::from_seconds(1./520));}
+    require(out[0][3]==5&&out[2][3]==4,"full stiffness in hold");};
+  reach_hold();imu[0]=std::sin(.6);imu[3]=std::cos(.6);
+  c.update(rclcpp::Time(0),rclcpp::Duration::from_seconds(.002));
+  require(out[0][3]==5&&out[2][3]==4,"transfer holds through tilt");
+  imu[4]=.2;c.update(rclcpp::Time(0),rclcpp::Duration::from_seconds(.002));zero();
+  imu[0]=0;imu[3]=1;imu[4]=0;pad(false);reach_hold();
+  pad(true);c.update(rclcpp::Time(0),rclcpp::Duration::from_seconds(.002));zero();
+  pad(false);c.update(rclcpp::Time(0),rclcpp::Duration::from_seconds(.002));zero();
+  reach_hold();std::this_thread::sleep_for(std::chrono::milliseconds(550));
+  c.update(rclcpp::Time(0),rclcpp::Duration::from_seconds(.002));zero();
   c.on_deactivate({});zero();
-  std::cout<<"PASS: actual ROS wrapper, calibration/gamepad gates, gains, PS latch, stale IMU, tilt, deactivation\n";
+  std::cout<<"PASS: actual ROS wrapper, calibration/gamepad gates, gains, PS latch, stale IMU, tilt, transfer HOLD and disconnect, deactivation\n";
  }catch(const std::exception&e){std::cerr<<e.what()<<'\n';result=1;}
  std::filesystem::remove_all(dir);rclcpp::shutdown();return result;
 }
