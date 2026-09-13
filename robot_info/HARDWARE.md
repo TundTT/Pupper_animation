@@ -32,9 +32,13 @@ Every observation, action, gain, limit, and model metadata vector uses this orde
 
 CAN channel assignment is front-left 1, front-right 2, back-left 3, and back-right 4. Motor IDs are the `_1`, `_2`, and `_3` suffixes.
 
-## Leg Position Profile
+## Historical Leg Position Profile
 
-All angles are radians. The soft position limits are the usable hardware envelope supplied to ROS control. Current homed positions are operator-confirmed gravity-droop poses.
+This section records the original limited leg profile; it is not the mechanical
+envelope of the current QuadMorph continuous hub hardware. See [QUADMORPH.md](QUADMORPH.md)
+and the selected robot-code description before preparing a triangle controller.
+All angles are radians. The following limits and homed positions are profile
+configuration values, not reusable live calibration across power loss.
 
 | Joint | Homed position | Soft minimum | Soft maximum | Velocity maximum |
 | --- | ---: | ---: | ---: | ---: |
@@ -53,7 +57,7 @@ All angles are radians. The soft position limits are the usable hardware envelop
 
 Shared limits are 3.0 Nm effort, 10 maximum proportional gain, and 1 maximum derivative gain.
 
-The third-joint hard calibrated ranges currently represented in source are:
+The third-joint hard calibrated ranges represented in that historical profile are:
 
 | Joints | Hard minimum | Hard maximum |
 | --- | ---: | ---: |
@@ -97,7 +101,7 @@ Position-controlled joints in the wheel profile use reference policy gains `kp =
 
 ## IMU Contract
 
-- Device path: BNO055 hardware integration.
+- Integration name in source: BNO055. This driver name alone does not verify the physical sensor chip fitted to a modified robot.
 - Mount transform: yaw `0`, pitch `-2.35619`, roll `0` radians.
 - Requested sensor period: 10,000 microseconds.
 - Orientation state order: quaternion `x, y, z, w`.

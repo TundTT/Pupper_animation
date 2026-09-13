@@ -1,6 +1,7 @@
 # Preparing software for this robot
 
 This is the `robot-info` reference branch. Read `ROBOT_INFO.md`,
+`robot_info/QUADMORPH.md` for the user's physical configuration and calibration distinctions,
 `robot_info/PRE_LAB.md`, and `robot_info/LAB_READY.md` before preparing a policy or
 robot-code handoff. The user wants compatibility problems found before traveling
 to the lab. Complete every applicable hardware-free check, record its evidence,

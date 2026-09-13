@@ -1,6 +1,19 @@
 {
   "schema_version": 1,
   "purpose": "Offline source of truth for policies and software targeting this physical Pupper robot.",
+  "profile_scope": {
+    "leg_position": "Historical limited CustomLegFoot training/description profile; not the current continuous QuadMorph hub envelope.",
+    "wheel_velocity": "Pinned wheel velocity training/description profile; not a triangle position-controller contract.",
+    "quadmorph_reference": "robot_info/QUADMORPH.md",
+    "quadmorph_implementation_ref": "f9f1c48c505af2d076170e0aa3e1eeb5a43cfdc9",
+    "quadmorph_hub_mechanism": "Continuous rotation retained for wheels and cooled rigid triangles; verify selected controller limits and cable/collision constraints.",
+    "additional_axial_gap_m": 0.009,
+    "approved_upper_target_rad_fr_fl_br_bl": [[1, 0], [-1, 0], [1, 0], [-1, 0]],
+    "target_is_raw_encoder_zero": false,
+    "automatic_upper_reference_across_boot_implemented_at_pinned_revision": false,
+    "hub_reference_policy": "Calibrate selected spoke each fresh encoder session; follow selected STARTUP_CALIBRATION.md. No fixed reboot correction is established.",
+    "heating": "Manual; roll motion begins with cooled rigid tip-up appendages."
+  },
   "generated_from": {
     "verified_baseline_commit": "13c46c8",
     "robot_audit_date": "2026-09-09",

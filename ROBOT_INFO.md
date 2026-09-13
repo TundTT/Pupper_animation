@@ -22,6 +22,7 @@ Do not optimize only for simulation videos and defer robot integration. A policy
 - `robot_info/BASELINE.md`: verified upstream provenance and reusable starting points.
 - `robot_info/REFERENCE_PATHS.md`: pinned trainers, exporters, controller paths, and behavior-specific starting points.
 - `robot_info/HARDWARE.md`: physical robot, actuator, CAN, limit, and IMU contracts.
+- `robot_info/QUADMORPH.md`: user-confirmed morphing hardware, measured cold shapes, upper home targets, hub calibration and controller-transfer lessons.
 - `robot_info/SOFTWARE.md`: target-computer runtime, ROS overlay, build, and launch assumptions.
 - `robot_info/POLICY_INTERFACE.md`: controller observations, actions, history, timing, and model format.
 - `robot_info/TRAINING.md`: sim-to-real workflow and export requirements.
@@ -34,9 +35,9 @@ Do not optimize only for simulation videos and defer robot integration. A policy
 
 When references disagree, resolve them in this order:
 
-1. A repeatable physical measurement on this robot.
-2. `robot_info/robot_contract.json` and the documents in `robot_info/`.
-3. The current controller, hardware, and robot-description source code.
+1. User-confirmed physical configuration and repeatable measurements on this robot.
+2. The selected deployed controller, hardware and robot-description source for what software actually does; it does not override physical evidence.
+3. `robot_info/robot_contract.json` and these documents, within their explicitly pinned profile scope. Historical leg and wheel training profiles do not automatically describe the continuous-position triangle configuration.
 4. The verified imported Stanford baseline at commit `13c46c8`.
 5. Task-specific notes, old launch files, comments, and experiment logs.
 
