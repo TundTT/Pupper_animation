@@ -39,3 +39,6 @@ hardware_testing/inverted_triangle/*.sh text eol=lf
 ros2_ws/src/neural_controller/launch/policy_walk_v2.json -filter diff merge -text
 ros2_ws/src/neural_controller/launch/policy_wheel.json -filter diff merge -text
 policies/*.json -filter diff merge text eol=lf
+
+# Explicit lift-test candidate must be available with a normal robot-code pull.
+ros2_ws/src/neural_controller/launch/policy_notebook_lift.json -filter diff merge -text

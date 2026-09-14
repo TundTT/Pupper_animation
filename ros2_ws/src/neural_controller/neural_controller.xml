@@ -25,4 +25,9 @@
     <description>Supported named-joint positioning with bounded inward recovery, staged upper/hub motion, and torque limits.</description>
   </class>
 </library>
+<library path="notebook_lift_controller">
+  <class name="neural_controller/NotebookLiftController" type="neural_controller::NotebookLiftController" base_class_type="controller_interface::ControllerInterface">
+    <description>Experimental notebook lift policy; eight absolute proximal actions and four captured hub position holds.</description>
+  </class>
+</library>
 </class_libraries>

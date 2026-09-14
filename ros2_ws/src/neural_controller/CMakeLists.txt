@@ -66,6 +66,15 @@ target_link_libraries(hub_roll_controller neural_controller neural_controller_pa
 ament_target_dependencies(hub_roll_controller controller_interface robot_calibration hardware_interface pluginlib realtime_tools rclcpp rclcpp_lifecycle geometry_msgs sensor_msgs tf2)
 install(TARGETS hub_roll_controller DESTINATION lib)
 
+# Candidate plugin is separate; existing policy loaders and defaults are unchanged.
+add_library(notebook_lift_controller SHARED src/notebook_lift_controller.cpp)
+target_compile_features(notebook_lift_controller PUBLIC cxx_std_17)
+target_include_directories(notebook_lift_controller PRIVATE include)
+target_link_libraries(notebook_lift_controller neural_controller neural_controller_parameters RTNeural)
+ament_target_dependencies(notebook_lift_controller controller_interface robot_calibration hardware_interface pluginlib realtime_tools rclcpp rclcpp_lifecycle geometry_msgs sensor_msgs tf2 std_msgs)
+install(TARGETS notebook_lift_controller DESTINATION lib)
+
+
 install(
   TARGETS ${PROJECT_NAME}
   DESTINATION lib
@@ -81,6 +90,31 @@ install(
 install(PROGRAMS scripts/motion_buttons.py DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
+  enable_testing()
+  foreach(kind IN ITEMS observation targets)
+    add_executable(notebook_lift_${kind}_test test/notebook_lift_${kind}_test.cpp)
+    target_compile_features(notebook_lift_${kind}_test PRIVATE cxx_std_17)
+    target_include_directories(notebook_lift_${kind}_test PRIVATE include)
+  endforeach()
+  add_test(NAME notebook_lift_observation COMMAND notebook_lift_observation_test ${CMAKE_CURRENT_SOURCE_DIR}/../../../hardware_testing/notebook_lift/observation_reference.csv)
+  add_test(NAME notebook_lift_targets COMMAND notebook_lift_targets_test ${CMAKE_CURRENT_SOURCE_DIR}/../../../hardware_testing/notebook_lift/target_reference.csv)
+  add_executable(notebook_lift_core_test test/notebook_lift_core_test.cpp)
+  target_compile_features(notebook_lift_core_test PRIVATE cxx_std_17)
+  target_include_directories(notebook_lift_core_test PRIVATE include)
+  target_link_libraries(notebook_lift_core_test RTNeural)
+  add_test(NAME notebook_lift_core COMMAND notebook_lift_core_test
+    ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_notebook_lift.json
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../hardware_testing/notebook_lift/network_reference.csv
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../hardware_testing/notebook_lift/geometry_reference.csv)
+  add_executable(notebook_lift_controller_test test/notebook_lift_controller_test.cpp)
+  target_compile_features(notebook_lift_controller_test PRIVATE cxx_std_17)
+  target_include_directories(notebook_lift_controller_test PRIVATE include)
+  target_link_libraries(notebook_lift_controller_test notebook_lift_controller neural_controller neural_controller_parameters RTNeural)
+  ament_target_dependencies(notebook_lift_controller_test controller_interface hardware_interface robot_calibration rclcpp rclcpp_lifecycle realtime_tools geometry_msgs tf2 sensor_msgs std_msgs)
+  add_test(NAME notebook_lift_lifecycle COMMAND notebook_lift_controller_test
+    ${CMAKE_CURRENT_SOURCE_DIR}/launch/notebook_lift_config.yaml
+    ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_notebook_lift.json)
+  set_tests_properties(notebook_lift_lifecycle PROPERTIES ENVIRONMENT "ROS_DOMAIN_ID=194;ROS_LOCALHOST_ONLY=1")
   add_executable(walking_frame_test test/walking_frame_test.cpp)
   target_compile_features(walking_frame_test PRIVATE cxx_std_17)
   target_include_directories(walking_frame_test PRIVATE include)

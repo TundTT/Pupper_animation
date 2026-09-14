@@ -1,0 +1,3 @@
+Walking full-turn mapping, observation/action equivalence and entry rejection passed
+PASS: angle trajectories, all-wheel lowering, bounded near-target integral, crossing/gate/cancel/stop resets
+PASS: startup/reentry/legacy limiter/interruption
