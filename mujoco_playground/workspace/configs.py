@@ -197,17 +197,29 @@ NUM_COMMANDS = len(COMMAND_STATES)
 # ANGLES (rad), the `_3` (wheel) entries are wheel SPEEDS (rad/s), and 0 there
 # means "wheels stopped" -- a continuously-spinning joint has no home angle.
 #
-# The +-1 rad abduction splay is the stance chosen in the MuJoCo viewer and
-# committed as the model's `home` keyframe: it swings all four wheels out from
-# under the body so they sit upright on the ground. Signs mirror left/right
-# (front_r/back_r = +1, front_l/back_l = -1) because those two abduction joints
-# have mirrored axes -- see the mirrored joint ranges below.
+# The abduction splay swings all four wheels out from under the body so they sit
+# upright on the ground. Signs mirror left/right (front_r/back_r = +, front_l/back_l
+# = -) because those two abduction joints have mirrored axes -- see the mirrored
+# joint ranges below.
 #
-# Verified against the model: holding this ctrl under position control settles
-# upright and stationary (see STAND_TORSO_HEIGHT).
+# ABDUCTION_SPLAY was 1.0 rad (57 deg) up to and including the backpack_2026-09-13
+# policy, which made the robot roll with its legs visibly splayed out. That policy
+# was not drifting off its home pose -- measured over 400-step rollouts it tracked
+# these abduction targets to within 0.05 rad -- so the splay was entirely this
+# constant, not learned behaviour, and lowering it is the direct fix.
+#
+# 0.65 comes from a static settle sweep on the backpack + 9 mm model: the robot
+# stays upright on all four wheels down to 0.55 rad and collapses onto its chassis
+# at 0.50, so this keeps ~0.1 rad of margin above that cliff. The policy still has
+# ACTION_SCALE_ABDUCTION of authority either side of it to widen for balance.
+#
+# Must stay in sync with the MJCF's `home` keyframe -- wheel_env.py raises if they
+# disagree on the position rows.
+ABDUCTION_SPLAY = 0.65
 DEFAULT_POSE = np.array(
-    [1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0]
-)
+    [ABDUCTION_SPLAY, 0.0, 0.0, -ABDUCTION_SPLAY, 0.0, 0.0,
+     ABDUCTION_SPLAY, 0.0, 0.0, -ABDUCTION_SPLAY, 0.0, 0.0]
+)  # fmt: skip
 
 # Per-row ctrl limits, mixed units to match DEFAULT_POSE. The `_1`/`_2` rows are
 # the model's real joint angle limits (unchanged from the quadruped, copied from
@@ -284,8 +296,9 @@ HIP_LIFT_SIGN = {"front_r": 1.0, "front_l": -1.0, "back_r": 1.0, "back_l": -1.0}
 # the home ctrl for 3 s and read base_link z), not guessed -- the leg-lift value
 # this replaces (0.1556) was measured on the quadruped standing on feet and is
 # ~24 mm too high for the wheeled stance, which would pay the policy to hoist
-# itself.
-STAND_TORSO_HEIGHT = 0.1313
+# itself. Re-measured whenever ABDUCTION_SPLAY changes: a narrower stance stands
+# the legs up and lowers the torso (0.1313 at the old 1.0 rad splay).
+STAND_TORSO_HEIGHT = 0.1249
 
 # Radius of the knee collision sphere on each leg_*_2 body. Its center coincides with
 # the origin of the corresponding leg_*_3 body (KNEE_BODY_NAMES), so a knee's height
