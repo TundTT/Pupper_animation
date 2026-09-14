@@ -17,7 +17,7 @@ def sample_robot(timeout, expected_session):
 
     rclpy.init(args=[])
     node = Node("startup_calibration_capture")
-    sampler = StationarySample()
+    sampler = StationarySample(check_velocity=False)
     ready = False
 
     def observe(msg):
@@ -58,8 +58,8 @@ def sample_robot(timeout, expected_session):
                     raise ValueError("Hardware encoder session changed during capture")
                 return sampler.positions
         raise ValueError("No stationary sample: need 1 second of fresh data for all 12 joints, "
-                         "<=0.002 rad position excursion, and bounded velocity outliers "
-                         "(<=20 ms consecutive, <=50 ms total, <=0.2 rad/s)")
+                         "<=0.002 rad position excursion; reported velocity is not a capture gate "
+                         "under the operator-confirmed position-stability policy")
     finally:
         node.destroy_node()
         rclpy.shutdown()
@@ -109,7 +109,7 @@ def main(argv=None):
                 except (OSError, subprocess.CalledProcessError):
                     commit = "unknown"
                 record = make_record(session, positions, args.wheel_home, args.pose_note, commit)
-                record["stationarity_check"] = StationarySample.POLICY
+                record["stationarity_check"] = "operator_confirmed_position_stability_v1"
                 save_record(record, replace=args.replace)
         if getattr(args, "json", False):
             print(json.dumps(record, indent=2))

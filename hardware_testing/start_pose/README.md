@@ -1,3 +1,11 @@
+# Current startup requirement
+
+[STARTUP_UPPER_HOME.md](../../STARTUP_UPPER_HOME.md) is authoritative: every fresh stack activation homes motors 1 and 2 automatically and returns to the saved upper pose. Hubs remain manually aligned and captured. The material below is historical evidence and is superseded where it describes manual upper posing or says automatic return is unavailable.
+
+## Latest startup decision (September 14)
+
+Read [STARTUP_REFERENCE_DECISION.md](../../STARTUP_REFERENCE_DECISION.md) first. The intended workflow uses saved upper-joint references with joints initially within their measured ranges, and operator-positioned wheel hubs calibrated every startup. Automatic upper-reference resolution is not implemented; range membership does not resolve the observed cross-boot encoder shift. The historical hanging-pose instructions below describe the existing implementation, not the operator’s desired permanent workflow.
+
 # Saved start reference
 
 ## Approved upper policy home (September 13)

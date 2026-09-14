@@ -64,10 +64,14 @@ def main(argv=None):
             atomic_json(args.file, profile)
         profile = read_profile(args.file)
         print(f"Desired start pose: {args.file}")
-        print(f"Source calibration: {profile['source_calibration_id']}")
+        if profile.get("upper_home_reference"):
+            print(f"Upper home captured: {profile['upper_home_reference']['captured_at_utc']}")
+        else:
+            print(f"Source calibration: {profile['source_calibration_id']}")
         for name in JOINT_NAMES:
             print(f"  {name}: {profile['joint_positions'][name]:.8f} rad")
-        print("Reference saved only. Automatic return across power cycles is not implemented.")
+        print("Startup uses description/upper_home.yaml for motors 1 and 2. See STARTUP_UPPER_HOME.md.")
+        print("This command does not move motors. Rebuild after updating the runtime target YAML.")
         return 0
     except (OSError, ValueError, KeyError, TypeError) as exc:
         print(f"START POSE ERROR: {exc}", file=sys.stderr)

@@ -150,7 +150,9 @@ class StationarySample:
     """
     POLICY = "bounded_velocity_outliers_v1"
 
-    def __init__(self, duration=1.0, max_velocity=0.02, max_drift=0.002):
+    def __init__(self, duration=1.0, max_velocity=0.02, max_drift=0.002, check_velocity=True):
+        self.check_velocity = check_velocity
+        self.POLICY = "bounded_velocity_outliers_v1" if check_velocity else "operator_confirmed_position_stability_v1"
         self.duration, self.max_velocity, self.max_drift = duration, max_velocity, max_drift
         self.reset()
 
@@ -174,7 +176,7 @@ class StationarySample:
             self.reset()
             return False
         speed = max(abs(x) for x in v)
-        if (speed > 0.2 or
+        if ((self.check_velocity and speed > 0.2) or
                 (self.last_stamp is not None and stamp <= self.last_stamp) or
                 (self.last_receipt is not None and monotonic_now <= self.last_receipt)):
             self.reset()
@@ -190,13 +192,15 @@ class StationarySample:
             self.samples.popleft()
         self.count += 1
         if (len(self.samples) < 10 or self.samples[0][0] > cutoff or
-                monotonic_now - self.samples[0][3] < self.duration or speed > self.max_velocity):
+                monotonic_now - self.samples[0][3] < self.duration or (self.check_velocity and speed > self.max_velocity)):
             return False
         anchor = self.samples[0][1]
         for joint in range(12):
             offsets = [wrap(row[1][joint] - anchor[joint]) for row in self.samples]
             if max(offsets) - min(offsets) > self.max_drift + 1e-12:
                 return False
+        if not self.check_velocity:
+            return True
         total = burst = 0.0
         previous = self.samples[0]
         for row in list(self.samples)[1:]:

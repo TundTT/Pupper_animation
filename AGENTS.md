@@ -1,3 +1,11 @@
+# Required robot startup
+
+Read [STARTUP_UPPER_HOME.md](STARTUP_UPPER_HOME.md) before any stack launch. The operator requires **automatic mechanical-stop homing of motors 1 and 2, then return to the saved upper home on every fresh hardware activation**. Use `bash scripts/run_robot_stack.sh --supported` after actual support confirmation; confirmation already provided for the current setup persists. Do not ask the user to manually pose the upper legs. Keep hubs unpowered, then obtain manual marked-hub alignment confirmation and capture the live-session calibration before enabling policies. Reuse a running valid session when switching policies.
+
+Do not substitute the old hanging reference, Stanford zero, or a policy stance. The runtime home is `ros2_ws/src/pupper_v3_description/description/upper_home.yaml`; its source is `hardware_testing/start_pose/upper_home.json`. Rebuild after changing it. Tests that disable after homing are diagnostics, not the normal startup path. Historical startup narratives in other files are superseded by STARTUP_UPPER_HOME.md.
+
+The robot checkout is `/home/pi/robot-code-leglift`. Inspect processes and overlay before starting; never run a duplicate hardware owner or the other robot's checkout. Missing support confirmation, homing failure, or missing current-session hub calibration must not be bypassed. Heating remains manual. Read-only inspection and source edits do not require physical calibration. Cite hardware source and distinguish observed results from hypotheses.
+
 # Latest leg and wheel policies
 
 For locomotion policy work, read [LATEST_POLICIES.md](LATEST_POLICIES.md) first.
@@ -5,26 +13,6 @@ For locomotion policy work, read [LATEST_POLICIES.md](LATEST_POLICIES.md) first.
 They replace the existing walking and wheel controller files and are already wired
 in source. Do not substitute historical gap-only policies or the legacy
 `policy_latest.json`. Physical installation and hardware validation remain pending.
-
-# Robot startup and calibration
-
-Latest user request (September 12): replace the saved start pose with the
-operator-confirmed hanging pose after minor repairs. This was captured and saved
-as calibration 535afed263c24d7fa65a3c44dc7083d0; the prior floor-test reference is
-preserved. Retain an easily replaceable permanent reference and eliminate routine
-manual recapture once persistent physical homing is established. See `hardware_testing/start_pose/README.md` and `start_pose.json` there.
-The preset is saved, but automatic physical homing is not implemented: verify
-motor feedback across power loss before replacing the current offset workflow.
-The following instructions describe the currently installed startup procedure.
-
-Read [STARTUP_CALIBRATION.md](STARTUP_CALIBRATION.md) before any hardware-stack startup, restart, ordinary use, branch test or policy test. This is the user's standing requirement.
-
-- Before a fresh startup, prompt the user to support the robot in the documented encoder-homing pose and position the marked wheel rings for the agreed calibration reference. **Wait for their explicit confirmation before starting the hardware stack.** A request to start/test is not evidence that physical positioning is complete.
-- After startup/homing, capture and save the shared calibration before enabling policy-controlled motion. Use `python3 scripts/calibrate_robot.py capture`; an agent may add `--operator-confirmed` only after the user's actual confirmation for that startup. Never self-confirm, guess values or disable the hardware gate.
-- Check `python3 scripts/calibrate_robot.py status`. Report the calibration ID, wheel homes and storage path. Reuse valid calibration when switching policies within the same live encoder session. A fresh hardware activation/zeroing requires a new confirmed capture; a saved old file is not sufficient.
-- Inspect existing processes and the selected overlay before launching. Do not start a duplicate stack or launch the other robot's checkout. If the reference pose or physical marks are unclear, ask the user instead of treating a legacy comment as hardware truth.
-- Ordinary read-only inspection, local tests and source edits do not require physical calibration. Calibration does not authorize deployment, training, or additional robot motion. Heating remains manual.
-- Cite the actual hardware source for hardware claims; distinguish user-confirmed facts, implementation facts, legacy comments and hypotheses.
 
 # Policy training and experiment logging
 

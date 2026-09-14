@@ -134,6 +134,16 @@ class StationaryTest(unittest.TestCase):
                                v if v is not None else [0.0]*12,
                                stamp if stamp is not None else 100+t, 100+t+age, t)
 
+    def test_operator_confirmed_mode_ignores_speed_but_rejects_drift(self):
+        stationary = StationarySample(check_velocity=False)
+        moving = StationarySample(check_velocity=False)
+        for n in range(80):
+            ready = self.sample(stationary, n*0.02, v=[0.5]*12)
+            self.assertFalse(self.sample(moving, n*0.02, q=[n*0.002]*12, v=[0.0]*12))
+        self.assertTrue(ready)
+        self.assertEqual(stationary.POLICY, "operator_confirmed_position_stability_v1")
+        self.assertFalse(self.sample(stationary, 1.6, v=[float('nan')]*12))
+
     def test_stationary_named_samples_and_wrap_boundary(self):
         sampler = StationarySample()
         names = list(reversed(JOINT_NAMES))
