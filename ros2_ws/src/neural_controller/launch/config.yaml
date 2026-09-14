@@ -268,9 +268,15 @@ neural_controller_wheel:
         "leg_back_l_3",
       ]
 
-    # Splayed wheeled stance (abduction +-1 rad). The wheel entries are 0 and are
+    # Wheeled stance (abduction +-0.65 rad). The wheel entries are 0 and are
     # only read by the init phase, which is disarmed on those rows via init_kps=0.
-    default_joint_pos: [1.0, 0.0, 0.0, -1.0, 0.0, 0.0, 1.0, 0.0, 0.0, -1.0, 0.0, 0.0]
+    #
+    # Was +-1.0 rad (57 deg), which made the robot roll visibly splay-legged. Must
+    # stay equal to the training env's DEFAULT_POSE: the controller applies policy
+    # actions as offsets FROM this vector, so a mismatch leaves the robot holding
+    # one stance while the policy assumes another. Checked against the exported
+    # default_joint_pos in policy_wheel.json.
+    default_joint_pos: [0.65, 0.0, 0.0, -0.65, 0.0, 0.0, 0.65, 0.0, 0.0, -0.65, 0.0, 0.0]
 
     kps: [5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0, 5.0, 5.0, 0.0]
     kds: [0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35, 0.25, 0.25, 0.35]

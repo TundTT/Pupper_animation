@@ -13,7 +13,7 @@ controllers, so no new controller or joystick wiring is needed in source.
 | Mode | Controller | Button in locomotion trial | Current policy file | Steps |
 | --- | --- | --- | --- | --- |
 | Leg walking | neural_controller_walk_v2 | Triangle (2) | ros2_ws/src/neural_controller/launch/policy_walk_v2.json | 21,299,200 |
-| Wheels | neural_controller_wheel | Circle (1) | ros2_ws/src/neural_controller/launch/policy_wheel.json | 201,850,880 |
+| Wheels | neural_controller_wheel | Circle (1) | ros2_ws/src/neural_controller/launch/policy_wheel.json | 100,925,440 |
 
 `launch/config.yaml`, `launch/locomotion_trial.launch.py`, and the full `launch/launch.py`
 load those existing controller instances. The leg contract remains 144 observations,
@@ -35,8 +35,28 @@ Do not interpret this shipment as evidence that an installed or running robot is
 using the new weights. `policy_latest.json` is a separate legacy controller policy and
 is not the latest leg policy despite its historical filename.
 
+**Wheel stance change, 2026-09-14 (this shipment).** The wheeled home pose was
+narrowed from +-1.0 rad abduction (57 deg) to +-0.65 rad (37 deg), because the robot
+rolled visibly splay-legged. The previous policy was not drifting: measured over
+400-step rollouts it tracked its abduction targets to within 0.05 rad, so the splay
+was the home-pose constant, not learned behaviour and not backpack mass. A static
+settle sweep on the backpack + 9 mm model stays upright on all four wheels down to
+0.55 rad and collapses at 0.50, so 0.65 keeps ~0.1 rad of margin.
+
+`config.yaml`'s `neural_controller_wheel` `default_joint_pos` was updated in the same
+commit and MUST stay equal to the exported `default_joint_pos` — the controller applies
+actions as offsets from it. `neural_controller_wheel_align_hybrid` and
+`neural_controller_keyframe_align` deliberately keep +-1.0 rad, so switching between
+wheel mode and either align mode now crosses a stance change; each controller ramps to
+its own home over its `init_duration`, but watch that transition on the first hardware run.
+Leg/walking policy and config are untouched by this shipment.
+
 Training checkpoints, model snapshots, metrics and rollout videos are in
 `trained_policies/backpack_2026-09-13` on `codex/backpack-leg` and `codex/backpack-wheel`.
+The 2026-09-14 wheel run is `wheel_2026-09-14_04-59-56` on branch `wheel-stance`
+(W&B `QuadMorph/pupper-wheel/runs/y534r02t`), warm-started from the previous wheel
+checkpoint; its export was checked against the trained policy over 128 random-observation
+fixtures at max absolute action error 0.000e+00.
 The manifest records exact checkpoint and export hashes and the training source commits.
 The wheel backpack retains its fixed 0.60191707499 kg mass/inertia and floor collisions;
 backpack self-collisions are excluded per the user's instruction because MJX lacks
