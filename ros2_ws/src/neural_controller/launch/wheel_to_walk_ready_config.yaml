@@ -26,6 +26,7 @@ neural_controller_wheel_to_walk_ready:
     estop_kd: 0.3
 
     calibrated_walk_frame: true
+    wheel_stance_bridge: true
     calibration_required: true
 
     joint_names:

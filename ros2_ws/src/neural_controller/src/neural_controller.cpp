@@ -70,6 +70,25 @@ controller_interface::CallbackReturn NeuralController::on_init() {
     json_file >> j;
 
     policy_contract_ = PolicyContract(j);
+    rcl_interfaces::msg::ParameterDescriptor bridge_descriptor;
+    bridge_descriptor.read_only=true;
+    wheel_stance_bridge_=get_node()->declare_parameter<bool>("wheel_stance_bridge",false,bridge_descriptor);
+    if(wheel_stance_bridge_) {
+      // Widen entry only for the synthetic hold controller, never a learned policy.
+      for(const auto& layer:j.at("layers")) {
+        if(layer.at("type")!="dense" ||
+           (layer.at("activation")!="elu" && layer.at("activation")!="tanh"))
+          throw std::runtime_error("Bridge requires zero-preserving dense layers");
+        const auto flat_weights=layer.at("weights").flatten();
+        for(const auto& item:flat_weights.items())
+          if(!item.value().is_number() || item.value().get<double>()!=0.)
+            throw std::runtime_error("Bridge requires an all-zero hold network");
+      }
+      if(params_.init_duration<2.0 ||
+         !std::all_of(params_.action_types.begin(),params_.action_types.end(),
+                      [](const auto& type){return type=="position";}))
+        throw std::runtime_error("Bridge requires position control and a two-second ramp");
+    }
     if (j.contains("joint_names") &&
         j.at("joint_names").get<std::vector<std::string>>() != params_.joint_names) {
       throw std::runtime_error("Configured joint order differs from the policy export");
@@ -301,6 +320,8 @@ controller_interface::CallbackReturn NeuralController::on_init() {
   calibrated_walk_frame_=get_node()->declare_parameter<bool>("calibrated_walk_frame",false,frame_descriptor);
   if(calibrated_walk_frame_ && (behavior_!="locomotion" || !params_.calibration_required))
     return controller_interface::CallbackReturn::ERROR;
+  if(wheel_stance_bridge_ && !calibrated_walk_frame_)
+    return controller_interface::CallbackReturn::ERROR;
   return controller_interface::CallbackReturn::SUCCESS;
 }
 
@@ -361,6 +382,15 @@ controller_interface::CallbackReturn NeuralController::on_activate(
         command_interface.get_interface_name(), std::ref(command_interface));
   }
 
+  // Clear every command interface immediately on activation. Command
+  // interfaces are shared hardware memory that keeps whatever the previously
+  // active controller last wrote (e.g. a nonzero wheel velocity) until this
+  // controller's own update() overwrites it -- previously only the
+  // wheel_align_hybrid behavior did this explicitly, leaving other switches
+  // (e.g. Wheel -> the wheel-to-walk-ready bridge) exposed to a stale
+  // command bleeding through for one cycle before update() first runs.
+  for (auto &command_interface : command_interfaces_) command_interface.set_value(0.0);
+
   // Populate the state interfaces map
   state_interfaces_map_.clear();
   for (auto &state_interface : state_interfaces_) {
@@ -400,9 +430,9 @@ controller_interface::CallbackReturn NeuralController::on_activate(
           (i%3==2 && std::abs(captured[i]-plan.at("initial")[i].get<double>()-reference[i])>1e-9))
           throw std::runtime_error("Inconsistent roll reference");
       }
-      encoder_offset_=walking_offsets(init_joint_pos_,home,reference);
+      encoder_offset_=walking_offsets(init_joint_pos_,home,reference,wheel_stance_bridge_);
       const auto handoff_path=robot_calibration::directory()/"walking-handoff.json";
-      if(std::filesystem::exists(handoff_path)) {
+      if(!wheel_stance_bridge_ && std::filesystem::exists(handoff_path)) {
         nlohmann::json j;std::ifstream f(handoff_path);f>>j;
         const double now=std::chrono::duration<double>(std::chrono::system_clock::now().time_since_epoch()).count();
         const double age=now-j.at("time_unix").get<double>();

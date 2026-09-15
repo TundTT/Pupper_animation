@@ -142,6 +142,7 @@ class NeuralController : public controller_interface::ControllerInterface {
   std::array<double, kActionSize> init_joint_pos_ = {};
   // Optional combined-mode walking frame; policy metadata/weights stay unchanged.
   bool calibrated_walk_frame_ = false;
+  bool wheel_stance_bridge_ = false;
   std::array<double, kActionSize> encoder_offset_{};
   std::array<double, kActionSize> handoff_kp_{}, handoff_kd_{};
   bool have_handoff_ = false;

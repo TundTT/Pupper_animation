@@ -19,9 +19,9 @@ int main(int argc, char **argv) {
     stream >> policy;
     neural_controller::PolicyContract contract(policy);
     require(contract.command({-0.75, 0.5, -2.0}) ==
-                std::array<double, 3>{-0.35, 0.15, -0.8}, "command envelope mismatch");
+                std::array<double, 3>{-0.35, 0.0, -2.0}, "command envelope mismatch");
     require(contract.command({0.2, -0.1, 0.5}) ==
-                std::array<double, 3>{0.2, -0.1, 0.5}, "in-range command changed");
+                std::array<double, 3>{0.2, 0.0, 0.5}, "lateral command clamp mismatch");
     require(contract.command({std::numeric_limits<double>::infinity(), 0.1, 0.5}) ==
                 std::array<double, 3>{0, 0, 0}, "nonfinite command not stopped");
     require(contract.fixed_orientation && contract.orientation ==
@@ -65,14 +65,14 @@ int main(int argc, char **argv) {
       model->forward(input.data());
       for (int i = 0; i < 12; ++i) {
         double error = std::abs(double(model->getOutputs()[i]) - expected[i]);
-        require(std::isfinite(error) && error < 3e-5, "RTNeural/JAX action mismatch");
+        require(std::isfinite(error) && error < 3e-5, "RTNeural/NumPy shipped-export action mismatch");
         max_error = std::max(max_error, error);
       }
       ++count;
     }
     require(count >= 64, "not enough inference fixtures");
     std::cout << "PASS: command contract, reset history, and " << count
-              << " JAX/RTNeural observations; max action error=" << max_error << '\n';
+              << " NumPy/RTNeural shipped-export observations; max action error=" << max_error << '\n';
     return 0;
   } catch (const std::exception &e) {
     std::cerr << "FAIL: " << e.what() << '\n';

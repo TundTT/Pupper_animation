@@ -24,8 +24,9 @@ def check(repo, package_share=None):
     assert policy['in_shape'] == [None, 144] and policy['observation_history'] == 4
     assert policy['layers'][-1]['shape'] == [None, 12]
     assert policy['layers'][-1]['activation'] == 'tanh'
-    assert policy['action_scale'] == [.5, .25, 1.1] * 4
-    for key in ('joint_names', 'default_joint_pos', 'action_types'):
+    assert policy['action_scale'] == [.75] * 12
+    # The controller reads home, scales and limits from the selected JSON.
+    for key in ('joint_names', 'action_types'):
         assert settings[key] == policy[key], f'Config/export mismatch: {key}'
     assert policy['action_types'] == ['position'] * 12
     assert settings['gain_multiplier'] == 1.0
@@ -35,8 +36,8 @@ def check(repo, package_share=None):
     assert settings['repeat_action'] == 10
     assert config['controller_manager']['ros__parameters']['update_rate'] == 520
     assert policy['kp'] == 5.0 and policy['kd'] == .25
-    assert policy['command_low'] == [-.35, -.15, -.8]
-    assert policy['command_high'] == [.35, .15, .8]
+    assert policy['command_low'] == [-.35, 0., -2.]
+    assert policy['command_high'] == [.35, 0., 2.]
     assert policy['orientation_command'] == [0, 0, 1]
     buttons = config['joy_util_node']['ros__parameters']
     mapping = dict(zip(buttons['switch_button_indices'], buttons['controller_names']))

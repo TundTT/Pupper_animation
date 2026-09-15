@@ -15,6 +15,17 @@ int main(){
     require(std::abs(((home[i]+scale*action+fixed[i])-fixed[i])-(home[i]+scale*action))<1e-12);
   }
   require(neural_controller::walking_offsets(q,home,ref)==fixed); // no cumulative reactivation offset
+  auto wheel_q=q;
+  for(int i=0;i<12;i+=3) { wheel_q[i]=home[i]>0 ? .65 : -.65; wheel_q[i+2]+=2.; }
+  bool bridge_rejected=false;
+  try{neural_controller::walking_offsets(wheel_q,home,ref);}catch(...){bridge_rejected=true;}
+  require(bridge_rejected); // Learned walking must retain the standing entry gate.
+  const auto bridge=neural_controller::walking_offsets(wheel_q,home,ref,true);
+  for(int i=0;i<12;++i) if(i%3==2)
+    require(std::abs(wheel_q[i]-bridge[i]-home[i])<=3.141592653589794);
+  wheel_q[0]=.2;bridge_rejected=false;
+  try{neural_controller::walking_offsets(wheel_q,home,ref,true);}catch(...){bridge_rejected=true;}
+  require(bridge_rejected);
   q[2]+=3.141592653589793;bool rejected=false;
   try{neural_controller::walking_offsets(q,home,ref);}catch(...){rejected=true;}require(rejected);
   q=home;q[1]=.5;rejected=false;

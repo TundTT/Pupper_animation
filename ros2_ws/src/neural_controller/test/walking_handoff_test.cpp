@@ -69,7 +69,31 @@ int main(int argc,char**argv){
     q[11]-=M_PI;map["calibration_id"]="old";
     {std::ofstream f(dir/"triangle-roll-map.json");f<<map;}
     require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"stale roll map rejects");
+    std::filesystem::remove(dir/"triangle-roll-map.json");
+    {
+      const auto launch=std::filesystem::path(argv[2]).parent_path();
+      Harness bridge;rclcpp::NodeOptions bridge_options;
+      bridge_options.arguments({"--ros-args","--params-file",(launch/"wheel_to_walk_ready_config.yaml").string(),
+        "-p",std::string("model_path:=")+(launch/"policy_wheel_to_walk_ready.json").string()});
+      require(bridge.init("neural_controller_wheel_to_walk_ready","",520,"",bridge_options)==controller_interface::return_type::OK,"bridge init");
+      require(bridge.on_configure({})==controller_interface::CallbackReturn::SUCCESS,"bridge configure");
+      for(int i=0;i<12;i+=3){q[i]=i==0||i==6 ? .65 : -.65;q[i+1]=0;q[i+2]=homes[i/3]+2.;}
+      std::vector<hardware_interface::LoanedCommandInterface> ci;std::vector<hardware_interface::LoanedStateInterface> si;
+      c.release_interfaces();
+      for(auto& x:commands)ci.emplace_back(x);for(auto& x:states)si.emplace_back(x);
+      bridge.assign_interfaces(std::move(ci),std::move(si));
+      require(bridge.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"wheel stance bridge activation");
+      bridge.update(bridge.origin(),rclcpp::Duration::from_seconds(1./520));
+      for(int i=0;i<12;++i)require(std::abs(out[i][0]-q[i])<1e-6,"bridge begins at measured positions");
+      bridge.update(bridge.origin()+rclcpp::Duration::from_seconds(2.),rclcpp::Duration::from_seconds(1./520));
+      for(int i=0;i<12;++i)require(std::abs(out[i][0]-bridge.params().default_joint_pos[i]-bridge.offsets()[i])<1e-6,"bridge reaches standing home");
+      bridge.on_deactivate({});bridge.release_interfaces();
+      Harness invalid;rclcpp::NodeOptions bad_options;
+      bad_options.arguments({"--ros-args","--params-file",(launch/"wheel_to_walk_ready_config.yaml").string(),"-p",std::string("model_path:=")+argv[2]});
+      require(invalid.init("neural_controller_wheel_to_walk_ready","",520,"",bad_options)!=controller_interface::return_type::OK,"learned model cannot use bridge entry");
+    }
     auto newer=robot_calibration::begin_session();robot_calibration::finish_session(newer);
+    assign();
     require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"reboot session rejects");
     std::cout<<"Actual walking plugin: mapped observations/actions, continuous targets/gains, stop, reentry, stale reference passed\n";
   } catch(const std::exception&e){std::cerr<<e.what()<<'\n';result=1;}

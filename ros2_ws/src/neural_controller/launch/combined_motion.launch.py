@@ -2,7 +2,7 @@
 from launch import LaunchDescription
 from launch.substitutions import Command, FindExecutable, PathJoinSubstitution
 from launch_ros.actions import Node
-from launch_ros.parameter_descriptions import ParameterFile
+from launch_ros.parameter_descriptions import ParameterFile, ParameterValue
 from launch_ros.substitutions import FindPackageShare
 
 
@@ -17,9 +17,9 @@ def generate_launch_description():
     combined = ParameterFile(path('combined_motion.yaml'), allow_substs=True)
     policies = ['neural_controller_triangle_roll', 'neural_controller_walk_v2', 'neural_controller_wheel',
                 'neural_controller_wheel_lift', 'neural_controller_wheel_to_walk_ready']
-    description = {'robot_description': Command([
+    description = {'robot_description': ParameterValue(Command([
         FindExecutable(name='xacro'), ' ', PathJoinSubstitution([
-            FindPackageShare('pupper_v3_description'), 'description', 'pupper_v3.urdf.xacro'])])}
+            FindPackageShare('pupper_v3_description'), 'description', 'pupper_v3.urdf.xacro'])]), value_type=str)}
     nodes = [
         Node(package='robot_state_publisher', executable='robot_state_publisher', parameters=[description], output='both'),
         Node(package='controller_manager', executable='ros2_control_node', parameters=[config, roll, lift, ready, combined], output='both'),
