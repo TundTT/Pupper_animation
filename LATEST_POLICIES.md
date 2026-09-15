@@ -1,5 +1,9 @@
 # Latest trained leg and wheel policies
 
+For the trained leg-to-wheel conversion policy and gentler lowering source
+release, see [LEG_TO_WHEEL_POLICY.md](LEG_TO_WHEEL_POLICY.md). It includes the
+RTNeural export and tested C++ runtime; hardware activation integration is pending.
+
 For X roll-to-stand plus Triangle walking and Circle wheels in one session, use
 `COMBINED_MOTION_LAB.md` and `combined_motion.launch.py`. That launch adds the
 session-bound walking frame required after hub rotation; the legacy ordinary

@@ -91,6 +91,14 @@ install(PROGRAMS scripts/motion_buttons.py DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   enable_testing()
+  add_executable(leg_to_wheel_policy_test test/leg_to_wheel_policy_test.cpp)
+  target_compile_features(leg_to_wheel_policy_test PRIVATE cxx_std_17)
+  target_include_directories(leg_to_wheel_policy_test PRIVATE include)
+  target_link_libraries(leg_to_wheel_policy_test RTNeural)
+  add_test(NAME leg_to_wheel_policy_and_runtime COMMAND leg_to_wheel_policy_test
+    ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_leg_to_wheel.json
+    ${CMAKE_CURRENT_SOURCE_DIR}/test/leg_to_wheel_policy_reference.csv
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../policies/leg_to_wheel/evidence/runtime_reference.csv)
   add_executable(notebook_lift_align_test test/notebook_lift_align_test.cpp)
   target_compile_features(notebook_lift_align_test PRIVATE cxx_std_17)
   target_include_directories(notebook_lift_align_test PRIVATE include)
