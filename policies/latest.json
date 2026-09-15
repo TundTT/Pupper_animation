@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "release": "wheel-stance-2026-09-14",
+  "release": "selected-exports-20260915",
   "status": "LATEST: use these policies for leg walking and wheeled locomotion",
-  "integration_status": "Wheel policy + matching default_joint_pos installed; check_locomotion_policies.py passes. Leg entry unchanged.",
+  "integration_status": "Installed in robot install-combined on 2026-09-15; focused software checks passed. Calibration and physical validation pending.",
   "hardware_status": "Wheel stance change NOT yet tested on the physical robot",
   "policies": {
     "leg": {
@@ -11,26 +11,21 @@
       "policy_path": "ros2_ws/src/neural_controller/launch/policy_walk_v2.json",
       "controller": "neural_controller_walk_v2",
       "button": "Triangle",
-      "checkpoint_step": 21299200,
-      "checkpoint_file": "best_params",
-      "checkpoint_sha256": "a68ca5b6f87a5e097163344d30ba288794790d6d3751180f8b3b237bb08eeb6f",
-      "export_sha256": "f5326dd69488d1e4a32a6da223c4a274cd5362e69ed3eed13deeaa15dba84baa",
+      "export_sha256": "aa4cd244eb3fd9e0f44a0f0c6f6c48169afe021d0cd26e55a447d92065d5f3e3",
       "previous_export_sha256": "854ac8ba4ffc305079b7f6f7b52187a211413c3cdb18f0de016dd819ff2450a8",
-      "training_run": "walk_2026-09-12_17-47-14",
-      "training_branch": "codex/backpack-leg",
-      "training_artifacts": "trained_policies/backpack_2026-09-13",
-      "training_base_commit": "417d0c077d06e0ec39e55743d288d3e2cc6ba430",
-      "training_model_sha256": "86d2ab1ba7e6f2cb747f04d23dca125fb3fd6e4ccccb19e5b0fcd1f7936dbf61",
-      "warm_start_checkpoint_sha256": "878376a33dfcfaf4f312410c38482f9afe6b21621f5b442051eba4c1c72dafa3",
-      "gpu": 1,
+      "training_run": "reference_2026-09-14_06-51-00",
+      "training_base_commit": "27bc66823478758bd9dc701a5aec27cceaa0710a",
+      "training_model_sha256": "1ad0794fd9d5c1b517f15b36c74184c4932561e5841089bb0a87b65a9c1cbd7e",
       "observation_size": 144,
       "action_size": 12,
-      "reference_sha256": "37874beea041e35adc873fbe9c0ab4789f09fcbab1d3f8ef90accd5f1ae98229",
+      "reference_sha256": "498dcfe95927b922a1cfe9fb530fe44134501e248d8e51a847b0ef25975d2c69",
       "checkpoint_hardware_tested": false,
       "checkpoint_deployed_to_robot": false,
       "contact_model": "Original backpack collision boxes and rigid capsule feet",
-      "wandb_mode": "offline",
-      "training_release_commit": "c5b9a0f46c90a07e7843af2e9609dbf1541214e5"
+      "selection_commit": "63820b020ae01e73346aff0127f0186704b8eda2",
+      "checkpoint_step": null,
+      "reference_scope": "Independent NumPy float64 evaluation of shipped JSON; NOT training checkpoint parity.",
+      "stabilization_max_float64_action_difference": 1.2234893653761958e-11
     },
     "wheel": {
       "latest": true,
@@ -52,7 +47,7 @@
       "gpu": 1,
       "observation_size": 132,
       "action_size": 12,
-      "reference_sha256": "01c1b505ca7a2f29a395baeff39185f50997945cf19adbd9faaecf2490748827",
+      "reference_sha256": "ba6b42a60c38d0937a3460bd2740ec14a814f409e8ec2b40fe1e0cc014f33f7d",
       "checkpoint_hardware_tested": false,
       "checkpoint_deployed_to_robot": false,
       "contact_model": "Backpack floor-only contacts; self-collisions excluded as requested. Fixed mass/inertia retained.",
@@ -61,20 +56,31 @@
       "wandb_run": "QuadMorph/pupper-wheel/runs/y534r02t",
       "home_abduction_rad": 0.65,
       "change": "Home-pose abduction splay narrowed 1.0 -> 0.65 rad (57 -> 37 deg). config.yaml neural_controller_wheel default_joint_pos updated to match; the two align controllers deliberately keep 1.0.",
-      "export_parity": "128 random-observation fixtures, exported JSON vs trained brax policy, max abs action error 0.000e+00"
+      "export_parity": "128 random-observation fixtures, exported JSON vs trained brax policy, max abs action error 0.000e+00",
+      "reference_scope": "Independent NumPy float64 evaluation of shipped JSON; NOT training checkpoint parity."
     }
   },
   "validation": {
-    "status": "PASS",
-    "scope": "Offline checkpoint export and controller source configuration; physical hardware not tested.",
-    "cpp_backend": "RTNeural Eigen float32",
-    "fixtures_per_policy": 128,
-    "tolerance": 3e-05,
-    "leg_max_abs_action_error": 2.40654e-06,
-    "wheel_max_abs_action_error": 3.12924e-07,
-    "leg_export_tests": "2 passed",
-    "controller_config": "scripts/check_locomotion_policies.py PASS",
-    "startup_launch_tests": "6 passed (ROS source resolution, no nodes launched)",
-    "ros_manager_integration": "Not run for this policy shipment; no physical robot contacted"
+    "status": "PASS_SOFTWARE_ONLY",
+    "scope": "Shipped export portability and combined installation, not training checkpoint parity or hardware motion validation.",
+    "robot_checkout": "/home/pi/robot-code-leglift",
+    "base_commit": "04c0de9",
+    "focused_ctest_passed": 16,
+    "ctest_note": "14 passed initial run; two notebook lifecycle tests passed after YAML double-array correction.",
+    "motion_button_tests_passed": 12,
+    "installed_checks": [
+      "locomotion",
+      "notebook_lift",
+      "wheel_lift"
+    ],
+    "startup_checks": [
+      "upper-home build",
+      "selected overlays",
+      "source/installed home match",
+      "gamepad present",
+      "no hardware owner"
+    ],
+    "hardware_started": false,
+    "evidence": "hardware_testing/setup_20260915 and hardware_testing/release_reconcile_20260915"
   }
 }

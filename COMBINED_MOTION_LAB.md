@@ -19,14 +19,14 @@ See `hardware_testing/combined_motion_2026-09-13/hardware_session_summary.md`.
 Once initial calibration and the tips-up starting pose are confirmed, the
 operator's button presses authorize the motions. Do not require another chat
 confirmation between X and Triangle. The roll takes approximately 46 seconds,
-including settling; early Triangle presses are rejected and are not queued.
-Release and press Triangle again after completion, with the sticks centered.
+including settling. Triangle can interrupt a healthy running roll once the joints are near standing (within 0.30 rad) and slow (at most 0.15 rad/s), skipping the remaining settle time. Earlier presses are rejected and are not queued.
+Release and press Triangle again once near standing, with the sticks centered.
 Startup confirmation after power loss remains required.
 
 | Button | Action |
 | --- | --- |
 | X (0) | From the prepared, calibrated tips-up pose: activate the roll controller, wait for READY, send START once, then hold after completion. |
-| Triangle (2) | Activate walking at zero initial command, using the current-session hub reference and a fixed full-turn offset. From roll, wait until it completes successfully. |
+| Triangle (2) | Activate walking at zero initial command, using the current-session hub reference and a fixed full-turn offset. From roll, switch once near standing and slow; completion is not required. |
 | Circle (1) | Select the wheel policy. This changes control mode; it does not reshape the appendages. Use it with the appropriate physical configuration. |
 | R2 / right trigger (7) | First pull activates lift/align into stand. Subsequent release-and-pull events cycle FR lift → rotate → lower, then FL, BR and BL. Aligned hub targets remain held. Square is unbound. |
 | PS (10) | Stop. Release alone does not resume motion. |
@@ -34,7 +34,7 @@ Startup confirmation after power loss remains required.
 Release the drive sticks before changing modes. Only one controller owns motor
 commands at a time. Holding X or R2 cannot repeat a command; presses during
 a pending switch are consumed rather than queued. Pressing a mode's button while
-it is already active does not restart it; R2 instead advances the active lift/align sequence. A running or faulted roll cannot be
+it is already active does not restart it; R2 advances the active lift/align sequence. A running roll may be interrupted by Triangle once the walking entry checks pass. A faulted roll cannot be
 interrupted by a drive-mode button. The e-stop remains available.
 
 Heating and shape selection are manual. X does not run wheel alignment, heat,
@@ -87,8 +87,10 @@ or try to flip tips-up appendages by activating walking.
 For a completed-roll handoff, the dispatcher saves fresh final command positions
 and gains in `~/.local/state/quadmorph/walking-handoff.json`, bound to the current
 calibration. Walking starts from those targets and gains, then smoothly blends
-to its home/gains over the configured two-second initialization. The existing
-two-second action fade and observation-history reset follow. A stale snapshot
+to its walking home/gains over a 0.2-second initialization. A 0.2-second action
+fade and observation-history reset follow, reaching full policy output after
+approximately 0.4 seconds, plus controller-switch latency. These faster timings
+are a source configuration update and require physical validation. A stale snapshot
 or inconsistent current pose rejects activation. This removes the full-turn
 unwind and commanded target/gain step. Supervised physical handoffs have now been
 reported successful; broader balance robustness remains unvalidated.
