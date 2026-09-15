@@ -37,15 +37,18 @@ class RosCaptureTest(unittest.TestCase):
         self.node = Node("calibration_test_fixture")
         self.moving = False
         self.active = False
+        self.velocity_noise = False
         self.q = [1.0, 0.0, 0.3, -1.0, 0.0, -0.4, 1.0, 0.0, 0.5, -1.0, 0.0, -0.6]
         self.publisher = self.node.create_publisher(JointState, "/joint_states", 10)
 
         def publish():
+            if self.moving:
+                self.q[0] += 0.01  # Real position movement, not a velocity-only outlier.
             msg = JointState()
             msg.header.stamp = self.node.get_clock().now().to_msg()
             msg.name = list(reversed(JOINT_NAMES))
             msg.position = list(reversed(self.q))
-            msg.velocity = [0.2 if self.moving else 0.0] * 12
+            msg.velocity = [0.2 if self.moving or self.velocity_noise else 0.0] * 12
             self.publisher.publish(msg)
 
         def controllers(request, response):
@@ -100,3 +103,9 @@ class RosCaptureTest(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("stationary", result.stderr)
         self.assertFalse((Path(self.tmp.name) / "calibration.json").exists())
+
+    def test_reported_velocity_noise_with_fixed_positions_uses_position_stability(self):
+        self.velocity_noise = True
+        result = self.run_capture()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue((Path(self.tmp.name) / "calibration.json").exists())

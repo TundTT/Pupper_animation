@@ -5,6 +5,10 @@ controller_manager:
       type: neural_controller/NeuralController
     neural_controller_wheel:
       type: neural_controller/NeuralController
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    imu_sensor_broadcaster:
+      type: imu_sensor_broadcaster/IMUSensorBroadcaster
 neural_controller_walk_v2:
   ros__parameters:
     repeat_action: 10
@@ -179,3 +183,30 @@ neural_controller_wheel:
     - velocity
     max_body_angle: 1.5
     model_path: $(find-pkg-share neural_controller)/launch/policy_wheel.json
+joy_linux_node:
+  ros__parameters:
+    dev: /dev/input/js0
+    autorepeat_rate: 50.0
+    coalesce_interval: 0.02
+teleop_twist_joy_node:
+  ros__parameters:
+    axis_linear:
+      x: 1
+      y: 0
+    scale_linear:
+      x: 0.75
+      y: 0.5
+    axis_angular:
+      yaw: 3
+    scale_angular:
+      yaw: 2.0
+    require_enable_button: false
+imu_sensor_broadcaster:
+  ros__parameters:
+    update_rate: 260
+    frame_id: base_link
+    sensor_name: imu_sensor
+cmd_vel_mux:
+  ros__parameters:
+    deadband: 0.05
+    joystick_timeout_ms: 500

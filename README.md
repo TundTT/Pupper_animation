@@ -1,8 +1,9 @@
-# Selected robot controllers
+# Selected robot runtime
 
 Extracted from `robot-code` at `6b07745ab4c7ab59e6da7766a17896f118d5198d`.
 This branch starts with an empty root commit and contains only the selected
-controllers, their source dependencies, configuration, and focused tests.
+controllers and their dependencies. It now adds Stanford-based robot infrastructure
+with our gravity-pose calibration. No robot deployment or physical test has occurred.
 
 ## Selected behavior
 
@@ -30,32 +31,42 @@ the existing stance transition needed before entering walking or lift from wheel
   policy exports, configuration entries or separate plugins. Splitting this
   shared implementation is a later refactor.
 - `robot_calibration` is a compile/runtime dependency of these controllers and
-  the dispatcher. Its existing implementation is copied unchanged. No reference
-  capture, calibration redesign or hardware activation was performed.
+  the dispatcher. Its existing position-stability capture and per-session validity
+  checks are retained and connected to the new hardware startup.
 - Vendored RTNeural, Eigen and JSON headers are needed for inference. Training
   code, checkpoints, videos, historical policies and unrelated ROS packages are
   excluded. Upstream manifests retain provenance and may describe evidence files
   that remain only in the original repository.
 
-## Current scope and remaining integration
+## Hardware infrastructure and calibration
 
-This is a controller source bundle, not a complete robot startup distribution.
-Hardware drivers, robot description, startup launch and calibration workflow will
-be addressed separately. Existing calibration gates remain intact.
+Stanford's [pupperv3-monorepo](https://github.com/Nate711/pupperv3-monorepo/tree/6f96c5e79faa05492992c19918f8cd90b9243281)
+provides the SPI/IMU driver, ROS hardware interfaces, command multiplexer and base
+robot description. `STANFORD_IMPORT.json` pins the source and records adaptations.
+We preserve our robot's motor mapping, IMU mounting, proximal limits and continuous
+hubs. Stanford's display meshes are retained; they are not a verified model of the
+heating backpack or 9 mm custom geometry. The selected policies' existing internal
+geometry/model contracts remain unchanged and authoritative for their calculations.
 
-**Leg-to-wheel still needs a ROS hardware adapter**, including coordinate mapping
-and validated clearance/contact feedback. Its C++ runtime and sequencer are
-included, but it is not registered as a runnable ROS controller.
+The torque-threshold homing routine has been replaced with our confirmed hanging
+pose and wheel-ring procedure. One editable file, `config/gravity_pose.yaml`, holds
+the nominal joint references. See [STARTUP_CALIBRATION.md](STARTUP_CALIBRATION.md)
+for the physical setup, startup/capture sequence, storage and software limitations.
+All selected motion controllers start inactive. Nothing automatically heats,
+reshapes, restores a physical pose, rolls or begins walking at startup.
 
-No software was deployed to the robot. No physical motion was tested.
+**Leg-to-wheel's ROS hardware adapter remains the next task**, as explicitly agreed.
+Its policy, C++ actor/sequencer and lowering filter are retained; it is not spawned.
+Live clearance/contact feedback must be resolved before enabling that motion.
 
 ## Build and test without hardware
 
-Use Linux with ROS 2 Jazzy and the dependencies declared in the two package.xml
+Use Linux with ROS 2 Jazzy and the dependencies declared in the five package.xml
 files. From this repository root:
 
 ```sh
 source /opt/ros/jazzy/setup.bash
+rosdep install --from-paths ros2_ws/src --ignore-src -r -y
 colcon build --base-paths ros2_ws/src --cmake-args -DBUILD_TESTING=ON -DCMAKE_BUILD_TYPE=Release
 source install/setup.bash
 colcon test --event-handlers console_direct+
@@ -69,18 +80,18 @@ and the source commit. CMake, plugin registration and the walking/wheel config
 were narrowed to the selected controllers; controller source and exports are
 unchanged.
 
-## Extraction validation (2026-09-15)
+## Validation
 
-- ROS 2 Jazzy Release build passed for both packages in WSL Ubuntu.
-- All 10 controller CTest groups passed, covering walking/wheel/leg-to-wheel
-  inference, roll core/lifecycle, walking frame/handoff, lift core/lifecycle,
-  and the button dispatcher.
-- All 588 imported files matched their recorded hashes and their staged Git
-  blobs. Selected walking/wheel parameter values match the source configuration.
-- Calibration storage and all 20 Python storage tests passed. Its ROS capture
-  suite passed 2 of 3 tests. `test_moving_encoders_prevent_capture` failed and
-  reproduced identically against the original `robot-code` checkout: the fixture
-  reports nonzero velocity with constant positions, while the existing CLI uses
-  `StationarySample(check_velocity=False)` and checks position excursion instead.
-  This pre-existing test/implementation mismatch remains unchanged for the later
-  calibration discussion. The complete suite therefore does not pass.
+The original extraction passed the ROS Jazzy build and ten controller test groups.
+This integration adds tests for the actual hardware lifecycle with fake SPI,
+transport response validation, installed xacro/reference wiring, startup refusal,
+and a ROS controller manager using only GenericSystem mock hardware.
+
+The old calibration test fixture reported velocity while keeping positions fixed.
+It now moves positions when testing movement rejection and separately verifies
+reported-velocity noise at fixed positions. The runtime's existing
+`StationarySample(check_velocity=False)` contract was not changed.
+
+See `VALIDATION.md` for this integration's final results. Software validation does
+not establish physical robot readiness. Hardware installation and supervised
+reference/communication validation remain pending.

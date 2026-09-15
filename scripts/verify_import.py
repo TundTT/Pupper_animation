@@ -9,7 +9,9 @@ root = Path(__file__).resolve().parents[1]
 manifest = json.loads((root / 'IMPORT_MANIFEST.json').read_text())
 for name, record in manifest['files'].items():
     data = (root / name).read_bytes()
-    assert hashlib.sha256(data).hexdigest() == record['copied_sha256'], name
+    modification = manifest.get('integration_modifications', {}).get(name)
+    expected_hash = modification['sha256'] if modification else record['copied_sha256']
+    assert hashlib.sha256(data).hexdigest() == expected_hash, name
     assert record['source_sha256'] == record['copied_sha256'], name
     assert not data.startswith(b'version https://git-lfs.github.com/spec/v1'), name
 
@@ -30,4 +32,10 @@ for selection in latest['policies'].values():
 expected = {'policy_walk_v2.json', 'policy_wheel.json', 'policy_leg_to_wheel.json',
             'policy_leg_lift_wheel.json', 'policy_wheel_to_walk_ready.json'}
 assert {p.name for p in (package / 'launch').glob('policy*.json')} == expected
-print(f"PASS: {len(manifest['files'])} unchanged source files; selected exports and includes verified")
+stanford = json.loads((root / 'STANFORD_IMPORT.json').read_text())
+for name, expected_hash in stanford['current_sha256'].items():
+    data = (root / name).read_bytes()
+    assert hashlib.sha256(data).hexdigest() == expected_hash, name
+    assert not data.startswith(b'version https://git-lfs.github.com/spec/v1'), name
+print(f"PASS: {len(manifest['files'])} original import records and documented integration changes; "
+      f"{len(stanford['current_sha256'])} Stanford files; selected exports and includes verified")

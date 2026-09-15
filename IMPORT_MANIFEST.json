@@ -2358,14 +2358,28 @@
   },
   "adapted_files": {
     "ros2_ws/src/neural_controller/CMakeLists.txt": {
-      "sha256": "29dc0ce11682d5f2bc3ed77b5229d8b0c6203e37f6986955010f9b11748e914e"
+      "sha256": "e054a9f8124e088e7130224fe5a3944c725121beade9de043ebc5709bda10c07"
     },
     "ros2_ws/src/neural_controller/neural_controller.xml": {
       "sha256": "0143b08e38d4846eebe0ae044595356708197fa3c4d0b2452e15371df31d7c1f"
     },
     "ros2_ws/src/neural_controller/launch/config.yaml": {
-      "sha256": "7aae4400c2a23a13fabba362ac1245019841fd4b710f63432ef203090b98b4b8"
+      "sha256": "78d09bc137fd02f843b69f3ca7059a28ad3fa058eb235f5614efebc3920da5b7"
     }
   },
-  "source_bytes": "Committed Git blob contents; LFS objects resolved and verified against pointer SHA-256. Windows checkout line-ending conversions excluded."
+  "source_bytes": "Committed Git blob contents; LFS objects resolved and verified against pointer SHA-256. Windows checkout line-ending conversions excluded.",
+  "integration_modifications": {
+    "ros2_ws/src/neural_controller/package.xml": {
+      "sha256": "8e5dd442432dd0a00c036f4dcd913f456af59fe1b5358bf89ac0052417a21d29",
+      "reason": "Declare Stanford hardware, launch and joystick runtime dependencies."
+    },
+    "ros2_ws/src/robot_calibration/CMakeLists.txt": {
+      "sha256": "f7b02c6a70d4e7550bf51e03fad79e65814be0971389c1f5da09cb5e4227664c",
+      "reason": "Install overlay identity marker; calibration implementation unchanged."
+    },
+    "ros2_ws/src/robot_calibration/test/test_ros_capture.py": {
+      "sha256": "89a31d9a4406aea52e21ab1904f5818cc0c86ef1171645b1e21dcbff8a1ac916",
+      "reason": "Correct moving-position fixture and add fixed-position velocity-noise contract coverage."
+    }
+  }
 }

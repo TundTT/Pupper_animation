@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.8)
+project(pupper_v3_description)
+find_package(ament_cmake REQUIRED)
+install(DIRECTORY description DESTINATION share/${PROJECT_NAME})
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../../../config/gravity_pose.yaml DESTINATION share/${PROJECT_NAME}/config)
+install(FILES runtime_bundle.txt DESTINATION share/${PROJECT_NAME})
+ament_package()

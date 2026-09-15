@@ -34,6 +34,17 @@
   <depend>tf2</depend>
   <depend>generate_parameter_library</depend>
 
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>joint_state_broadcaster</exec_depend>
+  <exec_depend>imu_sensor_broadcaster</exec_depend>
+  <exec_depend>joy_linux</exec_depend>
+  <exec_depend>teleop_twist_joy</exec_depend>
+  <exec_depend>cmd_vel_mux</exec_depend>
+  <exec_depend>pupper_v3_description</exec_depend>
+  <exec_depend>control_board_hardware_interface</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>xacro</exec_depend>
   <export>
     <build_type>ament_cmake</build_type>
   </export>

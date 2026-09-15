@@ -129,6 +129,10 @@ if(BUILD_TESTING)
   add_test(NAME wheel_lift_controller_test COMMAND wheel_lift_controller_test ${CMAKE_CURRENT_SOURCE_DIR}/launch/wheel_lift_config.yaml ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_leg_lift_wheel.json)
   find_package(ament_cmake_pytest REQUIRED)
   ament_add_pytest_test(motion_buttons test/test_motion_buttons.py)
+  ament_add_pytest_test(gravity_runtime_description test/gravity_runtime_test.py)
+  ament_add_pytest_test(combined_runtime_mock test/combined_wheel_lift_manager_test.py TIMEOUT 90
+    ENV ROS_DOMAIN_ID=217 ROS_LOCALHOST_ONLY=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1)
 endif()
 
+install(FILES runtime_bundle.txt DESTINATION share/${PROJECT_NAME})
 ament_package()

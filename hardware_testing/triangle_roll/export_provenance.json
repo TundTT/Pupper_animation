@@ -1,0 +1,9 @@
+{
+  "source_run": "360ffcd09344487d",
+  "source_commit": "2f34c9ce2ef696d31c804ebf0bcfb7a71bd05349",
+  "plan_sha256": "9a1978933771c4a0724accf186c5a0e08da5e20f952ac38cea2dcb456bbef7bf",
+  "export_sha256": "f357ee5cc80ffcbb5727538032cf19d5c440f442d6b108015efda8e7c53fb921",
+  "geometry_sha256": "757e06c7935e877559145c0fede9dd79cce8b7c6aef1be672a97aae46de65e47",
+  "hardware_validated": false,
+  "scope": "Measured entry, simultaneous roll, bounded support hold; walking disabled"
+}
