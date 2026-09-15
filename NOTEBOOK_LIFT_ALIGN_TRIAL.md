@@ -2,7 +2,19 @@
 
 Adds **lift → rotate to startup hub position +180° → lower → next leg** to the existing `neural_controller_notebook_lift` controller, selected by the new, read-only `alignment_mode=quadmorph-notebook-lift-align-v1` contract. The original lift-only launch remains available. This is the same trained eight-output actor (`params_2129920`, checkpoint hash `bf27a972ef20f4187e0210a5416e775772d69ef71b5a27601616a087642a6ad1`), not a newly trained alignment policy. Walking, wheel and normal startup defaults are unchanged.
 
-**Known blocker:** the four nominal native-MuJoCo diagnostics did not achieve alignment. Maximum conservative floor clearance was about 5–7 mm, below the retained 10 mm gate, so no rotation was enabled. FR/FL/BR completed supported timeout recovery; BL failed to settle within the bounded recovery window. This implementation is a reviewable controller candidate, not demonstrated successful alignment. Do not bypass the gate to turn those failures into a claimed pass. ROS/ARM build/lifecycle and physical tests remain pending; no physical hardware was accessed for this change.
+**Historical diagnostic (`2357f8e`, 10 mm gate):** the four nominal native-MuJoCo diagnostics did not achieve alignment. Maximum conservative floor clearance was about 5–7 mm, below the then-current 10 mm gate, so no rotation was enabled. FR/FL/BR completed supported timeout recovery; BL failed to settle within the bounded recovery window. This implementation is a reviewable controller candidate, not demonstrated successful alignment. Do not bypass the gate to turn those failures into a claimed pass. ROS/ARM build/lifecycle and physical tests remain pending; no physical hardware was accessed for this change.
+
+## Combined launch update
+
+The latest combined integration (`514db35`) changed the floor gate to **3 mm**;
+that upstream change is retained. The recorded four-case failures above used the
+old 10 mm gate and are historical, not evaluations of the new threshold.
+`combined_motion.launch.py` now selects this mode via **R2/right trigger (button7)**:
+first pull activates stand, subsequent pulls advance lift/rotate/lower per leg.
+Square is unbound; the dedicated `--align` trial below still uses X. Build the
+combined workflow with `scripts/prepare_combined_motion.sh`; see
+COMBINED_MOTION_LAB.md. No physical R2 test or successful revised-gate alignment
+is claimed by this button-binding change.
 
 ## Target definition
 
@@ -56,7 +68,7 @@ For the active unverified hub, normal reference updates use:
 - Position PD `8*(reference-measured_position) - 1*measured_velocity`, matching this notebook checkpoint's hub gains. No outer velocity controller, velocity feedforward or integral is added.
 - The existing sampled 3 Nm estimated-PD stop and command/sensor guards remain. Hardware's total local-PD saturation remains unverified; estimated torque is not force sensing.
 
-Rotation requires phase HOLD, an explicit rotate request, and continuously qualified gates for 0.2 s: conservative floor clearance >10 mm, wheel surface sphere gap >10 mm, base-body sphere/box gap >5 mm, tilt <0.12 rad, body angular speed <0.3 rad/s. Geometry uses the exact backpack/9 mm model; floor estimation uses the corrected **lowest support upper bound** with wheel-radius interval 45.5–50.5 mm. The heating backpack is excluded from wheel-body checks as requested; the base-body collision box is retained.
+Rotation requires phase HOLD, an explicit rotate request, and continuously qualified gates for 0.2 s: conservative floor clearance >3 mm, wheel surface sphere gap >10 mm, base-body sphere/box gap >5 mm, tilt <0.12 rad, body angular speed <0.3 rad/s. Geometry uses the exact backpack/9 mm model; floor estimation uses the corrected **lowest support upper bound** with wheel-radius interval 45.5–50.5 mm. The heating backpack is excluded from wheel-body checks as requested; the base-body collision box is retained.
 
 Gate loss is rechecked at each 520 Hz update. It captures the measured hub position **once**, sets reference velocity to zero and resets qualification/settling. This explicit safety reset follows the notebook servo's hold behavior and is an exception to normal reference-acceleration continuity; residual physical deceleration must still be audited. It does not repeatedly move the hold with encoder drift. The next actor frame reports the stopped reference. No future measurements are provided to the actor.
 
@@ -97,4 +109,4 @@ Existing `lift_status`, actor inputs/outputs, applied targets and motor commands
 | 19–22 | current hub position references/holds |
 | 23–26 | live-session startup homes |
 
-Before a physical rotation trial: resolve the measured clearance mismatch with documented training/geometry evidence, test the actor under actual rotation reaction forces and gate-loss deceleration, complete the ROS/ARM and installed-overlay checks, then follow the separate supported hardware calibration/confirmation procedure. This commit implements the requested rotation controller but does not claim that this lift checkpoint now passes alignment.
+Before a physical rotation trial: validate the revised 3 mm gate with documented geometry evidence and test the actor under actual rotation reaction forces and gate-loss deceleration, complete the ROS/ARM and installed-overlay checks, then follow the separate supported hardware calibration/confirmation procedure. This commit implements the requested rotation controller but does not claim that this lift checkpoint now passes alignment.

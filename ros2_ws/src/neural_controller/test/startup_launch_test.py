@@ -156,7 +156,10 @@ def test_combined_launch_has_one_dispatcher_and_inactive_mapped_policies():
                 if args[0].startswith('neural_controller'):
                     assert_calibration_gate(args, True)
     assert names == ['joint_state_broadcaster', 'imu_sensor_broadcaster',
-                     'neural_controller_triangle_roll', 'neural_controller_walk_v2', 'neural_controller_wheel']
+                     'neural_controller_triangle_roll', 'neural_controller_walk_v2', 'neural_controller_wheel',
+                     'neural_controller_notebook_lift', 'neural_controller_wheel_to_walk_ready']
+    assert manager_params['neural_controller_notebook_lift']['alignment_mode'] == 'quadmorph-notebook-lift-align-v1'
+    assert manager_params['neural_controller_notebook_lift']['calibration_required'] is True
     assert executables.count('motion_buttons.py') == 1
     assert 'estop_controller' not in executables
     assert manager_params['neural_controller_walk_v2']['calibrated_walk_frame'] is True

@@ -18,6 +18,7 @@ class SourceTests(unittest.TestCase):
   try:
    launch=runpy.run_path(str(ROOT/'ros2_ws/src/neural_controller/launch/notebook_lift_trial.launch.py'))['generate_launch_description']()
    align=runpy.run_path(str(ROOT/'ros2_ws/src/neural_controller/launch/notebook_lift_align_trial.launch.py'))['generate_launch_description']()
+   combined=runpy.run_path(str(ROOT/'ros2_ws/src/neural_controller/launch/combined_motion.launch.py'))['generate_launch_description']()
   finally:
    for key,value in saved.items():
     if value is None:sys.modules.pop(key,None)
@@ -34,6 +35,10 @@ class SourceTests(unittest.TestCase):
   self.assertEqual(alignment['wheel_align_hybrid_command_states'],['stand','front_l','front_r','back_r','back_l','rotate'])
   self.assertEqual(alignment['wheel_align_hybrid_cycle_states'],['front_r','rotate','stand','front_l','rotate','stand','back_r','rotate','stand','back_l','rotate','stand'])
   self.assertIn('--inactive',next(x.kwargs['arguments'] for x in align.entities if x.kwargs['executable']=='spawner' and x.kwargs['arguments'][0]=='neural_controller_notebook_lift'))
+  combined_motion=[x.kwargs['arguments'] for x in combined.entities if x.kwargs['executable']=='spawner' and x.kwargs['arguments'][0].startswith('neural_controller')]
+  self.assertEqual([x[0] for x in combined_motion],['neural_controller_triangle_roll','neural_controller_walk_v2','neural_controller_wheel','neural_controller_notebook_lift','neural_controller_wheel_to_walk_ready'])
+  self.assertTrue(all('--inactive' in x for x in combined_motion))
+  self.assertEqual(sum(x.kwargs['executable']=='motion_buttons.py' for x in combined.entities),1)
  def test_yaml_gains_and_abi(self):
   path=ROOT/'ros2_ws/src/neural_controller/launch/notebook_lift_config.yaml'
   block=path.read_text().split('\nneural_controller_notebook_lift:\n',1)[1];params={}
@@ -50,6 +55,6 @@ class SourceTests(unittest.TestCase):
    r=subprocess.run(['bash',str(ROOT/'scripts'/name),'--help'],capture_output=True,text=True);self.assertEqual(r.returncode,0);self.assertIn('Usage:',r.stdout)
   r=subprocess.run(['bash',str(ROOT/'scripts/run_notebook_lift.sh')],capture_output=True,text=True);self.assertEqual(r.returncode,2);self.assertIn('support',r.stderr)
  def test_existing_launch_defaults_do_not_reference_candidate(self):
-  for name in ['config.yaml','launch.py','combined_motion.launch.py','locomotion_trial.launch.py']:
+  for name in ['config.yaml','launch.py','locomotion_trial.launch.py']:
    self.assertNotIn('notebook_lift',(ROOT/'ros2_ws/src/neural_controller/launch'/name).read_text())
 if __name__=='__main__':unittest.main()

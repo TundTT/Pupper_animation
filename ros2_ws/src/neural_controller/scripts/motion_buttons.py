@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exclusive X roll / Triangle walk / Circle wheel / Square lift+align dispatch. Never starts hardware."""
+"""Exclusive X roll / Triangle walk / Circle wheel / R2 (right trigger) lift+align dispatch. Never starts hardware."""
 import json
 import math
 import time
@@ -18,7 +18,10 @@ POSE = 'neural_controller_joint_pose'
 # wheel_to_walk_ready_config.yaml for the full rationale.
 READY = 'neural_controller_wheel_to_walk_ready'
 OWNERS = {ROLL, WALK, WHEEL, LIFT, POSE, READY}
-BUTTONS = {0: ROLL, 2: WALK, 1: WHEEL, 3: LIFT}
+# joy_linux PlayStation mapping: R2 is digital button7. Its analog axis is
+# deliberately not dispatched too, so one pull cannot send two commands.
+LIFT_BUTTON = 7
+BUTTONS = {0: ROLL, 2: WALK, 1: WHEEL, LIFT_BUTTON: LIFT}
 BRIDGE_FROM = {WALK, LIFT}  # targets that may need the wheel->ready->target bridge
 BRIDGE_TIMEOUT_S = 8.0  # generous: ~2s ramp + settle, well under the 12s busy timeout floor
 # Matches notebook_lift_align_trial.launch.py's wheel_align_hybrid_cycle_states exactly:
@@ -43,7 +46,7 @@ def acquire_instance(folder):
 
 def choose_button(previous, buttons, busy):
     """Consume edges even while busy: a held button cannot become a queued action."""
-    if len(buttons) <= 10 or buttons[10] or busy:
+    if len(previous) <= 10 or len(buttons) <= 10 or buttons[10] or busy:
         return None
     edges = [mode for index, mode in BUTTONS.items()
              if buttons[index] and not previous[index]]
@@ -92,7 +95,7 @@ def validate_entry(mode, q, cal, mapping, roll_status=None):
             if home[i] is None:
                 continue
             if abs(q[n][0] - home[i]) > .25:
-                raise ValueError('Square requires a near-standing proximal pose for lift/align')
+                raise ValueError('R2 (right trigger) requires a near-standing proximal pose for lift/align')
 
 
 def main():
@@ -143,7 +146,7 @@ def main():
             self.create_subscription(Float64MultiArray, '/neural_controller_triangle_roll/motor_commands', self.motor, 1)
             self.create_timer(.05, self.watch)
             self.get_logger().info('X: roll and hold; Triangle: walk; Circle: wheels; '
-                                    'Square: lift+align (repeat to cycle FR/FL/BR/BL lift->rotate->lower); '
+                                    'R2 (right trigger): lift+align (repeat to cycle FR/FL/BR/BL lift->rotate->lower); '
                                     'PS: stop. All initially inactive.')
 
         def stop(self, reason):
@@ -187,14 +190,13 @@ def main():
             self.joy_at = time.monotonic()
             buttons = list(m.buttons)
             previous = self.previous
-            lift_edge = len(buttons) > 3 and buttons[3] and not (len(previous) > 3 and previous[3])
             mode = choose_button(previous, buttons, self.busy)
             self.previous = buttons
             self.axes = list(m.axes)
             if len(buttons)<=10 or buttons[10]:
                 self.stop('PS stop or incomplete gamepad input')
                 return
-            if lift_edge and self.active_mode == LIFT and not self.busy:
+            if mode == LIFT and self.active_mode == LIFT:
                 # Live and already active: advance the lift/rotate/lower cycle instead of
                 # re-requesting a controller switch (which would just no-op on a live mode).
                 if self.lift_pub.get_subscription_count():

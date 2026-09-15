@@ -1,8 +1,8 @@
-# Combined roll, walking and wheel controls
+# Combined roll, walking, wheel and lift/align controls
 
 Use `ros2 launch neural_controller combined_motion.launch.py` for this workflow.
 It loads the latest policies selected by `policies/latest.json` (backpack and 9 mm
-spacing). All three controllers start inactive. The legacy full launch retains
+spacing). All motion controllers, including lift/align and its wheel-to-stand bridge, start inactive. The legacy full launch retains
 its alignment controls; do not run two button handlers or hardware managers.
 
 September 13 lab result: the operator verified the physical tips-up to tips-down
@@ -23,17 +23,46 @@ Startup confirmation after power loss remains required.
 | X (0) | From the prepared, calibrated tips-up pose: activate the roll controller, wait for READY, send START once, then hold after completion. |
 | Triangle (2) | Activate walking at zero initial command, using the current-session hub reference and a fixed full-turn offset. From roll, wait until it completes successfully. |
 | Circle (1) | Select the wheel policy. This changes control mode; it does not reshape the appendages. Use it with the appropriate physical configuration. |
+| R2 / right trigger (7) | First pull activates lift/align into stand. Subsequent release-and-pull events cycle FR lift → rotate → lower, then FL, BR and BL. Aligned hub targets remain held. Square is unbound. |
 | PS (10) | Stop. Release alone does not resume motion. |
 
 Release the drive sticks before changing modes. Only one controller owns motor
-commands at a time. Holding X cannot repeat the roll; face-button presses during
+commands at a time. Holding X or R2 cannot repeat a command; presses during
 a pending switch are consumed rather than queued. Pressing a mode's button while
-it is already active does not restart it. A running or faulted roll cannot be
+it is already active does not restart it; R2 instead advances the active lift/align sequence. A running or faulted roll cannot be
 interrupted by a drive-mode button. The e-stop remains available.
 
 Heating and shape selection are manual. X does not run wheel alignment, heat,
 calibrate, or automatically start walking. Restore tips-up on the supported stand
 using the tested joint-pose workflow before another X trial.
+
+## Right-trigger lift/align
+
+The binding uses digital `/joy.buttons[7]` in the joy_linux PlayStation mapping;
+it does not also dispatch the trigger's analog axis, so one pull cannot count
+twice. Release R2 before initial activation and between steps. Confirm the actual
+R2 button index in `/joy` during a supervised setup if the gamepad/driver differs;
+this source change did not access hardware or verify a physical input recording.
+X, Triangle, Circle and PS retain their existing mappings. Simultaneous mode
+edges are ignored; edges during a pending switch are consumed rather than queued.
+
+Lift/align uses the calibrated startup hub position +180°, preserving nearest
+continuous winding and already aligned holds. The shared encoder-session capture
+and stationary entry checks remain required. See NOTEBOOK_LIFT_ALIGN_TRIAL.md for
+the sequence, gates and limitations. Commit `514db35` already integrated this
+controller and its wheel-to-stand bridge and changed the conservative floor gate
+to 3 mm. The older 10 mm native failures do not evaluate that revised gate.
+No new successful physical or full-sequence alignment result is claimed here.
+
+Before testing this update, run `bash scripts/prepare_combined_motion.sh` in the
+robot checkout. It now explicitly builds the notebook controller library and
+its native/fake-interface test targets, and checks the installed combined launch
+and button script against source. Current upstream preflight is blocked: the walking
+export shipped in `63820b0` does not match the leg hash in `policies/latest.json`.
+The R2 binding does not change those weights or bypass that mismatch. Reconcile
+the walking release provenance before the combined build/trial. ROS build/launch and ARM checks remain pending
+on this PC. Follow STARTUP_UPPER_HOME.md for any later hardware startup; preserve
+a valid running hardware session and never launch a second manager.
 
 ## Walking coordinates and transfer
 

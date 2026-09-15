@@ -134,7 +134,8 @@
   },
   "files": {
     ".gitattributes": "9dbf1459c9b6896526697932912e728b2c1f4c97ffe7b98ea802c2b6f54fee0b",
-    "NOTEBOOK_LIFT_ALIGN_TRIAL.md": "c4d9120fd41fa4a42a769f7c16fbfadba9d8fedd9f9d1976e42abc23ea35c9bf",
+    "COMBINED_MOTION_LAB.md": "39d78b9bee73a76e7e55fcfa238a57dde28185cb58d1ffbc85f563b1048500a9",
+    "NOTEBOOK_LIFT_ALIGN_TRIAL.md": "d735d86550d008895f79ca8dc8653a1eef5e6be6e3016d4b0f9771334835eaa0",
     "NOTEBOOK_LIFT_TRIAL.md": "111921365df75b38e41f75fc1a2f6b3b1d34718655804104d029f9116bb91ff2",
     "hardware_testing/notebook_lift/.gitignore": "4bc6c8188cd5d71ad9e7a7a428e9d7cb3b3385b87c454e903ca4f2b0c82aa187",
     "hardware_testing/notebook_lift/align_geometry_reference.csv": "33fa0fe0983661dc45720b3a758eb725c88bc1c6b410919b80f1503d4c171975",
@@ -155,7 +156,7 @@
     "hardware_testing/notebook_lift/target_reference.csv": "2370ce1b22b0ba85a95eb15beba8c679f19897f652d8e1584b91ffe8ed36bbda",
     "hardware_testing/notebook_lift/targets_test.log": "055e13d4bc5595e8e0f8db7d19e12d4c00e5fa62c7a7f1aee6805836e1c612de",
     "ros2_ws/src/neural_controller/CMakeLists.txt": "c02c7b5b3557684444ab2b2c110830cee3a4022f2d516f564b18f4669a59269e",
-    "ros2_ws/src/neural_controller/include/neural_controller/notebook_alignment_v4/align_geometry.hpp": "32a8e7b7eb521477acf9c7794e616fc746bd1af042aa1c3d0eb254b70bb2c780",
+    "ros2_ws/src/neural_controller/include/neural_controller/notebook_alignment_v4/align_geometry.hpp": "5e9797a488fc2d06ce51ea4db7e460949f1ea97d84cc8590de20243fc096d7c6",
     "ros2_ws/src/neural_controller/include/neural_controller/notebook_alignment_v4/geometry.hpp": "ef37e55e90e4f29130855c1e0022ff6f5db9375933fe3f19ea2438b65238dfe1",
     "ros2_ws/src/neural_controller/include/neural_controller/notebook_alignment_v4/lift_align_core.hpp": "b6824a8f56a62b8e00bde556d34b584ac64bb56e8a435a10ca4e7f16486db9b8",
     "ros2_ws/src/neural_controller/include/neural_controller/notebook_alignment_v4/lift_core.hpp": "9d511a1e39491249b2900fd34dd92a83fa8b78726682d24f406408bcf89dc4fe",
@@ -163,24 +164,29 @@
     "ros2_ws/src/neural_controller/include/neural_controller/notebook_alignment_v4/observation.hpp": "60a772b02c3ad53b9615d66fbeb2095fe9d8e3e0126e39456b441ff9703cf11a",
     "ros2_ws/src/neural_controller/include/neural_controller/notebook_alignment_v4/position_targets.hpp": "57d0848431d15bd6767525793f0e480d17bfd77c8df5ffd80e360816319a612a",
     "ros2_ws/src/neural_controller/include/neural_controller/notebook_lift_controller.hpp": "b6745c5145a62809dd54d7f99cd5a62005e6d33d58d877f7bfa172d4a500e5db",
+    "ros2_ws/src/neural_controller/launch/combined_motion.launch.py": "86cd98d9fe98791eec497360d82024c083ca102941e3bb3e580006d14b9a5283",
     "ros2_ws/src/neural_controller/launch/notebook_lift_align_config.yaml": "70c64460f664df3e7eb661784061396a8f13f6422e3349076f5b2ae7a72fb0a4",
     "ros2_ws/src/neural_controller/launch/notebook_lift_align_trial.launch.py": "4998e6075d847659392bc83e96838c824366a29f812d4a2a0b1159e62e160330",
     "ros2_ws/src/neural_controller/launch/notebook_lift_config.yaml": "aa29b73000b6fec33bb06bb44f1c24bd15a6bf95efeb7d5ffd5d1dd8b72dfb29",
     "ros2_ws/src/neural_controller/launch/notebook_lift_trial.launch.py": "55cfe965d9f37d31f00ef196a692e7f452c317620be756e67f912627e9109295",
     "ros2_ws/src/neural_controller/launch/policy_notebook_lift.json": "e45a35269d0d6c390e4812ec3f8a5df845ce57d41b5ea7b4a6d81888dcbe3d43",
     "ros2_ws/src/neural_controller/neural_controller.xml": "2f169b80a83d076d54c02066091e3e70650c7f0f22593d2f69f691a8e2cc997c",
+    "ros2_ws/src/neural_controller/scripts/motion_buttons.py": "6b18850518bbe9b6456f0d5e5058dccbf50f97f40c9f25065b075b52e1688645",
     "ros2_ws/src/neural_controller/src/notebook_lift_controller.cpp": "20bdb6d10ce8b4088e3421ab9eedcd6f470980b61143b3318aaf7df5662645bb",
     "ros2_ws/src/neural_controller/test/notebook_lift_align_test.cpp": "796b4b91d0bbbf49e63d062792345d6ee97a92383e0e802dfd2f4a29226d285b",
     "ros2_ws/src/neural_controller/test/notebook_lift_controller_test.cpp": "60df6533b81f82937adb70f27ed779852ecc7b505acf401ef4a3bb0eb1303c9d",
     "ros2_ws/src/neural_controller/test/notebook_lift_core_test.cpp": "6f1fdf515264937f822f163cb9dbff8ce4663df5fdd1a46030ab900714cc8166",
     "ros2_ws/src/neural_controller/test/notebook_lift_observation_test.cpp": "185517772beae34dd90850e17b3c2274a32a774ea17578fdae532ffc80155541",
     "ros2_ws/src/neural_controller/test/notebook_lift_targets_test.cpp": "5eef105d54b5ff941c94b40a182fbfadcbec3ad5e1174f24d5d737bb3d236d1e",
-    "scripts/check_notebook_lift.py": "1e598065e16a02648265e9b32d5cf1638a0e996e4f81d610a70c9138ebac29ed",
-    "scripts/notebook_lift/align_geometry_fixtures.py": "1da4a592b06ddd5fc6f3786b4d2f2775064ce9cee3017a682a6809990cc33671",
+    "ros2_ws/src/neural_controller/test/startup_launch_test.py": "591f44c2cacf5b22f5c1619a2e6e8d8ee2c286fa070d5dc23c05336a57b70676",
+    "ros2_ws/src/neural_controller/test/test_motion_buttons.py": "ba72a505c6a3ddf2f2a3785d07ff7c8d5d4fe10fc598411a1e2738b3aec41e80",
+    "scripts/check_notebook_lift.py": "efab65f3bd0d739502afd622530cb3331ec828ca5a65811a24e30fcdc08782da",
+    "scripts/notebook_lift/align_geometry_fixtures.py": "6d814b6e52ca9482114742053bcfc95b950f644b4c652f527095affb79a7eae8",
     "scripts/notebook_lift/build_receipt.py": "8b743bc43b6fc82afc63d1f7435ad3cbb040d0016d8eddba717698c6b73bbe5e",
     "scripts/notebook_lift/generate_geometry.py": "958f1c835c57df8a21e1d469a1716e557fcc0c72d89b6b3e3d623f42c4610b24",
     "scripts/notebook_lift/native_align_diagnostic.py": "5a2ada8f20352c20b7842b8dd6b9b9c99545749588827ecc9e30ae256893f971",
-    "scripts/notebook_lift/test_source.py": "635276566017bf69f3b1208cf4142d1e1825144072e884f7152f587eed6c9936",
+    "scripts/notebook_lift/test_source.py": "7042838bc2d1da9aa4d2a80a362873fc0719b7b2559bc093d0529d85ba185f72",
+    "scripts/prepare_combined_motion.sh": "c1249a3c455bdecd0b8380b219ee4e746418b1d0e65fda0ef08f5663350c1990",
     "scripts/prepare_notebook_lift.sh": "27ed972d614f1366cb7b8ea9e04166c0558293c17fbbac6916b771d33ec03ee3",
     "scripts/run_notebook_lift.sh": "a70bbf0381c278a5a00cb07bf25246d7ee408c1da09baf29fc089396564cac74"
   },
@@ -191,7 +197,7 @@
     "target": "nearest equivalent winding of live-session startup home + pi, positive pi on half-turn tie; immutable through activation",
     "button_protocol": "stand activation; FR lift, rotate, lower, FL lift, rotate, lower, BR lift, rotate, lower, BL lift, rotate, lower",
     "rotation_gate": {
-      "floor_m": 0.01,
+      "floor_m": 0.003,
       "wheel_m": 0.01,
       "body_m": 0.005,
       "tilt_rad": 0.12,
@@ -230,7 +236,9 @@
       "cases": 4,
       "rotation_enabled_cases": 0,
       "outcome": "FAILED: insufficient clearance; FR/FL/BR timeout recovery supported, BL bounded recovery failed",
-      "record": "hardware_testing/notebook_lift/align_native_result.json"
+      "record": "hardware_testing/notebook_lift/align_native_result.json",
+      "evaluated_gate_floor_m": 0.01,
+      "applies_to_current_gate": false
     },
     "ROS_ARM_lifecycle": "AUTHORED_NOT_RUN_PC_ROS_UNAVAILABLE",
     "hardware": "NOT_ACCESSED",
@@ -250,6 +258,26 @@
         "path": "ros2_ws/src/neural_controller/include/neural_controller/keyframe_align/geometry.hpp",
         "use": "corrected lowest-support upper floor bound"
       }
-    ]
+    ],
+    "gate_changed_upstream_commit": "514db358c5515ca311af8ee164a15fadd847a2d0"
+  },
+  "combined_trigger_binding": {
+    "base_commit": "514db358c5515ca311af8ee164a15fadd847a2d0",
+    "button": 7,
+    "label": "R2 / right trigger",
+    "source": "joy_linux PlayStation mapping; physical recording not verified in this task",
+    "square_unbound": true,
+    "activation": "stand only, release required before first action",
+    "sequence": "FR lift,rotate,lower; FL lift,rotate,lower; BR lift,rotate,lower; BL lift,rotate,lower",
+    "tests": {
+      "dispatcher_unit_and_actual_callback_with_mocked_endpoints": "9 PASS",
+      "source_launch_stubs": "4 PASS, including combined inactive candidates",
+      "native_unit_regressions": "PASS",
+      "ROS_launch_and_ARM_build": "PENDING; not available on PC",
+      "hardware": "NOT_ACCESSED",
+      "combined_locomotion_preflight": "FAIL: upstream walking export hash differs from policies/latest.json; weights and locomotion manifest unchanged by R2 binding"
+    },
+    "preserved_upstream_changes": "READY bridge, mode transitions, velocity command cleanup, floor gate3mm",
+    "native_alignment_diagnostics": "Not rerun for this binding change; previous failed diagnostics use10mm gate"
   }
 }

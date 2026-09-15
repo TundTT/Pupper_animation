@@ -10,7 +10,7 @@ def check(package_share=None):
         path=ROOT/relative
         if hashlib.sha256(path.read_bytes()).hexdigest()!=expected:raise ValueError('Candidate file hash mismatch: '+relative)
     share=Path(package_share) if package_share else ROOT/'ros2_ws/src/neural_controller'
-    for name in ['policy_notebook_lift.json','notebook_lift_config.yaml','notebook_lift_trial.launch.py','notebook_lift_align_config.yaml','notebook_lift_align_trial.launch.py']:
+    for name in ['policy_notebook_lift.json','notebook_lift_config.yaml','notebook_lift_trial.launch.py','notebook_lift_align_config.yaml','notebook_lift_align_trial.launch.py','combined_motion.launch.py']:
         source=ROOT/'ros2_ws/src/neural_controller/launch'/name
         if (share/'launch'/name).read_bytes()!=source.read_bytes():raise ValueError('Installed candidate differs: '+name)
     policy=json.loads((share/'launch/policy_notebook_lift.json').read_text())
@@ -24,6 +24,9 @@ def check(package_share=None):
     if package_share:
         prefix=share.parent.parent
         if not (prefix/'lib/libnotebook_lift_controller.so').is_file():raise ValueError('Installed candidate plugin library missing')
+        installed_dispatcher=prefix/'lib/neural_controller/motion_buttons.py'
+        source_dispatcher=ROOT/'ros2_ws/src/neural_controller/scripts/motion_buttons.py'
+        if installed_dispatcher.read_bytes()!=source_dispatcher.read_bytes():raise ValueError('Installed combined button dispatcher differs from source')
         xml=(share/'neural_controller.xml').read_text()
         assert 'neural_controller/NotebookLiftController' in xml
     print('PASS notebook lift artifact/config/ABI hashes'+(' and installed candidate' if package_share else '')+'. Experimental lift candidate with optional PD alignment; no hardware/task certification.')

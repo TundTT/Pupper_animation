@@ -1,4 +1,4 @@
-"""X roll, Triangle walk, Circle wheels, Square lift+align. Startup homes hardware; confirm pose first."""
+"""X roll, Triangle walk, Circle wheels, R2 lift+align. Startup homes hardware; confirm pose first."""
 from launch import LaunchDescription
 from launch.substitutions import Command, FindExecutable, PathJoinSubstitution
 from launch_ros.actions import Node
