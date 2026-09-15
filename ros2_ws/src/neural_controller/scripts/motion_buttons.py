@@ -24,6 +24,13 @@ LIFT_BUTTON = 7
 BUTTONS = {0: ROLL, 2: WALK, 1: WHEEL, LIFT_BUTTON: LIFT}
 BRIDGE_FROM = {WALK, LIFT}  # targets that may need the wheel->ready->target bridge
 BRIDGE_TIMEOUT_S = 8.0  # generous: ~2s ramp + settle, well under the 12s busy timeout floor
+# A button press does not switch immediately: it arms a pending switch that only
+# fires once the drive sticks have read centered continuously for SWITCH_SETTLE_S.
+# This absorbs a momentary stray touch at the instant of pressing (which previously
+# tripped the "release the drive sticks" estop) without weakening the check itself --
+# real, sustained driving still blocks the switch, now via timeout instead of an estop.
+SWITCH_SETTLE_S = 0.15
+SWITCH_SETTLE_TIMEOUT_S = 2.0
 
 
 def acquire_instance(folder):
@@ -54,11 +61,18 @@ def validate_entry(mode, q, cal, mapping, roll_status=None):
         raise ValueError('Fresh feedback for all 12 joints required')
     if any(not math.isfinite(x) for v in q.values() for x in v):
         raise ValueError('Nonfinite joint feedback')
-    if any(abs(q[n][1]) > .15 for n in names):
+    # Skip the continuously-rotating hub (every 3rd joint): a spinning wheel
+    # under WHEEL is normal, not evidence the leg joints haven't settled, and
+    # requiring it to sit still made every exit from WHEEL permanently blocked.
+    if any(abs(q[n][1]) > .15 for i, n in enumerate(names) if i % 3 != 2):
         raise ValueError('Wait for stationary joints before switching')
-    if roll_status is not None and (len(roll_status) != 16 or
-            roll_status[0] != 4 or roll_status[1] != 1 or roll_status[4] != 0):
-        raise ValueError('Roll must finish without a fault before changing modes')
+    if roll_status is not None:
+        if len(roll_status) != 16 or not all(math.isfinite(x) for x in roll_status):
+            raise ValueError('Valid roll status required')
+        completed = roll_status[0] == 4 and roll_status[1] == 1
+        walking_interrupt = mode == WALK and roll_status[0] == 2
+        if roll_status[4] != 0 or not (completed or walking_interrupt):
+            raise ValueError('Roll must be running or completed without a fault for walking')
     if mode == ROLL:
         if mapping is None or mapping['calibration_id'] != cal['calibration_id']:
             raise ValueError('Capture the calibrated tips-up reference first')
@@ -137,6 +151,9 @@ def main():
             self.bridging = False
             self.bridge_target = None
             self.bridge_started_at = 0.0
+            self.pending_mode = None
+            self.pending_deadline = 0.0
+            self.pending_ok_since = None
             self.stop_pub = self.create_publisher(Empty, '/emergency_stop', 10)
             self.start_pub = self.create_publisher(Int32, '/triangle_roll/command', 1)
             self.lift_pub = self.create_publisher(Int32, '/wheel_lift/advance', 1)
@@ -161,6 +178,8 @@ def main():
             self.lift_status = None; self.lift_status_at = 0
             self.bridging = False
             self.bridge_target = None
+            self.pending_mode = None
+            self.pending_ok_since = None
             self.stop_pub.publish(Empty())
             if not self.stopped:
                 self.get_logger().error(reason)
@@ -194,19 +213,23 @@ def main():
         def motor(self, m):
             self.commands, self.commands_at = list(m.data), time.monotonic()
 
+        def sticks_centered(self):
+            return (len(self.axes)>=4 and
+                    all(math.isfinite(self.axes[i]) and abs(self.axes[i])<=.15 for i in (0,1,3)))
+
         def fresh(self):
             now = time.monotonic()
             if (now-self.joy_at > .3 or len(self.previous)<=10 or self.previous[10] or
                     now-self.joints_at > .2 or now-self.imu_at > .1 or self.tilt >= math.radians(8)):
                 raise ValueError('Fresh controller, encoders and level torso required for mode entry')
-            if len(self.axes)<4 or any(not math.isfinite(self.axes[i]) or abs(self.axes[i])>.15 for i in (0,1,3)):
+            if not self.sticks_centered():
                 raise ValueError('Release the drive sticks before changing modes')
 
         def joy(self, m):
             self.joy_at = time.monotonic()
             buttons = list(m.buttons)
             previous = self.previous
-            mode = choose_button(previous, buttons, self.busy)
+            mode = choose_button(previous, buttons, self.busy or self.pending_mode is not None)
             self.previous = buttons
             self.axes = list(m.axes)
             if len(buttons)<=10 or buttons[10]:
@@ -220,13 +243,15 @@ def main():
                 else:
                     self.get_logger().warning('No subscriber on /wheel_lift/advance')
                 return
-            if mode in BRIDGE_FROM and self.active_mode == WHEEL:
-                # Wheel's stance is too far from mode's entry pose for a direct switch
-                # (see READY's definition above); reposition through READY first.
-                self.bridge_target = mode
-                self.request(READY)
-            elif mode:
-                self.request(mode)
+            if mode:
+                # Arm, don't switch yet: wait() below only fires the real request
+                # once the sticks have read centered continuously for
+                # SWITCH_SETTLE_S, so a stray touch at the instant of pressing
+                # can't bleed into the transition or trip the drive-stick estop.
+                self.get_logger().info('Button requested '+mode+'; waiting for sticks to settle')
+                self.pending_mode = mode
+                self.pending_deadline = time.monotonic()+SWITCH_SETTLE_TIMEOUT_S
+                self.pending_ok_since = None
 
         def request(self, mode):
             try:
@@ -262,6 +287,10 @@ def main():
                     if mode != LIFT:
                         self.lift_status = None; self.lift_status_at = 0
                     return
+                # Use the manager's current owner, including after dispatcher restart.
+                if mode in BRIDGE_FROM and WHEEL in active:
+                    self.bridge_target = mode
+                    mode = READY
                 available = {c.name: c.state for c in states}
                 if available.get(mode) != 'inactive':
                     raise ValueError('Requested controller is not loaded inactive')
@@ -345,6 +374,19 @@ def main():
             now = time.monotonic()
             if now-self.joy_at > .5:
                 self.stop('Gamepad input lost')
+            if self.pending_mode:
+                if now > self.pending_deadline:
+                    self.get_logger().warning('Switch to '+self.pending_mode+' abandoned: sticks did not settle')
+                    self.pending_mode = None
+                    self.pending_ok_since = None
+                elif self.sticks_centered():
+                    if self.pending_ok_since is None:
+                        self.pending_ok_since = now
+                    elif now-self.pending_ok_since >= SWITCH_SETTLE_S:
+                        mode, self.pending_mode, self.pending_ok_since = self.pending_mode, None, None
+                        self.request(mode)
+                else:
+                    self.pending_ok_since = None
             if self.busy and now-self.started_at > 12:
                 self.stop('Mode entry timed out')
             if self.bridging:
