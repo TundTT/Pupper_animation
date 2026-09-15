@@ -15,7 +15,9 @@ class SourceTests(unittest.TestCase):
   for key in ['Command','FindExecutable','PathJoinSubstitution']:setattr(modules['launch.substitutions'],key,Value)
   modules['launch_ros.actions'].Node=Value;modules['launch_ros.parameter_descriptions'].ParameterFile=Value;modules['launch_ros.substitutions'].FindPackageShare=Value
   saved={k:sys.modules.get(k) for k in modules};sys.modules.update(modules)
-  try:launch=runpy.run_path(str(ROOT/'ros2_ws/src/neural_controller/launch/notebook_lift_trial.launch.py'))['generate_launch_description']()
+  try:
+   launch=runpy.run_path(str(ROOT/'ros2_ws/src/neural_controller/launch/notebook_lift_trial.launch.py'))['generate_launch_description']()
+   align=runpy.run_path(str(ROOT/'ros2_ws/src/neural_controller/launch/notebook_lift_align_trial.launch.py'))['generate_launch_description']()
   finally:
    for key,value in saved.items():
     if value is None:sys.modules.pop(key,None)
@@ -28,6 +30,10 @@ class SourceTests(unittest.TestCase):
   self.assertTrue(buttons['calibration_required']);self.assertEqual(buttons['controller_names'],['neural_controller_notebook_lift'])
   self.assertEqual(buttons['wheel_align_hybrid_cycle_states'],['front_r','stand','front_l','stand','back_r','stand','back_l','stand'])
   self.assertEqual(buttons['switch_button_indices'],[-1]);self.assertEqual(buttons['leg_lift_button_index'],-1)
+  alignment=next(x.kwargs['parameters'][1] for x in align.entities if x.kwargs['executable']=='estop_controller')
+  self.assertEqual(alignment['wheel_align_hybrid_command_states'],['stand','front_l','front_r','back_r','back_l','rotate'])
+  self.assertEqual(alignment['wheel_align_hybrid_cycle_states'],['front_r','rotate','stand','front_l','rotate','stand','back_r','rotate','stand','back_l','rotate','stand'])
+  self.assertIn('--inactive',next(x.kwargs['arguments'] for x in align.entities if x.kwargs['executable']=='spawner' and x.kwargs['arguments'][0]=='neural_controller_notebook_lift'))
  def test_yaml_gains_and_abi(self):
   path=ROOT/'ros2_ws/src/neural_controller/launch/notebook_lift_config.yaml'
   block=path.read_text().split('\nneural_controller_notebook_lift:\n',1)[1];params={}
@@ -37,6 +43,8 @@ class SourceTests(unittest.TestCase):
   self.assertTrue(params['calibration_required']);self.assertEqual(params['repeat_action'],10);self.assertEqual(params['observation_history'],4)
   self.assertEqual(params['action_types'],['position']*12)
   self.assertEqual(params['init_duration'],0);self.assertEqual(params['fade_in_duration'],0)
+  align=(ROOT/'ros2_ws/src/neural_controller/launch/notebook_lift_align_config.yaml').read_text()
+  self.assertEqual(align.replace('    alignment_mode: \"quadmorph-notebook-lift-align-v1\"\n',''),path.read_text())
  def test_startup_guard_and_help_do_not_start_ros(self):
   for name in ['prepare_notebook_lift.sh','run_notebook_lift.sh']:
    r=subprocess.run(['bash',str(ROOT/'scripts'/name),'--help'],capture_output=True,text=True);self.assertEqual(r.returncode,0);self.assertIn('Usage:',r.stdout)

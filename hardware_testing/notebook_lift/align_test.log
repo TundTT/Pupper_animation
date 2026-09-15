@@ -1,0 +1,1 @@
+PASS 1028 native geometry fixtures max_error=1.11022e-16; all4 startup+pi goals, winding, normal servo limits, completion/holds, substep gate loss, cancellation, timeout/reentry. Ideal encoder unit harness, not learned balance.

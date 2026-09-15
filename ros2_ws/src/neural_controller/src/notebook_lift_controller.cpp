@@ -26,6 +26,10 @@ controller_interface::CallbackReturn NotebookLiftController::on_init(){
    if(i%3!=2){int a=2*(i/3)+i%3;if(std::abs(params_.joint_lower_limits[i]-Targets::lower[a])>1e-6||std::abs(params_.joint_upper_limits[i]-Targets::upper[a])>1e-6||params_.default_joint_pos[i]!=Targets::nominal[a]||params_.action_scales[i]!=.75)throw std::runtime_error("Proximal limits/nominal/scale differ");}
    else if(params_.joint_lower_limits[i]>-100||params_.joint_upper_limits[i]<100)throw std::runtime_error("Continuous hub profile required");
   }
+  rcl_interfaces::msg::ParameterDescriptor mode_descriptor;mode_descriptor.read_only=true;
+  auto mode=get_node()->declare_parameter<std::string>("alignment_mode","disabled",mode_descriptor);
+  if(mode!="disabled"&&mode!=notebook_alignment_v4::LiftAlignCore::contract)throw std::runtime_error("Unsupported notebook alignment contract");
+  lift_.alignment_enabled=mode!="disabled";
   // Parse the unchanged learned graph. No generic12-action loader or old residual ABI.
   std::ifstream network(params_.model_path);model_=RTNeural::json_parser::parseJson<float>(network,true);
   if(!model_||model_->layers.empty()||model_->getInSize()!=288||model_->getOutSize()!=8)throw std::runtime_error("Expected288 inputs and8 outputs");
@@ -55,6 +59,7 @@ controller_interface::CallbackReturn NotebookLiftController::on_activate(const r
   leg_lift_command_subscriber_=get_node()->create_subscription<std_msgs::msg::Int32>("/notebook_lift_command_index",rclcpp::QoS(1).durability_volatile(),[this](std_msgs::msg::Int32::SharedPtr msg){rt_leg_lift_command_ptr_.writeFromNonRT(msg);});
   status_pub_=get_node()->create_publisher<std_msgs::msg::Float64MultiArray>("~/lift_status",1);rt_status_=std::make_shared<realtime_tools::RealtimePublisher<std_msgs::msg::Float64MultiArray>>(status_pub_);rt_status_->msg_.data.resize(17);
   motor_pub_=get_node()->create_publisher<std_msgs::msg::Float64MultiArray>("~/motor_commands",1);rt_motors_=std::make_shared<realtime_tools::RealtimePublisher<std_msgs::msg::Float64MultiArray>>(motor_pub_);rt_motors_->msg_.data.resize(72);
+  alignment_pub_=get_node()->create_publisher<std_msgs::msg::Float64MultiArray>("~/alignment_status",1);rt_alignment_=std::make_shared<realtime_tools::RealtimePublisher<std_msgs::msg::Float64MultiArray>>(alignment_pub_);rt_alignment_->msg_.data.resize(27);
   rt_observation_publisher_->msg_.data.resize(288);rt_policy_output_publisher_->msg_.data.resize(8);rt_position_command_publisher_->msg_.data.resize(12);
   last_update_=-1;actor_elapsed_=0;command_count_=0;fault_=0;estop_active_=false;
   for(auto& i:command_interfaces_)i.set_value(0.);
@@ -75,7 +80,7 @@ controller_interface::return_type NotebookLiftController::update(const rclcpp::T
   actor_elapsed_+=dt;
   const bool inference=(command_count_++%10)==0;
   if(inference){
-   int event=-1;auto ptr=rt_leg_lift_command_ptr_.readFromRT();if(ptr&&*ptr&&*ptr!=last_request_){last_request_=*ptr;event=last_request_->data;if(event<0||event>4)throw std::invalid_argument("Invalid external command");}
+   int event=-1;auto ptr=rt_leg_lift_command_ptr_.readFromRT();if(ptr&&*ptr&&*ptr!=last_request_){last_request_=*ptr;event=last_request_->data;if(event<0||event>(lift_.alignment_enabled?5:4))throw std::invalid_argument("Invalid external command");}
    lift_.prepare(actor_elapsed_,event,s);actor_elapsed_=0;
    model_->forward(lift_.history.values.data());Targets::V8 a{};std::copy_n(model_->getOutputs(),8,a.begin());lift_.targets.set_action(a);
    if(rt_observation_publisher_->trylock()){std::copy(lift_.history.values.begin(),lift_.history.values.end(),rt_observation_publisher_->msg_.data.begin());rt_observation_publisher_->unlockAndPublish();}
@@ -89,6 +94,7 @@ controller_interface::return_type NotebookLiftController::update(const rclcpp::T
 }
 void NotebookLiftController::publish(double dt){
  if(rt_status_&&rt_status_->trylock()){auto& d=rt_status_->msg_.data;auto& r=lift_.request;d[0]=r.phase;d[1]=r.leg;d[2]=r.pending;d[3]=r.height;d[4]=r.rate;d[5]=r.elapsed;d[6]=r.attempt;d[7]=r.timed_out;d[8]=r.recovery_failed;d[9]=lift_.supported;d[10]=fault_.load();d[11]=dt;d[12]=imu_age_;std::copy(lift_.bottoms.begin(),lift_.bottoms.end(),d.begin()+13);rt_status_->unlockAndPublish();}
+ if(rt_alignment_&&rt_alignment_->trylock()){auto& d=rt_alignment_->msg_.data;d[0]=lift_.rotation_requested;d[1]=lift_.rotation_enabled;d[2]=lift_.verified;d[3]=lift_.completed;d[4]=lift_.failed;d[5]=lift_.stopping;std::copy(lift_.margins.begin(),lift_.margins.end(),d.begin()+6);d[9]=lift_.qualified;d[10]=lift_.settled;std::copy(lift_.goal.begin(),lift_.goal.end(),d.begin()+11);std::copy(lift_.hub_velocity.begin(),lift_.hub_velocity.end(),d.begin()+15);std::copy(lift_.hold.begin(),lift_.hold.end(),d.begin()+19);std::copy(lift_.home.begin(),lift_.home.end(),d.begin()+23);rt_alignment_->unlockAndPublish();}
  if(rt_motors_&&rt_motors_->trylock()){auto& d=rt_motors_->msg_.data;const std::array<const char*,5> fields{"position","velocity","effort","kp","kd"};for(int i=0;i<12;++i){for(int j=0;j<5;++j)d[6*i+j]=command_interfaces_map_.at(params_.joint_names[i]).at(fields[j]).get().get_value();d[6*i+5]=lift_.estimated_pd[i];}rt_motors_->unlockAndPublish();}
 }
 }

@@ -1,3 +1,6 @@
 core_test
 core_test_eigen
 *_test_binary
+*.so
+native_align_diagnostic/
+local_checks/

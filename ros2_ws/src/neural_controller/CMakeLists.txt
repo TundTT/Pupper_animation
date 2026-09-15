@@ -91,6 +91,10 @@ install(PROGRAMS scripts/motion_buttons.py DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   enable_testing()
+  add_executable(notebook_lift_align_test test/notebook_lift_align_test.cpp)
+  target_compile_features(notebook_lift_align_test PRIVATE cxx_std_17)
+  target_include_directories(notebook_lift_align_test PRIVATE include)
+  add_test(NAME notebook_lift_align COMMAND notebook_lift_align_test ${CMAKE_CURRENT_SOURCE_DIR}/../../../hardware_testing/notebook_lift/align_geometry_reference.csv)
   foreach(kind IN ITEMS observation targets)
     add_executable(notebook_lift_${kind}_test test/notebook_lift_${kind}_test.cpp)
     target_compile_features(notebook_lift_${kind}_test PRIVATE cxx_std_17)
@@ -114,7 +118,10 @@ if(BUILD_TESTING)
   add_test(NAME notebook_lift_lifecycle COMMAND notebook_lift_controller_test
     ${CMAKE_CURRENT_SOURCE_DIR}/launch/notebook_lift_config.yaml
     ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_notebook_lift.json)
-  set_tests_properties(notebook_lift_lifecycle PROPERTIES ENVIRONMENT "ROS_DOMAIN_ID=194;ROS_LOCALHOST_ONLY=1")
+  add_test(NAME notebook_lift_align_lifecycle COMMAND notebook_lift_controller_test
+    ${CMAKE_CURRENT_SOURCE_DIR}/launch/notebook_lift_align_config.yaml
+    ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_notebook_lift.json)
+  set_tests_properties(notebook_lift_lifecycle notebook_lift_align_lifecycle PROPERTIES ENVIRONMENT "ROS_DOMAIN_ID=194;ROS_LOCALHOST_ONLY=1")
   add_executable(walking_frame_test test/walking_frame_test.cpp)
   target_compile_features(walking_frame_test PRIVATE cxx_std_17)
   target_include_directories(walking_frame_test PRIVATE include)

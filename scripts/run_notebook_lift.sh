@@ -2,10 +2,10 @@
 # Explicit trial only. --supported must reflect actual operator confirmation.
 set -euo pipefail
 if [[ "${1:-}" == --help ]]; then
- echo 'Usage: bash scripts/run_notebook_lift.sh --supported. Starts the dedicated inactive lift trial after verifying candidate/upper-home overlays. Hardware activation performs upper-joint homing; read STARTUP_UPPER_HOME.md and obtain actual support confirmation first.'
+ echo 'Usage: bash scripts/run_notebook_lift.sh --supported [--align]. Starts the dedicated inactive lift trial; --align enables gated startup-home+180deg rotation. Verifies candidate/upper-home overlays. Hardware activation performs upper-joint homing; read STARTUP_UPPER_HOME.md and obtain actual support confirmation first.'
  exit 0
 fi
-[[ $# == 1 && $1 == --supported ]] || { echo 'Confirm actual support and clear joints, then use --supported; see STARTUP_UPPER_HOME.md.' >&2; exit 2; }
+[[ ( $# == 1 || ( $# == 2 && ${2:-} == --align ) ) && $1 == --supported ]] || { echo 'Confirm actual support and clear joints, then use --supported; see STARTUP_UPPER_HOME.md.' >&2; exit 2; }
 repo="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 set +u
 source /opt/ros/jazzy/setup.bash
@@ -20,4 +20,6 @@ python3 "$repo/scripts/check_notebook_lift.py" --package-share "$(ros2 pkg prefi
 python3 "$repo/scripts/notebook_lift/build_receipt.py" check --package-share "$(ros2 pkg prefix --share neural_controller)"
 if fuser /dev/spidev0.0 /dev/spidev0.1 >/dev/null 2>&1; then echo 'Hardware already owned. Reuse that session; do not start a duplicate stack.' >&2; exit 1; fi
 export QUADMORPH_STARTUP_SUPPORTED_BOOT="$(cat /proc/sys/kernel/random/boot_id)"
-exec ros2 launch neural_controller notebook_lift_trial.launch.py
+trial=notebook_lift_trial.launch.py
+[[ ${2:-} == --align ]] && trial=notebook_lift_align_trial.launch.py
+exec ros2 launch neural_controller "$trial"

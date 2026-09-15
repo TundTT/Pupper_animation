@@ -1,0 +1,83 @@
+{
+  "scope": "Native MuJoCo actual trained actor + new C++ core; four nominal single-leg diagnostics, not acceptance or MJX parity",
+  "policy_sha256": "e45a35269d0d6c390e4812ec3f8a5df845ce57d41b5ea7b4a6d81888dcbe3d43",
+  "model_sha256": "4275f813ad1b6b1763ec42f70f23e871114724b3a51baa238c0b4efaafa588cb",
+  "cases": [
+    {
+      "leg": 0,
+      "reason": "incomplete_supported_recovery",
+      "seconds": 55.34615384615385,
+      "verified": false,
+      "completed_mask": 0,
+      "rotation_occurred": false,
+      "max_hub_displacement_rad": 0.0070135999763254854,
+      "max_conservative_floor_m": 0.006256970430029152,
+      "moving_substeps": 0,
+      "unsafe_clearance_substeps": 0,
+      "failures": [
+        "alignment_incomplete"
+      ],
+      "pass": false
+    },
+    {
+      "leg": 1,
+      "reason": "incomplete_supported_recovery",
+      "seconds": 56.98076923076923,
+      "verified": false,
+      "completed_mask": 0,
+      "rotation_occurred": false,
+      "max_hub_displacement_rad": 0.006048142869235364,
+      "max_conservative_floor_m": 0.005724654690072606,
+      "moving_substeps": 0,
+      "unsafe_clearance_substeps": 0,
+      "failures": [
+        "alignment_incomplete"
+      ],
+      "pass": false
+    },
+    {
+      "leg": 2,
+      "reason": "incomplete_supported_recovery",
+      "seconds": 55.63461538461539,
+      "verified": false,
+      "completed_mask": 0,
+      "rotation_occurred": false,
+      "max_hub_displacement_rad": 0.010453171762489099,
+      "max_conservative_floor_m": 0.005107051704917515,
+      "moving_substeps": 0,
+      "unsafe_clearance_substeps": 0,
+      "failures": [
+        "alignment_incomplete"
+      ],
+      "pass": false
+    },
+    {
+      "leg": 3,
+      "reason": "Aligned supported recovery did not settle",
+      "seconds": 64.51923076923077,
+      "verified": false,
+      "completed_mask": 0,
+      "rotation_occurred": false,
+      "max_hub_displacement_rad": 0.009626465804308829,
+      "max_conservative_floor_m": 0.00658236888419432,
+      "moving_substeps": 0,
+      "unsafe_clearance_substeps": 0,
+      "failures": [
+        "Aligned supported recovery did not settle",
+        "alignment_incomplete"
+      ],
+      "pass": false
+    }
+  ],
+  "trace_directory": "/home/theerawit/Pupper_animation/align_notebook_robot_test/hardware_testing/notebook_lift/native_align_diagnostic",
+  "trace_sha256": {
+    "leg0_trace.json": "d5665957e806cfcb45ad900e57e9f820a0743d227549cc8f66e819abcd6a6d9f",
+    "leg1_trace.json": "45525c4ec432222319d2c429ee18374162d6e48e1f95b409bdc350967a3ca471",
+    "leg2_trace.json": "6dc0f27186dd7bdf0e91948f05ef6776804272d6250ec5954714c418226b21b7",
+    "leg3_trace.json": "d80289d2493f0ebee9ef37ffcbdebc0f164d00cef2aea67a306e3767b950c31f"
+  },
+  "core_sha256": "b6824a8f56a62b8e00bde556d34b584ac64bb56e8a435a10ca4e7f16486db9b8",
+  "native_version": "MuJoCo3.6.0",
+  "backend": "RTNeural Eigen float32 on CPU",
+  "interpretation": "0/4 alignment success. Conservative floor gate prevented all commanded rotation; FR/FL/BR recovered after timeout, BL failed bounded supported recovery. This is failed diagnostic evidence, not clearance/rotation acceptance."
+}

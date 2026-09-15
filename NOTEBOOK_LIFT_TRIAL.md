@@ -1,5 +1,7 @@
 # Notebook lift policy: explicit robot-code trial
 
+For the optional button-driven startup-home+180° rotation extension, see [NOTEBOOK_LIFT_ALIGN_TRIAL.md](NOTEBOOK_LIFT_ALIGN_TRIAL.md). The commands below continue to select lift-only mode.
+
 This candidate uses the **exact lift-only actor shown in the continuous FR → FL → BR → BL video**. The policy commands all eight proximal positions throughout stand, lift, hold and lower. Each motor 3 holds its fresh activation angle using position PD. **This launch does not rotate or align wheels.** Existing walking/wheel policies, startup homing targets, normal launch selections and old policy ABIs are unchanged.
 
 Status: experimental simulation candidate, **not physically validated**. PC integration did not start, calibrate, install on, or move the robot. The PC has no ROS/colcon/ARM build environment; actual plugin compilation and fake-interface lifecycle tests must pass in the robot's build environment before launch. A failed check is a blocker, not permission to bypass the wrapper.
