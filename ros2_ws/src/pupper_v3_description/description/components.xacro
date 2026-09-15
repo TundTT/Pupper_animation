@@ -2,10 +2,6 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:macro name="define_components">
-        <!-- The homing_* values below are legacy hanging-pose fallback values.
-             Normal real hardware now uses startup_upper_home: stop homing and
-             saved targets for motors 1/2, raw passive hubs with manual capture.
-             See STARTUP_UPPER_HOME.md; old no-stop upper-leg comments are historical. -->
 
 
         <joint name="leg_front_r_1">

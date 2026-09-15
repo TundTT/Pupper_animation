@@ -1,15 +1,3 @@
-# Current startup requirement
-
-[STARTUP_UPPER_HOME.md](STARTUP_UPPER_HOME.md) is authoritative: every fresh stack activation homes motors 1 and 2 automatically and returns to the saved upper pose. Hubs remain manually aligned and captured. The material below is historical evidence and is superseded where it describes manual upper posing or says automatic return is unavailable.
-
-## Latest startup decision (September 14)
-
-Read [STARTUP_REFERENCE_DECISION.md](STARTUP_REFERENCE_DECISION.md) first. The intended workflow uses saved upper-joint references with joints initially within their measured ranges, and operator-positioned wheel hubs calibrated every startup. Automatic upper-reference resolution is not implemented; range membership does not resolve the observed cross-boot encoder shift. The historical hanging-pose instructions below describe the existing implementation, not the operator’s desired permanent workflow.
-
-## September 14 operator-directed update
-
-The operator explicitly requested ignoring velocity magnitude during calibration capture. Repository capture now records `operator_confirmed_position_stability_v1`: explicit confirmation, one second of fresh finite data, <=0.002 rad position excursion, live-session validation and inactive motion controllers remain required. Finite velocities remain required, but their magnitude no longer rejects capture. This supersedes the historical velocity-outlier capture criteria below. Motion-controller protections are unchanged.
-
 # Startup calibration: every robot session
 
 September 13 workflow decision: the user accepts per-boot hub/spoke calibration

@@ -23,7 +23,6 @@ hardware_testing/keyframe_align/arm64_check.sh text eol=lf
 
 scripts/prepare_locomotion.sh text eol=lf
 scripts/prepare_measured_roll.sh text eol=lf
-scripts/run_robot_stack.sh text eol=lf
 # Preserve captured evidence logs, including original trailing spaces.
 hardware_testing/pi_blackout/**/*.log -whitespace
 hardware_testing/start_pose/encoder_checks/*.log -whitespace

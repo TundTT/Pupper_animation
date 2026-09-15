@@ -57,10 +57,6 @@ install(
 )
 
 if(BUILD_TESTING)
-  add_executable(stanford_stop_homing_test test/stanford_stop_homing_test.cpp)
-  target_include_directories(stanford_stop_homing_test PRIVATE include)
-  target_compile_features(stanford_stop_homing_test PRIVATE cxx_std_17)
-  add_test(NAME stanford_stop_homing_test COMMAND stanford_stop_homing_test)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
   # comment the line when a copyright and license is added to all source files

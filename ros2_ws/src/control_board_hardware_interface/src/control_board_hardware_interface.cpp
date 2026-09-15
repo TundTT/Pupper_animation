@@ -1,5 +1,4 @@
 #include "control_board_hardware_interface/control_board_hardware_interface.hpp"
-#include "control_board_hardware_interface/stanford_stop_homing.hpp"
 
 #include <fcntl.h>
 #include <sched.h>
@@ -11,7 +10,6 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
-#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <limits>
@@ -274,69 +272,6 @@ hardware_interface::CallbackReturn ControlBoardHardwareInterface::on_activate(
     return hardware_interface::CallbackReturn::ERROR;
   }
 
-  // Validate every fixed offset before enabling any actuator. No mixed mode.
-  const auto fixed_boot = info_.hardware_parameters.find("manual_reference_boot_id");
-  bool any_fixed = false;
-  for (const auto &joint : info_.joints) any_fixed |= joint.parameters.count("manual_reference_offset") != 0;
-  if (any_fixed || fixed_boot != info_.hardware_parameters.end()) {
-    try {
-      std::ifstream f("/proc/sys/kernel/random/boot_id"); std::string boot; std::getline(f, boot);
-      if (fixed_boot == info_.hardware_parameters.end() || boot.empty() || boot != fixed_boot->second)
-        throw std::runtime_error("Manual references belong to another boot");
-      for (const auto &joint : info_.joints) {
-        for (const auto *key : {"manual_reference_offset", "manual_reference_expected_raw"}) {
-          const auto value = joint.parameters.at(key); size_t used = 0;
-          const double number = std::stod(value, &used);
-          if (used != value.size() || !std::isfinite(number)) throw std::runtime_error("Invalid manual reference");
-        }
-      }
-    } catch (const std::exception &e) {
-      robot_calibration::invalidate_session(calibration_session_id_);
-      RCLCPP_ERROR(rclcpp::get_logger("ControlBoardHardwareInterface"), "%s", e.what());
-      return hardware_interface::CallbackReturn::ERROR;
-    }
-  }
-
-  const bool stop_trial = info_.hardware_parameters.count("stanford_upper_homing_test") != 0;
-  const bool saved_home_start = info_.hardware_parameters.count("startup_upper_home") &&
-      !stop_trial && fixed_boot == info_.hardware_parameters.end();
-  if (saved_home_start) {
-    try {
-      std::ifstream f("/proc/sys/kernel/random/boot_id"); std::string boot; std::getline(f,boot);
-      const char* confirmation=std::getenv("QUADMORPH_STARTUP_SUPPORTED_BOOT");
-      if(!confirmation || boot.empty() || boot!=confirmation)
-        throw std::runtime_error("Confirm robot supported, then set QUADMORPH_STARTUP_SUPPORTED_BOOT for this boot");
-      size_t upper_count=0;
-      for(size_t i=0;i<info_.joints.size();++i) if(hw_actuator_can_ids_[i]!=3) {
-        const auto value=info_.hardware_parameters.at("upper_home_"+info_.joints[i].name);
-        size_t used=0; const double target=std::stod(value,&used);
-        if(used!=value.size() || !std::isfinite(target) || target<hw_actuator_position_mins_[i] ||
-           target>hw_actuator_position_maxs_[i]) throw std::runtime_error("Invalid upper-home target: "+info_.joints[i].name);
-        ++upper_count;
-      }
-      if(upper_count!=8) throw std::runtime_error("Expected eight upper home joints");
-    } catch(const std::exception& e) {
-      robot_calibration::invalidate_session(calibration_session_id_);
-      RCLCPP_ERROR(rclcpp::get_logger("ControlBoardHardwareInterface"),"%s",e.what());
-      return hardware_interface::CallbackReturn::ERROR;
-    }
-  }
-  if (stop_trial) {
-    const auto scope = info_.hardware_parameters.at("stanford_upper_homing_test");
-    if (any_fixed || fixed_boot != info_.hardware_parameters.end() ||
-        (scope != "fr1" && scope != "upper")) {
-      robot_calibration::invalidate_session(calibration_session_id_);
-      return hardware_interface::CallbackReturn::ERROR;
-    }
-  }
-  if (fixed_boot != info_.hardware_parameters.end() || stop_trial || saved_home_start) {
-    for (size_t i = 0; i < hw_state_positions_.size(); ++i) {
-      hw_actuator_zero_positions_[i] = 0.; hw_actuator_is_homed_[i] = false;
-      hw_command_positions_[i] = hw_command_velocities_[i] = hw_command_efforts_[i] = hw_command_kps_[i] = hw_command_kds_[i] = 0.;
-    }
-    copy_actuator_commands();
-  }
-
   // Enable actuators. Send the command multiple times to ensure it is received.
   for (int i = 0; i < 10; i++) {
     spi_command_->flags[0] = 1;
@@ -348,20 +283,8 @@ hardware_interface::CallbackReturn ControlBoardHardwareInterface::on_activate(
   copy_actuator_states();
   std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-  // Homing / boot-bound manual references.
-  try { do_homing(); }
-  catch (const std::exception &e) {
-    deactivate_motors();
-    RCLCPP_ERROR(rclcpp::get_logger("ControlBoardHardwareInterface"), "Reference initialization rejected: %s", e.what());
-    return hardware_interface::CallbackReturn::ERROR;
-  }
-  if (stop_trial) {
-    // This diagnostic does not establish wheel references or a policy-ready frame.
-    deactivate_motors();
-    RCLCPP_WARN(rclcpp::get_logger("ControlBoardHardwareInterface"),
-                "Stanford upper homing test complete; motors disabled; calibration remains invalid.");
-    return hardware_interface::CallbackReturn::SUCCESS;
-  }
+  // Homing
+  do_homing();
   try {
     robot_calibration::finish_session(calibration_session_id_);
   } catch (const std::exception &e) {
@@ -503,114 +426,6 @@ hardware_interface::return_type ControlBoardHardwareInterface::write(
 void ControlBoardHardwareInterface::do_homing() {
   RCLCPP_INFO(rclcpp::get_logger("ControlBoardHardwareInterface"), "Homing actuators...");
 
-  const bool stop_trial=info_.hardware_parameters.count("stanford_upper_homing_test");
-  const bool saved_home_start=info_.hardware_parameters.count("startup_upper_home") &&
-      !stop_trial && !info_.hardware_parameters.count("manual_reference_boot_id");
-  if (stop_trial || saved_home_start) {
-    using Joint = stanford_stop_homing::Joint;
-    const auto scope=stop_trial?info_.hardware_parameters.at("stanford_upper_homing_test"):"upper";
-    // Refresh through the native SPI driver. No ROS command controller is loaded.
-    for (int n=0;n<50;++n) { spi_driver_run(); copy_actuator_states();
-      std::this_thread::sleep_for(std::chrono::milliseconds(10)); }
-    std::vector<Joint> joints;
-    std::vector<bool> selected;
-    std::vector<double> home;
-    for (size_t i=0;i<info_.joints.size();++i) {
-      const bool left=info_.joints[i].name.find("_l_")!=std::string::npos;
-      const auto id=hw_actuator_can_ids_[i];
-      selected.push_back(id!=3 && (scope=="upper" || info_.joints[i].name=="leg_front_r_1"));
-      home.push_back(saved_home_start && id!=3 ?
-          std::stod(info_.hardware_parameters.at("upper_home_"+info_.joints[i].name)):0.);
-      joints.emplace_back(hw_state_positions_[i],left?1.:-1.,(left?1.:-1.)*(id==1?1.22:.42));
-    }
-    // Use the native Stanford PD command path in the raw frame. Runtime joint
-    // limit clamps cannot apply until an offset exists. All hub gains stay zero.
-    auto send=[&](const std::vector<bool>& enabled) {
-      for (size_t i=0;i<joints.size();++i) {
-        const auto c=hw_actuator_can_channels_[i]-1;
-        const auto id=hw_actuator_can_ids_[i];
-        const double kp=enabled[i]?Joint::kp:0., kd=enabled[i]?Joint::kd:0.;
-        if(id==1) { spi_command_->q_des_abad[c]=joints[i].target; spi_command_->qd_des_abad[c]=enabled[i]?joints[i].velocity:0.;
-          spi_command_->kp_abad[c]=kp; spi_command_->kd_abad[c]=kd; spi_command_->tau_abad_ff[c]=0.; }
-        if(id==2) { spi_command_->q_des_hip[c]=joints[i].target; spi_command_->qd_des_hip[c]=enabled[i]?joints[i].velocity:0.;
-          spi_command_->kp_hip[c]=kp; spi_command_->kd_hip[c]=kd; spi_command_->tau_hip_ff[c]=0.; }
-        if(id==3) { spi_command_->q_des_knee[c]=0.; spi_command_->qd_des_knee[c]=0.;
-          spi_command_->kp_knee[c]=0.; spi_command_->kd_knee[c]=0.; spi_command_->tau_knee_ff[c]=0.; }
-      }
-      spi_driver_run(); copy_actuator_states();
-    };
-    // Original ordering: motor 2 (stage 1), then motor 1 (stage 2).
-    for (const int motor : {2,1}) {
-      auto start=std::chrono::steady_clock::now(), last=start;
-      bool complete=false;
-      while(!complete) {
-        if(!rclcpp::ok()) throw std::runtime_error("Stanford homing interrupted");
-        auto now=std::chrono::steady_clock::now();
-        if(std::chrono::duration<double>(now-start).count()>8.) throw std::runtime_error("Stanford seek timeout");
-        if(std::chrono::duration<double>(now-last).count()>.1) throw std::runtime_error("Stanford loop deadline missed");
-        last=now; complete=true;
-        std::vector<bool> enabled(joints.size(),false);
-        for(size_t i=0;i<joints.size();++i) {
-          joints[i].observe(hw_state_positions_[i],hw_state_velocities_[i]);
-          if(!selected[i]) continue;
-          enabled[i]=joints[i].homed || hw_actuator_can_ids_[i]==motor;
-          if(!enabled[i]) { joints[i].target=hw_state_positions_[i]; joints[i].velocity=0.; }
-          if(hw_actuator_can_ids_[i]==motor && !joints[i].homed) {
-            if(joints[i].seek(hw_state_velocities_[i],.01)) {
-              RCLCPP_INFO(rclcpp::get_logger("ControlBoardHardwareInterface"),
-                "Stanford stop %s raw=%.8f model=%.8f offset=%.8f",
-                info_.joints[i].name.c_str(),joints[i].raw_stop,joints[i].model_stop,
-                joints[i].raw_stop-joints[i].model_stop);
-            } else complete=false;
-          }
-          if(enabled[i]) joints[i].bound(hw_state_velocities_[i]);
-        }
-        send(enabled); std::this_thread::sleep_for(std::chrono::milliseconds(10));
-      }
-    }
-    auto start=std::chrono::steady_clock::now(),last=start;
-    int settled=0;
-    int return_ticks=0;
-    while(settled<20) {
-      if(!rclcpp::ok()) throw std::runtime_error("Stanford return interrupted");
-      auto now=std::chrono::steady_clock::now();
-      if(std::chrono::duration<double>(now-start).count()>5.) throw std::runtime_error("Stanford return tracking timeout");
-      if(std::chrono::duration<double>(now-last).count()>.1) throw std::runtime_error("Stanford return deadline missed");
-      last=now; bool complete=true;
-      for(size_t i=0;i<joints.size();++i) if(selected[i]) {
-        joints[i].observe(hw_state_positions_[i],hw_state_velocities_[i]);
-        complete=joints[i].return_to_home(hw_state_velocities_[i],.01,home[i]) && complete;
-        if(return_ticks%20==0) RCLCPP_INFO(rclcpp::get_logger("ControlBoardHardwareInterface"),
-          "Stanford return %s raw=%.8f destination=%.8f velocity=%.8f",
-          info_.joints[i].name.c_str(),joints[i].position,
-          joints[i].raw_stop-joints[i].model_stop+home[i],hw_state_velocities_[i]);
-      }
-      ++return_ticks;
-      settled=complete?settled+1:0;
-      send(selected); std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    }
-    if(saved_home_start) {
-      for(size_t i=0;i<joints.size();++i) {
-        // Upper axes retain the stop-derived frame. Hubs keep raw coordinates;
-        // their user-aligned reference is captured later, without moving them.
-        hw_actuator_zero_positions_[i]=selected[i]?joints[i].raw_stop-joints[i].model_stop:0.;
-        hw_state_positions_[i]-=hw_actuator_zero_positions_[i];
-        hw_command_positions_[i]=selected[i]?home[i]:hw_state_positions_[i];
-        hw_command_velocities_[i]=hw_command_efforts_[i]=0.;
-        hw_command_kps_[i]=selected[i]?Joint::kp:0.;
-        hw_command_kds_[i]=selected[i]?Joint::kd:0.;
-        hw_actuator_is_homed_[i]=true;
-        if(selected[i]) RCLCPP_INFO(rclcpp::get_logger("ControlBoardHardwareInterface"),
-          "Saved upper home %s target=%.8f measured=%.8f offset=%.8f",
-          info_.joints[i].name.c_str(),home[i],hw_state_positions_[i],hw_actuator_zero_positions_[i]);
-      }
-      copy_actuator_commands(true); spi_driver_run(); copy_actuator_states();
-      RCLCPP_INFO(rclcpp::get_logger("ControlBoardHardwareInterface"),
-        "Saved upper home reached; holding upper joints; hubs unpowered, manual hub capture required.");
-    } else send(std::vector<bool>(joints.size(),false));
-    return;
-  }
-
   int dt_ms = 10;
 
   std::this_thread::sleep_for(std::chrono::milliseconds(dt_ms));
@@ -618,25 +433,6 @@ void ControlBoardHardwareInterface::do_homing() {
   spi_driver_run();
   copy_actuator_states();
   std::this_thread::sleep_for(std::chrono::milliseconds(dt_ms));
-
-  if (info_.hardware_parameters.count("manual_reference_boot_id")) {
-    // No pose snap, movement or damping: preserve the calibrated raw-to-model map.
-    for (size_t i = 0; i < hw_state_positions_.size(); ++i) {
-      const double expected = std::stod(info_.joints[i].parameters.at("manual_reference_expected_raw"));
-      if (!std::isfinite(hw_state_positions_[i]) || std::abs(hw_state_positions_[i] - expected) > 0.05)
-        throw std::runtime_error("Raw position changed during activation: " + info_.joints[i].name);
-    }
-    for (size_t i = 0; i < hw_state_positions_.size(); ++i) {
-      hw_actuator_zero_positions_[i] = std::stod(info_.joints[i].parameters.at("manual_reference_offset"));
-      hw_state_positions_[i] -= hw_actuator_zero_positions_[i];
-      hw_command_positions_[i] = hw_state_positions_[i];
-      hw_command_velocities_[i] = hw_command_efforts_[i] = hw_command_kps_[i] = hw_command_kds_[i] = 0.;
-      hw_actuator_is_homed_[i] = true;
-      RCLCPP_INFO(rclcpp::get_logger("ControlBoardHardwareInterface"), "Manual reference %s offset=%.8f model=%.8f", info_.joints[i].name.c_str(), hw_actuator_zero_positions_[i], hw_state_positions_[i]);
-    }
-    copy_actuator_commands(); spi_driver_run(); copy_actuator_states();
-    return;
-  }
 
   // Set the initial commands
   for (auto i = 0u; i < hw_state_positions_.size(); i++) {
