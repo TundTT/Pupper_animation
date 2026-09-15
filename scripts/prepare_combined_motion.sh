@@ -12,6 +12,7 @@ source "$repo_dir/ros2_ws/install-roll/local_setup.bash"
 source "$repo_dir/ros2_ws/install-upper-home/local_setup.bash"
 cd "$repo_dir"
 python3 scripts/check_locomotion_policies.py
+python3 scripts/check_wheel_lift.py
 python3 scripts/check_notebook_lift.py
 python3 -m unittest discover -s ros2_ws/src/neural_controller/test -p test_motion_buttons.py -v
 export CMAKE_BUILD_PARALLEL_LEVEL=2
@@ -26,15 +27,16 @@ colcon build --executor sequential --packages-select neural_controller \
 cmake --build "$repo_dir/ros2_ws/build-combined/neural_controller" --parallel 2 \
   --target joint_pose_controller hub_roll_controller notebook_lift_controller \
   notebook_lift_core_test notebook_lift_align_test notebook_lift_controller_test \
-  notebook_lift_observation_test notebook_lift_targets_test walking_frame_test walking_handoff_test \
+  notebook_lift_observation_test notebook_lift_targets_test wheel_lift_controller wheel_lift_controller_test wheel_lift_core_test walking_frame_test walking_handoff_test \
   walk_policy_test wheel_policy_test measured_roll_test triangle_roll_controller_test
 cmake --install "$repo_dir/ros2_ws/build-combined/neural_controller"
 source "$install_base/local_setup.bash"
 export LD_LIBRARY_PATH="$install_base/neural_controller/lib:${LD_LIBRARY_PATH:-}"
 export ROS_DOMAIN_ID=193 ROS_LOCALHOST_ONLY=1
 ctest --test-dir "$repo_dir/ros2_ws/build-combined/neural_controller" \
-  -R '^(walking_frame|walking_handoff|walk_policy_contract_and_inference|wheel_policy_contract_and_inference|measured_roll_core|triangle_roll_lifecycle|triangle_roll_stand_lifecycle|notebook_lift.*)$' --output-on-failure --no-tests=error
+  -R '^(combined_wheel_lift_manager|wheel_lift_core|wheel_lift_lifecycle|walking_frame|walking_handoff|walk_policy_contract_and_inference|wheel_policy_contract_and_inference|measured_roll_core|triangle_roll_lifecycle|triangle_roll_stand_lifecycle|notebook_lift.*)$' --output-on-failure --no-tests=error
 cd "$repo_dir"
 python3 scripts/check_locomotion_policies.py --package-share "$install_base/neural_controller/share/neural_controller"
 python3 scripts/check_notebook_lift.py --package-share "$install_base/neural_controller/share/neural_controller"
 echo 'Software ready in install-combined. No hardware stack started. Follow COMBINED_MOTION_LAB.md.'
+python3 scripts/check_wheel_lift.py --package-share "$install_base/neural_controller/share/neural_controller"

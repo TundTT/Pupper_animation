@@ -74,6 +74,13 @@ target_link_libraries(notebook_lift_controller neural_controller neural_controll
 ament_target_dependencies(notebook_lift_controller controller_interface robot_calibration hardware_interface pluginlib realtime_tools rclcpp rclcpp_lifecycle geometry_msgs sensor_msgs tf2 std_msgs)
 install(TARGETS notebook_lift_controller DESTINATION lib)
 
+add_library(wheel_lift_controller SHARED src/wheel_lift_controller.cpp)
+target_compile_features(wheel_lift_controller PUBLIC cxx_std_17)
+target_include_directories(wheel_lift_controller PRIVATE include)
+target_link_libraries(wheel_lift_controller neural_controller neural_controller_parameters RTNeural)
+ament_target_dependencies(wheel_lift_controller controller_interface robot_calibration hardware_interface pluginlib realtime_tools rclcpp rclcpp_lifecycle geometry_msgs sensor_msgs tf2 std_msgs)
+install(TARGETS wheel_lift_controller DESTINATION lib)
+
 
 install(
   TARGETS ${PROJECT_NAME}
@@ -91,6 +98,21 @@ install(PROGRAMS scripts/motion_buttons.py DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   enable_testing()
+  add_library(wheel_lift_bridge SHARED test/wheel_lift_bridge.cpp)
+  target_compile_features(wheel_lift_bridge PRIVATE cxx_std_17)
+  target_include_directories(wheel_lift_bridge PRIVATE include)
+  target_link_libraries(wheel_lift_bridge RTNeural)
+  add_executable(wheel_lift_core_test test/wheel_lift_core_test.cpp)
+  target_compile_features(wheel_lift_core_test PRIVATE cxx_std_17)
+  target_include_directories(wheel_lift_core_test PRIVATE include)
+  add_test(NAME wheel_lift_core COMMAND wheel_lift_core_test ${CMAKE_CURRENT_SOURCE_DIR}/../../../policies/leg_lift_wheel/geometry_reference.csv)
+  add_executable(wheel_lift_controller_test test/wheel_lift_controller_test.cpp)
+  target_compile_features(wheel_lift_controller_test PRIVATE cxx_std_17)
+  target_include_directories(wheel_lift_controller_test PRIVATE include)
+  target_link_libraries(wheel_lift_controller_test wheel_lift_controller neural_controller neural_controller_parameters RTNeural)
+  ament_target_dependencies(wheel_lift_controller_test controller_interface hardware_interface robot_calibration rclcpp rclcpp_lifecycle realtime_tools geometry_msgs tf2 sensor_msgs std_msgs)
+  add_test(NAME wheel_lift_lifecycle COMMAND wheel_lift_controller_test ${CMAKE_CURRENT_SOURCE_DIR}/launch/wheel_lift_config.yaml ${CMAKE_CURRENT_SOURCE_DIR}/launch/policy_leg_lift_wheel.json)
+  set_tests_properties(wheel_lift_lifecycle PROPERTIES ENVIRONMENT "ROS_DOMAIN_ID=196;ROS_LOCALHOST_ONLY=1")
   add_executable(leg_to_wheel_policy_test test/leg_to_wheel_policy_test.cpp)
   target_compile_features(leg_to_wheel_policy_test PRIVATE cxx_std_17)
   target_include_directories(leg_to_wheel_policy_test PRIVATE include)
@@ -199,6 +221,8 @@ if(BUILD_TESTING)
   add_test(NAME keyframe_controller_lifecycle COMMAND keyframe_controller_test
     ${CMAKE_CURRENT_SOURCE_DIR}/launch/config.yaml ${CMAKE_CURRENT_SOURCE_DIR}/launch/keyframe_config.json)
   find_package(ament_cmake_pytest REQUIRED)
+  ament_add_pytest_test(combined_wheel_lift_manager test/combined_wheel_lift_manager_test.py TIMEOUT 90
+    ENV ROS_DOMAIN_ID=197 ROS_LOCALHOST_ONLY=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1)
   ament_add_pytest_test(startup_launch test/startup_launch_test.py)
   ament_add_pytest_test(locomotion_manager test/locomotion_manager_test.py TIMEOUT 90
     ENV "ROS_DOMAIN_ID=95")

@@ -1,0 +1,111 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+{
+  "passed": true,
+  "reason": "completed",
+  "simulation": true,
+  "events": [
+    {
+      "time": 2.612,
+      "leg": 0,
+      "previous": "pose",
+      "stage": "lift"
+    },
+    {
+      "time": 4.928,
+      "leg": 0,
+      "previous": "lift",
+      "stage": "align"
+    },
+    {
+      "time": 30.464000000000002,
+      "leg": 0,
+      "previous": "align",
+      "stage": "lower"
+    },
+    {
+      "time": 33.8,
+      "leg": 0,
+      "previous": "lower",
+      "stage": "lift"
+    },
+    {
+      "time": 36.092,
+      "leg": 1,
+      "previous": "lift",
+      "stage": "align"
+    },
+    {
+      "time": 61.628,
+      "leg": 1,
+      "previous": "align",
+      "stage": "lower"
+    },
+    {
+      "time": 65.48,
+      "leg": 1,
+      "previous": "lower",
+      "stage": "lift"
+    },
+    {
+      "time": 67.668,
+      "leg": 2,
+      "previous": "lift",
+      "stage": "align"
+    },
+    {
+      "time": 93.20400000000001,
+      "leg": 2,
+      "previous": "align",
+      "stage": "lower"
+    },
+    {
+      "time": 95.76,
+      "leg": 2,
+      "previous": "lower",
+      "stage": "lift"
+    },
+    {
+      "time": 97.964,
+      "leg": 3,
+      "previous": "lift",
+      "stage": "align"
+    },
+    {
+      "time": 123.5,
+      "leg": 3,
+      "previous": "align",
+      "stage": "lower"
+    },
+    {
+      "time": 126.22,
+      "leg": 3,
+      "previous": "lower",
+      "stage": "done"
+    }
+  ],
+  "seed": 2,
+  "sensor_noise": true,
+  "friction_scale": 1.0,
+  "maximum_clearance_m": [
+    0.01865996481304053,
+    0.018848797207495153,
+    0.02104859860822822,
+    0.019923445621027717
+  ],
+  "peak_tilt_rad": 0.06619839333453066,
+  "peak_drift_m": 0.07630536562930962,
+  "final_hub_positions": [
+    -3.1433255196236027,
+    3.1422390506999607,
+    -3.139898226330791,
+    3.140766602602175
+  ],
+  "goal": [
+    -3.1415926535897927,
+    3.1415926535897936,
+    -3.1415926535897936,
+    3.141592653589793
+  ],
+  "model_sha256": "6efdbaab466e3a0f761db9d643516c159603f4f8019dae38de3dd64d6f98422e"
+}

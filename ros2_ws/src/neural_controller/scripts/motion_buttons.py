@@ -8,7 +8,7 @@ from pathlib import Path
 ROLL = 'neural_controller_triangle_roll'
 WALK = 'neural_controller_walk_v2'
 WHEEL = 'neural_controller_wheel'
-LIFT = 'neural_controller_notebook_lift'
+LIFT = 'neural_controller_wheel_lift'
 POSE = 'neural_controller_joint_pose'
 # Wheel's held stance (0.65 rad abduction) is ~0.36 rad from Walk's/Lift's required
 # near-standing entry pose (~1.0 rad) -- past the 0.30/0.25 rad tolerance validate_entry
@@ -24,11 +24,6 @@ LIFT_BUTTON = 7
 BUTTONS = {0: ROLL, 2: WALK, 1: WHEEL, LIFT_BUTTON: LIFT}
 BRIDGE_FROM = {WALK, LIFT}  # targets that may need the wheel->ready->target bridge
 BRIDGE_TIMEOUT_S = 8.0  # generous: ~2s ramp + settle, well under the 12s busy timeout floor
-# Matches notebook_lift_align_trial.launch.py's wheel_align_hybrid_cycle_states exactly:
-# FR lift -> FR rotate -> FR lower -> FL ... -> BL lift -> BL rotate -> BL lower -> repeat.
-LIFT_CYCLE = ['front_r', 'rotate', 'stand', 'front_l', 'rotate', 'stand',
-              'back_r', 'rotate', 'stand', 'back_l', 'rotate', 'stand']
-LIFT_STATES = {'stand': 0, 'front_l': 1, 'front_r': 2, 'back_r': 3, 'back_l': 4, 'rotate': 5}
 
 
 def acquire_instance(folder):
@@ -88,7 +83,7 @@ def validate_entry(mode, q, cal, mapping, roll_status=None):
     if mode == LIFT:
         # Nominal is defined only for the 8 proximal (motor 1/2) joints; the hub has
         # no fixed entry target here and is validated live by the controller's own
-        # clearance/tilt gates before it allows a rotation. NOTEBOOK_LIFT_TRIAL.md:
+        # clearance/tilt gates before it allows a rotation. WHEEL_LIFT_POLICY.md:
         # "Entry requires a stationary stand within 0.25 rad of nominal."
         home = [1, 0, None, -1, 0, None, 1, 0, None, -1, 0, None]
         for i, n in enumerate(names):
@@ -96,6 +91,14 @@ def validate_entry(mode, q, cal, mapping, roll_status=None):
                 continue
             if abs(q[n][0] - home[i]) > .25:
                 raise ValueError('R2 (right trigger) requires a near-standing proximal pose for lift/align')
+
+
+def validate_lift_exit(status, age):
+    # Do not switch to driving or walking while a leg is still held off the floor.
+    if (age > .2 or status is None or len(status) != 24 or
+            any(not math.isfinite(v) for v in status) or
+            int(status[0]) not in (1, 4, 5) or status[3] != 1 or status[6] != 0):
+        raise ValueError('Lower the leg and wait for supported lift status before switching modes')
 
 
 def main():
@@ -130,13 +133,13 @@ def main():
             self.stopped = False
             self.epoch = 0
             self.active_mode = None
-            self.lift_index = 0
+            self.lift_status = None; self.lift_status_at = 0
             self.bridging = False
             self.bridge_target = None
             self.bridge_started_at = 0.0
             self.stop_pub = self.create_publisher(Empty, '/emergency_stop', 10)
             self.start_pub = self.create_publisher(Int32, '/triangle_roll/command', 1)
-            self.lift_pub = self.create_publisher(Int32, '/notebook_lift_command_index', 1)
+            self.lift_pub = self.create_publisher(Int32, '/wheel_lift/advance', 1)
             self.list_client = self.create_client(ListControllers, '/controller_manager/list_controllers')
             self.switch_client = self.create_client(SwitchController, '/controller_manager/switch_controller')
             self.create_subscription(Joy, '/joy', self.joy, qos_profile_sensor_data)
@@ -144,9 +147,10 @@ def main():
             self.create_subscription(Imu, '/imu_sensor_broadcaster/imu', self.imu, qos_profile_sensor_data)
             self.create_subscription(Float64MultiArray, '/neural_controller_triangle_roll/status', self.roll, 1)
             self.create_subscription(Float64MultiArray, '/neural_controller_triangle_roll/motor_commands', self.motor, 1)
+            self.create_subscription(Float64MultiArray, '/neural_controller_wheel_lift/lift_status', self.lift_state, 1)
             self.create_timer(.05, self.watch)
             self.get_logger().info('X: roll and hold; Triangle: walk; Circle: wheels; '
-                                    'R2 (right trigger): lift+align (repeat to cycle FR/FL/BR/BL lift->rotate->lower); '
+                                    'R2: pose, then lift / align / lower for FR, FL, BR, BL; '
                                     'PS: stop. All initially inactive.')
 
         def stop(self, reason):
@@ -154,7 +158,7 @@ def main():
             self.pending_start = False
             self.busy = False
             self.active_mode = None
-            self.lift_index = 0
+            self.lift_status = None; self.lift_status_at = 0
             self.bridging = False
             self.bridge_target = None
             self.stop_pub.publish(Empty())
@@ -174,6 +178,18 @@ def main():
 
         def roll(self, m):
             self.status, self.status_at = list(m.data), time.monotonic()
+
+        def lift_state(self, m):
+            values = list(m.data)
+            if len(values) == 24:
+                old = self.lift_status
+                if old is None or values[0] != old[0] or values[8] != old[8]:
+                    stages = ['idle', 'pose', 'lift', 'align', 'lower', 'done', 'fault']
+                    stage = int(values[0])
+                    if 0 <= stage < len(stages):
+                        self.get_logger().info('Lift: %s, leg %d; rejected presses %d' %
+                                               (stages[stage], int(values[1]), int(values[8])))
+                self.lift_status, self.lift_status_at = values, time.monotonic()
 
         def motor(self, m):
             self.commands, self.commands_at = list(m.data), time.monotonic()
@@ -196,14 +212,13 @@ def main():
             if len(buttons)<=10 or buttons[10]:
                 self.stop('PS stop or incomplete gamepad input')
                 return
-            if mode == LIFT and self.active_mode == LIFT:
-                # Live and already active: advance the lift/rotate/lower cycle instead of
-                # re-requesting a controller switch (which would just no-op on a live mode).
+            if mode == LIFT and self.active_mode == LIFT and not self.busy:
+                # The controller owns readiness and sequence state. Every press is
+                # a single request, never a locally incremented or queued phase.
                 if self.lift_pub.get_subscription_count():
-                    self.lift_pub.publish(Int32(data=LIFT_STATES[LIFT_CYCLE[self.lift_index]]))
-                    self.lift_index = (self.lift_index + 1) % len(LIFT_CYCLE)
+                    self.lift_pub.publish(Int32(data=1))
                 else:
-                    self.get_logger().warning('No subscriber on /notebook_lift_command_index')
+                    self.get_logger().warning('No subscriber on /wheel_lift/advance')
                 return
             if mode in BRIDGE_FROM and self.active_mode == WHEEL:
                 # Wheel's stance is too far from mode's entry pose for a direct switch
@@ -245,11 +260,13 @@ def main():
                     # was already active: without this the lift cycle can't advance.
                     self.active_mode = mode
                     if mode != LIFT:
-                        self.lift_index = 0
+                        self.lift_status = None; self.lift_status_at = 0
                     return
                 available = {c.name: c.state for c in states}
                 if available.get(mode) != 'inactive':
                     raise ValueError('Requested controller is not loaded inactive')
+                if LIFT in active and mode != LIFT:
+                    validate_lift_exit(self.lift_status, time.monotonic()-self.lift_status_at)
                 mapping = load_roll_mapping(mode)
                 if mapping and mapping['calibration_id'] != cal['calibration_id']:
                     raise ValueError('Roll reference belongs to an old calibration')
@@ -314,7 +331,7 @@ def main():
                 self.bridging = mode == READY and self.bridge_target is not None
                 self.busy = self.pending_start or self.bridging
                 self.active_mode = mode
-                self.lift_index = 0
+                self.lift_status = None; self.lift_status_at = 0
                 if self.bridging:
                     self.bridge_started_at = time.monotonic()
                 elif mode != READY:

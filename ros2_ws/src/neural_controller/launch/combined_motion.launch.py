@@ -11,15 +11,12 @@ def generate_launch_description():
         return PathJoinSubstitution([FindPackageShare('neural_controller'), 'launch', name])
     config = ParameterFile(path('config.yaml'), allow_substs=True)
     roll = ParameterFile(path('triangle_roll_config.yaml'), allow_substs=True)
-    # notebook_lift_align_config.yaml already carries the controller_manager type entry,
-    # alignment_mode=quadmorph-notebook-lift-align-v1, and the full parameter set;
-    # nothing further is needed in combined_motion.yaml for this controller.
-    lift = ParameterFile(path('notebook_lift_align_config.yaml'), allow_substs=True)
+    lift = ParameterFile(path('wheel_lift_config.yaml'), allow_substs=True)
     # Wheel->Walk/Lift "get ready" bridge; see wheel_to_walk_ready_config.yaml for why.
     ready = ParameterFile(path('wheel_to_walk_ready_config.yaml'), allow_substs=True)
     combined = ParameterFile(path('combined_motion.yaml'), allow_substs=True)
     policies = ['neural_controller_triangle_roll', 'neural_controller_walk_v2', 'neural_controller_wheel',
-                'neural_controller_notebook_lift', 'neural_controller_wheel_to_walk_ready']
+                'neural_controller_wheel_lift', 'neural_controller_wheel_to_walk_ready']
     description = {'robot_description': Command([
         FindExecutable(name='xacro'), ' ', PathJoinSubstitution([
             FindPackageShare('pupper_v3_description'), 'description', 'pupper_v3.urdf.xacro'])])}

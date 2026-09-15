@@ -79,7 +79,7 @@ class ButtonsTest(unittest.TestCase):
         send();send(7);handler.request.assert_called_once_with(b.LIFT)
         handler.active_mode=b.LIFT
         send(7);handler.lift_pub.publish.assert_not_called()  # Activation pull not reused
-        for expected in [2,5,0,1,5,0,3,5,0,4,5,0]:
+        for expected in [1]*12:
             send();send(7)
             self.assertEqual(handler.lift_pub.publish.call_args.args[0].data,expected)
             count=handler.lift_pub.publish.call_count
@@ -91,6 +91,18 @@ class ButtonsTest(unittest.TestCase):
         self.assertEqual(handler.lift_pub.publish.call_count,count)  # No queue after busy
         send();send(7,10);handler.stop.assert_called_once()
         self.assertEqual(handler.lift_pub.publish.call_count,count)
+
+    def test_lift_exit_requires_supported_lower_and_fresh_status(self):
+        status=[0.]*24
+        status[0]=4;status[3]=1
+        b.validate_lift_exit(status,.1)
+        for stage in (0,2,3,6):
+            status[0]=stage
+            with self.assertRaises(ValueError):b.validate_lift_exit(status,.1)
+        status[0]=4
+        with self.assertRaises(ValueError):b.validate_lift_exit(status,.3)
+        status[3]=0
+        with self.assertRaises(ValueError):b.validate_lift_exit(status,.1)
 
     def test_walking_full_turn_and_up_rejection(self):
         self.q[self.names[11]]=(1+2*math.pi,0)

@@ -1,5 +1,9 @@
 # Latest trained leg and wheel policies
 
+For the R2 wheel-blind lift / slow position-align sequence now selected in the
+combined launch, see [WHEEL_LIFT_POLICY.md](WHEEL_LIFT_POLICY.md). Local ROS and
+full C++ native-physics validation passed; Pi installation is pending.
+
 For the trained leg-to-wheel conversion policy and gentler lowering source
 release, see [LEG_TO_WHEEL_POLICY.md](LEG_TO_WHEEL_POLICY.md). It includes the
 RTNeural export and tested C++ runtime; hardware activation integration is pending.

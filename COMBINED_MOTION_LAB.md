@@ -1,3 +1,8 @@
+> R2 now selects the approved wheel-blind lift controller. See
+> [WHEEL_LIFT_POLICY.md](WHEEL_LIFT_POLICY.md) for its button sequence, validation
+> and the existing walking/wheel preparation-check failures. Historical notebook
+> details below describe the previous controller.
+
 # Combined roll, walking, wheel and lift/align controls
 
 Use `ros2 launch neural_controller combined_motion.launch.py` for this workflow.

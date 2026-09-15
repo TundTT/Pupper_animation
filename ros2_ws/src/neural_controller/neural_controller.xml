@@ -30,4 +30,9 @@
     <description>Experimental notebook lift policy; eight absolute proximal actions and four captured hub position holds.</description>
   </class>
 </library>
+<library path="wheel_lift_controller">
+  <class name="neural_controller/WheelLiftController" type="neural_controller::WheelLiftController" base_class_type="controller_interface::ControllerInterface">
+    <description>Wheel-blind 27-input lift policy with button-stepped calibrated hub position alignment.</description>
+  </class>
+</library>
 </class_libraries>

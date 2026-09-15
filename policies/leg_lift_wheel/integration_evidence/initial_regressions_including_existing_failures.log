@@ -1,0 +1,160 @@
+Test project /tmp/wheel-lift-ros-build/neural_controller
+    Start  1: wheel_lift_core
+1/8 Test  #1: wheel_lift_core .......................   Passed    0.00 sec
+    Start  2: wheel_lift_lifecycle
+2/8 Test  #2: wheel_lift_lifecycle ..................***Failed    0.21 sec
+[WARN] [1789447778.814439751] [rcl]: ROS_LOCALHOST_ONLY is deprecated but still honored if it is enabled. Use ROS_AUTOMATIC_DISCOVERY_RANGE and ROS_STATIC_PEERS instead.
+[WARN] [1789447778.814450727] [rcl]: 'localhost_only' is enabled, 'automatic_discovery_range' and 'static_peers' will be ignored.
+Warning: class_loader.impl: SEVERE WARNING!!! A namespace collision has occurred with plugin factory for class neural_controller::WheelLiftController. New factory will OVERWRITE existing one. This situation occurs when libraries containing plugins are directly linked against an executable (the one running right now generating this message). Please separate plugins out into their own library or just don't link against the library and use either class_loader::ClassLoader/MultiLibraryClassLoader to open.
+         at line 321 in /home/theerawit/micromamba/envs/ros_jazzy/include/class_loader/class_loader/class_loader_core.hpp
+# dimensions: 27
+Layer: dense
+  Dims: 128
+  activation: elu
+Layer: dense
+  Dims: 128
+  activation: elu
+Layer: dense
+  Dims: 128
+  activation: elu
+Layer: dense
+  Dims: 8
+  activation: tanh
+# dimensions: 27
+Layer: dense
+  Dims: 128
+  activation: elu
+Layer: dense
+  Dims: 128
+  activation: elu
+Layer: dense
+  Dims: 128
+  activation: elu
+Layer: dense
+  Dims: 8
+  activation: tanh
+[INFO] [1789447778.874840913] [neural_controller_wheel_lift]: configure successful
+[ERROR] [1789447778.875037479] [neural_controller_wheel_lift]: Policy activation blocked: /tmp/notebook-lift-test-a6ca636814834539b22272da66d15707/encoder-session.json: cannot open file. Confirm physical setup, then run ros2 run robot_calibration calibrate capture
+[INFO] [1789447778.875494588] [neural_controller_wheel_lift]: Using startup calibration synthetic-notebook-test
+[INFO] [1789447778.875505945] [neural_controller_wheel_lift]: Populating command interfaces map
+[INFO] [1789447778.875510021] [neural_controller_wheel_lift]: Prefix leg_front_r_1. Adding command interface position
+[INFO] [1789447778.875514107] [neural_controller_wheel_lift]: Prefix leg_front_r_1. Adding command interface velocity
+[INFO] [1789447778.875517322] [neural_controller_wheel_lift]: Prefix leg_front_r_1. Adding command interface effort
+[INFO] [1789447778.875520106] [neural_controller_wheel_lift]: Prefix leg_front_r_1. Adding command interface kp
+[INFO] [1789447778.875523552] [neural_controller_wheel_lift]: Prefix leg_front_r_1. Adding command interface kd
+[INFO] [1789447778.875526256] [neural_controller_wheel_lift]: Prefix leg_front_r_2. Adding command interface position
+[INFO] [1789447778.875528970] [neural_controller_wheel_lift]: Prefix leg_front_r_2. Adding command interface velocity
+[INFO] [1789447778.875531664] [neural_controller_wheel_lift]: Prefix leg_front_r_2. Adding command interface effort
+[INFO] [1789447778.875535540] [neural_controller_wheel_lift]: Prefix leg_front_r_2. Adding command interface kp
+[INFO] [1789447778.875538144] [neural_controller_wheel_lift]: Prefix leg_front_r_2. Adding command interface kd
+[INFO] [1789447778.875540798] [neural_controller_wheel_lift]: Prefix leg_front_r_3. Adding command interface position
+[INFO] [1789447778.875544283] [neural_controller_wheel_lift]: Prefix leg_front_r_3. Adding command interface velocity
+[INFO] [1789447778.875547067] [neural_controller_wheel_lift]: Prefix leg_front_r_3. Adding command interface effort
+[INFO] [1789447778.875549731] [neural_controller_wheel_lift]: Prefix leg_front_r_3. Adding command interface kp
+[INFO] [1789447778.875552315] [neural_controller_wheel_lift]: Prefix leg_front_r_3. Adding command interface kd
+[INFO] [1789447778.875555780] [neural_controller_wheel_lift]: Prefix leg_front_l_1. Adding command interface position
+[INFO] [1789447778.875558454] [neural_controller_wheel_lift]: Prefix leg_front_l_1. Adding command interface velocity
+[INFO] [1789447778.875561068] [neural_controller_wheel_lift]: Prefix leg_front_l_1. Adding command interface effort
+[INFO] [1789447778.875564634] [neural_controller_wheel_lift]: Prefix leg_front_l_1. Adding command interface kp
+[INFO] [1789447778.875567288] [neural_controller_wheel_lift]: Prefix leg_front_l_1. Adding command interface kd
+[INFO] [1789447778.875569861] [neural_controller_wheel_lift]: Prefix leg_front_l_2. Adding command interface position
+[INFO] [1789447778.875573287] [neural_controller_wheel_lift]: Prefix leg_front_l_2. Adding command interface velocity
+[INFO] [1789447778.875575850] [neural_controller_wheel_lift]: Prefix leg_front_l_2. Adding command interface effort
+[INFO] [1789447778.875578785] [neural_controller_wheel_lift]: Prefix leg_front_l_2. Adding command interface kp
+[INFO] [1789447778.875581619] [neural_controller_wheel_lift]: Prefix leg_front_l_2. Adding command interface kd
+[INFO] [1789447778.875584494] [neural_controller_wheel_lift]: Prefix leg_front_l_3. Adding command interface position
+[INFO] [1789447778.875588329] [neural_controller_wheel_lift]: Prefix leg_front_l_3. Adding command interface velocity
+[INFO] [1789447778.875590893] [neural_controller_wheel_lift]: Prefix leg_front_l_3. Adding command interface effort
+[INFO] [1789447778.875593938] [neural_controller_wheel_lift]: Prefix leg_front_l_3. Adding command interface kp
+[INFO] [1789447778.875597573] [neural_controller_wheel_lift]: Prefix leg_front_l_3. Adding command interface kd
+[INFO] [1789447778.875600157] [neural_controller_wheel_lift]: Prefix leg_back_r_1. Adding command interface position
+[INFO] [1789447778.875602801] [neural_controller_wheel_lift]: Prefix leg_back_r_1. Adding command interface velocity
+[INFO] [1789447778.875605746] [neural_controller_wheel_lift]: Prefix leg_back_r_1. Adding command interface effort
+[INFO] [1789447778.875608329] [neural_controller_wheel_lift]: Prefix leg_back_r_1. Adding command interface kp
+[INFO] [1789447778.875618234] [neural_controller_wheel_lift]: Prefix leg_back_r_1. Adding command interface kd
+[INFO] [1789447778.875621569] [neural_controller_wheel_lift]: Prefix leg_back_r_2. Adding command interface position
+[INFO] [1789447778.875624324] [neural_controller_wheel_lift]: Prefix leg_back_r_2. Adding command interface velocity
+[INFO] [1789447778.875628159] [neural_controller_wheel_lift]: Prefix leg_back_r_2. Adding command interface effort
+[INFO] [1789447778.875630723] [neural_controller_wheel_lift]: Prefix leg_back_r_2. Adding command interface kp
+[INFO] [1789447778.875633297] [neural_controller_wheel_lift]: Prefix leg_back_r_2. Adding command interface kd
+[INFO] [1789447778.875636141] [neural_controller_wheel_lift]: Prefix leg_back_r_3. Adding command interface position
+[INFO] [1789447778.875638725] [neural_controller_wheel_lift]: Prefix leg_back_r_3. Adding command interface velocity
+[INFO] [1789447778.875641299] [neural_controller_wheel_lift]: Prefix leg_back_r_3. Adding command interface effort
+[INFO] [1789447778.875643813] [neural_controller_wheel_lift]: Prefix leg_back_r_3. Adding command interface kp
+[INFO] [1789447778.875646587] [neural_controller_wheel_lift]: Prefix leg_back_r_3. Adding command interface kd
+[INFO] [1789447778.875649131] [neural_controller_wheel_lift]: Prefix leg_back_l_1. Adding command interface position
+[INFO] [1789447778.875652426] [neural_controller_wheel_lift]: Prefix leg_back_l_1. Adding command interface velocity
+[INFO] [1789447778.875654970] [neural_controller_wheel_lift]: Prefix leg_back_l_1. Adding command interface effort
+[INFO] [1789447778.875657694] [neural_controller_wheel_lift]: Prefix leg_back_l_1. Adding command interface kp
+[INFO] [1789447778.875660859] [neural_controller_wheel_lift]: Prefix leg_back_l_1. Adding command interface kd
+[INFO] [1789447778.875663362] [neural_controller_wheel_lift]: Prefix leg_back_l_2. Adding command interface position
+[INFO] [1789447778.875666026] [neural_controller_wheel_lift]: Prefix leg_back_l_2. Adding command interface velocity
+[INFO] [1789447778.875669211] [neural_controller_wheel_lift]: Prefix leg_back_l_2. Adding command interface effort
+[INFO] [1789447778.875671845] [neural_controller_wheel_lift]: Prefix leg_back_l_2. Adding command interface kp
+[INFO] [1789447778.875674559] [neural_controller_wheel_lift]: Prefix leg_back_l_2. Adding command interface kd
+[INFO] [1789447778.875677874] [neural_controller_wheel_lift]: Prefix leg_back_l_3. Adding command interface position
+[INFO] [1789447778.875680428] [neural_controller_wheel_lift]: Prefix leg_back_l_3. Adding command interface velocity
+[INFO] [1789447778.875683002] [neural_controller_wheel_lift]: Prefix leg_back_l_3. Adding command interface effort
+[INFO] [1789447778.875685906] [neural_controller_wheel_lift]: Prefix leg_back_l_3. Adding command interface kp
+[INFO] [1789447778.875688741] [neural_controller_wheel_lift]: Prefix leg_back_l_3. Adding command interface kd
+[INFO] [1789447778.875692466] [neural_controller_wheel_lift]: Prefix leg_front_r_1. Adding state interface position
+[INFO] [1789447778.875695491] [neural_controller_wheel_lift]: Prefix leg_front_r_1. Adding state interface velocity
+[INFO] [1789447778.875699216] [neural_controller_wheel_lift]: Prefix leg_front_r_2. Adding state interface position
+[INFO] [1789447778.875701820] [neural_controller_wheel_lift]: Prefix leg_front_r_2. Adding state interface velocity
+[INFO] [1789447778.875704715] [neural_controller_wheel_lift]: Prefix leg_front_r_3. Adding state interface position
+[INFO] [1789447778.875707569] [neural_controller_wheel_lift]: Prefix leg_front_r_3. Adding state interface velocity
+[INFO] [1789447778.875711174] [neural_controller_wheel_lift]: Prefix leg_front_l_1. Adding state interface position
+[INFO] [1789447778.875713788] [neural_controller_wheel_lift]: Prefix leg_front_l_1. Adding state interface velocity
+[INFO] [1789447778.875716392] [neural_controller_wheel_lift]: Prefix leg_front_l_2. Adding state interface position
+[INFO] [1789447778.875719617] [neural_controller_wheel_lift]: Prefix leg_front_l_2. Adding state interface velocity
+[INFO] [1789447778.875725847] [neural_controller_wheel_lift]: Prefix leg_front_l_3. Adding state interface position
+[INFO] [1789447778.875729112] [neural_controller_wheel_lift]: Prefix leg_front_l_3. Adding state interface velocity
+[INFO] [1789447778.875731705] [neural_controller_wheel_lift]: Prefix leg_back_r_1. Adding state interface position
+[INFO] [1789447778.875734269] [neural_controller_wheel_lift]: Prefix leg_back_r_1. Adding state interface velocity
+[INFO] [1789447778.875737334] [neural_controller_wheel_lift]: Prefix leg_back_r_2. Adding state interface position
+[INFO] [1789447778.875739878] [neural_controller_wheel_lift]: Prefix leg_back_r_2. Adding state interface velocity
+[INFO] [1789447778.875742462] [neural_controller_wheel_lift]: Prefix leg_back_r_3. Adding state interface position
+[INFO] [1789447778.875745877] [neural_controller_wheel_lift]: Prefix leg_back_r_3. Adding state interface velocity
+[INFO] [1789447778.875748401] [neural_controller_wheel_lift]: Prefix leg_back_l_1. Adding state interface position
+[INFO] [1789447778.875751445] [neural_controller_wheel_lift]: Prefix leg_back_l_1. Adding state interface velocity
+[INFO] [1789447778.875754330] [neural_controller_wheel_lift]: Prefix leg_back_l_2. Adding state interface position
+[INFO] [1789447778.875757144] [neural_controller_wheel_lift]: Prefix leg_back_l_2. Adding state interface velocity
+[INFO] [1789447778.875760789] [neural_controller_wheel_lift]: Prefix leg_back_l_3. Adding state interface position
+[INFO] [1789447778.875763503] [neural_controller_wheel_lift]: Prefix leg_back_l_3. Adding state interface velocity
+[INFO] [1789447778.875766097] [neural_controller_wheel_lift]: Prefix imu_sensor. Adding state interface angular_velocity.x
+[INFO] [1789447778.875769272] [neural_controller_wheel_lift]: Prefix imu_sensor. Adding state interface angular_velocity.y
+[INFO] [1789447778.875771796] [neural_controller_wheel_lift]: Prefix imu_sensor. Adding state interface angular_velocity.z
+[INFO] [1789447778.875774580] [neural_controller_wheel_lift]: Prefix imu_sensor. Adding state interface orientation.x
+[INFO] [1789447778.875778135] [neural_controller_wheel_lift]: Prefix imu_sensor. Adding state interface orientation.y
+[INFO] [1789447778.875780679] [neural_controller_wheel_lift]: Prefix imu_sensor. Adding state interface orientation.z
+[INFO] [1789447778.875783253] [neural_controller_wheel_lift]: Prefix imu_sensor. Adding state interface orientation.w
+[INFO] [1789447778.875786528] [neural_controller_wheel_lift]: Prefix imu_sensor. Adding state interface time_since_measurement_seconds
+[INFO] [1789447778.878515332] [neural_controller_wheel_lift]: activate successful
+perjoint gains consumed
+
+    Start 10: walking_frame
+3/8 Test #10: walking_frame .........................   Passed    0.00 sec
+    Start 11: walking_handoff
+4/8 Test #11: walking_handoff .......................   Passed    0.20 sec
+    Start 17: triangle_roll_lifecycle
+5/8 Test #17: triangle_roll_lifecycle ...............   Passed    0.24 sec
+    Start 18: triangle_roll_stand_lifecycle
+6/8 Test #18: triangle_roll_stand_lifecycle .........   Passed    0.23 sec
+    Start 31: wheel_policy_contract_and_inference
+7/8 Test #31: wheel_policy_contract_and_inference ...***Failed    0.03 sec
+RTNeural mismatch
+
+    Start 32: walk_policy_contract_and_inference
+8/8 Test #32: walk_policy_contract_and_inference ....***Failed    0.02 sec
+FAIL: command envelope mismatch
+
+
+63% tests passed, 3 tests failed out of 8
+
+Total Test time (real) =   0.94 sec
+
+The following tests FAILED:
+	  2 - wheel_lift_lifecycle (Failed)
+	 31 - wheel_policy_contract_and_inference (Failed)
+	 32 - walk_policy_contract_and_inference (Failed)
+Errors while running CTest

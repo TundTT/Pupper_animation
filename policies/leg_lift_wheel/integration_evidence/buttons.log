@@ -1,0 +1,15 @@
+test_ambiguous_and_short_inputs (test_motion_buttons.ButtonsTest.test_ambiguous_and_short_inputs) ... ok
+test_buttons_and_edges (test_motion_buttons.ButtonsTest.test_buttons_and_edges) ... ok
+test_lift_exit_requires_supported_lower_and_fresh_status (test_motion_buttons.ButtonsTest.test_lift_exit_requires_supported_lower_and_fresh_status) ... ok
+test_r2_only_and_previous_input_recovery (test_motion_buttons.ButtonsTest.test_r2_only_and_previous_input_recovery) ... ok
+test_real_joy_callback_r2_cycle_and_edge_consumption (test_motion_buttons.ButtonsTest.test_real_joy_callback_r2_cycle_and_edge_consumption) ... ok
+test_running_and_failed_roll_cannot_switch (test_motion_buttons.ButtonsTest.test_running_and_failed_roll_cannot_switch) ... ok
+test_second_process_cannot_create_another_dispatcher (test_motion_buttons.ButtonsTest.test_second_process_cannot_create_another_dispatcher) ... ok
+test_stale_mapping_rejected_for_x (test_motion_buttons.ButtonsTest.test_stale_mapping_rejected_for_x) ... ok
+test_walking_full_turn_and_up_rejection (test_motion_buttons.ButtonsTest.test_walking_full_turn_and_up_rejection) ... ok
+test_x_requires_up (test_motion_buttons.ButtonsTest.test_x_requires_up) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.108s
+
+OK
