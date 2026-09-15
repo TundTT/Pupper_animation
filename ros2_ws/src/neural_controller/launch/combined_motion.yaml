@@ -1,0 +1,12 @@
+neural_controller_walk_v2:
+  ros__parameters:
+    calibrated_walk_frame: true
+    calibration_required: true
+    # Fast roll-to-walk handoff: preserve the captured targets/gains briefly,
+    # then bring in policy actions without the default four-second delay.
+    init_duration: 0.2
+    fade_in_duration: 0.2
+
+neural_controller_triangle_roll:
+  ros__parameters:
+    hub_tracking_error_limit: 0.5235987755982988

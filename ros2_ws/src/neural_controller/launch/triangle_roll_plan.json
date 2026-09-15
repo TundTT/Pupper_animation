@@ -1,0 +1,124 @@
+{
+  "schema_version": 3,
+  "source_commit": "2f34c9ce2ef696d31c804ebf0bcfb7a71bd05349",
+  "axial_gap_m": 0.009,
+  "hz": 520,
+  "joint_names": [
+    "leg_front_r_1",
+    "leg_front_r_2",
+    "leg_front_r_3",
+    "leg_front_l_1",
+    "leg_front_l_2",
+    "leg_front_l_3",
+    "leg_back_r_1",
+    "leg_back_r_2",
+    "leg_back_r_3",
+    "leg_back_l_1",
+    "leg_back_l_2",
+    "leg_back_l_3"
+  ],
+  "initial": [
+    1.0,
+    0,
+    2.141592653589793,
+    -1.0,
+    0,
+    -2.141592653589793,
+    1.0,
+    0,
+    2.141592653589793,
+    -1.0,
+    0,
+    -2.141592653589793
+  ],
+  "goal": [
+    1.0,
+    0.0,
+    -1.0,
+    -1.0,
+    0.0,
+    1.0,
+    1.0,
+    0.0,
+    -1.0,
+    -1.0,
+    0.0,
+    1.0
+  ],
+  "kp": [
+    5.0,
+    5.0,
+    4.0,
+    5.0,
+    5.0,
+    4.0,
+    5.0,
+    5.0,
+    4.0,
+    5.0,
+    5.0,
+    4.0
+  ],
+  "kd": [
+    0.25,
+    0.25,
+    0.15,
+    0.25,
+    0.25,
+    0.15,
+    0.25,
+    0.25,
+    0.15,
+    0.25,
+    0.25,
+    0.15
+  ],
+  "controller": {
+    "hold_seconds": 32.0,
+    "balanced_support": {
+      "estimate_mode": "hybrid",
+      "norm_delay_s": 2.0,
+      "force_gain": 0.003,
+      "reference_cap": 0.075,
+      "integral_gain": 0.25
+    },
+    "roll_damping_scale": 2.0,
+    "entry_seconds": 2.0,
+    "entry_splay": 0.1,
+    "entry_integral_gain": 0.25,
+    "roll_seconds": 12.0,
+    "entry_proximal_radius_rad": {
+      "shoulder": 0.15,
+      "hip": 0.2
+    }
+  },
+  "geometry_sha256": "757e06c7935e877559145c0fede9dd79cce8b7c6aef1be672a97aae46de65e47",
+  "walking_enabled": false,
+  "source_run": "360ffcd09344487d",
+  "source_entry_sha256": "a2dd16334d08bd3cbfd166da98dac660b33e2b423b78787e8691c9583b07b9fe",
+  "source_support_sha256": "a1f166f2bbb044ae50350996b5b0bee8043ad5c70386b5cc1eaff79523438962",
+  "nominal_estimator_model_sha256": "c274c1b3ddba73b58c89e8dded10d2d2d8e0fda37af77f631d4bedefa2d177e2",
+  "measured_model_sha256": "d1c72b80624a3f545b4279dcd68613ce0dacd3588d08b2fbe8177efc4254e99b",
+  "formation": {
+    "top_mm": [
+      57,
+      57,
+      57,
+      57
+    ],
+    "bottom_mm": [
+      35,
+      35,
+      35,
+      35
+    ],
+    "bend_deg": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "contact_parts": 2
+  },
+  "plan_sha256": "9a1978933771c4a0724accf186c5a0e08da5e20f952ac38cea2dcb456bbef7bf"
+}

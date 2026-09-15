@@ -1,0 +1,4 @@
+neural_controller_wheel:
+  ros__parameters:
+    calibration_required: true
+    cmd_vel_topic: /wheel_cmd_vel

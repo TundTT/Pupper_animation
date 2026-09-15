@@ -1,0 +1,4 @@
+# Explicit override for physical controller launches; never disable on hardware.
+/**:
+  ros__parameters:
+    calibration_required: true

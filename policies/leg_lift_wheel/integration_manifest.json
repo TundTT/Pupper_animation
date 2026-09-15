@@ -1,0 +1,16 @@
+{
+  "contract": "leg-lift-wheel-position-v1",
+  "upstream_export_sha256": "20868146985fb5d8dae3e80339f35a5e727c133a1bb851d1cd2e268f8dc33636",
+  "physical_robot_tested": false,
+  "pi_installed": false,
+  "files": {
+    "ros2_ws/src/neural_controller/launch/policy_leg_lift_wheel.json": "20868146985fb5d8dae3e80339f35a5e727c133a1bb851d1cd2e268f8dc33636",
+    "ros2_ws/src/neural_controller/launch/wheel_lift_config.yaml": "fba915e5755758d73a2bea24fb31d5f3f560906a74f80fa1495afd293f71cc81",
+    "ros2_ws/src/neural_controller/src/wheel_lift_controller.cpp": "1855624f3441454d2a031f6b46c126fc4f42cabc8218f4c8e05cb4d9dec01510",
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_lift_controller.hpp": "b9b29329e06b750d824c6eaa5b204eb29ab0ba5d41d2d72c0cbdc1faa7a58697",
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_lift/align_geometry.hpp": "4ae2bc700a5f78f8e42b7a8ec54d128dba8b4a3d99670039890e6ba982ac9e92",
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_lift/core.hpp": "e0061d8e95520913f52fc0bc8f8c85ae1e731b90cf1e366142df40557e6b5a1c",
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_lift/geometry.hpp": "c5613ba36170c0907a0bb61b4e2bb9f2d38917df2a86b606d355570c80c20c37",
+    "policies/leg_lift_wheel/model/model.xml": "6efdbaab466e3a0f761db9d643516c159603f4f8019dae38de3dd64d6f98422e"
+  }
+}

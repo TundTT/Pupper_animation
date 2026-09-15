@@ -1,0 +1,96 @@
+{
+  "status": "SIMULATION_SEQUENCE_PASS_HARDWARE_UNTESTED",
+  "policy": "policy_leg_lift_wheel.json",
+  "checkpoint_sha256": "44166928ee63d4d2e2f9e312d6cda26a864312457e72ed0bb10c5e83f8d2b740",
+  "model_sha256": "6efdbaab466e3a0f761db9d643516c159603f4f8019dae38de3dd64d6f98422e",
+  "export_parity_max_abs_error": 1.7056771352969013e-06,
+  "checks": {
+    "nominal_sequence": {
+      "passed": true,
+      "reason": "completed",
+      "peak_tilt_rad": 0.06573706661345904,
+      "peak_drift_m": 0.0761941668373584
+    },
+    "noise_seed1": {
+      "passed": true,
+      "reason": "completed",
+      "peak_tilt_rad": 0.06734595920616372,
+      "peak_drift_m": 0.07858507482932453
+    },
+    "noise_seed2": {
+      "passed": true,
+      "reason": "completed",
+      "peak_tilt_rad": 0.06619839333453066,
+      "peak_drift_m": 0.07630536562930962
+    },
+    "friction_low": {
+      "passed": true,
+      "reason": "completed",
+      "peak_tilt_rad": 0.06573943655741667,
+      "peak_drift_m": 0.07207306176453313
+    },
+    "rollout": {
+      "passed": true,
+      "reason": "completed",
+      "peak_tilt_rad": 0.06573706661345904,
+      "peak_drift_m": 0.0761941668373584
+    },
+    "long_hold": {
+      "passed": true,
+      "reason": "all four per-leg cases passed",
+      "peak_tilt_rad": null,
+      "peak_drift_m": null
+    }
+  },
+  "files": {
+    "README.md": "31b3c92c8a1eadbce7d51d7c9e19608fbe53f5ff637925280ab190ee7e127b6b",
+    "controller.json": "c85db349b80b20e5fb9cb4615f05ef909bc0f49310a2c86f8766fdc3f95c8b9f",
+    "lineage.json": "f3d2d5b31a8c5649334fe6bcd3dc475f46524b2210f001c0c1f4354486808972",
+    "mjx_params": "44166928ee63d4d2e2f9e312d6cda26a864312457e72ed0bb10c5e83f8d2b740",
+    "model/meshes/AdaptiveWheel.stl": "713cb9ba63e1c3c1a0bf3598fdd35907e3e610d8a3692166ca6d9e2ba199419b",
+    "model/meshes/BodyV4v70_001.stl": "703137e327683555c1f6d12d39b99fd721479af0e0785e61805ad755a8f782a8",
+    "model/meshes/Heating_module.stl": "40d4b45c2943272e69801393df76551f3829fc41205d79f156bd49957b84a9b1",
+    "model/meshes/LegAssemblyForFlangedv26_001.stl": "ef36b14858126b237f15c43d9176ffb9da25d98bdb903c49cf3623234bb79a0a",
+    "model/meshes/LegAssemblyForFlangedv26_002.stl": "83d9b19ac0fb616cf2619228f851b01f3adac08b52344cf47080687f451fc474",
+    "model/meshes/LegAssemblyForFlangedv26_003.stl": "175081bce9491118bedde36677989dee7c274a1c37022ffad33a70488cbcd835",
+    "model/meshes/LegAssemblyForFlangedv26_005.stl": "ef36b14858126b237f15c43d9176ffb9da25d98bdb903c49cf3623234bb79a0a",
+    "model/meshes/LegAssemblyForFlangedv26_006.stl": "83d9b19ac0fb616cf2619228f851b01f3adac08b52344cf47080687f451fc474",
+    "model/meshes/LegAssemblyForFlangedv26_007.stl": "175081bce9491118bedde36677989dee7c274a1c37022ffad33a70488cbcd835",
+    "model/meshes/LegAssemblyForFlangedv26_010.stl": "ef36b14858126b237f15c43d9176ffb9da25d98bdb903c49cf3623234bb79a0a",
+    "model/meshes/LegAssemblyForFlangedv26_011.stl": "83d9b19ac0fb616cf2619228f851b01f3adac08b52344cf47080687f451fc474",
+    "model/meshes/LegAssemblyForFlangedv26_012.stl": "175081bce9491118bedde36677989dee7c274a1c37022ffad33a70488cbcd835",
+    "model/meshes/LegAssemblyForFlangedv26_013.stl": "ef36b14858126b237f15c43d9176ffb9da25d98bdb903c49cf3623234bb79a0a",
+    "model/meshes/LegAssemblyForFlangedv26_014.stl": "83d9b19ac0fb616cf2619228f851b01f3adac08b52344cf47080687f451fc474",
+    "model/meshes/LegAssemblyForFlangedv26_015.stl": "175081bce9491118bedde36677989dee7c274a1c37022ffad33a70488cbcd835",
+    "model/model.xml": "6efdbaab466e3a0f761db9d643516c159603f4f8019dae38de3dd64d6f98422e",
+    "model/provenance.json": "69bd020fd946c416e4fd67cabaf5ee435923f1b21d6170319ad2f445db89ad44",
+    "policy_leg_lift_wheel.json": "20868146985fb5d8dae3e80339f35a5e727c133a1bb851d1cd2e268f8dc33636",
+    "source/audit_wheel_lift.py": "ab19a479c6f9f474939df0f92f928eec4f407c54eedacb4536fe80e458d09df3",
+    "source/configs.py": "b16b5bdc5f8b57e28154598de02476f43d0dd01a5d82eebf978d5b14d9f5e002",
+    "source/distill_wheel_symmetry.py": "2a631d217a34433917582c025bbb861c401dc3b8677e6d6401cedac924fc3d8a",
+    "source/evaluate_wheel_lift.py": "ce50a2049a3e2a1ef6203f95f2980af563f3518083f86548d4524550a5c0f0d7",
+    "source/export_wheel_lift.py": "9f546f1b11167203674a49664383cfa0a89161d60e5537fb339c8512dcbd06ea",
+    "source/train_wheel_lift.py": "cfb008c5eacd41e2634953ae2695c2ef1bffe74f42475f445583c9c5c3d2c37f",
+    "source/wheel_lift_config.py": "4f6fb189900451a6704ed61dfafafdf4627fdf24ba33712db45785dcd288d5f0",
+    "source/wheel_lift_env.py": "b41cf437520af318e2c8dcd703b29dd5270c317aa6a7b7a26e6d3f90d1a0915b",
+    "source/wheel_lift_sequence.py": "be655d8b966ab5509deaaeeef79fbae30d8d42653839ed690085343e849caed4",
+    "training.json": "688023dada29f3904968d6502852ac78773531ae1124cdfed8aeeeb9dbe0f1e3",
+    "validation/friction_low.json": "0a4f81c1784933aa909719db654d1db7d0dd183dddb6ba2fdac97f62ed436b81",
+    "validation/friction_low.log": "2e5a9b47eb1cf21d4cb41960c6bb74e522d39db8c8a8b12313947b1186978a78",
+    "validation/friction_low.trace.json": "968fb11498689cfc34cb742cadddaa3f60873d75713f62213beace4f78fb474d",
+    "validation/long_hold.json": "82f7ec0b4f94796ed3da595e4da6541e1a9a8c189743fea8fe0f6ca5812940ad",
+    "validation/noise_seed1.json": "8a4a8e13123a9ee74a878d20aec40d326a751b8a78185d5253beaf684d764cf0",
+    "validation/noise_seed1.log": "74552f29b89013ecfe6af2df534d396b579a99908a30a22df00ca24f516ac7f4",
+    "validation/noise_seed1.trace.json": "091f4c80def8da021eb8ea6c3ab58fb973d78ed6afc47fa8a3e90bd66bbd5652",
+    "validation/noise_seed2.json": "5eb961520453eded5ccd010b33509f7f2eb8ac2ba57f7ba4dffdcd4d7590189c",
+    "validation/noise_seed2.log": "a5d294e04007dbd77ac18c5349f6e310db14330e7a4a30a95ee73c93684d10ec",
+    "validation/noise_seed2.trace.json": "6f3284552eef8cc27afe1bb05c49ab99c516c559f09f919eb707da61174b5cf3",
+    "validation/nominal_sequence.json": "ad1337a988a42fa03397a8ccb7333f5868f22b7456da0ba83a4aeddaf068e8d3",
+    "validation/nominal_sequence.trace.json": "48835aa47afdfb31bd4d9d21d6afc69de0234fee382fa90ff892c5ab3bddfb42",
+    "validation/rollout.json": "6947d05c3785024b0231a77e6a761787b987e3f79380fe1691faf2fc23096dd1",
+    "validation/rollout.log": "0976940b5c265008751e734447797d3e145d5d6635a702f6400e672b12d99000",
+    "validation/rollout.mp4": "ab95ba5bf3193f2c27bde1ab919e461beddac997945e93869db6e84a279fa40f",
+    "validation/rollout.trace.json": "48835aa47afdfb31bd4d9d21d6afc69de0234fee382fa90ff892c5ab3bddfb42",
+    "validation/unit_tests.log": "981f78f30dc1cb56449c3348e802b72ed10d188d5f158e49489e9536134836ac"
+  }
+}

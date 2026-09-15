@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 3.8)
+project(robot_calibration)
+find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
+find_package(Boost REQUIRED)
+ament_python_install_package(${PROJECT_NAME})
+install(DIRECTORY include/ DESTINATION include)
+install(PROGRAMS scripts/calibrate DESTINATION lib/${PROJECT_NAME})
+ament_export_include_directories(include ${Boost_INCLUDE_DIRS})
+ament_export_dependencies(Boost)
+if(BUILD_TESTING)
+  add_executable(calibration_test test/calibration_test.cpp)
+  target_compile_features(calibration_test PRIVATE cxx_std_17)
+  target_include_directories(calibration_test PRIVATE include ${Boost_INCLUDE_DIRS})
+  add_test(NAME calibration_storage COMMAND calibration_test)
+  find_package(ament_cmake_pytest REQUIRED)
+  ament_add_pytest_test(calibration_python test/test_calibration.py
+    APPEND_ENV PYTHONPATH=${CMAKE_CURRENT_SOURCE_DIR})
+  ament_add_pytest_test(calibration_ros test/test_ros_capture.py TIMEOUT 60
+    APPEND_ENV PYTHONPATH=${CMAKE_CURRENT_SOURCE_DIR}
+    ENV ROS_DOMAIN_ID=164 ROS_LOCALHOST_ONLY=1)
+endif()
+ament_package()

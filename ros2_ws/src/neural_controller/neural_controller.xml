@@ -1,0 +1,17 @@
+<class_libraries>
+  <library path="neural_controller">
+    <class name="neural_controller/NeuralController" type="neural_controller::NeuralController" base_class_type="controller_interface::ControllerInterface">
+      <description>
+      Neural controller
+    </description>
+    </class>
+    <class name="neural_controller/TriangleRollController" type="neural_controller::TriangleRollController" base_class_type="controller_interface::ControllerInterface">
+      <description>Simultaneous rigid triangle roll and bounded support settling; no walking.</description>
+    </class>
+  </library>
+  <library path="wheel_lift_controller">
+    <class name="neural_controller/WheelLiftController" type="neural_controller::WheelLiftController" base_class_type="controller_interface::ControllerInterface">
+      <description>Wheel-blind 27-input lift policy with button-stepped calibrated hub position alignment.</description>
+    </class>
+  </library>
+</class_libraries>

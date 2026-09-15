@@ -1,0 +1,2371 @@
+{
+  "source_branch": "robot-code",
+  "source_commit": "6b07745ab4c7ab59e6da7766a17896f118d5198d",
+  "scope": "Controllers and dependencies only; hardware adapter/startup integration deferred",
+  "files": {
+    "LICENSE": {
+      "source_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "copied_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    "policies/latest.json": {
+      "source_sha256": "743da75f98723aa60ee09f04b8c2c166f1a224dae2e4811ef1d944a4703c2edc",
+      "copied_sha256": "743da75f98723aa60ee09f04b8c2c166f1a224dae2e4811ef1d944a4703c2edc"
+    },
+    "policies/leg_lift_wheel/geometry_reference.csv": {
+      "source_sha256": "2a67244879571bb15ac0e5e42d119376b818689031336d913afe294d8f0336f3",
+      "copied_sha256": "2a67244879571bb15ac0e5e42d119376b818689031336d913afe294d8f0336f3"
+    },
+    "policies/leg_lift_wheel/integration_manifest.json": {
+      "source_sha256": "af4fb7173083ea322b6dac8274de30e33f030ed38b506a586f94eb115afaa125",
+      "copied_sha256": "af4fb7173083ea322b6dac8274de30e33f030ed38b506a586f94eb115afaa125"
+    },
+    "policies/leg_lift_wheel/upstream_manifest.json": {
+      "source_sha256": "6673f795a5f694b30f3cff52cb50c938ce47a2d363b7bf0444184237e0348133",
+      "copied_sha256": "6673f795a5f694b30f3cff52cb50c938ce47a2d363b7bf0444184237e0348133"
+    },
+    "policies/leg_to_wheel/evidence/runtime_reference.csv": {
+      "source_sha256": "44cd981b712e70919d7250d0917bd5b6b4ee628ae4504714a778400f11813a40",
+      "copied_sha256": "44cd981b712e70919d7250d0917bd5b6b4ee628ae4504714a778400f11813a40"
+    },
+    "policies/leg_to_wheel/manifest.json": {
+      "source_sha256": "9bec82668a7d3ebcbd08123fcb6fac0e0a28be5aab4e18681eff662799b2dc31",
+      "copied_sha256": "9bec82668a7d3ebcbd08123fcb6fac0e0a28be5aab4e18681eff662799b2dc31"
+    },
+    "ros2_ws/src/neural_controller/LICENSE": {
+      "source_sha256": "ea6e4090299f08cbb0df581133299735fff677d41738ee207da71dbde09238d4",
+      "copied_sha256": "ea6e4090299f08cbb0df581133299735fff677d41738ee207da71dbde09238d4"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/inverted_triangle.hpp": {
+      "source_sha256": "e2f07b1433c84c703a977c02d6dbc9047460da4299771a57b8b5a79e8185eb20",
+      "copied_sha256": "e2f07b1433c84c703a977c02d6dbc9047460da4299771a57b8b5a79e8185eb20"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/keyframe_align/controller.hpp": {
+      "source_sha256": "4596569ad6357f7b02937bb9b6b53bf5e8fa7b121f88eebfa452e74517f070a8",
+      "copied_sha256": "4596569ad6357f7b02937bb9b6b53bf5e8fa7b121f88eebfa452e74517f070a8"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/keyframe_align/geometry.hpp": {
+      "source_sha256": "ff2b4d13084ca71d025c701b324c36aa5c6846ec2dd662a7a185c558c94f0393",
+      "copied_sha256": "ff2b4d13084ca71d025c701b324c36aa5c6846ec2dd662a7a185c558c94f0393"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/keyframe_controller.hpp": {
+      "source_sha256": "87a7301dc595428d29fc1fd8400e05d33684867b37dba821bf493e4fee41c3b8",
+      "copied_sha256": "87a7301dc595428d29fc1fd8400e05d33684867b37dba821bf493e4fee41c3b8"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/leg_to_wheel/policy.hpp": {
+      "source_sha256": "35fbfe8daa4f6f83bb9c2d2719040e40bcbf4f9fd8ee5449ac0b61f500d67fad",
+      "copied_sha256": "35fbfe8daa4f6f83bb9c2d2719040e40bcbf4f9fd8ee5449ac0b61f500d67fad"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/measured_roll.hpp": {
+      "source_sha256": "56c25a8ea5b3149d78b7f17755edbccf5b229e05582abcb781680923fdd879d4",
+      "copied_sha256": "56c25a8ea5b3149d78b7f17755edbccf5b229e05582abcb781680923fdd879d4"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/neural_controller.hpp": {
+      "source_sha256": "2fa1c3b0bfc244399b526e1789610415f6b36b2eab9cc440268e75d9ac0b1862",
+      "copied_sha256": "2fa1c3b0bfc244399b526e1789610415f6b36b2eab9cc440268e75d9ac0b1862"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/policy_contract.hpp": {
+      "source_sha256": "f31e1966d5a4db1832b26281c794d482689c3dfdafe05da48bd6d0d5f747ae73",
+      "copied_sha256": "f31e1966d5a4db1832b26281c794d482689c3dfdafe05da48bd6d0d5f747ae73"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/policy_home.hpp": {
+      "source_sha256": "75403b7ee1c017a503cbf6900c0539e5e982c11ead1be5633050331ac4c09167",
+      "copied_sha256": "75403b7ee1c017a503cbf6900c0539e5e982c11ead1be5633050331ac4c09167"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/triangle_roll.hpp": {
+      "source_sha256": "02fc45645c58eeaf329c5ba342830ce003c51112924b2c886e2ca087c34c035b",
+      "copied_sha256": "02fc45645c58eeaf329c5ba342830ce003c51112924b2c886e2ca087c34c035b"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/triangle_roll_contract.hpp": {
+      "source_sha256": "1642ab0a09fa13aba225b1981db3bb3c0bb86b57a13145c5983283e13af0e646",
+      "copied_sha256": "1642ab0a09fa13aba225b1981db3bb3c0bb86b57a13145c5983283e13af0e646"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/triangle_roll_controller.hpp": {
+      "source_sha256": "bdbd9932b56feea18656f4e97b1fd962f288b2ca1d0e1ebddcadc0c42f23d33f",
+      "copied_sha256": "bdbd9932b56feea18656f4e97b1fd962f288b2ca1d0e1ebddcadc0c42f23d33f"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/triangle_roll_geometry.hpp": {
+      "source_sha256": "757e06c7935e877559145c0fede9dd79cce8b7c6aef1be672a97aae46de65e47",
+      "copied_sha256": "757e06c7935e877559145c0fede9dd79cce8b7c6aef1be672a97aae46de65e47"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/walking_frame.hpp": {
+      "source_sha256": "bc0b1997773dabffa2df622a76d398917701cc57c6d6538b910939ecf23d0a9f",
+      "copied_sha256": "bc0b1997773dabffa2df622a76d398917701cc57c6d6538b910939ecf23d0a9f"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_align_geometry_data.hpp": {
+      "source_sha256": "0c732f48b582d312ed223c9d33671e9973240f581d7ccab088aceefe4f9f12cf",
+      "copied_sha256": "0c732f48b582d312ed223c9d33671e9973240f581d7ccab088aceefe4f9f12cf"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_align_hybrid.hpp": {
+      "source_sha256": "f8258bde8fa74c2e10787760db8ae02957aacfb65e0433d991e523087babf974",
+      "copied_sha256": "f8258bde8fa74c2e10787760db8ae02957aacfb65e0433d991e523087babf974"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_align_motion.hpp": {
+      "source_sha256": "13318f6a0d98c51a2f243c44ed6a9c144ce1e2c70f283e33961544bce25cbdb1",
+      "copied_sha256": "13318f6a0d98c51a2f243c44ed6a9c144ce1e2c70f283e33961544bce25cbdb1"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_align_reference_data.hpp": {
+      "source_sha256": "d23fac163a95b8cfc5bcb5f5744607a92c6b74e07490d4aba56b84b2a0762d0f",
+      "copied_sha256": "d23fac163a95b8cfc5bcb5f5744607a92c6b74e07490d4aba56b84b2a0762d0f"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_lift/align_geometry.hpp": {
+      "source_sha256": "4ae2bc700a5f78f8e42b7a8ec54d128dba8b4a3d99670039890e6ba982ac9e92",
+      "copied_sha256": "4ae2bc700a5f78f8e42b7a8ec54d128dba8b4a3d99670039890e6ba982ac9e92"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_lift/core.hpp": {
+      "source_sha256": "e0061d8e95520913f52fc0bc8f8c85ae1e731b90cf1e366142df40557e6b5a1c",
+      "copied_sha256": "e0061d8e95520913f52fc0bc8f8c85ae1e731b90cf1e366142df40557e6b5a1c"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_lift/geometry.hpp": {
+      "source_sha256": "c5613ba36170c0907a0bb61b4e2bb9f2d38917df2a86b606d355570c80c20c37",
+      "copied_sha256": "c5613ba36170c0907a0bb61b4e2bb9f2d38917df2a86b606d355570c80c20c37"
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/wheel_lift_controller.hpp": {
+      "source_sha256": "b9b29329e06b750d824c6eaa5b204eb29ab0ba5d41d2d72c0cbdc1faa7a58697",
+      "copied_sha256": "b9b29329e06b750d824c6eaa5b204eb29ab0ba5d41d2d72c0cbdc1faa7a58697"
+    },
+    "ros2_ws/src/neural_controller/launch/calibration_hardware.yaml": {
+      "source_sha256": "850172afa2869bae03a13af89f0ad2aa16c0cc6f94d1b103ff08b4a62a429c13",
+      "copied_sha256": "850172afa2869bae03a13af89f0ad2aa16c0cc6f94d1b103ff08b4a62a429c13"
+    },
+    "ros2_ws/src/neural_controller/launch/combined_motion.yaml": {
+      "source_sha256": "b20c341a43552cb6d4604f4ffd3ee3007afa057861f05072eaf752c04743b89b",
+      "copied_sha256": "b20c341a43552cb6d4604f4ffd3ee3007afa057861f05072eaf752c04743b89b"
+    },
+    "ros2_ws/src/neural_controller/launch/locomotion_wheel_trial.yaml": {
+      "source_sha256": "c318821b5394dec1b9cf89077a4c4d58fc89efad4a542fd1407ac46df4b837b7",
+      "copied_sha256": "c318821b5394dec1b9cf89077a4c4d58fc89efad4a542fd1407ac46df4b837b7"
+    },
+    "ros2_ws/src/neural_controller/launch/policy_leg_lift_wheel.json": {
+      "source_sha256": "20868146985fb5d8dae3e80339f35a5e727c133a1bb851d1cd2e268f8dc33636",
+      "copied_sha256": "20868146985fb5d8dae3e80339f35a5e727c133a1bb851d1cd2e268f8dc33636"
+    },
+    "ros2_ws/src/neural_controller/launch/policy_leg_to_wheel.json": {
+      "source_sha256": "6daa52b0bbff6b5fdbf9e890eca2ebabb0191475168166fed6ded8d7723de20d",
+      "copied_sha256": "6daa52b0bbff6b5fdbf9e890eca2ebabb0191475168166fed6ded8d7723de20d"
+    },
+    "ros2_ws/src/neural_controller/launch/policy_walk_v2.json": {
+      "source_sha256": "aa4cd244eb3fd9e0f44a0f0c6f6c48169afe021d0cd26e55a447d92065d5f3e3",
+      "copied_sha256": "aa4cd244eb3fd9e0f44a0f0c6f6c48169afe021d0cd26e55a447d92065d5f3e3"
+    },
+    "ros2_ws/src/neural_controller/launch/policy_wheel.json": {
+      "source_sha256": "ae811d83edc30bc9dbf01753f5d8ff138dc7ed4dc5fcce2f6c683fac1b1dd24f",
+      "copied_sha256": "ae811d83edc30bc9dbf01753f5d8ff138dc7ed4dc5fcce2f6c683fac1b1dd24f"
+    },
+    "ros2_ws/src/neural_controller/launch/policy_wheel_to_walk_ready.json": {
+      "source_sha256": "43fb5c69253b7a252043886ef081c7b8d438e48aa55a64871a0e4d194707f13a",
+      "copied_sha256": "43fb5c69253b7a252043886ef081c7b8d438e48aa55a64871a0e4d194707f13a"
+    },
+    "ros2_ws/src/neural_controller/launch/triangle_roll_config.yaml": {
+      "source_sha256": "e2d957856d7a598a296bbbbcf6f023704952326d917ca3367bfd50a58ba2e566",
+      "copied_sha256": "e2d957856d7a598a296bbbbcf6f023704952326d917ca3367bfd50a58ba2e566"
+    },
+    "ros2_ws/src/neural_controller/launch/triangle_roll_plan.json": {
+      "source_sha256": "487fd83f100e60de08d7606f3fff403f42a793730ab9b9c0fd7c3e36ba829a08",
+      "copied_sha256": "487fd83f100e60de08d7606f3fff403f42a793730ab9b9c0fd7c3e36ba829a08"
+    },
+    "ros2_ws/src/neural_controller/launch/wheel_lift_config.yaml": {
+      "source_sha256": "fba915e5755758d73a2bea24fb31d5f3f560906a74f80fa1495afd293f71cc81",
+      "copied_sha256": "fba915e5755758d73a2bea24fb31d5f3f560906a74f80fa1495afd293f71cc81"
+    },
+    "ros2_ws/src/neural_controller/launch/wheel_to_walk_ready_config.yaml": {
+      "source_sha256": "8eb7576893e8c4ce0dd8170a7c786f29a3aa8009cc9367fd4edf82e9b6d077f6",
+      "copied_sha256": "8eb7576893e8c4ce0dd8170a7c786f29a3aa8009cc9367fd4edf82e9b6d077f6"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/.clang-format": {
+      "source_sha256": "2df64e99814b8ffb04f9ad6023c78cd0be6dd5ada2effb1da82f494758e5ce41",
+      "copied_sha256": "2df64e99814b8ffb04f9ad6023c78cd0be6dd5ada2effb1da82f494758e5ce41"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/.clang-tidy": {
+      "source_sha256": "8733f6268fff98d733777f203553f30c69163206c83e5854ed79917cd22305dd",
+      "copied_sha256": "8733f6268fff98d733777f203553f30c69163206c83e5854ed79917cd22305dd"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/.gitignore": {
+      "source_sha256": "8b1223c21a8e64ec856321c53b69fc0af2da5475171a319081ade4fb8e5392b2",
+      "copied_sha256": "8b1223c21a8e64ec856321c53b69fc0af2da5475171a319081ade4fb8e5392b2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/.gitmodules": {
+      "source_sha256": "490401dcbdcf9f5f73d407fbbb45666c885c4e7ce2c4fce08f0f80971ce5f187",
+      "copied_sha256": "490401dcbdcf9f5f73d407fbbb45666c885c4e7ce2c4fce08f0f80971ce5f187"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/CMakeLists.txt": {
+      "source_sha256": "e229e8ed4dbea35ebbd2abadef27b4ee8179213c20b79ed6cef56ffad6f79b62",
+      "copied_sha256": "e229e8ed4dbea35ebbd2abadef27b4ee8179213c20b79ed6cef56ffad6f79b62"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/LICENSE": {
+      "source_sha256": "6d9ac317a4deca634d0a6112002768c6c2a4c6a09fcb5058f1a5718b5570dedb",
+      "copied_sha256": "6d9ac317a4deca634d0a6112002768c6c2a4c6a09fcb5058f1a5718b5570dedb"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/README.md": {
+      "source_sha256": "5316427196b94f26853e81b1a740ebfa3782b107d29ef7f5efc32f88350b9d70",
+      "copied_sha256": "5316427196b94f26853e81b1a740ebfa3782b107d29ef7f5efc32f88350b9d70"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/CMakeLists.txt": {
+      "source_sha256": "90e585982fae8ef58f94b0cb541e60cbd8e882a0ecb9819f271de32e8b0d837e",
+      "copied_sha256": "90e585982fae8ef58f94b0cb541e60cbd8e882a0ecb9819f271de32e8b0d837e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/Layer.h": {
+      "source_sha256": "215913ce05e907d58c58831d982f2deb303131848ec83d22c286a0ca53a93f92",
+      "copied_sha256": "215913ce05e907d58c58831d982f2deb303131848ec83d22c286a0ca53a93f92"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/Model.h": {
+      "source_sha256": "a42324c6d194e8dede3b2be1bf027c010ec2a19c83b1b7ffc96ed00cdf5bcbda",
+      "copied_sha256": "a42324c6d194e8dede3b2be1bf027c010ec2a19c83b1b7ffc96ed00cdf5bcbda"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/ModelT.h": {
+      "source_sha256": "cbb291465d29062eb374c2f24990c73c93239e2d84d4abdca26920fba266fe72",
+      "copied_sha256": "cbb291465d29062eb374c2f24990c73c93239e2d84d4abdca26920fba266fe72"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/RTNeural.cpp": {
+      "source_sha256": "4039506365aed3b823462dcc03470e18b2d2d40d87d3ab4c690e2dec271d80fa",
+      "copied_sha256": "4039506365aed3b823462dcc03470e18b2d2d40d87d3ab4c690e2dec271d80fa"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/RTNeural.h": {
+      "source_sha256": "957bef4e23d4e76ea81a564be857efa18f7db94ef3b0eedbfe03ef51e0b5919a",
+      "copied_sha256": "957bef4e23d4e76ea81a564be857efa18f7db94ef3b0eedbfe03ef51e0b5919a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/activation/activation.h": {
+      "source_sha256": "1eb578d3bbd4b5bc3d2a4aa25c7989347e0de399a768c14e8d63f67ae3295fae",
+      "copied_sha256": "1eb578d3bbd4b5bc3d2a4aa25c7989347e0de399a768c14e8d63f67ae3295fae"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/activation/activation_eigen.h": {
+      "source_sha256": "ca4b6647330c7ccaa68e3f70e9c98b9c8495cbcc0b9dd9477d680576cc72871e",
+      "copied_sha256": "ca4b6647330c7ccaa68e3f70e9c98b9c8495cbcc0b9dd9477d680576cc72871e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/activation/activation_xsimd.h": {
+      "source_sha256": "1f60c2fb838e340b586a2b63e3ab23e0b47a963d3fc875ed293185f83eccec65",
+      "copied_sha256": "1f60c2fb838e340b586a2b63e3ab23e0b47a963d3fc875ed293185f83eccec65"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/batchnorm/batchnorm.h": {
+      "source_sha256": "aa9aa18fa9f6fdf3dde6392ccf7278d684b99e24d5b7ee7c2b1c32be5f0cce42",
+      "copied_sha256": "aa9aa18fa9f6fdf3dde6392ccf7278d684b99e24d5b7ee7c2b1c32be5f0cce42"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/batchnorm/batchnorm.tpp": {
+      "source_sha256": "30597f2b4f4f5eb8a42954482d4854eba8b78835d2bad2219d1bdd6aee16cc02",
+      "copied_sha256": "30597f2b4f4f5eb8a42954482d4854eba8b78835d2bad2219d1bdd6aee16cc02"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/batchnorm/batchnorm2d.h": {
+      "source_sha256": "551a2e534227dba0b130c1db6de398affccf88718b67a08e2154b806dde463e2",
+      "copied_sha256": "551a2e534227dba0b130c1db6de398affccf88718b67a08e2154b806dde463e2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/batchnorm/batchnorm2d.tpp": {
+      "source_sha256": "f05bb1729dd19a0abb03d40668ee15db54d15663071831b2fc1332303388320e",
+      "copied_sha256": "f05bb1729dd19a0abb03d40668ee15db54d15663071831b2fc1332303388320e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/batchnorm/batchnorm2d_eigen.h": {
+      "source_sha256": "86a5025a5a0a0ddec2731a0056864a844014907862f68f6d1ecf102ef00081aa",
+      "copied_sha256": "86a5025a5a0a0ddec2731a0056864a844014907862f68f6d1ecf102ef00081aa"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/batchnorm/batchnorm2d_eigen.tpp": {
+      "source_sha256": "9a03719ec247ffdf81101ba1bd270a7636a3e6d8ea24138e8f1f080c0c2ea8f5",
+      "copied_sha256": "9a03719ec247ffdf81101ba1bd270a7636a3e6d8ea24138e8f1f080c0c2ea8f5"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/batchnorm/batchnorm2d_xsimd.h": {
+      "source_sha256": "24b84614c720d492c01d8baeecffc58c6d0556084c124663367fb574fd8f42fc",
+      "copied_sha256": "24b84614c720d492c01d8baeecffc58c6d0556084c124663367fb574fd8f42fc"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/batchnorm/batchnorm2d_xsimd.tpp": {
+      "source_sha256": "90238cd41ec7cd6b531b876b6215b51804b34b8d9b1d0d044f04c655707b89b7",
+      "copied_sha256": "90238cd41ec7cd6b531b876b6215b51804b34b8d9b1d0d044f04c655707b89b7"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/batchnorm/batchnorm_eigen.h": {
+      "source_sha256": "5bc182819b8c273806a1d8363effd1f94867bdf013f11ce073ad74888efdffef",
+      "copied_sha256": "5bc182819b8c273806a1d8363effd1f94867bdf013f11ce073ad74888efdffef"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/batchnorm/batchnorm_eigen.tpp": {
+      "source_sha256": "09263df8fc7c70f7015f55f2f186e4a8d3fb9677bebbc865ed4b7d57c0f7f505",
+      "copied_sha256": "09263df8fc7c70f7015f55f2f186e4a8d3fb9677bebbc865ed4b7d57c0f7f505"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/batchnorm/batchnorm_xsimd.h": {
+      "source_sha256": "696233d11695b6c787ceced3bc25b08e0242aa48dd782059d3d8f4ab4d983556",
+      "copied_sha256": "696233d11695b6c787ceced3bc25b08e0242aa48dd782059d3d8f4ab4d983556"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/batchnorm/batchnorm_xsimd.tpp": {
+      "source_sha256": "c600ed012e554c564f17f4129fa7c99daab752ec65dedc71de10fb9a9e3769b4",
+      "copied_sha256": "c600ed012e554c564f17f4129fa7c99daab752ec65dedc71de10fb9a9e3769b4"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/common.h": {
+      "source_sha256": "95dc384857a7c44422104d0265b0d397b16ef7e14265ae18b83b9a55d4a38f66",
+      "copied_sha256": "95dc384857a7c44422104d0265b0d397b16ef7e14265ae18b83b9a55d4a38f66"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv1d/conv1d.h": {
+      "source_sha256": "843d2df42935cda44f87a0beced1b9ec4623bd3cfa619ebad51ce766812be158",
+      "copied_sha256": "843d2df42935cda44f87a0beced1b9ec4623bd3cfa619ebad51ce766812be158"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv1d/conv1d.tpp": {
+      "source_sha256": "918503b3cdb4686c2a77aa7235dc65ab471b73689db553da73920517673c8664",
+      "copied_sha256": "918503b3cdb4686c2a77aa7235dc65ab471b73689db553da73920517673c8664"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv1d/conv1d_eigen.h": {
+      "source_sha256": "592e9b346c39c995496e7815a4320f6a1c573bff097ba24939aff2a17fc18828",
+      "copied_sha256": "592e9b346c39c995496e7815a4320f6a1c573bff097ba24939aff2a17fc18828"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv1d/conv1d_eigen.tpp": {
+      "source_sha256": "a2c7ccb27df7f76ab71a78870676985e6c6ecf6334e2818b52d360936e2dd588",
+      "copied_sha256": "a2c7ccb27df7f76ab71a78870676985e6c6ecf6334e2818b52d360936e2dd588"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv1d/conv1d_xsimd.h": {
+      "source_sha256": "994b0fa1318d3ff9137b5b210ea7008e388ec52aae235b98bbdca4fc14d5745c",
+      "copied_sha256": "994b0fa1318d3ff9137b5b210ea7008e388ec52aae235b98bbdca4fc14d5745c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv1d/conv1d_xsimd.tpp": {
+      "source_sha256": "bf0fd08e9542b278e9e25384111fc6ef76bfbae0b79e1f6f60cdba796110e951",
+      "copied_sha256": "bf0fd08e9542b278e9e25384111fc6ef76bfbae0b79e1f6f60cdba796110e951"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv1d_stateless/conv1d_stateless.h": {
+      "source_sha256": "d1d659256d0b1375b66acb0a584513170927fff4381cb88c7cd05b256e9bdce4",
+      "copied_sha256": "d1d659256d0b1375b66acb0a584513170927fff4381cb88c7cd05b256e9bdce4"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv1d_stateless/conv1d_stateless.tpp": {
+      "source_sha256": "eb681664ce0974dbdf422d752cbd486488002ef39a0d694180ba51c65d656931",
+      "copied_sha256": "eb681664ce0974dbdf422d752cbd486488002ef39a0d694180ba51c65d656931"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv1d_stateless/conv1d_stateless_eigen.h": {
+      "source_sha256": "b7dbe0756cffcef862bd92e23f3a371c85c2e7bef4a2df35a6d9d44fbb230157",
+      "copied_sha256": "b7dbe0756cffcef862bd92e23f3a371c85c2e7bef4a2df35a6d9d44fbb230157"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv1d_stateless/conv1d_stateless_eigen.tpp": {
+      "source_sha256": "42b1bd5453ac19e0d3df89139f0953b58de33264384cdaa94c3bf30afa6c8fb0",
+      "copied_sha256": "42b1bd5453ac19e0d3df89139f0953b58de33264384cdaa94c3bf30afa6c8fb0"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv1d_stateless/conv1d_stateless_xsimd.h": {
+      "source_sha256": "a1e2aef5a0e7afb46cddab6ec6231f127464945953a5b2d07a777ae1f26d9c1a",
+      "copied_sha256": "a1e2aef5a0e7afb46cddab6ec6231f127464945953a5b2d07a777ae1f26d9c1a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv1d_stateless/conv1d_stateless_xsimd.tpp": {
+      "source_sha256": "660743d8df30af4a6fec411f15c03293aa8b988153ee88e238d2903d0e7409b7",
+      "copied_sha256": "660743d8df30af4a6fec411f15c03293aa8b988153ee88e238d2903d0e7409b7"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv2d/conv2d.h": {
+      "source_sha256": "e62eddaded353bb5cbf9ec0c117a9807e4b712a4463c80be0333d64298b65939",
+      "copied_sha256": "e62eddaded353bb5cbf9ec0c117a9807e4b712a4463c80be0333d64298b65939"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv2d/conv2d.tpp": {
+      "source_sha256": "5e4055ad2e4d40a0b0728d37ec436b63820b64ce6189322f50c7510f4f581d5c",
+      "copied_sha256": "5e4055ad2e4d40a0b0728d37ec436b63820b64ce6189322f50c7510f4f581d5c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv2d/conv2d_eigen.h": {
+      "source_sha256": "11af9b42a2e8d45afbad3590dc3079d1855b266128cfd043a9aa776f0f39b6c3",
+      "copied_sha256": "11af9b42a2e8d45afbad3590dc3079d1855b266128cfd043a9aa776f0f39b6c3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv2d/conv2d_eigen.tpp": {
+      "source_sha256": "7fb181cc74646343cce68afccd1299f10d3d81b4fb3b40540dee67fefbf2c54a",
+      "copied_sha256": "7fb181cc74646343cce68afccd1299f10d3d81b4fb3b40540dee67fefbf2c54a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv2d/conv2d_xsimd.h": {
+      "source_sha256": "3c5265248ec04ed5af9f917b5868f9cb1bd4aa381eaceb244e9cb3569ecd0352",
+      "copied_sha256": "3c5265248ec04ed5af9f917b5868f9cb1bd4aa381eaceb244e9cb3569ecd0352"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/conv2d/conv2d_xsimd.tpp": {
+      "source_sha256": "6066efba3897fc94c743abf8919eb976eed536e38eca37a27361ed4005b29dc3",
+      "copied_sha256": "6066efba3897fc94c743abf8919eb976eed536e38eca37a27361ed4005b29dc3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/dense/dense.h": {
+      "source_sha256": "5199d13bfafc9fc5a7d79a0274b7d05f147ef9c4007b43d87864c79bb5fae158",
+      "copied_sha256": "5199d13bfafc9fc5a7d79a0274b7d05f147ef9c4007b43d87864c79bb5fae158"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/dense/dense_eigen.h": {
+      "source_sha256": "23ea4ac4f6328c911100f44a15781fc0f10c4c23f62e407e11f61316ae74b8c3",
+      "copied_sha256": "23ea4ac4f6328c911100f44a15781fc0f10c4c23f62e407e11f61316ae74b8c3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/dense/dense_xsimd.h": {
+      "source_sha256": "177826b50ea14d107590642b51888dbaa33b9ef6312caa39e4c14946c6d8f0b1",
+      "copied_sha256": "177826b50ea14d107590642b51888dbaa33b9ef6312caa39e4c14946c6d8f0b1"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/gru/gru.h": {
+      "source_sha256": "196ff16bb1a3f96b0985e8dfd136e53ae2a4d6489550e86e625bbc8bcb4df607",
+      "copied_sha256": "196ff16bb1a3f96b0985e8dfd136e53ae2a4d6489550e86e625bbc8bcb4df607"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/gru/gru.tpp": {
+      "source_sha256": "6e5662f576ac7b2e6a313f2df31b92f6d7d99346b7e8330d6edbfd263c20224c",
+      "copied_sha256": "6e5662f576ac7b2e6a313f2df31b92f6d7d99346b7e8330d6edbfd263c20224c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/gru/gru_eigen.h": {
+      "source_sha256": "33ccfd1ed71f089e5c3542c4fdd630c9b10d82018a90fffa87131add60cacc65",
+      "copied_sha256": "33ccfd1ed71f089e5c3542c4fdd630c9b10d82018a90fffa87131add60cacc65"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/gru/gru_eigen.tpp": {
+      "source_sha256": "4c8f3adb683aad793acd88b3a659ec8d82e2620f1af0ce2f39190849bf7aeb44",
+      "copied_sha256": "4c8f3adb683aad793acd88b3a659ec8d82e2620f1af0ce2f39190849bf7aeb44"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/gru/gru_xsimd.h": {
+      "source_sha256": "5f6f310aca5c9fda6af8c17bde3213ec6422072de303f5dd24048c5a4fada179",
+      "copied_sha256": "5f6f310aca5c9fda6af8c17bde3213ec6422072de303f5dd24048c5a4fada179"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/gru/gru_xsimd.tpp": {
+      "source_sha256": "c6cbf5e143c3b036b9161556da1c440b0e34ddcea84cb715f7df9d1b8f0f5258",
+      "copied_sha256": "c6cbf5e143c3b036b9161556da1c440b0e34ddcea84cb715f7df9d1b8f0f5258"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/lstm/lstm.h": {
+      "source_sha256": "df8c9637a7ffdec2a1fafd422b2f2ad3ed1ea3e1d993db18f9763629a6e77b60",
+      "copied_sha256": "df8c9637a7ffdec2a1fafd422b2f2ad3ed1ea3e1d993db18f9763629a6e77b60"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/lstm/lstm.tpp": {
+      "source_sha256": "0f5517f49ec0d0a94676120619eaa9018ed68acec9673628696d32e5d73a472c",
+      "copied_sha256": "0f5517f49ec0d0a94676120619eaa9018ed68acec9673628696d32e5d73a472c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/lstm/lstm_eigen.h": {
+      "source_sha256": "e58541dfc0fff48cbaadfa0a716ffd438950b2cfd770bb521b43e4948b408be8",
+      "copied_sha256": "e58541dfc0fff48cbaadfa0a716ffd438950b2cfd770bb521b43e4948b408be8"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/lstm/lstm_eigen.tpp": {
+      "source_sha256": "7460962712bbfbc5d4edf3ba263d379eddd6dd581a78ac1053328a6197cafa79",
+      "copied_sha256": "7460962712bbfbc5d4edf3ba263d379eddd6dd581a78ac1053328a6197cafa79"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/lstm/lstm_xsimd.h": {
+      "source_sha256": "4dcb2298c807177462c9578716bdb55d5667724997a19802d0225feafe51c605",
+      "copied_sha256": "4dcb2298c807177462c9578716bdb55d5667724997a19802d0225feafe51c605"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/lstm/lstm_xsimd.tpp": {
+      "source_sha256": "cdab5eef0f2fd194a91eaa660495b31dde9713bd83d40833d070ce6b7a34b465",
+      "copied_sha256": "cdab5eef0f2fd194a91eaa660495b31dde9713bd83d40833d070ce6b7a34b465"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/model_loader.h": {
+      "source_sha256": "4c58dfc175b8abd8ce3fe18bac3488eba87dd3b9ef7fde1e68d487a405f8979f",
+      "copied_sha256": "4c58dfc175b8abd8ce3fe18bac3488eba87dd3b9ef7fde1e68d487a405f8979f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/torch_helpers.h": {
+      "source_sha256": "3b82ca454d4ee68a3ffded7095d33c647edbeafa1fba620130b2705b920b8b3a",
+      "copied_sha256": "3b82ca454d4ee68a3ffded7095d33c647edbeafa1fba620130b2705b920b8b3a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/xsimd-legacy/README.md": {
+      "source_sha256": "f31be26444633ed935054d54fb0acec4805be11de1c63098d99977a3739ac597",
+      "copied_sha256": "f31be26444633ed935054d54fb0acec4805be11de1c63098d99977a3739ac597"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/RTNeural/xsimd-legacy/algorithms/algorithms.hpp": {
+      "source_sha256": "f1951e34497b8d5226839768f020a6ac2232bc5e6971d9e24b88af2a9db8ef2d",
+      "copied_sha256": "f1951e34497b8d5226839768f020a6ac2232bc5e6971d9e24b88af2a9db8ef2d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/cmake/CXXStandard.cmake": {
+      "source_sha256": "f83a7bcfcc3cc40997bc387399d347a5f0a06289455dbf60209def3c68bbc029",
+      "copied_sha256": "f83a7bcfcc3cc40997bc387399d347a5f0a06289455dbf60209def3c68bbc029"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/cmake/ChooseBackend.cmake": {
+      "source_sha256": "dc5e89faadb020ee46ddbb56f3f5daa86b596bbe997bdc19ea060939ac2909de",
+      "copied_sha256": "dc5e89faadb020ee46ddbb56f3f5daa86b596bbe997bdc19ea060939ac2909de"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/cmake/EnableCoverageFlags.cmake": {
+      "source_sha256": "156a6e4c1bf03fe2ca5757658a8e56910c1ecff30c4a4fa07014209c6f11cddb",
+      "copied_sha256": "156a6e4c1bf03fe2ca5757658a8e56910c1ecff30c4a4fa07014209c6f11cddb"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/cmake/SIMDExtensions.cmake": {
+      "source_sha256": "c5525475fa67696a82ed5899915fa7b368a5d115a2098aac08e7324246a0790c",
+      "copied_sha256": "c5525475fa67696a82ed5899915fa7b368a5d115a2098aac08e7324246a0790c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/doxygen/Doxyfile": {
+      "source_sha256": "15c519984b82f9f27b1ec665845159a693fd2b204c6c68138a2bcfabc15cee13",
+      "copied_sha256": "15c519984b82f9f27b1ec665845159a693fd2b204c6c68138a2bcfabc15cee13"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/doxygen/Makefile": {
+      "source_sha256": "f82f63bb77635810aa8468b88af2253eba198fca46078fb9b962dee868f2e85d",
+      "copied_sha256": "f82f63bb77635810aa8468b88af2253eba198fca46078fb9b962dee868f2e85d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/doxygen/header.html": {
+      "source_sha256": "89faaa3536a6eb77f5cdd394d20302ecaf8e00bef92013240b82370abf533d17",
+      "copied_sha256": "89faaa3536a6eb77f5cdd394d20302ecaf8e00bef92013240b82370abf533d17"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/doxygen/logo.png": {
+      "source_sha256": "baa3e9913f1d67978780b1fe2e99e599e0e4ba6773af0c313b68076b5e2420e8",
+      "copied_sha256": "baa3e9913f1d67978780b1fe2e99e599e0e4ba6773af0c313b68076b5e2420e8"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/models/bad_lstm.json": {
+      "source_sha256": "e341668b4be91cfe381c720ec573e8d5f12944f5f887f1a03e745604a5e4614c",
+      "copied_sha256": "e341668b4be91cfe381c720ec573e8d5f12944f5f887f1a03e745604a5e4614c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/models/conv.json": {
+      "source_sha256": "f9b2d11e1281945efd5e2a2bf41876355be53b64cd4d6856e88349b38e9f2a4f",
+      "copied_sha256": "f9b2d11e1281945efd5e2a2bf41876355be53b64cd4d6856e88349b38e9f2a4f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/models/conv1d_torch.json": {
+      "source_sha256": "7ca92b64b1e061b867e6e23c7595d1d420af886b84a4e695976195fbdbc3d436",
+      "copied_sha256": "7ca92b64b1e061b867e6e23c7595d1d420af886b84a4e695976195fbdbc3d436"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/models/conv2d.json": {
+      "source_sha256": "0cd4210d58f42b6fc4e30f6238cd882b794346325f0eaac659f063b7a5314a7d",
+      "copied_sha256": "0cd4210d58f42b6fc4e30f6238cd882b794346325f0eaac659f063b7a5314a7d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/models/conv_stateless.json": {
+      "source_sha256": "5efb07185990c1470579b9e3889862e1a5db91ecd7b5c338bebbb6202c914e87",
+      "copied_sha256": "5efb07185990c1470579b9e3889862e1a5db91ecd7b5c338bebbb6202c914e87"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/models/dense.json": {
+      "source_sha256": "9cd20bdb29146e44529cbd237d2ebc33ff38d2ae0a381e92502c5019efc22ee3",
+      "copied_sha256": "9cd20bdb29146e44529cbd237d2ebc33ff38d2ae0a381e92502c5019efc22ee3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/models/full_model.json": {
+      "source_sha256": "2d2a2d1e4d1065fac5ea7868a7acd7d44550e6ab041d39c075052e45cfad5500",
+      "copied_sha256": "2d2a2d1e4d1065fac5ea7868a7acd7d44550e6ab041d39c075052e45cfad5500"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/models/gru.json": {
+      "source_sha256": "51c9466a2bd9d4111fa4ad82ecdf52aecf64c943438ebc3e25d8bd75764d66fc",
+      "copied_sha256": "51c9466a2bd9d4111fa4ad82ecdf52aecf64c943438ebc3e25d8bd75764d66fc"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/models/gru_1d.json": {
+      "source_sha256": "0d5523f4bd8dcf3ee6b5be8b4c22c25b7cbd507e2ad3511a71c154c87a9ae815",
+      "copied_sha256": "0d5523f4bd8dcf3ee6b5be8b4c22c25b7cbd507e2ad3511a71c154c87a9ae815"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/models/gru_torch.json": {
+      "source_sha256": "d6d09a74dc3bfb16fa0a427b436a7bc9232eec66495503a7c0e7c3aed8d8511f",
+      "copied_sha256": "d6d09a74dc3bfb16fa0a427b436a7bc9232eec66495503a7c0e7c3aed8d8511f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/models/lstm.json": {
+      "source_sha256": "16173c26fbcd7a1af7642180feb3dbd68bd02a6dd86d86f2d84c80058499563f",
+      "copied_sha256": "16173c26fbcd7a1af7642180feb3dbd68bd02a6dd86d86f2d84c80058499563f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/models/lstm_1d.json": {
+      "source_sha256": "2258d0d0d47c42b512a9a1a7e5387c5252600450d1e7e52c38319ab8a716b5ef",
+      "copied_sha256": "2258d0d0d47c42b512a9a1a7e5387c5252600450d1e7e52c38319ab8a716b5ef"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/models/lstm_torch.json": {
+      "source_sha256": "86072102dcc2c2945155633fb9e361eccc98e995975f2e00303fed3490a754e3",
+      "copied_sha256": "86072102dcc2c2945155633fb9e361eccc98e995975f2e00303fed3490a754e3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/CMakeLists.txt": {
+      "source_sha256": "debc59bc49af015425c4546412f3f1b637760033e935d56fa6b79d6b036a4afd",
+      "copied_sha256": "debc59bc49af015425c4546412f3f1b637760033e935d56fa6b79d6b036a4afd"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/AccelerateSupport": {
+      "source_sha256": "a3c3a332be572deb1b34c31cd62f2f5e20f1ee19626059bd975a0a85f0f13e8c",
+      "copied_sha256": "a3c3a332be572deb1b34c31cd62f2f5e20f1ee19626059bd975a0a85f0f13e8c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/Cholesky": {
+      "source_sha256": "54f75291fbed41590a6747f13e551a2d60c5f3d130f3939a7faf6f7876d6b33f",
+      "copied_sha256": "54f75291fbed41590a6747f13e551a2d60c5f3d130f3939a7faf6f7876d6b33f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/CholmodSupport": {
+      "source_sha256": "941b4225baf521a4ad8a9c5a75fb4a80200f0e2b8f059eef3277490807ceaeb4",
+      "copied_sha256": "941b4225baf521a4ad8a9c5a75fb4a80200f0e2b8f059eef3277490807ceaeb4"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/Core": {
+      "source_sha256": "d5d4a005428e01719bdb0a626bbdbcfdbe2385cb461d63c96bbe4a04123ccc69",
+      "copied_sha256": "d5d4a005428e01719bdb0a626bbdbcfdbe2385cb461d63c96bbe4a04123ccc69"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/Dense": {
+      "source_sha256": "5325c9d4d693e504ee012c5275ad4b10b135a701cbd87c14466d2ea21ea22ee5",
+      "copied_sha256": "5325c9d4d693e504ee012c5275ad4b10b135a701cbd87c14466d2ea21ea22ee5"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/Eigen": {
+      "source_sha256": "b0473b5d7c0cd9311d4a90548162e8cf160904476871f7fb749e9624e9b3dfd1",
+      "copied_sha256": "b0473b5d7c0cd9311d4a90548162e8cf160904476871f7fb749e9624e9b3dfd1"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/Eigenvalues": {
+      "source_sha256": "8d365c11fe84dbacd2f1c241891982760507141f6a3558beedf7b67661226651",
+      "copied_sha256": "8d365c11fe84dbacd2f1c241891982760507141f6a3558beedf7b67661226651"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/Geometry": {
+      "source_sha256": "246a8a4ff1e3f3b388b2fadd88aa53dc9c028b36718e8f8285265f976eb8e1be",
+      "copied_sha256": "246a8a4ff1e3f3b388b2fadd88aa53dc9c028b36718e8f8285265f976eb8e1be"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/Householder": {
+      "source_sha256": "fffbd775593b66a5873862bb70834af3ae2a1fa88fc96c0ed8a4374839946556",
+      "copied_sha256": "fffbd775593b66a5873862bb70834af3ae2a1fa88fc96c0ed8a4374839946556"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/IterativeLinearSolvers": {
+      "source_sha256": "e9eabd173e2630c80097b887dca44fe48f129b557d1e4917859ed93aafd72958",
+      "copied_sha256": "e9eabd173e2630c80097b887dca44fe48f129b557d1e4917859ed93aafd72958"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/Jacobi": {
+      "source_sha256": "8bbd948f00f7d6ea79edb451c06d7aab3e88119330945525f03e4f429545ee2f",
+      "copied_sha256": "8bbd948f00f7d6ea79edb451c06d7aab3e88119330945525f03e4f429545ee2f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/KLUSupport": {
+      "source_sha256": "97959f5cc9e9428c3c802c964075436f9d7d7312fedd40ca084a42a7ae5be037",
+      "copied_sha256": "97959f5cc9e9428c3c802c964075436f9d7d7312fedd40ca084a42a7ae5be037"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/LU": {
+      "source_sha256": "988c20ce770c45838a5d04145f890ae9f0c75683fcbe984cfb13c903f58a206a",
+      "copied_sha256": "988c20ce770c45838a5d04145f890ae9f0c75683fcbe984cfb13c903f58a206a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/MetisSupport": {
+      "source_sha256": "fdd1debe0490c42fd99f8baa53ac8602bc3f34973ab877ae82e8f62c3eaeb121",
+      "copied_sha256": "fdd1debe0490c42fd99f8baa53ac8602bc3f34973ab877ae82e8f62c3eaeb121"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/OrderingMethods": {
+      "source_sha256": "c9e44ec5753aa4cf806921d1c6f1b0ee60cd73226e7a49bf5faa7ff0b36ffbd2",
+      "copied_sha256": "c9e44ec5753aa4cf806921d1c6f1b0ee60cd73226e7a49bf5faa7ff0b36ffbd2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/PaStiXSupport": {
+      "source_sha256": "3d95715f9b0335b1f61fe82426f806ba00fe6df2942e94c3fccc248a5aa59e30",
+      "copied_sha256": "3d95715f9b0335b1f61fe82426f806ba00fe6df2942e94c3fccc248a5aa59e30"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/PardisoSupport": {
+      "source_sha256": "d40d94816bdb31efd45184b65049d8dfbedcc817661b248f53807fe5a79443b9",
+      "copied_sha256": "d40d94816bdb31efd45184b65049d8dfbedcc817661b248f53807fe5a79443b9"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/QR": {
+      "source_sha256": "ac61d7257f29edece3405cd7ad46c1358a78c372baf736e0ced4391580227d74",
+      "copied_sha256": "ac61d7257f29edece3405cd7ad46c1358a78c372baf736e0ced4391580227d74"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/QtAlignedMalloc": {
+      "source_sha256": "c466291c6e7d230e8b76b725cdad1ed82c249bf01f5ec3bcb6f3f6501ed0ff97",
+      "copied_sha256": "c466291c6e7d230e8b76b725cdad1ed82c249bf01f5ec3bcb6f3f6501ed0ff97"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/SPQRSupport": {
+      "source_sha256": "d297a7e5f4dcf3bb13cf37abba0a0018f50d31bc1b1d39fcd05d44b96267db62",
+      "copied_sha256": "d297a7e5f4dcf3bb13cf37abba0a0018f50d31bc1b1d39fcd05d44b96267db62"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/SVD": {
+      "source_sha256": "883fe11601b59acc12b184f1d43e971f94fd5fc75a59490b1fc2e1328bed7930",
+      "copied_sha256": "883fe11601b59acc12b184f1d43e971f94fd5fc75a59490b1fc2e1328bed7930"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/Sparse": {
+      "source_sha256": "be351b6ee652a7a20e3953d0eae216d4d01c2c26ba7b6a464bf908db3449907b",
+      "copied_sha256": "be351b6ee652a7a20e3953d0eae216d4d01c2c26ba7b6a464bf908db3449907b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/SparseCholesky": {
+      "source_sha256": "37889beca635f289df1334592e6836646efc1f7ff6160729cfe46fadcbe5be85",
+      "copied_sha256": "37889beca635f289df1334592e6836646efc1f7ff6160729cfe46fadcbe5be85"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/SparseCore": {
+      "source_sha256": "b657a613960ce13c69b5582c1f04deb868c8df815ce4a4ca79dcebef4ca64c08",
+      "copied_sha256": "b657a613960ce13c69b5582c1f04deb868c8df815ce4a4ca79dcebef4ca64c08"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/SparseLU": {
+      "source_sha256": "0d51d87368467acd197e37039d83f36987aeb8e69064738d888493b9938127cd",
+      "copied_sha256": "0d51d87368467acd197e37039d83f36987aeb8e69064738d888493b9938127cd"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/SparseQR": {
+      "source_sha256": "b7e9c30dd3df8e7afeaded9b798f96d53d08aeaf388060d54f71df363cbc4c7a",
+      "copied_sha256": "b7e9c30dd3df8e7afeaded9b798f96d53d08aeaf388060d54f71df363cbc4c7a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/StdDeque": {
+      "source_sha256": "663326e8f37bb6adfc7f2bf8686489416293161f20ec0d8c01f6683db7bdf9e2",
+      "copied_sha256": "663326e8f37bb6adfc7f2bf8686489416293161f20ec0d8c01f6683db7bdf9e2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/StdList": {
+      "source_sha256": "88989446dbaa04fc820ad809b462803b300037a1cf32cb927c46665f7d39eb3d",
+      "copied_sha256": "88989446dbaa04fc820ad809b462803b300037a1cf32cb927c46665f7d39eb3d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/StdVector": {
+      "source_sha256": "d97ed4c1cfed377ba2cb2f3359b61cdbb0daf1b528f7a9e2b5ef4259755f7ca2",
+      "copied_sha256": "d97ed4c1cfed377ba2cb2f3359b61cdbb0daf1b528f7a9e2b5ef4259755f7ca2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/SuperLUSupport": {
+      "source_sha256": "280ecea1bc4ea662164889a5a9f1d633b5456409ba48aa166ffdaf6c093b10d0",
+      "copied_sha256": "280ecea1bc4ea662164889a5a9f1d633b5456409ba48aa166ffdaf6c093b10d0"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/ThreadPool": {
+      "source_sha256": "88329416d5730ec1b59a152c41f08e1b6bf0e47bd3108630fd7508a6fa3c3bb7",
+      "copied_sha256": "88329416d5730ec1b59a152c41f08e1b6bf0e47bd3108630fd7508a6fa3c3bb7"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/UmfPackSupport": {
+      "source_sha256": "79f6e95df5c5fb65cf0a71ff7bcc41a49e02fce772b68a20d7b6aa7e57bad0bb",
+      "copied_sha256": "79f6e95df5c5fb65cf0a71ff7bcc41a49e02fce772b68a20d7b6aa7e57bad0bb"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/AccelerateSupport/AccelerateSupport.h": {
+      "source_sha256": "3dab07cc056cc0c3422497b814ffce1d3084d987b5d5fd2c5a19b16ecce24176",
+      "copied_sha256": "3dab07cc056cc0c3422497b814ffce1d3084d987b5d5fd2c5a19b16ecce24176"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/AccelerateSupport/InternalHeaderCheck.h": {
+      "source_sha256": "9bc06c2a808543e1ccc6fd982a131c2e7f3fa7d2d8437a828b4ea7b98d45de5a",
+      "copied_sha256": "9bc06c2a808543e1ccc6fd982a131c2e7f3fa7d2d8437a828b4ea7b98d45de5a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Cholesky/InternalHeaderCheck.h": {
+      "source_sha256": "71a9fe57e1f9d7b696e970bc34d13c657851d3d7928732ac114c6bf5a1d957c4",
+      "copied_sha256": "71a9fe57e1f9d7b696e970bc34d13c657851d3d7928732ac114c6bf5a1d957c4"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Cholesky/LDLT.h": {
+      "source_sha256": "431b22d6eb679f984b1915e200bd0f71ed9237842d744889f89262b354039951",
+      "copied_sha256": "431b22d6eb679f984b1915e200bd0f71ed9237842d744889f89262b354039951"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Cholesky/LLT.h": {
+      "source_sha256": "417bc32f93db34bd384cf62b8f47e7fe47e1b4add6eee630f1609f391fc0a7c3",
+      "copied_sha256": "417bc32f93db34bd384cf62b8f47e7fe47e1b4add6eee630f1609f391fc0a7c3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Cholesky/LLT_LAPACKE.h": {
+      "source_sha256": "e5a502b2759ea292202393ae073368efda2bed311de170e926903b6aca0e9cfe",
+      "copied_sha256": "e5a502b2759ea292202393ae073368efda2bed311de170e926903b6aca0e9cfe"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/CholmodSupport/CholmodSupport.h": {
+      "source_sha256": "a54d8b81c9104bb30a6d06f21e969ebf506a1cacf1f2328d1ff97c26d06bec20",
+      "copied_sha256": "a54d8b81c9104bb30a6d06f21e969ebf506a1cacf1f2328d1ff97c26d06bec20"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/CholmodSupport/InternalHeaderCheck.h": {
+      "source_sha256": "019a57cb1e4123505521f495af53d0ebd2d9315fbd456cbacd26d4ef0152fecb",
+      "copied_sha256": "019a57cb1e4123505521f495af53d0ebd2d9315fbd456cbacd26d4ef0152fecb"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/ArithmeticSequence.h": {
+      "source_sha256": "7177121e0a80b9af78dbfb8f13a65a0364da3c95b100496b89e94e3a8b6f9d36",
+      "copied_sha256": "7177121e0a80b9af78dbfb8f13a65a0364da3c95b100496b89e94e3a8b6f9d36"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Array.h": {
+      "source_sha256": "6f47bbd35c7a053105423cf0a17b2ca14db821414d6ecdea301c89fd0befba23",
+      "copied_sha256": "6f47bbd35c7a053105423cf0a17b2ca14db821414d6ecdea301c89fd0befba23"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/ArrayBase.h": {
+      "source_sha256": "a1c3b9b66fdeeb2054e864e55d1cc07b2f8cf12227c53019ddf519daa828cf2a",
+      "copied_sha256": "a1c3b9b66fdeeb2054e864e55d1cc07b2f8cf12227c53019ddf519daa828cf2a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/ArrayWrapper.h": {
+      "source_sha256": "f9012481e0dc0581f5af37abab1ea305dc798e717034e89a04f1f8f34cf210d5",
+      "copied_sha256": "f9012481e0dc0581f5af37abab1ea305dc798e717034e89a04f1f8f34cf210d5"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Assign.h": {
+      "source_sha256": "cae7d3784dd2b9199cae0966551924ba5c989dce352f6037396e404ea53b53a3",
+      "copied_sha256": "cae7d3784dd2b9199cae0966551924ba5c989dce352f6037396e404ea53b53a3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/AssignEvaluator.h": {
+      "source_sha256": "ca3e5c72d2c77fc7626160f654d8be83ea0c33401c23a83859c2193e05eceda0",
+      "copied_sha256": "ca3e5c72d2c77fc7626160f654d8be83ea0c33401c23a83859c2193e05eceda0"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Assign_MKL.h": {
+      "source_sha256": "01d4ec709e856bf171f60defc7270f0ba1135942e7592d133e9ddbd454e373ff",
+      "copied_sha256": "01d4ec709e856bf171f60defc7270f0ba1135942e7592d133e9ddbd454e373ff"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/BandMatrix.h": {
+      "source_sha256": "5208acaaab674db8510fccafccb4d11c147992bfdad8cc5de79ab33d8b9d8e75",
+      "copied_sha256": "5208acaaab674db8510fccafccb4d11c147992bfdad8cc5de79ab33d8b9d8e75"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Block.h": {
+      "source_sha256": "2f629a178216ce3f19ab4abba368bfc624e29a9dbee16eed656157181042c6ff",
+      "copied_sha256": "2f629a178216ce3f19ab4abba368bfc624e29a9dbee16eed656157181042c6ff"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/CommaInitializer.h": {
+      "source_sha256": "a83c2b276c45ed0d6aedbd83cda3964b50c0be2159ef01e20a655c48b62f759a",
+      "copied_sha256": "a83c2b276c45ed0d6aedbd83cda3964b50c0be2159ef01e20a655c48b62f759a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/ConditionEstimator.h": {
+      "source_sha256": "dbbef7689bbc37d11e70cf28dbdc0b23bbdf5cfb7ecba30ba3dd1ed14b6134c2",
+      "copied_sha256": "dbbef7689bbc37d11e70cf28dbdc0b23bbdf5cfb7ecba30ba3dd1ed14b6134c2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/CoreEvaluators.h": {
+      "source_sha256": "528a0d0f07e918514b55f5adb92d16eb3e25937a82015159921245f403cba94b",
+      "copied_sha256": "528a0d0f07e918514b55f5adb92d16eb3e25937a82015159921245f403cba94b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/CoreIterators.h": {
+      "source_sha256": "80f8280237dfe33ae58fd2b500c839aeeffb1c860188dbf856332869d2be1b8f",
+      "copied_sha256": "80f8280237dfe33ae58fd2b500c839aeeffb1c860188dbf856332869d2be1b8f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/CwiseBinaryOp.h": {
+      "source_sha256": "b1e43d3085ca2f1687b29746fdb517d4b71b25a27ca4b2676fc0b2f9c281c078",
+      "copied_sha256": "b1e43d3085ca2f1687b29746fdb517d4b71b25a27ca4b2676fc0b2f9c281c078"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/CwiseNullaryOp.h": {
+      "source_sha256": "f8c2afe67e2b8fe0a25eb28863bfb28b8b3765f5576344f81f7950c0d3d72f66",
+      "copied_sha256": "f8c2afe67e2b8fe0a25eb28863bfb28b8b3765f5576344f81f7950c0d3d72f66"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/CwiseTernaryOp.h": {
+      "source_sha256": "ad5589c1a3d66fd1a661c2eda019590d0e366b2a02db89132f00fa4f30fdd767",
+      "copied_sha256": "ad5589c1a3d66fd1a661c2eda019590d0e366b2a02db89132f00fa4f30fdd767"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/CwiseUnaryOp.h": {
+      "source_sha256": "b379d5d1308fdec46612f835dfbf83ffc956d571447ecac08f739155e47ddb2b",
+      "copied_sha256": "b379d5d1308fdec46612f835dfbf83ffc956d571447ecac08f739155e47ddb2b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/CwiseUnaryView.h": {
+      "source_sha256": "43fa9477a1540d2f350c398e137a5930adc574c86943942041b51054762e5d90",
+      "copied_sha256": "43fa9477a1540d2f350c398e137a5930adc574c86943942041b51054762e5d90"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/DenseBase.h": {
+      "source_sha256": "f7e689b5493c8dc031dc6b127f860c16f7b7cb1950ca38b0637165deda58702e",
+      "copied_sha256": "f7e689b5493c8dc031dc6b127f860c16f7b7cb1950ca38b0637165deda58702e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/DenseCoeffsBase.h": {
+      "source_sha256": "84387a3361f7ec8feb8000af46c63eed9e93d024e57b519a0cd0e2cd4d4bff3d",
+      "copied_sha256": "84387a3361f7ec8feb8000af46c63eed9e93d024e57b519a0cd0e2cd4d4bff3d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/DenseStorage.h": {
+      "source_sha256": "28f7143d467f6f35d82f5e932cc75beefe768c71c70c4491b11804cffc7c452f",
+      "copied_sha256": "28f7143d467f6f35d82f5e932cc75beefe768c71c70c4491b11804cffc7c452f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Diagonal.h": {
+      "source_sha256": "790e08dee59d19cf5a79a2cb5a9d4c5bb3710a617a82533efcdf0ce8b366a237",
+      "copied_sha256": "790e08dee59d19cf5a79a2cb5a9d4c5bb3710a617a82533efcdf0ce8b366a237"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/DiagonalMatrix.h": {
+      "source_sha256": "8a42f66be80993ccc2d88fdec02ccd03a438d6005a2676e6bba78597ba548711",
+      "copied_sha256": "8a42f66be80993ccc2d88fdec02ccd03a438d6005a2676e6bba78597ba548711"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/DiagonalProduct.h": {
+      "source_sha256": "ba549383dd6c7f8029b9fb1b40ae8b87423b8bce270855ea06e398fbbf94423e",
+      "copied_sha256": "ba549383dd6c7f8029b9fb1b40ae8b87423b8bce270855ea06e398fbbf94423e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Dot.h": {
+      "source_sha256": "6a34096e73849f8e43a66f27593f2487e2907e5453434ef156bd335127a07737",
+      "copied_sha256": "6a34096e73849f8e43a66f27593f2487e2907e5453434ef156bd335127a07737"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/EigenBase.h": {
+      "source_sha256": "7f003377611184a2ad2a4bf67c873960c136bfd7287b443bc590152d3b8aa380",
+      "copied_sha256": "7f003377611184a2ad2a4bf67c873960c136bfd7287b443bc590152d3b8aa380"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/ForceAlignedAccess.h": {
+      "source_sha256": "8923d4611783102b09e7542b5df47ca8973f6fd3b0fafd792e38e637113b20a1",
+      "copied_sha256": "8923d4611783102b09e7542b5df47ca8973f6fd3b0fafd792e38e637113b20a1"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Fuzzy.h": {
+      "source_sha256": "041ba2af1ab0e3d1ba5cbcd33449322ade1bb7ea2980bfd846ad8b4bb6914fc1",
+      "copied_sha256": "041ba2af1ab0e3d1ba5cbcd33449322ade1bb7ea2980bfd846ad8b4bb6914fc1"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/GeneralProduct.h": {
+      "source_sha256": "33beb7bbec7fb94d036f899f0a469744ea196e1b9efd449785b36cd2f9342044",
+      "copied_sha256": "33beb7bbec7fb94d036f899f0a469744ea196e1b9efd449785b36cd2f9342044"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/GenericPacketMath.h": {
+      "source_sha256": "88ab22f58b1fd011af4aaa746901e4f6bbfa6f6a965c9823a2abc023b65f298a",
+      "copied_sha256": "88ab22f58b1fd011af4aaa746901e4f6bbfa6f6a965c9823a2abc023b65f298a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/GlobalFunctions.h": {
+      "source_sha256": "6454b036324270512e52fc83b7f6ed57c81c9fa5128bfa9ac1285beb294367c9",
+      "copied_sha256": "6454b036324270512e52fc83b7f6ed57c81c9fa5128bfa9ac1285beb294367c9"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/IO.h": {
+      "source_sha256": "d74a05726f2f5f7006ae80ce2c5029f30ac119f572801b9ec73f812476a4bdfc",
+      "copied_sha256": "d74a05726f2f5f7006ae80ce2c5029f30ac119f572801b9ec73f812476a4bdfc"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/IndexedView.h": {
+      "source_sha256": "952e7d643c6ab919d58adb30920fd9ed69ee2bef241a00c31af256af9ef89eec",
+      "copied_sha256": "952e7d643c6ab919d58adb30920fd9ed69ee2bef241a00c31af256af9ef89eec"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/InternalHeaderCheck.h": {
+      "source_sha256": "47e7f47aae4fe6be7760d635bd430ab5f607484fc53efd76bef72e776d1e42c9",
+      "copied_sha256": "47e7f47aae4fe6be7760d635bd430ab5f607484fc53efd76bef72e776d1e42c9"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Inverse.h": {
+      "source_sha256": "e8957263b4c697777d6911c3f109a1e82bb02f34eaa04f3d402a3a521c62ff24",
+      "copied_sha256": "e8957263b4c697777d6911c3f109a1e82bb02f34eaa04f3d402a3a521c62ff24"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Map.h": {
+      "source_sha256": "43e0afad7ca58535931fe32509476cce07f7d18d95e2b265f4a6a1189a6b001b",
+      "copied_sha256": "43e0afad7ca58535931fe32509476cce07f7d18d95e2b265f4a6a1189a6b001b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/MapBase.h": {
+      "source_sha256": "f2005036c8aa84a30730111db934bca1cc52b75d2fbeb2a896990f5477b83f6e",
+      "copied_sha256": "f2005036c8aa84a30730111db934bca1cc52b75d2fbeb2a896990f5477b83f6e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/MathFunctions.h": {
+      "source_sha256": "6a941aca82157a09b12e9c7761cf4277ea9a170c941bbaf1526a576260600a13",
+      "copied_sha256": "6a941aca82157a09b12e9c7761cf4277ea9a170c941bbaf1526a576260600a13"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/MathFunctionsImpl.h": {
+      "source_sha256": "f58cefbf16e1d134beba550f2141a610ff1e40f96b0676f7ab7f6dbe298ea367",
+      "copied_sha256": "f58cefbf16e1d134beba550f2141a610ff1e40f96b0676f7ab7f6dbe298ea367"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Matrix.h": {
+      "source_sha256": "21e45ba5defefe30cbe9faf9e1360c138e59bd8a65ce1df9f922d59cb513f901",
+      "copied_sha256": "21e45ba5defefe30cbe9faf9e1360c138e59bd8a65ce1df9f922d59cb513f901"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/MatrixBase.h": {
+      "source_sha256": "ca1e23d5d98bdf2a2cd6c27fdb85afbd5fed34281be7dd056245e7583801f165",
+      "copied_sha256": "ca1e23d5d98bdf2a2cd6c27fdb85afbd5fed34281be7dd056245e7583801f165"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/NestByValue.h": {
+      "source_sha256": "50e24687f58738945252c3674af659a699a32504c6bafa0098e11e47cc53399b",
+      "copied_sha256": "50e24687f58738945252c3674af659a699a32504c6bafa0098e11e47cc53399b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/NoAlias.h": {
+      "source_sha256": "fb21b0e2905d3eb08117d570956511e9fff47f80071a05929e73d12e599cdd95",
+      "copied_sha256": "fb21b0e2905d3eb08117d570956511e9fff47f80071a05929e73d12e599cdd95"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/NumTraits.h": {
+      "source_sha256": "179327c2f4aa25773bf9d561a5facd92e3ff5cb03762b09c5afedbd5241fd158",
+      "copied_sha256": "179327c2f4aa25773bf9d561a5facd92e3ff5cb03762b09c5afedbd5241fd158"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/PartialReduxEvaluator.h": {
+      "source_sha256": "46ef33bddfa043c7667e6e3c06aca182b1abb51b7d85a37f2f55a89ebdc60118",
+      "copied_sha256": "46ef33bddfa043c7667e6e3c06aca182b1abb51b7d85a37f2f55a89ebdc60118"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/PermutationMatrix.h": {
+      "source_sha256": "2660792210de48af313e0694e946a5db4f6347d225404079a50995e31ef4d737",
+      "copied_sha256": "2660792210de48af313e0694e946a5db4f6347d225404079a50995e31ef4d737"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/PlainObjectBase.h": {
+      "source_sha256": "5ee5acec134cbefb469c978320c2e00ddeba03b31d8c018efff780481999c4de",
+      "copied_sha256": "5ee5acec134cbefb469c978320c2e00ddeba03b31d8c018efff780481999c4de"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Product.h": {
+      "source_sha256": "29387951872bc1621a9c9b62620b5c62dd6f91cc3aaa3f1751fe345cf5979e0b",
+      "copied_sha256": "29387951872bc1621a9c9b62620b5c62dd6f91cc3aaa3f1751fe345cf5979e0b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/ProductEvaluators.h": {
+      "source_sha256": "6fe38a1e0e138bfc574cf9f273ead438db0c5df2868b918fe331e7e37695f4d7",
+      "copied_sha256": "6fe38a1e0e138bfc574cf9f273ead438db0c5df2868b918fe331e7e37695f4d7"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Random.h": {
+      "source_sha256": "f63219604e2651b052c5d25897457e4be842bdc636522f6961ee7151b374079e",
+      "copied_sha256": "f63219604e2651b052c5d25897457e4be842bdc636522f6961ee7151b374079e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Redux.h": {
+      "source_sha256": "1addce70839988e8b8cbef005778c9f5cd23bd6b10f0a0bfa5a40a718bd6aac0",
+      "copied_sha256": "1addce70839988e8b8cbef005778c9f5cd23bd6b10f0a0bfa5a40a718bd6aac0"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Ref.h": {
+      "source_sha256": "1e3d3d5214971f5b81bda27344443b77f9c883f4028eeefbe43e9dd029a1987d",
+      "copied_sha256": "1e3d3d5214971f5b81bda27344443b77f9c883f4028eeefbe43e9dd029a1987d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Replicate.h": {
+      "source_sha256": "303678b686894c1a7ab5f83d0d986a785a837e82466cfc771f95b122164aff6d",
+      "copied_sha256": "303678b686894c1a7ab5f83d0d986a785a837e82466cfc771f95b122164aff6d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Reshaped.h": {
+      "source_sha256": "6e50cfe86cd063832a312ff0074c84ad8d76f45ea696b0a137a359a2cb95ad23",
+      "copied_sha256": "6e50cfe86cd063832a312ff0074c84ad8d76f45ea696b0a137a359a2cb95ad23"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/ReturnByValue.h": {
+      "source_sha256": "30be235d5f3a47f847d97ce340d30e146d75938a6c68ecea4913afa7d0678b77",
+      "copied_sha256": "30be235d5f3a47f847d97ce340d30e146d75938a6c68ecea4913afa7d0678b77"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Reverse.h": {
+      "source_sha256": "d71cd29330ff07b44c1f9027188b146325df9fbd2c1f7d7aca6122f6a02e5a6d",
+      "copied_sha256": "d71cd29330ff07b44c1f9027188b146325df9fbd2c1f7d7aca6122f6a02e5a6d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Select.h": {
+      "source_sha256": "f7adfbd01a339bb64ea51cb9577c80c3d3aabb3d2c784645963feaee36d8a2e3",
+      "copied_sha256": "f7adfbd01a339bb64ea51cb9577c80c3d3aabb3d2c784645963feaee36d8a2e3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/SelfAdjointView.h": {
+      "source_sha256": "688838e60d5f7b408ffc9fe290208e0477dbbdfe4ddab0303026093254aa4e6f",
+      "copied_sha256": "688838e60d5f7b408ffc9fe290208e0477dbbdfe4ddab0303026093254aa4e6f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/SelfCwiseBinaryOp.h": {
+      "source_sha256": "cc6d1219146880e5682c2a9d408cfd5c7fda32724671d279c06c2d7d67171a9e",
+      "copied_sha256": "cc6d1219146880e5682c2a9d408cfd5c7fda32724671d279c06c2d7d67171a9e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/SkewSymmetricMatrix3.h": {
+      "source_sha256": "9db7ce142c38ae7715606debab26b5b9eb8570b84e2aee07f3cf4f51e279b97e",
+      "copied_sha256": "9db7ce142c38ae7715606debab26b5b9eb8570b84e2aee07f3cf4f51e279b97e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Solve.h": {
+      "source_sha256": "24ddc52657de2f2b18713301a2e9fd3455a939880370d3078ff3422247bb09eb",
+      "copied_sha256": "24ddc52657de2f2b18713301a2e9fd3455a939880370d3078ff3422247bb09eb"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/SolveTriangular.h": {
+      "source_sha256": "715a50a4830777dd0ca79157ba56799187ca845a38ed3b57293db51299a0d3d5",
+      "copied_sha256": "715a50a4830777dd0ca79157ba56799187ca845a38ed3b57293db51299a0d3d5"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/SolverBase.h": {
+      "source_sha256": "048924ece268fdfd80409994617da3f883a7574d0233766e28d76fb40e3b77d2",
+      "copied_sha256": "048924ece268fdfd80409994617da3f883a7574d0233766e28d76fb40e3b77d2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/StableNorm.h": {
+      "source_sha256": "4bb64b645689ea3050193a7ffb7955b752d9a46f6635d95077f18f5cc69280f6",
+      "copied_sha256": "4bb64b645689ea3050193a7ffb7955b752d9a46f6635d95077f18f5cc69280f6"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/StlIterators.h": {
+      "source_sha256": "bdbc01e108ecc8e1c1399ee40145830a803b4fe736858f5d7acb2744027c588f",
+      "copied_sha256": "bdbc01e108ecc8e1c1399ee40145830a803b4fe736858f5d7acb2744027c588f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Stride.h": {
+      "source_sha256": "9f9ab2f9906b2e7fa44ff07ba290dfee74a06b645a5fba3e13ed9cd2081e0c77",
+      "copied_sha256": "9f9ab2f9906b2e7fa44ff07ba290dfee74a06b645a5fba3e13ed9cd2081e0c77"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Swap.h": {
+      "source_sha256": "eca4904ec8412d44778d84eed1510d0a979bda01ef485cfeea816598a1f6b7aa",
+      "copied_sha256": "eca4904ec8412d44778d84eed1510d0a979bda01ef485cfeea816598a1f6b7aa"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Transpose.h": {
+      "source_sha256": "3519e915b410d20539900e389d0bd3f3344b1e0ca248b24bd61f4e8de94feb4c",
+      "copied_sha256": "3519e915b410d20539900e389d0bd3f3344b1e0ca248b24bd61f4e8de94feb4c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Transpositions.h": {
+      "source_sha256": "f2fedaea7c5b7a1b6ca4d21ec92f9dbfe9ee7645bd7b83bd9b9d96b6da573959",
+      "copied_sha256": "f2fedaea7c5b7a1b6ca4d21ec92f9dbfe9ee7645bd7b83bd9b9d96b6da573959"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/TriangularMatrix.h": {
+      "source_sha256": "1c8ab90610ed8f3ddfc35dc188de8f57d23e4d7a8d63261c091398d27e2b385e",
+      "copied_sha256": "1c8ab90610ed8f3ddfc35dc188de8f57d23e4d7a8d63261c091398d27e2b385e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/VectorBlock.h": {
+      "source_sha256": "2142a937c097b8f3e735487f125d557a67fa12dd78e1929fee06a8ed5f35d305",
+      "copied_sha256": "2142a937c097b8f3e735487f125d557a67fa12dd78e1929fee06a8ed5f35d305"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/VectorwiseOp.h": {
+      "source_sha256": "aeaa85bd9eb89f68ec5e24f178ef53dc3ac44d4826651f428717bb7c704df37f",
+      "copied_sha256": "aeaa85bd9eb89f68ec5e24f178ef53dc3ac44d4826651f428717bb7c704df37f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/Visitor.h": {
+      "source_sha256": "6a9600b5aee595b1fdcdd65c6981b57822da9faa47e341d19603fd11b63208fb",
+      "copied_sha256": "6a9600b5aee595b1fdcdd65c6981b57822da9faa47e341d19603fd11b63208fb"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AVX/Complex.h": {
+      "source_sha256": "60fb0a7455a4a05b6828ee24487fc3693cd3cf6e4b4d9a70780bea0f13d829ce",
+      "copied_sha256": "60fb0a7455a4a05b6828ee24487fc3693cd3cf6e4b4d9a70780bea0f13d829ce"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AVX/MathFunctions.h": {
+      "source_sha256": "e84b42270dfa0b9753e1566dedd04b4f89b2924cf31a081a0bbfc1b14b4b973e",
+      "copied_sha256": "e84b42270dfa0b9753e1566dedd04b4f89b2924cf31a081a0bbfc1b14b4b973e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AVX/PacketMath.h": {
+      "source_sha256": "1a51345e7111db3dbd454161069826627bbfaaad54f1c7b12fd5c0f7b3b15cd0",
+      "copied_sha256": "1a51345e7111db3dbd454161069826627bbfaaad54f1c7b12fd5c0f7b3b15cd0"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AVX/TypeCasting.h": {
+      "source_sha256": "6a0c276805a5a6f1ee15ac3d77e46e74ef37d88891072a0a77546d2dc87ee917",
+      "copied_sha256": "6a0c276805a5a6f1ee15ac3d77e46e74ef37d88891072a0a77546d2dc87ee917"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AVX512/Complex.h": {
+      "source_sha256": "bef79351638926c4a58b70156dd6b89aadd9b646c899880f3d877a7f90ef81df",
+      "copied_sha256": "bef79351638926c4a58b70156dd6b89aadd9b646c899880f3d877a7f90ef81df"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AVX512/GemmKernel.h": {
+      "source_sha256": "5d527d5d4325f60b85cab7cdae0df1b2cfc53c87e6b23020f39e67be174390a2",
+      "copied_sha256": "5d527d5d4325f60b85cab7cdae0df1b2cfc53c87e6b23020f39e67be174390a2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AVX512/MathFunctions.h": {
+      "source_sha256": "765ee687c2a05bf660f2d948918eca6cf2e78da319cff6f88ca0cbeeee9a6729",
+      "copied_sha256": "765ee687c2a05bf660f2d948918eca6cf2e78da319cff6f88ca0cbeeee9a6729"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AVX512/PacketMath.h": {
+      "source_sha256": "ab26ccb3807434905f30741f5ec50a3528902f6c4eb60a18c02c7f6bfeef5413",
+      "copied_sha256": "ab26ccb3807434905f30741f5ec50a3528902f6c4eb60a18c02c7f6bfeef5413"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AVX512/PacketMathFP16.h": {
+      "source_sha256": "e82d9b325fb5e75b271f736ab8b3f1082b362212b05d8266c513759b2af7d345",
+      "copied_sha256": "e82d9b325fb5e75b271f736ab8b3f1082b362212b05d8266c513759b2af7d345"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AVX512/TrsmKernel.h": {
+      "source_sha256": "747266573844162ac013aaf9cf2f79577eaebb0d37d4a549dd60419d7afe79fc",
+      "copied_sha256": "747266573844162ac013aaf9cf2f79577eaebb0d37d4a549dd60419d7afe79fc"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AVX512/TrsmUnrolls.inc": {
+      "source_sha256": "c92436f090efb9014fdf3591a51da22d5bebb3e65342d2e1282b7802d8456a1e",
+      "copied_sha256": "c92436f090efb9014fdf3591a51da22d5bebb3e65342d2e1282b7802d8456a1e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AVX512/TypeCasting.h": {
+      "source_sha256": "1db92d40be2a5306a3e62cc543626c33aca292287c7c6c5a7a009154d83f3f81",
+      "copied_sha256": "1db92d40be2a5306a3e62cc543626c33aca292287c7c6c5a7a009154d83f3f81"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AltiVec/Complex.h": {
+      "source_sha256": "9e4bf24799cb98f4fcf6a5dccfa81c1d7486d0cec90459548d36084db9e4e177",
+      "copied_sha256": "9e4bf24799cb98f4fcf6a5dccfa81c1d7486d0cec90459548d36084db9e4e177"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AltiVec/MathFunctions.h": {
+      "source_sha256": "42575f18ab0056a62775d1fb162a011c6d31c0fe6b086a10dc997a4c4d053945",
+      "copied_sha256": "42575f18ab0056a62775d1fb162a011c6d31c0fe6b086a10dc997a4c4d053945"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AltiVec/MatrixProduct.h": {
+      "source_sha256": "aea77e106fac143a358a4066ef4b10115d65af444550054f4866bd6855347bcf",
+      "copied_sha256": "aea77e106fac143a358a4066ef4b10115d65af444550054f4866bd6855347bcf"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AltiVec/MatrixProductCommon.h": {
+      "source_sha256": "45c4485d8749e2618f1b17a4eae3f03266603ef993bf6d82eb3c13c8be115eac",
+      "copied_sha256": "45c4485d8749e2618f1b17a4eae3f03266603ef993bf6d82eb3c13c8be115eac"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AltiVec/MatrixProductMMA.h": {
+      "source_sha256": "3153801451b97d51c060649650e6fc830cf68a3cb851bb7c9227a3041290c8c6",
+      "copied_sha256": "3153801451b97d51c060649650e6fc830cf68a3cb851bb7c9227a3041290c8c6"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AltiVec/MatrixProductMMAbfloat16.h": {
+      "source_sha256": "69c7622b4deb27782ceedebdc90ff6651272482a9e623821b493658a8ba43a12",
+      "copied_sha256": "69c7622b4deb27782ceedebdc90ff6651272482a9e623821b493658a8ba43a12"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AltiVec/MatrixVectorProduct.h": {
+      "source_sha256": "5f0ccee256d611d02b16cd462a1919571e676d8a9c541c431ca65864c143996d",
+      "copied_sha256": "5f0ccee256d611d02b16cd462a1919571e676d8a9c541c431ca65864c143996d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AltiVec/PacketMath.h": {
+      "source_sha256": "dcc1dd45d27736a8b123765f16b1df2cf92908877102c82237bbb82d0684f819",
+      "copied_sha256": "dcc1dd45d27736a8b123765f16b1df2cf92908877102c82237bbb82d0684f819"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/AltiVec/TypeCasting.h": {
+      "source_sha256": "2020105974bb91355e29a0cc9b5b1fd7e310b4ddf659e46a3be7fd559db97807",
+      "copied_sha256": "2020105974bb91355e29a0cc9b5b1fd7e310b4ddf659e46a3be7fd559db97807"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/Default/BFloat16.h": {
+      "source_sha256": "137dc674bb5eb8f037da9fd46e02075e95a6d0480347bbdc0f5812230e256141",
+      "copied_sha256": "137dc674bb5eb8f037da9fd46e02075e95a6d0480347bbdc0f5812230e256141"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/Default/ConjHelper.h": {
+      "source_sha256": "b9e9642101671b9a8e0713c69bb70d6b5ecacfc351f732ae06f06b61776fe62e",
+      "copied_sha256": "b9e9642101671b9a8e0713c69bb70d6b5ecacfc351f732ae06f06b61776fe62e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/Default/GenericPacketMathFunctions.h": {
+      "source_sha256": "0cd831a28d1eebcc118f7ef6d93a2702682b8d1e96b481d60e08dc1afc8823d3",
+      "copied_sha256": "0cd831a28d1eebcc118f7ef6d93a2702682b8d1e96b481d60e08dc1afc8823d3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/Default/GenericPacketMathFunctionsFwd.h": {
+      "source_sha256": "62660d37dcaec7f1f94def9bdb93eb26dc51f8427be5820c2ecc8f2216114fff",
+      "copied_sha256": "62660d37dcaec7f1f94def9bdb93eb26dc51f8427be5820c2ecc8f2216114fff"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/Default/Half.h": {
+      "source_sha256": "b33158a2bd0fcf914441a932ed8448df5f4a4370589c6fa1d7cc3c12759d23ec",
+      "copied_sha256": "b33158a2bd0fcf914441a932ed8448df5f4a4370589c6fa1d7cc3c12759d23ec"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/Default/Settings.h": {
+      "source_sha256": "41b87a95edc400e7545f7273c59742abc95defae6ca7cd85f962d51a7a8fb790",
+      "copied_sha256": "41b87a95edc400e7545f7273c59742abc95defae6ca7cd85f962d51a7a8fb790"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/GPU/Complex.h": {
+      "source_sha256": "1263ddd89335056f5ef9c1136b92e54cd379b96eb1792e5ddffb7ba93ea4dcda",
+      "copied_sha256": "1263ddd89335056f5ef9c1136b92e54cd379b96eb1792e5ddffb7ba93ea4dcda"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/GPU/MathFunctions.h": {
+      "source_sha256": "c9938b34badd3e443f880228fd7834b4a7cb17572056a9aa5e7ba4df6fa95357",
+      "copied_sha256": "c9938b34badd3e443f880228fd7834b4a7cb17572056a9aa5e7ba4df6fa95357"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/GPU/PacketMath.h": {
+      "source_sha256": "626d649c30c80d7275f66813bfde29993392cbd1f457637c99ddfb7998789e7a",
+      "copied_sha256": "626d649c30c80d7275f66813bfde29993392cbd1f457637c99ddfb7998789e7a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/GPU/Tuple.h": {
+      "source_sha256": "21219445e6eef2cb05af0c02988e80c113639e9ef5ac65988cca19bdb0831938",
+      "copied_sha256": "21219445e6eef2cb05af0c02988e80c113639e9ef5ac65988cca19bdb0831938"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/GPU/TypeCasting.h": {
+      "source_sha256": "0495af3c71459c50807cc6d934a6d1b870a4118ef0da4a4feedc736df1472592",
+      "copied_sha256": "0495af3c71459c50807cc6d934a6d1b870a4118ef0da4a4feedc736df1472592"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/HIP/hcc/math_constants.h": {
+      "source_sha256": "4d86a4154ef20638d72ab2f585ec61f6c0881908d986a2b4ffb44efa97f97246",
+      "copied_sha256": "4d86a4154ef20638d72ab2f585ec61f6c0881908d986a2b4ffb44efa97f97246"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/MSA/Complex.h": {
+      "source_sha256": "91bb677f1cd07fc7f49da77e52dc83d7cc08586781213b5fc7b1e134f4f8de58",
+      "copied_sha256": "91bb677f1cd07fc7f49da77e52dc83d7cc08586781213b5fc7b1e134f4f8de58"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/MSA/MathFunctions.h": {
+      "source_sha256": "cf961eb25dfa93f78632bca0f7afd4996a82ada57c266a83749d4b2fa0e649d2",
+      "copied_sha256": "cf961eb25dfa93f78632bca0f7afd4996a82ada57c266a83749d4b2fa0e649d2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/MSA/PacketMath.h": {
+      "source_sha256": "2147fcd449d0c502417d540070cbbf7e9981dae59959aed8ade16921696d8db5",
+      "copied_sha256": "2147fcd449d0c502417d540070cbbf7e9981dae59959aed8ade16921696d8db5"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/NEON/Complex.h": {
+      "source_sha256": "ec023b9483d3001eb44d5386c5060a9315de44ed493956493009b37a17040d6f",
+      "copied_sha256": "ec023b9483d3001eb44d5386c5060a9315de44ed493956493009b37a17040d6f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/NEON/GeneralBlockPanelKernel.h": {
+      "source_sha256": "de48227eb23451d993fbcaf3c337fc755d6711ab9713f83e10c477b98b70502b",
+      "copied_sha256": "de48227eb23451d993fbcaf3c337fc755d6711ab9713f83e10c477b98b70502b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/NEON/MathFunctions.h": {
+      "source_sha256": "a5cdfc2ef096f672f70b22251f50adbfaab03f45206173fb34a4d8823a09b205",
+      "copied_sha256": "a5cdfc2ef096f672f70b22251f50adbfaab03f45206173fb34a4d8823a09b205"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/NEON/PacketMath.h": {
+      "source_sha256": "1b93711514c649664d0ec8aa2ebb4752ea247b9d4d557ad3537311b245e8663a",
+      "copied_sha256": "1b93711514c649664d0ec8aa2ebb4752ea247b9d4d557ad3537311b245e8663a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/NEON/TypeCasting.h": {
+      "source_sha256": "46e8d5ae4c18b671e04c2c5e753a8876ba1b92f3266599fc175c1ea94efc3346",
+      "copied_sha256": "46e8d5ae4c18b671e04c2c5e753a8876ba1b92f3266599fc175c1ea94efc3346"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/NEON/UnaryFunctors.h": {
+      "source_sha256": "05a0d488fc252bed74db6ded1d8b45675af6636ab51d7bba22f97af7c843d327",
+      "copied_sha256": "05a0d488fc252bed74db6ded1d8b45675af6636ab51d7bba22f97af7c843d327"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/SSE/Complex.h": {
+      "source_sha256": "2a5356ff3c2646644159724752e84384a95ba53a0e45f8ad2eda1d7f09f143ae",
+      "copied_sha256": "2a5356ff3c2646644159724752e84384a95ba53a0e45f8ad2eda1d7f09f143ae"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/SSE/MathFunctions.h": {
+      "source_sha256": "372921e5362bd91b50908474733dc9ba6fae6c6e404d13f6b3792ca23f507360",
+      "copied_sha256": "372921e5362bd91b50908474733dc9ba6fae6c6e404d13f6b3792ca23f507360"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/SSE/PacketMath.h": {
+      "source_sha256": "ecab8b587390578d0d0a48a64e7d86066944f7492d457ac441906bb6f8c9713c",
+      "copied_sha256": "ecab8b587390578d0d0a48a64e7d86066944f7492d457ac441906bb6f8c9713c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/SSE/TypeCasting.h": {
+      "source_sha256": "83d5c9bdf983f1c004b6029057fc53eb1f48f57c8a29d6e9b2610449cdc88b8f",
+      "copied_sha256": "83d5c9bdf983f1c004b6029057fc53eb1f48f57c8a29d6e9b2610449cdc88b8f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/SVE/MathFunctions.h": {
+      "source_sha256": "84cc7c4cc72f69af9c5ef6223cb3a83311b5f1a9d23b7c07f3e9f28c2d9dae4b",
+      "copied_sha256": "84cc7c4cc72f69af9c5ef6223cb3a83311b5f1a9d23b7c07f3e9f28c2d9dae4b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/SVE/PacketMath.h": {
+      "source_sha256": "c3f015c780b24450ebbb1c5f6fb8668fb9d720ad88263e3348a604615b7220e8",
+      "copied_sha256": "c3f015c780b24450ebbb1c5f6fb8668fb9d720ad88263e3348a604615b7220e8"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/SVE/TypeCasting.h": {
+      "source_sha256": "0d289d196a3f89df9e4715934470602c436679f6c93fa8da5d6139c667c539c9",
+      "copied_sha256": "0d289d196a3f89df9e4715934470602c436679f6c93fa8da5d6139c667c539c9"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/SYCL/InteropHeaders.h": {
+      "source_sha256": "8e97a937ffd8029b3baf0bd08ac2447c0519d9d95640ae11c9f4471846286ce7",
+      "copied_sha256": "8e97a937ffd8029b3baf0bd08ac2447c0519d9d95640ae11c9f4471846286ce7"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/SYCL/MathFunctions.h": {
+      "source_sha256": "e0948989ee5f70ebf79da209d76ff03c1ff111564468d0e57dd165df8e89c8d3",
+      "copied_sha256": "e0948989ee5f70ebf79da209d76ff03c1ff111564468d0e57dd165df8e89c8d3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/SYCL/PacketMath.h": {
+      "source_sha256": "4914ec60b59a1033fe522dc491f52dd5777df9c88a359898657d8b8bf76c9333",
+      "copied_sha256": "4914ec60b59a1033fe522dc491f52dd5777df9c88a359898657d8b8bf76c9333"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/SYCL/TypeCasting.h": {
+      "source_sha256": "03fd709ad0b50f1478b97730d1723c58527b15ccc2ca47518a3a9d5344803513",
+      "copied_sha256": "03fd709ad0b50f1478b97730d1723c58527b15ccc2ca47518a3a9d5344803513"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/ZVector/Complex.h": {
+      "source_sha256": "11531e843c759ee39b6fabeab1f658a117cd1a3c99cec1410aa15cf569b95aee",
+      "copied_sha256": "11531e843c759ee39b6fabeab1f658a117cd1a3c99cec1410aa15cf569b95aee"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/ZVector/MathFunctions.h": {
+      "source_sha256": "c86bcdf830cbb062fec6227a7bb149629f57ee29dbfe429782919e6d2d56648d",
+      "copied_sha256": "c86bcdf830cbb062fec6227a7bb149629f57ee29dbfe429782919e6d2d56648d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/arch/ZVector/PacketMath.h": {
+      "source_sha256": "814f9bdbd01e81ffdccb187afb9a942e5ea898ac4ad9534e111e50dac5316a3a",
+      "copied_sha256": "814f9bdbd01e81ffdccb187afb9a942e5ea898ac4ad9534e111e50dac5316a3a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/functors/AssignmentFunctors.h": {
+      "source_sha256": "7f91a4c4077cababafd66ecd9ceafc432c7c1865d879668095223cc2870e569c",
+      "copied_sha256": "7f91a4c4077cababafd66ecd9ceafc432c7c1865d879668095223cc2870e569c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/functors/BinaryFunctors.h": {
+      "source_sha256": "e69b9fb6ae5fa3d3c07e489d931da9b0520b6d98fb5a98b3aceee4395f2f2615",
+      "copied_sha256": "e69b9fb6ae5fa3d3c07e489d931da9b0520b6d98fb5a98b3aceee4395f2f2615"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/functors/NullaryFunctors.h": {
+      "source_sha256": "61324560bef2338b54fc0fd7b88eafeb534eb25ae2f51b45401280d8fea8f80f",
+      "copied_sha256": "61324560bef2338b54fc0fd7b88eafeb534eb25ae2f51b45401280d8fea8f80f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/functors/StlFunctors.h": {
+      "source_sha256": "709710c7321700fbfe2b3474a89eab88a6561cbce9f4b6fd2f590b604346f26b",
+      "copied_sha256": "709710c7321700fbfe2b3474a89eab88a6561cbce9f4b6fd2f590b604346f26b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/functors/TernaryFunctors.h": {
+      "source_sha256": "35ebcbbd69e206695cc491896571b4ecd9662f34aed96127b768da964694057c",
+      "copied_sha256": "35ebcbbd69e206695cc491896571b4ecd9662f34aed96127b768da964694057c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/functors/UnaryFunctors.h": {
+      "source_sha256": "1f6db143e6edf0a8da62e9383027024ec636be0b3418342fc57bca85a2a1d4b0",
+      "copied_sha256": "1f6db143e6edf0a8da62e9383027024ec636be0b3418342fc57bca85a2a1d4b0"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/GeneralBlockPanelKernel.h": {
+      "source_sha256": "24dedd6506356754038921cbfca73ae368e44b8cec3228e403179399a9d732f3",
+      "copied_sha256": "24dedd6506356754038921cbfca73ae368e44b8cec3228e403179399a9d732f3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/GeneralMatrixMatrix.h": {
+      "source_sha256": "3f7b817b8231d6452e0540d596a00b2d362d719bbfcfcf182063d839f1fa1ed6",
+      "copied_sha256": "3f7b817b8231d6452e0540d596a00b2d362d719bbfcfcf182063d839f1fa1ed6"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h": {
+      "source_sha256": "1eb8c667a0a6a76cf341922584a61f12f35d46d57e79ab5f360ec32aa82e6c43",
+      "copied_sha256": "1eb8c667a0a6a76cf341922584a61f12f35d46d57e79ab5f360ec32aa82e6c43"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/GeneralMatrixMatrixTriangular_BLAS.h": {
+      "source_sha256": "1899da09899b1d2364085ff60b222d4281de4870a869a872aee2e5d77f7e51d6",
+      "copied_sha256": "1899da09899b1d2364085ff60b222d4281de4870a869a872aee2e5d77f7e51d6"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/GeneralMatrixMatrix_BLAS.h": {
+      "source_sha256": "331855b3b45939949e69b1b947e7c93f5c03a393a6090ba84d7d964e969aa37a",
+      "copied_sha256": "331855b3b45939949e69b1b947e7c93f5c03a393a6090ba84d7d964e969aa37a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/GeneralMatrixVector.h": {
+      "source_sha256": "23701a58cbc820de82ef03b3f22dde1c87810bead64ee099a081c9044a53af85",
+      "copied_sha256": "23701a58cbc820de82ef03b3f22dde1c87810bead64ee099a081c9044a53af85"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/GeneralMatrixVector_BLAS.h": {
+      "source_sha256": "38bae9622a2c52413fc97065a3deb5b9cb81cf6ebde6fa2cfa4158a0f4e19410",
+      "copied_sha256": "38bae9622a2c52413fc97065a3deb5b9cb81cf6ebde6fa2cfa4158a0f4e19410"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/Parallelizer.h": {
+      "source_sha256": "7c70562c922080d446890d1511cb05f4513f100b31777e39e91666b1a81b017d",
+      "copied_sha256": "7c70562c922080d446890d1511cb05f4513f100b31777e39e91666b1a81b017d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/SelfadjointMatrixMatrix.h": {
+      "source_sha256": "22eb789d97f90f13c36c9da407f3a02fe0d9c0bfc55764d10973e493b3aa83c6",
+      "copied_sha256": "22eb789d97f90f13c36c9da407f3a02fe0d9c0bfc55764d10973e493b3aa83c6"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/SelfadjointMatrixMatrix_BLAS.h": {
+      "source_sha256": "4385814e6d23e82bb8f557604e923ced1a532a190541e55cab9646c714b88d58",
+      "copied_sha256": "4385814e6d23e82bb8f557604e923ced1a532a190541e55cab9646c714b88d58"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/SelfadjointMatrixVector.h": {
+      "source_sha256": "e4f91959e8ba69e151ba9586f98c515ec4aeb0657ca8fd6b225a8fcba332f647",
+      "copied_sha256": "e4f91959e8ba69e151ba9586f98c515ec4aeb0657ca8fd6b225a8fcba332f647"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/SelfadjointMatrixVector_BLAS.h": {
+      "source_sha256": "48ffb6d9176fb11e21e8a3a6cf93a5b0faffee8461675e91ff4612c1fe3beea1",
+      "copied_sha256": "48ffb6d9176fb11e21e8a3a6cf93a5b0faffee8461675e91ff4612c1fe3beea1"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/SelfadjointProduct.h": {
+      "source_sha256": "7518d9323ee44ed53aad1828066d04f54fc4ee96f30982741829e8867414c6c8",
+      "copied_sha256": "7518d9323ee44ed53aad1828066d04f54fc4ee96f30982741829e8867414c6c8"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/SelfadjointRank2Update.h": {
+      "source_sha256": "7f2eaa83ef185edd3d28b16dc339fafc26638feb2539a23fc539ad2531c61af4",
+      "copied_sha256": "7f2eaa83ef185edd3d28b16dc339fafc26638feb2539a23fc539ad2531c61af4"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/TriangularMatrixMatrix.h": {
+      "source_sha256": "7bc86221bd729d7d6faf33d6a02faea52157eeef507055b4587d1dc4647b0036",
+      "copied_sha256": "7bc86221bd729d7d6faf33d6a02faea52157eeef507055b4587d1dc4647b0036"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/TriangularMatrixMatrix_BLAS.h": {
+      "source_sha256": "d4edc6bf1a56329e678242e71c05a220ec799b32ce48087a6a399a7250768a8e",
+      "copied_sha256": "d4edc6bf1a56329e678242e71c05a220ec799b32ce48087a6a399a7250768a8e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/TriangularMatrixVector.h": {
+      "source_sha256": "67bb9fb822ebcef7704d3b954da751c8a463df1beeacfb021ea956e46b9f8704",
+      "copied_sha256": "67bb9fb822ebcef7704d3b954da751c8a463df1beeacfb021ea956e46b9f8704"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/TriangularMatrixVector_BLAS.h": {
+      "source_sha256": "1e8a7cbc848a374830e3c8dc734c2e716b10e06cb4d9cc8be66173d83116f0ae",
+      "copied_sha256": "1e8a7cbc848a374830e3c8dc734c2e716b10e06cb4d9cc8be66173d83116f0ae"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/TriangularSolverMatrix.h": {
+      "source_sha256": "a20c3f458ef169cc1fbe88c7929bbe43a8155ec8c9bb46bbe2216fe110c6e6bc",
+      "copied_sha256": "a20c3f458ef169cc1fbe88c7929bbe43a8155ec8c9bb46bbe2216fe110c6e6bc"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/TriangularSolverMatrix_BLAS.h": {
+      "source_sha256": "978d2b4ef2b522c430fc9bc1f8eb1efe407d073cc1cc59e55285092914c425ba",
+      "copied_sha256": "978d2b4ef2b522c430fc9bc1f8eb1efe407d073cc1cc59e55285092914c425ba"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/products/TriangularSolverVector.h": {
+      "source_sha256": "bc84df6f0659c263017a8341eacc7366b7cda7195612dbf0428e161323b0443a",
+      "copied_sha256": "bc84df6f0659c263017a8341eacc7366b7cda7195612dbf0428e161323b0443a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/Assert.h": {
+      "source_sha256": "8cd5dc28d7b7f2944c2232d752f581c49cb7152cc374d43025e5e511b4239fbc",
+      "copied_sha256": "8cd5dc28d7b7f2944c2232d752f581c49cb7152cc374d43025e5e511b4239fbc"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/BlasUtil.h": {
+      "source_sha256": "6a7662cfb7210301daf4ebeb73fcc8acbf45fd8d6a4c2beb1a10e78a1dba4e83",
+      "copied_sha256": "6a7662cfb7210301daf4ebeb73fcc8acbf45fd8d6a4c2beb1a10e78a1dba4e83"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/ConfigureVectorization.h": {
+      "source_sha256": "04b0dda827fcef47c1d61ad4cc75b187509abff3015fe497d30fc242efceb9fd",
+      "copied_sha256": "04b0dda827fcef47c1d61ad4cc75b187509abff3015fe497d30fc242efceb9fd"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/Constants.h": {
+      "source_sha256": "cb4dfdab498987c21916683ba8a20a63615cf4259710d7464485539b5c685cdf",
+      "copied_sha256": "cb4dfdab498987c21916683ba8a20a63615cf4259710d7464485539b5c685cdf"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/DisableStupidWarnings.h": {
+      "source_sha256": "d2d4a75f84386ae24828c717f9fcf0e64af62aba0cf18bf022e3af73134a7d89",
+      "copied_sha256": "d2d4a75f84386ae24828c717f9fcf0e64af62aba0cf18bf022e3af73134a7d89"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/EmulateArray.h": {
+      "source_sha256": "d18527d5c677cafa0c65eb7326964efd6b2d98115c19ea4fefdef672f8ce235c",
+      "copied_sha256": "d18527d5c677cafa0c65eb7326964efd6b2d98115c19ea4fefdef672f8ce235c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/ForwardDeclarations.h": {
+      "source_sha256": "4fb2429058c4f31a81f39c69da1afcbe5ddf1da294562a8957e9a8abb70582f6",
+      "copied_sha256": "4fb2429058c4f31a81f39c69da1afcbe5ddf1da294562a8957e9a8abb70582f6"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/IndexedViewHelper.h": {
+      "source_sha256": "c6797d527e450b5961cde9d3df1906e3a2dec23a1faa84552459d12af6d8c4fb",
+      "copied_sha256": "c6797d527e450b5961cde9d3df1906e3a2dec23a1faa84552459d12af6d8c4fb"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/IntegralConstant.h": {
+      "source_sha256": "003fba54e2b68a3c6fcf91a411ff39bfaebee0980a32ffef130857e25778d620",
+      "copied_sha256": "003fba54e2b68a3c6fcf91a411ff39bfaebee0980a32ffef130857e25778d620"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/MKL_support.h": {
+      "source_sha256": "e821bd1fc06723656d41fda73f6bb39aaa5217a52118ff5b498231861eb1c49c",
+      "copied_sha256": "e821bd1fc06723656d41fda73f6bb39aaa5217a52118ff5b498231861eb1c49c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/Macros.h": {
+      "source_sha256": "bb03d80ce8e9dc3b624e8e1841d3fb30a7aa27f0df8fbc8bbb34e8264b01a074",
+      "copied_sha256": "bb03d80ce8e9dc3b624e8e1841d3fb30a7aa27f0df8fbc8bbb34e8264b01a074"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/MaxSizeVector.h": {
+      "source_sha256": "12e175999447e2f92a8ef95c7025908ea047f59d580004bf2089e3d1770503c6",
+      "copied_sha256": "12e175999447e2f92a8ef95c7025908ea047f59d580004bf2089e3d1770503c6"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/Memory.h": {
+      "source_sha256": "11353ef53f40d544914961875437f7bc220ed6d449fd55ed90f92c53c911fe1b",
+      "copied_sha256": "11353ef53f40d544914961875437f7bc220ed6d449fd55ed90f92c53c911fe1b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/Meta.h": {
+      "source_sha256": "3e86902b8fa674e274da3749dd1a9c72b3dabcc00c14f0accc03963feeadaf11",
+      "copied_sha256": "3e86902b8fa674e274da3749dd1a9c72b3dabcc00c14f0accc03963feeadaf11"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/MoreMeta.h": {
+      "source_sha256": "b0387515ee35e4d1e591e38d1fe95f8b21374c80b861bea920a5f2fb13bb2ba2",
+      "copied_sha256": "b0387515ee35e4d1e591e38d1fe95f8b21374c80b861bea920a5f2fb13bb2ba2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/ReenableStupidWarnings.h": {
+      "source_sha256": "cfd66365f8aa55d07813d2b661f5edbb016d94d60c33da45868a51afb29a0ea3",
+      "copied_sha256": "cfd66365f8aa55d07813d2b661f5edbb016d94d60c33da45868a51afb29a0ea3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/ReshapedHelper.h": {
+      "source_sha256": "71b5d8193cbb857dbe7fd77a013e5cbf38689843fe45af50e3fb4bba6a84f87d",
+      "copied_sha256": "71b5d8193cbb857dbe7fd77a013e5cbf38689843fe45af50e3fb4bba6a84f87d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/Serializer.h": {
+      "source_sha256": "62698d94b23d6bc0d53674fe0b9e91a17d4103457d5a9ef1e6a55863df277e06",
+      "copied_sha256": "62698d94b23d6bc0d53674fe0b9e91a17d4103457d5a9ef1e6a55863df277e06"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/StaticAssert.h": {
+      "source_sha256": "61c73180c689a5cc86fd373af037532a412c8d9bccc4aec65886d4c4cc4e0d33",
+      "copied_sha256": "61c73180c689a5cc86fd373af037532a412c8d9bccc4aec65886d4c4cc4e0d33"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/SymbolicIndex.h": {
+      "source_sha256": "0591db98dce7851802a24078528bf8ffeb083851d8e64419eb9e1e282699f47e",
+      "copied_sha256": "0591db98dce7851802a24078528bf8ffeb083851d8e64419eb9e1e282699f47e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Core/util/XprHelper.h": {
+      "source_sha256": "7bd5f70a62eaf3e904efa30fc13d82b41beb6c776c5150032ec5eb1bc29b65ce",
+      "copied_sha256": "7bd5f70a62eaf3e904efa30fc13d82b41beb6c776c5150032ec5eb1bc29b65ce"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/ComplexEigenSolver.h": {
+      "source_sha256": "146552ef4b2f227d9127b8559d1db49208743e46f6aa622b5450f1542995476a",
+      "copied_sha256": "146552ef4b2f227d9127b8559d1db49208743e46f6aa622b5450f1542995476a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/ComplexSchur.h": {
+      "source_sha256": "feb68d2fd6870efca5095e51d4f1d27c084c1a1ff96141c215e2321599c46c2a",
+      "copied_sha256": "feb68d2fd6870efca5095e51d4f1d27c084c1a1ff96141c215e2321599c46c2a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h": {
+      "source_sha256": "36219fa8bb66419ee808288c510bf7810ec34d8dd364d0cef7d2adb3f202fc07",
+      "copied_sha256": "36219fa8bb66419ee808288c510bf7810ec34d8dd364d0cef7d2adb3f202fc07"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/EigenSolver.h": {
+      "source_sha256": "a2985ffbe55d826f82e8ac73e5d781748564dfdf8239b101c924cf2075cc1a37",
+      "copied_sha256": "a2985ffbe55d826f82e8ac73e5d781748564dfdf8239b101c924cf2075cc1a37"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h": {
+      "source_sha256": "f25cf02d8aea389e054c7de366f0c10e1ab036d7b911a19175052babf854a9b2",
+      "copied_sha256": "f25cf02d8aea389e054c7de366f0c10e1ab036d7b911a19175052babf854a9b2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h": {
+      "source_sha256": "8ff0c804ef53fc318d1359c4b5ad4f380e10a05e264161babfef1f43401cbdce",
+      "copied_sha256": "8ff0c804ef53fc318d1359c4b5ad4f380e10a05e264161babfef1f43401cbdce"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/HessenbergDecomposition.h": {
+      "source_sha256": "8c1150fce37016a72afa93a910849c35a6e952c6ae957200474ea7bbbf6dc66d",
+      "copied_sha256": "8c1150fce37016a72afa93a910849c35a6e952c6ae957200474ea7bbbf6dc66d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/InternalHeaderCheck.h": {
+      "source_sha256": "6f2ccbf8f8dc9f6691cf73ca7306b689f5007d2f05e4fe34cde5c4b022a991c4",
+      "copied_sha256": "6f2ccbf8f8dc9f6691cf73ca7306b689f5007d2f05e4fe34cde5c4b022a991c4"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h": {
+      "source_sha256": "0c0010a382b35c3683c462ad71a48bd57d0d89a204487c6b1b7794c2e8e979b9",
+      "copied_sha256": "0c0010a382b35c3683c462ad71a48bd57d0d89a204487c6b1b7794c2e8e979b9"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/RealQZ.h": {
+      "source_sha256": "feb918da1acce3a762ed535ee8a9debc73697e2d7ef2a026dea6b4286567c3a4",
+      "copied_sha256": "feb918da1acce3a762ed535ee8a9debc73697e2d7ef2a026dea6b4286567c3a4"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/RealSchur.h": {
+      "source_sha256": "f76d59820f1a752cdc28792b3a037b2d449a021c3f5499d5a14e7cec3634ab10",
+      "copied_sha256": "f76d59820f1a752cdc28792b3a037b2d449a021c3f5499d5a14e7cec3634ab10"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h": {
+      "source_sha256": "05568dc0c801b495edcdf54ea56e14f48b30c425d8562158051b4a16f2543188",
+      "copied_sha256": "05568dc0c801b495edcdf54ea56e14f48b30c425d8562158051b4a16f2543188"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h": {
+      "source_sha256": "3ac6cd123eaea340c0564c01362266dd5aac16f3fb7485066fd3290ef4cd8131",
+      "copied_sha256": "3ac6cd123eaea340c0564c01362266dd5aac16f3fb7485066fd3290ef4cd8131"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h": {
+      "source_sha256": "aeabcf7d0652f6b141f9cca4f36c92d8c3d38d5883757bf3d2cd0644cb986f7a",
+      "copied_sha256": "aeabcf7d0652f6b141f9cca4f36c92d8c3d38d5883757bf3d2cd0644cb986f7a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Eigenvalues/Tridiagonalization.h": {
+      "source_sha256": "3234a0adbb2706725c6cb9537102d303f8fa0a48952c019aa49915c071da2e78",
+      "copied_sha256": "3234a0adbb2706725c6cb9537102d303f8fa0a48952c019aa49915c071da2e78"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/AlignedBox.h": {
+      "source_sha256": "0a47b2584c59ba1f006274ce3a0ebc1451eaa4b8a64c018ba2cb94d2cbcecb74",
+      "copied_sha256": "0a47b2584c59ba1f006274ce3a0ebc1451eaa4b8a64c018ba2cb94d2cbcecb74"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/AngleAxis.h": {
+      "source_sha256": "f131dccb47f2953edd1c5bb7d45e9c381c82589e30916d08e4dd4442e3afb75d",
+      "copied_sha256": "f131dccb47f2953edd1c5bb7d45e9c381c82589e30916d08e4dd4442e3afb75d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/EulerAngles.h": {
+      "source_sha256": "d2dc9f7f7dcf37e5ae9e82fe4d1a4ffee3a742ec6c176d86782d03ddbaa9af2a",
+      "copied_sha256": "d2dc9f7f7dcf37e5ae9e82fe4d1a4ffee3a742ec6c176d86782d03ddbaa9af2a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/Homogeneous.h": {
+      "source_sha256": "9cc5eca5bd4c6e7a69dfbdd8cd723214a9013255a42d8a8340486092af55ac33",
+      "copied_sha256": "9cc5eca5bd4c6e7a69dfbdd8cd723214a9013255a42d8a8340486092af55ac33"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/Hyperplane.h": {
+      "source_sha256": "4993e446ef565d2139147703cc9def9a9cfae4cd7f9378f843ae71b182ce47e5",
+      "copied_sha256": "4993e446ef565d2139147703cc9def9a9cfae4cd7f9378f843ae71b182ce47e5"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/InternalHeaderCheck.h": {
+      "source_sha256": "aa2bd7d0b950761db787e10953edd239d93f2849fdd792dbb30384218579025d",
+      "copied_sha256": "aa2bd7d0b950761db787e10953edd239d93f2849fdd792dbb30384218579025d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/OrthoMethods.h": {
+      "source_sha256": "84703259daa321416b5331383e4e53490a9160f872168933aab87a319353d2c7",
+      "copied_sha256": "84703259daa321416b5331383e4e53490a9160f872168933aab87a319353d2c7"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/ParametrizedLine.h": {
+      "source_sha256": "115f7b91b28ce3db6011b914c890cc7b6ad0d401e9de1ee3f93de15c6fa09fc1",
+      "copied_sha256": "115f7b91b28ce3db6011b914c890cc7b6ad0d401e9de1ee3f93de15c6fa09fc1"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/Quaternion.h": {
+      "source_sha256": "97e5139e66c2070ef827367f6d4b27f5a5563ef3caf27844fca495c2846f12fc",
+      "copied_sha256": "97e5139e66c2070ef827367f6d4b27f5a5563ef3caf27844fca495c2846f12fc"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/Rotation2D.h": {
+      "source_sha256": "68074faca2cc809bdc0f44e2107104bf5383b8bcd20f95acac2ee7008bc46971",
+      "copied_sha256": "68074faca2cc809bdc0f44e2107104bf5383b8bcd20f95acac2ee7008bc46971"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/RotationBase.h": {
+      "source_sha256": "36fdac4e42bfd5edcf383c0d9a41c51e31cbef9315cf3d55c821f84578573a08",
+      "copied_sha256": "36fdac4e42bfd5edcf383c0d9a41c51e31cbef9315cf3d55c821f84578573a08"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/Scaling.h": {
+      "source_sha256": "41552dd408fda4e026c8d81ae6fc48010af34ad98f84215dde7fedf5f0e47248",
+      "copied_sha256": "41552dd408fda4e026c8d81ae6fc48010af34ad98f84215dde7fedf5f0e47248"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/Transform.h": {
+      "source_sha256": "a870ebded9752a2de2ac172cd768f0eadcec0641f472d714145efbeeddaa6378",
+      "copied_sha256": "a870ebded9752a2de2ac172cd768f0eadcec0641f472d714145efbeeddaa6378"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/Translation.h": {
+      "source_sha256": "53bee1470b1ad4514e27c81a0277a7f2893f5b2e91f6ad51c736ba48d3ab5bb4",
+      "copied_sha256": "53bee1470b1ad4514e27c81a0277a7f2893f5b2e91f6ad51c736ba48d3ab5bb4"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/Umeyama.h": {
+      "source_sha256": "4fb61f6b1e7937a18565928dbec5d06890e56c95723b643734b00a9c230a2665",
+      "copied_sha256": "4fb61f6b1e7937a18565928dbec5d06890e56c95723b643734b00a9c230a2665"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Geometry/arch/Geometry_SIMD.h": {
+      "source_sha256": "40b7bc2828678291d68e7f0d68ddcb5c794b7ba09bc244a9ef4f92f8fa8de106",
+      "copied_sha256": "40b7bc2828678291d68e7f0d68ddcb5c794b7ba09bc244a9ef4f92f8fa8de106"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Householder/BlockHouseholder.h": {
+      "source_sha256": "26da22771346533db531b0a7723fe83317051b01222450a7039c8cadf0bdcbca",
+      "copied_sha256": "26da22771346533db531b0a7723fe83317051b01222450a7039c8cadf0bdcbca"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Householder/Householder.h": {
+      "source_sha256": "09423a0174309c3033ae7d36a9205f4cdc27e51a975b06777c30248d7d344b27",
+      "copied_sha256": "09423a0174309c3033ae7d36a9205f4cdc27e51a975b06777c30248d7d344b27"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Householder/HouseholderSequence.h": {
+      "source_sha256": "2d2195da4775895f68dca75e5e514f3c225840732ed307a10593cfd97bf03669",
+      "copied_sha256": "2d2195da4775895f68dca75e5e514f3c225840732ed307a10593cfd97bf03669"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Householder/InternalHeaderCheck.h": {
+      "source_sha256": "0cd4c48a96edf192bcc411120ca470b9ebb93cbf494c4f76f7aa0dc0d0d60382",
+      "copied_sha256": "0cd4c48a96edf192bcc411120ca470b9ebb93cbf494c4f76f7aa0dc0d0d60382"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/IterativeLinearSolvers/BasicPreconditioners.h": {
+      "source_sha256": "c755ba3bf30f35ebb197c17ba81654df18a818ddb9c1d60157c02aea53c7f5c1",
+      "copied_sha256": "c755ba3bf30f35ebb197c17ba81654df18a818ddb9c1d60157c02aea53c7f5c1"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/IterativeLinearSolvers/BiCGSTAB.h": {
+      "source_sha256": "3a3bae8a22b64e60f2199873b5dad163399db92c5cafe533fe4b186159803a04",
+      "copied_sha256": "3a3bae8a22b64e60f2199873b5dad163399db92c5cafe533fe4b186159803a04"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/IterativeLinearSolvers/ConjugateGradient.h": {
+      "source_sha256": "4306afb94ef80be5eb26b8f94e5113d90f8be6610c001374263a2a1443941623",
+      "copied_sha256": "4306afb94ef80be5eb26b8f94e5113d90f8be6610c001374263a2a1443941623"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/IterativeLinearSolvers/IncompleteCholesky.h": {
+      "source_sha256": "eb93892eabc91706d3e8a4dbe336211b95ae4eaa79161b8f8cd96fe1432c735b",
+      "copied_sha256": "eb93892eabc91706d3e8a4dbe336211b95ae4eaa79161b8f8cd96fe1432c735b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/IterativeLinearSolvers/IncompleteLUT.h": {
+      "source_sha256": "5cd528c73c56fc8d57897bed0ef19afccd2d2ec9651b9ee2b8602aed5574a85c",
+      "copied_sha256": "5cd528c73c56fc8d57897bed0ef19afccd2d2ec9651b9ee2b8602aed5574a85c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/IterativeLinearSolvers/InternalHeaderCheck.h": {
+      "source_sha256": "41ffb0f4e99f74ea92a12dfb0ffa526745cf0f210ada09c249f6d4cd431b6061",
+      "copied_sha256": "41ffb0f4e99f74ea92a12dfb0ffa526745cf0f210ada09c249f6d4cd431b6061"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/IterativeLinearSolvers/IterativeSolverBase.h": {
+      "source_sha256": "261962dcf0b87c20e2bc9373b015a180ee982b5d288a25b9f1bc0b064371fa03",
+      "copied_sha256": "261962dcf0b87c20e2bc9373b015a180ee982b5d288a25b9f1bc0b064371fa03"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/IterativeLinearSolvers/LeastSquareConjugateGradient.h": {
+      "source_sha256": "1810cad89ba7545c0be84cc7dc7bd2c91a0927ec58a996a05af594df4736e5ab",
+      "copied_sha256": "1810cad89ba7545c0be84cc7dc7bd2c91a0927ec58a996a05af594df4736e5ab"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/IterativeLinearSolvers/SolveWithGuess.h": {
+      "source_sha256": "e2b6c1dc79878be0fd03a4b7d7f063b867f88dba18840355d9694850ab9f3793",
+      "copied_sha256": "e2b6c1dc79878be0fd03a4b7d7f063b867f88dba18840355d9694850ab9f3793"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Jacobi/InternalHeaderCheck.h": {
+      "source_sha256": "5bb69a50d71f7b387c897a165264f326b9e0e2b388d9388ac8617a3399da6c6c",
+      "copied_sha256": "5bb69a50d71f7b387c897a165264f326b9e0e2b388d9388ac8617a3399da6c6c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/Jacobi/Jacobi.h": {
+      "source_sha256": "fe8c144f5006969c4a0980a4f38316240bc1eb2807f9ea0e7a8dd5366d0d4d36",
+      "copied_sha256": "fe8c144f5006969c4a0980a4f38316240bc1eb2807f9ea0e7a8dd5366d0d4d36"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/KLUSupport/InternalHeaderCheck.h": {
+      "source_sha256": "03700f226f0913dac616bb7548214b8c048a724ddd52f774aa769fcf8c1db89f",
+      "copied_sha256": "03700f226f0913dac616bb7548214b8c048a724ddd52f774aa769fcf8c1db89f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/KLUSupport/KLUSupport.h": {
+      "source_sha256": "14d11137c150487a03cc502e68b5e59d7de3451da0b37e291371462cce746e00",
+      "copied_sha256": "14d11137c150487a03cc502e68b5e59d7de3451da0b37e291371462cce746e00"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/LU/Determinant.h": {
+      "source_sha256": "c13db39c10a621f3c87403f091afd9a6fedbe793b07da56c3eb53e23fcc62332",
+      "copied_sha256": "c13db39c10a621f3c87403f091afd9a6fedbe793b07da56c3eb53e23fcc62332"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/LU/FullPivLU.h": {
+      "source_sha256": "29072577b12bd95cd67ba9aeda721741eac97c4bb56903579d19bf98ce2115a3",
+      "copied_sha256": "29072577b12bd95cd67ba9aeda721741eac97c4bb56903579d19bf98ce2115a3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/LU/InternalHeaderCheck.h": {
+      "source_sha256": "f507d98a6d48ce048ff3d4261e4c63bd34d7a22bf960c099f15423eaa145d8a3",
+      "copied_sha256": "f507d98a6d48ce048ff3d4261e4c63bd34d7a22bf960c099f15423eaa145d8a3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/LU/InverseImpl.h": {
+      "source_sha256": "a4f42df0e1bba177d22046f2d7b76c0ffdc0ea588bc7bfd27839c182649f5a09",
+      "copied_sha256": "a4f42df0e1bba177d22046f2d7b76c0ffdc0ea588bc7bfd27839c182649f5a09"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/LU/PartialPivLU.h": {
+      "source_sha256": "8778484c7a2c26696723a8386485aa5db408ffd99347e5397bdfb5e1f256e014",
+      "copied_sha256": "8778484c7a2c26696723a8386485aa5db408ffd99347e5397bdfb5e1f256e014"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/LU/PartialPivLU_LAPACKE.h": {
+      "source_sha256": "9758fca38ae4fab471ab4697e23188cb08013e7ceb72389ae4db4c4652419c20",
+      "copied_sha256": "9758fca38ae4fab471ab4697e23188cb08013e7ceb72389ae4db4c4652419c20"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/LU/arch/InverseSize4.h": {
+      "source_sha256": "a0c3e2f0e42ab07a0d1ed3338209846e22f457bcc3863679d3a3dccce4256055",
+      "copied_sha256": "a0c3e2f0e42ab07a0d1ed3338209846e22f457bcc3863679d3a3dccce4256055"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/MetisSupport/InternalHeaderCheck.h": {
+      "source_sha256": "1e1f8401babc94ce086ff48e03f3a0df881641436c511b22ff5ce19d5fe539ed",
+      "copied_sha256": "1e1f8401babc94ce086ff48e03f3a0df881641436c511b22ff5ce19d5fe539ed"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/MetisSupport/MetisSupport.h": {
+      "source_sha256": "3094e69a1d373827a91932c216c75000ed4d60bab16f37934d02eb0f986d7e30",
+      "copied_sha256": "3094e69a1d373827a91932c216c75000ed4d60bab16f37934d02eb0f986d7e30"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/OrderingMethods/Amd.h": {
+      "source_sha256": "533583063ece3e915fb39dcbef80a323f66093f8a75ef76783e18aaeefed9a9c",
+      "copied_sha256": "533583063ece3e915fb39dcbef80a323f66093f8a75ef76783e18aaeefed9a9c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/OrderingMethods/Eigen_Colamd.h": {
+      "source_sha256": "68655daf6bae480b8e9f2c24d3a3b1e624702f15ac1e8c481ee3a9ba260980eb",
+      "copied_sha256": "68655daf6bae480b8e9f2c24d3a3b1e624702f15ac1e8c481ee3a9ba260980eb"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/OrderingMethods/InternalHeaderCheck.h": {
+      "source_sha256": "6923bc3a64718d39bba4d6a9abfb079b19d16554c5d21389a6937701bcfa12be",
+      "copied_sha256": "6923bc3a64718d39bba4d6a9abfb079b19d16554c5d21389a6937701bcfa12be"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/OrderingMethods/Ordering.h": {
+      "source_sha256": "f4ef1e629c9613a04285f470636fe210ffbd93a9e76e52d06b13e4d5afaa4ab3",
+      "copied_sha256": "f4ef1e629c9613a04285f470636fe210ffbd93a9e76e52d06b13e4d5afaa4ab3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/PaStiXSupport/InternalHeaderCheck.h": {
+      "source_sha256": "066fc43584a049c357262396416320fbf121b794fbc6c079b173e92d85a70559",
+      "copied_sha256": "066fc43584a049c357262396416320fbf121b794fbc6c079b173e92d85a70559"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/PaStiXSupport/PaStiXSupport.h": {
+      "source_sha256": "e1e9379c291b64569eed52fa61330ae08becbfbe1f8c02e23770a766729f0606",
+      "copied_sha256": "e1e9379c291b64569eed52fa61330ae08becbfbe1f8c02e23770a766729f0606"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/PardisoSupport/InternalHeaderCheck.h": {
+      "source_sha256": "f7a6cee626a4a4d8de8fc40bc6bf1835e4ec15917a58ad4169126443bc954273",
+      "copied_sha256": "f7a6cee626a4a4d8de8fc40bc6bf1835e4ec15917a58ad4169126443bc954273"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/PardisoSupport/PardisoSupport.h": {
+      "source_sha256": "c7b57e74ba4f3396d2fb789dc68d9be9807b0dc480302c15d0b0bd6fe673386f",
+      "copied_sha256": "c7b57e74ba4f3396d2fb789dc68d9be9807b0dc480302c15d0b0bd6fe673386f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/QR/ColPivHouseholderQR.h": {
+      "source_sha256": "24deed16f4282789d287d087498e6321fa11f9b78cd045df6cc830343a140af7",
+      "copied_sha256": "24deed16f4282789d287d087498e6321fa11f9b78cd045df6cc830343a140af7"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/QR/ColPivHouseholderQR_LAPACKE.h": {
+      "source_sha256": "344600cc00c39c22b2db6777846aeba8c23a895ee50c0e3e3c79330fd8517e93",
+      "copied_sha256": "344600cc00c39c22b2db6777846aeba8c23a895ee50c0e3e3c79330fd8517e93"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/QR/CompleteOrthogonalDecomposition.h": {
+      "source_sha256": "b238ba45f9a9368db85106fc0248bcc0f2185c9ffeff5d34af93f65dc4ce0352",
+      "copied_sha256": "b238ba45f9a9368db85106fc0248bcc0f2185c9ffeff5d34af93f65dc4ce0352"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/QR/FullPivHouseholderQR.h": {
+      "source_sha256": "6f25f40412054a55e10309a3923a440009d6f8e235e355e6b22e76b68a0822b0",
+      "copied_sha256": "6f25f40412054a55e10309a3923a440009d6f8e235e355e6b22e76b68a0822b0"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/QR/HouseholderQR.h": {
+      "source_sha256": "b1540c9751a85f50869d8fc949a8bbcd02ba1a2e41a9be32492eccb9b2fc140a",
+      "copied_sha256": "b1540c9751a85f50869d8fc949a8bbcd02ba1a2e41a9be32492eccb9b2fc140a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/QR/HouseholderQR_LAPACKE.h": {
+      "source_sha256": "9ada01e77c7437edd242042919bff491aac6e43425ca042b80b6b0ca1cd3806c",
+      "copied_sha256": "9ada01e77c7437edd242042919bff491aac6e43425ca042b80b6b0ca1cd3806c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/QR/InternalHeaderCheck.h": {
+      "source_sha256": "d46420fd879bd538a54daeba61f840ebb6322ad772e86a1f42ff72d505e527a8",
+      "copied_sha256": "d46420fd879bd538a54daeba61f840ebb6322ad772e86a1f42ff72d505e527a8"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SPQRSupport/InternalHeaderCheck.h": {
+      "source_sha256": "a06b1e5ce0ff68d4081a80941d55dc74b99eafee29303649162105ca49a7981f",
+      "copied_sha256": "a06b1e5ce0ff68d4081a80941d55dc74b99eafee29303649162105ca49a7981f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SPQRSupport/SuiteSparseQRSupport.h": {
+      "source_sha256": "a1c7e5909d8e7ac651cbfdce036beb877be9069d0a562b6550d10e270d84dd9b",
+      "copied_sha256": "a1c7e5909d8e7ac651cbfdce036beb877be9069d0a562b6550d10e270d84dd9b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SVD/BDCSVD.h": {
+      "source_sha256": "acba98fb7e2372a7b48add94ce0e2c1a594c153e6eb46becafbe9334433294e3",
+      "copied_sha256": "acba98fb7e2372a7b48add94ce0e2c1a594c153e6eb46becafbe9334433294e3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SVD/BDCSVD_LAPACKE.h": {
+      "source_sha256": "75bddff623ae96f27822ea4ce20661d52e344de80366697ad936c5674bca3638",
+      "copied_sha256": "75bddff623ae96f27822ea4ce20661d52e344de80366697ad936c5674bca3638"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SVD/InternalHeaderCheck.h": {
+      "source_sha256": "747f34a8eb81689cdcf74154fe015f3846e5e13f9a82b995ffea1043dedafd7a",
+      "copied_sha256": "747f34a8eb81689cdcf74154fe015f3846e5e13f9a82b995ffea1043dedafd7a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SVD/JacobiSVD.h": {
+      "source_sha256": "ebe81c03f4b4f10a8aa0192fc232351e3adf88668ac16fa5d692d3c36c4bc126",
+      "copied_sha256": "ebe81c03f4b4f10a8aa0192fc232351e3adf88668ac16fa5d692d3c36c4bc126"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SVD/JacobiSVD_LAPACKE.h": {
+      "source_sha256": "5c763304b70231e1e4052459d74a717bcf0e55033a50d67b28ce2e6477328869",
+      "copied_sha256": "5c763304b70231e1e4052459d74a717bcf0e55033a50d67b28ce2e6477328869"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SVD/SVDBase.h": {
+      "source_sha256": "a7f5ff2c85b4d92c9a937f3fc5ad0bcf46dcb633717690693389470a378453b3",
+      "copied_sha256": "a7f5ff2c85b4d92c9a937f3fc5ad0bcf46dcb633717690693389470a378453b3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SVD/UpperBidiagonalization.h": {
+      "source_sha256": "b8e679f81ab6023471ac4be1feedd938f7d2f11a9ddc93e09dfa0d1353a38c2c",
+      "copied_sha256": "b8e679f81ab6023471ac4be1feedd938f7d2f11a9ddc93e09dfa0d1353a38c2c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCholesky/InternalHeaderCheck.h": {
+      "source_sha256": "812d0e45663c5665ba84f7acbeac362251c052970d9870756ff8e3449de37362",
+      "copied_sha256": "812d0e45663c5665ba84f7acbeac362251c052970d9870756ff8e3449de37362"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCholesky/SimplicialCholesky.h": {
+      "source_sha256": "205416015c449d2f68251a9644537bf76385ea2c633bdd48d2121950d3c030d1",
+      "copied_sha256": "205416015c449d2f68251a9644537bf76385ea2c633bdd48d2121950d3c030d1"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCholesky/SimplicialCholesky_impl.h": {
+      "source_sha256": "bcce025bc2a65dd36dd23139be70b528d0c687e05bcc0761f280234324714997",
+      "copied_sha256": "bcce025bc2a65dd36dd23139be70b528d0c687e05bcc0761f280234324714997"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/AmbiVector.h": {
+      "source_sha256": "666487eef461d907c7986202566128ece849ba04a507040b64a1ddd3f0f85e26",
+      "copied_sha256": "666487eef461d907c7986202566128ece849ba04a507040b64a1ddd3f0f85e26"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/CompressedStorage.h": {
+      "source_sha256": "a2f79b0c0c2b296a4d4c4c50f92bd6a4ff656d91c7a047500bdf95981e37d492",
+      "copied_sha256": "a2f79b0c0c2b296a4d4c4c50f92bd6a4ff656d91c7a047500bdf95981e37d492"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/ConservativeSparseSparseProduct.h": {
+      "source_sha256": "790fb2d2502fb17a9a54b4393ee238287003848a3de1cdb444cec8f03dce8857",
+      "copied_sha256": "790fb2d2502fb17a9a54b4393ee238287003848a3de1cdb444cec8f03dce8857"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/InternalHeaderCheck.h": {
+      "source_sha256": "b8c1d3799b73acbb3873c9952b52722bed91eecf75f45e3afaa01adf1407d687",
+      "copied_sha256": "b8c1d3799b73acbb3873c9952b52722bed91eecf75f45e3afaa01adf1407d687"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseAssign.h": {
+      "source_sha256": "378cf84b1ce24fde13f5e0ee3cf50d45776c53fb1109066bd225f6323eecef0f",
+      "copied_sha256": "378cf84b1ce24fde13f5e0ee3cf50d45776c53fb1109066bd225f6323eecef0f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseBlock.h": {
+      "source_sha256": "e4a0f25cfc7c1bb78fff5d28406e223ff188128abaecdc7d4c1e6b597fe7110d",
+      "copied_sha256": "e4a0f25cfc7c1bb78fff5d28406e223ff188128abaecdc7d4c1e6b597fe7110d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseColEtree.h": {
+      "source_sha256": "d35d91ddc9026ffea10078a258ec0a255f68c40e40d12273f9ea6ee37a9e783a",
+      "copied_sha256": "d35d91ddc9026ffea10078a258ec0a255f68c40e40d12273f9ea6ee37a9e783a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseCompressedBase.h": {
+      "source_sha256": "af5d6d2ea44b7f05e4afef976589fe06f6c184eb61c83f61dc3ecc217c58c965",
+      "copied_sha256": "af5d6d2ea44b7f05e4afef976589fe06f6c184eb61c83f61dc3ecc217c58c965"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseCwiseBinaryOp.h": {
+      "source_sha256": "16ab333ccaa488462d2063cdac6d1eb327a8282c3f9e9ffe0b2d800a6392ab3b",
+      "copied_sha256": "16ab333ccaa488462d2063cdac6d1eb327a8282c3f9e9ffe0b2d800a6392ab3b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseCwiseUnaryOp.h": {
+      "source_sha256": "171763d5fa64e6942c18bed51b1924d43886f62fc01a3ae69ba892ee9eb26ce8",
+      "copied_sha256": "171763d5fa64e6942c18bed51b1924d43886f62fc01a3ae69ba892ee9eb26ce8"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseDenseProduct.h": {
+      "source_sha256": "e693af7c555acb641a2fb4c7672c0d0987f6675fecb26a3c3719f47d6923b56a",
+      "copied_sha256": "e693af7c555acb641a2fb4c7672c0d0987f6675fecb26a3c3719f47d6923b56a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseDiagonalProduct.h": {
+      "source_sha256": "b3e9a3b0f4e1ad86e7566e0ff166b1314a1dbfbe9c46818a26a49011476ed4cf",
+      "copied_sha256": "b3e9a3b0f4e1ad86e7566e0ff166b1314a1dbfbe9c46818a26a49011476ed4cf"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseDot.h": {
+      "source_sha256": "efaba2ee6f17da13e326dd0b3f5dddce0acf338bc010304dda810fa2d0f9a4d1",
+      "copied_sha256": "efaba2ee6f17da13e326dd0b3f5dddce0acf338bc010304dda810fa2d0f9a4d1"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseFuzzy.h": {
+      "source_sha256": "639d7d95ca70501a179529eec7e8cb0953d836c43608d6bed377c3cfbb12a250",
+      "copied_sha256": "639d7d95ca70501a179529eec7e8cb0953d836c43608d6bed377c3cfbb12a250"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseMap.h": {
+      "source_sha256": "734b76401e16c9eb01f33a226501febb9b62a22c49ea2b51100d8d73e6282428",
+      "copied_sha256": "734b76401e16c9eb01f33a226501febb9b62a22c49ea2b51100d8d73e6282428"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseMatrix.h": {
+      "source_sha256": "71483d156bbc856f906367374bb7295be7c0cc0fa77d2859d71eb16eb8dbb2a7",
+      "copied_sha256": "71483d156bbc856f906367374bb7295be7c0cc0fa77d2859d71eb16eb8dbb2a7"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseMatrixBase.h": {
+      "source_sha256": "8227932ea9512cfd10a9f34e7a030b526e32e56c994f4abb0537461efce51152",
+      "copied_sha256": "8227932ea9512cfd10a9f34e7a030b526e32e56c994f4abb0537461efce51152"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparsePermutation.h": {
+      "source_sha256": "a594d5a7f283968f97ab2c600cf44a1bf422352c89d67a0c2b0146237bc62af2",
+      "copied_sha256": "a594d5a7f283968f97ab2c600cf44a1bf422352c89d67a0c2b0146237bc62af2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseProduct.h": {
+      "source_sha256": "ee2391e8f6b8958f9d0005d86683e902f509903aede380d33376c83c247324e2",
+      "copied_sha256": "ee2391e8f6b8958f9d0005d86683e902f509903aede380d33376c83c247324e2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseRedux.h": {
+      "source_sha256": "a48cb8f99003001e7082c884b01e6e62f9c3a55bfc7891fcb5ecc056712fdafe",
+      "copied_sha256": "a48cb8f99003001e7082c884b01e6e62f9c3a55bfc7891fcb5ecc056712fdafe"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseRef.h": {
+      "source_sha256": "8759664b611b6679b572ab1fdce2a158766781c2e0cd557558431741841612c4",
+      "copied_sha256": "8759664b611b6679b572ab1fdce2a158766781c2e0cd557558431741841612c4"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseSelfAdjointView.h": {
+      "source_sha256": "9da3d578ceb7d0df83918337f23f61517fa8523265bba560feade7aadf89463a",
+      "copied_sha256": "9da3d578ceb7d0df83918337f23f61517fa8523265bba560feade7aadf89463a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseSolverBase.h": {
+      "source_sha256": "d9de57f3ea7b298339f112502620d745e52985124987e916fa7e530bd4cbe192",
+      "copied_sha256": "d9de57f3ea7b298339f112502620d745e52985124987e916fa7e530bd4cbe192"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseSparseProductWithPruning.h": {
+      "source_sha256": "d12316a86076787d852498ba0a454732978c4aed5c01adaa22207e8be4e3cfb8",
+      "copied_sha256": "d12316a86076787d852498ba0a454732978c4aed5c01adaa22207e8be4e3cfb8"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseTranspose.h": {
+      "source_sha256": "0a00c3cc04385d3eb012aa02fe2db6a78741b2e126823433142a8c0f1fd4a05e",
+      "copied_sha256": "0a00c3cc04385d3eb012aa02fe2db6a78741b2e126823433142a8c0f1fd4a05e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseTriangularView.h": {
+      "source_sha256": "1cfe4e7fcffd3683e4e668ae642e63f29e85e443c3d2c9387770d168f012f21a",
+      "copied_sha256": "1cfe4e7fcffd3683e4e668ae642e63f29e85e443c3d2c9387770d168f012f21a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseUtil.h": {
+      "source_sha256": "cf28c0d93ae7e55efe770fdaebbb046ed855ee3846e29a7a3ea14bb1d18f1aa2",
+      "copied_sha256": "cf28c0d93ae7e55efe770fdaebbb046ed855ee3846e29a7a3ea14bb1d18f1aa2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseVector.h": {
+      "source_sha256": "6bd69d49f770fa0a2c12747b56cbf3e207d1088763eef9ef6a00efb25f3c9f7d",
+      "copied_sha256": "6bd69d49f770fa0a2c12747b56cbf3e207d1088763eef9ef6a00efb25f3c9f7d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/SparseView.h": {
+      "source_sha256": "426c587515399d41c106d79fe661b541647eccbe574392b2c6fbea094b7bb3b4",
+      "copied_sha256": "426c587515399d41c106d79fe661b541647eccbe574392b2c6fbea094b7bb3b4"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseCore/TriangularSolver.h": {
+      "source_sha256": "dd4c758a76ea982a3ea2f9ec7e1046510af4f7a138139fc6d161c09e082f7320",
+      "copied_sha256": "dd4c758a76ea982a3ea2f9ec7e1046510af4f7a138139fc6d161c09e082f7320"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/InternalHeaderCheck.h": {
+      "source_sha256": "d4a7ce7f62c2c879ca2cba680299ce0a143ec5b56fe5c49ba3d8d8f27b541cd3",
+      "copied_sha256": "d4a7ce7f62c2c879ca2cba680299ce0a143ec5b56fe5c49ba3d8d8f27b541cd3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU.h": {
+      "source_sha256": "4f4a0b87d47041c4591e7e1c51f36a191ea21d449cce56a824f6db545c5ebdad",
+      "copied_sha256": "4f4a0b87d47041c4591e7e1c51f36a191ea21d449cce56a824f6db545c5ebdad"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLUImpl.h": {
+      "source_sha256": "7a48b716bdd3b72aed9c3119c6dd4f22c85fdc3004f7b6a35e6907119b27f731",
+      "copied_sha256": "7a48b716bdd3b72aed9c3119c6dd4f22c85fdc3004f7b6a35e6907119b27f731"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU_Memory.h": {
+      "source_sha256": "16c26cec4faf63589271182511b5798f7842835354feb202f28a2db783a70cb0",
+      "copied_sha256": "16c26cec4faf63589271182511b5798f7842835354feb202f28a2db783a70cb0"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU_Structs.h": {
+      "source_sha256": "3a9165d562956d968e88a7f6837024771ddf20b97aba078288fc097fb13ce6b7",
+      "copied_sha256": "3a9165d562956d968e88a7f6837024771ddf20b97aba078288fc097fb13ce6b7"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU_SupernodalMatrix.h": {
+      "source_sha256": "d5ecbc1c8311ce13e3333cfddf52dc71698d6e28d371ee20a6103b7d9f6e9cf2",
+      "copied_sha256": "d5ecbc1c8311ce13e3333cfddf52dc71698d6e28d371ee20a6103b7d9f6e9cf2"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU_Utils.h": {
+      "source_sha256": "04f2db040252863483610536d39a298549d0213ebbdf202282216985d9158b3d",
+      "copied_sha256": "04f2db040252863483610536d39a298549d0213ebbdf202282216985d9158b3d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU_column_bmod.h": {
+      "source_sha256": "6edff31e96bce3f6a61e1f2b55d68ca86b370f6313393c5368881beb6062d030",
+      "copied_sha256": "6edff31e96bce3f6a61e1f2b55d68ca86b370f6313393c5368881beb6062d030"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU_column_dfs.h": {
+      "source_sha256": "24ea6e7c1cd48ddaa1028e9daebc85f0b204267a3fbfb563d598952d7d24b8eb",
+      "copied_sha256": "24ea6e7c1cd48ddaa1028e9daebc85f0b204267a3fbfb563d598952d7d24b8eb"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU_copy_to_ucol.h": {
+      "source_sha256": "82d039c97dfbd64ddfc26af0ff49a42c5b7eb1c2cfbee38ed1ca49f65a534ed1",
+      "copied_sha256": "82d039c97dfbd64ddfc26af0ff49a42c5b7eb1c2cfbee38ed1ca49f65a534ed1"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU_heap_relax_snode.h": {
+      "source_sha256": "75239ebee45c1941d20bd75ca374ac66fbac3dc6b3523b9b1acfecec9418e122",
+      "copied_sha256": "75239ebee45c1941d20bd75ca374ac66fbac3dc6b3523b9b1acfecec9418e122"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU_kernel_bmod.h": {
+      "source_sha256": "484596251dc119b50a593d913fbff6e28e0ff1d1fdfb334038160d784942eb7b",
+      "copied_sha256": "484596251dc119b50a593d913fbff6e28e0ff1d1fdfb334038160d784942eb7b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU_panel_bmod.h": {
+      "source_sha256": "b78a03eac5998f86b9aa9b4f57e27beeebf008d49bc26bd100bcb3501021fea3",
+      "copied_sha256": "b78a03eac5998f86b9aa9b4f57e27beeebf008d49bc26bd100bcb3501021fea3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU_panel_dfs.h": {
+      "source_sha256": "64afeef821a335d78a59993445b0ac918c03020a02d0d7e0a7117d0331afe4c1",
+      "copied_sha256": "64afeef821a335d78a59993445b0ac918c03020a02d0d7e0a7117d0331afe4c1"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU_pivotL.h": {
+      "source_sha256": "89e021b074ee020adfe94b42f3b229feded95cba52a7b33967c156f7955bb997",
+      "copied_sha256": "89e021b074ee020adfe94b42f3b229feded95cba52a7b33967c156f7955bb997"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU_pruneL.h": {
+      "source_sha256": "511d461d8efa2e4b7892690d35ec474edc66c5bbc41131d484251accf3b7b565",
+      "copied_sha256": "511d461d8efa2e4b7892690d35ec474edc66c5bbc41131d484251accf3b7b565"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseLU/SparseLU_relax_snode.h": {
+      "source_sha256": "7e3cd5915edee69d61859317b6b6ae917f2ed527903e5f67af1d6849a65fffe7",
+      "copied_sha256": "7e3cd5915edee69d61859317b6b6ae917f2ed527903e5f67af1d6849a65fffe7"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseQR/InternalHeaderCheck.h": {
+      "source_sha256": "ed259be48c40513d5b1584b1f140da7c1c5dfddf31c6501a5f432016f57c95ae",
+      "copied_sha256": "ed259be48c40513d5b1584b1f140da7c1c5dfddf31c6501a5f432016f57c95ae"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SparseQR/SparseQR.h": {
+      "source_sha256": "e47a0c48ca1a2bbbb057007f38fece922dca39e08ff7fc427771fa0698f6dedb",
+      "copied_sha256": "e47a0c48ca1a2bbbb057007f38fece922dca39e08ff7fc427771fa0698f6dedb"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/StlSupport/StdDeque.h": {
+      "source_sha256": "9121650a8261aa17ac10eb91dbfde6beefb6169032022cf6667cd62c4a4cd946",
+      "copied_sha256": "9121650a8261aa17ac10eb91dbfde6beefb6169032022cf6667cd62c4a4cd946"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/StlSupport/StdList.h": {
+      "source_sha256": "84ac4e913dac81930427c8c4ee4bd3e8a2a5b9d71a25514f1b4f34d6a01faaef",
+      "copied_sha256": "84ac4e913dac81930427c8c4ee4bd3e8a2a5b9d71a25514f1b4f34d6a01faaef"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/StlSupport/StdVector.h": {
+      "source_sha256": "5e129f2a45245c50f9d18b3bdc7decc1c2321140012b971eb5a42800dd18bd7b",
+      "copied_sha256": "5e129f2a45245c50f9d18b3bdc7decc1c2321140012b971eb5a42800dd18bd7b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/StlSupport/details.h": {
+      "source_sha256": "cc7eb809a7b42dfe95d56a71970a6fffe13a9451afcdd1e5ee919c3bb4040918",
+      "copied_sha256": "cc7eb809a7b42dfe95d56a71970a6fffe13a9451afcdd1e5ee919c3bb4040918"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SuperLUSupport/InternalHeaderCheck.h": {
+      "source_sha256": "4fdba402e066ec1623ddb65aa7f97fa8bcaa70b617db1aa130267551bde1c680",
+      "copied_sha256": "4fdba402e066ec1623ddb65aa7f97fa8bcaa70b617db1aa130267551bde1c680"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/SuperLUSupport/SuperLUSupport.h": {
+      "source_sha256": "72097fff823a974dad156aa0551a1c81feb8e9f9e8ee9a74317a1a861c199c94",
+      "copied_sha256": "72097fff823a974dad156aa0551a1c81feb8e9f9e8ee9a74317a1a861c199c94"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/ThreadPool/Barrier.h": {
+      "source_sha256": "3a628d1a326871cab8b5f1c824ee0e6cf0c7e3a81a1570ca633b15f462c94a71",
+      "copied_sha256": "3a628d1a326871cab8b5f1c824ee0e6cf0c7e3a81a1570ca633b15f462c94a71"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/ThreadPool/EventCount.h": {
+      "source_sha256": "926d4f38ef8c0677c264b6daa1674e5674be679bd923febc2dd2ea03b89ae148",
+      "copied_sha256": "926d4f38ef8c0677c264b6daa1674e5674be679bd923febc2dd2ea03b89ae148"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/ThreadPool/InternalHeaderCheck.h": {
+      "source_sha256": "93b666833e46cd1b4242cae5efee3d68f8782886d3467bc616900914337ed543",
+      "copied_sha256": "93b666833e46cd1b4242cae5efee3d68f8782886d3467bc616900914337ed543"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/ThreadPool/NonBlockingThreadPool.h": {
+      "source_sha256": "af1cbb2a33caba07062f69fb2917ca11756fe00f4fced44caf53d2e0508c3a27",
+      "copied_sha256": "af1cbb2a33caba07062f69fb2917ca11756fe00f4fced44caf53d2e0508c3a27"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/ThreadPool/RunQueue.h": {
+      "source_sha256": "c339ce4ea073bbd09f8d27758f8a8f6879f517ef5550bf2fca2c6be4c2d9b499",
+      "copied_sha256": "c339ce4ea073bbd09f8d27758f8a8f6879f517ef5550bf2fca2c6be4c2d9b499"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/ThreadPool/ThreadCancel.h": {
+      "source_sha256": "ec83c9506b5a692db84cd0f820e168ab6bdff27923feaf7f302df8770b4098a3",
+      "copied_sha256": "ec83c9506b5a692db84cd0f820e168ab6bdff27923feaf7f302df8770b4098a3"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/ThreadPool/ThreadEnvironment.h": {
+      "source_sha256": "74c55f57c1851ea522e95080fa775394687daf7e00001dcfbf551bbec8acb25e",
+      "copied_sha256": "74c55f57c1851ea522e95080fa775394687daf7e00001dcfbf551bbec8acb25e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/ThreadPool/ThreadLocal.h": {
+      "source_sha256": "506d678dd01cfb36d7bcadbea3833104302b8260064b0a232e6fcbc76d2ab317",
+      "copied_sha256": "506d678dd01cfb36d7bcadbea3833104302b8260064b0a232e6fcbc76d2ab317"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/ThreadPool/ThreadPoolInterface.h": {
+      "source_sha256": "73f9d0c8d24c820eaa2d22243a0a6c67765d9cab23d2c701d3633482bacbc9fd",
+      "copied_sha256": "73f9d0c8d24c820eaa2d22243a0a6c67765d9cab23d2c701d3633482bacbc9fd"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/ThreadPool/ThreadYield.h": {
+      "source_sha256": "a8fb41f2ada71c74a055a6c25c335ac1c6bce05525e3e18487d7f0e522bfdfdb",
+      "copied_sha256": "a8fb41f2ada71c74a055a6c25c335ac1c6bce05525e3e18487d7f0e522bfdfdb"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/UmfPackSupport/InternalHeaderCheck.h": {
+      "source_sha256": "50edac80908a405115486580bfe33a470c998d035786cfc6b0dbd57015728801",
+      "copied_sha256": "50edac80908a405115486580bfe33a470c998d035786cfc6b0dbd57015728801"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/UmfPackSupport/UmfPackSupport.h": {
+      "source_sha256": "6ae491ae2fb35c325c80621abc7f1413311f334e8635064eab96dd513818b139",
+      "copied_sha256": "6ae491ae2fb35c325c80621abc7f1413311f334e8635064eab96dd513818b139"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/misc/Image.h": {
+      "source_sha256": "aac28ebc9be52e44e49d120096f1d37fd03a91353e339b9a545c62aee2bef81f",
+      "copied_sha256": "aac28ebc9be52e44e49d120096f1d37fd03a91353e339b9a545c62aee2bef81f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/misc/InternalHeaderCheck.h": {
+      "source_sha256": "47e7f47aae4fe6be7760d635bd430ab5f607484fc53efd76bef72e776d1e42c9",
+      "copied_sha256": "47e7f47aae4fe6be7760d635bd430ab5f607484fc53efd76bef72e776d1e42c9"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/misc/Kernel.h": {
+      "source_sha256": "1238f625a2375c95d067a3ceea5b866fc0501e37c7735f5a79505b3bc153e313",
+      "copied_sha256": "1238f625a2375c95d067a3ceea5b866fc0501e37c7735f5a79505b3bc153e313"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/misc/RealSvd2x2.h": {
+      "source_sha256": "272ebef909fc2cf793735b60e97b9d5ba91676117de7bd2a6df6407127836a88",
+      "copied_sha256": "272ebef909fc2cf793735b60e97b9d5ba91676117de7bd2a6df6407127836a88"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/misc/blas.h": {
+      "source_sha256": "aa480c0dd9e446830f7ddf7ac9df9eae7b1b61972ee9f7fb1e510bf888042968",
+      "copied_sha256": "aa480c0dd9e446830f7ddf7ac9df9eae7b1b61972ee9f7fb1e510bf888042968"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/misc/lapacke.h": {
+      "source_sha256": "043d68fe5e9eef25403ff2a25da45c7d6b04649aae53f5a97a4edcb095604381",
+      "copied_sha256": "043d68fe5e9eef25403ff2a25da45c7d6b04649aae53f5a97a4edcb095604381"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/misc/lapacke_helpers.h": {
+      "source_sha256": "9dc6e3d2ecac486b1dcdaf004a628ed417a98287d52d39a4987fa21749ef24b7",
+      "copied_sha256": "9dc6e3d2ecac486b1dcdaf004a628ed417a98287d52d39a4987fa21749ef24b7"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/misc/lapacke_mangling.h": {
+      "source_sha256": "7d71fdee53a1e0cd01568aba2f152f2e1e4fbb849e84d740e3b031e819fbfa22",
+      "copied_sha256": "7d71fdee53a1e0cd01568aba2f152f2e1e4fbb849e84d740e3b031e819fbfa22"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/plugins/ArrayCwiseBinaryOps.h": {
+      "source_sha256": "0ba1a03146a46a9c18da116a609c930edf6a24dd56bbe2c3f79dcaae96ff18e9",
+      "copied_sha256": "0ba1a03146a46a9c18da116a609c930edf6a24dd56bbe2c3f79dcaae96ff18e9"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/plugins/ArrayCwiseUnaryOps.h": {
+      "source_sha256": "717283ef9b795f31dd1a7e4ec8f71a6ca7850bb95a47b9346360bdfeff2d4c8e",
+      "copied_sha256": "717283ef9b795f31dd1a7e4ec8f71a6ca7850bb95a47b9346360bdfeff2d4c8e"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/plugins/BlockMethods.h": {
+      "source_sha256": "097a16fef617a26b8e06e6c4db723764c8b88ae66d35ae28b39361211b2ccdb9",
+      "copied_sha256": "097a16fef617a26b8e06e6c4db723764c8b88ae66d35ae28b39361211b2ccdb9"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/plugins/CommonCwiseBinaryOps.h": {
+      "source_sha256": "15a52bf11a27d978335a98c8a3845017df1acf401f5b343591141884ba0d1d27",
+      "copied_sha256": "15a52bf11a27d978335a98c8a3845017df1acf401f5b343591141884ba0d1d27"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/plugins/CommonCwiseUnaryOps.h": {
+      "source_sha256": "72160253a74dea8a6f1e28ba4d5abbd2a7ded711a84fab2095a5b3978215595d",
+      "copied_sha256": "72160253a74dea8a6f1e28ba4d5abbd2a7ded711a84fab2095a5b3978215595d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/plugins/IndexedViewMethods.h": {
+      "source_sha256": "731bd29f488b75a8a81b95a9029945d61dfa6843c268bc82e7ef0c3340ed901f",
+      "copied_sha256": "731bd29f488b75a8a81b95a9029945d61dfa6843c268bc82e7ef0c3340ed901f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/plugins/InternalHeaderCheck.h": {
+      "source_sha256": "9d0feb2bf8f1125813294895db4cd341637ab602e7126d16a94cfdb138f74954",
+      "copied_sha256": "9d0feb2bf8f1125813294895db4cd341637ab602e7126d16a94cfdb138f74954"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/plugins/MatrixCwiseBinaryOps.h": {
+      "source_sha256": "2a5b8c4772d9fe17c58deb95e4ee8d8ff46914946dbab52b251c5f2d5ea66a23",
+      "copied_sha256": "2a5b8c4772d9fe17c58deb95e4ee8d8ff46914946dbab52b251c5f2d5ea66a23"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/plugins/MatrixCwiseUnaryOps.h": {
+      "source_sha256": "1eb4da31424517bd4faa7a93abb0e8e73daf461fd5a4db2aad2575f52bec25b5",
+      "copied_sha256": "1eb4da31424517bd4faa7a93abb0e8e73daf461fd5a4db2aad2575f52bec25b5"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/Eigen/Eigen/src/plugins/ReshapedMethods.h": {
+      "source_sha256": "15c906f0dd0b152c2f20e2a45144cd5818e8f17992cb7ac78825216894384718",
+      "copied_sha256": "15c906f0dd0b152c2f20e2a45144cd5818e8f17992cb7ac78825216894384718"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/modules/json/json.hpp": {
+      "source_sha256": "cb014f694fb37553fa410455dd849ea67000d421eb17f048fd32c99262893463",
+      "copied_sha256": "cb014f694fb37553fa410455dd849ea67000d421eb17f048fd32c99262893463"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/conv.png": {
+      "source_sha256": "4036e659541e284cf42b0a24c3e2dd1885ce7d495ebca3ca89c3dad880b57821",
+      "copied_sha256": "4036e659541e284cf42b0a24c3e2dd1885ce7d495ebca3ca89c3dad880b57821"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/conv.py": {
+      "source_sha256": "598182f73b475fc5464842b812663edb51ca0d218b4540784b0e560f8b94cf07",
+      "copied_sha256": "598182f73b475fc5464842b812663edb51ca0d218b4540784b0e560f8b94cf07"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/conv1d_torch.py": {
+      "source_sha256": "1af14c1a4b32fb1f4f2aeefcb81ca4df7a2713f8b0379364513849ec31504d86",
+      "copied_sha256": "1af14c1a4b32fb1f4f2aeefcb81ca4df7a2713f8b0379364513849ec31504d86"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/conv2d.py": {
+      "source_sha256": "83482d850246ffd14b050419041cc4a88940c2b4d8c09ae94f260b91cddacfaa",
+      "copied_sha256": "83482d850246ffd14b050419041cc4a88940c2b4d8c09ae94f260b91cddacfaa"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/conv_stateless.py": {
+      "source_sha256": "90d1542ae72c75c9a98b89e6ee9f23ccda0e8b049ea7da3a8eba5c208be67bc7",
+      "copied_sha256": "90d1542ae72c75c9a98b89e6ee9f23ccda0e8b049ea7da3a8eba5c208be67bc7"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/dense.png": {
+      "source_sha256": "9a7f1bee8775dcd1db836cadc8c629459799b8816f68ffc16d933c890f3f5878",
+      "copied_sha256": "9a7f1bee8775dcd1db836cadc8c629459799b8816f68ffc16d933c890f3f5878"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/dense.py": {
+      "source_sha256": "fcb68ac1088bf7c97e86f3d04f01b9a3ca0106b0c7e644e31b60f0a5d8c546a6",
+      "copied_sha256": "fcb68ac1088bf7c97e86f3d04f01b9a3ca0106b0c7e644e31b60f0a5d8c546a6"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/gru.png": {
+      "source_sha256": "77ab7353bb9eb41b6d2b25862dfa81b85ed42acb2ab1cd89fb7a7a5d929ed92f",
+      "copied_sha256": "77ab7353bb9eb41b6d2b25862dfa81b85ed42acb2ab1cd89fb7a7a5d929ed92f"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/gru.py": {
+      "source_sha256": "727edf4aefa30fdb9f47328f8091c7048254a8fe0653125785414286ed3dba93",
+      "copied_sha256": "727edf4aefa30fdb9f47328f8091c7048254a8fe0653125785414286ed3dba93"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/gru_1d.png": {
+      "source_sha256": "ef9d140ea7d46291bf0684421b6acf6d892d52bd09955dba28e6464ef4d8186d",
+      "copied_sha256": "ef9d140ea7d46291bf0684421b6acf6d892d52bd09955dba28e6464ef4d8186d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/gru_1d.py": {
+      "source_sha256": "878318996805747eb4381b8875be64d09f63c084a481092056b9b34b32589c6a",
+      "copied_sha256": "878318996805747eb4381b8875be64d09f63c084a481092056b9b34b32589c6a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/gru_torch.py": {
+      "source_sha256": "b3f484c493b10615c7fd80c7fe9b29b6da2110fe1eaa7cb8eeb8df7ebef02a14",
+      "copied_sha256": "b3f484c493b10615c7fd80c7fe9b29b6da2110fe1eaa7cb8eeb8df7ebef02a14"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/lstm.png": {
+      "source_sha256": "2aec61c8a23ac806afb3f14062cbda08af459060f45d6c21e87098bed6078fe9",
+      "copied_sha256": "2aec61c8a23ac806afb3f14062cbda08af459060f45d6c21e87098bed6078fe9"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/lstm.py": {
+      "source_sha256": "d9e22bf6c62c9e99789cbf893516990a867c22bfca1a973112247f0da7da0dad",
+      "copied_sha256": "d9e22bf6c62c9e99789cbf893516990a867c22bfca1a973112247f0da7da0dad"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/lstm_1d.png": {
+      "source_sha256": "ca74a972fcf0c177423751ac246733728c8ffe1ff656ec66a3039daada948fe9",
+      "copied_sha256": "ca74a972fcf0c177423751ac246733728c8ffe1ff656ec66a3039daada948fe9"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/lstm_1d.py": {
+      "source_sha256": "a5a08e445e64cb3a8cbfa7af34cc35c1e94a09dd14a6b3038d1e90f69bdc7500",
+      "copied_sha256": "a5a08e445e64cb3a8cbfa7af34cc35c1e94a09dd14a6b3038d1e90f69bdc7500"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/lstm_torch.py": {
+      "source_sha256": "3774a8cfdfd4d64606e49b86a90b68b4218ce7c8f98db853ad6b0d29e9befffc",
+      "copied_sha256": "3774a8cfdfd4d64606e49b86a90b68b4218ce7c8f98db853ad6b0d29e9befffc"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/python/model_utils.py": {
+      "source_sha256": "e7316ac2303d31a51c0cca219e4838fe101731f5dfd25cd9154fcb74fbd5e4d6",
+      "copied_sha256": "e7316ac2303d31a51c0cca219e4838fe101731f5dfd25cd9154fcb74fbd5e4d6"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/conv1d_torch_x_python.csv": {
+      "source_sha256": "c7f26d2ae3ae78ef43b43671b9258cfcbdf8e2c3a511471f44c3a422b58faadc",
+      "copied_sha256": "c7f26d2ae3ae78ef43b43671b9258cfcbdf8e2c3a511471f44c3a422b58faadc"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/conv1d_torch_y_python.csv": {
+      "source_sha256": "91e1d2834fdf7891d66cecb3e31640593a94fd2072e29a4fd416d12f045cf4cc",
+      "copied_sha256": "91e1d2834fdf7891d66cecb3e31640593a94fd2072e29a4fd416d12f045cf4cc"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/conv2d_x_python.csv": {
+      "source_sha256": "4e8d3e08af700256ff1614546eaddfb5b75bfadea8341c315958e8a1ffd3544c",
+      "copied_sha256": "4e8d3e08af700256ff1614546eaddfb5b75bfadea8341c315958e8a1ffd3544c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/conv2d_y_python.csv": {
+      "source_sha256": "1913f39b9708d2698786796872bbe86ca07397f450b8741f098af9937d6f22d8",
+      "copied_sha256": "1913f39b9708d2698786796872bbe86ca07397f450b8741f098af9937d6f22d8"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/conv_stateless_x_python.csv": {
+      "source_sha256": "ff36c43100b3bae4b6566ba4b6c5b85995236407f1007adcb28f55841555f10b",
+      "copied_sha256": "ff36c43100b3bae4b6566ba4b6c5b85995236407f1007adcb28f55841555f10b"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/conv_stateless_y_python.csv": {
+      "source_sha256": "79f353f49c6ef95fe38f5b3c9a2ef9076f3f2963c19280845254823ba56c9c7c",
+      "copied_sha256": "79f353f49c6ef95fe38f5b3c9a2ef9076f3f2963c19280845254823ba56c9c7c"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/conv_x_python.csv": {
+      "source_sha256": "0f903025376aad71a1e00a35788e31aaf24a74170ba14104b4ca9e879214e967",
+      "copied_sha256": "0f903025376aad71a1e00a35788e31aaf24a74170ba14104b4ca9e879214e967"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/conv_y_python.csv": {
+      "source_sha256": "afa4627290a0049b88dfb3b8daf836c7f27ec4842e43c44295e98cb0d526cdfe",
+      "copied_sha256": "afa4627290a0049b88dfb3b8daf836c7f27ec4842e43c44295e98cb0d526cdfe"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/dense_x_python.csv": {
+      "source_sha256": "ff8659ffdcf482a386386ac0bbf6da86ea33b6f9bcc90831353ca08f83d0d492",
+      "copied_sha256": "ff8659ffdcf482a386386ac0bbf6da86ea33b6f9bcc90831353ca08f83d0d492"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/dense_y_python.csv": {
+      "source_sha256": "712ea46cf63b60128a64e6a4ac9d184c70b14e185430ce2b5bc84ba06f734c58",
+      "copied_sha256": "712ea46cf63b60128a64e6a4ac9d184c70b14e185430ce2b5bc84ba06f734c58"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/gru_1d_x_python.csv": {
+      "source_sha256": "edbd4f3271994f92bb8901602ed93ee46edb98e622f18f29420ac231ff32204d",
+      "copied_sha256": "edbd4f3271994f92bb8901602ed93ee46edb98e622f18f29420ac231ff32204d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/gru_1d_y_python.csv": {
+      "source_sha256": "99928cefeeb31cbe9860ae68abb32a99ab9b028e757762234553787c6e2613e0",
+      "copied_sha256": "99928cefeeb31cbe9860ae68abb32a99ab9b028e757762234553787c6e2613e0"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/gru_torch_x_python.csv": {
+      "source_sha256": "c7f26d2ae3ae78ef43b43671b9258cfcbdf8e2c3a511471f44c3a422b58faadc",
+      "copied_sha256": "c7f26d2ae3ae78ef43b43671b9258cfcbdf8e2c3a511471f44c3a422b58faadc"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/gru_torch_y_python.csv": {
+      "source_sha256": "2a68e32e786deb6d94532a532581e1ba30de606249fe81e07e08d6fed7f21a1a",
+      "copied_sha256": "2a68e32e786deb6d94532a532581e1ba30de606249fe81e07e08d6fed7f21a1a"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/gru_x_python.csv": {
+      "source_sha256": "edbd4f3271994f92bb8901602ed93ee46edb98e622f18f29420ac231ff32204d",
+      "copied_sha256": "edbd4f3271994f92bb8901602ed93ee46edb98e622f18f29420ac231ff32204d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/gru_y_python.csv": {
+      "source_sha256": "e0a2cb634c6c791d516c9690afbaa6fdbfe1e11e0b281f1812c595ed5020f4a5",
+      "copied_sha256": "e0a2cb634c6c791d516c9690afbaa6fdbfe1e11e0b281f1812c595ed5020f4a5"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/lstm_1d_x_python.csv": {
+      "source_sha256": "edbd4f3271994f92bb8901602ed93ee46edb98e622f18f29420ac231ff32204d",
+      "copied_sha256": "edbd4f3271994f92bb8901602ed93ee46edb98e622f18f29420ac231ff32204d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/lstm_1d_y_python.csv": {
+      "source_sha256": "68db91509851b57cd31b3eda311c98b661ac9f2ab821f0fe7b25372394202313",
+      "copied_sha256": "68db91509851b57cd31b3eda311c98b661ac9f2ab821f0fe7b25372394202313"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/lstm_torch_x_python.csv": {
+      "source_sha256": "c7f26d2ae3ae78ef43b43671b9258cfcbdf8e2c3a511471f44c3a422b58faadc",
+      "copied_sha256": "c7f26d2ae3ae78ef43b43671b9258cfcbdf8e2c3a511471f44c3a422b58faadc"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/lstm_torch_y_python.csv": {
+      "source_sha256": "857050d6e2c376afd267201fdf4ca6e8df6373f8dc6d1b6b8fdc7cddd7144ccf",
+      "copied_sha256": "857050d6e2c376afd267201fdf4ca6e8df6373f8dc6d1b6b8fdc7cddd7144ccf"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/lstm_x_python.csv": {
+      "source_sha256": "edbd4f3271994f92bb8901602ed93ee46edb98e622f18f29420ac231ff32204d",
+      "copied_sha256": "edbd4f3271994f92bb8901602ed93ee46edb98e622f18f29420ac231ff32204d"
+    },
+    "ros2_ws/src/neural_controller/modules/RTNeural/test_data/lstm_y_python.csv": {
+      "source_sha256": "c1d693282e0db875cd6447e4da15467c23aefd568bf3a9b283b2842553cb507d",
+      "copied_sha256": "c1d693282e0db875cd6447e4da15467c23aefd568bf3a9b283b2842553cb507d"
+    },
+    "ros2_ws/src/neural_controller/package.xml": {
+      "source_sha256": "345b3453ca1d2cd7c1965b078bf9a78dce7c6c5a1ccebe418890ae1b63c70d2e",
+      "copied_sha256": "345b3453ca1d2cd7c1965b078bf9a78dce7c6c5a1ccebe418890ae1b63c70d2e"
+    },
+    "ros2_ws/src/neural_controller/scripts/motion_buttons.py": {
+      "source_sha256": "4d64d2f46a6a57e225e45decb5d3bad2dfa7e6b385eb19e353ba9503e5c3409e",
+      "copied_sha256": "4d64d2f46a6a57e225e45decb5d3bad2dfa7e6b385eb19e353ba9503e5c3409e"
+    },
+    "ros2_ws/src/neural_controller/src/keyframe_controller.cpp": {
+      "source_sha256": "6253b6a2b8f52c822a62408277bc2b868e60751fc8cbdaca51112f3efe7deb3e",
+      "copied_sha256": "6253b6a2b8f52c822a62408277bc2b868e60751fc8cbdaca51112f3efe7deb3e"
+    },
+    "ros2_ws/src/neural_controller/src/neural_controller.cpp": {
+      "source_sha256": "42237f925d4d4aabccaceb97e223045a63feb52025155c5af8d5c97577ea95bc",
+      "copied_sha256": "42237f925d4d4aabccaceb97e223045a63feb52025155c5af8d5c97577ea95bc"
+    },
+    "ros2_ws/src/neural_controller/src/neural_controller_parameters.yaml": {
+      "source_sha256": "d00fe4a38d29cad1527f98263050c6866eb51bceb5aebb28d991ec82e629fa72",
+      "copied_sha256": "d00fe4a38d29cad1527f98263050c6866eb51bceb5aebb28d991ec82e629fa72"
+    },
+    "ros2_ws/src/neural_controller/src/triangle_roll_controller.cpp": {
+      "source_sha256": "f6888e8c47886fd748285397478a4c78b75269ffcab0151f25f37a0b8a1a2523",
+      "copied_sha256": "f6888e8c47886fd748285397478a4c78b75269ffcab0151f25f37a0b8a1a2523"
+    },
+    "ros2_ws/src/neural_controller/src/wheel_lift_controller.cpp": {
+      "source_sha256": "1855624f3441454d2a031f6b46c126fc4f42cabc8218f4c8e05cb4d9dec01510",
+      "copied_sha256": "1855624f3441454d2a031f6b46c126fc4f42cabc8218f4c8e05cb4d9dec01510"
+    },
+    "ros2_ws/src/neural_controller/test/leg_to_wheel_policy_reference.csv": {
+      "source_sha256": "9928548f48fe2eca1ed392152281e55b00d434bada6e31d04a13442b6d507ff5",
+      "copied_sha256": "9928548f48fe2eca1ed392152281e55b00d434bada6e31d04a13442b6d507ff5"
+    },
+    "ros2_ws/src/neural_controller/test/leg_to_wheel_policy_test.cpp": {
+      "source_sha256": "db0fd1ddd94967d783f884564b565cfc09064f847cebe62426c81338a5814899",
+      "copied_sha256": "db0fd1ddd94967d783f884564b565cfc09064f847cebe62426c81338a5814899"
+    },
+    "ros2_ws/src/neural_controller/test/test_motion_buttons.py": {
+      "source_sha256": "2d35c210eddfb10e61bc9df9a7266c657d9a765620ea93bb7647742273b7848a",
+      "copied_sha256": "2d35c210eddfb10e61bc9df9a7266c657d9a765620ea93bb7647742273b7848a"
+    },
+    "ros2_ws/src/neural_controller/test/triangle_roll_controller_test.cpp": {
+      "source_sha256": "bfd9baeb9f92100f4b367a411226f4f49d5bc235d06e8fc18c383c8108cd69b0",
+      "copied_sha256": "bfd9baeb9f92100f4b367a411226f4f49d5bc235d06e8fc18c383c8108cd69b0"
+    },
+    "ros2_ws/src/neural_controller/test/triangle_roll_support_reference.csv": {
+      "source_sha256": "0ec52a39a3b95a3cfc4adebb265a4d4d9253e27a9c20885835d537306153d6a8",
+      "copied_sha256": "0ec52a39a3b95a3cfc4adebb265a4d4d9253e27a9c20885835d537306153d6a8"
+    },
+    "ros2_ws/src/neural_controller/test/triangle_roll_test.cpp": {
+      "source_sha256": "33ae8357810c5eac7748c6736c91c67a47462dc277c31d60227604182b0eeca0",
+      "copied_sha256": "33ae8357810c5eac7748c6736c91c67a47462dc277c31d60227604182b0eeca0"
+    },
+    "ros2_ws/src/neural_controller/test/walk_policy_reference.csv": {
+      "source_sha256": "b73d4ee86a5fdf295a4b76ea4244ea637499090e8f598b06062155838ee2de88",
+      "copied_sha256": "b73d4ee86a5fdf295a4b76ea4244ea637499090e8f598b06062155838ee2de88"
+    },
+    "ros2_ws/src/neural_controller/test/walk_policy_test.cpp": {
+      "source_sha256": "c4c8df0f470985adae934b10b0358d7413292bd82142f4e2eb28b9281a37df17",
+      "copied_sha256": "c4c8df0f470985adae934b10b0358d7413292bd82142f4e2eb28b9281a37df17"
+    },
+    "ros2_ws/src/neural_controller/test/walking_frame_test.cpp": {
+      "source_sha256": "e6dbf8934083bff47b58f8efccbc266e71dee20019e6f9d9ab73ccaeeff4ae7c",
+      "copied_sha256": "e6dbf8934083bff47b58f8efccbc266e71dee20019e6f9d9ab73ccaeeff4ae7c"
+    },
+    "ros2_ws/src/neural_controller/test/walking_handoff_test.cpp": {
+      "source_sha256": "efadd6b1b969dc2c2da5093c9495e5b36570bf2e80659a0a85bbdd5b50c7204c",
+      "copied_sha256": "efadd6b1b969dc2c2da5093c9495e5b36570bf2e80659a0a85bbdd5b50c7204c"
+    },
+    "ros2_ws/src/neural_controller/test/wheel_lift_controller_test.cpp": {
+      "source_sha256": "8e5997928bf69c7753b8adb438a910af82d7801daed559cafc477cca71203649",
+      "copied_sha256": "8e5997928bf69c7753b8adb438a910af82d7801daed559cafc477cca71203649"
+    },
+    "ros2_ws/src/neural_controller/test/wheel_lift_core_test.cpp": {
+      "source_sha256": "d4ed7c3a6204dd53cb98bf34016b19997f0eb334e9c247d94d25ee4fa3516ce3",
+      "copied_sha256": "d4ed7c3a6204dd53cb98bf34016b19997f0eb334e9c247d94d25ee4fa3516ce3"
+    },
+    "ros2_ws/src/neural_controller/test/wheel_policy_reference.csv": {
+      "source_sha256": "ba6b42a60c38d0937a3460bd2740ec14a814f409e8ec2b40fe1e0cc014f33f7d",
+      "copied_sha256": "ba6b42a60c38d0937a3460bd2740ec14a814f409e8ec2b40fe1e0cc014f33f7d"
+    },
+    "ros2_ws/src/neural_controller/test/wheel_policy_test.cpp": {
+      "source_sha256": "3f0df714003f81f8e7730ff73d5fddc14d3225eda3bc63299974888ed68c6e3e",
+      "copied_sha256": "3f0df714003f81f8e7730ff73d5fddc14d3225eda3bc63299974888ed68c6e3e"
+    },
+    "ros2_ws/src/robot_calibration/CMakeLists.txt": {
+      "source_sha256": "cc0a47e45038d51ac9abec0ef78fe1139d690fc1847fb32068a71d451dd69394",
+      "copied_sha256": "cc0a47e45038d51ac9abec0ef78fe1139d690fc1847fb32068a71d451dd69394"
+    },
+    "ros2_ws/src/robot_calibration/include/robot_calibration/calibration.hpp": {
+      "source_sha256": "5ee2a689626255b24d627d32e5fabc158fadc42698693810facda0fca4fe0d16",
+      "copied_sha256": "5ee2a689626255b24d627d32e5fabc158fadc42698693810facda0fca4fe0d16"
+    },
+    "ros2_ws/src/robot_calibration/package.xml": {
+      "source_sha256": "61c7cbc4ec47ec6bd057c7dccde8f4da6784fbf4ac6ff5a40247481a470c7dfe",
+      "copied_sha256": "61c7cbc4ec47ec6bd057c7dccde8f4da6784fbf4ac6ff5a40247481a470c7dfe"
+    },
+    "ros2_ws/src/robot_calibration/robot_calibration/__init__.py": {
+      "source_sha256": "d0eba7bd36661de5b1e57043f93c181120cf000914bd0f2f98df8a484b51f026",
+      "copied_sha256": "d0eba7bd36661de5b1e57043f93c181120cf000914bd0f2f98df8a484b51f026"
+    },
+    "ros2_ws/src/robot_calibration/robot_calibration/cli.py": {
+      "source_sha256": "fdb5a5887cf57fb3a4444106a766ce5edab3efb693b3c0122ad588046138ac1d",
+      "copied_sha256": "fdb5a5887cf57fb3a4444106a766ce5edab3efb693b3c0122ad588046138ac1d"
+    },
+    "ros2_ws/src/robot_calibration/robot_calibration/storage.py": {
+      "source_sha256": "b9435cce3e48e6d67a2656e0ae24d34b71efef2d8b9761fb5fe9b90b3d1b6564",
+      "copied_sha256": "b9435cce3e48e6d67a2656e0ae24d34b71efef2d8b9761fb5fe9b90b3d1b6564"
+    },
+    "ros2_ws/src/robot_calibration/scripts/calibrate": {
+      "source_sha256": "77e899ea1ab86cac3a6e8030f499ab86d0fb1dd2ac37ce9f797ba059c7139a1e",
+      "copied_sha256": "77e899ea1ab86cac3a6e8030f499ab86d0fb1dd2ac37ce9f797ba059c7139a1e"
+    },
+    "ros2_ws/src/robot_calibration/test/calibration_test.cpp": {
+      "source_sha256": "38dfaba28dfa2b1c1d9cd9e56f099d40ab86096061ce21eaa84a16a7a1d71c55",
+      "copied_sha256": "38dfaba28dfa2b1c1d9cd9e56f099d40ab86096061ce21eaa84a16a7a1d71c55"
+    },
+    "ros2_ws/src/robot_calibration/test/test_calibration.py": {
+      "source_sha256": "5343e3a6fdfbbbc7ec11e00fbbf4651de03e79c3b4e8d51edf1c9f235aa8a623",
+      "copied_sha256": "5343e3a6fdfbbbc7ec11e00fbbf4651de03e79c3b4e8d51edf1c9f235aa8a623"
+    },
+    "ros2_ws/src/robot_calibration/test/test_ros_capture.py": {
+      "source_sha256": "85edfbed65d0aba5a8f3403e66d5e677841c4137a50be2ba8eb6b83b20d4d64b",
+      "copied_sha256": "85edfbed65d0aba5a8f3403e66d5e677841c4137a50be2ba8eb6b83b20d4d64b"
+    }
+  },
+  "adapted_files": {
+    "ros2_ws/src/neural_controller/CMakeLists.txt": {
+      "sha256": "29dc0ce11682d5f2bc3ed77b5229d8b0c6203e37f6986955010f9b11748e914e"
+    },
+    "ros2_ws/src/neural_controller/neural_controller.xml": {
+      "sha256": "0143b08e38d4846eebe0ae044595356708197fa3c4d0b2452e15371df31d7c1f"
+    },
+    "ros2_ws/src/neural_controller/launch/config.yaml": {
+      "sha256": "7aae4400c2a23a13fabba362ac1245019841fd4b710f63432ef203090b98b4b8"
+    }
+  },
+  "source_bytes": "Committed Git blob contents; LFS objects resolved and verified against pointer SHA-256. Windows checkout line-ending conversions excluded."
+}
