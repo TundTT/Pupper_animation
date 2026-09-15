@@ -1,0 +1,75 @@
+controller_manager:
+  ros__parameters:
+    neural_controller_wheel_to_walk_ready:
+      type: neural_controller/NeuralController
+
+# "Get ready" bridge for combined_motion: Wheel's held stance (0.65 rad abduction)
+# is ~0.36 rad from Walk's/Lift's required near-standing entry pose (~1.0 rad),
+# which exceeds the 0.30/0.25 rad "near-standing" tolerance both motion_buttons.py's
+# validate_entry and neural_controller.cpp's walking_offsets() enforce -- so a
+# direct Wheel->Walk or Wheel->Lift switch is rejected outright. This controller
+# closes that gap with a real, bounded, on-the-ground motion instead of loosening
+# either gate: policy_wheel_to_walk_ready.json is policy_walk_v2.json with every
+# network weight/bias replaced by exactly 0.0 (104588 params checked), so its
+# action output is deterministically 0 for any input -- it can never do anything
+# but the ordinary smooth ramp-to-default_joint_pos every NeuralController already
+# performs on activation (same init_kps/init_kds/init_duration/calibrated_walk_frame
+# machinery walk_v2 itself uses, already reasoned about and relied on elsewhere).
+# default_joint_pos below is Walk's own exact nominal stance, so once this settles,
+# Walk's/Lift's entry gate passes on its own -- motion_buttons.py just watches
+# /joint_states and requests the real controller once close enough.
+neural_controller_wheel_to_walk_ready:
+  ros__parameters:
+    repeat_action: 10
+
+    gain_multiplier: 1.0
+    estop_kd: 0.3
+
+    calibrated_walk_frame: true
+    calibration_required: true
+
+    joint_names:
+      [
+        "leg_front_r_1",
+        "leg_front_r_2",
+        "leg_front_r_3",
+        "leg_front_l_1",
+        "leg_front_l_2",
+        "leg_front_l_3",
+        "leg_back_r_1",
+        "leg_back_r_2",
+        "leg_back_r_3",
+        "leg_back_l_1",
+        "leg_back_l_2",
+        "leg_back_l_3",
+      ]
+
+    default_joint_pos:
+      [1.0, 0.0, -1.0, -1.0, 0.0, 1.0, 1.0, 0.0, -1.0, -1.0, 0.0, 1.0]
+
+    init_kps: [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0]
+    init_kds:
+      [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25]
+
+    init_duration: 2.0
+    fade_in_duration: 0.5
+
+    action_types:
+      [
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+        "position",
+      ]
+
+    max_body_angle: 0.65
+
+    model_path: "$(find-pkg-share neural_controller)/launch/policy_wheel_to_walk_ready.json"

@@ -32,7 +32,12 @@ struct AlignGeometry : WheelGeometry {
  }
  static bool gate(const std::array<double,3>& m,const V3& gravity,const V3& angular){
   double spin=0;for(double w:angular)spin+=w*w;
-  return m[0]>.010&&m[1]>.010&&m[2]>.005&&-gravity[2]>std::cos(.12)&&spin<.3*.3;
+  // Floor margin lowered 10mm->3mm per operator instruction (2026-09-14): m[0] is
+  // already a conservative (worst-case bounding-sphere) lower bound on true ground
+  // clearance, so >0 already implies no floor contact; 3mm keeps a small buffer on
+  // top of that rather than the larger original margin. wheel_gap/body_gap are a
+  // different failure mode (self-collision, not ground clearance) and are untouched.
+  return m[0]>.003&&m[1]>.010&&m[2]>.005&&-gravity[2]>std::cos(.12)&&spin<.3*.3;
  }
 };
 }

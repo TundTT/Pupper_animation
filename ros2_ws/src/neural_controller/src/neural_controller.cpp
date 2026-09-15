@@ -657,6 +657,16 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
           .at("kd")
           .get()
           .set_value(have_handoff_ ? handoff_kd_[i]*(1-blend)+params_.init_kds.at(i)*blend : params_.init_kds.at(i));
+      // Position-type joints never own the velocity command interface, but they
+      // don't necessarily start from a clean one either: a prior controller (e.g.
+      // wheel, actively velocity-driving a hub) only zeros it once on its own
+      // deactivate. Re-assert zero here every tick rather than trust that one-shot
+      // cleanup, so a stale nonzero velocity term can never feed
+      // torque = kp*(pos_cmd-pos) + kd*(vel_cmd-vel) on a joint meant to be purely
+      // position-held.
+      if (params_.action_types.at(i) == "position") {
+        command_interfaces_map_.at(params_.joint_names.at(i)).at("velocity").get().set_value(0.0);
+      }
     }
     return controller_interface::return_type::OK;
   }
@@ -1095,6 +1105,12 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
         .at("kd")
         .get()
         .set_value(params_.kds.at(i) * params_.gain_multiplier);
+    // See the matching comment in the init-ramp block: keep the velocity command
+    // interface pinned to zero on every tick for position-type joints, rather than
+    // relying solely on the previous controller's one-shot deactivate cleanup.
+    if (params_.action_types.at(i) == "position") {
+      command_interfaces_map_.at(params_.joint_names.at(i)).at("velocity").get().set_value(0.0);
+    }
   }
 
   if (behavior_ == "wheel_align_hybrid" && hybrid_.motion_version == WheelAlignMotion::version &&

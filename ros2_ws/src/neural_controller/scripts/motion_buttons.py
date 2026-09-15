@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exclusive X roll / Triangle walk / Circle wheel dispatch. Never starts hardware."""
+"""Exclusive X roll / Triangle walk / Circle wheel / Square lift+align dispatch. Never starts hardware."""
 import json
 import math
 import time
@@ -8,9 +8,24 @@ from pathlib import Path
 ROLL = 'neural_controller_triangle_roll'
 WALK = 'neural_controller_walk_v2'
 WHEEL = 'neural_controller_wheel'
+LIFT = 'neural_controller_notebook_lift'
 POSE = 'neural_controller_joint_pose'
-OWNERS = {ROLL, WALK, WHEEL, POSE}
-BUTTONS = {0: ROLL, 2: WALK, 1: WHEEL}
+# Wheel's held stance (0.65 rad abduction) is ~0.36 rad from Walk's/Lift's required
+# near-standing entry pose (~1.0 rad) -- past the 0.30/0.25 rad tolerance validate_entry
+# enforces below. READY bridges that gap with a real, bounded ramp (its policy is an
+# all-zero-weight copy of walk_v2, so it can only ever hold default_joint_pos) before
+# handing off to whichever of WALK/LIFT was actually requested. See
+# wheel_to_walk_ready_config.yaml for the full rationale.
+READY = 'neural_controller_wheel_to_walk_ready'
+OWNERS = {ROLL, WALK, WHEEL, LIFT, POSE, READY}
+BUTTONS = {0: ROLL, 2: WALK, 1: WHEEL, 3: LIFT}
+BRIDGE_FROM = {WALK, LIFT}  # targets that may need the wheel->ready->target bridge
+BRIDGE_TIMEOUT_S = 8.0  # generous: ~2s ramp + settle, well under the 12s busy timeout floor
+# Matches notebook_lift_align_trial.launch.py's wheel_align_hybrid_cycle_states exactly:
+# FR lift -> FR rotate -> FR lower -> FL ... -> BL lift -> BL rotate -> BL lower -> repeat.
+LIFT_CYCLE = ['front_r', 'rotate', 'stand', 'front_l', 'rotate', 'stand',
+              'back_r', 'rotate', 'stand', 'back_l', 'rotate', 'stand']
+LIFT_STATES = {'stand': 0, 'front_l': 1, 'front_r': 2, 'back_r': 3, 'back_l': 4, 'rotate': 5}
 
 
 def acquire_instance(folder):
@@ -67,6 +82,17 @@ def validate_entry(mode, q, cal, mapping, roll_status=None):
                 difference = q[n][0] - home[i]
             if abs(difference) > .30:
                 raise ValueError('Triangle requires a near-standing tips-down pose')
+    if mode == LIFT:
+        # Nominal is defined only for the 8 proximal (motor 1/2) joints; the hub has
+        # no fixed entry target here and is validated live by the controller's own
+        # clearance/tilt gates before it allows a rotation. NOTEBOOK_LIFT_TRIAL.md:
+        # "Entry requires a stationary stand within 0.25 rad of nominal."
+        home = [1, 0, None, -1, 0, None, 1, 0, None, -1, 0, None]
+        for i, n in enumerate(names):
+            if home[i] is None:
+                continue
+            if abs(q[n][0] - home[i]) > .25:
+                raise ValueError('Square requires a near-standing proximal pose for lift/align')
 
 
 def main():
@@ -78,6 +104,14 @@ def main():
     from std_msgs.msg import Empty, Int32, Float64MultiArray
     from robot_calibration import load_current
     from robot_calibration.storage import directory, atomic_json
+
+    def load_roll_mapping(mode):
+        # Only ROLL and WALK consume the roll-hub mapping; LIFT uses live calibration
+        # directly and must not be gated on an unrelated roll artifact. Shared between
+        # the real entry check and the wheel->ready bridge's readiness poll so the two
+        # can never disagree about which reference is in play.
+        mapping_path = directory() / 'triangle-roll-map.json'
+        return json.loads(mapping_path.read_text()) if mode in (ROLL, WALK) and mapping_path.exists() else None
 
     class Buttons(Node):
         def __init__(self):
@@ -92,8 +126,14 @@ def main():
             self.pending_start = False
             self.stopped = False
             self.epoch = 0
+            self.active_mode = None
+            self.lift_index = 0
+            self.bridging = False
+            self.bridge_target = None
+            self.bridge_started_at = 0.0
             self.stop_pub = self.create_publisher(Empty, '/emergency_stop', 10)
             self.start_pub = self.create_publisher(Int32, '/triangle_roll/command', 1)
+            self.lift_pub = self.create_publisher(Int32, '/notebook_lift_command_index', 1)
             self.list_client = self.create_client(ListControllers, '/controller_manager/list_controllers')
             self.switch_client = self.create_client(SwitchController, '/controller_manager/switch_controller')
             self.create_subscription(Joy, '/joy', self.joy, qos_profile_sensor_data)
@@ -102,12 +142,18 @@ def main():
             self.create_subscription(Float64MultiArray, '/neural_controller_triangle_roll/status', self.roll, 1)
             self.create_subscription(Float64MultiArray, '/neural_controller_triangle_roll/motor_commands', self.motor, 1)
             self.create_timer(.05, self.watch)
-            self.get_logger().info('X: roll and hold; Triangle: walk; Circle: wheels; PS: stop. All initially inactive.')
+            self.get_logger().info('X: roll and hold; Triangle: walk; Circle: wheels; '
+                                    'Square: lift+align (repeat to cycle FR/FL/BR/BL lift->rotate->lower); '
+                                    'PS: stop. All initially inactive.')
 
         def stop(self, reason):
             self.epoch += 1
             self.pending_start = False
             self.busy = False
+            self.active_mode = None
+            self.lift_index = 0
+            self.bridging = False
+            self.bridge_target = None
             self.stop_pub.publish(Empty())
             if not self.stopped:
                 self.get_logger().error(reason)
@@ -139,13 +185,30 @@ def main():
 
         def joy(self, m):
             self.joy_at = time.monotonic()
-            mode = choose_button(self.previous, m.buttons, self.busy)
-            self.previous = list(m.buttons)
+            buttons = list(m.buttons)
+            previous = self.previous
+            lift_edge = len(buttons) > 3 and buttons[3] and not (len(previous) > 3 and previous[3])
+            mode = choose_button(previous, buttons, self.busy)
+            self.previous = buttons
             self.axes = list(m.axes)
-            if len(m.buttons)<=10 or m.buttons[10]:
+            if len(buttons)<=10 or buttons[10]:
                 self.stop('PS stop or incomplete gamepad input')
                 return
-            if mode:
+            if lift_edge and self.active_mode == LIFT and not self.busy:
+                # Live and already active: advance the lift/rotate/lower cycle instead of
+                # re-requesting a controller switch (which would just no-op on a live mode).
+                if self.lift_pub.get_subscription_count():
+                    self.lift_pub.publish(Int32(data=LIFT_STATES[LIFT_CYCLE[self.lift_index]]))
+                    self.lift_index = (self.lift_index + 1) % len(LIFT_CYCLE)
+                else:
+                    self.get_logger().warning('No subscriber on /notebook_lift_command_index')
+                return
+            if mode in BRIDGE_FROM and self.active_mode == WHEEL:
+                # Wheel's stance is too far from mode's entry pose for a direct switch
+                # (see READY's definition above); reposition through READY first.
+                self.bridge_target = mode
+                self.request(READY)
+            elif mode:
                 self.request(mode)
 
         def request(self, mode):
@@ -161,6 +224,7 @@ def main():
                 f.add_done_callback(lambda future: self.listed(future, mode, epoch))
             except Exception as e:
                 self.busy = False
+                self.bridge_target = None
                 self.get_logger().warning(str(e))
 
         def listed(self, future, mode, epoch):
@@ -175,12 +239,16 @@ def main():
                     raise ValueError('Another command owner is active')
                 if mode in active:
                     self.busy = False  # repeated button does not restart a live policy
+                    # Reconcile local state, e.g. after a dispatcher restart while a mode
+                    # was already active: without this the lift cycle can't advance.
+                    self.active_mode = mode
+                    if mode != LIFT:
+                        self.lift_index = 0
                     return
                 available = {c.name: c.state for c in states}
                 if available.get(mode) != 'inactive':
                     raise ValueError('Requested controller is not loaded inactive')
-                mapping_path = directory() / 'triangle-roll-map.json'
-                mapping = json.loads(mapping_path.read_text()) if mode != WHEEL and mapping_path.exists() else None
+                mapping = load_roll_mapping(mode)
                 if mapping and mapping['calibration_id'] != cal['calibration_id']:
                     raise ValueError('Roll reference belongs to an old calibration')
                 if mapping:
@@ -241,7 +309,14 @@ def main():
                     raise ValueError('Controller switch rejected; inspect logs before retrying')
                 self.stopped = False
                 self.pending_start = mode == ROLL
-                self.busy = self.pending_start
+                self.bridging = mode == READY and self.bridge_target is not None
+                self.busy = self.pending_start or self.bridging
+                self.active_mode = mode
+                self.lift_index = 0
+                if self.bridging:
+                    self.bridge_started_at = time.monotonic()
+                elif mode != READY:
+                    self.bridge_target = None
                 self.activated_at = time.monotonic()
                 self.get_logger().info('Activated '+mode)
             except Exception as e:
@@ -253,6 +328,31 @@ def main():
                 self.stop('Gamepad input lost')
             if self.busy and now-self.started_at > 12:
                 self.stop('Mode entry timed out')
+            if self.bridging:
+                if now-self.bridge_started_at > BRIDGE_TIMEOUT_S:
+                    self.stop('Get-ready bridge did not settle in time')
+                else:
+                    try:
+                        self.fresh()
+                    except Exception as e:
+                        self.stop(str(e))
+                    else:
+                        try:
+                            # Same check (and the same mapping-selection logic) the real
+                            # target's own entry will run; once this passes, requesting it
+                            # below is guaranteed (modulo a fresh recheck) to succeed.
+                            cal = load_current()
+                            validate_entry(self.bridge_target, self.joints, cal,
+                                            load_roll_mapping(self.bridge_target), None)
+                        except Exception:
+                            pass  # not settled yet; keep waiting until the timeout above
+                        else:
+                            target = self.bridge_target
+                            self.bridging = False
+                            self.bridge_target = None
+                            self.busy = False
+                            self.get_logger().info('READY settled; requesting '+target)
+                            self.request(target)
             if self.pending_start and self.status_at > self.activated_at:
                 try:
                     self.fresh()

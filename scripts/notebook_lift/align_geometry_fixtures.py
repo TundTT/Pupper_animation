@@ -24,7 +24,7 @@ def main():
   for k in range(4):
    margins=np.array([lower[k]-np.min(np.delete(upper,k)),wheel,body]);row=np.r_[q,g,k,margins]
    if trial<1024 and k==trial%4:rows.append(row)
-   if trial>=1024 and np.all(margins>[.010,.010,.005]) and k not in feasible:feasible[k]=row
+   if trial>=1024 and np.all(margins>[.003,.010,.005]) and k not in feasible:feasible[k]=row
   if len(feasible)==4:break
  assert len(feasible)==4,'No static feasible pose for each leg within trained action bounds'
  np.savetxt(a.out,rows+[feasible[k] for k in range(4)],delimiter=',',fmt='%.17g')
