@@ -137,6 +137,14 @@ def save_record(record, replace=False):
     atomic_json(directory() / "history" / (record["calibration_id"] + ".json"), record)
     if current_session() != session:
         raise ValueError("Encoder session changed; calibration was not activated")
+    # These coordinate snapshots belong to the previous capture. Retain the
+    # evidence, but do not let it block walking with the new marked-hub frame.
+    for name in ("triangle-roll-map.json", "walking-handoff.json"):
+        path = directory() / name
+        if path.exists():
+            archive = directory() / "history" / (record["calibration_id"] + "-superseded")
+            archive.mkdir(parents=True, exist_ok=True)
+            path.rename(archive / name)
     atomic_json(directory() / "calibration.json", record)
 
 

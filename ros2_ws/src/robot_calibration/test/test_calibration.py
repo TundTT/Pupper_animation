@@ -47,6 +47,17 @@ class CalibrationTest(unittest.TestCase):
         self.assertEqual(load_current(), replacement)
         self.assertEqual(len(list((directory() / "history").glob("*.json"))), 2)
 
+    def test_new_capture_archives_old_motion_references(self):
+        record = self.record()
+        for name in ("triangle-roll-map.json", "walking-handoff.json"):
+            atomic_json(directory() / name, {"calibration_id": "old"})
+        with capture_lock():
+            save_record(record)
+        for name in ("triangle-roll-map.json", "walking-handoff.json"):
+            self.assertFalse((directory() / name).exists())
+            archive = directory() / "history" / (record["calibration_id"] + "-superseded") / name
+            self.assertEqual(json.loads(archive.read_text()), {"calibration_id": "old"})
+
     def test_restart_rehome_reboot_dead_owner_and_pending_homing_rejected(self):
         save_record(self.record())
         cases = {"session_id": "new-hardware-activation", "boot_id": "previous-boot",
