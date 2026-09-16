@@ -1,0 +1,40 @@
+{
+  "source_branch": "robot-code",
+  "source_commit": "6b07745ab4c7ab59e6da7766a17896f118d5198d",
+  "source_implementation_commit": "42c322f",
+  "scope": "Existing manual heating GPIO bridge and Nano firmware; no automatic motion-launch integration or runtime behavior changes.",
+  "files": {
+    "robot/arduino/dpad_pin_driver/dpad_pin_driver.ino": {
+      "sha256": "9632d5a4414ecfef48cd4ff59717a26d8f6c0855800e17d49989410b915a5ccc"
+    },
+    "ros2_ws/src/dpad_serial_bridge/README.md": {
+      "sha256": "80c076edac28d2d38e561676a048763d2043df0700b739454688e43113fc95c8"
+    },
+    "ros2_ws/src/dpad_serial_bridge/dpad_serial_bridge/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "ros2_ws/src/dpad_serial_bridge/dpad_serial_bridge/dpad_serial_bridge_node.py": {
+      "sha256": "f67f8ecdb1a120d5906aa1f029606855272b98227fc2b5cb2e33ef7d15a8de92"
+    },
+    "ros2_ws/src/dpad_serial_bridge/package.xml": {
+      "sha256": "d3aa68a020d0914537526040aacaccf08ffb52ef13127c10d28359c7dec73a41"
+    },
+    "ros2_ws/src/dpad_serial_bridge/resource/dpad_serial_bridge": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "ros2_ws/src/dpad_serial_bridge/setup.cfg": {
+      "sha256": "0ac99ab667632436077d41a391280c50223a2373a8347c5deb8bc8a2e312bfa1"
+    },
+    "ros2_ws/src/dpad_serial_bridge/setup.py": {
+      "sha256": "991173ddaef38522ebdc355b489a24b21972200dba8e0ea883d8c739ffe30edc"
+    }
+  },
+  "extracted_config": {
+    "path": "config/heating.yaml",
+    "sha256": "aa52960c746db01329ebe49056d5cf300ce89aac53fa7384b1fa00dc7bd532ab",
+    "source_path": "ros2_ws/src/neural_controller/launch/config.yaml",
+    "source_sha256": "1aa9cbcbbd78c060c8e961770315d5335de08275d0037e7884c3baeb7c78b8a9",
+    "section": "dpad_serial_bridge",
+    "note": "Original parameter section; trailing blank line removed."
+  }
+}

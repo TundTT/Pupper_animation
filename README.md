@@ -63,7 +63,11 @@ time-only easing change. R2 lift-and-align is unchanged.
 
 ## Build and test without hardware
 
-Use Linux with ROS 2 Jazzy and the dependencies declared in the five package.xml
+The original manual heating bridge and Nano firmware are also included, with
+their source settings and dependencies. See [HEATING_MODULE.md](HEATING_MODULE.md).
+Heating remains separate from the motion launch and leg-to-wheel sequence.
+
+Use Linux with ROS 2 Jazzy and the dependencies declared in the six package.xml
 files. From this repository root:
 
 ```sh

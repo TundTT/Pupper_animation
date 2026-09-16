@@ -103,3 +103,23 @@ original clearance-faded filter. Export bytes and hashes remain unchanged.
 Additional local WSL evidence under `/var/tmp/quadmorph-gravity-20260915`:
 `manual-build.log`, `manual-tests.log`, `manual-results.txt`, `manual-build-log/`
 and `manual-test-log/`. `scripts/verify_import.py` and `git diff --check` passed.
+
+
+## Heating-module import addendum — 2026-09-15
+
+Copied the eight original ROS bridge/Arduino source files byte-for-byte from
+`robot-code` at `6b07745`, plus its original heater parameter section. Hashes are
+recorded in HEATING_IMPORT.json and checked by scripts/verify_import.py.
+
+The `dpad_serial_bridge` package built successfully in ROS Jazzy/WSL. An isolated
+check imported the installed package and exercised the source node's callbacks
+with a mock serial connection: four configured directions, release messages,
+held-input suppression and all-four-state reconnect resend passed. The check
+prohibited creating a real serial connection. The build retains the original
+setuptools warnings about dash-separated setup.cfg keys.
+
+Build evidence: `/var/tmp/quadmorph-gravity-20260915/heating-build.log` and
+`heating-build-log/`. The Arduino toolchain is not installed here; firmware was
+hash-verified but not compiled or uploaded. No heating hardware was accessed.
+The original disconnect/shutdown/e-stop limitations are documented in
+HEATING_MODULE.md. Motion launch and policy behavior were not changed.

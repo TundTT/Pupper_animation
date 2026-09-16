@@ -37,5 +37,11 @@ for name, expected_hash in stanford['current_sha256'].items():
     data = (root / name).read_bytes()
     assert hashlib.sha256(data).hexdigest() == expected_hash, name
     assert not data.startswith(b'version https://git-lfs.github.com/spec/v1'), name
+heating = json.loads((root / 'HEATING_IMPORT.json').read_text())
+for name, record in heating['files'].items():
+    assert hashlib.sha256((root / name).read_bytes()).hexdigest() == record['sha256'], name
+config = heating['extracted_config']
+assert hashlib.sha256((root / config['path']).read_bytes()).hexdigest() == config['sha256'], config['path']
 print(f"PASS: {len(manifest['files'])} original import records and documented integration changes; "
-      f"{len(stanford['current_sha256'])} Stanford files; selected exports and includes verified")
+      f"{len(stanford['current_sha256'])} Stanford files; {len(heating['files'])} heating files and config; "
+      "selected exports and includes verified")
