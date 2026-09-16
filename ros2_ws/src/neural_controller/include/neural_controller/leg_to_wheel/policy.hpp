@@ -12,6 +12,19 @@ using Vec3 = std::array<double, 3>;
 inline constexpr std::array<int,5> command_to_foot{-1,1,0,2,3};
 inline constexpr std::array<double,4> lift_sign{1.,-1.,1.,-1.};
 
+// Operator verification replaces the clearance/contact sequencer for the manual
+// adapter. A lower request is NOT evidence of contact or successful conversion.
+struct ManualSequencer {
+  int step=0;
+  int command() const {return step%2 ? (step+1)/2 : 0;}
+  int leg() const {return step ? (step+1)/2 : 0;}
+  bool lower_requested() const {return step>0 && step%2==0;}
+  bool request(int next) {
+    if(next!=step+1 || next>8)return false;
+    step=next;return true;
+  }
+};
+
 struct Sequencer {
   enum class Phase {stand, lifting, heating, lowering};
   int command=0, active=0, converted=0;
@@ -39,9 +52,9 @@ struct Sequencer {
   }
 };
 
-// Source-only runtime. A hardware adapter must supply calibrated model-frame
-// joint positions, body-frame IMU values and measured/validated world-floor
-// capsule clearances. No ROS activation or contact estimator is hidden here.
+// Actor runtime: calibrated model-frame joints and body-frame IMU are required.
+// step() retains the original measured-clearance filter; step_manual() is the
+// operator-verified time-only variant. Neither function estimates contact.
 class Policy {
  public:
   struct Output {Joints raw_action{}, applied_action{}, position_target{};};
@@ -68,11 +81,21 @@ class Policy {
   void reset() {seed_=true;previous_raw_.fill(0);previous_target_.fill(0);observation.fill(0);previous_command_=0;lowering_foot_=-1;elapsed_=0.;}
   Output step(const Vec3& omega,const Vec3& gravity,const Joints& q,int command,
               const std::array<double,4>& clearance,double dt=.02) {
+    for(double x:clearance)if(!std::isfinite(x))throw std::invalid_argument("Nonfinite capsule clearance");
+    return step_impl(omega,gravity,q,command,&clearance,dt);
+  }
+  // Explicit manual variant: time easing only, without invented floor readings.
+  // The actor, raw-action history and target limits retain the export contract.
+  Output step_manual(const Vec3& omega,const Vec3& gravity,const Joints& q,int command,double dt=.02) {
+    return step_impl(omega,gravity,q,command,nullptr,dt);
+  }
+ private:
+  Output step_impl(const Vec3& omega,const Vec3& gravity,const Joints& q,int command,
+                   const std::array<double,4>* clearance,double dt) {
     if(command<0 || command>4 || !std::isfinite(dt) || std::abs(dt-dt_)>1e-7)throw std::invalid_argument("Expected one command at the trained control timestep");
     for(double x:omega)if(!std::isfinite(x))throw std::invalid_argument("Nonfinite gyro");
     for(double x:gravity)if(!std::isfinite(x))throw std::invalid_argument("Nonfinite gravity");
     for(double x:q)if(!std::isfinite(x))throw std::invalid_argument("Nonfinite joint position");
-    for(double x:clearance)if(!std::isfinite(x))throw std::invalid_argument("Nonfinite capsule clearance");
     if(command!=0) {lowering_foot_=-1;elapsed_=0.;}
     else if(previous_command_!=0) {lowering_foot_=command_to_foot[previous_command_];elapsed_=0.;}
     std::array<float,35> frame{};
@@ -88,7 +111,8 @@ class Policy {
     }
     if(lowering_foot_>=0 && speed_>0) {
       double phase=ease_>0?std::min(elapsed_/ease_,1.):0.;
-      double strength=(1.-3.*phase*phase+2.*phase*phase*phase)*std::clamp((clearance[lowering_foot_]-fade_[0])/(fade_[1]-fade_[0]),0.,1.);
+      double strength=(1.-3.*phase*phase+2.*phase*phase*phase);
+      if(clearance)strength*=std::clamp(((*clearance)[lowering_foot_]-fade_[0])/(fade_[1]-fade_[0]),0.,1.);
       int joint=3*lowering_foot_+1;double sign=lift_sign[lowering_foot_],delta=speed_*dt/scale[joint];
       if((out.applied_action[joint]-previous_target_[joint])*sign < -delta)
         out.applied_action[joint]+=strength*(previous_target_[joint]-sign*delta-out.applied_action[joint]);
@@ -98,6 +122,7 @@ class Policy {
     previous_raw_=out.raw_action;previous_target_=out.applied_action;previous_command_=command;
     return out;
   }
+ public:
   Joints home{},scale{},lower{},upper{},kp{},kd{};
   std::array<float,140> observation{};
  private:

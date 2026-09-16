@@ -39,7 +39,7 @@ class ButtonsTest(unittest.TestCase):
         self.mapping={'calibration_id':'live','captured_q':up,'model_to_encoder_offset':[0]*12}
 
     def test_buttons_and_edges(self):
-        for index,mode in ((0,b.ROLL),(2,b.WALK),(1,b.WHEEL),(7,b.LIFT)):
+        for index,mode in ((0,b.ROLL),(2,b.WALK),(1,b.WHEEL),(7,b.LIFT),(3,b.MANUAL)):
             pad=[0]*13;pad[index]=1
             self.assertEqual(b.choose_button([0]*13,pad,False),mode)
             self.assertIsNone(b.choose_button(pad,pad,False))
@@ -52,7 +52,7 @@ class ButtonsTest(unittest.TestCase):
 
     def test_r2_only_and_previous_input_recovery(self):
         pad=[0]*13;pad[3]=1
-        self.assertIsNone(b.choose_button([0]*13,pad,False))  # Square unbound
+        self.assertEqual(b.choose_button([0]*13,pad,False),b.MANUAL)  # Square manual conversion
         pad[7]=1;pad[3]=0
         self.assertIsNone(b.choose_button([],pad,False))
         pad[0]=1
@@ -95,12 +95,55 @@ class ButtonsTest(unittest.TestCase):
             count=handler.lift_pub.publish.call_count
             send(7,axis=1.);self.assertEqual(handler.lift_pub.publish.call_count,count)
         count=handler.lift_pub.publish.call_count
-        send();send(3);send();send(0,7)  # Square and ambiguous mode edge never advance
+        send();send(0,7)  # Ambiguous mode edge never advances lift/align
         self.assertEqual(handler.lift_pub.publish.call_count,count)
         send();handler.busy=True;send(7);handler.busy=False;send(7)
         self.assertEqual(handler.lift_pub.publish.call_count,count)  # No queue after busy
         send();send(7,10);handler.stop.assert_called_once()
         self.assertEqual(handler.lift_pub.publish.call_count,count)
+
+    def test_manual_status_exit_and_real_square_callback(self):
+        tree=ast.parse(Path(b.__file__).read_text())
+        main=next(x for x in tree.body if isinstance(x,ast.FunctionDef) and x.name=='main')
+        cls=next(x for x in main.body if isinstance(x,ast.ClassDef) and x.name=='Buttons')
+        scope=dict(vars(b),Node=object,Int32=lambda **kw:SimpleNamespace(**kw))
+        exec(compile(ast.Module(body=[cls],type_ignores=[]),b.__file__,'exec'),scope)
+        h=scope['Buttons'].__new__(scope['Buttons'])
+        h.previous=[0]*13;h.busy=False;h.pending_mode=None;h.active_mode=b.MANUAL
+        h.manual_pub=Mock();h.manual_pub.get_subscription_count.return_value=1
+        h.stop=Mock();h.get_logger=Mock()
+        def send(*pressed):
+            pad=[0]*13
+            for i in pressed:pad[i]=1
+            h.joy(SimpleNamespace(buttons=pad,axes=[0]*6))
+        for step in range(1,9):
+            status=[step,(step+1)//2 if step%2 else 0,(step+1)//2,int(step%2==0),int(step==8),0,step,0,0,.002]
+            h.manual_status=status;h.manual_status_at=b.time.monotonic()
+            self.assertEqual(b.validate_manual_status(status,.1),step)
+            if step%2:
+                with self.assertRaises(ValueError):b.validate_manual_status(status,.1,exiting=True)
+            else:b.validate_manual_status(status,.1,exiting=True)
+            with self.assertRaises(ValueError):b.validate_manual_status(status,.3)
+            before=h.manual_pub.publish.call_count
+            send();send(3)
+            self.assertEqual(h.manual_pub.publish.call_count,before+int(step<8))
+            if step<8:self.assertEqual(h.manual_pub.publish.call_args.args[0].data,step+1)
+            send(3);self.assertEqual(h.manual_pub.publish.call_count,before+int(step<8))
+        # Faults and stale status never send advancement; stop is still immediate.
+        h.manual_status[5]=2
+        before=h.manual_pub.publish.call_count
+        send();send(3);self.assertEqual(h.manual_pub.publish.call_count,before)
+        send();send(3,10);h.stop.assert_called_once()
+
+    def test_manual_entry_requires_calibrated_standing_hubs(self):
+        b.validate_entry(b.MANUAL,self.q,self.cal,None)
+        name=self.names[2]
+        self.q[name]=(-1+8*math.pi,0)
+        b.validate_entry(b.MANUAL,self.q,self.cal,None)
+        self.q[name]=(-1+math.pi,0)
+        with self.assertRaises(ValueError):b.validate_entry(b.MANUAL,self.q,self.cal,None)
+        self.q[name]=(-1,1)
+        with self.assertRaises(ValueError):b.validate_entry(b.MANUAL,self.q,self.cal,None)
 
     def test_switch_waits_for_sticks_to_settle_then_abandons_on_timeout(self):
         # A stray touch at the instant of pressing must not immediately switch

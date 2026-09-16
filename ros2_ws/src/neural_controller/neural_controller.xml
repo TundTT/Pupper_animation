@@ -14,4 +14,9 @@
       <description>Wheel-blind 27-input lift policy with button-stepped calibrated hub position alignment.</description>
     </class>
   </library>
+  <library path="leg_to_wheel_controller">
+    <class name="neural_controller/LegToWheelController" type="neural_controller::LegToWheelController" base_class_type="controller_interface::ControllerInterface">
+      <description>Operator-stepped leg-to-wheel actor with time-only lowering; no contact estimator.</description>
+    </class>
+  </library>
 </class_libraries>

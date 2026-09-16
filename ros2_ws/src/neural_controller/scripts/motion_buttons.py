@@ -9,6 +9,7 @@ ROLL = 'neural_controller_triangle_roll'
 WALK = 'neural_controller_walk_v2'
 WHEEL = 'neural_controller_wheel'
 LIFT = 'neural_controller_wheel_lift'
+MANUAL = 'neural_controller_leg_to_wheel'
 POSE = 'neural_controller_joint_pose'
 # Wheel's held stance (0.65 rad abduction) is ~0.36 rad from Walk's/Lift's required
 # near-standing entry pose (~1.0 rad) -- past the 0.30/0.25 rad tolerance validate_entry
@@ -17,11 +18,11 @@ POSE = 'neural_controller_joint_pose'
 # handing off to whichever of WALK/LIFT was actually requested. See
 # wheel_to_walk_ready_config.yaml for the full rationale.
 READY = 'neural_controller_wheel_to_walk_ready'
-OWNERS = {ROLL, WALK, WHEEL, LIFT, POSE, READY}
+OWNERS = {ROLL, WALK, WHEEL, LIFT, POSE, READY, MANUAL}
 # joy_linux PlayStation mapping: R2 is digital button7. Its analog axis is
 # deliberately not dispatched too, so one pull cannot send two commands.
 LIFT_BUTTON = 7
-BUTTONS = {0: ROLL, 2: WALK, 1: WHEEL, LIFT_BUTTON: LIFT}
+BUTTONS = {0: ROLL, 2: WALK, 1: WHEEL, LIFT_BUTTON: LIFT, 3: MANUAL}
 BRIDGE_FROM = {WALK, LIFT}  # targets that may need the wheel->ready->target bridge
 BRIDGE_TIMEOUT_S = 8.0  # generous: ~2s ramp + settle, well under the 12s busy timeout floor
 # A button press does not switch immediately: it arms a pending switch that only
@@ -82,7 +83,7 @@ def validate_entry(mode, q, cal, mapping, roll_status=None):
                 difference = math.remainder(difference, 2 * math.pi)
             if abs(difference) > (.35 if i % 3 == 2 else .20):
                 raise ValueError('X requires the prepared tips-up starting pose')
-    if mode == WALK:
+    if mode in (WALK, MANUAL):
         home = [1, 0, -1, -1, 0, 1] * 2
         for i, n in enumerate(names):
             reference = 0
@@ -93,7 +94,9 @@ def validate_entry(mode, q, cal, mapping, roll_status=None):
             else:
                 difference = q[n][0] - home[i]
             if abs(difference) > .30:
-                raise ValueError('Triangle requires a near-standing tips-down pose')
+                raise ValueError('Walking/manual conversion requires a near-standing tips-down pose')
+    if mode == MANUAL and any(abs(q[n][1]) > .15 for n in names):
+        raise ValueError('Manual conversion requires stationary hubs too')
     if mode == LIFT:
         # Nominal is defined only for the 8 proximal (motor 1/2) joints; the hub has
         # no fixed entry target here and is validated live by the controller's own
@@ -113,6 +116,19 @@ def validate_lift_exit(status, age):
             any(not math.isfinite(v) for v in status) or
             int(status[0]) not in (1, 4, 5) or status[3] != 1 or status[6] != 0):
         raise ValueError('Lower the leg and wait for supported lift status before switching modes')
+
+
+def validate_manual_status(status, age, exiting=False):
+    if (status is None or len(status) != 10 or not 0 <= age <= .2 or
+            any(not math.isfinite(x) for x in status) or status[5] != 0 or
+            status[0] not in range(1, 9)):
+        raise ValueError('Fresh, fault-free manual conversion status required')
+    step = int(status[0])
+    if status[1] != ((step+1)//2 if step%2 else 0) or status[3] != int(step%2 == 0):
+        raise ValueError('Inconsistent manual conversion status')
+    if exiting and step%2:
+        raise ValueError('Press Square to lower, visually verify support, then select the next mode')
+    return step
 
 
 def main():
@@ -156,6 +172,8 @@ def main():
             self.pending_ok_since = None
             self.stop_pub = self.create_publisher(Empty, '/emergency_stop', 10)
             self.start_pub = self.create_publisher(Int32, '/triangle_roll/command', 1)
+            self.manual_status = None; self.manual_status_at = 0
+            self.manual_pub = self.create_publisher(Int32, '/leg_to_wheel/advance', 1)
             self.lift_pub = self.create_publisher(Int32, '/wheel_lift/advance', 1)
             self.list_client = self.create_client(ListControllers, '/controller_manager/list_controllers')
             self.switch_client = self.create_client(SwitchController, '/controller_manager/switch_controller')
@@ -165,9 +183,11 @@ def main():
             self.create_subscription(Float64MultiArray, '/neural_controller_triangle_roll/status', self.roll, 1)
             self.create_subscription(Float64MultiArray, '/neural_controller_triangle_roll/motor_commands', self.motor, 1)
             self.create_subscription(Float64MultiArray, '/neural_controller_wheel_lift/lift_status', self.lift_state, 1)
+            self.create_subscription(Float64MultiArray, '/neural_controller_leg_to_wheel/manual_status', self.manual_state, 1)
             self.create_timer(.05, self.watch)
             self.get_logger().info('X: roll and hold; Triangle: walk; Circle: wheels; '
                                     'R2: pose, then lift / align / lower for FR, FL, BR, BL; '
+                                    'Square: lift / lower FL, FR, BR, BL; heating and verification manual; '
                                     'PS: stop. All initially inactive.')
 
         def stop(self, reason):
@@ -210,6 +230,21 @@ def main():
                                                (stages[stage], int(values[1]), int(values[8])))
                 self.lift_status, self.lift_status_at = values, time.monotonic()
 
+        def manual_state(self, m):
+            values = list(m.data)
+            if len(values) != 10 or any(not math.isfinite(x) for x in values):
+                return
+            old = self.manual_status
+            self.manual_status, self.manual_status_at = values, time.monotonic()
+            if old is None or values[:8] != old[:8]:
+                step = int(values[0])
+                if 1 <= step <= 8:
+                    leg = ['FL', 'FR', 'BR', 'BL'][(step-1)//2]
+                    action = 'lift/hold; visually verify, heat separately, then Square to lower' if step%2 else 'lower/stand; visually verify support before advancing or switching'
+                    self.get_logger().info('Manual conversion: %s %s; fault %d' % (leg, action, values[5]))
+            if self.active_mode == MANUAL and values[5]:
+                self.stop('Manual conversion controller fault %d' % values[5])
+
         def motor(self, m):
             self.commands, self.commands_at = list(m.data), time.monotonic()
 
@@ -234,6 +269,20 @@ def main():
             self.axes = list(m.axes)
             if len(buttons)<=10 or buttons[10]:
                 self.stop('PS stop or incomplete gamepad input')
+                return
+            if mode == MANUAL and self.active_mode == MANUAL and not self.busy:
+                try:
+                    step = validate_manual_status(self.manual_status, time.monotonic()-self.manual_status_at)
+                    if step == 8:
+                        self.get_logger().info('All four lower requests sent; verify support, then select wheels')
+                    elif self.manual_pub.get_subscription_count():
+                        # Absolute next-step requests are idempotent: duplicate or
+                        # delayed messages cannot become an extra lift/lower.
+                        self.manual_pub.publish(Int32(data=step+1))
+                    else:
+                        raise ValueError('No subscriber on /leg_to_wheel/advance')
+                except ValueError as e:
+                    self.get_logger().warning(str(e))
                 return
             if mode == LIFT and self.active_mode == LIFT and not self.busy:
                 # The controller owns readiness and sequence state. Every press is
@@ -294,6 +343,8 @@ def main():
                 available = {c.name: c.state for c in states}
                 if available.get(mode) != 'inactive':
                     raise ValueError('Requested controller is not loaded inactive')
+                if MANUAL in active and mode != MANUAL:
+                    validate_manual_status(self.manual_status, time.monotonic()-self.manual_status_at, exiting=True)
                 if LIFT in active and mode != LIFT:
                     validate_lift_exit(self.lift_status, time.monotonic()-self.lift_status_at)
                 mapping = load_roll_mapping(mode)
@@ -365,6 +416,7 @@ def main():
                     self.bridge_started_at = time.monotonic()
                 elif mode != READY:
                     self.bridge_target = None
+                self.manual_status = None; self.manual_status_at = 0
                 self.activated_at = time.monotonic()
                 self.get_logger().info('Activated '+mode)
             except Exception as e:

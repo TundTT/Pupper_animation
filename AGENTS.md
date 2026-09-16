@@ -11,5 +11,6 @@ for deployment or additional motion.
 Preserve selected exports in policies/latest.json and their hashes. Do not use
 Stanford's policy weights or torque-threshold homing. The Stanford infrastructure
 baseline and adaptations are recorded in STANFORD_IMPORT.json. Distinguish software
-tests from hardware validation. The leg-to-wheel ROS adapter is explicitly deferred
-to the next task until its clearance/contact feedback contract is resolved.
+tests from hardware validation. Leg-to-wheel uses operator-verified Square presses,
+manual heating and time-only lowering easing; see LEG_TO_WHEEL_MANUAL.md. Do not
+reintroduce contact/clearance gating into that manual sequence.

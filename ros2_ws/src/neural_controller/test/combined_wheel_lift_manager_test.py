@@ -8,7 +8,7 @@ import time
 import yaml
 import rclpy
 from rclpy.qos import QoSProfile, DurabilityPolicy
-from std_msgs.msg import String, Empty, Float32MultiArray, Float64MultiArray
+from std_msgs.msg import String, Empty, Int32, Float32MultiArray, Float64MultiArray
 from control_msgs.msg import DynamicJointState
 from geometry_msgs.msg import Twist
 from controller_manager_msgs.srv import LoadController, ConfigureController, SwitchController
@@ -25,11 +25,11 @@ def test_combined_policies_load_inactive_and_lift_runs():
             else:left[k]=v
     # Exactly the parameter files and precedence used by combined_motion.launch.py.
     for filename in ('config.yaml','triangle_roll_config.yaml','wheel_lift_config.yaml',
-                     'wheel_to_walk_ready_config.yaml','combined_motion.yaml'):
+                     'leg_to_wheel_config.yaml','wheel_to_walk_ready_config.yaml','combined_motion.yaml'):
         text=(root/'launch'/filename).read_text().replace('$(find-pkg-share neural_controller)',str(root))
         merge(config,yaml.safe_load(text))
     policies=['neural_controller_triangle_roll','neural_controller_walk_v2','neural_controller_wheel',
-              'neural_controller_wheel_lift','neural_controller_wheel_to_walk_ready']
+              'neural_controller_wheel_lift','neural_controller_wheel_to_walk_ready','neural_controller_leg_to_wheel']
     policy_config={name:config[name] for name in policies}
     for name in policies:
         filename='locomotion_wheel_trial.yaml' if name=='neural_controller_wheel' else 'calibration_hardware.yaml'
@@ -68,6 +68,12 @@ def test_combined_policies_load_inactive_and_lift_runs():
         rclpy.init()
         node=rclpy.create_node('locomotion_manager_fixture')
         latest={}
+        manual='neural_controller_leg_to_wheel'
+        advance=node.create_publisher(Int32, '/leg_to_wheel/advance', 1)
+        node.create_subscription(Float64MultiArray, f'/{manual}/manual_status',
+                                 lambda m:latest.update(manual=list(m.data)),10)
+        node.create_subscription(Float64MultiArray, f'/{manual}/motor_commands',
+                                 lambda m:latest.update(manual_motors=list(m.data)),10)
         lift='neural_controller_wheel_lift'
         node.create_subscription(Float64MultiArray, f'/{lift}/lift_status',
                                  lambda m:latest.update(status=list(m.data)),10)
@@ -126,6 +132,19 @@ def test_combined_policies_load_inactive_and_lift_runs():
             stop.publish(Empty())
             wait(lambda:all(row['kp']==0 and row['effort']==0 for row in measured_commands()))
             switch([], [lift])
+            switch([manual], [])
+            wait(lambda: latest.get('manual', [0])[0] == 1)
+            for step in range(2, 9):
+                wait(lambda: advance.get_subscription_count() > 0)
+                advance.publish(Int32(data=step))
+                wait(lambda: latest['manual'][0] == step)
+                assert latest['manual'][1] == ((step+1)//2 if step%2 else 0)
+                assert latest['manual'][5] == 0, latest['manual']
+            wait(lambda: len(latest.get('manual_motors', [])) == 60)
+            assert latest['manual_motors'][3::5] == [5.]*12
+            stop.publish(Empty())
+            wait(lambda: latest['manual'][5] == 5 and latest['manual_motors'] == [0.]*60)
+            switch([], [manual])
         except Exception:
             log.flush();print((work/'manager.log').read_text()[-9000:]);raise
         finally:

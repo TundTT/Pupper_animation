@@ -2358,10 +2358,10 @@
   },
   "adapted_files": {
     "ros2_ws/src/neural_controller/CMakeLists.txt": {
-      "sha256": "e054a9f8124e088e7130224fe5a3944c725121beade9de043ebc5709bda10c07"
+      "sha256": "f7017e6189ace16902192686000e9f1c0cc3fc6828ceffe7d4ac18d3d60d7f15"
     },
     "ros2_ws/src/neural_controller/neural_controller.xml": {
-      "sha256": "0143b08e38d4846eebe0ae044595356708197fa3c4d0b2452e15371df31d7c1f"
+      "sha256": "84a2c2c3dee3e5d876cab0363b1f45a7e9561972878b7e01e214ab933504cbdb"
     },
     "ros2_ws/src/neural_controller/launch/config.yaml": {
       "sha256": "78d09bc137fd02f843b69f3ca7059a28ad3fa058eb235f5614efebc3920da5b7"
@@ -2380,6 +2380,18 @@
     "ros2_ws/src/robot_calibration/test/test_ros_capture.py": {
       "sha256": "89a31d9a4406aea52e21ab1904f5818cc0c86ef1171645b1e21dcbff8a1ac916",
       "reason": "Correct moving-position fixture and add fixed-position velocity-noise contract coverage."
+    },
+    "ros2_ws/src/neural_controller/include/neural_controller/leg_to_wheel/policy.hpp": {
+      "sha256": "b7a72abb2c61f37aa19a959b68df33130e8cf0688395bea76f83eb8760dea722",
+      "reason": "Add operator-step sequencer and explicit time-only easing API; preserve original sensor-based API and unchanged policy export."
+    },
+    "ros2_ws/src/neural_controller/scripts/motion_buttons.py": {
+      "sha256": "836c1efaa2152ff1a50318b52ec5dbc8d908b460581ee8f89059185cb677a613",
+      "reason": "Bind Square to manual leg-to-wheel with idempotent step requests, fresh status and operator-verified lower-before-mode-exit."
+    },
+    "ros2_ws/src/neural_controller/test/test_motion_buttons.py": {
+      "sha256": "682f0339d6b5807c09b59f4d0b7ea390593609579a181b353b86f7823cdc650d",
+      "reason": "Add Square/manual sequence, duplicate/held input, entry and status/exit regression coverage."
     }
   }
 }

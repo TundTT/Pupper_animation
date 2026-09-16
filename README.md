@@ -11,7 +11,7 @@ with our gravity-pose calibration. No robot deployment or physical test has occu
 | --- | --- | --- |
 | Leg walking, heating backpack + 9 mm | `policy_walk_v2.json` | `NeuralController` |
 | Wheels, heating backpack + 9 mm, 0.65 rad stance | `policy_wheel.json` | `NeuralController` |
-| Leg to wheel, gentle lowering | `policy_leg_to_wheel.json` | `leg_to_wheel/policy.hpp`: actor, sequencer and lowering filter |
+| Leg to wheel, gentle lowering | `policy_leg_to_wheel.json` | `LegToWheelController`: Square-stepped actor and time-only lowering filter |
 | X triangle roll to stand | `triangle_roll_plan.json` | `TriangleRollController`, measured roll and support feedback |
 | Newest shipped lift and align | `policy_leg_lift_wheel.json` | `WheelLiftController`: continuous proximal actor, hub position PD, alignment gates and sequencing |
 
@@ -55,9 +55,11 @@ for the physical setup, startup/capture sequence, storage and software limitatio
 All selected motion controllers start inactive. Nothing automatically heats,
 reshapes, restores a physical pose, rolls or begins walking at startup.
 
-**Leg-to-wheel's ROS hardware adapter remains the next task**, as explicitly agreed.
-Its policy, C++ actor/sequencer and lowering filter are retained; it is not spawned.
-Live clearance/contact feedback must be resolved before enabling that motion.
+**Leg-to-wheel now has a manual ROS adapter**, loaded inactive. Square advances
+lift/lower for FL, FR, BR, BL. The operator verifies each step and heats using
+the separate controller; no contact/clearance estimator is required. See
+[LEG_TO_WHEEL_MANUAL.md](LEG_TO_WHEEL_MANUAL.md) for the sequence and deliberate
+time-only easing change. R2 lift-and-align is unchanged.
 
 ## Build and test without hardware
 
@@ -77,8 +79,8 @@ python3 scripts/verify_import.py
 Tests use inference fixtures and fake controller interfaces. They do not start
 the physical hardware stack. `IMPORT_MANIFEST.json` records imported file hashes
 and the source commit. CMake, plugin registration and the walking/wheel config
-were narrowed to the selected controllers; controller source and exports are
-unchanged.
+were narrowed to the selected controllers. Integration changes are recorded
+separately from original source hashes; selected policy exports are unchanged.
 
 ## Validation
 

@@ -7,7 +7,8 @@ abduction; its controller config retains that exact stance.
 
 The other selected components are triangle roll-to-stand (X), the newest shipped
 wheel-blind lift policy with PD hub alignment (R2), and the leg-to-wheel C++ policy
-and sequencer. Leg-to-wheel's ROS adapter is explicitly deferred to the next task.
+and sequencer. Its ROS adapter now uses operator-verified Square presses and
+time-only lowering easing; see LEG_TO_WHEEL_MANUAL.md.
 The wheel-to-walk-ready export is an existing deterministic stance transition.
 
 Historical installation/evidence fields in imported manifests describe their

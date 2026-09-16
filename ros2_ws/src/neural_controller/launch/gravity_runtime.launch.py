@@ -1,4 +1,4 @@
-"""X roll, Triangle walk, Circle wheels, R2 lift+align. Startup homes hardware; confirm pose first."""
+"""X roll, Triangle walk, Circle wheels, R2 lift+align, Square manual conversion. Startup homes hardware; confirm pose first."""
 import os
 from pathlib import Path
 from launch import LaunchDescription
@@ -17,18 +17,19 @@ def generate_launch_description():
         return PathJoinSubstitution([FindPackageShare('neural_controller'), 'launch', name])
     config = ParameterFile(path('config.yaml'), allow_substs=True)
     roll = ParameterFile(path('triangle_roll_config.yaml'), allow_substs=True)
+    manual = ParameterFile(path('leg_to_wheel_config.yaml'), allow_substs=True)
     lift = ParameterFile(path('wheel_lift_config.yaml'), allow_substs=True)
     # Wheel->Walk/Lift "get ready" bridge; see wheel_to_walk_ready_config.yaml for why.
     ready = ParameterFile(path('wheel_to_walk_ready_config.yaml'), allow_substs=True)
     combined = ParameterFile(path('combined_motion.yaml'), allow_substs=True)
     policies = ['neural_controller_triangle_roll', 'neural_controller_walk_v2', 'neural_controller_wheel',
-                'neural_controller_wheel_lift', 'neural_controller_wheel_to_walk_ready']
+                'neural_controller_wheel_lift', 'neural_controller_wheel_to_walk_ready', 'neural_controller_leg_to_wheel']
     description = {'robot_description': ParameterValue(Command([
         FindExecutable(name='xacro'), ' ', PathJoinSubstitution([
             FindPackageShare('pupper_v3_description'), 'description', 'pupper_v3.urdf.xacro'])]), value_type=str)}
     nodes = [
         Node(package='robot_state_publisher', executable='robot_state_publisher', parameters=[description], output='both'),
-        Node(package='controller_manager', executable='ros2_control_node', parameters=[config, roll, lift, ready, combined], output='both'),
+        Node(package='controller_manager', executable='ros2_control_node', parameters=[config, roll, lift, manual, ready, combined], output='both'),
         Node(package='joy_linux', executable='joy_linux_node', name='joy_linux_node', parameters=[config, {'autorepeat_rate': 20.}], output='both'),
         # A single dispatcher owns buttons; legacy X alignment/estop-release bindings are absent.
         Node(package='neural_controller', executable='motion_buttons.py', output='both'),

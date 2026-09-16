@@ -31,7 +31,7 @@ was a measured pose in its old session; it is not used as a new encoder offset.
 5. Run `python3 scripts/calibrate_robot.py status`. Report the calibration ID,
    wheel homes and storage path before enabling requested policy motion.
 
-All five ROS motion-controller instances start inactive. The physical calibration
+All six ROS motion-controller instances start inactive. The physical calibration
 gate remains enabled, including when controller-manager services are used directly.
 Calibration does not authorize deployment, training, heating or additional motion.
 

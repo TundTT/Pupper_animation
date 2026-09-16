@@ -72,6 +72,34 @@ validation require the later supervised hardware procedure. SPI transaction vali
 does not prove per-motor firmware sample freshness. The Stanford visual model is
 not a validated custom-geometry simulation model.
 
-The leg-to-wheel ROS adapter and its live clearance/contact feedback remain the
-next task, explicitly deferred by the user. Its policy and core runtime are kept
-but are not exposed as a runnable controller by this launch.
+The subsequent manual leg-to-wheel adapter replaces that deferred feedback
+requirement with operator verification. See LEG_TO_WHEEL_MANUAL.md and the
+validation addendum below; physical testing is still pending.
+
+
+## Manual leg-to-wheel adapter addendum — 2026-09-15
+
+The five-package ROS Jazzy Release build passed after adding the sixth motion
+controller. All **14 neural-controller CTest groups passed**, including the
+original policy parity fixtures, the new manual controller lifecycle test,
+time-only easing replay, 16 dispatcher cases and the expanded ROS manager test.
+The aggregate report is **65 tests, 0 errors, 0 failures, 0 skipped**; this includes
+CTest wrappers, nested Python cases and the previously passing unchanged hardware
+and calibration suites. Those unchanged suites were not rerun for this adapter.
+
+The mock manager loaded all six motion controllers inactive, then executed all
+eight manual requests through the actual ROS subscription, checked actor commands
+and position gains, and verified emergency-stop zero commands. Controller tests
+also check missing calibration, multi-turn hub mapping, duplicate/out-of-order
+requests, indefinite waiting, no automatic restart, invalid feedback, stale IMU,
+tilting and clock gaps. Easing tests replay all 196 recorded policy input frames
+and verify raw-action history is unaffected. The original clearance-dependent
+runtime still passes its existing parity fixtures.
+
+No physical sensor, heat, lift or touchdown was tested. Manual time-only lowering
+is a deliberate runtime variation, not a physically validated equivalent of the
+original clearance-faded filter. Export bytes and hashes remain unchanged.
+
+Additional local WSL evidence under `/var/tmp/quadmorph-gravity-20260915`:
+`manual-build.log`, `manual-tests.log`, `manual-results.txt`, `manual-build-log/`
+and `manual-test-log/`. `scripts/verify_import.py` and `git diff --check` passed.
