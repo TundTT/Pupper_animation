@@ -69,6 +69,21 @@ controller_interface::CallbackReturn NeuralController::on_init() {
     std::ifstream json_file(params_.model_path);
     json_file >> j;
 
+    // The reference trainer used default_pose=0 for observations. Its exported
+    // home remains the motor target, but must not be subtracted from actor input.
+    // Keep the original export bytes; scope this correction to its known run.
+    rcl_interfaces::msg::ParameterDescriptor observation_descriptor;
+    observation_descriptor.read_only = true;
+    const auto observation_frame = get_node()->declare_parameter<std::string>(
+        "joint_position_observation", "relative_home", observation_descriptor);
+    if (observation_frame != "relative_home" && observation_frame != "absolute_model")
+      throw std::runtime_error("Unknown joint_position_observation frame");
+    absolute_joint_observation_ = observation_frame == "absolute_model";
+    if (absolute_joint_observation_ &&
+        (j.value("source_run", "") != "reference_2026-09-14_06-51-00" ||
+         j.value("behavior", "") != "locomotion"))
+      throw std::runtime_error("Absolute observation override requires the selected reference walking export");
+
     policy_contract_ = PolicyContract(j);
     rcl_interfaces::msg::ParameterDescriptor bridge_descriptor;
     bridge_descriptor.read_only=true;
@@ -935,7 +950,10 @@ controller_interface::return_type NeuralController::update(const rclcpp::Time &t
         RCLCPP_DEBUG(get_node()->get_logger(), "Attempting to read joint position for %s (index %d)", params_.joint_names.at(i).c_str(), i);
         float joint_pos =
             state_interfaces_map_.at(params_.joint_names.at(i)).at("position").get().get_value();
-        observation_.at(joint_position_idx_ + i) = joint_pos - encoder_offset_[i] - params_.default_joint_pos.at(i);
+        // Hardware has already removed the gravity-pose raw encoder offset.
+        // Retain the walking hub reference/winding offset even for absolute input.
+        observation_.at(joint_position_idx_ + i) = joint_pos - encoder_offset_[i] -
+            (absolute_joint_observation_ ? 0.0 : params_.default_joint_pos.at(i));
       }
     }
 

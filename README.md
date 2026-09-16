@@ -13,7 +13,7 @@ with our gravity-pose calibration. No robot deployment or physical test has occu
 | Wheels, heating backpack + 9 mm, 0.65 rad stance | `policy_wheel.json` | `NeuralController` |
 | Leg to wheel, gentle lowering | `policy_leg_to_wheel.json` | `LegToWheelController`: Square-stepped actor and time-only lowering filter |
 | X triangle roll to stand | `triangle_roll_plan.json` | `TriangleRollController`, measured roll and support feedback |
-| Newest shipped lift and align | `policy_leg_lift_wheel.json` | `WheelLiftController`: continuous proximal actor, hub position PD, alignment gates and sequencing |
+| Newest shipped lift and align | `policy_leg_lift_wheel.json` | `WheelLiftController`: continuous proximal actor, hub position PD, operator-verified R2 sequencing |
 
 Exports and controller configuration are in `ros2_ws/src/neural_controller/launch`.
 The zero-output `policy_wheel_to_walk_ready.json` is also retained: it supplies

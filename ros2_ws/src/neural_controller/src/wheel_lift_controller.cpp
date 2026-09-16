@@ -37,13 +37,15 @@ controller_interface::CallbackReturn WheelLiftController::on_activate(const rclc
  try{
   auto result=NeuralController::on_activate(state);if(result!=controller_interface::CallbackReturn::SUCCESS){stop(6);return result;}
   for(const auto& name:params_.joint_names)for(const auto* field:{"position","velocity","effort","kp","kd"})command_interfaces_map_.at(name).at(field);
-  wheel_lift::Sensors s;if(!sensors(s))throw std::runtime_error("Invalid/stale entry sensors");lift_.reset(s,startup_calibration_.wheel_home);lift_.press(); // Activation is the first button: pose.
+  wheel_lift::Sensors s;if(!sensors(s))throw std::runtime_error("Invalid/stale entry sensors");
+  if(-s.gravity[2]<std::cos(.6))throw std::runtime_error("Excessive entry tilt");
+  lift_.reset(s,startup_calibration_.wheel_home);lift_.press(); // First button: lift FR.
   last_request_.reset();rt_leg_lift_command_ptr_.writeFromNonRT(nullptr);
   leg_lift_command_subscriber_=get_node()->create_subscription<std_msgs::msg::Int32>("/wheel_lift/advance",rclcpp::QoS(1).durability_volatile(),[this](std_msgs::msg::Int32::SharedPtr msg){rt_leg_lift_command_ptr_.writeFromNonRT(msg);});
   status_pub_=get_node()->create_publisher<std_msgs::msg::Float64MultiArray>("~/lift_status",1);rt_status_=std::make_shared<realtime_tools::RealtimePublisher<std_msgs::msg::Float64MultiArray>>(status_pub_);rt_status_->msg_.data.resize(24);
   motor_pub_=get_node()->create_publisher<std_msgs::msg::Float64MultiArray>("~/motor_commands",1);rt_motors_=std::make_shared<realtime_tools::RealtimePublisher<std_msgs::msg::Float64MultiArray>>(motor_pub_);rt_motors_->msg_.data.resize(72);
   rt_observation_publisher_->msg_.data.resize(27);rt_policy_output_publisher_->msg_.data.resize(8);rt_position_command_publisher_->msg_.data.resize(12);
-  last_update_=-1;actor_clock_={};accepted_=rejected_=0;fault_=0;estop_active_=false;
+  last_update_=-1;actor_clock_={};accepted_=1;rejected_=0;fault_=0;estop_active_=false;
   for(auto& i:command_interfaces_)i.set_value(0.);
   return controller_interface::CallbackReturn::SUCCESS;
  }catch(const std::exception& e){RCLCPP_ERROR(get_node()->get_logger(),"Lift activation rejected: %s",e.what());stop(6);return controller_interface::CallbackReturn::ERROR;}
@@ -63,7 +65,12 @@ controller_interface::return_type WheelLiftController::update(const rclcpp::Time
   // Revalidate the verified angle before considering a lower press.
   lift_.tick(dt,s);
   auto ptr=rt_leg_lift_command_ptr_.readFromRT();
-  if(ptr&&*ptr&&*ptr!=last_request_){last_request_=*ptr;if(last_request_->data!=1)throw std::invalid_argument("Expected advance event 1");if(lift_.press())++accepted_;else ++rejected_;}
+  if(ptr&&*ptr&&*ptr!=last_request_){
+   last_request_=*ptr;
+   // Absolute step numbers make duplicate/delayed presses idempotent.
+   if(accepted_<12 && last_request_->data==static_cast<int>(accepted_+1) && lift_.press())++accepted_;
+   else ++rejected_;
+  }
   const bool inference=actor_clock_.tick(dt);
   if(inference){
    lift_.observe(s);model_->forward(lift_.observation.data());lift_.set_action(model_->getOutputs());

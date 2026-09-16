@@ -56,7 +56,10 @@ int main(int argc,char**argv){
     tick(0);
     for(int i=0;i<12;++i){require(std::abs(out[i][0]-targets[i])<1e-10,"first targets continuous");require(out[i][3]==4 && out[i][4]==.15,"first gains continuous");}
     tick(1);require(out[0][3]>4 && out[0][3]<5,"gains blend");
-    tick(2.1);auto obs=c.observations();require(std::abs(obs[12+11])<1e-5,"actual model sees no full turn");
+    tick(2.1);auto obs=c.observations();
+    for(int i=0;i<12;++i)
+      require(std::abs(obs[12+i]-c.params().default_joint_pos[i])<1e-5,
+              "actor sees absolute model angles with hub winding removed");
     require(out[11][0]>6 && out[11][0]<8.6,"actual motor output preserves full turn");
     c.stop();tick(2.2);require(out[11][3]==0,"stop removes position gain");
     c.on_deactivate({});assign();save_handoff(0);
@@ -70,6 +73,16 @@ int main(int argc,char**argv){
     {std::ofstream f(dir/"triangle-roll-map.json");f<<map;}
     require(c.on_activate({})==controller_interface::CallbackReturn::ERROR,"stale roll map rejects");
     std::filesystem::remove(dir/"triangle-roll-map.json");
+    for(int leg=0;leg<4;++leg)q[3*leg+2]=homes[leg]+(leg-2)*2*M_PI;
+    require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"gravity-only walking activation");
+    tick(2.1);obs=c.observations();
+    for(int i=0;i<12;++i) {
+      require(std::abs(obs[12+i]-c.params().default_joint_pos[i])<1e-5,
+              "gravity reference and winding retained in absolute observation");
+      if(i%3==2)require(std::abs(out[i][0]-q[i])<=.75001,
+                       "policy target stays on the calibrated long appendage");
+    }
+    c.on_deactivate({});
     {
       const auto launch=std::filesystem::path(argv[2]).parent_path();
       Harness bridge;rclcpp::NodeOptions bridge_options;

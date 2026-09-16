@@ -125,7 +125,7 @@ def test_combined_policies_load_inactive_and_lift_runs():
             switch([lift], [])
             wait(lambda:len(latest.get('action',[]))==8 and len(latest.get('status',[]))==24)
             assert all(math.isfinite(v) for v in latest['action'])
-            assert latest['status'][0]==1 and latest['status'][6]==0,latest['status']
+            assert latest['status'][0]==2 and latest['status'][7]==1 and latest['status'][6]==0,latest['status']
             wait(lambda:measured_commands() is not None)
             wait(lambda:all(abs(row['kp']-(4 if i%3==2 else 5))<1e-6
                             for i,row in enumerate(measured_commands())))

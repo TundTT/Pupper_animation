@@ -89,7 +89,8 @@ def main(argv=None):
             if not args.operator_confirmed:
                 if not sys.stdin.isatty():
                     raise ValueError("User confirmation required: run interactively or obtain the user's confirmation before --operator-confirmed")
-                print("Position the marked wheel rings in the agreed home pose, with the robot supported and motion controllers inactive.")
+                print("Support the robot with every LONG walking appendage pointing down and legs hanging freely.")
+                print("Position the marked wheel rings at the agreed references, with motion controllers inactive.")
                 print("Keep all joints stationary. This records angles; it does not move or physically home the wheels.")
                 if input("Type CALIBRATE when the physical setup is ready: ").strip() != "CALIBRATE":
                     raise ValueError("Calibration cancelled; nothing saved")

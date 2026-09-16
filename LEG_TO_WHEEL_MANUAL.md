@@ -28,7 +28,7 @@ or automatically enter driving. A deliberate deactivation/reactivation starts ov
 Pressing a different mode after a lower request is the operator's confirmation
 that support is satisfactory; switching while lift/hold is requested is refused.
 Existing entry checks for the destination mode still apply. PS remains emergency stop.
-R2 retains the separate wheel-blind lift-and-PD-alignment behavior.
+R2 uses the separate [operator-verified lift-and-PD-alignment sequence](LIFT_ALIGN_MANUAL.md).
 
 ## Implementation contract
 

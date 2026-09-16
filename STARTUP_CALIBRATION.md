@@ -7,6 +7,20 @@ wheel rings at the agreed calibration references. Keep the robot stationary.
 This positioning must be confirmed for **each fresh hardware activation**.
 A request to test/start is not physical confirmation. Heating remains manual.
 
+The LONG walking appendage on each hub must point down at capture. The user
+confirmed that each hub can be installed in three orientations: this physical
+setup selects the long appendage, regardless of its raw encoder position.
+The software cannot distinguish a long appendage from a short one if the wrong
+appendage is presented during capture. Keep the wheel-ring reference marks set
+as above. Recalibrate after changing an installation.
+
+Walking uses absolute **calibrated policy-frame** angles, not raw motor angles.
+The driver subtracts the captured gravity offset; the walking controller then
+subtracts its fixed hub reference/full-turn offset. Both offsets are added back
+to position commands. Only full turns are equivalent: never wrap hub angles
+modulo 120 degrees. The selected seq_d policy must not additionally subtract
+its motor home from observations. See WALKING_INPUT_FIX.md for validation.
+
 The editable nominal angles are in [config/gravity_pose.yaml](config/gravity_pose.yaml).
 They come from `robot-code` commit `6b07745`, `components.xacro`'s existing
 `homed_position` values. They are model-frame reference angles, not persistent

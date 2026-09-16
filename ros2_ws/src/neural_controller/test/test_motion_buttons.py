@@ -89,11 +89,18 @@ class ButtonsTest(unittest.TestCase):
         settle();handler.request.assert_called_once_with(b.LIFT)
         handler.active_mode=b.LIFT
         send(7);handler.lift_pub.publish.assert_not_called()  # Activation pull not reused
-        for expected in [1]*12:
+        for expected in range(2,13):
+            step=expected-1
+            handler.lift_status=[0.]*24
+            handler.lift_status[0]=(2,3,4)[(step-1)%3]
+            handler.lift_status[1]=(step-1)//3;handler.lift_status[7]=step
+            handler.lift_status_at=b.time.monotonic()
             send();send(7)
             self.assertEqual(handler.lift_pub.publish.call_args.args[0].data,expected)
             count=handler.lift_pub.publish.call_count
             send(7,axis=1.);self.assertEqual(handler.lift_pub.publish.call_count,count)
+            send();send(7)  # Before acknowledgment, repeat the same absolute step.
+            self.assertEqual(handler.lift_pub.publish.call_args.args[0].data,expected)
         count=handler.lift_pub.publish.call_count
         send();send(0,7)  # Ambiguous mode edge never advances lift/align
         self.assertEqual(handler.lift_pub.publish.call_count,count)
@@ -215,7 +222,7 @@ class ButtonsTest(unittest.TestCase):
                 self.assertEqual(request.deactivate_controllers,[b.WHEEL])
                 self.assertEqual(handler.bridge_target,target)
 
-    def test_lift_exit_requires_supported_lower_and_fresh_status(self):
+    def test_lift_exit_requires_operator_lower_and_fresh_status(self):
         status=[0.]*24
         status[0]=4;status[3]=1
         b.validate_lift_exit(status,.1)
@@ -225,7 +232,16 @@ class ButtonsTest(unittest.TestCase):
         status[0]=4
         with self.assertRaises(ValueError):b.validate_lift_exit(status,.3)
         status[3]=0
-        with self.assertRaises(ValueError):b.validate_lift_exit(status,.1)
+        b.validate_lift_exit(status,.1)  # operator confirms support by selecting next mode
+
+    def test_lift_numbered_requests_require_fresh_consistent_status(self):
+        for step in range(1,13):
+            status=[0.]*24
+            status[0]=(2,3,4)[(step-1)%3];status[1]=(step-1)//3;status[7]=step
+            self.assertEqual(b.next_lift_step(status,.1),step+1 if step<12 else None)
+            with self.assertRaises(ValueError):b.next_lift_step(status,.3)
+            status[6]=1
+            with self.assertRaises(ValueError):b.next_lift_step(status,.1)
 
     def test_walking_full_turn_and_up_rejection(self):
         self.q[self.names[11]]=(1+2*math.pi,0)

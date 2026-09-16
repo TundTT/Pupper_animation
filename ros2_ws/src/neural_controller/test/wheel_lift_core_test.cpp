@@ -6,14 +6,22 @@ using namespace wheel_lift;
 void require(bool v,const char* m){if(!v)throw std::runtime_error(m);}
 int main(int argc,char** argv){try{
  Sensors s;s.q=Core::nominal;Core c;c.reset(s,{});require(c.stage==Core::idle,"reset");
- require(c.press()&&c.stage==Core::pose,"pose");require(c.press()&&c.stage==Core::lift,"lift");
- require(!c.press()&&c.stage==Core::lift,"closed clearance rejects without queue");
+ require(c.press()&&c.stage==Core::lift,"first press lifts");
  c.observe(s);auto obs=c.observation;s.q[2]=77;s.qd[2]=3;c.observe(s);require(obs==c.observation,"hub blind");
- s.q[2]=0;s.qd[2]=0;c.ready=true;require(c.press(),"align");c.observe(s);require(obs==c.observation,"align invisible");
+ s.q[2]=0;s.qd[2]=0;c.ready=false;require(c.press(),"operator authorizes align despite geometry");c.observe(s);require(obs==c.observation,"align invisible");
  for(int t=0;t<7000&&!c.verified;++t){c.ready=true;c.tick(.004,s);s.q[2]=c.reference[0];s.qd[2]=c.velocity;require(std::abs(c.velocity)<=.15+1e-12,"speed bound");for(int k=1;k<4;++k)require(c.reference[k]==0,"support holds");}
- require(c.verified,"measured settling");require(c.press()&&c.stage==Core::lower,"lower");c.supported=false;require(!c.press(),"reject next while unsupported");c.supported=true;require(c.press()&&c.leg==1,"next leg");
- c.ready=true;c.press();for(int t=0;t<100;++t)c.tick(.004,s);c.ready=false;s.q[5]=.123;c.tick(.004,s);require(c.reference[1]==.123,"gate loss captures once");s.q[5]=.13;c.tick(.004,s);require(c.reference[1]==.123,"does not chase encoder");
- for(int t=0;t<16000;++t)c.tick(.004,s);require(c.stage==Core::fault&&c.actor_command()==1&&!c.press(),"timeout holds lift and rejects descent");
+ require(c.verified&&!c.rotating,"measured settling stops rotation");c.measure(s);require(c.press()&&c.stage==Core::lower,"lower");c.supported=false;require(c.press()&&c.leg==1,"operator confirms next leg without support estimate");
+ c.ready=false;c.press();for(int t=0;t<100;++t)c.tick(.004,s);
+ require(c.rotating&&c.reference[1]!=0,"rotation proceeds without clearance estimate");
+ s.q[5]=.123;c.measure(s);require(c.press()&&c.stage==Core::lower,"operator accepts partial rotation and lowers");
+ require(c.reference[1]==.123&&c.velocity==0&&!c.rotating,"lower holds actual angle");
+ for(int t=0;t<100;++t){s.q[5]=.13;c.tick(.004,s);require(c.reference[1]==.123,"no rotation during lower");}
+ c.press();c.press();for(int t=0;t<16000;++t)c.tick(.004,s);require(c.stage==Core::fault&&c.actor_command()==3&&!c.press(),"timeout holds lift and rejects descent");
+ Sensors stand;stand.q=Core::nominal;stand.gravity={.049019622,.02891862,-.998379081};
+ for(int i=1;i<12;i+=3)stand.q[i]=(i/3%2)? .18 : -.18;
+ Core manual;manual.reset(stand,{});require(!manual.supported,"unequal estimated heights accepted");
+ for(int leg=0;leg<4;++leg){require(manual.press()&&manual.stage==Core::lift&&manual.leg==leg,"four-leg order");require(manual.press()&&manual.stage==Core::align,"manual align");require(manual.press()&&manual.stage==Core::lower,"manual lower");}
+ stand.qd[0]=.2;bool moving_rejected=false;try{manual.reset(stand,{});}catch(...){moving_rejected=true;}require(moving_rejected,"stationary activation remains required");
  Sensors bounded;bounded.q=Core::nominal;Core torque;torque.reset(bounded,{});std::array<float,8> extreme;extreme.fill(1);torque.set_action(extreme.data());torque.positions(bounded);for(int i=0;i<12;++i)require(std::abs(torque.estimated_pd[i])<=3.+1e-9,"bounded total PD matches training clamp");require(torque.action==extreme,"saturation does not rewrite previous normalized actor action");
  ActorClock clock;int count=0;for(int t=0;t<5200;++t)count+=clock.tick(1./520);require(count==500,"50 Hz fractional actor schedule");
  s.q=Core::nominal;s.qd.fill(0);for(int k=0;k<4;++k)s.q[3*k+2]=8*M_PI;Core winding;winding.reset(s,{});for(int k=0;k<4;++k)require(std::abs(winding.goal[k]-9*M_PI)<1e-12,"nearest winding half-turn tie");

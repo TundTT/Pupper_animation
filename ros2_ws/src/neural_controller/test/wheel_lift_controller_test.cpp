@@ -34,15 +34,20 @@ int main(int argc,char** argv){rclcpp::init(argc,argv);int result=0;
  double now=0;auto tick=[&]{now+=1./520;c.update(rclcpp::Time(int64_t(now*1e9),RCL_ROS_TIME),rclcpp::Duration::from_seconds(1./520));};
  // Frozen stand encoders exercise actual inference/execution without claiming a
  // simulated balance result. Requested changes stay within the PD guard here.
- for(int i=0;i<300;++i)tick();require(c.fault()==0,"actual model idle updates");c.command(1);tick();require(c.core().leg==0&&c.core().stage==wheel_lift::Core::lift,"actual command subscription buffer drivesFR");
+ for(int i=0;i<300;++i)tick();require(c.fault()==0,"actual model lift updates");require(c.core().leg==0&&c.core().stage==wheel_lift::Core::lift,"activation lifts FR");
  for(int i=0;i<12;++i){require(output[i][3]==c.params().kps[i]&&output[i][4]==c.params().kds[i],"perjoint gains consumed");require(output[i][1]==0&&output[i][2]==0,"position PD without outer velocity command");if(i%3==2)require(output[i][0]==home[i/3],"hubs hold captured encoder winding");}
- c.command(1);tick();require(c.core().stage==wheel_lift::Core::lift,"early align press rejected");
+ c.command(1);tick();require(c.core().stage==wheel_lift::Core::lift,"duplicate activation step rejected");
+ c.command(2);tick();require(c.core().stage==wheel_lift::Core::align,"manual clearance authorizes alignment");
+ c.command(2);tick();require(c.core().stage==wheel_lift::Core::align,"duplicate cannot lower");
+ c.command(4);tick();require(c.core().stage==wheel_lift::Core::align,"step jump cannot advance");
+ c.command(3);tick();require(c.core().stage==wheel_lift::Core::lower,"operator accepts alignment and lowers");
+ c.command(2);tick();require(c.core().stage==wheel_lift::Core::lower,"stale step cannot advance");
  c.estop();tick();zero();require(c.fault()==5,"operator stop latches");
  auto reenter=[&]{c.on_deactivate({});for(int i=0;i<12;++i){q[i]=(i%3==2)?home[i/3]+8*M_PI:(i%3==0?(i/3%2?-1:1):0);qd[i]=0;}imu={0,0,0,0,0,0,1,0};assign();require(c.on_activate({})==controller_interface::CallbackReturn::SUCCESS,"reentry preserves fresh holds after revolutions");now=0;c.update(rclcpp::Time(int64_t(0),RCL_ROS_TIME),rclcpp::Duration::from_seconds(0));tick();require(c.fault()==0,"fresh entry");};
  reenter();for(int k=0;k<4;++k)require(output[3*k+2][0]==q[3*k+2],"fresh winding not old hold");
  imu[7]=.2;tick();zero();require(c.fault()==2,"stale IMU stops");
  reenter();qd[0]=NAN;tick();zero();require(c.fault()==2,"nonfinite encoder stops");
- reenter();c.command(-1);for(int i=0;i<10;++i)tick();zero();require(c.fault()==4,"invalid command rejected");
+ reenter();c.command(-1);for(int i=0;i<10;++i)tick();require(c.fault()==0&&c.core().stage==wheel_lift::Core::lift,"invalid sequence number rejected without advancing");
  reenter();now+=.02;c.update(rclcpp::Time(int64_t(now*1e9),RCL_ROS_TIME),rclcpp::Duration::from_seconds(.02));zero();require(c.fault()==1,"command clock gap stops");
  reenter();qd[0]=100.;tick();zero();require(c.fault()==4,"infeasible bounded position PD stops");
  c.on_deactivate({});zero();std::cout<<"PASS actual plugin lifecycle, trained inference, held winding, gains, calibration and stop guards on fake interfaces\n";

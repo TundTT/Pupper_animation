@@ -1,8 +1,44 @@
 #include "neural_controller/walking_frame.hpp"
+#include "control_board_hardware_interface/gravity_calibration.hpp"
 #include <iostream>
 #include <random>
 void require(bool ok){if(!ok)throw std::runtime_error("walking frame check failed");}
 int main(){
+  // All 3^4 independent hub mountings: the operator puts the LONG appendage
+  // down for capture. Raw mounting shifts disappear, but physical commands
+  // retain them. Never identify appendages modulo 120 degrees.
+  constexpr double turn=6.2831853071795864769;
+  const std::array<double,12> policy_home{1,0,-1,-1,0,1,1,0,-1,-1,0,1};
+  for(int mounting=0;mounting<81;++mounting) {
+    auto gravity=policy_home;
+    for(int leg=0;leg<4;++leg) gravity[3*leg+2]-=.045;
+    auto raw=gravity;int choice=mounting;
+    for(int leg=0;leg<4;++leg) {
+      raw[3*leg+2]+=(choice%3)*turn/3+(leg-2)*turn;
+      choice/=3;
+    }
+    gravity_calibration::Sample capture;
+    for(int t=0;t<=110;++t) capture.observe(raw,t*.01,true);
+    const auto hardware_offset=capture.offsets(gravity);
+    std::array<double,12> calibrated{},reference{};
+    for(int i=0;i<12;++i) {
+      calibrated[i]=raw[i]-hardware_offset[i];
+      if(i%3==2)reference[i]=gravity[i]-policy_home[i];
+    }
+    const auto walk_offset=neural_controller::walking_offsets(calibrated,policy_home,reference);
+    for(int i=0;i<12;++i) {
+      require(std::abs(calibrated[i]-walk_offset[i]-policy_home[i])<1e-12);
+      const double raw_target=policy_home[i]+.12+walk_offset[i]+hardware_offset[i];
+      require(std::abs(raw_target-raw[i]-.12)<1e-12);
+    }
+    // A short appendage down AFTER capture must not be accepted as walking home.
+    for(double direction:{-1.,1.}) {
+      auto wrong=calibrated;wrong[2]+=direction*turn/3;
+      bool blocked=false;
+      try{neural_controller::walking_offsets(wrong,policy_home,reference);}catch(...){blocked=true;}
+      require(blocked);
+    }
+  }
   std::array<double,12> home{1,0,-1,-1,0,1,1,0,-1,-1,0,1},ref{};
   ref[2]=-.046;ref[5]=-.049;ref[8]=-.045;ref[11]=-.033;
   auto q=home;for(int i=0;i<12;++i)q[i]+=ref[i];q[11]+=2*3.141592653589793;

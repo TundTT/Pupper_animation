@@ -24,6 +24,7 @@ struct Core {
  std::array<float,8> action{};
  std::array<float,27> observation{};
  std::array<double,12> command{},estimated_pd{};
+ std::array<double,12> measured{};
  static bool finite(const Sensors& s){
   for(auto v:s.q)if(!std::isfinite(v))return false;
   for(auto v:s.qd)if(!std::isfinite(v))return false;
@@ -34,6 +35,8 @@ struct Core {
  int actor_command()const{return (stage==lift||stage==align||stage==fault)?std::array<int,4>{2,1,3,4}[leg]:0;}
  void measure(const Sensors& s){
   if(!finite(s))throw std::invalid_argument("Invalid sensors");
+  measured=s.q;
+  // Diagnostic estimates only. Operator button presses authorize each phase.
   bottoms=WheelGeometry::bottoms(s.q,s.gravity);
   margins=AlignGeometry::margins(s.q,s.gravity,leg);
   double spin=0;for(double v:s.angular)spin+=v*v;
@@ -47,7 +50,7 @@ struct Core {
  }
  void reset(const Sensors& s,const std::array<double,4>& startup){
   *this=Core{};home=startup;measure(s);
-  if(!supported)throw std::invalid_argument("Entry requires stationary level support");
+  for(double v:s.qd)if(std::abs(v)>.1)throw std::invalid_argument("Entry requires stationary joints");
   for(int i:proximal)if(std::abs(s.q[i]-nominal[i])>.25)throw std::invalid_argument("Entry requires near-nominal proximal stand");
   for(int k=0;k<4;++k){
    if(!std::isfinite(home[k]))throw std::invalid_argument("Invalid calibrated home");
@@ -59,11 +62,14 @@ struct Core {
   command=s.q;
  }
  bool press(){
-  if(stage==idle)stage=pose;
-  else if(stage==pose&&supported)stage=lift;
-  else if(stage==lift&&ready){stage=align;elapsed=settled=qualified=0;verified=false;}
-  else if(stage==align&&verified)stage=lower;
-  else if(stage==lower&&supported){if(leg==3)stage=done;else{++leg;stage=lift;verified=false;}}
+  if(stage==idle)stage=lift;
+  else if(stage==lift){stage=align;elapsed=settled=qualified=0;verified=false;}
+  else if(stage==align){
+   // The operator accepts the actual angle, even before exact target settling.
+   // Hold that measured angle during descent; never keep rotating while lowering.
+   reference[leg]=measured[3*leg+2];velocity=0;rotating=false;stage=lower;
+  }
+  else if(stage==lower){if(leg==3)stage=done;else{++leg;stage=lift;verified=false;}}
   else return false;
   return true;
  }
@@ -74,8 +80,7 @@ struct Core {
   if(verified){if(std::abs(q-goal[leg])>=.035||std::abs(qd)>=.08){verified=false;stage=fault;}return;}
   elapsed+=dt;
   if(elapsed>60){reference[leg]=q;velocity=0;stage=fault;return;}
-  qualified=ready?qualified+dt:0;
-  if(qualified<.2){if(rotating)reference[leg]=q;rotating=false;velocity=settled=0;return;}
+  // The explicit align press is the clearance confirmation, not geometry.
   rotating=true;double error=goal[leg]-reference[leg];
   double desired=std::clamp(2*error,-.15,.15);
   velocity=std::clamp(desired,velocity-.3*dt,velocity+.3*dt);
@@ -83,7 +88,7 @@ struct Core {
   if(std::abs(advance)>=std::abs(error)&&advance*error>=0){reference[leg]=goal[leg];velocity=0;}else reference[leg]+=advance;
   bool at=std::abs(q-goal[leg])<.025&&std::abs(qd)<.08&&std::abs(error)<.001;
   settled=at?settled+dt:0;
-  if(settled>=.5){verified=true;velocity=0;reference[leg]=goal[leg];}
+  if(settled>=.5){verified=true;rotating=false;velocity=0;reference[leg]=goal[leg];}
  }
  void observe(const Sensors& s){
   observation.fill(0);

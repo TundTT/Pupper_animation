@@ -111,11 +111,22 @@ def validate_entry(mode, q, cal, mapping, roll_status=None):
 
 
 def validate_lift_exit(status, age):
-    # Do not switch to driving or walking while a leg is still held off the floor.
+    # Selecting another mode after lower is the operator's support confirmation.
     if (age > .2 or status is None or len(status) != 24 or
             any(not math.isfinite(v) for v in status) or
-            int(status[0]) not in (1, 4, 5) or status[3] != 1 or status[6] != 0):
-        raise ValueError('Lower the leg and wait for supported lift status before switching modes')
+            int(status[0]) not in (4, 5) or status[6] != 0):
+        raise ValueError('Press R2 to lower and visually verify support before switching modes')
+
+
+def next_lift_step(status, age):
+    if (status is None or len(status) != 24 or not 0 <= age <= .2 or
+            any(not math.isfinite(x) for x in status) or status[6] != 0):
+        raise ValueError('Fresh, fault-free lift status required')
+    step = int(status[7])
+    if (status[7] != step or not 1 <= step <= 12 or
+            status[0] != (2, 3, 4)[(step-1)%3] or status[1] != (step-1)//3):
+        raise ValueError('Inconsistent lift/align sequence status')
+    return step+1 if step < 12 else None
 
 
 def validate_manual_status(status, age, exiting=False):
@@ -186,7 +197,7 @@ def main():
             self.create_subscription(Float64MultiArray, '/neural_controller_leg_to_wheel/manual_status', self.manual_state, 1)
             self.create_timer(.05, self.watch)
             self.get_logger().info('X: roll and hold; Triangle: walk; Circle: wheels; '
-                                    'R2: pose, then lift / align / lower for FR, FL, BR, BL; '
+                                    'R2: operator-verified lift / align / lower for FR, FL, BR, BL; '
                                     'Square: lift / lower FL, FR, BR, BL; heating and verification manual; '
                                     'PS: stop. All initially inactive.')
 
@@ -252,10 +263,11 @@ def main():
             return (len(self.axes)>=4 and
                     all(math.isfinite(self.axes[i]) and abs(self.axes[i])<=.15 for i in (0,1,3)))
 
-        def fresh(self):
+        def fresh(self, mode=None):
             now = time.monotonic()
             if (now-self.joy_at > .3 or len(self.previous)<=10 or self.previous[10] or
-                    now-self.joints_at > .2 or now-self.imu_at > .1 or self.tilt >= math.radians(8)):
+                    now-self.joints_at > .2 or now-self.imu_at > .1 or
+                    self.tilt >= (.6 if mode == LIFT else math.radians(8))):
                 raise ValueError('Fresh controller, encoders and level torso required for mode entry')
             if not self.sticks_centered():
                 raise ValueError('Release the drive sticks before changing modes')
@@ -285,12 +297,16 @@ def main():
                     self.get_logger().warning(str(e))
                 return
             if mode == LIFT and self.active_mode == LIFT and not self.busy:
-                # The controller owns readiness and sequence state. Every press is
-                # a single request, never a locally incremented or queued phase.
-                if self.lift_pub.get_subscription_count():
-                    self.lift_pub.publish(Int32(data=1))
-                else:
-                    self.get_logger().warning('No subscriber on /wheel_lift/advance')
+                try:
+                    step = next_lift_step(self.lift_status, time.monotonic()-self.lift_status_at)
+                    if step is None:
+                        self.get_logger().info('All four lower requests sent; visually verify support before switching')
+                    elif self.lift_pub.get_subscription_count():
+                        self.lift_pub.publish(Int32(data=step))
+                    else:
+                        raise ValueError('No subscriber on /wheel_lift/advance')
+                except ValueError as e:
+                    self.get_logger().warning(str(e))
                 return
             if mode:
                 # Arm, don't switch yet: wait() below only fires the real request
@@ -304,7 +320,7 @@ def main():
 
         def request(self, mode):
             try:
-                self.fresh()
+                self.fresh(mode)
                 load_current()
                 if not self.list_client.service_is_ready() or not self.switch_client.service_is_ready():
                     raise ValueError('Controller manager not ready')
@@ -322,7 +338,7 @@ def main():
             if epoch != self.epoch:
                 return
             try:
-                self.fresh()
+                self.fresh(mode)
                 cal = load_current()
                 states = future.result().controller
                 active = [c.name for c in states if c.state=='active' and c.claimed_interfaces]

@@ -27,7 +27,8 @@ def main():
         if (share / 'runtime_bundle.txt').read_text().strip() != 'quadmorph-stanford-gravity-v1':
             raise RuntimeError('Wrong package overlay: ' + str(share))
         print(name + ': ' + str(share))
-    print('Support the robot. Let the legs hang freely and position all marked wheel rings')
+    print('Support the robot. Point the LONG walking appendage on every hub down;')
+    print('let the legs hang freely and position all marked wheel rings')
     print('at the agreed calibration references. Keep the robot stationary.')
     if input('Type READY only when the physical setup is complete: ').strip() != 'READY':
         raise RuntimeError('Cancelled; hardware was not started')
