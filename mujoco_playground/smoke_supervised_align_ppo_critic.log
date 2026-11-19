@@ -1,0 +1,10 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+PASS: rejected actor proposal restores actor optimizer while independent critic still learns
+PASS: excessive proposal rejected with optimizer restored; smaller proposal backtracked into KL budget
+PASS: reference-phase KL guard catches a jump invisible on startup observations
+PASS: explicit supervision reaches all four wheel mean outputs
+PASS: sequence supervision differentiates through self-fed outputs and reaches all wheel means
+PASS: sampled sparse-history sequences contain the recorded previous-action context
+PASS: zero-success clone refused before data loading or environment stepping
+ALL PROTECTED PPO SMOKE CHECKS PASSED

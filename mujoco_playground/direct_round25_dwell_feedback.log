@@ -1,0 +1,69 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/theerawit/.netrc.
+wandb: Currently logged in as: tundt (QuadMorph) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.29.0
+wandb: Run data is saved locally in /home/theerawit/Pupper_animation-combine/mujoco_playground/wandb/run-20260908_174912-tigcy9fv
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run direct_round25_dwell_feedback
+wandb: ⭐️ View project at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: 🚀 View run at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/tigcy9fv
+2026-09-08 17:49:17.619129: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:49:17.619158: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:49:17.619215: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:49:17.619222: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:49:17.619279: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:49:17.619285: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:49:29.030742: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+{"step": 500, "loss": 1.0428236722946167, "validation": 1.4387232065200806, "phase_accuracy": 0.5441176295280457}
+{"step": 1000, "loss": 0.8672824501991272, "validation": 1.3804961442947388, "phase_accuracy": 0.5882353186607361}
+{"step": 1500, "loss": 0.7920513153076172, "validation": 1.382652759552002, "phase_accuracy": 0.6360294222831726}
+{"step": 2000, "loss": 0.7054179310798645, "validation": 1.3543846607208252, "phase_accuracy": 0.6911764740943909}
+{"step": 2500, "loss": 0.7798939943313599, "validation": 1.395416021347046, "phase_accuracy": 0.7224264740943909}
+{"step": 3000, "loss": 0.7100774049758911, "validation": 1.3671902418136597, "phase_accuracy": 0.7426470518112183}
+{"step": 3500, "loss": 0.6856750249862671, "validation": 1.418497920036316, "phase_accuracy": 0.7591911554336548}
+{"step": 4000, "loss": 0.6549196243286133, "validation": 1.4113306999206543, "phase_accuracy": 0.7757353186607361}
+{"step": 4500, "loss": 0.6621801257133484, "validation": 1.432650089263916, "phase_accuracy": 0.7886029481887817}
+{"step": 5000, "loss": 0.6328756809234619, "validation": 1.41841721534729, "phase_accuracy": 0.7977941036224365}
+{"step": 5500, "loss": 0.5832955837249756, "validation": 1.452298641204834, "phase_accuracy": 0.8051470518112183}
+{"step": 6000, "loss": 0.5542056560516357, "validation": 1.4438824653625488, "phase_accuracy": 0.8088235259056091}
+{"step": 6500, "loss": 0.5422689914703369, "validation": 1.4856338500976562, "phase_accuracy": 0.8143382668495178}
+{"step": 7000, "loss": 0.5705254077911377, "validation": 1.4863698482513428, "phase_accuracy": 0.8198529481887817}
+{"step": 7500, "loss": 0.517956554889679, "validation": 1.4650743007659912, "phase_accuracy": 0.8308823704719543}
+{"step": 8000, "loss": 0.5050647854804993, "validation": 1.4817187786102295, "phase_accuracy": 0.8382353186607361}
+{"step": 8500, "loss": 0.5542680025100708, "validation": 1.5015692710876465, "phase_accuracy": 0.8474264740943909}
+{"step": 9000, "loss": 0.5321048498153687, "validation": 1.497593641281128, "phase_accuracy": 0.8584558963775635}
+{"step": 9500, "loss": 0.4784068465232849, "validation": 1.5272085666656494, "phase_accuracy": 0.8621323704719543}
+{"step": 10000, "loss": 0.5222926735877991, "validation": 1.529965877532959, "phase_accuracy": 0.8658088445663452}
+{"step": 10500, "loss": 0.5121520757675171, "validation": 1.5483053922653198, "phase_accuracy": 0.8713235259056091}
+{"step": 11000, "loss": 0.4226141571998596, "validation": 1.5504900217056274, "phase_accuracy": 0.8768382668495178}
+{"step": 11500, "loss": 0.4963933825492859, "validation": 1.6065627336502075, "phase_accuracy": 0.8768382668495178}
+{"step": 12000, "loss": 0.5000096559524536, "validation": 1.563904047012329, "phase_accuracy": 0.8823529481887817}
+{"step": 12500, "loss": 0.47820430994033813, "validation": 1.5828337669372559, "phase_accuracy": 0.8823529481887817}
+{"step": 13000, "loss": 0.44373878836631775, "validation": 1.7235246896743774, "phase_accuracy": 0.8841911554336548}
+{"step": 13500, "loss": 0.441028892993927, "validation": 1.65852689743042, "phase_accuracy": 0.8878676295280457}
+{"step": 14000, "loss": 0.453580379486084, "validation": 1.6473584175109863, "phase_accuracy": 0.8915441036224365}
+{"step": 14500, "loss": 0.4436771273612976, "validation": 1.6710456609725952, "phase_accuracy": 0.8933823704719543}
+{"step": 15000, "loss": 0.4032212495803833, "validation": 1.7136926651000977, "phase_accuracy": 0.8952205777168274}
+{"step": 15500, "loss": 0.38302579522132874, "validation": 1.7383215427398682, "phase_accuracy": 0.8952205777168274}
+{"step": 16000, "loss": 0.44899654388427734, "validation": 1.6766432523727417, "phase_accuracy": 0.8952205777168274}
+wandb: updating run metadata
+wandb: uploading output.log; uploading wandb-summary.json; uploading config.yaml
+wandb: 
+wandb: Run history:
+wandb:           loss █▆▅▄▅▄▄▄▄▄▃▃▃▃▂▂▃▃▂▂▂▁▂▂▂▂▂▂▂▁▁▂
+wandb: phase_accuracy ▁▂▃▄▅▅▅▆▆▆▆▆▆▆▇▇▇▇▇▇████████████
+wandb:           step ▁▁▁▂▂▂▂▃▃▃▃▃▄▄▄▄▅▅▅▅▆▆▆▆▆▇▇▇▇███
+wandb:     validation ▃▁▂▁▂▁▂▂▂▂▃▃▃▃▃▃▄▄▄▄▅▅▆▅▅█▇▆▇██▇
+wandb: 
+wandb: Run summary:
+wandb:           loss 0.449
+wandb: phase_accuracy 0.89522
+wandb:           step 16000
+wandb:     validation 1.67664
+wandb: 
+wandb: 🚀 View run direct_round25_dwell_feedback at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/tigcy9fv
+wandb: ⭐️ View project at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260908_174912-tigcy9fv/logs
+RECURRENT-FEEDBACK CLONING COMPLETE

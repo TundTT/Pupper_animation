@@ -10,6 +10,12 @@ upstream reference task). A trained policy deploys to the robot the same way the
 existing locomotion/leg-lift policies do — an exported JSON MLP loaded by
 `neural_controller` (see the monorepo).
 
+For the new **12-output wheel-align policy**, see [WHEEL_ALIGN_DIRECT.md](WHEEL_ALIGN_DIRECT.md)
+for its encoder/IMU observation contract, teacher demonstrations, cloning, rewards,
+training results and the remaining observation/startup integration edits. This
+variant uses position control on all twelve joints. The existing three-output
+align teacher and velocity-controlled wheel-driving task remain available.
+
 ## The wheeled robot
 
 The MJCF
@@ -329,3 +335,104 @@ nonzero `kp` fights the free-spinning wheel against a stale position target.
   declare the wheel joints continuous and expose a velocity command interface)
   has not been updated.
 * Homing: startup must be able to reach the ±1 rad abduction stance safely.
+
+## QuadMorph Phase 1: wheel to leg, lift and rotate (`combine`)
+
+`PupperWheelAlignEnv` implements one-leg-at-a-time alignment while the robot
+remains in wheel form. The current controller is described and diagnosed in
+[ALIGNMENT_DIAGNOSIS.md](ALIGNMENT_DIAGNOSIS.md); [ALIGNMENT.md](ALIGNMENT.md)
+retains the superseded pilot history.
+
+Run from this worktree's `mujoco_playground/` with its existing venv:
+
+```sh
+JAX_PLATFORMS=cpu .venv/bin/python -m workspace.smoke_wheel_align
+CUDA_VISIBLE_DEVICES=1 XLA_PYTHON_CLIENT_PREALLOCATE=false \
+  .venv/bin/python -m workspace.smoke_wheel_align_supported
+CUDA_VISIBLE_DEVICES=1 MUJOCO_EGL_DEVICE_ID=1 XLA_PYTHON_CLIENT_PREALLOCATE=false \
+  nohup setsid .venv/bin/python -u -m workspace.train --task wheel-align \
+  > train_wheel_align_supported.log 2>&1 < /dev/null &
+train_pid=$!
+echo "$train_pid" > train_wheel_align_supported.pid
+disown
+sleep 2
+```
+
+Check GPU availability before choosing it. Alignment enables the existing W&B
+metrics/video path with entity `QuadMorph`, project
+`wheel-leg lift and align triangle base`. Defaults: 8M steps (rounded by PPO),
+4096 environments, 128×128 ELU actor/critic, learning rate 5e-5, two PPO updates,
+five evaluations. The actor starts with zero mean corrections and std 0.2.
+Every evaluated checkpoint, best checkpoint, config, metrics.jsonl and videos
+are saved in `workspace/output/wheel-align_<timestamp>/`.
+
+The policy has **three bounded actions**: clearance trim ±1 mm around a 5 mm
+collision gap, plus two coordinated stance corrections ±12 mm in the nominal
+body frame. The latter map through measured wheel-geom Jacobians into the eight
+abduction/hip joints around the wheel-driving home pose. They are coupled
+corrections, not eight independent joint actions. Front-leg lifts receive a
+measured preparatory stance adjustment; the policy can refine it during lifting
+and lowering/reweighting. Only the selected hip gets an additional lift reference.
+That reference follows measured clearance and returns gradually to zero; the
+preceding reference returns before another leg can rise. Idle returns to home.
+
+The reward allows 35 mm of body movement while supporting a lift/return, following
+leg-lift's permitted weight-shift mechanism, and 20 mm while idle. Excess drift
+is a soft quadratic cost relative to the original episode origin. That origin is
+never reset at a button press. Raw drift and outside-20-mm diagnostics remain
+comparable to previous runs. Holding has an angle/speed error cost, with no large
+bonus for pre-completed legs. Actual new completions earn an event bonus of 5,
+which is not multiplied by the control timestep. Total reward remains signed.
+
+External commands remain `stand/front_l/front_r/back_r/back_l`; set
+`automatic_commands=False` and call `env.set_command(state, index)` before
+inference. The command decides which leg is active; measured intra-leg phases
+handle lift, rotate, lower, hold. Enter rotation after three contact-free steps
+with ≥3 mm clearance; use a 1 mm hysteresis threshold while rotating, always
+requiring <0.5 N load. Settlement requires <0.10 rad angle error and <0.25 rad/s
+speed for five steps. Completion additionally requires <1 mm clearance and ≥2 N
+load for five steps. An interrupted, unverified rotation cannot claim completion.
+
+Each hub goal is its one-time calibrated `home + pi`, independent of its arbitrary
+current encoder phase after driving. Reset samples the reference and phase over
+the full circle. Targets persist across later commands and idle. Position PD
+(kp 2, kd 0.35, torque cap ±3 Nm) and a bounded 3 rad/s reference slew handle the
+wheel; every physics substep uses `current_qpos + wrap(reference-current_qpos)`.
+The wheel-driving env stays velocity-actuated. Both hardware modes are verified.
+
+The 36-second training episodes contain all four activations and idle periods.
+85% of resets force zero completed legs; the rest sample 0–4 pre-completed legs.
+The full maneuver state resets together with physics on termination. Broad
+`domain_randomize_wheeled` geometry/friction/mass/CoM/gain/latency variation and
+pushes are retained through the align PD adapter. Collision clearance always
+uses actual randomized per-wheel cylinder radius, width and orientation.
+
+Observations are **376 values: four 94-value frames**. Each frame contains IMU
+angular velocity/gravity (6), mixed joint-position/wheel-speed proprioception
+(12), last policy actions (3), command (5), target-error sin/cos (8), per-leg
+phase (20), tracked/completed masks (8), clearance/load (8), xy drift/body velocity
+(4), heading sin/cos (2), servo-reference error sin/cos (8), lift references (4),
+stance shift (2), and phase age (4). No raw unbounded wheel angle is observed.
+Old 340/12 or 356/8 checkpoints and the legacy drive exporter are incompatible.
+Controller state and clearance/load estimates must accompany eventual deployment;
+this training task does not implement the ROS integration.
+
+Each evaluation audits 16 randomized robots starting with zero completed legs,
+without auto-reset after falls. It reports per-leg rotation/verification/completion,
+all-four success, survival, conditional held-angle error with sample count, drift,
+and scrubbing. A fixed all-four video is also logged. A small fixed-seed audit is
+an iteration diagnostic; eventual evaluation should include unseen seeds.
+
+The CPU smoke tests cover routing, random phases, actual geometry, PD, wrapped
+angles, lowering, drift allowances, fresh episode resets and wheel-drive regression.
+`smoke_wheel_align_supported.py` additionally verifies a complete nominal sequence
+with zero learned corrections; `smoke_wheel_align_evaluate.py` checks the randomized
+evaluator and GPU/EGL rendering. Use the pinned existing `.venv`; never `uv run`.
+
+Robustness refinement continues from the supported controller's best checkpoint:
+direct unloading feedback and a stronger drift cost outside the same support
+allowance, through a 24M unloading pass and a 12M drift pass. The selected policy
+is the second pass's best 4M checkpoint. See [ALIGNMENT_ROBUSTNESS.md](ALIGNMENT_ROBUSTNESS.md)
+for the failed-lift traces, unchanged evaluation conditions, unseen-seed comparison,
+and run details. `audit_align_robustness.py` evaluates saved checkpoints with a
+chosen cohort size/seed and can save full stage traces with `--trace`.

@@ -1,0 +1,69 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/theerawit/.netrc.
+wandb: Currently logged in as: tundt (QuadMorph) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.29.0
+wandb: Run data is saved locally in /home/theerawit/Pupper_animation-combine/mujoco_playground/wandb/run-20260908_155231-d8s6du5l
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run direct_round08_age_feedback
+wandb: ⭐️ View project at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: 🚀 View run at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/d8s6du5l
+2026-09-08 15:52:38.524140: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:52:38.524177: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:52:38.524184: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:52:38.524189: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:52:38.524200: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:52:38.524211: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:52:38.524221: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:52:38.524227: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:52:38.524238: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+{"step": 500, "loss": 0.5702697038650513, "validation": 1.0107618570327759}
+{"step": 1000, "loss": 0.5905022621154785, "validation": 1.0461609363555908}
+{"step": 1500, "loss": 0.5800750255584717, "validation": 1.049026608467102}
+{"step": 2000, "loss": 0.5648738145828247, "validation": 1.0085656642913818}
+{"step": 2500, "loss": 0.5913300514221191, "validation": 1.1089905500411987}
+{"step": 3000, "loss": 0.5848367214202881, "validation": 1.0561823844909668}
+{"step": 3500, "loss": 0.5529204607009888, "validation": 1.047652244567871}
+{"step": 4000, "loss": 0.525536060333252, "validation": 1.057748556137085}
+{"step": 4500, "loss": 0.527350902557373, "validation": 1.119905710220337}
+{"step": 5000, "loss": 0.5049742460250854, "validation": 1.1474727392196655}
+{"step": 5500, "loss": 0.45845460891723633, "validation": 1.0839805603027344}
+{"step": 6000, "loss": 0.5065072774887085, "validation": 1.076591968536377}
+{"step": 6500, "loss": 0.5318148732185364, "validation": 1.157057762145996}
+{"step": 7000, "loss": 0.5139095783233643, "validation": 1.1205096244812012}
+{"step": 7500, "loss": 0.4663848876953125, "validation": 1.1528289318084717}
+{"step": 8000, "loss": 0.5163611173629761, "validation": 1.1610833406448364}
+{"step": 8500, "loss": 0.5332292318344116, "validation": 1.1633074283599854}
+{"step": 9000, "loss": 0.47498899698257446, "validation": 1.1741445064544678}
+{"step": 9500, "loss": 0.4730227589607239, "validation": 1.1859025955200195}
+{"step": 10000, "loss": 0.5287587642669678, "validation": 1.184211254119873}
+{"step": 10500, "loss": 0.43538302183151245, "validation": 1.1696019172668457}
+{"step": 11000, "loss": 0.4278204143047333, "validation": 1.149992823600769}
+{"step": 11500, "loss": 0.41336965560913086, "validation": 1.170832872390747}
+{"step": 12000, "loss": 0.45674458146095276, "validation": 1.207210659980774}
+{"step": 12500, "loss": 0.41229772567749023, "validation": 1.222403645515442}
+{"step": 13000, "loss": 0.39325571060180664, "validation": 1.2003774642944336}
+{"step": 13500, "loss": 0.3815152645111084, "validation": 1.24619722366333}
+{"step": 14000, "loss": 0.39964982867240906, "validation": 1.2073349952697754}
+{"step": 14500, "loss": 0.4410724341869354, "validation": 1.2478663921356201}
+{"step": 15000, "loss": 0.3580252528190613, "validation": 1.2061337232589722}
+{"step": 15500, "loss": 0.3466789424419403, "validation": 1.2293882369995117}
+{"step": 16000, "loss": 0.4021863043308258, "validation": 1.2528789043426514}
+wandb: updating run metadata
+wandb: uploading history steps 29-31, summary, console lines 30-31
+wandb: 
+wandb: Run history:
+wandb:       loss ▇██▇██▇▆▆▆▄▆▆▆▄▆▆▅▅▆▄▃▃▄▃▂▂▃▄▁▁▃
+wandb:       step ▁▁▁▂▂▂▂▃▃▃▃▃▄▄▄▄▅▅▅▅▆▆▆▆▆▇▇▇▇███
+wandb: validation ▁▂▂▁▄▂▂▂▄▅▃▃▅▄▅▅▅▆▆▆▆▅▆▇▇▆█▇█▇▇█
+wandb: 
+wandb: Run summary:
+wandb:       loss 0.40219
+wandb:       step 16000
+wandb: validation 1.25288
+wandb: 
+wandb: 🚀 View run direct_round08_age_feedback at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/d8s6du5l
+wandb: ⭐️ View project at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260908_155231-d8s6du5l/logs
+RECURRENT-FEEDBACK CLONING COMPLETE

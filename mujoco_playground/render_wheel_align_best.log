@@ -1,0 +1,44 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+2026-09-07 20:50:36.655357: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:50:52.641941: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:50:56.078151: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:51:04.888005: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:51:04.888036: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:51:04.888043: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:51:04.888048: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:51:19.315073: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:51:19.315106: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+  Showcase: completed=4/4 drift_p95=0.0420m drift_max=0.0452m hold_error_p95=0.024rad active_scrub_mean=0.011rad/s
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/glfw/__init__.py:917: GLFWError: (65550) b'X11: The DISPLAY environment variable is missing'
+  warnings.warn(message, GLFWError)
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/glfw/__init__.py:917: GLFWError: (65537) b'The GLFW library is not initialized'
+  warnings.warn(message, GLFWError)
+Traceback (most recent call last):
+  File "<stdin>", line 17, in <module>
+  File "/home/theerawit/Pupper_animation-combine/mujoco_playground/workspace/wheel_align_visualize.py", line 53, in render
+    return np.array(eval_env.render(trajectory)), round(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/theerawit/Pupper_animation-combine/mujoco_playground/workspace/wheel_env.py", line 577, in render
+    return super().render(trajectory, camera=camera or "tracking_cam", height=height, width=width)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/envs/base.py", line 169, in render
+    return image.render_array(self.sys, trajectory, height, width, camera)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/image.py", line 35, in render_array
+    renderer = mujoco.Renderer(sys.mj_model, height=height, width=width)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/mujoco/rendering/classic/renderer.py", line 88, in __init__
+    self._mjr_context = mujoco.MjrContext(model, font_scale.value)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+mujoco.FatalError: an OpenGL platform library has not been loaded into this process, this most likely means that a valid OpenGL context has not been created before mjr_makeContext was called
+Exception ignored in: <function Renderer.__del__ at 0x7a7eecfaa340>
+Traceback (most recent call last):
+  File "/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/mujoco/rendering/classic/renderer.py", line 339, in __del__
+    self.close()
+  File "/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/mujoco/rendering/classic/renderer.py", line 327, in close
+    if self._mjr_context:
+       ^^^^^^^^^^^^^^^^^
+AttributeError: 'Renderer' object has no attribute '_mjr_context'

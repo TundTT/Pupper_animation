@@ -30,12 +30,16 @@
     <actuator>
         <general joint="leg_front_r_1" name="leg_front_r_1" />
         <general joint="leg_front_r_2" name="leg_front_r_2" />
-        <!-- leg_X_3 is now the wheel's continuous spin joint (repurposed knee), so it is
-        VELOCITY controlled: ctrl = target wheel speed in rad/s, not a target angle. A
-        continuously-spinning joint has no meaningful position setpoint, and velocity is also
-        what the real wheel motor controller takes. kv is set here and mirrored in
-        workspace/configs.py (wheel_kv); the env overrides actuator gains at load time and
-        must write the same value back, see wheel_env.py. -->
+        <!-- leg_X_3 is now the wheel's continuous spin joint (repurposed knee), modeled here
+        as VELOCITY controlled: ctrl = target wheel speed in rad/s, not a target angle. This
+        matches the wheel-mode locomotion behavior's convention (the deployed rolling-drive
+        policy commands speed), but it is a per-behavior config choice, not a hardware limit —
+        the same physical motor also supports position control, as used by the leg-lift
+        behavior's config for this same joint (see master branch's model, where it is a
+        bounded position actuator). Don't assume one mode is "the real" one; check which
+        behavior/config is in play. kv is set here and mirrored in workspace/configs.py
+        (wheel_kv); the env overrides actuator gains at load time and must write the same
+        value back, see wheel_env.py. -->
         <velocity joint="leg_front_r_3" name="leg_front_r_3" kv="0.35" ctrlrange="-21 21"
             forcerange="-3 3" />
 

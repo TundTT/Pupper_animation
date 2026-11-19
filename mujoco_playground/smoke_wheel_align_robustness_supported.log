@@ -1,0 +1,16 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+2026-09-07 20:23:45.421796: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:23:45.421831: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:23:45.421836: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:23:45.421841: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:23:45.421846: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:23:45.421850: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+front_r phases (array([1, 2, 3, 4], dtype=int32), array([ 55,   5,  18, 210])) maxclear 0.0039398856 maxref 0.61405003 minerr 0.00010251999
+front_l phases (array([1, 2, 3, 4], dtype=int32), array([ 57,  79,  22, 135])) maxclear 0.004988998 maxref 0.6631006 minerr 5.2154064e-05
+back_r phases (array([1, 2, 3, 4], dtype=int32), array([ 48,  15,  21, 173])) maxclear 0.0041124485 maxref 0.47098005 minerr 0.00039893787
+back_l phases (array([1, 2, 3, 4], dtype=int32), array([ 49,  35,  23, 177])) maxclear 0.004815191 maxref 0.5071766 minerr 0.00019669533
+completed [ True  True  True  True] drift [0.00687767 0.02175458 0.02543037] falls 0.0
+PASS: zero-residual nominal full four-leg lift/rotate/lower/hold sequence

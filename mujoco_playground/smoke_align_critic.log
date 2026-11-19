@@ -1,0 +1,7 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+PASS:51 critic features cannot affect224 actor inputs,12 means,or actual physics; warm critic preserved
+PASS: Brax PPO dictionary transitions produce finite gradients; new critic inputs receive learning signal
+ALL TASK-STATE CRITIC SMOKE CHECKS PASSED

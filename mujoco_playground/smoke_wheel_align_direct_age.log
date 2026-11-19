@@ -1,0 +1,11 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+PASS: 224 sensor observations, repeated startup frames, all 12 independent position outputs
+PASS: no privileged actor/control inputs; whole-turn encoder-frame invariance
+PASS: 16 randomized direct-action physics steps, finite rewards/observations
+PASS: button-age observation increments on ticks, resets only on command change
+PASS: gated one-time +2 settle / +3 touchdown; no pre-completed or repeated credit
+PASS: DR/PPO auto-reset refreshes latched encoder defaults and reward latches
+ALL DIRECT SMOKE CHECKS PASSED

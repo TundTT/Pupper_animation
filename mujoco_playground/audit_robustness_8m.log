@@ -1,0 +1,435 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+2026-09-07 20:33:28.103640: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:33:44.477366: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:33:48.330043: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:34:05.955248: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:34:05.955284: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:34:05.955291: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:34:05.955297: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:34:05.955304: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:34:05.955309: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:34:05.955315: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:34:05.955320: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-07 20:34:05.955326: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+{
+  "audit/episodes": 16,
+  "audit/survival_fraction": 1.0,
+  "audit/all_four_completed_fraction": 0.4375,
+  "audit/all_four_success_fraction": 0.4375,
+  "audit/mean_completed_legs": 3.0625,
+  "audit/held_samples": 57729,
+  "audit/held_error_mean": 0.004374845884740353,
+  "audit/held_error_p95": 0.020220795646309853,
+  "audit/drift_p95": 0.0665779858827591,
+  "audit/drift_max": 0.13576969504356384,
+  "audit/active_scrub_mean": 0.010105832479894161,
+  "audit/completed_front_r_fraction": 0.9375,
+  "audit/completed_front_l_fraction": 0.875,
+  "audit/completed_back_r_fraction": 0.5,
+  "audit/completed_back_l_fraction": 0.75,
+  "audit/reached_rotation_front_r_fraction": 0.9375,
+  "audit/verified_rotation_front_r_fraction": 0.9375,
+  "audit/reached_rotation_front_l_fraction": 0.9375,
+  "audit/verified_rotation_front_l_fraction": 0.875,
+  "audit/reached_rotation_back_r_fraction": 0.6875,
+  "audit/verified_rotation_back_r_fraction": 0.5625,
+  "audit/reached_rotation_back_l_fraction": 0.8125,
+  "audit/verified_rotation_back_l_fraction": 0.75
+}
+2026-09-07 20:34:41.756938: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+{
+  "audit/episodes": 16,
+  "audit/survival_fraction": 1.0,
+  "audit/all_four_completed_fraction": 0.4375,
+  "audit/all_four_success_fraction": 0.4375,
+  "audit/mean_completed_legs": 3.0625,
+  "audit/held_samples": 57729,
+  "audit/held_error_mean": 0.004374845884740353,
+  "audit/held_error_p95": 0.020220795646309853,
+  "audit/drift_p95": 0.0665779858827591,
+  "audit/drift_max": 0.13576969504356384,
+  "audit/active_scrub_mean": 0.010105832479894161,
+  "audit/completed_front_r_fraction": 0.9375,
+  "audit/completed_front_l_fraction": 0.875,
+  "audit/completed_back_r_fraction": 0.5,
+  "audit/completed_back_l_fraction": 0.75,
+  "audit/reached_rotation_front_r_fraction": 0.9375,
+  "audit/verified_rotation_front_r_fraction": 0.9375,
+  "audit/reached_rotation_front_l_fraction": 0.9375,
+  "audit/verified_rotation_front_l_fraction": 0.875,
+  "audit/reached_rotation_back_r_fraction": 0.6875,
+  "audit/verified_rotation_back_r_fraction": 0.5625,
+  "audit/reached_rotation_back_l_fraction": 0.8125,
+  "audit/verified_rotation_back_l_fraction": 0.75,
+  "failures": [
+    {
+      "leg": "front_r",
+      "episode": 0,
+      "phases": {
+        "0": 0,
+        "1": 294,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "end_probe": [
+        -6.932616088306531e-06,
+        0.11276587843894958,
+        0.8962299823760986,
+        0.0010457359021529555
+      ],
+      "max_ref": 1.2000000476837158,
+      "end_action": [
+        0.8551973700523376,
+        -0.9568969011306763,
+        -0.8529107570648193
+      ],
+      "drift_max": 0.10633493214845657
+    },
+    {
+      "leg": "front_l",
+      "episode": 0,
+      "phases": {
+        "0": 0,
+        "1": 152,
+        "2": 48,
+        "3": 0,
+        "4": 0
+      },
+      "end_probe": [
+        -3.34450596710667e-05,
+        0.6086564660072327,
+        0.9986795783042908,
+        0.008553437888622284
+      ],
+      "max_ref": 1.2000000476837158,
+      "end_action": [
+        0.2093292474746704,
+        -0.9467410445213318,
+        -0.010921400040388107
+      ],
+      "drift_max": 0.12458262592554092
+    },
+    {
+      "leg": "front_l",
+      "episode": 5,
+      "phases": {
+        "0": 0,
+        "1": 223,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "end_probe": [
+        -0.0013906694948673248,
+        3.4236648082733154,
+        0.9760724902153015,
+        0.0037250530440360308
+      ],
+      "max_ref": 1.2000000476837158,
+      "end_action": [
+        -0.04229877516627312,
+        -0.896628201007843,
+        0.3713698983192444
+      ],
+      "drift_max": 0.03202468901872635
+    },
+    {
+      "leg": "back_r",
+      "episode": 0,
+      "phases": {
+        "0": 0,
+        "1": 300,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "end_probe": [
+        -0.00020111822232138366,
+        2.784104108810425,
+        3.128363609313965,
+        0.0037979402113705873
+      ],
+      "max_ref": 1.2000000476837158,
+      "end_action": [
+        -0.08453445136547089,
+        -0.7384665012359619,
+        0.12643875181674957
+      ],
+      "drift_max": 0.05077934265136719
+    },
+    {
+      "leg": "back_r",
+      "episode": 1,
+      "phases": {
+        "0": 0,
+        "1": 219,
+        "2": 32,
+        "3": 0,
+        "4": 0
+      },
+      "end_probe": [
+        -7.157497020671144e-05,
+        2.2027812004089355,
+        0.507590651512146,
+        0.023207122460007668
+      ],
+      "max_ref": 1.2000000476837158,
+      "end_action": [
+        0.2652577757835388,
+        -0.7978693246841431,
+        -0.13773930072784424
+      ],
+      "drift_max": 0.05066078156232834
+    },
+    {
+      "leg": "back_r",
+      "episode": 4,
+      "phases": {
+        "0": 0,
+        "1": 205,
+        "2": 15,
+        "3": 0,
+        "4": 0
+      },
+      "end_probe": [
+        -0.0005408809520304203,
+        1.979303240776062,
+        2.7021877765655518,
+        0.0063526201993227005
+      ],
+      "max_ref": 1.2000000476837158,
+      "end_action": [
+        0.7193216681480408,
+        -0.7534388899803162,
+        -0.6936988234519958
+      ],
+      "drift_max": 0.047964341938495636
+    },
+    {
+      "leg": "back_r",
+      "episode": 7,
+      "phases": {
+        "0": 0,
+        "1": 3,
+        "2": 25,
+        "3": 265,
+        "4": 0
+      },
+      "end_probe": [
+        0.0020058508962392807,
+        0.0,
+        8.935928235587198e-06,
+        0.0002471011830493808
+      ],
+      "max_ref": 0.07823872566223145,
+      "end_action": [
+        0.8673778772354126,
+        -0.796790361404419,
+        -0.9253136515617371
+      ],
+      "drift_max": 0.04247675836086273
+    },
+    {
+      "leg": "back_r",
+      "episode": 8,
+      "phases": {
+        "0": 0,
+        "1": 234,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "end_probe": [
+        -0.00038561917608603835,
+        3.866163730621338,
+        2.1301026344299316,
+        0.008719873614609241
+      ],
+      "max_ref": 1.2000000476837158,
+      "end_action": [
+        0.7353190779685974,
+        -0.7146548628807068,
+        -0.6753613948822021
+      ],
+      "drift_max": 0.04025927558541298
+    },
+    {
+      "leg": "back_r",
+      "episode": 10,
+      "phases": {
+        "0": 0,
+        "1": 248,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "end_probe": [
+        -0.0007100874208845198,
+        1.491833209991455,
+        0.25780951976776123,
+        0.004499352071434259
+      ],
+      "max_ref": 1.2000000476837158,
+      "end_action": [
+        0.7509724497795105,
+        -0.7817606329917908,
+        -0.7736359238624573
+      ],
+      "drift_max": 0.04524707421660423
+    },
+    {
+      "leg": "back_r",
+      "episode": 11,
+      "phases": {
+        "0": 0,
+        "1": 238,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "end_probe": [
+        -0.00103568728081882,
+        3.0437469482421875,
+        0.38997986912727356,
+        0.0033423590939491987
+      ],
+      "max_ref": 1.2000000476837158,
+      "end_action": [
+        0.6860425472259521,
+        -0.861843466758728,
+        -0.7960793972015381
+      ],
+      "drift_max": 0.041575174778699875
+    },
+    {
+      "leg": "back_r",
+      "episode": 12,
+      "phases": {
+        "0": 0,
+        "1": 202,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "end_probe": [
+        -0.0005738709005527198,
+        2.420811414718628,
+        2.1401591300964355,
+        0.010076557286083698
+      ],
+      "max_ref": 1.2000000476837158,
+      "end_action": [
+        0.5382602214813232,
+        -0.8368509411811829,
+        -0.5554322004318237
+      ],
+      "drift_max": 0.0391981340944767
+    },
+    {
+      "leg": "back_l",
+      "episode": 0,
+      "phases": {
+        "0": 0,
+        "1": 258,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "end_probe": [
+        -0.00025283999275416136,
+        3.507997751235962,
+        0.7855747938156128,
+        0.005934257060289383
+      ],
+      "max_ref": 1.2000000476837158,
+      "end_action": [
+        0.18227428197860718,
+        -0.5065056085586548,
+        -0.008458074182271957
+      ],
+      "drift_max": 0.07446766644716263
+    },
+    {
+      "leg": "back_l",
+      "episode": 7,
+      "phases": {
+        "0": 0,
+        "1": 207,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "end_probe": [
+        -6.124548963271081e-05,
+        2.173799514770508,
+        0.9839640259742737,
+        0.021684715524315834
+      ],
+      "max_ref": 1.2000000476837158,
+      "end_action": [
+        0.19994348287582397,
+        -0.5243401527404785,
+        -0.018612604588270187
+      ],
+      "drift_max": 0.029086528345942497
+    },
+    {
+      "leg": "back_l",
+      "episode": 11,
+      "phases": {
+        "0": 0,
+        "1": 281,
+        "2": 0,
+        "3": 0,
+        "4": 0
+      },
+      "end_probe": [
+        -0.0003538994351401925,
+        0.9478359818458557,
+        1.1207736730575562,
+        0.007534697651863098
+      ],
+      "max_ref": 1.2000000476837158,
+      "end_action": [
+        0.5094223022460938,
+        -0.47081929445266724,
+        -0.45885980129241943
+      ],
+      "drift_max": 0.03532804548740387
+    },
+    {
+      "leg": "back_l",
+      "episode": 12,
+      "phases": {
+        "0": 0,
+        "1": 209,
+        "2": 39,
+        "3": 0,
+        "4": 0
+      },
+      "end_probe": [
+        -0.0005608316278085113,
+        2.367304801940918,
+        0.888659656047821,
+        0.008403787389397621
+      ],
+      "max_ref": 1.2000000476837158,
+      "end_action": [
+        0.039442356675863266,
+        -0.43166595697402954,
+        0.18231138586997986
+      ],
+      "drift_max": 0.03341041877865791
+    }
+  ],
+  "drift_by_quarter_p95": [
+    0.048544757068157196,
+    0.07160027325153351,
+    0.10627969354391098,
+    0.09975595772266388
+  ]
+}

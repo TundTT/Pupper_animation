@@ -1,0 +1,41 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+2026-09-08 15:36:21.633568: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:36:37.529914: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:36:41.182398: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:36:58.256114: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:36:58.256148: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:36:58.256155: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:36:58.256161: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:36:58.256169: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:36:58.256176: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:36:58.256183: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:36:58.256189: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:36:58.256194: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+{
+  "audit/episodes": 16,
+  "audit/survival_fraction": 1.0,
+  "audit/all_four_completed_fraction": 0.0,
+  "audit/all_four_success_fraction": 0.0,
+  "audit/mean_completed_legs": 0.5,
+  "audit/held_samples": 6251,
+  "audit/held_error_mean": 0.03893803805112839,
+  "audit/held_error_p95": 0.10534393787384033,
+  "audit/drift_p95": 0.11492636054754257,
+  "audit/drift_max": 0.13246563076972961,
+  "audit/active_scrub_mean": 0.10773581266403198,
+  "audit/completed_front_r_fraction": 0.1875,
+  "audit/completed_front_l_fraction": 0.125,
+  "audit/completed_back_r_fraction": 0.0625,
+  "audit/completed_back_l_fraction": 0.125,
+  "audit/reached_rotation_front_r_fraction": 0.25,
+  "audit/verified_rotation_front_r_fraction": 0.1875,
+  "audit/reached_rotation_front_l_fraction": 0.3125,
+  "audit/verified_rotation_front_l_fraction": 0.125,
+  "audit/reached_rotation_back_r_fraction": 0.4375,
+  "audit/verified_rotation_back_r_fraction": 0.125,
+  "audit/reached_rotation_back_l_fraction": 0.3125,
+  "audit/verified_rotation_back_l_fraction": 0.125
+}

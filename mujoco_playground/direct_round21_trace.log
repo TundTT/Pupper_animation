@@ -1,0 +1,336 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+2026-09-08 17:41:19.601277: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:41:36.368038: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:41:40.078584: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:41:56.758562: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:41:56.758595: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:41:56.758603: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:41:56.758609: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:41:56.758624: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:41:56.758645: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:41:56.758652: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:41:56.758658: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+{
+  "params": "workspace/output/direct_round21_sparse_feedback/cloned_params_audit_best",
+  "completed_per_leg": [
+    26,
+    29,
+    35,
+    43
+  ],
+  "front_r": {
+    "1": {
+      "samples": 9381,
+      "clearance_mm": [
+        -2.082943916320801,
+        -0.3744736313819885,
+        1.5979260206222534
+      ],
+      "load_mean": 5.6627278327941895,
+      "angle_p50": 0.39888694882392883,
+      "speed_p50": 0.12025146931409836,
+      "unloaded": 0.0742991152329176,
+      "angle_pass": 0.3039121628824219,
+      "speed_pass": 0.7152755569768682,
+      "joint_command_p50": [
+        0.09496886283159256,
+        -0.0051196333020925525,
+        0.0030232535500545055
+      ]
+    },
+    "2": {
+      "samples": 3594,
+      "clearance_mm": [
+        3.0827419996261596,
+        7.63233757019043,
+        15.479451465606688
+      ],
+      "load_mean": 0.008325029164552689,
+      "angle_p50": 0.6502654552459717,
+      "speed_p50": 0.6038464903831482,
+      "unloaded": 0.9955481357818586,
+      "angle_pass": 0.1318864774624374,
+      "speed_pass": 0.2579298831385643,
+      "joint_command_p50": [
+        0.1262936368584633,
+        0.5914603710174561,
+        -0.07462749816477299
+      ]
+    },
+    "3": {
+      "samples": 1175,
+      "clearance_mm": [
+        -0.8402928590774537,
+        1.264121413230896,
+        9.707704353332518
+      ],
+      "load_mean": 1.2785179615020752,
+      "angle_p50": 0.03169757500290871,
+      "speed_p50": 0.09083922207355499,
+      "unloaded": 0.5225531914893617,
+      "angle_pass": 0.8612765957446809,
+      "speed_pass": 0.8859574468085106,
+      "joint_command_p50": [
+        0.12146265804767609,
+        0.07833340764045715,
+        0.010015280218794942
+      ]
+    },
+    "4": {
+      "samples": 2045,
+      "clearance_mm": [
+        -2.34734787940979,
+        -0.44300034642219543,
+        -0.06770268082618715
+      ],
+      "load_mean": 9.871725082397461,
+      "angle_p50": 0.02084701880812645,
+      "speed_p50": 0.04644288495182991,
+      "unloaded": 0.0,
+      "angle_pass": 0.9569682151589242,
+      "speed_pass": 0.9897310513447433,
+      "joint_command_p50": [
+        0.01158887054771185,
+        -0.0049919143319129946,
+        0.0070531697710976005
+      ]
+    }
+  },
+  "front_l": {
+    "1": {
+      "samples": 9357,
+      "clearance_mm": [
+        -2.4093456745147703,
+        -0.2507343888282776,
+        2.0728334426879838
+      ],
+      "load_mean": 4.8766984939575195,
+      "angle_p50": 0.18446731567382812,
+      "speed_p50": 0.10500703006982803,
+      "unloaded": 0.10152826760713904,
+      "angle_pass": 0.4197926685903602,
+      "speed_pass": 0.7244843432724164,
+      "joint_command_p50": [
+        -0.06764736771583557,
+        0.019857099652290346,
+        0.006319916225038469
+      ]
+    },
+    "2": {
+      "samples": 2636,
+      "clearance_mm": [
+        2.6577524542808533,
+        6.506526708602905,
+        11.521782159805298
+      ],
+      "load_mean": 0.0,
+      "angle_p50": 0.3255442678928375,
+      "speed_p50": 0.6478946208953857,
+      "unloaded": 0.996206373292868,
+      "angle_pass": 0.23520485584218512,
+      "speed_pass": 0.2272382397572079,
+      "joint_command_p50": [
+        -0.13012013584375381,
+        -0.567331075668335,
+        0.03438136726617813
+      ]
+    },
+    "3": {
+      "samples": 1520,
+      "clearance_mm": [
+        -0.2518726512789726,
+        1.6744118332862854,
+        8.127666425704955
+      ],
+      "load_mean": 1.1587518453598022,
+      "angle_p50": 0.027915090322494507,
+      "speed_p50": 0.06070714071393013,
+      "unloaded": 0.5967105263157895,
+      "angle_pass": 0.9723684210526315,
+      "speed_pass": 0.9625,
+      "joint_command_p50": [
+        -0.10256801918148994,
+        -0.0072832189500331886,
+        0.006149228807771578
+      ]
+    },
+    "4": {
+      "samples": 2419,
+      "clearance_mm": [
+        -2.4811872482299804,
+        -0.666305422782898,
+        -0.04772357642650604
+      ],
+      "load_mean": 10.606498718261719,
+      "angle_p50": 0.02928989939391613,
+      "speed_p50": 0.04539981856942177,
+      "unloaded": 0.0,
+      "angle_pass": 0.992972302604382,
+      "speed_pass": 0.9909053327821414,
+      "joint_command_p50": [
+        -0.0019340062281116843,
+        0.015309937298297882,
+        0.0075601504649966955
+      ]
+    }
+  },
+  "back_r": {
+    "1": {
+      "samples": 7345,
+      "clearance_mm": [
+        -2.570122575759888,
+        -0.473659485578537,
+        2.1789804935455312
+      ],
+      "load_mean": 4.9702935218811035,
+      "angle_p50": 0.14332562685012817,
+      "speed_p50": 0.08623692393302917,
+      "unloaded": 0.14417971409121852,
+      "angle_pass": 0.4430224642614023,
+      "speed_pass": 0.7503063308373042,
+      "joint_command_p50": [
+        -0.00572198024019599,
+        0.12292318344116211,
+        0.01837131311185658
+      ]
+    },
+    "2": {
+      "samples": 3438,
+      "clearance_mm": [
+        2.4478460907936097,
+        9.01471471786499,
+        22.01760139465332
+      ],
+      "load_mean": 0.0,
+      "angle_p50": 0.6215022206306458,
+      "speed_p50": 0.8029769659042358,
+      "unloaded": 0.9956369982547993,
+      "angle_pass": 0.1620127981384526,
+      "speed_pass": 0.21844095404304828,
+      "joint_command_p50": [
+        -0.05678452551364899,
+        0.7410609006881714,
+        0.01354309357702732
+      ]
+    },
+    "3": {
+      "samples": 1202,
+      "clearance_mm": [
+        -0.6728822082281113,
+        2.558479070663452,
+        10.03048667907715
+      ],
+      "load_mean": 1.413527250289917,
+      "angle_p50": 0.031557146459817886,
+      "speed_p50": 0.07067987322807312,
+      "unloaded": 0.6405990016638935,
+      "angle_pass": 0.9559068219633944,
+      "speed_pass": 0.9359400998336106,
+      "joint_command_p50": [
+        0.004565442446619272,
+        0.36869649887084965,
+        0.013427903992123902
+      ]
+    },
+    "4": {
+      "samples": 3964,
+      "clearance_mm": [
+        -2.7470019102096557,
+        -0.6240140497684479,
+        0.15813931822776744
+      ],
+      "load_mean": 7.95037841796875,
+      "angle_p50": 0.013860436156392097,
+      "speed_p50": 0.0295620858669281,
+      "unloaded": 0.025731584258324926,
+      "angle_pass": 0.9921796165489405,
+      "speed_pass": 0.9944500504540867,
+      "joint_command_p50": [
+        0.0009946194477379322,
+        0.004960739426314831,
+        0.007004963525105268
+      ]
+    }
+  },
+  "back_l": {
+    "1": {
+      "samples": 6536,
+      "clearance_mm": [
+        -2.386711597442627,
+        -0.5159564316272736,
+        2.317908227443695
+      ],
+      "load_mean": 6.758125305175781,
+      "angle_p50": 0.15258795022964478,
+      "speed_p50": 0.09139758348464966,
+      "unloaded": 0.1043451652386781,
+      "angle_pass": 0.4602203182374541,
+      "speed_pass": 0.7408200734394125,
+      "joint_command_p50": [
+        0.07991934195160866,
+        0.004037340357899666,
+        -0.006787282443838194
+      ]
+    },
+    "2": {
+      "samples": 3269,
+      "clearance_mm": [
+        3.398840045928955,
+        7.029082775115967,
+        14.973988342285155
+      ],
+      "load_mean": 0.0,
+      "angle_p50": 0.45317986607551575,
+      "speed_p50": 1.091917872428894,
+      "unloaded": 0.9975527684307127,
+      "angle_pass": 0.2009788926277149,
+      "speed_pass": 0.17987152034261242,
+      "joint_command_p50": [
+        0.15384908020496368,
+        -0.462111234664917,
+        -0.02668667072430253
+      ]
+    },
+    "3": {
+      "samples": 1397,
+      "clearance_mm": [
+        -0.655210018157959,
+        1.7122738361358643,
+        9.464610671997074
+      ],
+      "load_mean": 1.124846339225769,
+      "angle_p50": 0.02035314403474331,
+      "speed_p50": 0.06232770159840584,
+      "unloaded": 0.6471009305654974,
+      "angle_pass": 1.0,
+      "speed_pass": 0.9477451682176091,
+      "joint_command_p50": [
+        0.12277202308177948,
+        -0.0905483067035675,
+        -0.006948868976905942
+      ]
+    },
+    "4": {
+      "samples": 5025,
+      "clearance_mm": [
+        -2.3926280975341796,
+        -0.6886906623840332,
+        0.20468458533287048
+      ],
+      "load_mean": 7.460561275482178,
+      "angle_p50": 0.01464080810546875,
+      "speed_p50": 0.029627062380313873,
+      "unloaded": 0.004378109452736319,
+      "angle_pass": 1.0,
+      "speed_pass": 0.9980099502487563,
+      "joint_command_p50": [
+        0.002688443288207054,
+        0.007261206954717637,
+        0.0028971931023988873
+      ]
+    }
+  }
+}

@@ -1,0 +1,110 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/theerawit/.netrc.
+wandb: Currently logged in as: tundt (QuadMorph) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run ahxgcg5h
+wandb: Tracking run with wandb version 0.29.0
+wandb: Run data is saved locally in /home/theerawit/Pupper_animation-combine/mujoco_playground/wandb/run-20260908_130351-ahxgcg5h
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run wheel-align-direct_2026-09-08_13-03-49
+wandb: ⭐️ View project at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: 🚀 View run at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ahxgcg5h
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+W&B run: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ahxgcg5h
+Warm-starting from workspace/output/align_direct_reference/cloned_params
+Training QuadMorph alignment: 12,000,000 steps, 4096 envs, full sequences, 36s episodes, wheel_control_mode=direct_joint_position
+2026-09-08 13:04:23.626830: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:04:23.626864: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:04:23.626870: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:04:50.462613: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:04:50.462652: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:04:50.462657: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:04:50.462663: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:04:50.462668: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:04:50.462674: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:04:50.462694: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:04:50.462700: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:04:50.462705: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+[           0] reward=-751.26 eplen=1789 completed_avg=0.36 drift=0.1014m outside_20mm=91.72% hold_err=0.075rad held_err_avg=0.067rad lower_err_avg=0.625rad scrub=0.202rad/s
+2026-09-08 13:05:50.443588: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:05:50.443618: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:05:50.443625: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:05:50.443631: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:05:50.443637: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:05:50.443643: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:05:50.443649: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:05:50.443654: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:05:50.443660: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+  full-sequence audit [0]: {"audit/episodes": 16, "audit/survival_fraction": 1.0, "audit/all_four_completed_fraction": 0.0, "audit/all_four_success_fraction": 0.0, "audit/mean_completed_legs": 0.0625, "audit/held_samples": 869, "audit/held_error_mean": 0.1462937295436859, "audit/held_error_p95": 0.3262521028518677, "audit/drift_p95": 0.22732482850551605, "audit/drift_max": 0.4442087411880493, "audit/active_scrub_mean": 0.18599660694599152, "audit/completed_front_r_fraction": 0.0, "audit/completed_front_l_fraction": 0.0625, "audit/completed_back_r_fraction": 0.0, "audit/completed_back_l_fraction": 0.0, "audit/reached_rotation_front_r_fraction": 0.4375, "audit/verified_rotation_front_r_fraction": 0.0, "audit/reached_rotation_front_l_fraction": 0.4375, "audit/verified_rotation_front_l_fraction": 0.0625, "audit/reached_rotation_back_r_fraction": 0.125, "audit/verified_rotation_back_r_fraction": 0.0, "audit/reached_rotation_back_l_fraction": 0.125, "audit/verified_rotation_back_l_fraction": 0.0}
+2026-09-08 13:06:18.083791: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:06:18.083822: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:06:18.083831: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:06:18.083837: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:06:32.790666: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:06:32.790697: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+  Showcase: completed=0/4 drift_p95=0.0500m drift_max=0.0805m hold_error_p95=0.000rad active_scrub_mean=0.109rad/s
+  wrote video -> /home/theerawit/Pupper_animation-combine/mujoco_playground/workspace/output/wheel-align-direct_2026-09-08_13-03-49/rollout_step_0.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+2026-09-08 13:07:20.461007: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:07:20.461052: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:07:20.461063: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:07:20.461087: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 13:07:20.461093: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+  full-sequence audit [4,014,080]: {"audit/episodes": 16, "audit/survival_fraction": 0.75, "audit/all_four_completed_fraction": 0.0, "audit/all_four_success_fraction": 0.0, "audit/mean_completed_legs": 0.0, "audit/held_samples": 0, "audit/held_error_mean": 0.0, "audit/held_error_p95": 0.0, "audit/drift_p95": 0.17871323227882385, "audit/drift_max": 0.20889514684677124, "audit/active_scrub_mean": 0.14559230208396912, "audit/completed_front_r_fraction": 0.0, "audit/completed_front_l_fraction": 0.0, "audit/completed_back_r_fraction": 0.0, "audit/completed_back_l_fraction": 0.0, "audit/reached_rotation_front_r_fraction": 0.1875, "audit/verified_rotation_front_r_fraction": 0.0, "audit/reached_rotation_front_l_fraction": 0.4375, "audit/verified_rotation_front_l_fraction": 0.0, "audit/reached_rotation_back_r_fraction": 0.25, "audit/verified_rotation_back_r_fraction": 0.0, "audit/reached_rotation_back_l_fraction": 0.1875, "audit/verified_rotation_back_l_fraction": 0.0}
+  Showcase: completed=0/4 drift_p95=0.0297m drift_max=0.0386m hold_error_p95=0.000rad active_scrub_mean=0.034rad/s
+  wrote video -> /home/theerawit/Pupper_animation-combine/mujoco_playground/workspace/output/wheel-align-direct_2026-09-08_13-03-49/rollout_step_4014080.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[   4,014,080] reward=-554.38 eplen=1401 completed_avg=0.31 drift=0.0949m outside_20mm=93.10% hold_err=0.209rad held_err_avg=0.198rad lower_err_avg=1.621rad scrub=0.133rad/s
+  PPO KL warning: 15.69
+  full-sequence audit [8,028,160]: {"audit/episodes": 16, "audit/survival_fraction": 1.0, "audit/all_four_completed_fraction": 0.0, "audit/all_four_success_fraction": 0.0, "audit/mean_completed_legs": 0.0, "audit/held_samples": 0, "audit/held_error_mean": 0.0, "audit/held_error_p95": 0.0, "audit/drift_p95": 0.14355719089508057, "audit/drift_max": 0.24268938601016998, "audit/active_scrub_mean": 0.08387543261051178, "audit/completed_front_r_fraction": 0.0, "audit/completed_front_l_fraction": 0.0, "audit/completed_back_r_fraction": 0.0, "audit/completed_back_l_fraction": 0.0, "audit/reached_rotation_front_r_fraction": 0.1875, "audit/verified_rotation_front_r_fraction": 0.0625, "audit/reached_rotation_front_l_fraction": 0.0, "audit/verified_rotation_front_l_fraction": 0.0, "audit/reached_rotation_back_r_fraction": 0.0625, "audit/verified_rotation_back_r_fraction": 0.0, "audit/reached_rotation_back_l_fraction": 0.3125, "audit/verified_rotation_back_l_fraction": 0.0}
+  Showcase: completed=0/4 drift_p95=0.0960m drift_max=0.0969m hold_error_p95=0.000rad active_scrub_mean=0.136rad/s
+  wrote video -> /home/theerawit/Pupper_animation-combine/mujoco_playground/workspace/output/wheel-align-direct_2026-09-08_13-03-49/rollout_step_8028160.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[   8,028,160] reward=-277.89 eplen=1800 completed_avg=0.30 drift=0.0598m outside_20mm=81.06% hold_err=0.159rad held_err_avg=0.139rad lower_err_avg=0.791rad scrub=0.131rad/s
+  full-sequence audit [12,042,240]: {"audit/episodes": 16, "audit/survival_fraction": 1.0, "audit/all_four_completed_fraction": 0.0, "audit/all_four_success_fraction": 0.0, "audit/mean_completed_legs": 0.0, "audit/held_samples": 0, "audit/held_error_mean": 0.0, "audit/held_error_p95": 0.0, "audit/drift_p95": 0.12004392594099045, "audit/drift_max": 0.1872311532497406, "audit/active_scrub_mean": 0.07145723700523376, "audit/completed_front_r_fraction": 0.0, "audit/completed_front_l_fraction": 0.0, "audit/completed_back_r_fraction": 0.0, "audit/completed_back_l_fraction": 0.0, "audit/reached_rotation_front_r_fraction": 0.0625, "audit/verified_rotation_front_r_fraction": 0.0, "audit/reached_rotation_front_l_fraction": 0.0, "audit/verified_rotation_front_l_fraction": 0.0, "audit/reached_rotation_back_r_fraction": 0.0, "audit/verified_rotation_back_r_fraction": 0.0, "audit/reached_rotation_back_l_fraction": 0.25, "audit/verified_rotation_back_l_fraction": 0.0625}
+  Showcase: completed=0/4 drift_p95=0.1140m drift_max=0.1217m hold_error_p95=0.000rad active_scrub_mean=0.107rad/s
+  wrote video -> /home/theerawit/Pupper_animation-combine/mujoco_playground/workspace/output/wheel-align-direct_2026-09-08_13-03-49/rollout_step_12042240.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+[  12,042,240] reward=-169.55 eplen=1800 completed_avg=0.25 drift=0.0509m outside_20mm=84.70% hold_err=0.097rad held_err_avg=0.094rad lower_err_avg=0.770rad scrub=0.122rad/s
+time to jit:   0:01:45.408491
+time to train: 0:07:09.229275
+Saved brax params -> /home/theerawit/Pupper_animation-combine/mujoco_playground/workspace/output/wheel-align-direct_2026-09-08_13-03-49/mjx_params
+Rendering final rollout video...
+  Showcase: completed=0/4 drift_p95=0.1019m drift_max=0.1105m hold_error_p95=0.000rad active_scrub_mean=0.058rad/s
+Final video -> /home/theerawit/Pupper_animation-combine/mujoco_playground/workspace/output/wheel-align-direct_2026-09-08_13-03-49/rollout_final.mp4
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+wandb: updating run metadata
+wandb: uploading media/videos/eval/video_final_12042241_f09564c5fe27948497ad.mp4
+wandb: 
+wandb: Run history:
+wandb:           audit/active_scrub_mean █▆▂▁
+wandb: audit/all_four_completed_fraction ▁▁▁▁
+wandb:   audit/all_four_success_fraction ▁▁▁▁
+wandb:   audit/completed_back_l_fraction ▁▁▁▁
+wandb:   audit/completed_back_r_fraction ▁▁▁▁
+wandb:  audit/completed_front_l_fraction █▁▁▁
+wandb:  audit/completed_front_r_fraction ▁▁▁▁
+wandb:                   audit/drift_max █▂▃▁
+wandb:                   audit/drift_p95 █▅▃▁
+wandb:                    audit/episodes ▁▁▁▁
+wandb:                              +117 ...
+wandb: 
+wandb: Run summary:
+wandb:           audit/active_scrub_mean 0.07146
+wandb: audit/all_four_completed_fraction 0
+wandb:   audit/all_four_success_fraction 0
+wandb:   audit/completed_back_l_fraction 0
+wandb:   audit/completed_back_r_fraction 0
+wandb:  audit/completed_front_l_fraction 0
+wandb:  audit/completed_front_r_fraction 0
+wandb:                   audit/drift_max 0.18723
+wandb:                   audit/drift_p95 0.12004
+wandb:                    audit/episodes 16
+wandb:                              +117 ...
+wandb: 
+wandb: 🚀 View run wheel-align-direct_2026-09-08_13-03-49 at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/ahxgcg5h
+wandb: ⭐️ View project at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: Synced 5 W&B file(s), 5 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260908_130351-ahxgcg5h/logs
+Alignment uses a new observation/command contract; the legacy drive exporter is not compatible.

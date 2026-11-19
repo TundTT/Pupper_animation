@@ -752,3 +752,106 @@ def get_wheel_config() -> config_dict.ConfigDict:
             start_joint_jitter=0.05,           # rad, uniform +/- on position joints
         ),
     )
+
+
+def get_wheel_align_config() -> config_dict.ConfigDict:
+    """QuadMorph Phase 1: one policy, externally selected legs, persistent targets."""
+    cfg = get_wheel_config()
+    # Internal 12-row transport is rad; policy outputs are clearance/balance trims.
+    cfg.action_scale = (1.0,) * 12
+    cfg.episode_length = 1800  # 36 s: four 4-6 s activations, gaps, final hold
+    cfg.automatic_commands = True  # training-only button schedule; disable for deployment
+    cfg.align = config_dict.create(
+        wheel_control_mode="supported_clearance_position_pd",
+        action_names=("clearance_trim", "body_shift_x", "body_shift_y"),
+        support_shifts=config_dict.create(front_r=(-0.01, -0.01), front_l=(-0.01, 0.01),
+                                          back_r=(0.0, 0.0), back_l=(0.0, 0.0)),
+        balance_adjust=0.012, shift_step=0.0005,
+        clearance_target=0.005, clearance_adjust=0.001, clearance_gain=4.0,
+        lift_step=0.02, lower_step=0.02, max_lift_angle=1.2, prepare_steps=20,
+        rotate_clearance_min=0.001,
+        wheel_position_kp=2.0,  # Nm/rad, independent of locomotion wheel_kv
+        wheel_position_kd=0.35,  # Nm/(rad/s); retain the existing +/-3 Nm cap
+        wheel_reference_speed=3.0,  # rad/s reference slew, not an actual-speed guarantee
+        hip_max_action_delta=0.05,  # leg-lift's scoped raising/lowering pattern
+        active_steps_min=200, active_steps_max=300,
+        idle_steps_min=25, idle_steps_max=75,
+        initial_completed_max=4, full_sequence_probability=0.85,
+        clearance_min=0.003, clearance_max=0.007,
+        contact_tolerance=0.001, unloaded_force=0.5, reweight_force=2.0,
+        angle_tolerance=0.10, speed_tolerance=0.25,
+        unload_dwell_steps=3, settle_dwell_steps=5, touchdown_dwell_steps=5,
+        hold_start_error=0.15, encoder_angle_noise=0.01,
+        allowed_body_drift=0.02, support_body_drift=0.035, drift_scale=0.03,
+        wheel_disturbance_probability=0.01, wheel_disturbance_speed=0.8,
+    )
+    # Near a settled stance, with independent radius/position perturbations. Do
+    # not spend the first activation recovering from the drive env's 5 cm drop.
+    cfg.dr.start_joint_jitter = 0.02
+    cfg.reward_config = config_dict.create(
+        scales=config_dict.create(
+            # After the unloading warm start, retain its dense signal but put
+            # more emphasis on drift: unseen success rose 11/64 -> 46/64 while
+            # p95 drift rose 4.12 -> 4.84 cm. Keep the support allowance intact.
+            alive=1.0, lift=-1.0, unload=-0.25, lower=-1.0, hold=-0.25,
+            active_scrub=-0.5, support=-0.5, stance_pose=-0.25,
+            orientation=-0.5, body_drift=-3.0, action_rate=-0.05,
+            ground_contact=-1.0, completion=5.0,
+        ),
+        termination_penalty=-2500.0,  # -50 per fall
+    )
+    # Short drift refinement after the 24M unloading pass. Warm-start its best
+    # parameters; audit every ~4M, preserving all checkpoints.
+    cfg.ppo.num_timesteps = 12_000_000
+    cfg.ppo.num_envs = 4096
+    cfg.ppo.num_evals = 4
+    cfg.ppo.episode_length = cfg.episode_length
+    cfg.ppo.num_minibatches = 16
+    cfg.ppo.batch_size = 256
+    cfg.ppo.learning_rate = 5e-5  # pilot KL spikes plus smaller, directly scaled task returns
+    cfg.ppo.num_updates_per_batch = 2
+    cfg.ppo.discounting = 0.995  # multi-second unload/rotate/settle credit assignment
+    cfg.ppo.entropy_cost = 0.005
+    cfg.policy.hidden_layer_sizes = (128, 128)
+    cfg.policy.initial_std = 0.2  # small corrections around a verified zero-mean baseline
+    return cfg
+
+
+def get_wheel_align_direct_config() -> config_dict.ConfigDict:
+    """12 native position actions; encoder/IMU-only actor; phase-guided imitation."""
+    cfg = get_wheel_align_config()
+    cfg.align.wheel_control_mode = 'direct_joint_position'
+    cfg.align.action_names = tuple(JOINT_NAMES)
+    cfg.action_scale = (.5, 1.6, 3.5) * 4
+    cfg.direct = config_dict.create(
+        reference_path='workspace/output/align_direct_reference/poses.npz',
+        return_steps=75, observation_frame_size=56,
+        history_taps=(0, 1, 2, 3),
+        position_velocity_noise=.1, position_velocity_scale=10.,
+        action_types=('position',)*12,
+        control_convention='default_plus_scaled_position',
+        supervision_path='workspace/output/align_direct_reference/demonstrations.npz',
+        # Measured 32x20 PPO minibatch gradients: weight5 made BC5.6--9.5x
+        # larger than PPO. .25 retains guidance at roughly .28--.47x instead.
+        supervision_weight=.25, supervision_final_weight=.025,
+        supervision_error_scales=(.01, .015, .05) * 4,
+        supervision_anneal_steps=4_000_000, kl_budget=.02,
+        freeze_normalization=True,
+    )
+    cfg.reward_config.scales = config_dict.create(
+        alive=1., lift=-1., unload=-.5, rotate=-1., lower=-1., hold=-.25,
+        idle_wheels=-.25, active_scrub=-1., inactive_motion=-.05,
+        support=-.5, imitation=-.75, orientation=-.5, body_drift=-1.5,
+        action_rate=-.05, ground_contact=-1., settle=2., completion=3.,
+    )
+    # A 2M/4096 pilot sees only488 ticks per environment, shorter than one
+    # full sequence.512 environments cover >2 full sequences in the same budget.
+    cfg.ppo.num_timesteps = 2_000_000
+    cfg.ppo.num_envs = 512
+    cfg.ppo.batch_size = 32
+    cfg.ppo.num_evals = 5
+    cfg.ppo.learning_rate = 3e-5
+    cfg.ppo.entropy_cost = .001
+    cfg.policy.hidden_layer_sizes = (128, 128, 128)
+    cfg.policy.initial_std = .03
+    return cfg

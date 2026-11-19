@@ -1,0 +1,92 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+2026-09-08 16:32:11.505981: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:32:27.498919: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:32:31.584056: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:32:47.975803: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:32:47.975836: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:32:47.975843: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:32:47.975848: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:32:47.975859: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:32:47.975866: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:32:47.975872: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:32:47.975878: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:32:47.975883: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+{
+  "audit/episodes": 64,
+  "audit/survival_fraction": 1.0,
+  "audit/all_four_completed_fraction": 0.0,
+  "audit/all_four_success_fraction": 0.0,
+  "audit/mean_completed_legs": 1.25,
+  "audit/held_samples": 79812,
+  "audit/held_error_mean": 0.026052875444293022,
+  "audit/held_error_p95": 0.080094113945961,
+  "audit/drift_p95": 0.05240698531270027,
+  "audit/drift_max": 0.10016950219869614,
+  "audit/active_scrub_mean": 0.07140662521123886,
+  "audit/completed_front_r_fraction": 0.234375,
+  "audit/completed_front_l_fraction": 0.28125,
+  "audit/completed_back_r_fraction": 0.34375,
+  "audit/completed_back_l_fraction": 0.390625,
+  "audit/reached_rotation_front_r_fraction": 0.390625,
+  "audit/verified_rotation_front_r_fraction": 0.234375,
+  "audit/reached_rotation_front_l_fraction": 0.578125,
+  "audit/verified_rotation_front_l_fraction": 0.28125,
+  "audit/reached_rotation_back_r_fraction": 0.6875,
+  "audit/verified_rotation_back_r_fraction": 0.359375,
+  "audit/reached_rotation_back_l_fraction": 0.625,
+  "audit/verified_rotation_back_l_fraction": 0.390625
+}
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/theerawit/.netrc.
+wandb: Currently logged in as: tundt (QuadMorph) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.29.0
+wandb: Run data is saved locally in /home/theerawit/Pupper_animation-combine/mujoco_playground/wandb/run-20260908_163312-0p6yiguq
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Resuming run direct_round13_phase_feedback
+wandb: ⭐️ View project at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: 🚀 View run at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/0p6yiguq
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+2026-09-08 16:33:16.621477: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:33:16.621508: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:33:16.621515: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:33:16.621520: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:33:30.788915: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:33:30.788953: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+  Showcase: completed=1/4 drift_p95=0.0548m drift_max=0.0606m hold_error_p95=0.125rad active_scrub_mean=0.048rad/s
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+wandb: updating run metadata
+wandb: uploading config.yaml; uploading media/videos/eval/video_20002_e5b0dd7e92ddf73d6365.mp4; uploading output.log; uploading wandb-summary.json
+wandb: 
+wandb: Run history:
+wandb:           audit/active_scrub_mean ▁
+wandb: audit/all_four_completed_fraction ▁
+wandb:   audit/all_four_success_fraction ▁
+wandb:   audit/completed_back_l_fraction ▁
+wandb:   audit/completed_back_r_fraction ▁
+wandb:  audit/completed_front_l_fraction ▁
+wandb:  audit/completed_front_r_fraction ▁
+wandb:                   audit/drift_max ▁
+wandb:                   audit/drift_p95 ▁
+wandb:                    audit/episodes ▁
+wandb:                               +13 ...
+wandb: 
+wandb: Run summary:
+wandb:           audit/active_scrub_mean 0.07141
+wandb: audit/all_four_completed_fraction 0
+wandb:   audit/all_four_success_fraction 0
+wandb:   audit/completed_back_l_fraction 0.39062
+wandb:   audit/completed_back_r_fraction 0.34375
+wandb:  audit/completed_front_l_fraction 0.28125
+wandb:  audit/completed_front_r_fraction 0.23438
+wandb:                   audit/drift_max 0.10017
+wandb:                   audit/drift_p95 0.05241
+wandb:                    audit/episodes 64
+wandb:                               +17 ...
+wandb: 
+wandb: 🚀 View run direct_round13_phase_feedback at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/0p6yiguq
+wandb: ⭐️ View project at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: Synced 5 W&B file(s), 1 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260908_163312-0p6yiguq/logs

@@ -1,0 +1,17 @@
+# Tested isolated worktree environment. Install with uv pip install --python
+# .venv/bin/python -r workspace/requirements-wheel-align.txt; never uv run.
+# Unlike the older documented 0.5.0 environment, ALL JAX/CUDA parts are 0.6.2.
+jax[cuda12]==0.6.2
+jaxlib==0.6.2
+jax-cuda12-plugin==0.6.2
+jax-cuda12-pjrt==0.6.2
+brax==0.14.2
+mujoco==3.6.0
+mujoco-mjx==3.6.0
+orbax-checkpoint==0.11.23
+flax==0.10.7
+optax==0.2.5
+numpy==2.2.6
+ml-collections==1.1.0
+mediapy==1.2.7
+wandb==0.29.0

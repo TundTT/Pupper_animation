@@ -1,0 +1,58 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/theerawit/.netrc.
+wandb: Currently logged in as: tundt (QuadMorph) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run q8kuc6eo
+wandb: Tracking run with wandb version 0.29.0
+wandb: Run data is saved locally in /home/theerawit/Pupper_animation-combine/mujoco_playground/wandb/run-20260908_154012-q8kuc6eo
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run direct_round06_feedback64
+wandb: ⭐️ View project at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: 🚀 View run at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/q8kuc6eo
+2026-09-08 15:40:18.921636: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:40:18.921668: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:40:18.921675: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:40:18.921680: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:40:18.921690: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:40:18.921701: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:40:18.921711: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:40:18.921717: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 15:40:18.921727: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+{"step": 500, "loss": 0.843131422996521, "validation": 1.2935795783996582}
+{"step": 1000, "loss": 0.7927882671356201, "validation": 1.2926056385040283}
+{"step": 1500, "loss": 0.7397080659866333, "validation": 1.3227157592773438}
+{"step": 2000, "loss": 0.7292361855506897, "validation": 1.3115346431732178}
+{"step": 2500, "loss": 0.7448046207427979, "validation": 1.2652995586395264}
+{"step": 3000, "loss": 0.7411618828773499, "validation": 1.2897416353225708}
+{"step": 3500, "loss": 0.6844978332519531, "validation": 1.2380083799362183}
+{"step": 4000, "loss": 0.7093325853347778, "validation": 1.2459743022918701}
+{"step": 4500, "loss": 0.7031528949737549, "validation": 1.2329046726226807}
+{"step": 5000, "loss": 0.6522849798202515, "validation": 1.207864761352539}
+{"step": 5500, "loss": 0.6098448038101196, "validation": 1.2545247077941895}
+{"step": 6000, "loss": 0.652121901512146, "validation": 1.1654551029205322}
+{"step": 6500, "loss": 0.6720383167266846, "validation": 1.2364530563354492}
+{"step": 7000, "loss": 0.6432497501373291, "validation": 1.1811374425888062}
+{"step": 7500, "loss": 0.6239515542984009, "validation": 1.2706387042999268}
+{"step": 8000, "loss": 0.6582555770874023, "validation": 1.3038573265075684}
+{"step": 8500, "loss": 0.6830697059631348, "validation": 1.2387845516204834}
+{"step": 9000, "loss": 0.6544628143310547, "validation": 1.2661806344985962}
+{"step": 9500, "loss": 0.6533481478691101, "validation": 1.2178821563720703}
+{"step": 10000, "loss": 0.6980942487716675, "validation": 1.2405610084533691}
+wandb: updating run metadata
+wandb: uploading history steps 18-19, summary, console lines 19-19
+wandb: 
+wandb: Run history:
+wandb:       loss █▆▅▅▅▅▃▄▄▂▁▂▃▂▁▂▃▂▂▄
+wandb:       step ▁▁▂▂▂▃▃▄▄▄▅▅▅▆▆▇▇▇██
+wandb: validation ▇▇██▅▇▄▅▄▃▅▁▄▂▆▇▄▅▃▄
+wandb: 
+wandb: Run summary:
+wandb:       loss 0.69809
+wandb:       step 10000
+wandb: validation 1.24056
+wandb: 
+wandb: 🚀 View run direct_round06_feedback64 at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/q8kuc6eo
+wandb: ⭐️ View project at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260908_154012-q8kuc6eo/logs
+RECURRENT-FEEDBACK CLONING COMPLETE

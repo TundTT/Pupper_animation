@@ -1,0 +1,1127 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+2026-09-08 18:02:38.363925: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 18:02:56.551125: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 18:03:00.917862: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 18:03:17.930775: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 18:03:17.930810: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 18:03:17.930817: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 18:03:17.930823: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 18:03:17.930836: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 18:03:17.930856: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 18:03:17.930862: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 18:03:17.930868: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+{
+  "params": "workspace/output/direct_round25_dwell_feedback/cloned_params_audit_best",
+  "completed_per_leg": [
+    36,
+    39,
+    44,
+    50
+  ],
+  "front_r": {
+    "1": {
+      "samples": 8751,
+      "clearance_mm": [
+        -1.9519347548484802,
+        -0.3060437738895416,
+        1.9806157946586609
+      ],
+      "load_mean": 5.000956058502197,
+      "angle_p50": 0.39741280674934387,
+      "speed_p50": 0.1228812113404274,
+      "unloaded": 0.09096103302479716,
+      "angle_pass": 0.28351045594789165,
+      "speed_pass": 0.7127185464518341,
+      "joint_command_p50": [
+        0.09288939833641052,
+        -0.01450714021921158,
+        0.003864966973196715
+      ]
+    },
+    "2": {
+      "samples": 2898,
+      "clearance_mm": [
+        3.046848475933075,
+        7.219333171844482,
+        13.828681182861331
+      ],
+      "load_mean": 0.0023284978233277798,
+      "angle_p50": 0.3294265866279602,
+      "speed_p50": 0.7008810639381409,
+      "unloaded": 0.9972394755003451,
+      "angle_pass": 0.20910973084886128,
+      "speed_pass": 0.24603174603174602,
+      "joint_command_p50": [
+        0.12824511528015137,
+        0.5571883201599122,
+        -0.003835413750493899
+      ]
+    },
+    "3": {
+      "samples": 1825,
+      "clearance_mm": [
+        -0.5454614520072937,
+        3.0079336166381836,
+        11.542850303649901
+      ],
+      "load_mean": 1.1182126998901367,
+      "angle_p50": 0.021996324881911278,
+      "speed_p50": 0.0745578184723854,
+      "unloaded": 0.6591780821917809,
+      "angle_pass": 0.943013698630137,
+      "speed_pass": 0.9435616438356165,
+      "joint_command_p50": [
+        0.12844547629356384,
+        0.25935087203979496,
+        0.00770584202837199
+      ]
+    },
+    "4": {
+      "samples": 2721,
+      "clearance_mm": [
+        -2.2721738815307617,
+        -0.4389733076095581,
+        -0.023793429136276245
+      ],
+      "load_mean": 8.189885139465332,
+      "angle_p50": 0.022073443979024887,
+      "speed_p50": 0.04342832416296005,
+      "unloaded": 0.0,
+      "angle_pass": 1.0,
+      "speed_pass": 0.9889746416758545,
+      "joint_command_p50": [
+        0.013930903747677803,
+        -0.009616693109273912,
+        -0.0007334417896345258
+      ]
+    },
+    "failures": [
+      {
+        "episode": 2,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.00109100341796875,
+        "final_speed": 0.0179242342710495,
+        "final_clearance": -0.0005055256187915802
+      },
+      {
+        "episode": 4,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.009144958108663559,
+        "final_speed": 0.17181365191936493,
+        "final_clearance": -0.0010993890464305878
+      },
+      {
+        "episode": 5,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.17374879121780396,
+        "final_speed": 0.03575998172163963,
+        "final_clearance": -0.0014689713716506958
+      },
+      {
+        "episode": 12,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.07089996337890625,
+        "final_speed": 0.029746174812316895,
+        "final_clearance": -0.0008364096283912659
+      },
+      {
+        "episode": 13,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.06680887192487717,
+        "final_speed": 0.03721754252910614,
+        "final_clearance": -0.0001868419349193573
+      },
+      {
+        "episode": 19,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.019566059112548828,
+        "final_speed": 0.01795915886759758,
+        "final_clearance": -0.00015930458903312683
+      },
+      {
+        "episode": 22,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.01770990900695324,
+        "final_speed": 0.14391760528087616,
+        "final_clearance": -0.001606818288564682
+      },
+      {
+        "episode": 23,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.03999251499772072,
+        "final_speed": 0.12550906836986542,
+        "final_clearance": -0.001270882785320282
+      },
+      {
+        "episode": 25,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.02106773667037487,
+        "final_speed": 0.03738570585846901,
+        "final_clearance": -0.000849548727273941
+      },
+      {
+        "episode": 26,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.45675402879714966,
+        "final_speed": 0.03888038545846939,
+        "final_clearance": -0.00183192640542984
+      },
+      {
+        "episode": 27,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.03169601783156395,
+        "final_speed": 0.10266506671905518,
+        "final_clearance": -0.0014699995517730713
+      },
+      {
+        "episode": 33,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.3698895573616028,
+        "final_speed": 0.2787019610404968,
+        "final_clearance": -0.0012072212994098663
+      },
+      {
+        "episode": 35,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.06395260989665985,
+        "final_speed": 0.02785085141658783,
+        "final_clearance": -0.0018636025488376617
+      },
+      {
+        "episode": 37,
+        "reached_rotate": true,
+        "lost_unloading": 0,
+        "final_phase": 2,
+        "final_angle_error": 0.17880821228027344,
+        "final_speed": 0.0009184656664729118,
+        "final_clearance": 0.00404965877532959
+      },
+      {
+        "episode": 38,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.1723979115486145,
+        "final_speed": 0.0660891905426979,
+        "final_clearance": -0.0018065087497234344
+      },
+      {
+        "episode": 39,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.12465332448482513,
+        "final_speed": 0.02304454892873764,
+        "final_clearance": -0.0012724287807941437
+      },
+      {
+        "episode": 40,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.04618900641798973,
+        "final_speed": 0.11590200662612915,
+        "final_clearance": -0.0011121705174446106
+      },
+      {
+        "episode": 42,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.1918838620185852,
+        "final_speed": 0.2282356321811676,
+        "final_clearance": -0.0007487796247005463
+      },
+      {
+        "episode": 45,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.012886286713182926,
+        "final_speed": 0.0021766216959804296,
+        "final_clearance": -0.0007155276834964752
+      },
+      {
+        "episode": 48,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.16733187437057495,
+        "final_speed": 0.03273714706301689,
+        "final_clearance": -5.8162957429885864e-05
+      },
+      {
+        "episode": 52,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.025707842782139778,
+        "final_speed": 0.020010026171803474,
+        "final_clearance": -0.0023019425570964813
+      },
+      {
+        "episode": 53,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.017633438110351562,
+        "final_speed": 0.07419638335704803,
+        "final_clearance": -0.00042149797081947327
+      },
+      {
+        "episode": 54,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.013351917266845703,
+        "final_speed": 0.13852600753307343,
+        "final_clearance": -0.0018946267664432526
+      },
+      {
+        "episode": 55,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.03217107057571411,
+        "final_speed": 0.07373293489217758,
+        "final_clearance": -0.0007738173007965088
+      },
+      {
+        "episode": 57,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.009558025747537613,
+        "final_speed": 0.09442128986120224,
+        "final_clearance": -0.0013958588242530823
+      },
+      {
+        "episode": 58,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.0032170454505831003,
+        "final_speed": 0.003412173595279455,
+        "final_clearance": -0.0001278892159461975
+      },
+      {
+        "episode": 60,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.03993671387434006,
+        "final_speed": 0.06997417658567429,
+        "final_clearance": -0.0010619349777698517
+      },
+      {
+        "episode": 62,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.055500682443380356,
+        "final_speed": 5.3003779612481594e-05,
+        "final_clearance": -0.0021621212363243103
+      }
+    ]
+  },
+  "front_l": {
+    "1": {
+      "samples": 7950,
+      "clearance_mm": [
+        -2.3351170778274537,
+        -0.2541039139032364,
+        2.3221077561378474
+      ],
+      "load_mean": 4.519683361053467,
+      "angle_p50": 0.3249945640563965,
+      "speed_p50": 0.13887342810630798,
+      "unloaded": 0.12842767295597485,
+      "angle_pass": 0.33446540880503145,
+      "speed_pass": 0.6768553459119497,
+      "joint_command_p50": [
+        -0.09341739490628242,
+        0.020671626180410387,
+        0.007067886181175709
+      ]
+    },
+    "2": {
+      "samples": 2637,
+      "clearance_mm": [
+        2.602531719207764,
+        6.472423553466797,
+        13.659369087219238
+      ],
+      "load_mean": 0.0,
+      "angle_p50": 0.3187432289123535,
+      "speed_p50": 0.7137372493743896,
+      "unloaded": 0.9981039059537353,
+      "angle_pass": 0.21918847174819872,
+      "speed_pass": 0.2229806598407281,
+      "joint_command_p50": [
+        -0.13453781604766846,
+        -0.5683813571929932,
+        0.003528965637087822
+      ]
+    },
+    "3": {
+      "samples": 2684,
+      "clearance_mm": [
+        -0.16503054648637772,
+        2.7791019678115845,
+        13.272344064712515
+      ],
+      "load_mean": 0.6271175146102905,
+      "angle_p50": 0.03029688633978367,
+      "speed_p50": 0.06428100913763046,
+      "unloaded": 0.6788375558867362,
+      "angle_pass": 0.9642324888226528,
+      "speed_pass": 0.9504470938897168,
+      "joint_command_p50": [
+        -0.11991055682301521,
+        -0.17325902581214905,
+        -0.006324218935333192
+      ]
+    },
+    "4": {
+      "samples": 2661,
+      "clearance_mm": [
+        -2.482332229614258,
+        -0.5411840677261353,
+        -0.037789344787597656
+      ],
+      "load_mean": 9.112016677856445,
+      "angle_p50": 0.020302118733525276,
+      "speed_p50": 0.050704844295978546,
+      "unloaded": 0.005261180007515971,
+      "angle_pass": 1.0,
+      "speed_pass": 0.9943630214205186,
+      "joint_command_p50": [
+        -0.01786181703209877,
+        0.05051366686820984,
+        0.0007787351496517658
+      ]
+    },
+    "failures": [
+      {
+        "episode": 0,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.08707714825868607,
+        "final_speed": 0.13011424243450165,
+        "final_clearance": -6.699934601783752e-05
+      },
+      {
+        "episode": 1,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.018787210807204247,
+        "final_speed": 0.02163279987871647,
+        "final_clearance": -2.9120594263076782e-05
+      },
+      {
+        "episode": 3,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.0028874240815639496,
+        "final_speed": 0.040640994906425476,
+        "final_clearance": -0.0005669556558132172
+      },
+      {
+        "episode": 5,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.06044158339500427,
+        "final_speed": 0.05475863441824913,
+        "final_clearance": -0.00010149180889129639
+      },
+      {
+        "episode": 9,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.010451793670654297,
+        "final_speed": 0.024820491671562195,
+        "final_clearance": -0.00010750442743301392
+      },
+      {
+        "episode": 18,
+        "reached_rotate": true,
+        "lost_unloading": 0,
+        "final_phase": 3,
+        "final_angle_error": 0.016286373138427734,
+        "final_speed": 0.037414684891700745,
+        "final_clearance": 0.00201551616191864
+      },
+      {
+        "episode": 20,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.002228260040283203,
+        "final_speed": 0.06857390701770782,
+        "final_clearance": -0.0010142065584659576
+      },
+      {
+        "episode": 22,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.024534525349736214,
+        "final_speed": 0.02530484087765217,
+        "final_clearance": -0.00099940225481987
+      },
+      {
+        "episode": 24,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.07631905376911163,
+        "final_speed": 0.13521544635295868,
+        "final_clearance": 1.2386590242385864e-05
+      },
+      {
+        "episode": 26,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.022376064211130142,
+        "final_speed": 0.06699606031179428,
+        "final_clearance": -0.002870064228773117
+      },
+      {
+        "episode": 29,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.1365739107131958,
+        "final_speed": 0.0826490968465805,
+        "final_clearance": -0.00018541887402534485
+      },
+      {
+        "episode": 30,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.021750450134277344,
+        "final_speed": 0.07044170051813126,
+        "final_clearance": -0.0024341605603694916
+      },
+      {
+        "episode": 34,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.006767749786376953,
+        "final_speed": 0.03855809569358826,
+        "final_clearance": -0.002357207238674164
+      },
+      {
+        "episode": 36,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.0004181862168479711,
+        "final_speed": 0.04099864512681961,
+        "final_clearance": -0.0021748393774032593
+      },
+      {
+        "episode": 41,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.04452121630311012,
+        "final_speed": 0.12320887297391891,
+        "final_clearance": -0.0009205155074596405
+      },
+      {
+        "episode": 44,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.029521290212869644,
+        "final_speed": 0.06148926541209221,
+        "final_clearance": -0.002098124474287033
+      },
+      {
+        "episode": 45,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.12923364341259003,
+        "final_speed": 0.03706588223576546,
+        "final_clearance": -8.592009544372559e-05
+      },
+      {
+        "episode": 48,
+        "reached_rotate": true,
+        "lost_unloading": 0,
+        "final_phase": 2,
+        "final_angle_error": 0.1548789143562317,
+        "final_speed": 0.27258697152137756,
+        "final_clearance": 0.0034483671188354492
+      },
+      {
+        "episode": 49,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.8556908369064331,
+        "final_speed": 0.19908127188682556,
+        "final_clearance": -0.0005184225738048553
+      },
+      {
+        "episode": 52,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.010373767465353012,
+        "final_speed": 0.06378369778394699,
+        "final_clearance": -0.0029511861503124237
+      },
+      {
+        "episode": 54,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.008106231689453125,
+        "final_speed": 0.036906417459249496,
+        "final_clearance": -0.0008772574365139008
+      },
+      {
+        "episode": 56,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.07554133236408234,
+        "final_speed": 0.043159618973731995,
+        "final_clearance": -5.3919851779937744e-05
+      },
+      {
+        "episode": 57,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.05636340379714966,
+        "final_speed": 0.011502685956656933,
+        "final_clearance": -0.0006586126983165741
+      },
+      {
+        "episode": 60,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.035148926079273224,
+        "final_speed": 0.10606110841035843,
+        "final_clearance": -0.0012972541153430939
+      },
+      {
+        "episode": 62,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.002252276986837387,
+        "final_speed": 0.061212506145238876,
+        "final_clearance": -0.0015530548989772797
+      }
+    ]
+  },
+  "back_r": {
+    "1": {
+      "samples": 6445,
+      "clearance_mm": [
+        -2.595218276977539,
+        -0.49634650349617004,
+        2.443674182891842
+      ],
+      "load_mean": 5.4044270515441895,
+      "angle_p50": 0.28418856859207153,
+      "speed_p50": 0.13276903331279755,
+      "unloaded": 0.11280062063615205,
+      "angle_pass": 0.3934833204034135,
+      "speed_pass": 0.6310318076027929,
+      "joint_command_p50": [
+        -0.030670344829559326,
+        0.1802474617958069,
+        0.014700009254738688
+      ]
+    },
+    "2": {
+      "samples": 2975,
+      "clearance_mm": [
+        3.6287129640579225,
+        8.772830963134766,
+        15.477646923065178
+      ],
+      "load_mean": 0.0,
+      "angle_p50": 0.40587592124938965,
+      "speed_p50": 0.8332729935646057,
+      "unloaded": 0.9973109243697479,
+      "angle_pass": 0.2211764705882353,
+      "speed_pass": 0.19966386554621848,
+      "joint_command_p50": [
+        -0.06407792121171951,
+        0.7277714729309083,
+        0.025646669790148735
+      ]
+    },
+    "3": {
+      "samples": 2095,
+      "clearance_mm": [
+        -0.26997774839401245,
+        3.211107015609741,
+        12.226603412628172
+      ],
+      "load_mean": 0.7284785509109497,
+      "angle_p50": 0.03084438666701317,
+      "speed_p50": 0.0624876543879509,
+      "unloaded": 0.7747016706443914,
+      "angle_pass": 0.9560859188544153,
+      "speed_pass": 0.9632458233890214,
+      "joint_command_p50": [
+        -0.005897515919059515,
+        0.4726927757263184,
+        0.0022140288492664695
+      ]
+    },
+    "4": {
+      "samples": 4434,
+      "clearance_mm": [
+        -2.6222805619239806,
+        -0.6595999002456665,
+        0.5689408630132616
+      ],
+      "load_mean": 7.281208515167236,
+      "angle_p50": 0.012088775634765625,
+      "speed_p50": 0.029512932524085045,
+      "unloaded": 0.04848894903022102,
+      "angle_pass": 1.0,
+      "speed_pass": 0.9970681100586378,
+      "joint_command_p50": [
+        0.00040183858072850853,
+        -0.0004293330013751984,
+        -0.0039792670868337154
+      ]
+    },
+    "failures": [
+      {
+        "episode": 1,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.06544239073991776,
+        "final_speed": 0.024724828079342842,
+        "final_clearance": -0.00020527467131614685
+      },
+      {
+        "episode": 8,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.021216094493865967,
+        "final_speed": 0.02452974207699299,
+        "final_clearance": -0.0009267255663871765
+      },
+      {
+        "episode": 11,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.004504680633544922,
+        "final_speed": 0.017489397898316383,
+        "final_clearance": -0.0019246190786361694
+      },
+      {
+        "episode": 12,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.061412692070007324,
+        "final_speed": 0.060990624129772186,
+        "final_clearance": -0.002037499099969864
+      },
+      {
+        "episode": 14,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.0002288818359375,
+        "final_speed": 0.011461853981018066,
+        "final_clearance": -0.000249374657869339
+      },
+      {
+        "episode": 18,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.011796649545431137,
+        "final_speed": 0.04380353167653084,
+        "final_clearance": -5.373358726501465e-05
+      },
+      {
+        "episode": 20,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.07207893580198288,
+        "final_speed": 0.0386078804731369,
+        "final_clearance": -0.0007925964891910553
+      },
+      {
+        "episode": 21,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.004052519798278809,
+        "final_speed": 0.04984898492693901,
+        "final_clearance": -0.0013457871973514557
+      },
+      {
+        "episode": 24,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.10799837112426758,
+        "final_speed": 0.041596826165914536,
+        "final_clearance": -0.00081610307097435
+      },
+      {
+        "episode": 31,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.037801265716552734,
+        "final_speed": 0.03303627669811249,
+        "final_clearance": -0.0016438253223896027
+      },
+      {
+        "episode": 32,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.1802368313074112,
+        "final_speed": 0.026625536382198334,
+        "final_clearance": -0.0001629963517189026
+      },
+      {
+        "episode": 34,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.015505489893257618,
+        "final_speed": 0.005831584334373474,
+        "final_clearance": -0.0022744014859199524
+      },
+      {
+        "episode": 36,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.4092267155647278,
+        "final_speed": 0.6774084568023682,
+        "final_clearance": 0.0021756738424301147
+      },
+      {
+        "episode": 37,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.009000477381050587,
+        "final_speed": 0.013332173228263855,
+        "final_clearance": -2.3134052753448486e-06
+      },
+      {
+        "episode": 38,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.010200978256762028,
+        "final_speed": 0.02817721664905548,
+        "final_clearance": -0.002784132957458496
+      },
+      {
+        "episode": 42,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.022746087983250618,
+        "final_speed": 0.04533538594841957,
+        "final_clearance": -0.001299690455198288
+      },
+      {
+        "episode": 48,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.030574439093470573,
+        "final_speed": 0.010130721144378185,
+        "final_clearance": -2.9549002647399902e-05
+      },
+      {
+        "episode": 51,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.05091029405593872,
+        "final_speed": 0.034028559923172,
+        "final_clearance": -0.0028572306036949158
+      },
+      {
+        "episode": 54,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.04751181602478027,
+        "final_speed": 0.015134015120565891,
+        "final_clearance": -0.001588713377714157
+      },
+      {
+        "episode": 60,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.004252259153872728,
+        "final_speed": 0.013154974207282066,
+        "final_clearance": -0.0017043575644493103
+      }
+    ]
+  },
+  "back_l": {
+    "1": {
+      "samples": 5813,
+      "clearance_mm": [
+        -2.354296255111694,
+        -0.5599446296691895,
+        2.4833381652831994
+      ],
+      "load_mean": 7.110419273376465,
+      "angle_p50": 0.5333655476570129,
+      "speed_p50": 0.09574123471975327,
+      "unloaded": 0.1255805952176157,
+      "angle_pass": 0.36504386719421983,
+      "speed_pass": 0.7407534835713057,
+      "joint_command_p50": [
+        0.13441814482212067,
+        0.004922579601407052,
+        0.00649112049723044
+      ]
+    },
+    "2": {
+      "samples": 3437,
+      "clearance_mm": [
+        2.672988939285278,
+        6.408333778381348,
+        14.98515796661377
+      ],
+      "load_mean": 0.0,
+      "angle_p50": 0.4722774624824524,
+      "speed_p50": 1.07120943069458,
+      "unloaded": 0.9979633401221996,
+      "angle_pass": 0.20366598778004075,
+      "speed_pass": 0.1451847541460576,
+      "joint_command_p50": [
+        0.15311026573181152,
+        -0.45014276504516604,
+        -0.026501479791477323
+      ]
+    },
+    "3": {
+      "samples": 2254,
+      "clearance_mm": [
+        -0.255369208753109,
+        3.6276540756225586,
+        13.109844970703122
+      ],
+      "load_mean": 0.5823220014572144,
+      "angle_p50": 0.023030370473861694,
+      "speed_p50": 0.06380750238895416,
+      "unloaded": 0.8047914818101154,
+      "angle_pass": 0.9849157054125999,
+      "speed_pass": 0.9627329192546584,
+      "joint_command_p50": [
+        0.1333392634987831,
+        -0.29190146923065186,
+        -0.0028139069327153265
+      ]
+    },
+    "4": {
+      "samples": 4723,
+      "clearance_mm": [
+        -2.3617588758468626,
+        -0.7255412340164185,
+        0.36073438823223103
+      ],
+      "load_mean": 6.96782112121582,
+      "angle_p50": 0.015106852166354656,
+      "speed_p50": 0.03167778626084328,
+      "unloaded": 0.02265509210247724,
+      "angle_pass": 1.0,
+      "speed_pass": 0.9989413508363328,
+      "joint_command_p50": [
+        0.0011978927068412304,
+        0.0035170018672943115,
+        -0.0029080287204124033
+      ]
+    },
+    "failures": [
+      {
+        "episode": 0,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.015962298959493637,
+        "final_speed": 0.008903860114514828,
+        "final_clearance": -0.0002613253891468048
+      },
+      {
+        "episode": 1,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.1822643280029297,
+        "final_speed": 0.03687654063105583,
+        "final_clearance": -0.0005122087895870209
+      },
+      {
+        "episode": 21,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.031087221577763557,
+        "final_speed": 0.04588770121335983,
+        "final_clearance": -0.0021444782614707947
+      },
+      {
+        "episode": 23,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.0040854811668396,
+        "final_speed": 0.0024821688421070576,
+        "final_clearance": -0.0017840564250946045
+      },
+      {
+        "episode": 33,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.000453948974609375,
+        "final_speed": 0.06871923804283142,
+        "final_clearance": -0.0017969198524951935
+      },
+      {
+        "episode": 34,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.03234798088669777,
+        "final_speed": 0.014809503220021725,
+        "final_clearance": -0.0029051899909973145
+      },
+      {
+        "episode": 38,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.09251285344362259,
+        "final_speed": 0.021448934450745583,
+        "final_clearance": -0.0017114616930484772
+      },
+      {
+        "episode": 39,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.010533158667385578,
+        "final_speed": 0.011234080418944359,
+        "final_clearance": -0.0013584569096565247
+      },
+      {
+        "episode": 40,
+        "reached_rotate": true,
+        "lost_unloading": 2,
+        "final_phase": 1,
+        "final_angle_error": 0.13529044389724731,
+        "final_speed": 0.0005404029507189989,
+        "final_clearance": -0.0010983720421791077
+      },
+      {
+        "episode": 43,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.05269574746489525,
+        "final_speed": 0.025482911616563797,
+        "final_clearance": -0.00039178505539894104
+      },
+      {
+        "episode": 47,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.00584762915968895,
+        "final_speed": 0.05461375415325165,
+        "final_clearance": -4.56981360912323e-05
+      },
+      {
+        "episode": 56,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.0034468809608370066,
+        "final_speed": 0.04496972635388374,
+        "final_clearance": -0.000821288675069809
+      },
+      {
+        "episode": 58,
+        "reached_rotate": true,
+        "lost_unloading": 1,
+        "final_phase": 1,
+        "final_angle_error": 0.043248649686574936,
+        "final_speed": 0.03219938650727272,
+        "final_clearance": 0.00037185847759246826
+      },
+      {
+        "episode": 60,
+        "reached_rotate": false,
+        "lost_unloading": 0,
+        "final_phase": 1,
+        "final_angle_error": 0.0028090474661439657,
+        "final_speed": 0.0037542609497904778,
+        "final_clearance": -0.0017049461603164673
+      }
+    ]
+  }
+}

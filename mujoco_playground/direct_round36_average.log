@@ -1,0 +1,40 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+2026-09-08 19:14:10.594337: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 19:14:26.841239: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 19:14:30.566697: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 19:14:47.428617: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 19:14:47.428648: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 19:14:47.428654: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 19:14:47.428660: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 19:14:47.428673: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 19:14:47.428691: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 19:14:47.428697: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 19:14:47.428702: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+{
+  "audit/episodes": 64,
+  "audit/survival_fraction": 1.0,
+  "audit/all_four_completed_fraction": 0.265625,
+  "audit/all_four_success_fraction": 0.265625,
+  "audit/mean_completed_legs": 2.875,
+  "audit/held_samples": 203797,
+  "audit/held_error_mean": 0.005558731500059366,
+  "audit/held_error_p95": 0.024922743439674377,
+  "audit/drift_p95": 0.04964973032474518,
+  "audit/drift_max": 0.07987964153289795,
+  "audit/active_scrub_mean": 0.05288580060005188,
+  "audit/completed_front_r_fraction": 0.65625,
+  "audit/completed_front_l_fraction": 0.671875,
+  "audit/completed_back_r_fraction": 0.734375,
+  "audit/completed_back_l_fraction": 0.8125,
+  "audit/reached_rotation_front_r_fraction": 0.78125,
+  "audit/verified_rotation_front_r_fraction": 0.65625,
+  "audit/reached_rotation_front_l_fraction": 0.734375,
+  "audit/verified_rotation_front_l_fraction": 0.6875,
+  "audit/reached_rotation_back_r_fraction": 0.875,
+  "audit/verified_rotation_back_r_fraction": 0.734375,
+  "audit/reached_rotation_back_l_fraction": 0.875,
+  "audit/verified_rotation_back_l_fraction": 0.8125
+}

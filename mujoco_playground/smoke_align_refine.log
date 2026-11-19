@@ -1,0 +1,9 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+reference 0 command 2 phase [1, 0, 4, 0]
+reference 1 command 4 phase [4, 0, 0, 3]
+reference 2 command 4 phase [4, 4, 4, 2]
+reference 3 command 1 phase [0, 2, 0, 4]
+ALL REFINEMENT SMOKE CHECKS PASSED

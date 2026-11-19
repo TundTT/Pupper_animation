@@ -1,0 +1,30 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+PASS: 204 sensor observations, repeated startup frames, all 12 independent position outputs
+PASS: no privileged actor/control inputs; whole-turn encoder-frame invariance
+PASS: 16 randomized direct-action physics steps, finite rewards/observations
+PASS: gated one-time +2 settle / +3 touchdown; no pre-completed or repeated credit
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/theerawit/Pupper_animation-combine/mujoco_playground/workspace/smoke_wheel_align_direct.py", line 116, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/theerawit/Pupper_animation-combine/mujoco_playground/workspace/smoke_wheel_align_direct.py", line 97, in main
+    for _ in range(2): batch=advance(batch,batch.info['last_policy_action'])
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/theerawit/Pupper_animation-combine/mujoco_playground/workspace/wheel_align_training.py", line 52, in step
+    stepped = self.env.step(state, action)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/envs/wrappers/training.py", line 103, in step
+    state, rewards = jax.lax.scan(f, state, (), self.action_repeat)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: scan body function carry input and carry output must have equal types, but they differ:
+
+The input carry component state.metrics['active_phase'] has type float32[2] but the corresponding output carry component has type int32[2], so the dtypes do not match.
+
+Revise the function so that all output types match the corresponding input types.
+--------------------
+For simplicity, JAX has removed its internal frames from the traceback of the following exception. Set JAX_TRACEBACK_FILTERING=off to include these.

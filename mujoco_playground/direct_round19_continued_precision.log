@@ -1,0 +1,80 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/theerawit/.netrc.
+wandb: Currently logged in as: tundt (QuadMorph) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.29.0
+wandb: Run data is saved locally in /home/theerawit/Pupper_animation-combine/mujoco_playground/wandb/run-20260908_165821-at557run
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run direct_round19_continued_precision
+wandb: ⭐️ View project at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: 🚀 View run at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/at557run
+2026-09-08 16:58:33.820465: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:58:33.820550: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 16:58:56.319446: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+{"step": 500, "loss": 1.5752696990966797, "validation": 2.771568775177002, "phase_accuracy": 0.5496323704719543}
+{"step": 1000, "loss": 1.4836363792419434, "validation": 2.6970038414001465, "phase_accuracy": 0.5643382668495178}
+{"step": 1500, "loss": 1.5451650619506836, "validation": 2.704669713973999, "phase_accuracy": 0.5790441036224365}
+{"step": 2000, "loss": 1.3481196165084839, "validation": 2.6996865272521973, "phase_accuracy": 0.591911792755127}
+{"step": 2500, "loss": 1.3809248208999634, "validation": 2.721221923828125, "phase_accuracy": 0.6102941036224365}
+{"step": 3000, "loss": 1.5477046966552734, "validation": 2.667860984802246, "phase_accuracy": 0.6305146813392639}
+{"step": 3500, "loss": 1.3647540807724, "validation": 2.698845386505127, "phase_accuracy": 0.6599264740943909}
+{"step": 4000, "loss": 1.275797724723816, "validation": 2.6688294410705566, "phase_accuracy": 0.6691176295280457}
+{"step": 4500, "loss": 1.3463010787963867, "validation": 2.6782379150390625, "phase_accuracy": 0.6783088445663452}
+{"step": 5000, "loss": 1.3986127376556396, "validation": 2.704028606414795, "phase_accuracy": 0.6893382668495178}
+{"step": 5500, "loss": 1.3296153545379639, "validation": 2.666386604309082, "phase_accuracy": 0.7132353186607361}
+{"step": 6000, "loss": 1.2654533386230469, "validation": 2.61019229888916, "phase_accuracy": 0.716911792755127}
+{"step": 6500, "loss": 1.3454093933105469, "validation": 2.688840866088867, "phase_accuracy": 0.7297794222831726}
+{"step": 7000, "loss": 1.4231733083724976, "validation": 2.6764016151428223, "phase_accuracy": 0.7352941036224365}
+{"step": 7500, "loss": 1.3886218070983887, "validation": 2.641176462173462, "phase_accuracy": 0.7408088445663452}
+{"step": 8000, "loss": 1.359135627746582, "validation": 2.650869846343994, "phase_accuracy": 0.7518382668495178}
+{"step": 8500, "loss": 1.3787890672683716, "validation": 2.6070210933685303, "phase_accuracy": 0.7573529481887817}
+{"step": 9000, "loss": 1.1895194053649902, "validation": 2.6254708766937256, "phase_accuracy": 0.7610294222831726}
+{"step": 9500, "loss": 1.2820099592208862, "validation": 2.602898597717285, "phase_accuracy": 0.7665441036224365}
+{"step": 10000, "loss": 1.2722339630126953, "validation": 2.6674461364746094, "phase_accuracy": 0.7738970518112183}
+{"step": 10500, "loss": 1.193787932395935, "validation": 2.6830363273620605, "phase_accuracy": 0.7849264740943909}
+{"step": 11000, "loss": 1.2550241947174072, "validation": 2.6856741905212402, "phase_accuracy": 0.7867646813392639}
+{"step": 11500, "loss": 1.2029303312301636, "validation": 2.664339542388916, "phase_accuracy": 0.7886029481887817}
+{"step": 12000, "loss": 1.259251356124878, "validation": 2.677717447280884, "phase_accuracy": 0.7941176295280457}
+{"step": 12500, "loss": 1.2357113361358643, "validation": 2.680145502090454, "phase_accuracy": 0.7996323704719543}
+{"step": 13000, "loss": 1.2814788818359375, "validation": 2.6705832481384277, "phase_accuracy": 0.8014705777168274}
+{"step": 13500, "loss": 1.2398383617401123, "validation": 2.628354072570801, "phase_accuracy": 0.8033088445663452}
+{"step": 14000, "loss": 1.281741738319397, "validation": 2.639010429382324, "phase_accuracy": 0.8051470518112183}
+{"step": 14500, "loss": 1.2616043090820312, "validation": 2.6577510833740234, "phase_accuracy": 0.810661792755127}
+{"step": 15000, "loss": 1.052804708480835, "validation": 2.6220591068267822, "phase_accuracy": 0.8180146813392639}
+{"step": 15500, "loss": 1.219712495803833, "validation": 2.658339500427246, "phase_accuracy": 0.8198529481887817}
+{"step": 16000, "loss": 1.2017794847488403, "validation": 2.63808012008667, "phase_accuracy": 0.8235294222831726}
+{"step": 16500, "loss": 1.1484856605529785, "validation": 2.668250560760498, "phase_accuracy": 0.8253676295280457}
+{"step": 17000, "loss": 1.4017881155014038, "validation": 2.666787624359131, "phase_accuracy": 0.8272058963775635}
+{"step": 17500, "loss": 1.2831302881240845, "validation": 2.6485726833343506, "phase_accuracy": 0.8290441036224365}
+{"step": 18000, "loss": 1.139389991760254, "validation": 2.6524956226348877, "phase_accuracy": 0.8253676295280457}
+{"step": 18500, "loss": 1.1317559480667114, "validation": 2.634228467941284, "phase_accuracy": 0.8308823704719543}
+{"step": 19000, "loss": 1.2389627695083618, "validation": 2.6215972900390625, "phase_accuracy": 0.8272058963775635}
+{"step": 19500, "loss": 1.1779358386993408, "validation": 2.657672882080078, "phase_accuracy": 0.8272058963775635}
+{"step": 20000, "loss": 1.2367973327636719, "validation": 2.678338050842285, "phase_accuracy": 0.8290441036224365}
+{"step": 20500, "loss": 1.156984567642212, "validation": 2.6777162551879883, "phase_accuracy": 0.8327205777168274}
+{"step": 21000, "loss": 1.2647786140441895, "validation": 2.676098346710205, "phase_accuracy": 0.8363970518112183}
+{"step": 21500, "loss": 1.2537319660186768, "validation": 2.6273226737976074, "phase_accuracy": 0.8327205777168274}
+{"step": 22000, "loss": 1.167983055114746, "validation": 2.651890277862549, "phase_accuracy": 0.8345588445663452}
+{"step": 22500, "loss": 1.2755131721496582, "validation": 2.68449330329895, "phase_accuracy": 0.8345588445663452}
+{"step": 23000, "loss": 1.1829745769500732, "validation": 2.640131711959839, "phase_accuracy": 0.8363970518112183}
+{"step": 23500, "loss": 1.1511119604110718, "validation": 2.699479103088379, "phase_accuracy": 0.8345588445663452}
+{"step": 24000, "loss": 1.131894588470459, "validation": 2.674602508544922, "phase_accuracy": 0.8382353186607361}
+wandb: updating run metadata
+wandb: 
+wandb: Run history:
+wandb:           loss █▇█▄▅▅▃▄▅▄▄▆▅▅▅▃▃▂▃▂▃▃▃▃▃▂▂▁▅▃▁▃▂▃▁▃▂▃▂▁
+wandb: phase_accuracy ▁▁▂▂▂▄▄▄▄▅▅▆▆▆▆▆▆▇▇▇▇▇▇▇▇███████████████
+wandb:           step ▁▁▁▁▂▂▂▂▂▂▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▅▆▆▆▆▆▇▇▇▇▇▇███
+wandb:     validation █▅▅▅▆▅▄▄▅▄▅▄▃▃▁▁▄▄▄▄▄▄▂▂▃▃▂▄▄▃▂▂▃▄▄▂▃▄▃▄
+wandb: 
+wandb: Run summary:
+wandb:           loss 1.13189
+wandb: phase_accuracy 0.83824
+wandb:           step 24000
+wandb:     validation 2.6746
+wandb: 
+wandb: 🚀 View run direct_round19_continued_precision at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/at557run
+wandb: ⭐️ View project at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260908_165821-at557run/logs
+RECURRENT-FEEDBACK CLONING COMPLETE

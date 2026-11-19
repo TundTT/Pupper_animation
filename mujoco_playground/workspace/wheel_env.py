@@ -57,6 +57,7 @@ from jax import numpy as jp
 from ml_collections import config_dict
 
 from workspace import configs
+from workspace.randomize import _wheel_collision_geom_ids
 
 
 def _buf_push_front(buf: jax.Array, new_val: jax.Array) -> jax.Array:
@@ -99,6 +100,9 @@ class PupperWheelEnv(PipelineEnv):
         # Row masks for the two actuation groups (see module docstring).
         self._pos_rows = np.array(configs.POSITION_ACTUATOR_ROWS)
         self._wheel_rows = np.array(configs.WHEEL_ACTUATOR_ROWS)
+        joint_ids = [sys.mj_model.joint(name).id for name in configs.JOINT_NAMES]
+        self._joint_qpos = np.array(sys.mj_model.jnt_qposadr[joint_ids])
+        self._joint_dof = np.array(sys.mj_model.jnt_dofadr[joint_ids])
         pos_mask = np.zeros(12)
         pos_mask[self._pos_rows] = 1.0
         self._pos_mask = jp.array(pos_mask)
@@ -139,7 +143,7 @@ class PupperWheelEnv(PipelineEnv):
         ]
         assert -1 not in wheel_ids, "a wheel body was not found"
         self._wheel_body_id = np.array(wheel_ids)
-        self._wheel_radius = configs.WHEEL_RADIUS
+        self._wheel_geom_id = _wheel_collision_geom_ids(sys)
         self._wheel_center_local = jp.array([0.0, 0.0, configs.WHEEL_CENTER_LOCAL_Z])
         self._stand_height = configs.STAND_TORSO_HEIGHT
 
@@ -277,6 +281,24 @@ class PupperWheelEnv(PipelineEnv):
         inv_rot = math.quat_inv(pipeline_state.x.rot[self._torso_idx - 1])
         return math.rotate(pipeline_state.xd.vel[self._torso_idx - 1], inv_rot)
 
+    def _wheel_clearance(self, pipeline_state: base.State) -> jax.Array:
+        """Lowest collision-cylinder point above the plane, including axle tilt.
+
+        Read the live System inside the DR vmap, never cache nominal radii.
+        A tilted cylinder's vertical extent includes its half-width as well.
+        """
+        ids = self._wheel_geom_id
+        rotations = pipeline_state.x.rot[self._wheel_body_id - 1]
+        centers = pipeline_state.x.pos[self._wheel_body_id - 1] + jax.vmap(math.rotate)(
+            self.sys.geom_pos[ids], rotations
+        )
+        geom_rot = jax.vmap(math.quat_mul)(rotations, self.sys.geom_quat[ids])
+        axes = jax.vmap(math.rotate, in_axes=(None, 0))(jp.array([0., 0., 1.]), geom_rot)
+        axis_z = jp.abs(axes[:, 2])
+        extent = (self.sys.geom_size[ids, 0] * jp.sqrt(jp.maximum(1. - axis_z**2, 0.))
+                  + self.sys.geom_size[ids, 1] * axis_z)
+        return centers[:, 2] - extent
+
     def _body_frame_angvel(self, pipeline_state: base.State) -> jax.Array:
         inv_rot = math.quat_inv(pipeline_state.x.rot[self._torso_idx - 1])
         return math.rotate(pipeline_state.xd.ang[self._torso_idx - 1], inv_rot)
@@ -318,7 +340,7 @@ class PupperWheelEnv(PipelineEnv):
             * dr.start_joint_jitter
             * self._pos_mask  # wheel joints have no meaningful start angle
         )
-        init_q = init_q.at[7:].add(jitter)
+        init_q = init_q.at[self._joint_qpos].add(jitter)
         pipeline_state = self.pipeline_init(init_q, jp.zeros(self._nv))
 
         info = {
@@ -343,7 +365,8 @@ class PupperWheelEnv(PipelineEnv):
         return State(pipeline_state, obs, jp.zeros(()), jp.zeros(()), metrics, info)
 
     # ------------------------------------------------------------------- step
-    def step(self, state: State, action: jax.Array) -> State:
+    def _advance_physics(self, state: State, action: jax.Array):
+        """Shared wheel actuation, action latency and push disturbances."""
         state.info["rng"], kick_rng, lat_rng, obs_rng = jax.random.split(state.info["rng"], 4)
 
         # Action latency: sample which recent action actually reaches the motors.
@@ -370,11 +393,15 @@ class PupperWheelEnv(PipelineEnv):
             self._uppers,
         )
         pipeline_state = self.pipeline_step(state.pipeline_state.replace(qd=kicked_qd), motor_targets)
+        return pipeline_state, obs_rng
+
+    def step(self, state: State, action: jax.Array) -> State:
+        pipeline_state, obs_rng = self._advance_physics(state, action)
 
         obs = self._get_obs(pipeline_state, state.info, state.obs, obs_rng)
 
-        joint_angles = pipeline_state.q[7:]
-        joint_vel = pipeline_state.qd[6:]
+        joint_angles = pipeline_state.q[self._joint_qpos]
+        joint_vel = pipeline_state.qd[self._joint_dof]
         x = pipeline_state.x
 
         command = state.info["command"]
@@ -383,7 +410,7 @@ class PupperWheelEnv(PipelineEnv):
         lin_vel_error = jp.sum(jp.square(command[:2] - body_vel[:2]))
         ang_vel_error = jp.square(command[2] - body_angvel[2])
 
-        wheel_clearance = self._wheel_center_z(pipeline_state) - self._wheel_radius
+        wheel_clearance = self._wheel_clearance(pipeline_state)
         wheel_contact = wheel_clearance < 5e-3
 
         up = jp.array([0.0, 0.0, 1.0])
@@ -463,7 +490,7 @@ class PupperWheelEnv(PipelineEnv):
         lin_vel_z = jp.square(body_vel[2])
         ang_vel_xy = jp.sum(jp.square(body_angvel[:2]))
         action_rate = jp.sum(jp.square(action - info["last_act"]))
-        torques = jp.sum(jp.square(pipeline_state.qfrc_actuator[6:]))
+        torques = jp.sum(jp.square(pipeline_state.qfrc_actuator[self._joint_dof]))
         dof_acc = jp.sum(jp.square((joint_vel - info["last_vel"]) / self._dt))
 
         # Position rows only -- the wheel rows of _soft_* are velocity bounds.
@@ -488,9 +515,8 @@ class PupperWheelEnv(PipelineEnv):
         }
 
     # -------------------------------------------------------------------- obs
-    def _get_obs(
-        self, pipeline_state: base.State, info: dict[str, Any], obs_history: jax.Array, rng: jax.Array
-    ) -> jax.Array:
+    def _proprioception(self, pipeline_state, info, rng):
+        """Shared noisy/lagged IMU and mixed angle/speed encoder observations."""
         dr = self._config.dr
         ang_rng, grav_rng, jpos_rng, jvel_rng, lact_rng, imu_rng = jax.random.split(rng, 6)
 
@@ -514,11 +540,11 @@ class PupperWheelEnv(PipelineEnv):
         # SPEED on the wheel rows. A free-spinning wheel's angle is unbounded and
         # wraps, which would be a meaningless input; its speed is what matters
         # and is what the real encoder reports usefully for a drive wheel.
-        jpos = (pipeline_state.q[7:] - self._default_pose) * self._pos_mask
+        jpos = (pipeline_state.q[self._joint_qpos] - self._default_pose) * self._pos_mask
         jpos = jpos + jax.random.uniform(jpos_rng, (12,), minval=-1.0, maxval=1.0) * dr.motor_angle_noise * self._pos_mask
         # Sign-corrected the same way the ctrl is, so a wheel rolling the robot
         # forward always reads positive regardless of which side it is on.
-        jvel = pipeline_state.qd[6:] * self._wheel_mask * self._ctrl_sign
+        jvel = pipeline_state.qd[self._joint_dof] * self._wheel_mask * self._ctrl_sign
         jvel = jvel + jax.random.uniform(jvel_rng, (12,), minval=-1.0, maxval=1.0) * dr.wheel_velocity_noise * self._wheel_mask
         # Wheel speeds are normalized to the same O(1) range as the angle rows so
         # neither dominates the (shared) observation normalizer.
@@ -527,6 +553,10 @@ class PupperWheelEnv(PipelineEnv):
         last_act = info["last_act"]
         last_act = last_act + jax.random.uniform(lact_rng, (12,), minval=-1.0, maxval=1.0) * dr.last_action_noise
 
+        return ang_vel, gravity, joint_obs, last_act
+
+    def _get_obs(self, pipeline_state, info, obs_history, rng):
+        ang_vel, gravity, joint_obs, last_act = self._proprioception(pipeline_state, info, rng)
         obs = jp.concatenate([
             ang_vel,             # 3
             gravity,             # 3

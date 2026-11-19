@@ -1,0 +1,94 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+wandb: [wandb.login()] Loaded credentials for https://api.wandb.ai from /home/theerawit/.netrc.
+wandb: Currently logged in as: tundt (QuadMorph) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run r3lkv42c
+wandb: Tracking run with wandb version 0.29.0
+wandb: Run data is saved locally in /home/theerawit/Pupper_animation-combine/mujoco_playground/wandb/run-20260908_170813-r3lkv42c
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run direct_round21_sparse_feedback
+wandb: ⭐️ View project at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: 🚀 View run at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/r3lkv42c
+2026-09-08 17:08:26.113569: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:08:26.113656: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+2026-09-08 17:08:48.695920: W external/xla/xla/service/gpu/autotuning/dot_search_space.cc:200] All configs were filtered out because none of them sufficiently match the hints. Maybe the hints set does not contain a good representative set of valid configs?Working around this by using the full hints set instead.
+{"step": 500, "loss": 2.265045166015625, "validation": 2.1847825050354004, "phase_accuracy": 0.5974264740943909}
+{"step": 1000, "loss": 1.844522476196289, "validation": 1.8768105506896973, "phase_accuracy": 0.65625}
+{"step": 1500, "loss": 1.587931513786316, "validation": 1.7339715957641602, "phase_accuracy": 0.6948529481887817}
+{"step": 2000, "loss": 1.5487929582595825, "validation": 1.6730313301086426, "phase_accuracy": 0.7297794222831726}
+{"step": 2500, "loss": 1.5563971996307373, "validation": 1.636033058166504, "phase_accuracy": 0.748161792755127}
+{"step": 3000, "loss": 1.365919828414917, "validation": 1.5854623317718506, "phase_accuracy": 0.779411792755127}
+{"step": 3500, "loss": 1.3301639556884766, "validation": 1.5909565687179565, "phase_accuracy": 0.7922794222831726}
+{"step": 4000, "loss": 1.4073734283447266, "validation": 1.5491336584091187, "phase_accuracy": 0.8033088445663452}
+{"step": 4500, "loss": 1.4055204391479492, "validation": 1.5327167510986328, "phase_accuracy": 0.8216911554336548}
+{"step": 5000, "loss": 1.1998584270477295, "validation": 1.5075881481170654, "phase_accuracy": 0.8382353186607361}
+{"step": 5500, "loss": 1.2507421970367432, "validation": 1.515749216079712, "phase_accuracy": 0.8529411554336548}
+{"step": 6000, "loss": 1.2444241046905518, "validation": 1.4996949434280396, "phase_accuracy": 0.8602941036224365}
+{"step": 6500, "loss": 1.2481846809387207, "validation": 1.504148006439209, "phase_accuracy": 0.8676470518112183}
+{"step": 7000, "loss": 1.2090117931365967, "validation": 1.4697082042694092, "phase_accuracy": 0.875}
+{"step": 7500, "loss": 1.2343887090682983, "validation": 1.46449875831604, "phase_accuracy": 0.8805146813392639}
+{"step": 8000, "loss": 1.1280460357666016, "validation": 1.4566688537597656, "phase_accuracy": 0.8805146813392639}
+{"step": 8500, "loss": 1.2896976470947266, "validation": 1.4683338403701782, "phase_accuracy": 0.8860294222831726}
+{"step": 9000, "loss": 1.1011557579040527, "validation": 1.463152527809143, "phase_accuracy": 0.8915441036224365}
+{"step": 9500, "loss": 1.2815898656845093, "validation": 1.459083914756775, "phase_accuracy": 0.8933823704719543}
+{"step": 10000, "loss": 1.125518560409546, "validation": 1.4553734064102173, "phase_accuracy": 0.8933823704719543}
+{"step": 10500, "loss": 1.0250298976898193, "validation": 1.450160264968872, "phase_accuracy": 0.8915441036224365}
+{"step": 11000, "loss": 1.0402263402938843, "validation": 1.4602749347686768, "phase_accuracy": 0.8952205777168274}
+{"step": 11500, "loss": 1.0169713497161865, "validation": 1.448871374130249, "phase_accuracy": 0.8915441036224365}
+{"step": 12000, "loss": 1.0882433652877808, "validation": 1.4391849040985107, "phase_accuracy": 0.8878676295280457}
+{"step": 12500, "loss": 1.0604182481765747, "validation": 1.4229364395141602, "phase_accuracy": 0.8933823704719543}
+{"step": 13000, "loss": 1.0878406763076782, "validation": 1.4492100477218628, "phase_accuracy": 0.8933823704719543}
+{"step": 13500, "loss": 0.9120658040046692, "validation": 1.4301722049713135, "phase_accuracy": 0.8915441036224365}
+{"step": 14000, "loss": 1.1556239128112793, "validation": 1.4525357484817505, "phase_accuracy": 0.8988970518112183}
+{"step": 14500, "loss": 1.0001810789108276, "validation": 1.4282487630844116, "phase_accuracy": 0.8952205777168274}
+{"step": 15000, "loss": 0.9373035430908203, "validation": 1.445688009262085, "phase_accuracy": 0.9007353186607361}
+{"step": 15500, "loss": 1.0403826236724854, "validation": 1.4352786540985107, "phase_accuracy": 0.8952205777168274}
+{"step": 16000, "loss": 1.0678646564483643, "validation": 1.4274964332580566, "phase_accuracy": 0.9007353186607361}
+{"step": 16500, "loss": 0.9913198351860046, "validation": 1.4213876724243164, "phase_accuracy": 0.9025735259056091}
+{"step": 17000, "loss": 1.1139881610870361, "validation": 1.4339220523834229, "phase_accuracy": 0.904411792755127}
+{"step": 17500, "loss": 0.9870277643203735, "validation": 1.4342553615570068, "phase_accuracy": 0.90625}
+{"step": 18000, "loss": 0.9964197874069214, "validation": 1.4480890035629272, "phase_accuracy": 0.904411792755127}
+{"step": 18500, "loss": 0.900981605052948, "validation": 1.4364686012268066, "phase_accuracy": 0.90625}
+{"step": 19000, "loss": 1.0296218395233154, "validation": 1.4317007064819336, "phase_accuracy": 0.9080882668495178}
+{"step": 19500, "loss": 0.9211210608482361, "validation": 1.4309455156326294, "phase_accuracy": 0.9099264740943909}
+{"step": 20000, "loss": 0.885460376739502, "validation": 1.4402674436569214, "phase_accuracy": 0.9099264740943909}
+{"step": 20500, "loss": 0.8678690195083618, "validation": 1.4419339895248413, "phase_accuracy": 0.9080882668495178}
+{"step": 21000, "loss": 0.9459937810897827, "validation": 1.4290597438812256, "phase_accuracy": 0.9099264740943909}
+{"step": 21500, "loss": 0.9546748995780945, "validation": 1.43277108669281, "phase_accuracy": 0.9099264740943909}
+{"step": 22000, "loss": 0.9337561130523682, "validation": 1.4335103034973145, "phase_accuracy": 0.9117646813392639}
+{"step": 22500, "loss": 0.9485040903091431, "validation": 1.4459295272827148, "phase_accuracy": 0.9099264740943909}
+{"step": 23000, "loss": 0.8268027305603027, "validation": 1.459859848022461, "phase_accuracy": 0.9136029481887817}
+{"step": 23500, "loss": 0.9613014459609985, "validation": 1.4427826404571533, "phase_accuracy": 0.9154411554336548}
+{"step": 24000, "loss": 0.8096933364868164, "validation": 1.4502824544906616, "phase_accuracy": 0.9099264740943909}
+{"step": 24500, "loss": 0.9056475162506104, "validation": 1.4445720911026, "phase_accuracy": 0.9172794222831726}
+{"step": 25000, "loss": 0.8610093593597412, "validation": 1.4657375812530518, "phase_accuracy": 0.9154411554336548}
+{"step": 25500, "loss": 0.8947329521179199, "validation": 1.4460012912750244, "phase_accuracy": 0.9117646813392639}
+{"step": 26000, "loss": 0.8245087265968323, "validation": 1.4629254341125488, "phase_accuracy": 0.9136029481887817}
+{"step": 26500, "loss": 0.7792250514030457, "validation": 1.4680675268173218, "phase_accuracy": 0.9117646813392639}
+{"step": 27000, "loss": 0.8370571732521057, "validation": 1.4329135417938232, "phase_accuracy": 0.9117646813392639}
+{"step": 27500, "loss": 0.8498831391334534, "validation": 1.4642549753189087, "phase_accuracy": 0.9117646813392639}
+{"step": 28000, "loss": 0.8939740657806396, "validation": 1.4540717601776123, "phase_accuracy": 0.9080882668495178}
+{"step": 28500, "loss": 0.7921448945999146, "validation": 1.4568995237350464, "phase_accuracy": 0.9172794222831726}
+{"step": 29000, "loss": 0.8639631867408752, "validation": 1.4758886098861694, "phase_accuracy": 0.9117646813392639}
+{"step": 29500, "loss": 0.8073393702507019, "validation": 1.4841063022613525, "phase_accuracy": 0.9099264740943909}
+{"step": 30000, "loss": 0.8830980062484741, "validation": 1.4631993770599365, "phase_accuracy": 0.9117646813392639}
+wandb: updating run metadata
+wandb: uploading wandb-summary.json
+wandb: 
+wandb: Run history:
+wandb:           loss █▆▅▅▅▄▄▃▃▃▃▃▃▂▃▂▂▂▂▂▂▂▂▂▂▂▂▁▁▂▂▂▁▂▁▁▁▁▁▁
+wandb: phase_accuracy ▁▂▃▄▄▆▆▇▇▇▇▇▇▇▇▇▇▇██████████████████████
+wandb:           step ▁▁▁▁▁▂▂▂▂▃▃▃▃▃▃▄▄▄▄▄▅▅▅▅▅▆▆▆▆▆▆▇▇▇▇▇▇███
+wandb:     validation █▅▄▃▃▃▂▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
+wandb: 
+wandb: Run summary:
+wandb:           loss 0.8831
+wandb: phase_accuracy 0.91176
+wandb:           step 30000
+wandb:     validation 1.4632
+wandb: 
+wandb: 🚀 View run direct_round21_sparse_feedback at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/r3lkv42c
+wandb: ⭐️ View project at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: Synced 5 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260908_170813-r3lkv42c/logs
+RECURRENT-FEEDBACK CLONING COMPLETE

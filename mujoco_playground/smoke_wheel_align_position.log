@@ -1,0 +1,14 @@
+/home/theerawit/Pupper_animation-combine/mujoco_playground/.venv/lib/python3.12/site-packages/brax/io/mjcf.py:480: UserWarning: Brax System, piplines and environments are not actively being maintained. Please see MJX for a well maintained JAX-based physics engine: https://github.com/google-deepmind/mujoco/tree/main/mjx. For a host of environments that use MJX, see: https://github.com/google-deepmind/mujoco_playground.
+  warnings.warn(
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+PASS: independent full-circle reset phases; 340 observations / 12 actions
+PASS: 16 random physics steps; finite reward components, persistent targets
+PASS: guarded lift/rotate/lower/reweight, all-leg hold, reselection and disturbed angle feedback
+PASS: per-wheel randomized geometry affects clearance, position PD survives DR
+PASS: clock-driven full sequence and idle, no false completion on timeout
+PASS: batched DR + PPO timeout restores fresh references/phase/physics together
+PASS: real PD restoring torque at rest; +/-50 revolutions, seam crossings, no velocity ctrl clipping
+PASS: 0.3 rad perturbation, 0.6 s recovery: PD error=0.01021 rad, velocity-zero error=0.30000 rad
+PASS: wheel-drive regression reset/step
+ALL SMOKE CHECKS PASSED

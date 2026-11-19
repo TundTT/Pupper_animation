@@ -1,0 +1,6 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+PASS: excessive proposal rejected with optimizer restored; smaller proposal backtracked into KL budget
+PASS: explicit supervision reaches all four wheel mean outputs
+PASS: zero-success clone refused before data loading or environment stepping
+ALL PROTECTED PPO SMOKE CHECKS PASSED
