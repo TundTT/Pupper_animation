@@ -1,0 +1,92 @@
+{
+  "protocol": "native MuJoCo, 250 Hz, blind policy, friction 2; three 30mm-wide transverse bars",
+  "params": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/clearance_trials/height16/walk_2026-09-07_16-20-16/params_000043253760",
+  "params_sha256": "852d056bcd1beaca1289d3bbe69c766fc968065ab4a25ab111d966622e2f82f9",
+  "evaluator_sha256": "cbb46db0188aacd8497854dd6e79f67822d39ff1eb928879bb6c0a268fa60076",
+  "foot_model": "rigid_flush",
+  "speed": 0.2,
+  "seconds": 8.0,
+  "rows": [
+    {
+      "height_mm": 10.0,
+      "seed": 0,
+      "fallen": false,
+      "finished": true,
+      "torso_x_m": 1.3074071737941686,
+      "velocity_error": 0.0680144446290721,
+      "foot_side_contact_samples": [
+        201,
+        10,
+        32,
+        14
+      ],
+      "foot_top_contact_samples": [
+        146,
+        394,
+        163,
+        103
+      ],
+      "ring_side_obstacle_overlap_fraction": [
+        0.076,
+        0.0895,
+        0.023,
+        0.0365
+      ],
+      "body_obstacle_contact_samples": 0
+    },
+    {
+      "height_mm": 10.0,
+      "seed": 1,
+      "fallen": false,
+      "finished": false,
+      "torso_x_m": 0.8552976195755162,
+      "velocity_error": 0.11934766334786528,
+      "foot_side_contact_samples": [
+        1092,
+        377,
+        0,
+        18
+      ],
+      "foot_top_contact_samples": [
+        70,
+        135,
+        102,
+        139
+      ],
+      "ring_side_obstacle_overlap_fraction": [
+        0.3955,
+        0.184,
+        0.0425,
+        0.0735
+      ],
+      "body_obstacle_contact_samples": 0
+    },
+    {
+      "height_mm": 10.0,
+      "seed": 2,
+      "fallen": false,
+      "finished": false,
+      "torso_x_m": 1.0268064180098322,
+      "velocity_error": 0.09422053212701369,
+      "foot_side_contact_samples": [
+        63,
+        367,
+        30,
+        24
+      ],
+      "foot_top_contact_samples": [
+        116,
+        564,
+        218,
+        133
+      ],
+      "ring_side_obstacle_overlap_fraction": [
+        0.0555,
+        0.1825,
+        0.059,
+        0.0335
+      ],
+      "body_obstacle_contact_samples": 0
+    }
+  ]
+}

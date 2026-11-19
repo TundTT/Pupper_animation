@@ -1,0 +1,25 @@
+{
+  "pid": 2104013,
+  "command": [
+    "/home/theerawit/Pupper_animation/mujoco_playground/.venv-walk/bin/python",
+    "-u",
+    "-m",
+    "workspace.train_walk",
+    "--num_timesteps",
+    "200000000",
+    "--num_envs",
+    "8192",
+    "--seed",
+    "0",
+    "--init_params",
+    "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/walk_2026-09-06_03-24-30/best_params",
+    "--use_wandb"
+  ],
+  "cwd": "/home/theerawit/Pupper_animation/mujoco_playground",
+  "log": "/home/theerawit/Pupper_animation/mujoco_playground/walk-train-7.log",
+  "environment": {
+    "CUDA_VISIBLE_DEVICES": "0",
+    "MUJOCO_GL": "egl",
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "false"
+  }
+}

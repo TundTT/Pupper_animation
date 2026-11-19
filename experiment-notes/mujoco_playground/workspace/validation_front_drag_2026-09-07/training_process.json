@@ -1,0 +1,25 @@
+{
+  "pid": 2605525,
+  "command": [
+    "/home/theerawit/Pupper_animation/mujoco_playground/.venv-walk/bin/python",
+    "-u",
+    "-m",
+    "workspace.train_walk",
+    "--init_params",
+    "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/jitter_trials/tip_credit3/walk_2026-09-07_04-04-36/params_000129761280",
+    "--num_timesteps",
+    "86400000",
+    "--num_evals",
+    "5",
+    "--learning_rate",
+    "0.0001",
+    "--floor_friction",
+    "2.0",
+    "--friction_range",
+    "1.2",
+    "2.5",
+    "--output_dir",
+    "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/front_drag_trials/friction_only",
+    "--use_wandb"
+  ]
+}

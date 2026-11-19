@@ -1,0 +1,7 @@
+{
+  "checkpoint_sha256": "a3dc1e16c6f2680af34130000048075e54728d7008d9e3269b0ad5e5bd6ba450",
+  "export_sha256": "95c29c24535a0984a5e9932b7763ca77f5cd79ffebbd995a87cfd271ba862c8a",
+  "count": 64,
+  "seed": 907,
+  "expected_source": "Original Brax deterministic inference with saved normalization"
+}

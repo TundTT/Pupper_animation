@@ -1,0 +1,16 @@
+[
+  {
+    "reward": 1,
+    "_timestamp": 1788767052.8905735,
+    "video_marker": "initial",
+    "_runtime": 0.039621117,
+    "_step": 0
+  },
+  {
+    "video_marker": "later",
+    "_timestamp": 1788767052.8907797,
+    "reward": 2,
+    "_runtime": 0.039736121,
+    "_step": 100
+  }
+]

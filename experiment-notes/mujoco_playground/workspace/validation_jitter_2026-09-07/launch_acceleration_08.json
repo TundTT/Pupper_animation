@@ -1,0 +1,29 @@
+{
+  "label": "acceleration_08",
+  "pid": 2245392,
+  "gpu": 0,
+  "command": [
+    "/home/theerawit/Pupper_animation/mujoco_playground/.venv-walk/bin/python",
+    "-u",
+    "-m",
+    "workspace.train_walk",
+    "--num_timesteps",
+    "43200000",
+    "--num_envs",
+    "8192",
+    "--num_evals",
+    "4",
+    "--seed",
+    "0",
+    "--init_params",
+    "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/tip_clearance/walk_2026-09-07_02-04-04/best_params",
+    "--learning_rate",
+    "0.00005",
+    "--action_acceleration",
+    "-0.8",
+    "--output_dir",
+    "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/jitter_trials/acceleration_08",
+    "--use_wandb"
+  ],
+  "log": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/validation_jitter_2026-09-07/acceleration_08.log"
+}

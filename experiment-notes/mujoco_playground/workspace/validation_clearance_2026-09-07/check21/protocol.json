@@ -1,0 +1,236 @@
+{
+  "config": {
+    "action_scale": [
+      0.5,
+      0.25,
+      1.1,
+      0.5,
+      0.25,
+      1.1,
+      0.5,
+      0.25,
+      1.1,
+      0.5,
+      0.25,
+      1.1
+    ],
+    "activation": "elu",
+    "air_time_floor": -0.08,
+    "axis_probability": 0.25,
+    "bottom_allowance": 0.009,
+    "command_high": [
+      0.35,
+      0.15,
+      0.8
+    ],
+    "command_hold_steps": 401,
+    "command_low": [
+      -0.35,
+      -0.15,
+      -0.8
+    ],
+    "ctrl_dt": 0.02,
+    "episode_length": 600,
+    "floor_friction": 2.0,
+    "foot_model": "rigid_flush",
+    "friction_range": [
+      0.8,
+      2.5
+    ],
+    "hidden_layer_sizes": [
+      128,
+      128,
+      128
+    ],
+    "joint_limit_margin": 0.15,
+    "latency_probability": 0.0,
+    "leg_length_common_range": [
+      0.9,
+      0.98
+    ],
+    "leg_length_per_leg_range": [
+      0.96,
+      1.04
+    ],
+    "minimum_swing_clearance": 0.004,
+    "moving_height_offset": -0.003,
+    "observation_history": 4,
+    "planned_swing_bonus": 0.25,
+    "planned_swing_duration": 0.2,
+    "planned_swing_height": 0.016,
+    "ppo": {
+      "batch_size": 256,
+      "discounting": 0.97,
+      "entropy_cost": 0.01,
+      "learning_rate": 0.0003,
+      "normalize_observations": true,
+      "num_envs": 8192,
+      "num_eval_envs": 128,
+      "num_evals": 15,
+      "num_minibatches": 32,
+      "num_timesteps": 200000000,
+      "num_updates_per_batch": 4,
+      "reward_scaling": 1.0,
+      "seed": 0,
+      "unroll_length": 20
+    },
+    "push_probability": 0.0,
+    "push_velocity": 0.3,
+    "reset_joint_noise": 0.0,
+    "reset_xy_noise": 0.01,
+    "reset_yaw_noise": 0.1,
+    "reward_scales": {
+      "action_acceleration": -0.8,
+      "action_rate": -0.3,
+      "air_time": 1.5,
+      "clearance_shortfall": -0.1,
+      "foot_slip": -0.6,
+      "height": -12.0,
+      "joint_limits": -1.5,
+      "planned_swing": -3.0,
+      "ring_bottom": 0.0,
+      "ring_rub": -2.0,
+      "ring_side": -3.0,
+      "ring_side_contact": -6.0,
+      "roll_pitch_velocity": -0.05,
+      "stance_feet": -0.4,
+      "stand_pose": -3.0,
+      "swing_clearance": 0.0,
+      "termination": -2.0,
+      "tip_support": -0.5,
+      "torques": -0.0002,
+      "touchdown": -1.5,
+      "tracking_linear": 6.0,
+      "tracking_yaw": 3.0,
+      "unwanted_contact": -2.0,
+      "upright": 0.3,
+      "vertical_velocity": -0.3
+    },
+    "sensor_noise": 0.0,
+    "side_clearance": 0.001,
+    "smoothness_reference_scale": [
+      0.5,
+      0.25,
+      0.5,
+      0.5,
+      0.25,
+      0.5,
+      0.5,
+      0.25,
+      0.5,
+      0.5,
+      0.25,
+      0.5
+    ],
+    "stand_probability": 0.2,
+    "straight_min_speed": 0.1,
+    "straight_probability": 0.5,
+    "swing_clearance_target": 0.028,
+    "terminal_height": 0.085,
+    "terminal_tilt": 0.65,
+    "tip_tilt_allowance_deg": 15.0,
+    "tip_tilt_scale_deg": 45.0,
+    "touchdown_speed_allowance": 0.15,
+    "tracking_variance_base": 0.0025,
+    "tracking_variance_speed_gain": 0.55,
+    "tracking_variance_yaw_gain": 0.27
+  },
+  "policy_interfaces": {
+    "check21": {
+      "foot_model": "rigid_flush",
+      "action_scale": [
+        0.5,
+        0.25,
+        1.1,
+        0.5,
+        0.25,
+        1.1,
+        0.5,
+        0.25,
+        1.1,
+        0.5,
+        0.25,
+        1.1
+      ],
+      "moving_height_offset": -0.003,
+      "planned_swing_duration": 0.2,
+      "planned_swing_height": 0.016
+    }
+  },
+  "commands": {
+    "stand": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "forward15": [
+      0.15,
+      0.0,
+      0.0
+    ],
+    "forward20": [
+      0.2,
+      0.0,
+      0.0
+    ],
+    "forward35": [
+      0.35,
+      0.0,
+      0.0
+    ],
+    "reverse15": [
+      -0.15,
+      0.0,
+      0.0
+    ],
+    "reverse20": [
+      -0.2,
+      0.0,
+      0.0
+    ],
+    "reverse35": [
+      -0.35,
+      0.0,
+      0.0
+    ],
+    "turn_left": [
+      0.0,
+      0.0,
+      0.5
+    ],
+    "turn_right": [
+      0.0,
+      0.0,
+      -0.5
+    ],
+    "forward_turn": [
+      0.2,
+      0.0,
+      0.4
+    ],
+    "reverse_turn": [
+      -0.2,
+      0.0,
+      0.4
+    ],
+    "left": [
+      0.0,
+      0.1,
+      0.0
+    ],
+    "right": [
+      0.0,
+      -0.1,
+      0.0
+    ]
+  },
+  "seeds": 3,
+  "steps": 400,
+  "discard_controls": 50,
+  "params": [
+    "check21=workspace/output/clearance_trials/height16/walk_2026-09-07_16-20-16/params_000021626880"
+  ],
+  "floor_sliding_friction": 2.0,
+  "model_sha256": "a79d5a4520da2700f85ce946c49564ec0ad011b2a10137f5d31855d20e814637",
+  "evaluator_sha256": "4665fe1785772e8f63614d37dc54c2c42943abed149da36d228c020abb0a6848"
+}

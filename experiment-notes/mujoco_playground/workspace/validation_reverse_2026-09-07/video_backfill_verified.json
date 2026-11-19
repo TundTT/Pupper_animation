@@ -1,0 +1,72 @@
+[
+  {
+    "label": "soft_landing",
+    "run": "QuadMorph/pupper-leg/7mjjsvco",
+    "url": "https://wandb.ai/QuadMorph/pupper-leg/runs/7mjjsvco",
+    "key": "eval/video_best",
+    "path": "media/videos/eval/video_best_43253761_d375bc9f2ed27751181d.mp4",
+    "bytes": 10372459,
+    "sha256": "d375bc9f2ed27751181d80ec31503d07b9a5b984ec6cd44d381ccd8900f20ee6",
+    "training_metrics_preserved": true
+  },
+  {
+    "label": "airtime",
+    "run": "QuadMorph/pupper-leg/jbkpxue0",
+    "url": "https://wandb.ai/QuadMorph/pupper-leg/runs/jbkpxue0",
+    "key": "eval/video_best",
+    "path": "media/videos/eval/video_best_43253761_04fbde5f1bbf1f00a52e.mp4",
+    "bytes": 10109519,
+    "sha256": "04fbde5f1bbf1f00a52ec2a8ce881f4fb3dffcf9b29f2f4bfeac614330fd9458",
+    "training_metrics_preserved": true
+  },
+  {
+    "label": "balanced_soft_landing",
+    "run": "QuadMorph/pupper-leg/6wnmmn1t",
+    "url": "https://wandb.ai/QuadMorph/pupper-leg/runs/6wnmmn1t",
+    "key": "eval/video_best",
+    "path": "media/videos/eval/video_best_86507521_ad3063904deeaf82d18b.mp4",
+    "bytes": 9338607,
+    "sha256": "ad3063904deeaf82d18bc84079c03f37b931790b700e18d02be32b11573d25bb",
+    "training_metrics_preserved": true
+  },
+  {
+    "label": "balanced_duration",
+    "run": "QuadMorph/pupper-leg/ps18o6yr",
+    "url": "https://wandb.ai/QuadMorph/pupper-leg/runs/ps18o6yr",
+    "key": "eval/video_best",
+    "path": "media/videos/eval/video_best_86507521_6f0a9deed75416bf7934.mp4",
+    "bytes": 9420921,
+    "sha256": "6f0a9deed75416bf7934f5af3db94588e9172d4f5588eed7e6286e95fc30c570",
+    "training_metrics_preserved": true
+  },
+  {
+    "label": "precision",
+    "run": "QuadMorph/pupper-leg/eadtr3rb",
+    "url": "https://wandb.ai/QuadMorph/pupper-leg/runs/eadtr3rb",
+    "key": "eval/video_best",
+    "path": "media/videos/eval/video_best_86507521_9e7c155e9b858944f15d.mp4",
+    "bytes": 10072246,
+    "sha256": "9e7c155e9b858944f15dd73aaf3ac92b733bf9099e724d15cf427d1fa7a97685",
+    "training_metrics_preserved": true
+  },
+  {
+    "label": "precision_smooth",
+    "run": "QuadMorph/pupper-leg/xdgf5hzk",
+    "url": "https://wandb.ai/QuadMorph/pupper-leg/runs/xdgf5hzk",
+    "key": "eval/video_best",
+    "path": "media/videos/eval/video_best_86507521_421ed945c286018047ee.mp4",
+    "bytes": 9890515,
+    "sha256": "421ed945c286018047ee2ad82350d67e2ac3b127606447b71e5195e78b1b1fc5",
+    "training_metrics_preserved": true
+  },
+  {
+    "label": "tip_clearance",
+    "run": "QuadMorph/pupper-leg/emap44a2",
+    "url": "https://wandb.ai/QuadMorph/pupper-leg/runs/emap44a2",
+    "key": "eval/video_best",
+    "path": "media/videos/eval/video_best_86507521_b1cc1a6a28eba29a4a05.mp4",
+    "bytes": 10151004,
+    "sha256": "b1cc1a6a28eba29a4a050f9711a8ee5230ae5e324736d876af5e1cbf8658c30c",
+    "training_metrics_preserved": true
+  }
+]

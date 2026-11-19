@@ -1,0 +1,32 @@
+{
+  "reverse20": {
+    "baseline": {
+      "yaw_rate_mean": 0.019481686875224113,
+      "yaw_rate_std": 0.05976814031600952
+    },
+    "candidate": {
+      "yaw_rate_mean": 0.010614456608891487,
+      "yaw_rate_std": 0.058602090924978256
+    }
+  },
+  "turn_left": {
+    "baseline": {
+      "yaw_rate_mean": 0.43661803007125854,
+      "yaw_rate_std": 0.11266820877790451
+    },
+    "candidate": {
+      "yaw_rate_mean": 0.4742588996887207,
+      "yaw_rate_std": 0.09462356567382812
+    }
+  },
+  "turn_right": {
+    "baseline": {
+      "yaw_rate_mean": -0.3623884618282318,
+      "yaw_rate_std": 0.18392574787139893
+    },
+    "candidate": {
+      "yaw_rate_mean": -0.48170655965805054,
+      "yaw_rate_std": 0.06488914042711258
+    }
+  }
+}

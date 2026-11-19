@@ -1,0 +1,17 @@
+{
+  "run": "https://wandb.ai/QuadMorph/pupper-leg/runs/61am09cq",
+  "key": "eval/video_selected",
+  "checkpoint_step": 129761280,
+  "checkpoint_sha256": "d240a2cd345a3e00eec49fdd2ac8b9697aabb191b6383e68271099edd25acd1f",
+  "video_summary": {
+    "path": "media/videos/eval/video_selected_173015043_8a774469ed6b28872a4a.mp4",
+    "size": 11120190,
+    "_type": "video-file",
+    "sha256": "8a774469ed6b28872a4a6890795953f1762c7974f4142518ef419a5705761a05",
+    "caption": "walk_2026-09-07_04-04-36; checkpoint step 129761280; params_000129761280"
+  },
+  "remote_size": 11120190,
+  "local_size": 11120190,
+  "local_sha256": "8a774469ed6b28872a4a6890795953f1762c7974f4142518ef419a5705761a05",
+  "remote_sha256": "8a774469ed6b28872a4a6890795953f1762c7974f4142518ef419a5705761a05"
+}

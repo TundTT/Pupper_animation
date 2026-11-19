@@ -1,0 +1,50 @@
+[
+  {
+    "policy": "preferred_15-29-41",
+    "height_mm": 10.0,
+    "trials": 3,
+    "finished": 1,
+    "falls": 0,
+    "mean_xy_error": 0.10578507303046919,
+    "side_records": 2116,
+    "top_records": 2319,
+    "mean_ring_overlap_percent": 7.495833333333334,
+    "mean_final_x": 1.012555483756571
+  },
+  {
+    "policy": "selected_long21",
+    "height_mm": 0.0,
+    "trials": 3,
+    "finished": 3,
+    "falls": 0,
+    "mean_xy_error": 0.040201281202004786,
+    "side_records": 0,
+    "top_records": 0,
+    "mean_ring_overlap_percent": 0.0,
+    "mean_final_x": 1.6576850851256817
+  },
+  {
+    "policy": "selected_long21",
+    "height_mm": 5.0,
+    "trials": 3,
+    "finished": 3,
+    "falls": 0,
+    "mean_xy_error": 0.04259995990196027,
+    "side_records": 189,
+    "top_records": 1177,
+    "mean_ring_overlap_percent": 0.0,
+    "mean_final_x": 1.6360330596780608
+  },
+  {
+    "policy": "selected_long21",
+    "height_mm": 10.0,
+    "trials": 3,
+    "finished": 3,
+    "falls": 0,
+    "mean_xy_error": 0.059429151042396135,
+    "side_records": 860,
+    "top_records": 1712,
+    "mean_ring_overlap_percent": 4.7375,
+    "mean_final_x": 1.4716343957435054
+  }
+]

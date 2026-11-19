@@ -1,0 +1,31 @@
+{
+  "pid": 2726100,
+  "command": [
+    "/home/theerawit/Pupper_animation/mujoco_playground/.venv-walk/bin/python",
+    "-u",
+    "-m",
+    "workspace.train_walk",
+    "--init_params",
+    "workspace/output/front_drag_trials/rigid_flush/walk_2026-09-07_15-59-18/params_000086507520",
+    "--num_timesteps",
+    "86400000",
+    "--num_evals",
+    "5",
+    "--floor_friction",
+    "2",
+    "--swing_height",
+    ".016",
+    "--swing_duration",
+    ".20",
+    "--swing_shape",
+    "-6",
+    "--minimum_swing_clearance",
+    ".012",
+    "--clearance_shortfall_weight",
+    "-.5",
+    "--use_wandb",
+    "--output_dir",
+    "workspace/output/clearance_trials/height16"
+  ],
+  "gpu": 1
+}

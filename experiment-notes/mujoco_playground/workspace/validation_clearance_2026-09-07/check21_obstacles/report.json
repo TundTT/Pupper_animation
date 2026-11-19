@@ -1,0 +1,254 @@
+{
+  "protocol": "native MuJoCo, 250 Hz, blind policy, friction 2; three 30mm-wide transverse bars",
+  "params": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/clearance_trials/height16/walk_2026-09-07_16-20-16/params_000021626880",
+  "params_sha256": "588f27514fe4e68e75c5e7e390eaf5ebf55df33ffa8c1a6deef23ff0feb80d78",
+  "evaluator_sha256": "cbb46db0188aacd8497854dd6e79f67822d39ff1eb928879bb6c0a268fa60076",
+  "foot_model": "rigid_flush",
+  "speed": 0.2,
+  "seconds": 8.0,
+  "rows": [
+    {
+      "height_mm": 0.0,
+      "seed": 0,
+      "fallen": false,
+      "finished": true,
+      "torso_x_m": 1.6513500408968407,
+      "velocity_error": 0.02911040254110528,
+      "foot_side_contact_samples": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "foot_top_contact_samples": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ring_side_obstacle_overlap_fraction": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "body_obstacle_contact_samples": 0
+    },
+    {
+      "height_mm": 0.0,
+      "seed": 1,
+      "fallen": false,
+      "finished": true,
+      "torso_x_m": 1.6493394450321508,
+      "velocity_error": 0.028498583542943205,
+      "foot_side_contact_samples": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "foot_top_contact_samples": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ring_side_obstacle_overlap_fraction": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "body_obstacle_contact_samples": 0
+    },
+    {
+      "height_mm": 0.0,
+      "seed": 2,
+      "fallen": false,
+      "finished": true,
+      "torso_x_m": 1.6539753334434133,
+      "velocity_error": 0.029857248254197565,
+      "foot_side_contact_samples": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "foot_top_contact_samples": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ring_side_obstacle_overlap_fraction": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "body_obstacle_contact_samples": 0
+    },
+    {
+      "height_mm": 5.0,
+      "seed": 0,
+      "fallen": false,
+      "finished": true,
+      "torso_x_m": 1.6484393352870745,
+      "velocity_error": 0.029873298315472346,
+      "foot_side_contact_samples": [
+        2,
+        18,
+        0,
+        11
+      ],
+      "foot_top_contact_samples": [
+        6,
+        64,
+        208,
+        47
+      ],
+      "ring_side_obstacle_overlap_fraction": [
+        0.006,
+        0.0,
+        0.012,
+        0.0
+      ],
+      "body_obstacle_contact_samples": 0
+    },
+    {
+      "height_mm": 5.0,
+      "seed": 1,
+      "fallen": false,
+      "finished": true,
+      "torso_x_m": 1.637582115275975,
+      "velocity_error": 0.03385012514221808,
+      "foot_side_contact_samples": [
+        33,
+        0,
+        8,
+        0
+      ],
+      "foot_top_contact_samples": [
+        51,
+        221,
+        174,
+        85
+      ],
+      "ring_side_obstacle_overlap_fraction": [
+        0.0,
+        0.0,
+        0.007,
+        0.0
+      ],
+      "body_obstacle_contact_samples": 0
+    },
+    {
+      "height_mm": 5.0,
+      "seed": 2,
+      "fallen": false,
+      "finished": true,
+      "torso_x_m": 1.6405234448808825,
+      "velocity_error": 0.030869102843297275,
+      "foot_side_contact_samples": [
+        5,
+        0,
+        0,
+        16
+      ],
+      "foot_top_contact_samples": [
+        6,
+        12,
+        184,
+        62
+      ],
+      "ring_side_obstacle_overlap_fraction": [
+        0.009,
+        0.0,
+        0.008,
+        0.0
+      ],
+      "body_obstacle_contact_samples": 0
+    },
+    {
+      "height_mm": 10.0,
+      "seed": 0,
+      "fallen": false,
+      "finished": true,
+      "torso_x_m": 1.4365033337607376,
+      "velocity_error": 0.05158419435447996,
+      "foot_side_contact_samples": [
+        41,
+        128,
+        2,
+        10
+      ],
+      "foot_top_contact_samples": [
+        217,
+        212,
+        148,
+        114
+      ],
+      "ring_side_obstacle_overlap_fraction": [
+        0.0275,
+        0.0505,
+        0.005,
+        0.022
+      ],
+      "body_obstacle_contact_samples": 0
+    },
+    {
+      "height_mm": 10.0,
+      "seed": 1,
+      "fallen": false,
+      "finished": false,
+      "torso_x_m": 0.5635340320498281,
+      "velocity_error": 0.15657767981735252,
+      "foot_side_contact_samples": [
+        1257,
+        101,
+        6,
+        0
+      ],
+      "foot_top_contact_samples": [
+        60,
+        254,
+        83,
+        50
+      ],
+      "ring_side_obstacle_overlap_fraction": [
+        0.1,
+        0.0435,
+        0.0,
+        0.0
+      ],
+      "body_obstacle_contact_samples": 0
+    },
+    {
+      "height_mm": 10.0,
+      "seed": 2,
+      "fallen": false,
+      "finished": true,
+      "torso_x_m": 1.3430362013815207,
+      "velocity_error": 0.06557243818064742,
+      "foot_side_contact_samples": [
+        157,
+        96,
+        0,
+        8
+      ],
+      "foot_top_contact_samples": [
+        222,
+        295,
+        144,
+        109
+      ],
+      "ring_side_obstacle_overlap_fraction": [
+        0.092,
+        0.094,
+        0.002,
+        0.021
+      ],
+      "body_obstacle_contact_samples": 0
+    }
+  ]
+}

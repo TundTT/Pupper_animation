@@ -1,0 +1,58 @@
+[
+  {
+    "label": "balanced_duration",
+    "gpu": "0",
+    "pid": 2159170,
+    "command": [
+      "/home/theerawit/Pupper_animation/mujoco_playground/.venv-walk/bin/python",
+      "-u",
+      "-m",
+      "workspace.train_walk",
+      "--num_timesteps",
+      "86400000",
+      "--num_envs",
+      "8192",
+      "--num_evals",
+      "4",
+      "--seed",
+      "0",
+      "--init_params",
+      "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/walk_2026-09-07_00-08-09/best_params",
+      "--touchdown_weight",
+      "0",
+      "--output_dir",
+      "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/balanced_duration",
+      "--no_eval_videos",
+      "--use_wandb"
+    ],
+    "log": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/validation_reverse_2026-09-07/balanced_duration.log"
+  },
+  {
+    "label": "balanced_soft_landing",
+    "gpu": "1",
+    "pid": 2159172,
+    "command": [
+      "/home/theerawit/Pupper_animation/mujoco_playground/.venv-walk/bin/python",
+      "-u",
+      "-m",
+      "workspace.train_walk",
+      "--num_timesteps",
+      "86400000",
+      "--num_envs",
+      "8192",
+      "--num_evals",
+      "4",
+      "--seed",
+      "0",
+      "--init_params",
+      "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/walk_2026-09-07_00-08-09/best_params",
+      "--touchdown_weight",
+      "-1.5",
+      "--output_dir",
+      "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/balanced_soft_landing",
+      "--no_eval_videos",
+      "--use_wandb"
+    ],
+    "log": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/validation_reverse_2026-09-07/balanced_soft_landing.log"
+  }
+]
