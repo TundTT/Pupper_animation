@@ -17,3 +17,14 @@ __pycache__/
 *~
 
 mujoco_playground/.venv-walk/
+
+# Experiment checkouts (git worktrees), raw outputs and logs -- takeaways live in experiment-notes/
+/align_*/
+/measured_*/
+/alignment_replay_*/
+/leg_lift_slow_align/
+/training_runs/
+/audit_2026-*/
+/agent_coordination/
+mujoco_playground/workspace/validation_*/
+*.log

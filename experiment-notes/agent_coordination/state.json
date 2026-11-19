@@ -1,0 +1,42 @@
+{
+  "agents": {
+    "align-direct-position": {
+      "task": "User-requested continuous four-leg lift-only video, no additional training",
+      "checkout": "/home/theerawit/Pupper_animation/align_notebook_button_sequence",
+      "session": "align_four_lift_video",
+      "last_seen": "2026-09-15T00:46:56+00:00"
+    },
+    "walk": {
+      "task": "Walking (leg_position locomotion) RL policy: gait shaping for normal sequential walk, capsule-length DR 56-60mm, robot-contract-compatible export.",
+      "checkout": "/home/theerawit/Pupper_animation",
+      "session": "claude-code (nohup+disown, not tmux)",
+      "last_seen": "2026-09-14T10:07:40+00:00"
+    },
+    "wheel": {
+      "task": "Wheel locomotion: reduce excessive abduction splay in home pose (1.0 -> 0.65 rad) and fine-tune the backpack+9mm wheel policy. W&B project QuadMorph/pupper-wheel.",
+      "checkout": "/home/theerawit/Pupper_animation-wheel-stance",
+      "session": "wheel_stance",
+      "last_seen": "2026-09-14T09:56:47+00:00"
+    },
+    "leg-lift-slow-align": {
+      "task": "Train and validate user-requested wheel-blind leg-lift policy on backpack+9mm wheeled model, position control",
+      "checkout": "/home/theerawit/Pupper_animation/leg_lift_slow_align",
+      "session": "leg_lift_slow_align",
+      "last_seen": "2026-09-15T03:41:35+00:00"
+    },
+    "codex-leg-length": {
+      "task": "110 mm heading/obstacle refinement and wheel tracking ablation; 50M each; idle GPUs only",
+      "checkout": "/home/theerawit/Documents/Codex/2026-10-25/files-mentioned-by-the-user-icra/outputs/Pupper-workspace/experiments/control-refinement-2026-10-30",
+      "session": "control_refinement",
+      "last_seen": "2026-10-30T05:35:49+00:00"
+    }
+  },
+  "reservations": {
+    "0": {
+      "agent": "codex-leg-length",
+      "until": "2026-10-30T13:40:04.567012+00:00",
+      "reason": "110mm wheel_adaptive seed2850M controlrefinement",
+      "updated": "2026-10-30T11:40:04+00:00"
+    }
+  }
+}

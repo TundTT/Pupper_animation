@@ -1,0 +1,14 @@
+{
+  "status": "experimental_candidate_with_tradeoffs",
+  "params": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/tip_clearance/walk_2026-09-07_02-04-04/params_000057671680",
+  "previous_params": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/walk_2026-09-07_00-08-09/best_params",
+  "training_steps": 86507520,
+  "selected_step": 57671680,
+  "reason": "Best training evaluation; lower suite XY error, yaw error, slip and ring costs than final 86M checkpoint. Not an unconditional replacement: ring-side overlap and slow-reverse roughness regress versus previous policy.",
+  "reports": [
+    "baseline_suite/report.json",
+    "tip_57m_suite/report.json",
+    "tip_86m_suite/report.json"
+  ],
+  "video": "selected_review.mp4"
+}

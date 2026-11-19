@@ -1,0 +1,8 @@
+{
+  "run": "QuadMorph/pupper-leg/zw331stu",
+  "key": "eval/video_obstacles_10mm",
+  "video": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/validation_stride_2026-09-07/selected_obstacles/obstacles_10mm.mp4",
+  "params": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/stride_trials/preferred_long/walk_2026-09-07_16-48-35/params_000021626880",
+  "checkpoint_sha256": "f9b30170c1d927c039204a92b4015fff59ebbdc9ede2137aca4878812290ea5e",
+  "checkpoint_step": 21626880
+}

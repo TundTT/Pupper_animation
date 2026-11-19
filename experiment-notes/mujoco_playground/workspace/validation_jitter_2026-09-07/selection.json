@@ -1,0 +1,12 @@
+{
+  "checkpoint": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/jitter_trials/tip_credit3/walk_2026-09-07_04-04-36/params_000129761280",
+  "step": 129761280,
+  "sha256": "d240a2cd345a3e00eec49fdd2ac8b9697aabb191b6383e68271099edd25acd1f",
+  "run": "QuadMorph/pupper-leg/61am09cq",
+  "video_key": "eval/video_selected",
+  "video": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/jitter_trials/tip_credit3/walk_2026-09-07_04-04-36/rollout_selected.mp4",
+  "export": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/jitter_trials/tip_credit3/walk_2026-09-07_04-04-36/policy_walk_selected.json",
+  "evaluation": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/validation_jitter_2026-09-07/credit_final/report.json",
+  "evaluation_label": "credit3_129",
+  "reason": "Matched 13-command, three-seed, 10-second evaluation: smoother reverse and turns, comparable reverse tracking, and lowest ring-side overlap. Selected independently of training reward; best_params remains the reward-selected 173M checkpoint."
+}

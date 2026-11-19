@@ -1,0 +1,22 @@
+{
+  "pid": 2699835,
+  "command": [
+    "/home/theerawit/Pupper_animation/mujoco_playground/.venv-walk/bin/python",
+    "-u",
+    "-m",
+    "workspace.train_walk",
+    "--init_params",
+    "workspace/output/front_drag_trials/ring6/walk_2026-09-07_15-29-41/params_000043253760",
+    "--num_timesteps",
+    "86400000",
+    "--num_evals",
+    "5",
+    "--floor_friction",
+    "2",
+    "--use_wandb",
+    "--output_dir",
+    "workspace/output/front_drag_trials/rigid_flush"
+  ],
+  "gpu": 1,
+  "log": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/validation_front_drag_2026-09-07/rigid_flush_train.log"
+}

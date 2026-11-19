@@ -1,0 +1,44 @@
+[
+  {
+    "label": "soft_landing",
+    "params": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/soft_landing/walk_2026-09-07_01-07-30/best_params",
+    "video": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/soft_landing/walk_2026-09-07_01-07-30/rollout_best.mp4",
+    "run": "QuadMorph/pupper-leg/7mjjsvco"
+  },
+  {
+    "label": "airtime",
+    "params": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/airtime/walk_2026-09-07_01-07-30/best_params",
+    "video": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/airtime/walk_2026-09-07_01-07-30/rollout_best.mp4",
+    "run": "QuadMorph/pupper-leg/jbkpxue0"
+  },
+  {
+    "label": "balanced_soft_landing",
+    "params": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/balanced_soft_landing/walk_2026-09-07_01-20-21/best_params",
+    "video": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/balanced_soft_landing/walk_2026-09-07_01-20-21/rollout_best.mp4",
+    "run": "QuadMorph/pupper-leg/6wnmmn1t"
+  },
+  {
+    "label": "balanced_duration",
+    "params": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/balanced_duration/walk_2026-09-07_01-20-21/best_params",
+    "video": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/balanced_duration/walk_2026-09-07_01-20-21/rollout_best.mp4",
+    "run": "QuadMorph/pupper-leg/ps18o6yr"
+  },
+  {
+    "label": "precision",
+    "params": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/precision/walk_2026-09-07_01-39-38/best_params",
+    "video": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/precision/walk_2026-09-07_01-39-38/rollout_best.mp4",
+    "run": "QuadMorph/pupper-leg/eadtr3rb"
+  },
+  {
+    "label": "precision_smooth",
+    "params": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/precision_smooth/walk_2026-09-07_01-39-38/best_params",
+    "video": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/precision_smooth/walk_2026-09-07_01-39-38/rollout_best.mp4",
+    "run": "QuadMorph/pupper-leg/xdgf5hzk"
+  },
+  {
+    "label": "tip_clearance",
+    "params": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/tip_clearance/walk_2026-09-07_02-04-04/best_params",
+    "video": "/home/theerawit/Pupper_animation/mujoco_playground/workspace/output/reverse_trials/tip_clearance/walk_2026-09-07_02-04-04/rollout_best.mp4",
+    "run": "QuadMorph/pupper-leg/emap44a2"
+  }
+]
