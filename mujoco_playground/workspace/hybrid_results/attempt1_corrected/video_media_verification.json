@@ -1,0 +1,15 @@
+{
+  "run_id": "gawg2max",
+  "run_url": "https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/gawg2max",
+  "key": "eval/video",
+  "step": 50790401,
+  "local_video": "mujoco_playground/workspace/hybrid_results/attempt1_corrected/success_robot0.mp4",
+  "media": {
+    "path": "media/videos/eval/video_50790401_728c78111bfa3d493e77.mp4",
+    "size": 5414406,
+    "_type": "video-file",
+    "sha256": "728c78111bfa3d493e77b5d8c01bdc9fbb6953b64b0b0a329a970cf7229d9fb4"
+  },
+  "uploaded_bytes": 5414406,
+  "history_verified": true
+}

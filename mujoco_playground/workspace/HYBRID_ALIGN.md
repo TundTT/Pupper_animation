@@ -133,3 +133,23 @@ margin and 0.25 rad/s slew remain unchanged. See hybrid_results/attempt2_guard/
 for the validation data and the separately retrained checkpoint. Evaluation
 reads the guard from the checkpoint directory config; old configs without this
 field retain 0.25 rad. Use --abduction_guard only for an explicit sensitivity check.
+
+## Videos in W&B
+
+`hybrid_render` automatically logs a finished MP4 as `eval/video` using
+`wandb.Video` when the audit directory contains `wandb.json`. It resumes that
+existing run and appends after the server's last history step. The renderer
+verifies the video history entry, summary media type/hash, and uploaded file
+size through the public API, then saves `video_media_verification.json` beside
+the run metadata. Training and policy logic are unaffected.
+
+Backfill an already-rendered video without training or rendering again:
+
+```bash
+python -m workspace.hybrid_render --upload_only --out mujoco_playground/workspace/hybrid_results/attempt2_guard/robot0_sequence.mp4
+```
+
+For normal rendering, the existing `--audit ... --out ...` command now also
+logs the video automatically. Use `--run_dir` if `wandb.json` is elsewhere,
+or `--no_wandb` to keep a render local. Without run metadata, normal rendering
+remains local; upload-only mode requires metadata and never creates a new run.

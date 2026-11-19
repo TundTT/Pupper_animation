@@ -1,0 +1,32 @@
+Failed to import warp: No module named 'warp'
+Failed to import mujoco_warp: No module named 'warp'
+wandb: [wandb.Api()] Loaded credentials for https://api.wandb.ai from /home/theerawit/.netrc.
+wandb: Currently logged in as: tundt (QuadMorph) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.29.0
+wandb: Run data is saved locally in /home/theerawit/Pupper_animation-align-hybrid/wandb/run-20260908_232122-9bhxnkmw
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Resuming run wheel-align-hybrid_2026-09-08_21-40-08
+wandb: ⭐️ View project at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: 🚀 View run at https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9bhxnkmw
+wandb: WARNING `fps` argument does not affect the frame rate of the video when providing a file path or raw bytes.
+wandb: uploading summary; updating run metadata
+wandb: uploading wandb-metadata.json; uploading requirements.txt; uploading media/videos/eval/video_50790401_562c220cc789f480096a.mp4; uploading output.log; uploading wandb-summary.json (+ 1 more)
+wandb:
+wandb: Run summary:
+wandb:              audit/abduction_guard 0.35
+wandb:       audit/all_four_success_count 50
+wandb:    audit/all_four_success_fraction 0.78125
+wandb: audit/completed_only_success_count 50
+wandb:                    audit/drift_max 0.15262
+wandb:                    audit/drift_p95 0.06508
+wandb:                   audit/fall_count 0
+wandb:   audit/final_calibrated_error_p95 0.40545
+wandb:              audit/held_error_mean 0.01852
+wandb:               audit/held_error_p95 0.03957
+wandb:                               +122 ...
+wandb:
+wandb: 🚀 View run wheel-align-hybrid_2026-09-08_21-40-08 at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9bhxnkmw
+wandb: ⭐️ View project at: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base
+wandb: Synced 5 W&B file(s), 1 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20260908_232122-9bhxnkmw/logs
+Verified W&B eval/video: https://wandb.ai/QuadMorph/wheel-leg%20lift%20and%20align%20triangle%20base/runs/9bhxnkmw (4240274 bytes)
