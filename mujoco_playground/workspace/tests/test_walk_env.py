@@ -43,7 +43,8 @@ def test_shaping_term_ceilings_are_not_negligible():
     time given stand_probability=.2)."""
     c=get_config()
     tracking_ceiling=c.reward_scales.tracking_linear*1.
-    swing_ceiling=c.reward_scales.swing_clearance*1.4*c.swing_clearance_target*.8
+    swing_ceiling=max(c.reward_scales.swing_clearance*1.4*c.swing_clearance_target*.8,
+                      abs(c.reward_scales.planned_swing)*c.planned_swing_bonus*2*.8)
     assert swing_ceiling/tracking_ceiling>.02,'swing_clearance is too small to shape the gait'
     # A single foot held up at rest must cost noticeably more than stand_pose's
     # per-joint-averaged penalty for the same deviation (~.006/s measured), or the
@@ -71,3 +72,39 @@ def test_randomized_brax_wrapper_can_reset_and_step():
     assert state.obs.shape==(2,144)
     assert np.all(np.isfinite(np.asarray(state.reward)))
     assert set(state.metrics)==metric_keys
+    references=np.asarray(state.info['height_reference'])
+    assert np.all(references < env.height)
+    assert abs(references[0]-references[1])>1e-5
+
+
+def test_height_reference_tracks_length_without_reset_noise():
+    from workspace.walk_randomize import LEG_BODY_IDS
+    c=get_config()
+    c.foot_model='legacy_soft'  # The audited heights below used the old capsule.
+    # Reference must be independent of randomized reset pose and sensor noise.
+    c.reset_joint_noise=.1;c.reset_xy_noise=.2;c.reset_yaw_noise=.3
+    env=PupperWalkEnv(c)
+    nominal=env.sys
+    for scale,expected in ((1.,.142463661),(.864,.131007),(.94,.137409),(1.0192,.144081)):
+        env.sys=nominal.tree_replace({'body_pos':nominal.body_pos.at[LEG_BODY_IDS].multiply(scale)})
+        reference=float(jax.jit(env.neutral_height_reference)())
+        # Independent four-second MJX standing heights from the gait audit.
+        np.testing.assert_allclose(reference,expected,atol=8e-5)
+
+
+def test_height_reward_and_survival_are_invariant_to_travel_on_slope():
+    from workspace.walk_randomize import _small_tilt_quat
+    from workspace import walk_geometry as geom
+    c=get_config();c.sensor_noise=0.;c.latency_probability=0.;c.push_probability=0.
+    env=PupperWalkEnv(c)
+    env.sys=env.sys.tree_replace({'geom_quat':env.sys.geom_quat.at[env.floor].set(_small_tilt_quat(jp.array(0.),jp.array(.04)))})
+    state=jax.jit(env.reset)(jax.random.PRNGKey(8))
+    normal=geom.quat_axis_z(env.sys.geom_quat[env.floor],jp)
+    # Two metres downslope changes world Z by -80mm, formerly a false fall.
+    translation=jp.array([2.,0.,-2.*normal[0]/normal[2]])
+    shifted=state.replace(pipeline_state=state.pipeline_state.replace(qpos=state.pipeline_state.qpos.at[:3].add(translation)))
+    step=jax.jit(env.step)
+    original=step(state,jp.zeros(12));translated=step(shifted,jp.zeros(12))
+    np.testing.assert_allclose(translated.metrics['height'],original.metrics['height'],atol=1e-5)
+    np.testing.assert_allclose(translated.metrics['torso_height'],original.metrics['torso_height'],atol=1e-5)
+    assert float(translated.done)==float(original.done)==0.

@@ -21,9 +21,13 @@ def main():
     p.add_argument('--steps',type=int,default=600)
     p.add_argument('--command',type=float,nargs=3,default=[.2,0.,0.])
     p.add_argument('--video',help='Optional MP4 path (requires mediapy/ffmpeg)')
+    p.add_argument('--with_pushes',action='store_true',help='Use the training push probability; default is push-free evaluation')
     args=p.parse_args()
     metadata=json.loads((Path(args.params).parent/'run.json').read_text())
     c=get_config();c.update(metadata['config']);c.sensor_noise=0.;c.latency_probability=0.;c.reset_joint_noise=0.
+    c.foot_model=metadata['config'].get('foot_model','legacy_soft')
+    c.planned_swing_foot_weights=tuple(metadata['config'].get('planned_swing_foot_weights',(1.,1.,1.,1.)))
+    if not args.with_pushes:c.push_probability=0.
     c.command_hold_steps=args.steps+1
     env=PupperWalkEnv(c,args.model_path)
     if args.steps <= 0:raise ValueError('--steps must be positive')
